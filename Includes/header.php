@@ -23,9 +23,9 @@
 
     <tr>
       <td><a href="index.php">::หน้าหลัก::</a></td>
-      <td><a href="">::ข้อมูลผู้ใช้ระบบ::</a></td>
+      <td><a href="user.php">::ข้อมูลผู้ใช้ระบบ::</a></td>
       <td><a href="">::ข้อมูลการใช้งานระบบ::</a></td>
-      <td><a href="">::ข้อมูลโรงพยาบาล::</a></td>
+      <td><a href="hospital.php">::ข้อมูลโรงพยาบาล::</a></td>
       <td><a href="patient.php">::ข้อมูลผู้รักษาและผลการรักษา::</a></td>
       <td><a href="">::พิมพ์ข้อมูล::</a></td>
       <td><a href="">::Billing::</a></td>
