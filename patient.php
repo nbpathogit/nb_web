@@ -7,7 +7,7 @@ $conn = require 'includes/db.php';
 
 $patients = Patient::getAll($conn, $_GET['id']);
 
-var_dump($patients);
+//var_dump($patients);
 ?>
 
 
