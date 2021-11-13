@@ -1,2 +1,6 @@
-<?php 
-echo "Hellowwww";
+
+
+<?php require 'includes/header.php'; ?>
+
+
+<?php require 'includes/footer.php'; ?>
