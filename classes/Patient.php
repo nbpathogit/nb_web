@@ -1,7 +1,7 @@
 <?php
 
 /**
-*Article
+*Patient
 *
 *A piece of writing for publication
 */

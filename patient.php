@@ -5,7 +5,7 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-$patients = Patient::getAll($conn, $_GET['id']);
+$patients = Patient::getAll($conn);
 
 //var_dump($patients);
 ?>
@@ -39,14 +39,14 @@ $patients = Patient::getAll($conn, $_GET['id']);
         <tr >
             <td><div align="center"><?= $patient['id']; ?></div></td>
             <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
+            <td><div align="center"><?= $patient['name']; ?></div></td>
+            <td><div align="center"><?= $patient['lastname']; ?></div></td>
+            <td><div align="center"><?= $patient['hospital']; ?></div></td>
+            <td><div align="center"><?= $patient['pathologist']; ?></div></td>
+            <td><div align="center"><?= $patient['import_date']; ?></div></td>
+            <td><div align="center"><?= $patient['report_date']; ?></div></td>
+            <td><div align="center"><?= $patient['status']; ?></div></td>
+            <td><div align="center"><?= $patient['priority']; ?></div></td>
             <td><div align="center"><a href="patient_detail.php">Detail</a></div></td>
             <td><div align="center"><a href="patient_edit.php">Edit</a></div></td>
             <td><div align="center"><a href="patient_del.php">Delete</a></div></td>
