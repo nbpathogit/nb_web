@@ -15,6 +15,8 @@ $hospitals = Hospital::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
+<?php require 'includes/hospital_form.php'; ?>
+
 <table>
     <thead>
         <tr >

@@ -15,6 +15,15 @@ $patients = Patient::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
+<?php require 'includes/patient_form.php'; ?>
+
+<?php require 'includes/patient_search.php'; ?>
+
+
+
+
+
+
 <table>
     <thead>
         <tr >

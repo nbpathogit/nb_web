@@ -15,6 +15,8 @@ $users = User::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
+<?php require 'includes/user_form.php'; ?>
+
 <table>
     <thead>
         <tr >
