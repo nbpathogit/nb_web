@@ -1,4 +1,5 @@
 </main>
+</div>
 
 <div class="container">
   <footer class="py-3 my-4">
@@ -11,7 +12,6 @@
       <li class="nav-item"><a class="nav-link px-2 text-muted" href="patient.php">ข้อมูลผู้รักษาและผลการรักษา</a></li>
       <li class="nav-item"><a class="nav-link px-2 text-muted" href="">พิมพ์ข้อมูล</a></li>
       <li class="nav-item"><a class="nav-link px-2 text-muted" href="">Billing</a></li>
-      <li class="nav-item"><a class="nav-link px-2 text-muted" href="">ออกระบบ</a></li>
 
     </ul>
     <p class="text-center text-muted">© Copy Right 2021 N.B.Pathology Center</p>

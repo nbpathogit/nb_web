@@ -15,9 +15,9 @@ $patients = Patient::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
-<table>
+<table class="table table-hover table-striped">
     <thead>
-        <tr >
+        <tr>
             <td><div align="center">ลำดับที่</div></td>
             <td><div align="center">เลขที่ผู้ป่วย</div></td>
             <td><div align="center">ชื่อผู้ป่วย</div></td>
