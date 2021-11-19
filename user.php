@@ -17,7 +17,7 @@ $users = User::getAll($conn);
 
 <?php require 'includes/user_form.php'; ?>
 
-<table>
+<table class="table table-hover table-striped" >
     <thead>
         <tr >
             <td><div align="center">id</div></td>
