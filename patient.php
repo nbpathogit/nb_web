@@ -11,7 +11,7 @@ $patients = Patient::getAll($conn);
 ?>
 
 
-
+ 
 
 <?php require 'includes/header.php'; ?>
 
