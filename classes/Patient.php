@@ -51,9 +51,12 @@ class Patient{
     *@return array An associative array of all the article records
     */
     public static function getAll($conn){
-        $sql = "SELECT *
-                FROM patient
-                ORDER BY import_date;";
+        $sql = "SELECT * 
+                FROM `patient` 
+                JOIN user
+                JOIN hospital
+                WHERE patient.ppathologist_id = user.id
+                and patient.phospital_id = hospital.id;";
 
         $results = $conn->query($sql);
 

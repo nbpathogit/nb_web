@@ -7,7 +7,13 @@ $conn = require 'includes/db.php';
 
 $users = User::getAll($conn);
 
+$ugroups = Ugroup::getAll($conn);
+
+$hospitals = Hospital::getAll($conn);
+
 //var_dump($users);
+var_dump($ugroups);
+//var_dump($hospitals);
 ?>
 
 
@@ -41,7 +47,7 @@ $users = User::getAll($conn);
                 <td><div align="center"><?= $user['username']; ?></div></td>
                 <td><div align="center"><?= $user['password']; ?></div></td>
                 <td><div align="center"><?= $user['hospital']; ?></div></td>
-                <td><div align="center"><?= $user['group']; ?></div></td>
+                <td><div align="center"><?= $user['ugroup']; ?></div></td>
                 <td><div align="center"><a href="hospital_detail.php">Detail</a></div></td>
                 <td><div align="center"><a href="hospital_edit.php">Edit</a></div></td>
                 <td><div align="center"><a href="hospital_del.php">Delete</a></div></td>

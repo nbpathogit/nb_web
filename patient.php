@@ -44,10 +44,10 @@ $patients = Patient::getAll($conn);
         <tr >
             <td><div align="center"><?= $patient['id']; ?></div></td>
             <td><div align="center"><?= $patient['number']; ?></div></td>
-            <td><div align="center"><?= $patient['name']; ?></div></td>
-            <td><div align="center"><?= $patient['lastname']; ?></div></td>
+            <td><div align="center"><?= $patient['pname']; ?></div></td>
+            <td><div align="center"><?= $patient['plastname']; ?></div></td>
             <td><div align="center"><?= $patient['hospital']; ?></div></td>
-            <td><div align="center"><?= $patient['pathologist']; ?></div></td>
+            <td><div align="center"><?= $patient['name']; ?></div></td>
             <td><div align="center"><?= $patient['import_date']; ?></div></td>
             <td><div align="center"><?= $patient['report_date']; ?></div></td>
             <td><div align="center"><?= $patient['status']; ?></div></td>
