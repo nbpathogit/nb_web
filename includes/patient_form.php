@@ -91,7 +91,7 @@
                                         <td width="115" class=""><div align="left"><span class="">วันที่รายงานผล</span></div></td>
                                         <td width="210"><div align="left">
                                                 <span class="">
-                                                    <input name="reportdate" type="text" class="" id="reportdate"><img class="" src="images/calendar.gif" alt="..." title="...">
+                                                    <input name="reportdate" type="text" class="" id="reportdate">
                                                     </script>
                                                 </span></div></td>
                                         <td width="102" class=""><div align="left"><span class="">ราคาค่าตรวจ</span></div></td>

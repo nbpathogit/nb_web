@@ -12,7 +12,7 @@ $ugroups = Ugroup::getAll($conn);
 $hospitals = Hospital::getAll($conn);
 
 //var_dump($users);
-var_dump($ugroups);
+//var_dump($ugroups);
 //var_dump($hospitals);
 ?>
 
