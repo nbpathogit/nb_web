@@ -52,3 +52,12 @@ $("button.publish").on("click", function(e) {
     });
 
 });
+
+
+$('#dateInput').datetimepicker({
+    format:'Y-m-d H:i:s'
+});
+
+$('#reportdate').datetimepicker({
+    format:'Y-m-d H:i:s'
+});

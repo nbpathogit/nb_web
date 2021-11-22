@@ -1,5 +1,5 @@
 <tr>
-    <td>
+    <td>       
         <form id="" name="" method="post" onsubmit="" action="">
             <table width="870" height="68" border="1" align="center" cellpadding="2" cellspacing="2" >
                 <tbody><tr>
@@ -50,7 +50,7 @@
                                         <td width="115" class=""><div align="left"><span class="">วันที่รับ</span></div></td>
                                         <td width="210" class=""><div align="left">
                                                 <span class="">
-                                                    <input name="dateInput" type="text" class="" id="dateInput" value=""><img class="" src="images/calendar.gif" alt="..." title="...">
+                                                    <input name="dateInput" type="text" class="" id="dateInput" value="">
 
                                                     </script>
                                                 </span></div></td>

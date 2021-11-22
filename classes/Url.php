@@ -23,4 +23,16 @@ class Url{
         //header("Location: article.php?id=$id");
         exit;
     }
+    
+    public static function currentURL(){
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']){
+            $protocal = 'https';
+        }else{
+            $protocal = 'http';
+        }
+        return "$protocal://" . $_SERVER['HTTP_HOST'];
+    }
+    
+    
+    
 }
