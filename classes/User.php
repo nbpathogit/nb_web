@@ -24,6 +24,13 @@ class User {
      * @var string
      */
     public $lastname;
+    
+        public $udetail;
+          public $umobile;
+    
+    public $uemail;
+    
+  
 
     /**
      * Unique username
@@ -48,6 +55,11 @@ class User {
      * @var string
      */
     public $group_id;
+    
+    
+
+    
+
 
     /**
      * Authenticate a user by username and password
@@ -76,17 +88,87 @@ class User {
         }
     }
 
-    public static function getAll($conn) {
-        $sql = "SELECT * 
-                FROM user
-                JOIN user_group
-                JOIN hospital
-                WHERE user.ugroup_id  = user_group.id
-                and user.uhospital_id  = hospital.id;";
+    public static function getAll($conn,$id=0) {
+        $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
+                FROM user U
+                JOIN user_group G
+                JOIN hospital H
+                WHERE U.ugroup_id  = G.id
+                and U.uhospital_id  = H.id";
+
+        if($id!=0){
+           $sql = $sql . " and U.id = " . $id;
+        }
 
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+        /**
+    *Get the article record based on the ID
+    *
+    *@param object $conn Connection to the database
+    *$param integer $id article ID
+    *@param String $columns Optional list of columns foe thr select, defaults to *
+    *
+    *@return mixed An object of this class, or null if not found
+    */
+    public static function getByID($conn,$id, $columns = '*')
+    {
+        $sql = "SELECT $columns
+                FROM user
+                WHERE id= :id";
+                
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+        if($stmt->execute()){
+            return $stmt->fetch();
+        }
+
+    }
+    
+    /**
+    * Insert a new user
+    *
+    *@param object $conn Connection to the database
+    *
+    *@return boolean True if the insert was successful, false otherwise
+    */
+    public function create($conn)
+    {
+        // INSERT INTO user (id, name, lastname, username, password, ugroup_id, uhospital_id) VALUES (NULL, 'อนุชิกก', 'ยุงทอม', 'aaaa', 'aaaa', '4', '2');
+        
+            $sql = "INSERT INTO user ( name, lastname, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id)
+            VALUES ( :name, :lastname, :udetail, :umobile, :uemail, :username, :password, :ugroupid, :uhospitalid)";
+
+            $stmt = $conn->prepare($sql);
+
+            var_dump( $this->name);
+            
+            $stmt->bindValue(':name'    , $this->name    , PDO::PARAM_STR);
+            $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
+            $stmt->bindValue(':udetail', $this->udetail, PDO::PARAM_STR);
+            $stmt->bindValue(':umobile', $this->umobile, PDO::PARAM_STR);
+            $stmt->bindValue(':uemail', $this->uemail, PDO::PARAM_STR);
+            $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
+            $stmt->bindValue(':password', $this->password, PDO::PARAM_STR);
+            $stmt->bindValue(':ugroupid', $this->ugroup_id, PDO::PARAM_INT);
+            $stmt->bindValue(':uhospitalid', $this->uhospital_id, PDO::PARAM_INT);
+            
+            var_dump($stmt);
+
+            if($stmt->execute()){
+                $this->id = $conn->lastInsertId();
+                return true;
+            }else{
+                return false;
+            }
+        
     }
 
 }

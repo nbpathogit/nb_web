@@ -36,7 +36,7 @@ $hospitals = Hospital::getAll($conn);
                 <td><div align="center"><?= $hospital['id']; ?></div></td>
                 <td><div align="center"><?= $hospital['hospital']; ?></div></td>
                 <td><div align="center"><?= $hospital['address']; ?></div></td>
-                <td><div align="center"><?= $hospital['detail']; ?></div></td>
+                <td><div align="center"><?= $hospital['hdetail']; ?></div></td>
                 <td><div align="center"><a href="hospital_detail.php">Detail</a></div></td>
                 <td><div align="center"><a href="hospital_edit.php">Edit</a></div></td>
                 <td><div align="center"><a href="hospital_del.php">Delete</a></div></td>
