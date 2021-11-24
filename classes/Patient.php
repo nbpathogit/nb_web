@@ -60,7 +60,7 @@ class Patient{
 
         $results = $conn->query($sql);
 
-        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+        return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
     

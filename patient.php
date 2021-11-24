@@ -6,8 +6,13 @@ require 'includes/init.php';
 $conn = require 'includes/db.php';
 
 $patients = Patient::getAll($conn);
+$hospitals = Hospital::getAll($conn);
+$specimens = Specimen::getAll($conn);
+$clinicians = Clinician::getAll($conn);
 
 //var_dump($patients);
+//var_dump($Specimens);
+//var_dump($clinicians);
 ?>
 
 
@@ -43,7 +48,7 @@ $patients = Patient::getAll($conn);
 <?php foreach ($patients as $patient): ?>
         <tr >
             <td><div align="center"><?= $patient['id']; ?></div></td>
-            <td><div align="center"><?= $patient['number']; ?></div></td>
+            <td><div align="center"><?= $patient['pnum']; ?></div></td>
             <td><div align="center"><?= $patient['pname']; ?></div></td>
             <td><div align="center"><?= $patient['plastname']; ?></div></td>
             <td><div align="center"><?= $patient['hospital']; ?></div></td>
