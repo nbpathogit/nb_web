@@ -105,6 +105,21 @@ class User {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+        public static function getAllbyPathologis($conn) {
+        $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
+                FROM user U
+                JOIN user_group G
+                JOIN hospital H
+                WHERE U.ugroup_id  = G.id
+                and U.uhospital_id  = H.id
+                and U.ugroup_id = 4";
+
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
         /**
     *Get the article record based on the ID
     *

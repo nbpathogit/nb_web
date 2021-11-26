@@ -5,27 +5,73 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-$patients = Patient::getAll($conn);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    var_dump($_POST);
+
+
+    $patient = new Patient();
+    $patient->pnum = $_POST['pnum'];
+    $patient->plabnum = $_POST['plabnum'];
+    $patient->pname = $_POST['pname'];
+    $patient->pgender = $_POST['pgender'];
+    $patient->plastname = $_POST['plastname'];
+    $patient->pedge = $_POST['pedge'];
+    $patient->import_date = $_POST['import_date'];
+    $patient->report_date = $_POST['report_date'];
+    $patient->status = $_POST['status'];
+    $patient->priority = $_POST['priority'];
+    $patient->phospital_id = $_POST['phospital_id'];
+    $patient->phospital_num = $_POST['phospital_num'];
+    $patient->ppathologist_id = $_POST['ppathologist_id'];
+    $patient->pspecimen_id = $_POST['pspecimen_id'];
+    $patient->pclinician_id = $_POST["pclinician_id"];
+    $patient->pprice = $_POST['pprice'];
+    $patient->pspprice = $_POST['pspprice'];
+    $patient->p_rs_specimen = $_POST['p_rs_specimen'];
+    $patient->p_rs_clinical_diag = $_POST['p_rs_clinical_diag'];
+    $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc'];
+    $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'];
+    $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis'];
+
+
+
+    if ($patient->create($conn)) {
+        Url::redirect("/patient_detail.php?id=$patient->id");
+    } else {
+        echo '<script>alert("Add user fail. Please verify again")</script>';
+    }
+}
+
+$patients = Patient::getInit();
+
+$patientLists = Patient::getAll($conn);
+
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
 $clinicians = Clinician::getAll($conn);
+$userPathos = User::getAllbyPathologis($conn);
+$prioritys = Priority::getAll($conn);
 
 //var_dump($patients);
+
+//var_dump($patientLists);
 //var_dump($Specimens);
 //var_dump($clinicians);
+//var_dump($users);
 ?>
-
-
- 
 
 <?php require 'includes/header.php'; ?>
 
 <?php require 'includes/patient_form.php'; ?>
+<p>&nbsp;</p>
+<hr>
 
 <?php require 'includes/patient_search.php'; ?>
-
+<p>&nbsp;</p>
+<hr>
 
 <table class="table table-hover table-striped">
+<!--<table border="1" align="center">-->
     <thead>
         <tr>
             <td><div align="center">ลำดับที่</div></td>
@@ -45,23 +91,23 @@ $clinicians = Clinician::getAll($conn);
     </thead>
     <tbody>
 
-<?php foreach ($patients as $patient): ?>
-        <tr >
-            <td><div align="center"><?= $patient['id']; ?></div></td>
-            <td><div align="center"><?= $patient['pnum']; ?></div></td>
-            <td><div align="center"><?= $patient['pname']; ?></div></td>
-            <td><div align="center"><?= $patient['plastname']; ?></div></td>
-            <td><div align="center"><?= $patient['hospital']; ?></div></td>
-            <td><div align="center"><?= $patient['name']; ?></div></td>
-            <td><div align="center"><?= $patient['import_date']; ?></div></td>
-            <td><div align="center"><?= $patient['report_date']; ?></div></td>
-            <td><div align="center"><?= $patient['status']; ?></div></td>
-            <td><div align="center"><?= $patient['priority']; ?></div></td>
-            <td><div align="center"><a href="patient_detail.php">Detail</a></div></td>
-            <td><div align="center"><a href="patient_edit.php">Edit</a></div></td>
-            <td><div align="center"><a href="patient_del.php">Delete</a></div></td>
-        </tr>
-<?php endforeach; ?>
+        <?php foreach ($patientLists as $patient): ?>
+            <tr >
+                <td><div align="center"><?= $patient['pid']; ?></div></td>
+                <td><div align="center"><?= $patient['pnum']; ?></div></td>
+                <td><div align="center"><?= $patient['pname']; ?></div></td>
+                <td><div align="center"><?= $patient['plastname']; ?></div></td>
+                <td><div align="center"><?= $patient['hospital']; ?></div></td>
+                <td><div align="center"><?= $patient['name']; ?></div></td>
+                <td><div align="center"><?= $patient['import_date']; ?></div></td>
+                <td><div align="center"><?= $patient['report_date']; ?></div></td>
+                <td><div align="center"><?= $patient['status']; ?></div></td>
+                <td><div align="center"><?= $patient['priority']; ?></div></td>
+                <td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>
+                <td><div align="center"><a href="patient_edit.php">Edit</a></div></td>
+                <td><div align="center"><a href="patient_del.php">Delete</a></div></td>
+            </tr>
+        <?php endforeach; ?>
 
     </tbody>
 </table>

@@ -45,14 +45,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
-
-
-
 <?php require 'includes/header.php'; ?>
 
 <?php require 'includes/user_form.php'; ?>
 
-<table class="table table-hover table-striped" >
+<hr>
+<!--<table class="table table-hover table-striped"  border="1" >-->
+<table border="1" align="center" >
     <thead>
         <tr >
             <td><div align="center">id</div></td>
