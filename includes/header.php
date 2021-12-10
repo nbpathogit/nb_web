@@ -26,13 +26,21 @@
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                     <li class="nav-item"><a class="nav-link px-2 link-dark" href="/">หน้าหลัก</a></li>
                     <li class="nav-item"><a class="nav-link px-2 link-dark" href="user.php">ข้อมูลผู้ใช้ระบบ</a></li>
-                    <li class="nav-item"><a class="nav-link px-2 link-dark" href="">ข้อมูลการใช้งานระบบ</a></li>
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a></li>
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a></li>
                     <li class="nav-item"><a class="nav-link px-2 link-dark" href="hospital.php">ข้อมูลโรงพยาบาล</a></li>
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="hospital_add.php">เพิ่มโรงพยาบาล</a></li>
                     <li class="nav-item"><a class="nav-link px-2 link-dark" href="patient.php">ข้อมูลผู้รักษาและผลการรักษา</a></li>
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="patient_add.php">แก้ไขข้อมูลผู้รักษา</a></li>
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="patient_edit_profile.php">แก้ไขข้อมูลผู้รักษา</a></li>
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="patient_edit_result.php">แก้ไขผลการรักษา</a></li>
                     <li class="nav-item"><a class="nav-link px-2 link-dark" href="">พิมพ์ข้อมูล</a></li>
                     <li class="nav-item"><a class="nav-link px-2 link-dark" href="">Billing</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 link-dark" href="">ข้อมูลการใช้งานระบบ</a></li>
                     <li class="nav-item"><a class="nav-link px-2 link-dark" href="">ออกระบบ</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 link-dark" href="login.php">ล็อกอิน</a></li>
                 </ul>
+
 
             </header>
         </div>
