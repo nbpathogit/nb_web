@@ -48,7 +48,7 @@ $patientLists = Patient::getAll($conn);
 
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
-$clinicians = Clinician::getAll($conn);
+$clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
 $prioritys = Priority::getAll($conn);
 
@@ -58,11 +58,30 @@ $prioritys = Priority::getAll($conn);
 //var_dump($Specimens);
 //var_dump($clinicians);
 //var_dump($users);
+var_dump($userPathos);
 ?>
 
 <?php require 'includes/header.php'; ?>
 
-<?php require 'includes/patient_form.php'; ?>
+
+
+
+<table border="1" align="center" width="1000">
+    <tr>
+        <td>       
+            <form id="" name="" method="post" >
+                <?php require 'includes/patient_form_a.php'; ?>
+                <?php require 'includes/patient_form_b.php'; ?>
+                <p align="center">
+                    <button>ตกลง</button>
+                    <!--<input name="Submit" type="submit" class="" id="Submit" value="เพิ่ม">-->
+                    <!--<input name="Submit2" type="reset" class="" id="Submit2" value="ยกเลิก">-->
+                </p>
+            </form>
+        </td>
+    </tr>
+</table>
+
 <p>&nbsp;</p>
 <hr>
 

@@ -112,12 +112,22 @@ class User {
                 JOIN hospital H
                 WHERE U.ugroup_id  = G.id
                 and U.uhospital_id  = H.id
-                and U.ugroup_id = 4";
+                and U.ugroup_id = 2000";
 
 
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAllbyClinicians($conn) {
+                $sql = "SELECT * FROM `user` WHERE `ugroup_id`= 5000";
+
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+        
     }
     
         /**
@@ -185,5 +195,7 @@ class User {
             }
         
     }
+
+
 
 }

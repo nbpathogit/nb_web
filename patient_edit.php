@@ -28,8 +28,7 @@ $prioritys = Priority::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
-<div align="center"> Patient Detail </div><br>
-
+<div align="center"> Patient Edit </div><br>
 <table border="1" align="center" width="1000">
     <tr>
         <td>       
@@ -37,7 +36,7 @@ $prioritys = Priority::getAll($conn);
                 <?php require 'includes/patient_form_a.php'; ?>
                 <?php require 'includes/patient_form_b.php'; ?>
                 <p align="center">
-                    <button>ตกลง</button>
+                    <button>แก้ไข</button>
                     <!--<input name="Submit" type="submit" class="" id="Submit" value="เพิ่ม">-->
                     <!--<input name="Submit2" type="reset" class="" id="Submit2" value="ยกเลิก">-->
                 </p>
