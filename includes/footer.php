@@ -28,6 +28,11 @@
 </script>
 <script src="/js/jquery.datetimepicker.full.min.js"></script>
 <script src="/js/script.js"></script>
+
+<!-- for dropdown navbar -->
+<script src="../js/navbar.js"></script>
+
+
 <!--<br> :: Copy Right 2021 N.B.Pathology Center ::
 </div>
 -->
