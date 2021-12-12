@@ -1,17 +1,20 @@
-<table border="1" align="center">
-    <tbody>
-        <tr>
-            <td height="40" >
-                <!--div align="center" -->
-                <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span >&nbsp;เพิ่มผู้ใช้งานระบบ</span>
-                </div>
-                <!--/div-->
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <form id="formUser" metdod="post" >
+
+
+
+    <table border="1" align="center">
+        <tbody>
+            <tr>
+                <td height="40" >
+                    <!--div align="center" -->
+                    <div align="left">&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    </div>
+                    <!--/div-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+
 
                     <table   border="1" cellspacing="9" cellpadding="2">
                         <!--tbody-->
@@ -141,7 +144,7 @@
                                     <tbody>
                                         <tr>
                                             <td widtd="32%" ><br></td>
-                                            <td widtd="12%" ><button>Add</button></td>
+                                            <td widtd="12%" ></td>
                                             <td widtd="12%" ></td>
                                             <td widtd="44%" ><div align="right"></div></td>
                                         </tr>
@@ -152,8 +155,8 @@
                         </tr>
                         <!--/tbody-->
                     </table>
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>

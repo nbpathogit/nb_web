@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+
+<html  lang="th">
 
     <head>
         <title>NB Phatho</title>
         <meta charset="utf-8">
+        <html lang="th">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/jquery.datetimepicker.min.css">
@@ -16,7 +18,8 @@
 
     </head>
 
-    <body>
+    <!--body-->
+    <body style="background-color:#F4F6F6;">
         <div class="container">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">

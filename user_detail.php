@@ -19,7 +19,15 @@ if (isset($_GET['id'])) {
 
 <?php require 'includes/header.php'; ?>
 
-USER Detail <br>
+<div><p> USER Detail<p></div> <br>
+
+<?php
+    if (isset($_GET['result'])) {
+        if($_GET['result'] == 1){
+         echo   "USER Added Successful <br>";
+        }
+    }
+?>
 
 <table class="table table-hover table-striped">
     <thead>
