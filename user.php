@@ -22,37 +22,77 @@ $hospitals = Hospital::getAll($conn);
 
 <hr>
 <!--<table class="table table-hover table-striped"  border="1" >-->
-<table border="1" align="center" >
+<table class="table table-hover table-striped">
     <thead>
-        <tr >
-            <td><div align="center">id</div></td>
-            <td><div align="center">name</div></td>
-            <td><div align="center">lastname</div></td>
-            <td><div align="center">username</div></td>
-            <td><div align="center">password</div></td>
-            <td><div align="center">hospital</div></td>
-            <td><div align="center">group</div></td>
-            <td><div align="center">Detail</a</div></td>
-            <td><div align="center">Edit</div></td>
-            <td><div align="center">Delete</div></td>
+        <tr>
+            <td>
+                <div align="center">id</div>
+            </td>
+            <td>
+                <div align="center">name</div>
+            </td>
+            <td>
+                <div align="center">lastname</div>
+            </td>
+            <td>
+                <div align="center">username</div>
+            </td>
+            <td>
+                <div align="center">password</div>
+            </td>
+            <td>
+                <div align="center">hospital</div>
+            </td>
+            <td>
+                <div align="center">group</div>
+            </td>
+            <td>
+                <div align="center">Detail</a< /div>
+            </td>
+            <td>
+                <div align="center">Edit</div>
+            </td>
+            <td>
+                <div align="center">Delete</div>
+            </td>
         </tr>
     </thead>
     <tbody>
-<?php foreach ($users as $user): ?>
-            <tr >
-                <td><div align="center"><?= $user['uid']; ?></div></td>
-                <td><div align="center"><?= $user['name']; ?></div></td>
-                <td><div align="center"><?= $user['lastname']; ?></div></td>
-                <td><div align="center"><?= $user['username']; ?></div></td>
-                <td><div align="center"><?= $user['password']; ?></div></td>
-                <td><div align="center"><?= $user['hospital']; ?></div></td>
-                <td><div align="center"><?= $user['ugroup']; ?></div></td>
-                <td><div align="center"><a href="\user_detail.php?id=<?= $user['uid']; ?>">Detail</a></div></td>
-                <td><div align="center"><a href="hospital_edit.php">Edit</a></div></td>
-                <td><div align="center"><a href="hospital_del.php">Delete</a></div></td>
+        <?php foreach ($users as $user) : ?>
+            <tr>
+                <td>
+                    <div align="center"><?= $user['uid']; ?></div>
+                </td>
+                <td>
+                    <div align="center"><?= $user['name']; ?></div>
+                </td>
+                <td>
+                    <div align="center"><?= $user['lastname']; ?></div>
+                </td>
+                <td>
+                    <div align="center"><?= $user['username']; ?></div>
+                </td>
+                <td>
+                    <div align="center"><?= $user['password']; ?></div>
+                </td>
+                <td>
+                    <div align="center"><?= $user['hospital']; ?></div>
+                </td>
+                <td>
+                    <div align="center"><?= $user['ugroup']; ?></div>
+                </td>
+                <td>
+                    <div align="center"><a href="\user_detail.php?id=<?= $user['uid']; ?>">Detail</a></div>
+                </td>
+                <td>
+                    <div align="center"><a href="hospital_edit.php">Edit</a></div>
+                </td>
+                <td>
+                    <div align="center"><a href="hospital_del.php">Delete</a></div>
+                </td>
             </tr>
-<?php endforeach; ?>
+        <?php endforeach; ?>
         </thead>
 </table>
 
-        <?php require 'includes/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>
