@@ -44,7 +44,7 @@ class Auth
                
                 var_dump($user);
                 var_dump($ugroup);
-                die();
+                //die();
                
 	}	
 
