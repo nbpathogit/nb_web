@@ -3,7 +3,7 @@
 
 require 'includes/init.php';
 
-//Auth::requireLogin();
+Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 

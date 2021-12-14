@@ -1,7 +1,7 @@
 <?php
 require 'includes/init.php';
 
-//Auth::requireLogin();
+Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 
@@ -44,7 +44,7 @@ $hospitals = Hospital::getAll($conn);
                 <td><div align="center"><?= $user['name']; ?></div></td>
                 <td><div align="center"><?= $user['lastname']; ?></div></td>
                 <td><div align="center"><?= $user['username']; ?></div></td>
-                <td><div align="center"><?= $user['password']; ?></div></td>
+                <td><div align="center">****</div></td>
                 <td><div align="center"><?= $user['hospital']; ?></div></td>
                 <td><div align="center"><?= $user['ugroup']; ?></div></td>
                 <td><div align="center"><a href="\user_detail.php?id=<?= $user['uid']; ?>">Detail</a></div></td>

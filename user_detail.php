@@ -3,7 +3,7 @@
 
 require 'includes/init.php';
 
-//Auth::requireLogin();
+Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 
@@ -19,7 +19,7 @@ if (isset($_GET['id'])) {
 
 <?php require 'includes/header.php'; ?>
 
-<div><p> USER Detail<p></div> <br>
+<div><p>
 
 <?php
     if (isset($_GET['result'])) {
@@ -28,6 +28,7 @@ if (isset($_GET['id'])) {
         }
     }
 ?>
+<p></div> <br>
 
 <table class="table table-hover table-striped">
     <thead>

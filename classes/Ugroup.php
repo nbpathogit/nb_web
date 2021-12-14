@@ -26,5 +26,22 @@ class Ugroup {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+    public static function getByID($conn, $id, $columns = '*') {
+        $sql = "SELECT $columns
+                FROM user_group
+                WHERE id= :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Ugroup');
+
+        if ($stmt->execute()) {
+            return $stmt->fetch();
+        }
+    }
 
 }

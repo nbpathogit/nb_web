@@ -1,4 +1,5 @@
 <?php
 
 $db = new Database();
-return $db->getConn();
+$conn = $db->getConn();
+return $conn;

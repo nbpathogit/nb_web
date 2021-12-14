@@ -6,13 +6,14 @@
  */
 require 'includes/init.php';
 
-//Auth::requireLogin();
+Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 
 $ugroups = Ugroup::getAll($conn);
 
 $hospitals = Hospital::getAll($conn);
+//var_dump($hospitals);
 
 
 
@@ -27,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user->umobile = $_POST['umobile'];
     $user->uemail = $_POST['uemail'];
     $user->username = $_POST['username'];
-    $user->password = $_POST['password'];
+    $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $user->ugroup_id = $_POST['ugroup_id'];
     $user->uhospital_id = $_POST['uhospital_id'];
     $user->udetail = $_POST['udetail'];
@@ -45,11 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php require 'includes/header.php'; ?>
 
-<div align="center">&nbsp;เพิ่มผู้ใช้งานระบบ</div>
+<div align=""><b>เพิ่มผู้ใช้งานระบบ</b></div>
 
     <form id="" method="post" >
 <?php require 'includes/user_form.php'; ?>
-    <div align="center"><button>Add</button></div>
+    <div align=""><button>Add</button></div>
     </form>
 
 <?php require 'includes/footer.php'; ?>

@@ -33,9 +33,19 @@ class Auth
 	*
 	* @return void
 	*/
-	public static function login(){
+	public static function login($conn, $username){
+                $user = User::getByUserName($conn, $username);
+                $ugroup = Ugroup::getByID($conn, $user->ugroup_id);
+                
 		session_regenerate_id(true);
 		$_SESSION['is_logged_in']=true;
+		$_SESSION['username']=$username;
+                $_SESSION['usergroup']=$ugroup;
+               
+                var_dump($user);
+                var_dump($ugroup);
+                die();
+               
 	}	
 
     /**

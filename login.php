@@ -1,8 +1,3 @@
-
-
-
-
-
 <?php
 
 require 'includes/init.php';
@@ -12,7 +7,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $conn = require 'includes/db.php';
     
     if(User::authenticate($conn,$_POST['username'],$_POST['password'])){
-        Auth::login();
+        Auth::login($conn,$_POST['username']);
         Url::redirect('/');
     }else{
         $error = "login incorrect";

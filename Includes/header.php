@@ -63,7 +63,7 @@
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="">พิมพ์ข้อมูล</a></li>
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="">Billing</a></li>
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="">ข้อมูลการใช้งานระบบ</a></li>
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="">ออกระบบ</a></li>
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="logout.php">ออกระบบ</a></li>
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="login.php">ล็อกอิน</a></li>
                     </ul>
 

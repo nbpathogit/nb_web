@@ -1,7 +1,7 @@
 <?php
 require 'includes/init.php';
 
-//Auth::requireLogin();
+Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 
@@ -58,7 +58,7 @@ $prioritys = Priority::getAll($conn);
 //var_dump($Specimens);
 //var_dump($clinicians);
 //var_dump($users);
-var_dump($userPathos);
+//var_dump($userPathos);
 ?>
 
 <?php require 'includes/header.php'; ?>
@@ -66,9 +66,7 @@ var_dump($userPathos);
 
 
 
-<table border="1" align="center" width="1000">
-    <tr>
-        <td>       
+   
             <form id="" name="" method="post" >
                 <?php require 'includes/patient_form_a.php'; ?>
                 <?php require 'includes/patient_form_b.php'; ?>
@@ -78,9 +76,7 @@ var_dump($userPathos);
                     <!--<input name="Submit2" type="reset" class="" id="Submit2" value="ยกเลิก">-->
                 </p>
             </form>
-        </td>
-    </tr>
-</table>
+
 
 <p>&nbsp;</p>
 <hr>
