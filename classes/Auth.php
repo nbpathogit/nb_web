@@ -47,8 +47,18 @@ class Auth
                 //die();
                
 	}	
-
-    /**
+        
+        public static function getUser(){
+            if(isset($_SESSION['username'])){
+                    return $_SESSION['username'];
+            }else{
+                    return "No username";
+            }
+        }
+        
+        
+        
+        /**
 	* Log out using the session
 	*
 	* @return void
@@ -68,5 +78,6 @@ class Auth
 		// Finally, destroy the session.
 		session_destroy();
 	}
+        
 
 }

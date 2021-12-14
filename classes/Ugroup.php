@@ -20,7 +20,7 @@ class Ugroup {
     public $ugroup;
 
     public static function getAll($conn) {
-        $sql = "SELECT * FROM user_group;";
+        $sql = "SELECT * FROM user_groups;";
 
         $results = $conn->query($sql);
 
@@ -30,7 +30,7 @@ class Ugroup {
     
     public static function getByID($conn, $id, $columns = '*') {
         $sql = "SELECT $columns
-                FROM user_group
+                FROM user_groups
                 WHERE id= :id";
 
         $stmt = $conn->prepare($sql);

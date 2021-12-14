@@ -32,7 +32,12 @@
 
                     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="/">หน้าหลัก</a></li>
+                        
+                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="">เกียวกับเรา</a></li>
 
+                        
+                        <?php if (Auth::isLoggedIn()): ?>
+                        
                         <li class="nav-item dropdown">
                             <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="user.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">ข้อมูลผู้ใช้ระบบ</a>
                             <ul class="dropdown-menu">
@@ -63,8 +68,15 @@
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="">พิมพ์ข้อมูล</a></li>
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="">Billing</a></li>
                         <li class="nav-item"><a class="nav-link px-2 link-dark" href="">ข้อมูลการใช้งานระบบ</a></li>
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="logout.php">ออกระบบ</a></li>
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="login.php">ล็อกอิน</a></li>
+                        
+                        <?php endif; ?>
+                        
+                        <?php if (Auth::isLoggedIn()): ?>
+                        <li class="nav-item"><u>สวัสดี <b><?= Auth::getUser() ?></b></u><a class="nav-link px-2 link-dark" href="logout.php">ออกระบบ</a></li>
+                        <?php else: ?>
+                           <li class="nav-item"><a class="nav-link px-2 link-dark" href="login.php">ล็อกอิน</a></li>
+                        <?php endif; ?>
+
                     </ul>
 
                 </div>

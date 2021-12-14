@@ -15,7 +15,9 @@ $hospitals = Hospital::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
-<?php require 'includes/hospital_form.php'; ?>
+<?php if (!Auth::isLoggedIn()): ?>
+    You are not login.
+<?php else: ?>
 
 
 <table class="table table-hover table-striped">
@@ -44,5 +46,7 @@ $hospitals = Hospital::getAll($conn);
         <?php endforeach; ?>
         </thead>
 </table>
+    
+<?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>

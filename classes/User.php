@@ -52,7 +52,7 @@ class User {
     public static function getAll($conn, $id = 0) {
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
                 FROM user U
-                JOIN user_group G
+                JOIN user_groups G
                 JOIN hospital H
                 WHERE U.ugroup_id  = G.id
                 and U.uhospital_id  = H.id";
@@ -69,7 +69,7 @@ class User {
     public static function getAllbyPathologis($conn) {
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
                 FROM user U
-                JOIN user_group G
+                JOIN user_groups G
                 JOIN hospital H
                 WHERE U.ugroup_id  = G.id
                 and U.uhospital_id  = H.id
@@ -177,5 +177,5 @@ class User {
             return false;
         }
     }
-
+    
 }

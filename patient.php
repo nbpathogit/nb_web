@@ -1,8 +1,6 @@
 <?php
 require 'includes/init.php';
 
-Auth::requireLogin();
-
 $conn = require 'includes/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -64,20 +62,11 @@ $prioritys = Priority::getAll($conn);
 <?php require 'includes/header.php'; ?>
 
 
+<?php if (!Auth::isLoggedIn()): ?>
+    You are not authorized.
+<?php else: ?>
 
-
-   
-            <form id="" name="" method="post" >
-                <?php require 'includes/patient_form_a.php'; ?>
-                <?php require 'includes/patient_form_b.php'; ?>
-                <p align="center">
-                    <button>ตกลง</button>
-                    <!--<input name="Submit" type="submit" class="" id="Submit" value="เพิ่ม">-->
-                    <!--<input name="Submit2" type="reset" class="" id="Submit2" value="ยกเลิก">-->
-                </p>
-            </form>
-
-
+ 
 <p>&nbsp;</p>
 <hr>
 
@@ -127,6 +116,6 @@ $prioritys = Priority::getAll($conn);
     </tbody>
 </table>
 
-
+<?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
