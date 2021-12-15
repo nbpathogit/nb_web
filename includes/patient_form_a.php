@@ -1,8 +1,8 @@
 
 
-    <div>
+    <h4 class="mb-3">
         เพิ่มข้อมูลผู้ป่วย
-    </div>
+</h4>
 
     <div align="">
         <span>

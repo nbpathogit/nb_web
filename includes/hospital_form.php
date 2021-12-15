@@ -18,9 +18,10 @@
     <textarea name="hospital_detail" class="form-control" id="hospital_detail" rows="2"></textarea>
   </div>
 
-
-  <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
-  <button name="Reset" type="reset" class="btn btn-primary" id="Reset">ยกเลิก</button>
+  <div class="d-grid gap-2 d-md-block">
+    <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+    <button name="Reset" type="reset" class="btn btn-primary" id="Reset">ยกเลิก</button>
+  </div>
 
 </form>
 
