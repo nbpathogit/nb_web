@@ -26,7 +26,7 @@ class Patient {
     public $import_date;
     public $report_date;
     public $status;
-    public $priority;
+    public $priority_id;
     public $phospital_id;
     public $phospital_num;
     public $ppathologist_id;
@@ -54,6 +54,26 @@ class Patient {
      * @return array An associative array of all the article records
      */
     public static function getAll($conn, $id = 0) {
+        $sql = "SELECT * 
+                FROM patient ";
+
+        if ($id != 0) {
+            $sql = $sql . " WHERE id = " . $id;
+        }
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+        /**
+     * Get all the articles
+     *
+     * @param object $conn Connection to the database
+     *
+     * @return array An associative array of all the article records
+     */
+    public static function getAllJoin($conn, $id = 0) {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -106,8 +126,8 @@ class Patient {
      */
     public function create($conn) {
 
-        $sql = "INSERT INTO `patient` (`id`, `pnum`, `plabnum`, `pname`, `pgender`, `plastname`, `pedge`, `import_date`, `report_date`, `status`, `priority`, `phospital_id`, `phospital_num`, `ppathologist_id`, `pspecimen_id`, `pclinician_id`, `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`, `p_rs_diagnosis`) "
-                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender, :plastname, :pedge, :import_date, :report_date,  :status, :priority, :phospital_id, :phospital_num,     :ppathologist_id,   :pspecimen_id, :pclinician_id,   :pprice, :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc, :p_rs_microscopic_desc, :p_rs_diagnosis);";
+        $sql = "INSERT INTO `patient` (`id`, `pnum`, `plabnum`, `pname`, `pgender`, `plastname`, `pedge`, `import_date`, `report_date`, `status`, `priority_id`, `phospital_id`, `phospital_num`, `ppathologist_id`, `pspecimen_id`, `pclinician_id`, `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`, `p_rs_diagnosis`) "
+                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender, :plastname, :pedge, :import_date, :report_date,  :status, :priority_id, :phospital_id, :phospital_num,     :ppathologist_id,   :pspecimen_id, :pclinician_id,   :pprice, :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc, :p_rs_microscopic_desc, :p_rs_diagnosis);";
 
         $stmt = $conn->prepare($sql);
 
@@ -122,10 +142,15 @@ class Patient {
         $stmt->bindValue(':import_date', $this->import_date, PDO::PARAM_STR);
         $stmt->bindValue(':report_date', $this->report_date, PDO::PARAM_STR);
         $stmt->bindValue(':status', $this->status, PDO::PARAM_STR);
-        $stmt->bindValue(':priority', $this->priority, PDO::PARAM_STR);
+        $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
         $stmt->bindValue(':phospital_id', $this->phospital_id, PDO::PARAM_STR);
         $stmt->bindValue(':phospital_num', $this->phospital_num, PDO::PARAM_STR);
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_STR);
+        
+        
+        
+        
+        
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_STR);
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_STR);
         $stmt->bindValue(':pprice', $this->pprice, PDO::PARAM_STR);
@@ -158,12 +183,18 @@ class Patient {
                 "import_date" => "",
                 "report_date" => "",
                 "status" => "รับเข้า",
+                "status_id" => 2000,
                 "priority_id" => 5,
                 "phospital_id" => 0,
                 "phospital_num" => "",
                 "ppathologist_id" => 0,
                 "pspecimen_id" => 0,
                 "pclinician_id" => 0,
+                "pclinician2_id" => 0,
+                "p_cross_section_id" => 0,
+                "p_cross_section_ass_id" => 0,
+                "p_slide_prep_id" => 0,
+                "p_slide_prep_sp_id" => 0,
                 "pprice" => "",
                 "pspprice" => "",
                 "p_rs_specimen" => "",
@@ -172,6 +203,22 @@ class Patient {
                 "p_rs_microscopic_desc" => "",
                 "p_rs_diagnosis" => ""
         ]];
+    }
+    
+    
+    public static function updateStatus($conn,$id,$status_id)
+    {
+        $sql = "UPDATE patient
+                SET status_id = :status_id
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':status_id', $status_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+        
     }
 
 }

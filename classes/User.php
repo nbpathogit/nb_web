@@ -71,9 +71,28 @@ class User {
                 FROM user U
                 JOIN user_groups G
                 JOIN hospital H
+                WHERE (U.ugroup_id  = G.id
+                and U.uhospital_id  = H.id
+                and (U.ugroup_id = 2000 or U.ugroup_id = 0 ))";
+
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+        public static function getAllbyTeachien($conn) {
+        $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
+                FROM user U
+                JOIN user_groups G
+                JOIN hospital H
                 WHERE U.ugroup_id  = G.id
                 and U.uhospital_id  = H.id
-                and U.ugroup_id = 2000";
+                and 
+                (U.ugroup_id = 2000 
+                or U.ugroup_id = 2100
+                or U.ugroup_id = 2200
+                or U.id = 0 )";
 
 
         $results = $conn->query($sql);
@@ -155,7 +174,7 @@ class User {
 
         $stmt = $conn->prepare($sql);
 
-        var_dump($this->name);
+        //var_dump($this->name);
 
         $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
         $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
@@ -177,5 +196,29 @@ class User {
             return false;
         }
     }
-    
+
+    public static function getTotal($conn, $user_group = "*") {
+        return $conn->query("SELECT COUNT(*) FROM user")->fetchColumn();
+    }
+
+    public static function getPage($conn, $limit, $offset, $only_published = false) {
+
+        $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
+                FROM user U
+                JOIN user_groups G
+                JOIN hospital H
+                WHERE U.ugroup_id  = G.id
+                and U.uhospital_id  = H.id
+                LIMIT :limit
+                OFFSET :offset";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

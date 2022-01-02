@@ -18,6 +18,14 @@ class Ugroup {
      * @var string
      */
     public $ugroup;
+    
+    public $ugroupe;
+    
+    public $ppatient;
+    
+    public $pnbcenter;
+    
+    public $presult;
 
     public static function getAll($conn) {
         $sql = "SELECT * FROM user_groups;";
@@ -26,7 +34,6 @@ class Ugroup {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
     
     public static function getByID($conn, $id, $columns = '*') {
         $sql = "SELECT $columns
@@ -43,5 +50,5 @@ class Ugroup {
             return $stmt->fetch();
         }
     }
-
+    
 }

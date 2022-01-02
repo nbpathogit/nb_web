@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $patients = Patient::getInit();
 
-$patientLists = Patient::getAll($conn);
+$patientLists = Patient::getAllJoin($conn);
 
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
@@ -108,8 +108,8 @@ $prioritys = Priority::getAll($conn);
                 <td><div align="center"><?= $patient['status']; ?></div></td>
                 <td><div align="center"><?= $patient['priority']; ?></div></td>
                 <td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>
-                <td><div align="center"><a href="patient_edit.php">Edit</a></div></td>
-                <td><div align="center"><a href="patient_del.php">Delete</a></div></td>
+                <td><div align="center"><a href="patient_edit.php?id=<?= $patient['pid']; ?>">Edit</a></div></td>
+                <td><div align="center"><a href="patient_del.php?id=<?= $patient['pid']; ?>">Delete</a></div></td>
             </tr>
         <?php endforeach; ?>
 

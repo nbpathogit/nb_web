@@ -4,13 +4,16 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-$users = User::getAll($conn);
+//$users = User::getAll($conn);
 
 $ugroups = Ugroup::getAll($conn);
 
 $hospitals = Hospital::getAll($conn);
 
+//Ternary Operator
+$paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1  ,10,User::getTotal($conn));
 
+$users = User::getPage($conn,$paginator->limit,$paginator->offset);
 
 //var_dump($users);
 //var_dump($ugroups);
@@ -80,7 +83,7 @@ $hospitals = Hospital::getAll($conn);
             </thead>
     </table>
     
-    
+    <?php require 'includes/pagination.php';?>
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>

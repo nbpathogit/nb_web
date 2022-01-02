@@ -43,7 +43,9 @@
             
         </span>
     </div>
+</div>
 
+<div class="row mb-3">
 
     <div class="col-auto">
         <span class="">
@@ -51,6 +53,7 @@
             <input class="form-control" name="import_date" type="text" class="" id="import_date" value="<?= $patients[0]['import_date']; ?>">
         </span>
     </div>
+</div>
 
     <div class="col-auto">
         <span class="">
@@ -87,6 +90,10 @@
             <?= htmlspecialchars($prioritys[1]['priority']); ?>
         </span>
     </div>
+</div>
+
+
+<div class="row mb-3">
 
     <div class="col-auto">
         <span class="">
@@ -101,6 +108,7 @@
             </select>
         </span>
     </div>
+</div>
 
     <div class="col-auto">
         <span class="">
@@ -120,6 +128,9 @@
             </select>
         </span>
     </div>
+</div>
+
+<div class="row mb-3">
 
     <div class="col-auto">
         <span class="">
@@ -128,6 +139,7 @@
             </script>
         </span>
     </div>
+</div>
 
     <div class="col-auto">
         <span class="">
@@ -135,6 +147,7 @@
             <input class="form-control" name="pprice" type="text" class="" id="pprice" size="15" maxlength="30" value="<?= $patients[0]['pprice']; ?>">
         </span>
     </div>
+</div>
 
     <div class="col-auto">
         <label class="form-label" for="uspecimen_id">สิ่งส่งตรวจ</label>
@@ -147,6 +160,7 @@
             <?php endforeach; ?>
         </select>
     </div>
+</div>
 
     <div class="col-auto">
         <label class="form-label" for="pspprice">ราคาค่าตรวจพิเศษ(บาท)</label>

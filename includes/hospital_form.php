@@ -1,7 +1,7 @@
 <h4>เพิ่มสถานพยาบาล</h4>
 
 
-<form class="row g-2" id="checkForm" name="checkForm" method="post" onsubmit="return check()" action="a_hospital_add2.php">
+<form class="row g-2" id="checkForm" name="checkForm" method="post">
 
   <div class="mb-3">
     <label for="hospital_name" class="form-label">ชื่อสถานพยาบาล</label>

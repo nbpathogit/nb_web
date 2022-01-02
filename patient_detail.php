@@ -13,37 +13,71 @@ if (isset($_GET['id'])) {
     $patients = null;
 }
 
+//var_dump($patients);
+//die();
 
-//$patients = Patient::getAll($conn);
+
+
+//$patientLists = Patient::getAll($conn);
+
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
+$userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
+$status = Status::getAll($conn, $patients[0]['status_id']);
+//$statusLists = Status::getAll($conn);
+
+
+
+//$ug = Auth::getUserGroup();
+
 
 //var_dump($patients);
-//var_dump($prioritys);
+//
+//var_dump($patientLists);
+//var_dump($Specimens);
+//var_dump($clinicians);
+//var_dump($users);
+//var_dump($userPathos);
+//var_dump($statusLists);
+//var_dump($status);
+
+
+$canViewPatientInfo = Auth::canViewPatientInfo();
+$isDisableEditPatientInfo = true;
+
+
+$canViewNBCenter = Auth::canViewNBCenter();
+$isDisableEditNBCenter = true;
+
+$canViewResult = Auth::canViewPatientResult();
+$isDisableEditResult = true;
 
 ?>
 
 <?php require 'includes/header.php'; ?>
 
-<div align="center"> Patient Detail </div><br>
+<?php if (!Auth::isLoggedIn()): ?>
+    You are not authorized.
+<?php else: ?>
 
-<table border="1" align="center" width="1000">
-    <tr>
-        <td>       
-            <form id="" name="" method="post" >
-                <?php require 'includes/patient_form_a.php'; ?>
-                <?php require 'includes/patient_form_b.php'; ?>
-                <p align="center">
-                    <button>ตกลง</button>
-                    <!--<input name="Submit" type="submit" class="" id="Submit" value="เพิ่ม">-->
-                    <!--<input name="Submit2" type="reset" class="" id="Submit2" value="ยกเลิก">-->
-                </p>
-            </form>
-        </td>
-    </tr>
-</table>
+    <?php //require 'includes/patient_status.php';  ?><hr>
+
+    <form  id="" name="" method="post">
+        <?php if ($canViewPatientInfo): ?>
+            <?php require 'includes/patient_form_a.php'; ?><hr>
+        <?php endif; ?>
+        <?php if ($canViewNBCenter): ?>
+            <?php require 'includes/patient_form_b.php'; ?><hr>
+        <?php endif; ?>
+        <?php if ($canViewResult): ?>
+            <?php require 'includes/patient_form_c.php'; ?><hr>
+        <?php endif; ?>
+
+    </form>
+
+<?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
