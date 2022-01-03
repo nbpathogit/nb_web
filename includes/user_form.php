@@ -1,19 +1,19 @@
 <div class="row mb-3 g-5 align-items-center">
     <div class="col-auto">
         <label for="name" class="form-label">ชื่อ</label><span> *</span>
-        <input name="name" type="text" class="form-control" id="name">
+        <input name="name" type="text" class="form-control" id="name" required>
     </div>
     <div class="col-auto">
         <label for="lastname" class="form-label">นามสกุล</label><span> *</span>
-        <input name="lastname" type="text" class="form-control" id="lastname">
+        <input name="lastname" type="text" class="form-control" id="lastname" required>
     </div>
     <div class="col-auto">
         <label for="umobile" class="form-label">เบอร์โทรศัพท์</label><span> *</span>
-        <input name="umobile" type="text" class="form-control" id="umobile">
+        <input name="umobile" type="text" class="form-control" id="umobile" required>
     </div>
     <div class="col-auto">
         <label for="uemail" class="form-label">อีเมล</label><span> *</span>
-        <input name="uemail" type="email" class="form-control" id="uemail" size="40">
+        <input name="uemail" type="email" class="form-control" id="uemail" size="40" required>
     </div>
 </div>
 

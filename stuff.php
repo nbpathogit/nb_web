@@ -5,7 +5,7 @@ require 'includes/init.php';
 <?php require 'includes/header.php'; ?>
 
 <div class="row g-3 mx-3">
-    <div class="col-sm-3">
+    <div class="col-sm-3 d-flex align-self-stretch">
         <div class="card border-dark text-center">
             <div class="card-body">
                 <h5 class="card-title">นายแพทย์อภิชาติ ชุมทอง</h5>
@@ -16,7 +16,7 @@ require 'includes/init.php';
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 d-flex align-self-stretch">
         <div class="card border-dark text-center">
             <div class="card-body">
                 <h5 class="card-title">แพทย์หญิงจุลินทร สำราญ</h5>
@@ -28,7 +28,7 @@ require 'includes/init.php';
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 d-flex align-self-stretch">
         <div class="card border-dark text-center">
             <div class="card-body">
                 <h5 class="card-title">นายแพทย์พีรยุทธ สิทธิไชยากุล</h5>
@@ -39,7 +39,7 @@ require 'includes/init.php';
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 d-flex align-self-stretch">
         <div class="card border-dark text-center">
             <div class="card-body">
                 <h5 class="card-title">นายแพทย์ภูศิษฏ์ เรืองวาณิชยกุล</h5>
@@ -51,7 +51,7 @@ require 'includes/init.php';
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 d-flex align-self-stretch">
         <div class="card border-dark text-center">
             <div class="card-body">
                 <h5 class="card-title">แพทย์หญิงศิโรรัตน์ นาคฉ่ำ</h5>
@@ -63,7 +63,7 @@ require 'includes/init.php';
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 d-flex align-self-stretch">
         <div class="card border-dark text-center">
             <div class="card-body">
                 <h5 class="card-title">ทันตแพทย์ชายแดน อินต๊ะปา</h5>
@@ -75,7 +75,7 @@ require 'includes/init.php';
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3 d-flex align-self-stretch">
         <div class="card border-dark text-center">
             <div class="card-body">
                 <h5 class="card-title">นายแพทย์อรรณพ นาคะปัท</h5>

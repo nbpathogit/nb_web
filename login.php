@@ -17,24 +17,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <?php require 'includes/header.php'; ?>
-
-<h2>Login</h2>
-
-<?php if (!empty($error)) : ?>
-    <p><?= $error ?></p>
-<?php endif; ?>
 <div class="container g-4 m-3">
-    <form method="post">
-        <div class="my-3 col-sm">
-            <label for="username" class="form-label">Username</label>
-            <input name="username" id="username" class="form-control"></input>
+    <div class="row">
+        <div class="col-md-3">
         </div>
-        <div class="my-3 col-sm">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" id="password" class="form-control"></input>
+        <div class="col-md-6">
+            <h2>Login</h2>
+
+            <?php if (!empty($error)) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <p><?= $error ?></p>
+                </div><?php endif; ?>
+
+            <form method="post">
+                <div class="col-md-10 mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input name="username" id="username" class="form-control" required></input>
+                </div>
+                <div class="col-md-10 mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" required></input>
+                </div>
+                <div class="col-md-offset-2 col-md-10 mb-3">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <div>
+            </form>
         </div>
-        <div class="my-3">
-        <button type="submit" class="btn btn-primary">Log in</button><div>
-    </form>
+    </div>
 </div>
 <?php require 'includes/footer.php'; ?>
