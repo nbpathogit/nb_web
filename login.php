@@ -2,14 +2,14 @@
 
 require 'includes/init.php';
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $conn = require 'includes/db.php';
-    
-    if(User::authenticate($conn,$_POST['username'],$_POST['password'])){
-        Auth::login($conn,$_POST['username']);
+
+    if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
+        Auth::login($conn, $_POST['username']);
         Url::redirect('/');
-    }else{
+    } else {
         $error = "login incorrect";
     }
 }
@@ -20,20 +20,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <h2>Login</h2>
 
-    <?php if(!empty($error)): ?>
-       <p><?=$error?></p>
-    <?php endif; ?>
-
-<form method="post">
-    <div>
-        <label for="username">Username</label>
-        <input name="username" id="username"></input>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password"></input>
-    </div>
-    <button>Log in</button>
-</form>
-
+<?php if (!empty($error)) : ?>
+    <p><?= $error ?></p>
+<?php endif; ?>
+<div class="container g-4 m-3">
+    <form method="post">
+        <div class="my-3 col-sm">
+            <label for="username" class="form-label">Username</label>
+            <input name="username" id="username" class="form-control"></input>
+        </div>
+        <div class="my-3 col-sm">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" id="password" class="form-control"></input>
+        </div>
+        <div class="my-3">
+        <button type="submit" class="btn btn-primary">Log in</button><div>
+    </form>
+</div>
 <?php require 'includes/footer.php'; ?>

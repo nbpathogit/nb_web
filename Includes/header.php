@@ -17,11 +17,11 @@
 
 </head>
 
-<body>
+<body class="bg-light"><div class="container bg-light opacity-80">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
+        
 
-            <header class="d-flex flex-wrap align-items-center justify-content-md-between py-3 mb-4 border-bottom">
+            <header class="d-flex flex-wrap align-items-center justify-content-md-between border-bottom">
 
                 <a class="navbar-brand" href="/"><img src="image/logo.png" alt="NB Phatho logo" width="150"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,13 +30,11 @@
 
                 <div class="collapse navbar-collapse" id="main_nav">
 
-                    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="/">หน้าหลัก</a></li>
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="">เกียวกับเรา</a></li>
+                    <ul class="nav col-12 col-md-auto justify-content-center mb-md-0">
+                        <!--<li class="nav-item"><a class="nav-link px-2 link-dark" href="/">หน้าหลัก</a></li>-->
 
 
                         <?php if (Auth::isLoggedIn()) : ?>
-
                             <li class="nav-item dropdown">
                                 <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="user.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">ข้อมูลผู้ใช้ระบบ</a>
                                 <ul class="dropdown-menu">
@@ -67,8 +65,22 @@
 
                         <?php endif; ?>
 
+                        <li class="nav-item dropdown">
+                                <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">เกี่ยวกับ</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="about.php">เกียวกับเรา</a></li>
+                                    <li><a class="dropdown-item" href="stuff.php">บุคลากร</a></li>
+                                    <li><a class="dropdown-item" href="service.php">บริการของเรา</a></li>
+                                </ul>
+                            </li>
+
                         <?php if (Auth::isLoggedIn()) : ?>
-                            <li class="nav-item"><u>สวัสดี <b><?= Auth::getUser() ?></b></u><a class="nav-link px-2 link-dark" href="logout.php">ออกระบบ</a></li>
+                            <li class="nav-item dropdown">
+                                <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="patient.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">สวัสดี <b><?= Auth::getUser() ?></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="logout.php">ออกระบบ</a></li>
+                                </ul>
+                            </li>
                         <?php else : ?>
                             <li class="nav-item"><a class="nav-link px-2 link-dark" href="login.php">ล็อกอิน</a></li>
                         <?php endif; ?>
@@ -77,8 +89,8 @@
 
                 </div>
             </header>
-        </div>
+        
     </nav>
-
+</div>
     <div class="container">
         <main>
