@@ -146,11 +146,6 @@ class Patient {
         $stmt->bindValue(':phospital_id', $this->phospital_id, PDO::PARAM_STR);
         $stmt->bindValue(':phospital_num', $this->phospital_num, PDO::PARAM_STR);
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_STR);
-        
-        
-        
-        
-        
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_STR);
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_STR);
         $stmt->bindValue(':pprice', $this->pprice, PDO::PARAM_STR);

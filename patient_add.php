@@ -85,18 +85,25 @@ $isDisableEditResult = Auth::isDisableEditPatientResult();
 <?php if (!Auth::isLoggedIn()): ?>
     You are not authorized.
 <?php else: ?>
-    
-<hr>
-  
-            <form id="" name="" method="post" >
-                <?php require 'includes/patient_form_a.php'; ?>
-                <?php require 'includes/patient_form_b.php'; ?>
-                <p align="center">
-                    <button class="btn btn-primary">ตกลง</button>
-                    <!--<input name="Submit" type="submit" class="" id="Submit" value="เพิ่ม">-->
-                    <!--<input name="Submit2" type="reset" class="" id="Submit2" value="ยกเลิก">-->
-                </p>
-            </form>
+
+    <?php //require 'includes/patient_status.php';  ?><hr>
+
+    <form  id="" name="" method="post">
+        <?php if ($canViewPatientInfo): ?>
+            <?php require 'includes/patient_form_a.php'; ?><hr>
+        <?php endif; ?>
+        <?php if ($canViewNBCenter): ?>
+            <?php require 'includes/patient_form_b.php'; ?><hr>
+        <?php endif; ?>
+        <?php if ($canViewResult): ?>
+            <?php require 'includes/patient_form_c.php'; ?><hr>
+        <?php endif; ?>
+
+        <p align="center">
+            <!--<button>ตกลง</button>-->
+            <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+        </p>
+    </form>
 
 <?php endif; ?>
 
