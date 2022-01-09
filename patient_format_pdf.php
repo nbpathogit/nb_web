@@ -10,6 +10,13 @@
         /*font-style: italic;*/
         /*vertical-align: bottom;*/
     }
+    .signedoff{
+        font-family: "angsana";
+        font-size: 18pt;
+        color: #000000;
+        line-height: 18pt
+        
+    }
     .header{
         /*font-family: "sarabun";*/
         font-family: "angsana";
@@ -95,5 +102,28 @@
 
 
 
-
-
+<div class="container" style="width: 100%">
+    <br><br><br><br><br><br>
+    <table width="100%" class="container">
+         <tr>
+            <td width="15%" align="left"></td>
+            <td width="15%" align="left"></td>
+            <td width="30%" align="left"></td>
+            <td width="40%" align="center"><span></span></td>
+        </tr>
+        <tr>
+            <td width="15%" align="left"></td>
+            <td width="15%" align="left"></td>
+            <td width="30%" align="left"></td>
+            <td width="40%" align="center"><span>Apichat Chumtong, M.D.</span></td>
+        </tr>
+                <tr>
+            <td width="15%" align="left"></td>
+            <td width="15%" align="left"></td>
+            <td width="30%" align="left"></td>
+            <td width="40%" align="center"><span>Pathologist</span></td>
+        </tr>
+    </table>
+    
+    
+</div>

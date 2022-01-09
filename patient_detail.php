@@ -8,33 +8,44 @@ Auth::requireLogin();
 $conn = require 'includes/db.php';
 
 if (isset($_GET['id'])) {
-    $patients = Patient::getAll($conn,$_GET['id']);
+    $patient = Patient::getAll($conn,$_GET['id']);
 } else {
-    $patients = null;
+    $patient = null;
 }
 
-//var_dump($patients);
+//var_dump($patient);
 //die();
 
 
 
 //$patientLists = Patient::getAll($conn);
 
+//Get Specific Row from Table
+if (isset($_GET['id'])) {
+    $patient = Patient::getAll($conn, $_GET['id']);
+} else {
+    $patient = null;
+}
+//$status_cur = Status::getAll($conn, $patient[0]['status_id']);
+
+//$patientLists = Patient::getAll($conn);
+
+//Get List of Table
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
-$status = Status::getAll($conn, $patients[0]['status_id']);
-//$statusLists = Status::getAll($conn);
+$statusLists = Status::getAll($conn);
+
 
 
 
 //$ug = Auth::getUserGroup();
 
 
-//var_dump($patients);
+//var_dump($patient);
 //
 //var_dump($patientLists);
 //var_dump($Specimens);
@@ -54,6 +65,11 @@ $isDisableEditNBCenter = true;
 
 $canViewResult = Auth::canViewPatientResult();
 $isDisableEditResult = true;
+
+
+//disable by field
+$isHideResult = true;
+$isStatusDisableEdit = true;
 
 ?>
 

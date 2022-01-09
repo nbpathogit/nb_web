@@ -21,22 +21,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
+
+//Get Specific Row from Table
 if (isset($_GET['id'])) {
-    $patients = Patient::getAll($conn, $_GET['id']);
+    $patient = Patient::getAll($conn, $_GET['id']);
 } else {
-    $patients = null;
+    $patient = null;
 }
+//$status_cur = Status::getAll($conn, $patient[0]['status_id']);s
 
+//$patientLists = Patient::getAll($conn);
 
-//$patients = Patient::getAll($conn);
+//Get List of Table
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
+$userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
+$statusLists = Status::getAll($conn);
 
 
-$curstatus = Status::getAll($conn, $patients[0]['status_id']);
+
+
+
+$curstatus = Status::getAll($conn, $patient[0]['status_id']);
 
 if (isset($curstatus[0]['back2'])) {
     //echo "back2 is set";
@@ -81,27 +90,52 @@ if (isset($curstatus[0]['next2'])) {
 //var_dump($next1status);
 //var_dump($next2status);
 
-//var_dump($patients);
+//var_dump($patient);
 //var_dump($statusLists);
+
+//disable by group
+$canViewPatientInfo = Auth::canViewPatientInfo();
+$isDisableEditPatientInfo = Auth::isDisableEditPatientInfo();
+
+
+$canViewNBCenter = Auth::canViewNBCenter();
+$isDisableEditNBCenter = Auth::isDisableEditNBCenter();
+
+$canViewResult = Auth::canViewPatientResult();
+$isUpdateResultAval = true;
+$isDisableEditResult = Auth::isDisableEditPatientResult();
+
+
+//disable by field
+$isHideResult = false;
+$isStatusDisableEdit = true;
+
 ?>
 
 <?php require 'includes/header.php'; ?>
 
 <?php if (!Auth::isLoggedIn()): ?>
-    You are not authorized.
+    You are not login.
 <?php else: ?>
 
     <?php require 'includes/patient_status.php'; ?><hr>
 
     <form  id="" name="" method="post">
 
-        <?php require 'includes/patient_form_a.php'; ?><hr>
-        <?php require 'includes/patient_form_b.php'; ?><hr>
-        <?php require 'includes/patient_form_c.php'; ?><hr>
-        <p align="center">
-            <!--<button>ตกลง</button>-->
-            <button name="Submit2" type="submit" class="btn btn-primary">บันทึกทั้งหมด</button>
-        </p>
+        <?php if ($canViewPatientInfo): ?>
+            <?php require 'includes/patient_form_a.php'; ?><hr>
+        <?php endif; ?>
+        <?php if ($canViewNBCenter): ?>
+            <?php require 'includes/patient_form_b.php'; ?><hr>
+        <?php endif; ?>
+        <?php if ($canViewResult): ?>
+            <?php require 'includes/patient_form_c.php'; ?><hr>
+            <?php if ($isUpdateResultAval): ?>
+                <?php require 'includes/patient_form_d.php'; ?><hr>
+            <?php endif; ?>
+        <?php endif; ?>
+            
+        <p align="center"><button name="Submit2" type="submit" class="btn btn-primary">ตกลง</button></p>
     </form>
 
 <?php endif; ?>
