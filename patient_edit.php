@@ -9,14 +9,65 @@ $conn = require 'includes/db.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //var_dump($_POST);
+    var_dump($_POST);
     //die();
+    //
     if (isset($_POST['status'])) {
+        echo "save status";
         if (Patient::updateStatus($conn, $_GET['id'], $_POST['status'])) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
         }
+    }
+
+
+
+    if (isset($_POST['save'])) {
+        echo "save";
+        $patient= new Patient();
+        //Get Specific Row from Table
+        if (isset($_GET['id'])) {
+            $patient = Patient::getByID($conn, $_GET['id']);
+        } else {
+            $patient = null;
+        }
+
+        isset($_POST['pnum']) ? $patient->pnum = $_POST['pnum'] : null;
+        isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : null;
+        isset($_POST['pname']) ? $patient->pname = $_POST['pname'] : null;
+        isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : null;
+        isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : null;
+        isset($_POST['pedge']) ? $patient->pedge = $_POST['pedge'] : null;
+        isset($_POST['import_date']) ? $patient->import_date = $_POST['import_date'] : null;
+        isset($_POST['report_date']) ? $patient->report_date = $_POST['report_date'] : null;
+        isset($_POST['status_id']) ? $patient->status_id = $_POST['status_id'] : null;
+        isset($_POST['priority_id']) ? $patient->priority_id = $_POST['priority_id'] : null;
+        isset($_POST['phospital_id']) ? $patient->phospital_id = $_POST['phospital_id'] : null;
+        isset($_POST['phospital_num']) ? $patient->phospital_num = $_POST['phospital_num'] : null;
+        isset($_POST['ppathologist_id']) ? $patient->ppathologist_id = $_POST['ppathologist_id'] : null;
+        isset($_POST['pspecimen_id']) ? $patient->pspecimen_id = $_POST['pspecimen_id'] : null;
+        isset($_POST['pclinician_id']) ? $patient->pclinician_id = $_POST['pclinician_id'] : null;
+        isset($_POST['ppathologist2_id']) ? $patient->ppathologist2_id = $_POST['ppathologist2_id'] : null;
+        isset($_POST['p_cross_section_id']) ? $patient->p_cross_section_id = $_POST['p_cross_section_id'] : null;
+        isset($_POST['p_cross_section_ass_id']) ? $patient->p_cross_section_ass_id = $_POST['p_cross_section_ass_id'] : null;
+        isset($_POST['p_slide_prep_id']) ? $patient->p_slide_prep_id = $_POST['p_slide_prep_id'] : null;
+        isset($_POST['p_slide_prep_sp_id']) ? $patient->p_slide_prep_sp_id = $_POST['p_slide_prep_sp_id'] : null;
+        isset($_POST['pprice']) ? $patient->pprice = $_POST['pprice'] : null;
+        isset($_POST['pspprice']) ? $patient->pspprice = $_POST['pspprice'] : null;
+        isset($_POST['p_rs_specimen']) ? $patient->p_rs_specimen = $_POST['p_rs_specimen'] : null;
+        isset($_POST['p_rs_clinical_diag']) ? $patient->p_rs_clinical_diag = $_POST['p_rs_clinical_diag'] : null;
+        isset($_POST['p_rs_gross_desc']) ? $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc'] : null;
+        isset($_POST['p_rs_microscopic_desc']) ? $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'] : null;
+        isset($_POST['p_rs_diagnosis']) ? $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis'] : null;
+        isset($_POST['p_uresult_id']) ? $patient->p_uresult_id = $_POST['p_uresult_id'] : null;
+
+        if ($patient->update($conn, $_GET['id'])) {
+            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+        } else {
+            echo '<script>alert("Add user fail. Please verify again")</script>';
+        }
+        $patient = NULL;
     }
 }
 
@@ -29,9 +80,7 @@ if (isset($_GET['id'])) {
     $patient = null;
 }
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);s
-
 //$patientLists = Patient::getAll($conn);
-
 //Get List of Table
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
@@ -44,7 +93,7 @@ $statusLists = Status::getAll($conn);
 
 
 
-
+//Prepare Status
 $curstatus = Status::getAll($conn, $patient[0]['status_id']);
 
 if (isset($curstatus[0]['back2'])) {
@@ -83,16 +132,13 @@ if (isset($curstatus[0]['next2'])) {
 //$next1status = Status::getAll($conn, $curstatus[0]['next1']);
 //$next2status = Status::getAll($conn, $curstatus[0]['next2']);
 //$statusLists = Status::getAll($conn);
-
 //var_dump($curstatus);
 //var_dump($back2status);
 //var_dump($back1status);
 //var_dump($next1status);
 //var_dump($next2status);
-
 //var_dump($patient);
 //var_dump($statusLists);
-
 //disable by group
 $canViewPatientInfo = Auth::canViewPatientInfo();
 $isDisableEditPatientInfo = Auth::isDisableEditPatientInfo();
@@ -109,7 +155,6 @@ $isDisableEditResult = Auth::isDisableEditPatientResult();
 //disable by field
 $isHideResult = false;
 $isStatusDisableEdit = true;
-
 ?>
 
 <?php require 'includes/header.php'; ?>
@@ -134,8 +179,8 @@ $isStatusDisableEdit = true;
                 <?php require 'includes/patient_form_d.php'; ?><hr>
             <?php endif; ?>
         <?php endif; ?>
-            
-        <p align="center"><button name="Submit2" type="submit" class="btn btn-primary">ตกลง</button></p>
+
+        <p align="center"><button name="save" type="submit" class="btn btn-primary">Save</button></p>
     </form>
 
 <?php endif; ?>

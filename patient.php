@@ -4,7 +4,7 @@ require 'includes/init.php';
 $conn = require 'includes/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST);
+    //var_dump($_POST);
 
 
     $patient = new Patient();
@@ -42,7 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 //$patients = Patient::getInit();
 
-$patientLists = Patient::getAllJoin($conn);
+//$patientLists = Patient::getAllJoin($conn);
+
+//Ternary Operator
+$paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1  ,10,Patient::getTotal($conn));
+
+$patientLists = Patient::getPage($conn,$paginator->limit,$paginator->offset);
 
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
@@ -52,7 +57,7 @@ $prioritys = Priority::getAll($conn);
 
 //var_dump($patients);
 
-var_dump($patientLists);
+//var_dump($patientLists);
 //var_dump($Specimens);
 //var_dump($clinicians);
 //var_dump($users);
@@ -118,6 +123,7 @@ var_dump($patientLists);
 
     </tbody>
 </table>
+<?php require 'includes/pagination.php';?>
 
 <?php endif; ?>
 

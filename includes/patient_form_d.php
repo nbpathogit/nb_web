@@ -6,16 +6,16 @@ $isBorder = false;
 
 
 <div align=""  class="mb-3">
-    <label for="p_rs_diagnosis">ADDENDUM / REVISED</label><br>
-    <textarea name="p_rs_diagnosis" cols="100" rows="5" class="form-control" id="p_rs_diagnosis" <?= $isDisableEditResult ? " disabled readonly " : ""?> >TBD</textarea>
+    <label for="p_rsu_diagnosis">ADDENDUM / REVISED</label><br>
+    <textarea name="p_rsu_diagnosis" cols="100" rows="5" class="form-control" id="p_rs_diagnosis" <?= $isDisableEditResult ? " disabled readonly " : ""?> >TBD</textarea>
 </div>
 
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-6 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
-        <label for="ppathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผลเพิ่มเติม</label>
+        <label for="ppathologist_u_id" class="col-form-label">พยาธิแพทย์ผู้ออกผลเพิ่มเติม</label>
 
-        <select name="ppathologist_id" class="form-select" <?= $isDisableEditResult ? " disabled readonly " : "" ?> >
+        <select name="ppathologist_u_id" class="form-select" <?= $isDisableEditResult ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userPathos as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>

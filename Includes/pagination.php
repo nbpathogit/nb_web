@@ -16,5 +16,12 @@
                 Next
             <?php endif; ?>      
         </li>
+        <li>
+            current is page number <?= $paginator->cur_page; ?> from total <?= $paginator->total_page; ?> page.
+        </li>
+        <li>
+            From total <?= $paginator->total_records; ?> record. 
+            
+        </li>
     </ul>
 </nav>

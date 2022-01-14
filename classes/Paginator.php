@@ -30,6 +30,12 @@ class Paginator
     * @var integer
     */
     public $next;
+    
+    public $cur_page;
+    
+    public $total_page;
+    
+    public $total_records;
 
     /**
     * Constructor
@@ -41,6 +47,8 @@ class Paginator
     */
     public function __construct($page, $records_per_page,$total_records){
         $this->limit = $records_per_page;
+        $this->cur_page = $page;
+        $this->total_records = $total_records;
         // filter_ver not support in PHP8
         // $page=filter_ver($page, FILTER_VALIDATE_INT,
         //     ['options' => [
@@ -54,7 +62,7 @@ class Paginator
         }
 
         $total_page = ceil($total_records / $records_per_page); // ceil is round up
-        
+        $this->total_page = $total_page;
         if($page< $total_page){
             $this->next= $page + 1;
         }

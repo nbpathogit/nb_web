@@ -58,6 +58,37 @@ class Patient {
      */
     public $errors = [];
 
+    public static function getTotal($conn, $user_group = "*") {
+        return $conn->query("SELECT COUNT(*) FROM patient")->fetchColumn();
+    }
+
+    public static function getPage($conn, $limit, $offset) {
+
+        $sql = "SELECT * ,p.id as pid
+                FROM patient as p
+                JOIN user as u
+                JOIN hospital as h
+                JOIN priority as pri
+                JOIN status as s
+                WHERE p.ppathologist_id = u.id
+                and p.phospital_id = h.id
+                and p.priority_id = pri.id
+                and p.status_id = s.id
+                ORDER BY  p.id DESC
+                
+
+                LIMIT :limit
+                OFFSET :offset";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /**
      * Get all the articles
      *
@@ -95,7 +126,8 @@ class Patient {
                 WHERE p.ppathologist_id = u.id
                 and p.phospital_id = h.id
                 and p.priority_id = pri.id
-                and p.status_id = s.id";
+                and p.status_id = s.id
+                ORDER BY  p.id DESC;";
 
         if ($id != 0) {
             $sql = $sql . " and p.id = " . $id;
@@ -113,7 +145,7 @@ class Patient {
      * $param integer $id article ID
      * @param String $columns Optional list of columns foe thr select, defaults to *
      *
-     * @return mixed An object of this class, or null if not found
+     * @return An object of this class, or null if not found
      */
     public static function getByID($conn, $id, $columns = '*') {
         $sql = "SELECT $columns
@@ -157,7 +189,6 @@ class Patient {
         $stmt->bindValue(':import_date', $this->import_date, PDO::PARAM_STR);
         $stmt->bindValue(':report_date', $this->report_date, PDO::PARAM_STR);
 //        $stmt->bindValue(':status', $this->status, PDO::PARAM_STR);
-
         //                            `status_id` = '3000',   
         $stmt->bindValue(':status_id', $this->status_id, PDO::PARAM_INT);
 
@@ -260,42 +291,42 @@ class Patient {
     public function update($conn, $id) {
 
         $sql = "UPDATE `patient` 
-                 SET `pnum` = :pnum,                     
-                    `plabnum` = :plabnum,                
-                    `pname` = :pname,                    
-                    `pgender` = :pgender,                
-                    `plastname` = :plastname,            
-                    `pedge` = :pedge,                    
-                    `import_date` = :import_date,        
-                    `report_date` = :report_date,        
-//                    `status` = :status',                 
-                    `status_id` = '3000',                
-                    `priority_id` = :priority_id,               
-                    `phospital_id` = :phospital_id,             
-                    `phospital_num` = :phospital_num,           
-                    `ppathologist_id` = :ppathologist_id,       
-                    `pspecimen_id` = :pspecimen_id,             
-                    `pclinician_id` = :pclinician_id,           
-                    `ppathologist2_id` = '1',            
-                    `p_cross_section_id` = '1',          
-                    `p_cross_section_ass_id` = '1',      
-                    `p_slide_prep_id` = '1',             
-                    `p_slide_prep_sp_id` = '1',          
-                    `pprice` = :pprice,                  
-                    `pspprice` = :pspprice,
-                    `p_rs_specimen` = :p_rs_specimen,
-                    `p_rs_clinical_diag` = :p_rs_clinical_diag,
-                    `p_rs_gross_desc` = :p_rs_gross_desc,
-                    `p_rs_microscopic_desc` = :p_rs_microscopic_desc,
-                    `p_rs_diagnosis` =   :p_rs_diagnosis,
-                    `p_uresult_id` = '1' 
+                 SET pnum=:pnum,
+                    plabnum=:plabnum,
+                    pname=:pname,
+                    pgender=:pgender,
+                    plastname=:plastname,
+                    pedge=:pedge,
+                    import_date=:import_date,
+                    report_date=:report_date,
+                    status_id=:status_id,
+                    priority_id=:priority_id,
+                    phospital_id=:phospital_id,
+                    phospital_num=:phospital_num,
+                    ppathologist_id=:ppathologist_id,
+                    pspecimen_id=:pspecimen_id,
+                    pclinician_id=:pclinician_id,
+                    ppathologist2_id=:ppathologist2_id,
+                    p_cross_section_id=:p_cross_section_id,
+                    p_cross_section_ass_id=:p_cross_section_ass_id,
+                    p_slide_prep_id=:p_slide_prep_id,
+                    p_slide_prep_sp_id=:p_slide_prep_sp_id,
+                    pprice=:pprice,
+                    pspprice=:pspprice,
+                    p_rs_specimen=:p_rs_specimen,
+                    p_rs_clinical_diag=:p_rs_clinical_diag,
+                    p_rs_gross_desc=:p_rs_gross_desc,
+                    p_rs_microscopic_desc=:p_rs_microscopic_desc,
+                    p_rs_diagnosis=:p_rs_diagnosis,
+                    p_uresult_id=:p_uresult_id
                     
-                    WHERE `patient`.`id` = 21";
+                    WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
+        
 
         //var_dump( $this->name);
-
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
         $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
         $stmt->bindValue(':pname', $this->pname, PDO::PARAM_STR);
@@ -304,28 +335,17 @@ class Patient {
         $stmt->bindValue(':pedge', $this->pedge, PDO::PARAM_STR);
         $stmt->bindValue(':import_date', $this->import_date, PDO::PARAM_STR);
         $stmt->bindValue(':report_date', $this->report_date, PDO::PARAM_STR);
-//        $stmt->bindValue(':status', $this->status, PDO::PARAM_STR);
-
-        //                            `status_id` = '3000',   
         $stmt->bindValue(':status_id', $this->status_id, PDO::PARAM_INT);
-
-
         $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
         $stmt->bindValue(':phospital_id', $this->phospital_id, PDO::PARAM_INT);
         $stmt->bindValue(':phospital_num', $this->phospital_num, PDO::PARAM_STR);
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_INT);
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_INT);
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_INT);
-
-//                    `ppathologist2_id` = '1', 
         $stmt->bindValue(':ppathologist2_id', $this->ppathologist2_id, PDO::PARAM_INT);
-//                    `p_cross_section_id` = '1',  
         $stmt->bindValue(':p_cross_section_id', $this->p_cross_section_id, PDO::PARAM_INT);
-//                    `p_cross_section_ass_id` = '1',  
         $stmt->bindValue(':p_cross_section_ass_id', $this->p_cross_section_ass_id, PDO::PARAM_INT);
-//                    `p_slide_prep_id` = '1',       
         $stmt->bindValue(':p_slide_prep_id', $this->p_slide_prep_id, PDO::PARAM_INT);
-
         $stmt->bindValue(':p_slide_prep_sp_id', $this->p_slide_prep_sp_id, PDO::PARAM_INT);
         $stmt->bindValue(':pprice', $this->pprice, PDO::PARAM_STR);
         $stmt->bindValue(':pspprice', $this->pspprice, PDO::PARAM_STR);
@@ -335,14 +355,13 @@ class Patient {
         $stmt->bindValue(':p_rs_microscopic_desc', $this->p_rs_microscopic_desc, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_diagnosis', $this->p_rs_diagnosis, PDO::PARAM_STR);
         $stmt->bindValue(':p_uresult_id', $this->p_uresult_id, PDO::PARAM_INT);
-//         WHERE `patient`.`id` = 21";
-        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
 
 
-        //var_dump($stmt);
 
+        var_dump($stmt);
+//die();
         if ($stmt->execute()) {
-            $this->id = $conn->lastInsertId();
+//            $this->id = $conn->lastInsertId();
             return true;
         } else {
             return false;
