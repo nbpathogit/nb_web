@@ -1,0 +1,71 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 15, 2022, 11:55:11 AM
+    Author     : 2444536
+*/
+
+
+
+.completed {
+    background: url("/png/box_complete.png") no-repeat center center;
+}
+
+.current {
+    font-weight: bold;
+    background: url("/png/box_current.png") no-repeat center center;
+}
+
+.held {
+    background: url("/png/box_held.png") no-repeat center center;
+}
+
+.expand {
+    background-image: url("/png/expand.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+    cursor: pointer;
+    padding-left: 15px;
+}
+
+table.workflow_diagram {
+    margin: 10px 0 10px 50px;
+    width: 0px;
+}
+
+
+
+
+/*div.container {
+    margin: 0 10px;
+}*/
+
+/*.item_workflow {
+    overflow: auto;
+    margin: 0 -10px;
+}*/
+
+/*.container h3 {
+    margin: 0 0 20px 0 !important;
+    line-height: 22px;
+}*/
+
+td.state {
+    color: #000;
+    width: 120px;
+    max-width: 160px;
+    min-width: 110px;
+    height: 50px;
+    text-align: center;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+td.diagram_arrow {
+    width: 22px;
+    min-width: 22px;
+    background: url("/png/arrow_right.png") no-repeat right center;
+}

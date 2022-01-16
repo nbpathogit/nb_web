@@ -2,6 +2,15 @@
  * Send links of class "delete" via post after a confirm dialog
  */
 
+$(document).ready(function () {
+    // executes when HTML-Document is loaded and DOM is ready
+    //alert("document is ready");
+    $("#lodingstatus").remove();
+    $( "#mainpage" ).show();
+});
+
+
+
 $("a.delete").on("click", function (e) {
     e.preventDefault();
 
@@ -80,7 +89,7 @@ $.validator.addMethod("selectd", function (value, element) {
 
 $("#formAddPatient").validate({
     rules: {
-        
+
         //==========  a  =============
         //เลขที่ผู้ป่วย
         pnum: {
@@ -107,89 +116,89 @@ $("#formAddPatient").validate({
             required: true
         },
         //อายุ
-        pedge:{
+        pedge: {
             required: true
         },
         //เลขที่โรงพยาบาล
-        phospital_num:        {
+        phospital_num: {
             required: true
         },
         //โรงพยาบาล
-        phospital_id:  {
+        phospital_id: {
             selectd: true
         },
         //แพทย์ผู้ส่ง
         pclinician_id: {
-           selectd: true
+            selectd: true
         },
         //สิ่งส่งตรวจ
-        uspecimen_id:{
+        uspecimen_id: {
             selectd: true
         },
         //ความสำคัญ
         priority_id: {
-           selectd: true
+            selectd: true
         },
-        
-         //==========  b  =============
-         //สถานะ
+
+        //==========  b  =============
+        //สถานะ
         status_id: {
-           selectd: true
+            selectd: true
         },
         //พนักงานตัดเนื้อ
-        p_cross_section_id:{
+        p_cross_section_id: {
             selectd: true
         },
         //พนักงานผู้ช่วยตัดเนื้อ
-        p_cross_section_ass_id:{
+        p_cross_section_ass_id: {
             selectd: true
         },
         //พนักงานเตรียมสไลด์
-       
-        p_slide_prep_id:{
+
+        p_slide_prep_id: {
             selectd: true
         },
         //ราคาค่าตรวจ(บาท)
-        pprice:{
+        pprice: {
             required: true
         },
         //พนักงานเตรียมไลด์พิเศษ
-        p_slide_prep_sp_id:{
+        p_slide_prep_sp_id: {
             selectd: true
         },
         //ราคาค่าตรวจพิเศษ(บาท)
-        pspprice:{
+        pspprice: {
             required: true
         },
         //==========  c  =============
-        
+
         //พยาธิแพทย์ผู้ออกผล
-        ppathologist_id:{
+        ppathologist_id: {
             selectd: true
         },
-        
+
         //พยาธิแพทย์คอนเฟิร์มผล
-        ppathologist2_id:{
+        ppathologist2_id: {
             selectd: true
         },
-        
+
         //วันที่รายงานผล
-        report_date:{
+        report_date: {
             required: true
         },
         //==========  c  =============
         //ผลการตรวจ(เพิ่มเติม)
-        p_rs_diagnosis:{
+        p_rs_diagnosis: {
             required: true
         }
-    } 
-    
+    }
+
 });
 
 
 $("#formEditPatient").validate({
     rules: {
-        
+
         //==========  a  =============
         //เลขที่ผู้ป่วย
         pnum: {
@@ -216,84 +225,89 @@ $("#formEditPatient").validate({
             required: true
         },
         //อายุ
-        pedge:{
+        pedge: {
             required: true
         },
         //เลขที่โรงพยาบาล
-        phospital_num:        {
+        phospital_num: {
             required: true
         },
         //โรงพยาบาล
-        phospital_id:  {
+        phospital_id: {
             selectd: true
         },
         //แพทย์ผู้ส่ง
         pclinician_id: {
-           selectd: true
+            selectd: true
         },
         //สิ่งส่งตรวจ
-        uspecimen_id:{
+        uspecimen_id: {
             selectd: true
         },
         //ความสำคัญ
         priority_id: {
-           selectd: true
+            selectd: true
         },
-        
-         //==========  b  =============
-         //สถานะ
+
+        //==========  b  =============
+        //สถานะ
         status_id: {
-           selectd: true
+            selectd: true
         },
         //พนักงานตัดเนื้อ
-        p_cross_section_id:{
+        p_cross_section_id: {
             selectd: true
         },
         //พนักงานผู้ช่วยตัดเนื้อ
-        p_cross_section_ass_id:{
+        p_cross_section_ass_id: {
             selectd: true
         },
         //พนักงานเตรียมสไลด์
-       
-        p_slide_prep_id:{
+
+        p_slide_prep_id: {
             selectd: true
         },
         //ราคาค่าตรวจ(บาท)
-        pprice:{
+        pprice: {
             required: true
         },
         //พนักงานเตรียมไลด์พิเศษ
-        p_slide_prep_sp_id:{
+        p_slide_prep_sp_id: {
             selectd: true
         },
         //ราคาค่าตรวจพิเศษ(บาท)
-        pspprice:{
+        pspprice: {
             required: true
         },
         //==========  c  =============
-        
+
         //พยาธิแพทย์ผู้ออกผล
-        ppathologist_id:{
+        ppathologist_id: {
             selectd: true
         },
-        
+
         //พยาธิแพทย์คอนเฟิร์มผล
-        ppathologist2_id:{
+        ppathologist2_id: {
             selectd: true
         },
-        
+
         //วันที่รายงานผล
-        report_date:{
+        report_date: {
             required: true
         },
         //==========  c  =============
         //ผลการตรวจ(เพิ่มเติม)
-        p_rs_diagnosis:{
+        p_rs_diagnosis: {
             required: true
         }
     }
-    
-    
-    
-    
+
+
+
+
 });
+
+//function myHide(){
+//    document.getElementById('mainpage').style.display = 'block';//content ที่ต้องการแสดงหลังจากเพจโหลดเสร็จ
+//    document.getElementById('lodingstatus').style.display = 'none';//content ที่ต้องการแสดงระหว่างโหลดเพจ
+//}

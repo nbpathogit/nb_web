@@ -21,3 +21,56 @@
     </div>
 </form>
 <!--array(1) { [0]=> array(6) { ["id"]=> string(4) "2000" ["des"]=> string(21) "รับเข้า" ["net1"]=> string(4) "3000" ["next2"]=> string(5) "12000" ["back1"]=> NULL ["back2"]=> NULL } }-->
+
+
+
+	<table id="WorkflowDiagramTable" class="workflow_diagram" cellspacing="0" cellpadding="0">
+	<tbody>
+		<!-- First row in workflow diagram with the main workflow -->
+		<tr>
+
+			<td colspan="50" class="completed state">รอรับเข้า</td>
+
+			<input type="hidden" name="WflCurStateId" value="CRB / Impact Assessment">
+
+			<td class="diagram_arrow">&nbsp;</td>
+
+			<td colspan="7" class="completed state">รับเข้า</td>
+
+			<input type="hidden" name="WflCurStateId" value="CRB / Impact Assessment">
+
+			<td class="diagram_arrow">&nbsp;</td>
+
+			<td colspan="14" class="current state">เตรียมชิ้นเนื้อ(ศัลยพยาธิ)</td>
+
+			<input type="hidden" name="WflCurStateId" value="CRB / Impact Assessment">
+
+			<td class="diagram_arrow">&nbsp;</td>
+
+			<td colspan="7" class="held nohover state">เตรียมสไลด์&nbsp;(จุลพยาธิวิทยา)</td>
+
+			<input type="hidden" name="WflCurStateId" value="CRB / Impact Assessment">
+
+			<td class="diagram_arrow">&nbsp;</td>
+
+			<td colspan="7" class="held nohover state">อ่านไสลด์วินิจฉัย</td>
+
+			<input type="hidden" name="WflCurStateId" value="CRB / Impact Assessment">
+
+			<td class="diagram_arrow">&nbsp;</td>
+
+			<td colspan="7" class="held nohover state">แพทย์คนที่สองคอนเฟิร์ม</td>
+
+			<input type="hidden" name="WflCurStateId" value="CRB / Impact Assessment">
+
+			<td class="diagram_arrow">&nbsp;</td>
+
+			<td colspan="7" class="held nohover state">ออกผล</td>
+
+			<input type="hidden" name="WflCurStateId" value="CRB / Impact Assessment">
+
+		</tr>	<!-- end of first row -->
+
+
+	</tbody>
+	</table>
