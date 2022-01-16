@@ -22,10 +22,7 @@ $isBorder = false;
         <label for="" class="">วันที่รับ</label>
         <input name="import_date" class="form-control border" type="date" class="" id="import_date" placeholder="" <?= $isDisableEditPatientInfo ? " disabled readonly " : "" ?> value="<?= $patient[0]['import_date']; ?>">
     </div>
-
-
-
-
+    
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pgender" class="">เพศ</label>
         <div class="col">

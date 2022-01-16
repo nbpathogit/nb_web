@@ -8,11 +8,26 @@ and open the template in the editor.
     Author     : 2444536
 */
 
+.diagram_multiconnector {
+    background: url("/png/multi_connector.png") center center;
+}
 
+.diagram_connector_horizontal {
+    background: url("/png/connector_horizontal.png") no-repeat center center;
+}
+
+.diagram_connector {
+    background: url("/png/connector.png") no-repeat center center;
+}
+
+.diagram_corner {
+    background: url("/png/corner.png") no-repeat center center;
+}
 
 .completed {
     background: url("/png/box_complete.png") no-repeat center center;
 }
+
 
 .current {
     font-weight: bold;
@@ -21,6 +36,12 @@ and open the template in the editor.
 
 .held {
     background: url("/png/box_held.png") no-repeat center center;
+}
+
+.heldover {
+        text-decoration: underline;
+	cursor: pointer;
+	background: url("/png/box_held_hover.png")  no-repeat  center center;
 }
 
 .expand {

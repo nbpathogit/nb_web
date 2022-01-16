@@ -6,24 +6,43 @@ $(document).ready(function () {
     // executes when HTML-Document is loaded and DOM is ready
     //alert("document is ready");
     $("#lodingstatus").remove();
-    $( "#mainpage" ).show();
+    $("#mainpage").show();
+
+//    $('#import_date').datepicker().datepicker('setDate', 'today');
+
+    var myDate = new Date(2000, 11, 31);
+    $('#import_date').datepicker({dateFormat: 'mm/dd/yyyy'});
+    $('#import_date').datepicker('setDate', myDate);
 });
 
 
+$( "#move3000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move3000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
 
-$("a.delete").on("click", function (e) {
+$("#move3000").on("click", function (e) {
     e.preventDefault();
 
-    if (confirm("Are you sure?")) {
-        //alert('delete the article');
+//    if (confirm("Are you sure?")) {
+//        alert('delete the article');
+//        var frm = $('#formflow');
         var frm = $("<form>");
         frm.attr('method', 'post');
-        frm.attr('action', $(this).attr('href'));
+        frm.attr('')
+
+//        frm.attr('action', "3000");
+
+        frm.append('<input type="hidden" name="status" value="3000" /> ');
         frm.appendTo("body");
         frm.submit();
-    }
+//    }
 
 });
+
+
 
 $.validator.addMethod("dateTime", function (value, element) {
     return (value == "") || !isNaN(Date.parse(value));
@@ -311,3 +330,11 @@ $("#formEditPatient").validate({
 //    document.getElementById('mainpage').style.display = 'block';//content ที่ต้องการแสดงหลังจากเพจโหลดเสร็จ
 //    document.getElementById('lodingstatus').style.display = 'none';//content ที่ต้องการแสดงระหว่างโหลดเพจ
 //}
+
+
+
+$('#sandbox-container .input-group.date').datepicker({
+    daysOfWeekHighlighted: "1,2,3,4,5",
+    todayHighlight: true
+});
+
