@@ -81,6 +81,31 @@ $isBorder = true;
 
                 <td colspan="7" class="held state" >แลปเซลล์วิทยา</td>
 
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_corner_right_up_arrow">&nbsp;</td>             
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+
             </tr>
             <!-- end of second row -->
 

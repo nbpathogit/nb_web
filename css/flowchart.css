@@ -24,6 +24,10 @@ and open the template in the editor.
     background: url("/png/corner.png") no-repeat center center;
 }
 
+.diagram_corner_right_up_arrow {
+    background: url("/png/corner_button_right_arrow_up.png") no-repeat center center;
+}
+
 .completed {
     background: url("/png/box_complete.png") no-repeat center center;
 }
@@ -86,6 +90,12 @@ td.state {
 }
 
 td.diagram_arrow {
+    width: 22px;
+    min-width: 22px;
+    background: url("/png/arrow_right.png") no-repeat right center;
+}
+
+td.diagram_connector_right {
     width: 22px;
     min-width: 22px;
     background: url("/png/arrow_right.png") no-repeat right center;
