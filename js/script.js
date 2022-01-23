@@ -16,31 +16,164 @@ $(document).ready(function () {
 });
 
 
+//รอรับเข้า 1000
+$( "#move1000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move1000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move1000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="1000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+//รับเข้า 2000
+$( "#move2000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move2000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move2000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="2000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+//เตรียมชิ้นเนื้อ 3000
 $( "#move3000" ).on("mouseover",function(e) {
   $(this).addClass( "heldover" );
 });
 $( "#move3000" ).on("mouseout",function(e) {
   $(this).removeClass( "heldover" );
 });
-
 $("#move3000").on("click", function (e) {
     e.preventDefault();
-
-//    if (confirm("Are you sure?")) {
-//        alert('delete the article');
-//        var frm = $('#formflow');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
-
-//        frm.attr('action', "3000");
-
         frm.append('<input type="hidden" name="status" value="3000" /> ');
         frm.appendTo("body");
         frm.submit();
-//    }
-
 });
+
+
+
+//เตรียมสไลด์ 6000
+$( "#move6000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move6000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move6000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="6000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+//เตรียมชิ้นเนื้อพิเศษ 8000
+$( "#move8000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move8000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move8000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="8000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+
+//แลปเซลล์วิทยา 10000
+$( "#move10000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move10000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move10000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="10000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+//วินิจฉัย(คอนเฟิร์ม) 13000
+$( "#move13000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move13000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move13000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="13000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+//วินิจฉัย12000
+$( "#move12000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move12000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move12000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="12000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+//ออกผล<br>20000</td>
+$( "#move20000" ).on("mouseover",function(e) {
+  $(this).addClass( "heldover" );
+});
+$( "#move20000" ).on("mouseout",function(e) {
+  $(this).removeClass( "heldover" );
+});
+$("#move20000").on("click", function (e) {
+    e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="20000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+});
+
+
+
 
 
 

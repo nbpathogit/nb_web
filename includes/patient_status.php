@@ -33,19 +33,21 @@ $isBorder = true;
         <tbody>
             <!-- First row in workflow diagram with the main workflow -->
             <tr border="1">
-                <td colspan="7" id="move1000" class=" <?= ($curstatus['0']["id"] == 1000) ? "current" : "held" ?> state">รอรับเข้า</td>
+                <!--รอรับเข้า 1000-->
+                <td colspan="7" id="move1000" class=" <?= ($curstatus['0']["id"] == 1000) ? "current" : "held" ?> state">รอรับเข้า<br>1000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7" id="move2000" class=" <?= ($curstatus['0']["id"] == 2000) ? "current" : "held" ?> state">รับเข้า</td>
+                <td colspan="7" id="move2000" class=" <?= ($curstatus['0']["id"] == 2000) ? "current" : "held" ?> state">รับเข้k<br>2000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7" id="move3000" class="<?= ($curstatus['0']["id"] == 3000) ? "current" : "held" ?> state">เตรียมชิ้นเนื้อ(ศัลยพยาธิ)</td>
+                <td colspan="7" id="move3000" class="<?= ($curstatus['0']["id"] == 3000) ? "current" : "held" ?> state">เตรียมชิ้นเนื้อ<br>3000</td>
+                
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7" id="move6000" class="<?= ($curstatus['0']["id"] == 6000) ? "current" : "held" ?> state">เตรียมสไลด์&nbsp;(จุลพยาธิวิทยา)</td>
+                <td colspan="7" id="move6000" class="<?= ($curstatus['0']["id"] == 6000) ? "current" : "held" ?> state">เตรียมสไลด์<br>6000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7" id="move12000" class="<?= ($curstatus['0']["id"] == 12000) ? "current" : "held" ?> state">อ่านไสลด์&nbsp;วินิจฉัย</td>
+                <td colspan="7" id="move12000" class="<?= ($curstatus['0']["id"] == 12000) ? "current" : "held" ?> state">วินิจฉัย<br>12000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7" id="move13000" class="<?= ($curstatus['0']["id"] == 13000) ? "current" : "held" ?> state">แพทย์คนที่สองคอนเฟิร์ม</td>
+                <td colspan="7" id="move13000" class="<?= ($curstatus['0']["id"] == 13000) ? "current" : "held" ?> state">วินิจฉัย(คอนเฟิร์ม)<br>13000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7" id="move20000" class="<?= ($curstatus['0']["id"] == 20000) ? "completed" : "held" ?> state">ออกผล</td>
+                <td colspan="7" id="move20000" class="<?= ($curstatus['0']["id"] == 20000) ? "completed" : "held" ?> state">ออกผล<br>20000</td>
             </tr>	<!-- end of first row -->
 
             <tr>
@@ -79,7 +81,7 @@ $isBorder = true;
 
                 <td class="diagram_arrow">&nbsp;</td>
 
-                <td colspan="7" class="held state" >แลปเซลล์วิทยา</td>
+                <td colspan="7" id="move8000" class="<?= ($curstatus['0']["id"] == 8000) ? "completed" : "held" ?> state" >เตรียมชิ้นเนื้อ<br>พิเศษ8000</td>
 
                 <td class="diagram_connector_horizontal">&nbsp;</td>
 
@@ -108,6 +110,52 @@ $isBorder = true;
 
             </tr>
             <!-- end of second row -->
+            
+            <!-- Third row in workflow diagram -->
+            <tr>
+                <td colspan="7"></td>
+
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td class="diagram_corner">&nbsp;</td>
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td class="diagram_arrow">&nbsp;</td>
+
+                <td colspan="7" id="move10000" class="<?= ($curstatus['0']["id"] == 10000) ? "completed" : "held" ?> state">แลปเซลล์วิทยา<br>10000</td>
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+
+
+
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_connector_horizontal">&nbsp;</td>
+                <td class="diagram_corner_right_up_arrow">&nbsp;</td>             
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+
+            </tr>
+            <!-- end of third row -->
 
 
         </tbody>
