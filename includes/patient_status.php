@@ -27,10 +27,10 @@ $isBorder = FALSE;
 <h4 align="center"><b>สถานะงาน</b></h4>
 <form  id="" name="" method="post">
     <div align="center">
-        <button name="status" class="btn btn-warning" disabled><b> สถานะปัจจุบัน :  <?= $curstatus['0']["des"] ?> </b> </button>
-    </div>
-    <div align="center">
-        <b> เปลี่ยนสถานะไปเป็น >>  </b>
+        <button name="status" class="btn btn-warning" disabled><b> สถานะงานปัจจุบัน :  <?= $curstatus['0']["des"] ?> </b> </button>
+<!--    </div>
+    <div align="center">-->
+        <b> &nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปลี่ยนสถานะไปเป็น >> </b>
 
         <?php if ($back2status != null) { ?>
             <button name="status" value="<?= $back2status['0']["id"] ?>" class="btn btn-secondary" ><b> <?= $back2status['0']["des"] ?>  </b> </button>
@@ -50,14 +50,90 @@ $isBorder = FALSE;
         <?php } ?>
     </div>
 </form>
+<hr>
 
-<br>
+<h4 align="center"><b>ไดอแกรม แสดงสถานะงาน</b></h4>
 
 <form id="formflow">
 
     <table id="flowtab1" class="flowtab1" cellspacing="0" cellpadding="0" >
         <!--<tbody>-->
-        <!-- First row in workflow diagram with the main workflow -->
+        
+        <!-- First row in workflow diagram -->
+        <tr>
+            <td colspan="7" ></td>
+
+            <td>&nbsp;</td>
+
+            <td colspan="7" ></td>
+
+            <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+
+            <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+
+            <td>&nbsp;</td>
+
+            <td colspan="7"  tabindex="8000" id="keep8000" class="<?= ($curstatus['0']["id"] == 8000) ? "current" : "held" ?> state" >เตรียมชิ้นเนื้อ<br>พิเศษ8000</td>
+            
+            <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+            
+            <td>&nbsp;</td>
+            
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="diagram_connector"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+
+
+        </tr>
+        <!-- end of first row -->
+        
+        <tr>
+            <td colspan="7"></td>
+
+            <td>&nbsp;</td>
+
+            <td colspan="7"></td>
+            
+            <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+
+            <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+
+            <td>&nbsp;</td>
+           
+            <td colspan="7" class="diagram_arrow_u_d"></td>
+            
+            <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+            
+            <td>&nbsp;</td>
+
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="diagram_arrow_u"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+
+        </tr>
+
+        
+        <!-- Second row in workflow diagram with the main workflow -->
         <tr border="1">
             <!--รอรับเข้า 1000-->
             <td colspan="7" tabindex="1000" id="keep1000" class=" <?= ($curstatus['0']["id"] == 1000) ? "current" : "held" ?> state">รอรับเข้า<br>1000</td>
@@ -74,68 +150,56 @@ $isBorder = FALSE;
             <td colspan="7"  tabindex="13000" id="keep13000" class="<?= ($curstatus['0']["id"] == 13000) ? "current" : "held" ?> state">วินิจฉัย(คอนเฟิร์ม)<br>13000</td>
             <td class="diagram_arrow">&nbsp;</td>
             <td colspan="7"  tabindex="20000" id="keep20000" class="<?= ($curstatus['0']["id"] == 20000) ? "completed" : "held" ?> state">ออกผล<br>20000</td>
-        </tr>	<!-- end of first row -->
+        </tr>	<!-- end of Second row -->
 
         <tr>
             <td colspan="7"></td>
 
             <td>&nbsp;</td>
 
-            <td style="border:1px">&nbsp;</td>
-            <td style="border:1px">&nbsp;</td>
-            <td style="border:1px">&nbsp;</td>
-            <td class="diagram_connector">&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-
-        </tr>
-
-        <!-- Second row in workflow diagram -->
-        <tr>
+            <td class="diagram_connector"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            
+            <td>&nbsp;</td>
+            
             <td colspan="7"></td>
 
             <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+
+            <td>&nbsp;</td>
+           
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td colspan="" class="diagram_arrow_u"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            
+            <td>&nbsp;</td>
+            
+            <td colspan="7"></td>
+            
+            <td>&nbsp;</td>
 
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td class="diagram_corner">&nbsp;</td>
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td class="diagram_arrow">&nbsp;</td>
-
-            <td colspan="7"  tabindex="8000" id="keep8000" class="<?= ($curstatus['0']["id"] == 8000) ? "current" : "held" ?> state" >เตรียมชิ้นเนื้อ<br>พิเศษ8000</td>
-
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-
-
-
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-            <td class="diagram_corner_right_up_arrow">&nbsp;</td>             
+            <td class="diagram_arrow_u"></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-
 
         </tr>
-        <!-- end of second row -->
+
+        
 
         <!-- Third row in workflow diagram -->
         <tr>
@@ -161,20 +225,10 @@ $isBorder = FALSE;
 
             <td class="diagram_connector_horizontal">&nbsp;</td>
 
-            <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td colspan="7" class="diagram_connector_horizontal">&nbsp;</td>
-
-            <td class="diagram_connector_horizontal">&nbsp;</td>
-
-
-
             <td class="diagram_connector_horizontal">&nbsp;</td>
             <td class="diagram_connector_horizontal">&nbsp;</td>
             <td class="diagram_connector_horizontal">&nbsp;</td>
-            <td class="diagram_corner_right_up_arrow">&nbsp;</td>             
+            <td class="diagram_corner_right_up">&nbsp;</td>             
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>

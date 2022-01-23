@@ -8,6 +8,14 @@ and open the template in the editor.
     Author     : 2444536
 */
 
+.diagram_arrow_u_d {
+    background: url("/png/arrow_up_down.png") no-repeat  center center;
+}
+
+.diagram_arrow_u {
+    background: url("/png/arrow_up.png") no-repeat  center top;
+}
+
 .diagram_multiconnector {
     background: url("/png/multi_connector.png") center center;
 }
@@ -22,6 +30,10 @@ and open the template in the editor.
 
 .diagram_corner {
     background: url("/png/corner.png") no-repeat center center;
+}
+
+.diagram_corner_right_up {
+    background: url("/png/corner_button_right.png") no-repeat center center;
 }
 
 .diagram_corner_right_up_arrow {
