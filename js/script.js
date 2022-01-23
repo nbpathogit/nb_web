@@ -1,175 +1,232 @@
 /**
  * Send links of class "delete" via post after a confirm dialog
  */
-
-$(document).ready(function () {
-    // executes when HTML-Document is loaded and DOM is ready
-    //alert("document is ready");
-    $("#lodingstatus").remove();
-    $("#mainpage").show();
-
-//    $('#import_date').datepicker().datepicker('setDate', 'today');
-
-    var myDate = new Date(2000, 11, 31);
-    $('#import_date').datepicker({dateFormat: 'mm/dd/yyyy'});
-    $('#import_date').datepicker('setDate', myDate);
-});
-
+function addAction2Flow() {
+    
 
 //รอรับเข้า 1000
-$( "#move1000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move1000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move1000").on("click", function (e) {
-    e.preventDefault();
+    $("#move1000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move1000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move1000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="1000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 //รับเข้า 2000
-$( "#move2000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move2000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move2000").on("click", function (e) {
-    e.preventDefault();
+    $("#move2000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move2000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move2000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="2000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 //เตรียมชิ้นเนื้อ 3000
-$( "#move3000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move3000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move3000").on("click", function (e) {
-    e.preventDefault();
+    $("#move3000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move3000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move3000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="3000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 
 
 //เตรียมสไลด์ 6000
-$( "#move6000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move6000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move6000").on("click", function (e) {
-    e.preventDefault();
+    $("#move6000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move6000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move6000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="6000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 //เตรียมชิ้นเนื้อพิเศษ 8000
-$( "#move8000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move8000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move8000").on("click", function (e) {
-    e.preventDefault();
+    $("#move8000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move8000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move8000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="8000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 
 //แลปเซลล์วิทยา 10000
-$( "#move10000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move10000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move10000").on("click", function (e) {
-    e.preventDefault();
+    $("#move10000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move10000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move10000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="10000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 //วินิจฉัย(คอนเฟิร์ม) 13000
-$( "#move13000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move13000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move13000").on("click", function (e) {
-    e.preventDefault();
+    $("#move13000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move13000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move13000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="13000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 //วินิจฉัย12000
-$( "#move12000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move12000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move12000").on("click", function (e) {
-    e.preventDefault();
+    $("#move12000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move12000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move12000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="12000" /> ');
         frm.appendTo("body");
         frm.submit();
-});
+    });
 
 //ออกผล<br>20000</td>
-$( "#move20000" ).on("mouseover",function(e) {
-  $(this).addClass( "heldover" );
-});
-$( "#move20000" ).on("mouseout",function(e) {
-  $(this).removeClass( "heldover" );
-});
-$("#move20000").on("click", function (e) {
-    e.preventDefault();
+    $("#move20000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move20000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move20000").on("click", function (e) {
+        e.preventDefault();
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('')
         frm.append('<input type="hidden" name="status" value="20000" /> ');
         frm.appendTo("body");
         frm.submit();
+    });
+
+
+}
+
+$(document).ready(function () {
+    // executes when HTML-Document is loaded and DOM is ready
+//    alert("document is ready " + '<?=$back1id?>');
+    
+    $("#lodingstatus").remove();
+    $("#mainpage").show();
+
+//    $('#import_date').datepicker().datepicker('setDate', 'today');
+
+//    var myDate = new Date(2000, 11, 31);
+//    $('#import_date').datepicker({dateFormat: 'mm/dd/yyyy'});
+//    $('#import_date').datepicker('setDate', myDate);
+
+
+    $('#flowtab1 tr').each(function () {
+        $(this).find('td').each(function (index) {
+            var flowtabl_td = $(this);
+            $('.movelist li').each(function (index) {
+                if (flowtabl_td.attr('tabindex') == $(this).attr('tabindex')) {
+
+                    if ($(this).attr('tabindex') == "1000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep1000").attr("id", "move1000");
+                    }
+                    if ($(this).attr('tabindex') == "2000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep2000").attr("id", "move2000");
+                    }
+                    if ($(this).attr('tabindex') == "3000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep3000").attr("id", "move3000");
+                    }
+                    if ($(this).attr('tabindex') == "6000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep6000").attr("id", "move6000");
+                    }
+                    if ($(this).attr('tabindex') == "8000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep8000").attr("id", "move8000");
+                    }
+                    if ($(this).attr('tabindex') == "10000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep10000").attr("id", "move10000");
+                    }
+                    if ($(this).attr('tabindex') == "12000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep12000").attr("id", "move12000");
+                    }
+                    if ($(this).attr('tabindex') == "13000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep13000").attr("id", "move13000");
+                    }
+                    if ($(this).attr('tabindex') == "20000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep20000").attr("id", "move20000");
+                    }
+                }
+            });
+        })
+    });
+
+
+
+    addAction2Flow()
 });
 
 
@@ -466,8 +523,8 @@ $("#formEditPatient").validate({
 
 
 
-$('#sandbox-container .input-group.date').datepicker({
-    daysOfWeekHighlighted: "1,2,3,4,5",
-    todayHighlight: true
-});
+//$('#sandbox-container .input-group.date').datepicker({
+//    daysOfWeekHighlighted: "1,2,3,4,5",
+//    todayHighlight: true
+//});
 

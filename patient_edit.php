@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['save'])) {
         echo "save";
-        $patient= new Patient();
+        $patient = new Patient();
         //Get Specific Row from Table
         if (isset($_GET['id'])) {
             $patient = Patient::getByID($conn, $_GET['id']);
@@ -95,7 +95,7 @@ $statusLists = Status::getAll($conn);
 
 //Prepare Status
 $curstatus = Status::getAll($conn, $patient[0]['status_id']);
-
+//var_dump($curstatus);
 if (isset($curstatus[0]['back2'])) {
     //echo "back2 is set";
     $back2status = Status::getAll($conn, $curstatus[0]['back2']);
@@ -126,6 +126,14 @@ if (isset($curstatus[0]['next2'])) {
 } else {
     //echo "next2 is Null";
     $next2status = null;
+}
+
+if (isset($curstatus[0]['next3'])) {
+    //echo "next3 is set";
+    $next3status = Status::getAll($conn, $curstatus[0]['next3']);
+} else {
+    //echo "next3 is Null";
+    $next3status = null;
 }
 
 //$back1status = Status::getAll($conn, $curstatus[0]['back1']);
