@@ -45,20 +45,7 @@
                     <!--<li class="nav-item"><a class="nav-link px-2 link-dark" href="/">หน้าหลัก</a></li>-->
 
                     <?php if (Auth::isLoggedIn()) : ?>
-                        <li class="nav-item dropdown">
-                            <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="user.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">ข้อมูลผู้ใช้ระบบ</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a></li>
-                                <li><a class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a></li>
-                            </ul>
-                        </li>
 
-                        <li class="nav-item dropdown">
-                            <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="hospital.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">ข้อมูลโรงพยาบาล</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="hospital_add.php">เพิ่มโรงพยาบาล</a></li>
-                            </ul>
-                        </li>
 
                         <li class="nav-item dropdown">
                             <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="patient.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">ข้อมูลผู้รักษาและผลการรักษา</a>
@@ -68,10 +55,21 @@
                                 <li><a class="dropdown-item" href="patient_edit_result.php">แก้ไขผลการรักษา</a></li>
                             </ul>
                         </li>
-
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="">พิมพ์ข้อมูล</a></li>
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="">Billing</a></li>
-                        <li class="nav-item"><a class="nav-link px-2 link-dark" href="">ข้อมูลการใช้งานระบบ</a></li>
+                        
+                        <li class="nav-item dropdown">
+                            <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">จัดการข้อมูลด้านต่างๆ</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="user.php">เพิ่มผู้ใช้งานระบบ</a></li>
+                                <li><a class="dropdown-item" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a></li>
+                                <li><a class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a></li>
+                                <li><a class="dropdown-item" href="hospital.php">ข้อมูลโรงพยาบาล</a></li>
+                                <li><a class="dropdown-item" href="hospital_add.php">เพิ่มโรงพยาบาล</a></li>
+                                
+                                <li><a class="dropdown-item" href="hospital_add.php">พิมพ์ข้อมูล</a></li>
+                                <li><a class="dropdown-item" href="hospital_add.php">Billing</a></li>
+                                <li><a class="dropdown-item" href="hospital_add.php">ข้อมูลการใช้งานระบบ</a></li>
+                            </ul>
+                        </li>
 
                     <?php endif; ?>
 
