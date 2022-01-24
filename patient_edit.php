@@ -163,6 +163,7 @@ $isDisableEditResult = Auth::isDisableEditPatientResult();
 //disable by field
 $isHideResult = false;
 $isStatusDisableEdit = true;
+$isDisableSpecialSlide = false;
 ?>
 
 <?php require 'includes/header.php'; ?>
