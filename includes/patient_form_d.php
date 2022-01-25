@@ -7,7 +7,7 @@ $isBorder = false;
 
 <div align=""  class="mb-3">
     <label for="p_rsu_diagnosis">ADDENDUM / REVISED</label><br>
-    <textarea name="p_rsu_diagnosis" cols="100" rows="5" class="form-control" id="p_rs_diagnosis" <?= $isDisableEditResult ? " disabled readonly " : ""?> >TBD</textarea>
+    <textarea name="p_rsu_diagnosis" cols="100" rows="5" class="form-control" id="p_rs_diagnosis" <?= $modePageEditDisable ||  $isDisableEditResult ? " disabled readonly " : ""?> >TBD</textarea>
 </div>
 
 <div class="row <?= $isBorder ? "border" : "" ?>">
@@ -15,7 +15,7 @@ $isBorder = false;
 
         <label for="ppathologist_u_id" class="col-form-label">พยาธิแพทย์ผู้ออกผลเพิ่มเติม</label>
 
-        <select name="ppathologist_u_id" class="form-select" <?= $isDisableEditResult ? " disabled readonly " : "" ?> >
+        <select name="ppathologist_u_id" class="form-select" <?= $modePageEditDisable ||  $isDisableEditResult ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userPathos as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -31,7 +31,9 @@ $isBorder = false;
     <div class="col-xl-6 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
         <label for="report_date" class="form-label">วันที่รายงานผลเพิ่มเติม</label>
-        <input name="report_date"  type="date" class="form-control" id="report_date" <?= $isDisableEditResult ? " disabled readonly " : "" ?> value="<?= $patient[0]['report_date']; ?>">
+        <input name="report_date"  type="date" class="form-control" id="report_date" <?= $modePageEditDisable ||  $isDisableEditResult ? " disabled readonly " : "" ?> value="<?= $patient[0]['report_date']; ?>">
 
     </div>
 </div>
+
+<hr>

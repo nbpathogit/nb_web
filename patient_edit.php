@@ -7,11 +7,16 @@ Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 
+// true = Disable Edit page, false canEditPage
+$modePageEditDisable = true;
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     var_dump($_POST);
     //die();
     //
+    
+    //Save only field status
     if (isset($_POST['status'])) {
         echo "save status";
         if (Patient::updateStatus($conn, $_GET['id'], $_POST['status'])) {
@@ -22,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-
+    //Save all page
     if (isset($_POST['save'])) {
         echo "save";
         $patient = new Patient();
@@ -68,6 +73,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<script>alert("Add user fail. Please verify again")</script>';
         }
         $patient = NULL;
+    }
+
+    //Move to edit mode
+    if (isset($_POST['edit'])) {
+        // true = Disable Edit page, false canEditPage
+        $modePageEditDisable = false;
     }
 }
 
@@ -172,24 +183,31 @@ $isDisableSpecialSlide = false;
     You are not login.
 <?php else: ?>
 
-    <?php require 'includes/patient_status.php'; ?><hr>
+    <?php require 'includes/patient_status.php'; ?>
 
     <form  id="" name="" method="post">
+        <?php if ($modePageEditDisable): ?>
+            <p align="center"><button name="edit" type="submit" class="btn btn-primary">Edit</button></p>
+        <?php else: ?>
 
+        <?php endif; ?>
         <?php if ($canViewPatientInfo): ?>
-            <?php require 'includes/patient_form_a.php'; ?><hr>
+            <?php require 'includes/patient_form_a.php'; ?>
         <?php endif; ?>
         <?php if ($canViewNBCenter): ?>
-            <?php require 'includes/patient_form_b.php'; ?><hr>
+            <?php require 'includes/patient_form_b.php'; ?>
         <?php endif; ?>
         <?php if ($canViewResult): ?>
-            <?php require 'includes/patient_form_c.php'; ?><hr>
+            <?php require 'includes/patient_form_c.php'; ?>
             <?php if ($isUpdateResultAval): ?>
-                <?php require 'includes/patient_form_d.php'; ?><hr>
+                <?php require 'includes/patient_form_d.php'; ?>
             <?php endif; ?>
         <?php endif; ?>
-
-        <p align="center"><button name="save" type="submit" class="btn btn-primary">Save</button></p>
+        <?php if ($modePageEditDisable): ?>
+            <p align="center"><button name="edit" type="submit" class="btn btn-primary">Edit</button></p>
+        <?php else: ?>
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">Save</button></p>
+        <?php endif; ?>
     </form>
 
 <?php endif; ?>

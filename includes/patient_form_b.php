@@ -8,7 +8,7 @@ $isBorder = false;
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for=""  class="form-label">สถานะ</label>
-        <select name="status_id" class="form-select" <?= $isDisableEditNBCenter || $isStatusDisableEdit ? " disabled readonly " : "" ?>>
+        <select name="status_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter || $isStatusDisableEdit ? " disabled readonly " : "" ?>>
             <?php foreach ($statusLists as $status): ?>
                 <option value="<?= $status['id']; ?>" <?= $patient[0]['status_id'] == $status['id'] ? "selected" : ""; ?>   ><?= htmlspecialchars($status['des']); ?></option>
             <?php endforeach; ?>
@@ -20,7 +20,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_cross_section_id"  class="form-label">พนักงานตัดเนื้อ</label>
 
-        <select name="p_cross_section_id" class="form-select" <?= $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
+        <select name="p_cross_section_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -36,7 +36,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_cross_section_ass_id"  class="form-label">พนักงานผู้ช่วยตัดเนื้อ</label>
-        <select name="p_cross_section_ass_id" class="form-select" <?= $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
+        <select name="p_cross_section_ass_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -52,7 +52,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_slide_prep_id" class="form-label">พนักงานเตรียมสไลด์</label>
-        <select name="p_slide_prep_id" class="form-select" <?= $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
+        <select name="p_slide_prep_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -69,7 +69,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="" class="form-label">ราคาค่าตรวจ(บาท)</label>
-        <input name="pprice" type="text" class="form-control" id="pprice"  <?= $isDisableEditNBCenter ? " disabled readonly " : "" ?> value="<?= $patient[0]['pprice']; ?>"   >
+        <input name="pprice" type="text" class="form-control" id="pprice"  <?= $modePageEditDisable || $isDisableEditNBCenter ? " disabled readonly " : "" ?> value="<?= $patient[0]['pprice']; ?>"   >
     </div>
 </div>
 
@@ -78,7 +78,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_slide_prep_sp_id" class="form-label" >พนักงานเตรียมไลด์พิเศษ</label>
 
-        <select name="p_slide_prep_sp_id" class="form-select" <?= $isDisableEditNBCenter || $isDisableSpecialSlide ? " disabled readonly " : "" ?> >
+        <select name="p_slide_prep_sp_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter || $isDisableSpecialSlide ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -94,7 +94,9 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="pspprice" class="form-label">ราคาค่าตรวจพิเศษ(บาท)</label>
-        <input name="pspprice" type="text" class="form-control" id="pspprice"  <?= $isDisableEditNBCenter || $isDisableSpecialSlide  ? " disabled readonly " : "" ?>  value="<?= $patient[0]['pspprice']; ?>"  >
+        <input name="pspprice" type="text" class="form-control" id="pspprice"  <?= $modePageEditDisable || $isDisableEditNBCenter || $isDisableSpecialSlide  ? " disabled readonly " : "" ?>  value="<?= $patient[0]['pspprice']; ?>"  >
     </div>
 
 </div>
+
+<hr>

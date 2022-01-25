@@ -56,6 +56,10 @@ $statusLists = Status::getAll($conn);
 //var_dump($status);
 
 
+// true = Disable Edit page, false canEditPage
+$modePageEditDisable = false;
+
+
 $canViewPatientInfo = Auth::canViewPatientInfo();
 $isDisableEditPatientInfo = true;
 

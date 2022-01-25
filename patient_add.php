@@ -9,6 +9,9 @@ if(!Auth::isLoggedIn()){
 }else{
 
 }
+
+
+
 $patientini = Patient::getInit();
 //var_dump($patientini);
 //die();
@@ -101,6 +104,9 @@ $statusLists = Status::getAll($conn);
 //var_dump($userTechnic);
 //var_dump($status);
 
+// true = Disable Edit page, false canEditPage
+$modePageEditDisable = false;
+
 //disable by group
 $canViewPatientInfo = Auth::canViewPatientInfo();
 $isDisableEditPatientInfo = Auth::isDisableEditPatientInfo();
@@ -111,7 +117,6 @@ $isDisableEditNBCenter = Auth::isDisableEditNBCenter();
 
 $canViewResult = Auth::canViewPatientResult();
 $isDisableEditResult = Auth::isDisableEditPatientResult();
-
 
 //disable by field
 $isHideResult = true;

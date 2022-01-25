@@ -94,8 +94,8 @@ $prioritys = Priority::getAll($conn);
             <td><div align="center">วันที่รายงาน</div></td>
             <td><div align="center">สถานะ</div></td>
             <td><div align="center"><p>ความสำคัญ</p></div></td>
-            <td><div align="center">ราย<br>ละเอียด</div></td>
-            <td><div align="center">แก้ไข</div></td>
+            <!--<td><div align="center">ราย<br>ละเอียด</div></td>-->
+            <td><div align="center">แก้ไข/ราย<br>ละเอียด</div></td>
             <td><div align="center">รายงาน<br>(pdf)</div></td>
             <td><div align="center">ลบ</div></td>
         </tr>
@@ -114,8 +114,8 @@ $prioritys = Priority::getAll($conn);
                 <td><div align="center"><?= $patient['report_date']; ?></div></td>
                 <td><div align="center"><?= $patient['des']; ?></div></td>
                 <td><div align="center"><?= $patient['priority']; ?></div></td>
-                <td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>
-                <td><div align="center"><a href="patient_edit.php?id=<?= $patient['pid']; ?>">Edit</a></div></td>
+                <!--<td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>-->
+                <td><div align="center"><a href="patient_edit.php?id=<?= $patient['pid']; ?>">Detail/Edit</a></div></td>
                 <td><div align="center"><a target ="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>">view</a></div></td>
                 <td><div align="center"><a href="patient_del.php?id=<?= $patient['pid']; ?>">Delete</a></div></td>
             </tr>
