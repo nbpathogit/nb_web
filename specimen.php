@@ -7,7 +7,8 @@ $conn = require 'includes/db.php';
 
 // $specimens = Specimen::getAll($conn);
 
-$paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1  ,20,Specimen::getTotal($conn));
+$paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1  ,30,Specimen::getTotal($conn));
+// var_dump($paginator);
 $specimens = Specimen::getPage($conn,$paginator->limit,$paginator->offset);
 ?>
 

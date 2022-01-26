@@ -49,7 +49,7 @@ class Specimen
     }
 
     public static function getTotal($conn) {
-        return $conn->query("SELECT COUNT(*) FROM user")->fetchColumn();
+        return $conn->query("SELECT COUNT(*) FROM specimen_list")->fetchColumn();
     }
 
     public static function getPage($conn, $limit, $offset) {
