@@ -59,12 +59,20 @@
                         <li class="nav-item dropdown">
                             <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">จัดการข้อมูลด้านต่างๆ</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="user.php">เพิ่มผู้ใช้งานระบบ</a></li>
+                            <li><h6 class="dropdown-header">ผู้ใช้งาน</h6></li>
+                                <li><a class="dropdown-item" href="user.php">ผู้ใช้งานระบบ</a></li>
                                 <li><a class="dropdown-item" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a></li>
                                 <li><a class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">สิ่งส่งตรวจ</h6></li>
+                                <li><a class="dropdown-item" href="specimen.php">ข้อมูลสิ่งส่งตรวจ</a></li>
+                                <li><a class="dropdown-item" href="specimen_add.php">เพิ่มสิ่งส่งตรวจ</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">โรงพยาบาล</h6></li>
                                 <li><a class="dropdown-item" href="hospital.php">ข้อมูลโรงพยาบาล</a></li>
                                 <li><a class="dropdown-item" href="hospital_add.php">เพิ่มโรงพยาบาล</a></li>
-                                
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">อื่นๆ</h6></li>
                                 <li><a class="dropdown-item" href="hospital_add.php">พิมพ์ข้อมูล</a></li>
                                 <li><a class="dropdown-item" href="hospital_add.php">Billing</a></li>
                                 <li><a class="dropdown-item" href="hospital_add.php">ข้อมูลการใช้งานระบบ</a></li>
