@@ -8,6 +8,12 @@ $isBorder = false;
 <!-- Content here -->
 
 <div class="row <?= $isBorder ? "border" : "" ?>">
+
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label for="" class="">รับเข้าเมื่อวันที่</label>
+        <input name="date_1000" class="form-control border" type="text" class="" id="date_1000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_1000']; ?>">
+    </div>
+
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="pnum" align="right" class="">เลขที่ผู้ป่วย</label>
         <input name="pnum" type="text" id="pnum" class="form-control" placeholder=""  <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>  value="<?= $patient[0]['pnum']; ?>">
@@ -18,11 +24,8 @@ $isBorder = false;
         <input name="plabnum" type="text" class="form-control border" id="plabnum" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?> value="<?= $patient[0]['plabnum']; ?>">
     </div>
 
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="" class="">วันที่รับ</label>
-        <input name="date_1000" class="form-control border" type="text" class="" id="date_1000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_1000']; ?>">
-    </div>
-    
+
+
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pgender" class="">เพศ</label>
         <div class="col">
@@ -93,7 +96,7 @@ $isBorder = false;
             <?php endforeach; ?>
         </select>
     </div>
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">ความสำคัญ</label>
         <select name="priority_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
             <?php foreach ($prioritys as $priority): ?>
@@ -104,5 +107,5 @@ $isBorder = false;
     </div>
 </div>
 
-<hr>
+
 

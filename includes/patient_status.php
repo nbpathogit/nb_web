@@ -27,7 +27,7 @@ $isBorder = FALSE;
 <h4 align="center"><b>สถานะงาน</b></h4>
 <form  id="" name="" method="post">
     <div align="center">
-         สถานะงานปัจจุบัน : 
+        สถานะงานปัจจุบัน : 
         <button name="status" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
         <!--    </div>
             <div align="center">-->
@@ -57,9 +57,10 @@ $isBorder = FALSE;
 
     </div>
 </form>
-<hr>
+
 
 <?php if ($modePageEditDisable) : ?>
+    <hr>
     <h4 align="center"><b>ไดอแกรม แสดงสถานะงาน</b></h4>
 
     <form id="formflow">
@@ -90,7 +91,7 @@ $isBorder = FALSE;
                 <td>&nbsp;</td>
 
                 <td colspan="7"></td>
-                
+
                 <td>&nbsp;</td>
 
                 <td colspan="7"  tabindex="14000" id="keep14000" class="<?= ($curstatus['0']["id"] == 14000) ? "current" : "held" ?> state" >ออกผลเพิ่มเติม<br>14000</td>
@@ -238,5 +239,5 @@ $isBorder = FALSE;
             <!--</tbody>-->
         </table>
     </form>
-    <hr>
+
 <?php endif; ?>

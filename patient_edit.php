@@ -12,7 +12,7 @@ $modePageEditDisable = true;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST);
+//    var_dump($_POST);
     //die();
     //
     
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Save all page
     if (isset($_POST['save'])) {
-        
+
         $patient = new Patient();
         //Get Specific Row from Table
         if (isset($_GET['id'])) {
@@ -187,30 +187,14 @@ $isDisableSpecialSlide = false;
 <?php if (!Auth::isLoggedIn()): ?>
     You are not login.
 <?php else: ?>
-
+    <hr noshade="noshade" width="" size="8" >
     <?php require 'includes/patient_status.php'; ?>
 
+    <hr noshade="noshade" width="" size="8" >
     <form  id="" name="" method="post">
-        <?php if ($modePageEditDisable): ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-        <?php else: ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-        <?php endif; ?>
-            
-        <?php if ($canViewPatientInfo): ?>
-            <?php require 'includes/patient_form_a.php'; ?>
-        <?php endif; ?>
-        <?php if ($canViewNBCenter): ?>
-            <?php require 'includes/patient_form_b_1.php'; ?>
-            <?php require 'includes/patient_form_b_2.php'; ?>
-        <?php endif; ?>
-        <?php if ($canViewResult): ?>
-            <?php require 'includes/patient_form_c.php'; ?>
-            <?php if ($isUpdateResultAval): ?>
-                <?php require 'includes/patient_form_d.php'; ?>
-            <?php endif; ?>
-        <?php endif; ?>
-            
+
+        <?php require 'includes/patient_form.php'; ?>
+
         <?php if ($modePageEditDisable): ?>
             <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
         <?php else: ?>

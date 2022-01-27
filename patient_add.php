@@ -134,16 +134,7 @@ $isDisableSpecialSlide = true;
     <?php //require 'includes/patient_status.php';  ?><hr>
 
     <form  id="formAddPatient" class="" name="" method="post">
-        <?php if ($canViewPatientInfo): ?>
-            <?php require 'includes/patient_form_a.php'; ?><hr>
-        <?php endif; ?>
-        <?php if ($canViewNBCenter): ?>
-            <?php require 'includes/patient_form_b.php'; ?><hr>
-        <?php endif; ?>
-        <?php if ($canViewResult): ?>
-            <?php require 'includes/patient_form_c.php'; ?><hr>
-            <?php require 'includes/patient_form_d.php'; ?><hr>
-        <?php endif; ?>
+        <?php require 'includes/patient_form.php'; ?>
 
         <p align="center">
             <!--<button>ตกลง</button>-->
