@@ -90,16 +90,11 @@ $isBorder = FALSE;
                 <td>&nbsp;</td>
 
                 <td colspan="7"></td>
-
+                
                 <td>&nbsp;</td>
 
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td class="diagram_connector"></td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td colspan="7"  tabindex="14000" id="keep14000" class="<?= ($curstatus['0']["id"] == 14000) ? "current" : "held" ?> state" >ออกผลเพิ่มเติม<br>14000</td>
+
 
 
             </tr>
@@ -130,13 +125,7 @@ $isBorder = FALSE;
 
                 <td>&nbsp;</td>
 
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td class="diagram_arrow_u"></td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td colspan="7" class="diagram_arrow_u_d"></td>
 
             </tr>
 
@@ -144,9 +133,9 @@ $isBorder = FALSE;
             <!-- Second row in workflow diagram with the main workflow -->
             <tr border="1">
                 <!--รอรับเข้า 1000-->
-                <td colspan="7" tabindex="1000" id="keep1000" class=" <?= ($curstatus['0']["id"] == 1000) ? "current" : "held" ?> state">รอรับเข้า<br>1000</td>
+                <td colspan="7" tabindex="1000" id="keep1000" class=" <?= ($curstatus['0']["id"] == 1000) ? "current" : "held" ?> state">รับเข้า<br>1000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7"  tabindex="2000" id="keep2000" class=" <?= ($curstatus['0']["id"] == 2000) ? "current" : "held" ?> state">รับเข้า<br>2000</td>
+                <td colspan="7"  tabindex="2000" id="keep2000" class=" <?= ($curstatus['0']["id"] == 2000) ? "current" : "held" ?> state">กำหนดงาน<br>2000</td>
                 <td class="diagram_arrow">&nbsp;</td>
                 <td colspan="7" tabindex="3000" id="keep3000" class="<?= ($curstatus['0']["id"] == 3000) ? "current" : "held" ?> state">เตรียมชิ้นเนื้อ<br>3000</td>
 

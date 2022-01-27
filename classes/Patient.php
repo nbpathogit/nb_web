@@ -317,7 +317,17 @@ class Patient {
                     plastname=:plastname,
                     pedge=:pedge,
                     date_1000=:date_1000,
+                    
+                    date_2000=:date_2000,
+                    date_3000=:date_3000,
+                    date_6000=:date_6000,
+                    date_8000=:date_8000,
+                    date_10000=:date_10000,
+
                     date_12_13_000=:date_12_13_000,
+                    
+                    date_14000=:date_14000,
+
                     status_id=:status_id,
                     priority_id=:priority_id,
                     phospital_id=:phospital_id,

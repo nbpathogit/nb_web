@@ -142,8 +142,26 @@ function addAction2Flow() {
         frm.appendTo("body");
         frm.submit();
     });
+    
+    //ออกผลเพิ่มเติม<br>14000</td>
+    $("#move14000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move14000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move14000").on("click", function (e) {
+        e.preventDefault();
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('')
+        frm.append('<input type="hidden" name="status" value="14000" /> ');
+        frm.appendTo("body");
+        frm.submit();
+    });
 
-//ออกผล<br>20000</td>
+
+    //ออกผล<br>20000</td>
     $("#move20000").on("mouseover", function (e) {
         $(this).addClass("heldover");
     });
@@ -214,6 +232,10 @@ $(document).ready(function () {
                     if ($(this).attr('tabindex') == "13000") {
                         console.log("Set link to " + $(this).attr('tabindex'));
                         $("#keep13000").attr("id", "move13000");
+                    }
+                    if ($(this).attr('tabindex') == "14000") {
+                        console.log("Set link to " + $(this).attr('tabindex'));
+                        $("#keep14000").attr("id", "move14000");
                     }
                     if ($(this).attr('tabindex') == "20000") {
                         console.log("Set link to " + $(this).attr('tabindex'));
