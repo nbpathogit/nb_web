@@ -170,11 +170,11 @@ $(document).ready(function () {
     $("#lodingstatus").remove();
     $("#mainpage").show();
 
-//    $('#import_date').datepicker().datepicker('setDate', 'today');
+//    $('#date_1000').datepicker().datepicker('setDate', 'today');
 
 //    var myDate = new Date(2000, 11, 31);
-//    $('#import_date').datepicker({dateFormat: 'mm/dd/yyyy'});
-//    $('#import_date').datepicker('setDate', myDate);
+//    $('#date_1000').datepicker({dateFormat: 'mm/dd/yyyy'});
+//    $('#date_1000').datepicker('setDate', myDate);
 
 
     $('#flowtab1 tr').each(function () {
@@ -281,7 +281,7 @@ $('#dateInput').datetimepicker({
 //});
 
 
-$('#import_date').on('blur', function () {
+$('#date_1000').on('blur', function () {
 //      if($(this).val().trim().length === 0){
     //$(this).val("01/05/2022");
 //      }
@@ -309,7 +309,7 @@ $("#formAddPatient").validate({
             required: true
         },
         //วันที่รับ
-        import_date: {
+        date_1000: {
             required: true
         },
 //        เพศ
@@ -392,7 +392,7 @@ $("#formAddPatient").validate({
         },
 
         //วันที่รายงานผล
-        report_date: {
+        date_12_13_000: {
             required: true
         },
         //==========  c  =============
@@ -418,7 +418,7 @@ $("#formEditPatient").validate({
             required: true
         },
         //วันที่รับ
-        import_date: {
+        date_1000: {
             required: true
         },
 //        เพศ
@@ -501,7 +501,7 @@ $("#formEditPatient").validate({
         },
 
         //วันที่รายงานผล
-        report_date: {
+        date_12_13_000: {
             required: true
         },
         //==========  c  =============

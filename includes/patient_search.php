@@ -17,7 +17,7 @@
             <option value="patient_name" selected="">ชื่อ</option>
             <option value="patient_surname">นามสกุล</option>
             <option value="patient_receive_date">วันที่รับ</option>
-            <option value="patient_report_date">วันที่ส่ง</option>
+            <option value="patient_date_12_13_000">วันที่ส่ง</option>
         </select>
     </div>
 

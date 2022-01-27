@@ -70,8 +70,8 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
-        <label for="report_date" class="form-label">วันที่รายงานผล</label>
-        <input name="report_date"  type="date" class="form-control" id="report_date" <?= $modePageEditDisable ||  $isDisableEditResult ? " disabled readonly " : "" ?> value="<?= $patient[0]['report_date']; ?>">
+        <label for="date_12_13_000" class="form-label">วันที่รายงานผล</label>
+        <input name="date_12_13_000"  type="date" class="form-control" id="date_12_13_000" <?= $modePageEditDisable ||  $isDisableEditResult ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_12_13_000']; ?>">
 
     </div>
 </div>

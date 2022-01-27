@@ -27,7 +27,8 @@ $isBorder = FALSE;
 <h4 align="center"><b>สถานะงาน</b></h4>
 <form  id="" name="" method="post">
     <div align="center">
-        <button name="status" class="btn btn-warning" disabled><b> สถานะงานปัจจุบัน :  <?= $curstatus['0']["des"] ?> </b> </button>
+         สถานะงานปัจจุบัน : 
+        <button name="status" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
         <!--    </div>
             <div align="center">-->
         <?php if ($modePageEditDisable) : ?> 
@@ -63,7 +64,7 @@ $isBorder = FALSE;
 
     <form id="formflow">
 
-        <table id="flowtab1" class="flowtab1" cellspacing="0" cellpadding="0" >
+        <table id="flowtab1" class="flowtab1" cellspacing="0" cellpadding="0" align="center">
             <!--<tbody>-->
 
             <!-- First row in workflow diagram -->
@@ -248,4 +249,5 @@ $isBorder = FALSE;
             <!--</tbody>-->
         </table>
     </form>
+    <hr>
 <?php endif; ?>

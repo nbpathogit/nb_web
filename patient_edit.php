@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Save only field status
     if (isset($_POST['status'])) {
         echo "save status";
-        if (Patient::updateStatus($conn, $_GET['id'], $_POST['status'])) {
+        if (Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['status'])) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Save all page
     if (isset($_POST['save'])) {
-        echo "save";
+        
         $patient = new Patient();
         //Get Specific Row from Table
         if (isset($_GET['id'])) {
@@ -44,8 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : null;
         isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : null;
         isset($_POST['pedge']) ? $patient->pedge = $_POST['pedge'] : null;
-        isset($_POST['import_date']) ? $patient->import_date = $_POST['import_date'] : null;
-        isset($_POST['report_date']) ? $patient->report_date = $_POST['report_date'] : null;
+        isset($_POST['date_1000']) ? $patient->date_1000 = $_POST['date_1000'] : null;
+        isset($_POST['date_12_13_000']) ? $patient->date_12_13_000 = $_POST['date_12_13_000'] : null;
         isset($_POST['status_id']) ? $patient->status_id = $_POST['status_id'] : null;
         isset($_POST['priority_id']) ? $patient->priority_id = $_POST['priority_id'] : null;
         isset($_POST['phospital_id']) ? $patient->phospital_id = $_POST['phospital_id'] : null;
@@ -79,6 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['edit'])) {
         // true = Disable Edit page, false canEditPage
         $modePageEditDisable = false;
+    }
+    //Move to View only mode
+    if (isset($_POST['discard'])) {
+        // true = Disable Edit page, false canEditPage
+        $modePageEditDisable = true;
     }
 }
 
@@ -187,15 +192,17 @@ $isDisableSpecialSlide = false;
 
     <form  id="" name="" method="post">
         <?php if ($modePageEditDisable): ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary">Edit</button></p>
+            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
         <?php else: ?>
-
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
         <?php endif; ?>
+            
         <?php if ($canViewPatientInfo): ?>
             <?php require 'includes/patient_form_a.php'; ?>
         <?php endif; ?>
         <?php if ($canViewNBCenter): ?>
-            <?php require 'includes/patient_form_b.php'; ?>
+            <?php require 'includes/patient_form_b_1.php'; ?>
+            <?php require 'includes/patient_form_b_2.php'; ?>
         <?php endif; ?>
         <?php if ($canViewResult): ?>
             <?php require 'includes/patient_form_c.php'; ?>
@@ -203,10 +210,11 @@ $isDisableSpecialSlide = false;
                 <?php require 'includes/patient_form_d.php'; ?>
             <?php endif; ?>
         <?php endif; ?>
+            
         <?php if ($modePageEditDisable): ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary">Edit</button></p>
+            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
         <?php else: ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">Save</button></p>
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
         <?php endif; ?>
     </form>
 

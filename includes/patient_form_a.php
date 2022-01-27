@@ -20,7 +20,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">วันที่รับ</label>
-        <input name="import_date" class="form-control border" type="text" class="" id="import_date" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['import_date']; ?>">
+        <input name="date_1000" class="form-control border" type="text" class="" id="date_1000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_1000']; ?>">
     </div>
     
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">

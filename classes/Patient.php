@@ -23,8 +23,8 @@ class Patient {
     public $pgender;
     public $plastname;
     public $pedge;
-    public $import_date;
-    public $report_date;
+    public $date_1000;
+    public $date_12_13_000;
 //    public $status;
     public $status_id;
     public $priority_id;
@@ -172,8 +172,8 @@ class Patient {
      */
     public function create($conn) {
 
-        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`, `import_date`, `report_date`,   `status_id`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`, `ppathologist2_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`, `p_rs_diagnosis`, `p_uresult_id`) "
-                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge, :import_date,  :report_date,     :status_id,    :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id,  :ppathologist2_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,  :p_rs_diagnosis , :p_uresult_id);";
+        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`, `date_1000`, `date_12_13_000`,   `status_id`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`, `ppathologist2_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`, `p_rs_diagnosis`, `p_uresult_id`) "
+                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge, :date_1000,  :date_12_13_000,     :status_id,    :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id,  :ppathologist2_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,  :p_rs_diagnosis , :p_uresult_id);";
 
 
         $stmt = $conn->prepare($sql);
@@ -186,8 +186,8 @@ class Patient {
         $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
         $stmt->bindValue(':plastname', $this->plastname, PDO::PARAM_STR);
         $stmt->bindValue(':pedge', $this->pedge, PDO::PARAM_STR);
-        $stmt->bindValue(':import_date', $this->import_date, PDO::PARAM_STR);
-        $stmt->bindValue(':report_date', $this->report_date, PDO::PARAM_STR);
+        $stmt->bindValue(':date_1000', $this->date_1000, PDO::PARAM_STR);
+        $stmt->bindValue(':date_12_13_000', $this->date_12_13_000, PDO::PARAM_STR);
 //        $stmt->bindValue(':status', $this->status, PDO::PARAM_STR);
         //                            `status_id` = '3000',   
         $stmt->bindValue(':status_id', $this->status_id, PDO::PARAM_INT);
@@ -245,8 +245,8 @@ class Patient {
                 "pgender" => "",
                 "plastname" => "",
                 "pedge" => "",
-                "import_date" => "",
-                "report_date" => "",
+                "date_1000" => "",
+                "date_12_13_000" => "",
                 "status_id" => 1000,
                 "priority_id" => 5,
                 "phospital_id" => 0,
@@ -289,6 +289,23 @@ class Patient {
 
         return $stmt->execute();
     }
+    
+        public static function updateStatusWithMoveDATE($conn, $id, $status_id) {
+        $sql = "UPDATE patient
+                SET status_id = :status_id";
+    
+        
+        if($status_id == 3000) $sql = $sql . ", date_1000 = NOW() ";
+        
+        $sql = $sql . " WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':status_id', $status_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 
     public function update($conn, $id) {
 
@@ -299,8 +316,8 @@ class Patient {
                     pgender=:pgender,
                     plastname=:plastname,
                     pedge=:pedge,
-                    import_date=:import_date,
-                    report_date=:report_date,
+                    date_1000=:date_1000,
+                    date_12_13_000=:date_12_13_000,
                     status_id=:status_id,
                     priority_id=:priority_id,
                     phospital_id=:phospital_id,
@@ -335,8 +352,8 @@ class Patient {
         $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
         $stmt->bindValue(':plastname', $this->plastname, PDO::PARAM_STR);
         $stmt->bindValue(':pedge', $this->pedge, PDO::PARAM_STR);
-        $stmt->bindValue(':import_date', $this->import_date, PDO::PARAM_STR);
-        $stmt->bindValue(':report_date', $this->report_date, PDO::PARAM_STR);
+        $stmt->bindValue(':date_1000', $this->date_1000, PDO::PARAM_STR);
+        $stmt->bindValue(':date_12_13_000', $this->date_12_13_000, PDO::PARAM_STR);
         $stmt->bindValue(':status_id', $this->status_id, PDO::PARAM_INT);
         $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
         $stmt->bindValue(':phospital_id', $this->phospital_id, PDO::PARAM_INT);

@@ -29,9 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['pgender'])         ? $patient->pgender = $_POST['pgender']                : $patient->pgender = $patientini[0]['pgender'];
     isset($_POST['plastname'])       ? $patient->plastname = $_POST['plastname']            : $patient->plastname = $patientini[0]['plastname'];
     isset($_POST['pedge'])           ? $patient->pedge = $_POST['pedge']                    : $patient->pedge = $patientini[0]['pedge'];
-    isset($_POST['import_date'])     ? $patient->import_date = $_POST['import_date']        : $patient->import_date = $patientini[0]['import_date'];
-//    var_dump($patient->import_date);
-    isset($_POST['report_date'])     ? $patient->report_date = $_POST['report_date']        : $patient->report_date = $patientini[0]['report_date'];
+    isset($_POST['date_1000'])     ? $patient->date_1000 = $_POST['date_1000']        : $patient->date_1000 = $patientini[0]['date_1000'];
+//    var_dump($patient->date_1000);
+    isset($_POST['date_12_13_000'])     ? $patient->date_12_13_000 = $_POST['date_12_13_000']        : $patient->date_12_13_000 = $patientini[0]['date_12_13_000'];
 
     
     isset($_POST['status_id'])      ? $patient->status_id = $_POST['status_id']             : $patient->status_id = $patientini[0]['status_id'];

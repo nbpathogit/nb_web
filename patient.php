@@ -14,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $patient->pgender = $_POST['pgender'];
     $patient->plastname = $_POST['plastname'];
     $patient->pedge = $_POST['pedge'];
-    $patient->import_date = $_POST['import_date'];
-    $patient->report_date = $_POST['report_date'];
+    $patient->date_1000 = $_POST['date_1000'];
+    $patient->date_12_13_000 = $_POST['date_12_13_000'];
     $patient->status = $_POST['status'];
     $patient->priority = $_POST['priority'];
     $patient->phospital_id = $_POST['phospital_id'];
@@ -110,8 +110,8 @@ $prioritys = Priority::getAll($conn);
                 <td><div align="center"><?= $patient['plastname']; ?></div></td>
                 <td><div align="center"><?= $patient['hospital']; ?></div></td>
                 <td><div align="center"><?= $patient['name']; ?></div></td>
-                <td><div align="center"><?= $patient['import_date']; ?></div></td>
-                <td><div align="center"><?= $patient['report_date']; ?></div></td>
+                <td><div align="center"><?= $patient['date_1000']; ?></div></td>
+                <td><div align="center"><?= $patient['date_12_13_000']; ?></div></td>
                 <td><div align="center"><?= $patient['des']; ?></div></td>
                 <td><div align="center"><?= $patient['priority']; ?></div></td>
                 <!--<td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>-->
