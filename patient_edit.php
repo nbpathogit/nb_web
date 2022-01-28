@@ -12,8 +12,8 @@ $modePageEditDisable = true;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    var_dump($_POST);
-    //die();
+    var_dump($_POST);
+    die();
     //
     
     //Save only field status

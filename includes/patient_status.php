@@ -3,7 +3,10 @@ $isBorder = FALSE;
 ?>
 
 <!--Write Data to DOM pass value to java script-->
-<ul class="movelist" style="display: none;">>
+<?php if (isset($curstatus[0]['id'])): ?>
+    <li class="cur_status" tabindex="<?= $curstatus[0]['id'] ?>" style="display: none;" > <?= $curstatus[0]['id'] ?> </li>
+<?php endif; ?>
+<ul class="movelist" style="display: none;">
     <?php if (isset($curstatus[0]['back2'])): ?>
         <li tabindex="<?= $curstatus[0]['back2'] ?>"><?= $curstatus[0]['back2'] ?></li>
     <?php endif; ?>
@@ -11,6 +14,9 @@ $isBorder = FALSE;
     <?php if (isset($curstatus[0]['back1'])): ?>
         <li tabindex="<?= $curstatus[0]['back1'] ?>"><?= $curstatus[0]['back1'] ?></li>
     <?php endif; ?>
+
+
+
     <?php if (isset($curstatus[0]['next1'])): ?>
         <li tabindex="<?= $curstatus[0]['next1'] ?>"><?= $curstatus[0]['next1'] ?></li>
     <?php endif; ?>
@@ -52,7 +58,8 @@ $isBorder = FALSE;
 
             <?php if ($next3status != null) : ?> 
                 <button name="status" value="<?= $next3status['0']["id"] ?>"class="btn btn-secondary" ><b> <?= $next3status['0']["des"] ?> </b> </button>
-            <?php endif; ?>
+            <?php endif; ?>y
+            <input type="hidden" name="cur_status" value="<?= $curstatus[0]['id'] ?>" />;
         <?php endif; ?>
 
     </div>
