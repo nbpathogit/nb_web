@@ -12,14 +12,30 @@ $modePageEditDisable = true;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST);
-    die();
+//    var_dump($_POST);
+//    die();
     //
     
     //Save only field status
     if (isset($_POST['status'])) {
         echo "save status";
-        if (Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['status'])) {
+        if($_POST['cur_status']==1000){}
+        if($_POST['cur_status']==2000){}
+        if($_POST['cur_status']==3000){}
+        if($_POST['cur_status']==6000){}
+        if($_POST['cur_status']==8000){}
+        if($_POST['cur_status']==10000){}
+        if($_POST['cur_status']==12000){}
+        if($_POST['cur_status']==13000){}
+        if($_POST['cur_status']==14000){}
+        if($_POST['cur_status']==20000){}
+        
+        
+        
+        
+        
+        
+        if (Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'])) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
@@ -95,6 +111,7 @@ if (isset($_GET['id'])) {
 } else {
     $patient = null;
 }
+//var_dump($patient);
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);s
 //$patientLists = Patient::getAll($conn);
 //Get List of Table

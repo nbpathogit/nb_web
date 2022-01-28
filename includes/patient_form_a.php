@@ -105,7 +105,20 @@ $isBorder = false;
             <?php endforeach; ?>
         </select>
     </div>
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label class="form-label" for="status">สถานะ</label>
+        <!--$patient[0]['status_id']-->
+        <select name="status_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+            <?php foreach ($statusLists as $status): ?>
+                <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
+                <option value="<?= htmlspecialchars($status['id']); ?>"  <?= $patient[0]['status_id'] == $status['id'] ? "selected" : ""; ?> ><?= htmlspecialchars($status['des']); ?></option>
+            <?php endforeach; ?>
+        </select>     
+    </div>
+
 </div>
+
+
 
 
 

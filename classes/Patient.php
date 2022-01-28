@@ -290,19 +290,21 @@ class Patient {
         return $stmt->execute();
     }
     
-        public static function updateStatusWithMoveDATE($conn, $id, $status_id) {
+        public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id,$next_status_id) {
         $sql = "UPDATE patient
                 SET status_id = :status_id";
-    
         
-        if($status_id == 3000) $sql = $sql . ", date_1000 = NOW() ";
+        //Update current status as finished date.
+        if($cur_status_id > 0) {
+            $sql = $sql . ", date_".$cur_status_id." = NOW() ";
+        }
         
         $sql = $sql . " WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':status_id', $status_id, PDO::PARAM_INT);
+        $stmt->bindValue(':status_id', $next_status_id, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
