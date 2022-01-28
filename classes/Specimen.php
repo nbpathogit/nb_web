@@ -48,11 +48,13 @@ class Specimen
         }
     }
 
-    public static function getTotal($conn) {
+    public static function getTotal($conn)
+    {
         return $conn->query("SELECT COUNT(*) FROM specimen_list")->fetchColumn();
     }
 
-    public static function getPage($conn, $limit, $offset) {
+    public static function getPage($conn, $limit, $offset)
+    {
 
         $sql = "SELECT *
                 FROM specimen_list
@@ -66,5 +68,37 @@ class Specimen
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getByID($conn, $id, $columns = '*')
+    {
+        $sql = "SELECT $columns
+                FROM specimen_list
+                WHERE id= :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Specimen');
+
+        if ($stmt->execute()) {
+            return $stmt->fetch();
+        }
+    }
+
+    public function update($conn)
+    {
+
+        $sql = "UPDATE specimen_list
+                    SET specimen = :specimen
+                    WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':specimen', $this->specimen, PDO::PARAM_STR);
+
+        return $stmt->execute();
     }
 }

@@ -26,6 +26,8 @@ $specimens = Specimen::getPage($conn,$paginator->limit,$paginator->offset);
         <tr >
             <th scope="col">#</th>
             <th scope="col">Specimen</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -33,6 +35,8 @@ $specimens = Specimen::getPage($conn,$paginator->limit,$paginator->offset);
             <tr >
                 <th scope="row"><?= $specimen['id']; ?></td>
                 <td><?= $specimen['specimen']; ?></td>
+                <td><a href="specimen_edit.php?id=<?= $specimen['id']; ?>">Edit</a></td>
+                <td><a href="specimen_del.php?id=<?= $specimen['id']; ?>">Delete</a></td>
             </tr>
         <?php endforeach; ?>
         </thead>
