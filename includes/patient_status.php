@@ -1,5 +1,5 @@
 <?php
-$isBorder = FALSE;
+$isBorder = true;
 ?>
 
 <!--Write Data to DOM pass value to java script-->
@@ -58,8 +58,8 @@ $isBorder = FALSE;
 
             <?php if ($next3status != null) : ?> 
                 <button name="status" value="<?= $next3status['0']["id"] ?>"class="btn btn-secondary" ><b> <?= $next3status['0']["des"] ?> </b> </button>
-            <?php endif; ?>y
-            <input type="hidden" name="cur_status" value="<?= $curstatus[0]['id'] ?>" />;
+            <?php endif; ?>
+            <input type="hidden" name="cur_status" value="<?= $curstatus[0]['id'] ?>" />
         <?php endif; ?>
 
     </div>
@@ -246,5 +246,22 @@ $isBorder = FALSE;
             <!--</tbody>-->
         </table>
     </form>
+    <br>
+    <div>
+    <table class="flow_his" align="center">
+        <tr class="flow_his"><th>เสถานะไอดี</th><th class="flow_his">สถานะ</th><th class="flow_his" flow_his>วันที่เสร็จ</th></tr>
+        <tr class="flow_his"><td>1000 </td><td class="flow_his">รับเข้า</td><td class="flow_his"><?= $patient[0]['date_1000']; ?> </td></tr>
+        <tr class="flow_his"><td>2000</td><td class="flow_his">กำหนดงาน</td><td class="flow_his"> <?= $patient[0]['date_2000']; ?> </td></tr>
+        <tr class="flow_his"><td>3000</td><td class="flow_his">เตรียมชิ้นเนื้อ</td><td class="flow_his"><?= $patient[0]['date_3000']; ?> </td></tr>
+        <tr class="flow_his"><td>6000</td><td class="flow_his">เตรียมสไลด์</td><td class="flow_his"><?= $patient[0]['date_6000']; ?> </td></tr>
+        <tr class="flow_his"><td>8000</td><td class="flow_his">เตรียมชิ้นเนื้อพิเศษ</td><td class="flow_his"><?= $patient[0]['date_8000']; ?> </td></tr>
+        <tr class="flow_his"><td>10000</td><td class="flow_his">แลปเซลวิทยา</td><td class="flow_his"><?= $patient[0]['date_10000']; ?> </td></tr>
+        <tr class="flow_his"><td>12000</td><td class="flow_his">วินิจฉัย</td><td class="flow_his"><?= $patient[0]['date_12000']; ?> </td></tr>
+        <tr class="flow_his"><td>13000</td><td class="flow_his">วินิจฉัย(คอนเฟิร์ม)</td><td class="flow_his"><?= $patient[0]['date_13000']; ?> </td></tr>
+        <tr class="flow_his"><td>20000</td><td class="flow_his">ออกผลแล้ว</td><td class="flow_his"><?= $patient[0]['date_20000']; ?> </td></tr>
+        <tr class="flow_his"><td>14000</td><td class="flow_his">ออกผลเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_14000']; ?> </td></tr>
+        
+    </table>
+</div>
 
 <?php endif; ?>

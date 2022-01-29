@@ -5,7 +5,7 @@ and open the template in the editor.
 */
 /* 
     Created on : Jan 15, 2022, 11:55:11 AM
-    Author     : 2444536
+    Author    :
 */
 
 .diagram_arrow_u_d {
@@ -55,9 +55,9 @@ and open the template in the editor.
 }
 
 .heldover {
-        text-decoration: underline;
-	cursor: pointer;
-	background: url("/png/box_held_hover.png")  no-repeat  center center;
+    text-decoration: underline;
+    cursor: pointer;
+    background: url("/png/box_held_hover.png")  no-repeat  center center;
 }
 
 .expand {
@@ -111,4 +111,10 @@ td.diagram_connector_right {
     width: 22px;
     min-width: 22px;
     background: url("/png/arrow_right.png") no-repeat right center;
+}
+
+.flow_his {
+    border:1px solid;
+    font-size: 12px;
+    text-align: center;
 }

@@ -212,6 +212,7 @@ $isDisableSpecialSlide = false;
 
         <?php require 'includes/patient_form.php'; ?>
 
+        <br>
         <?php if ($modePageEditDisable): ?>
             <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
         <?php else: ?>
