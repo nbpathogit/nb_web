@@ -6,7 +6,6 @@ Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 
-
 if (isset($_GET['id'])) {
 
     $specimen = Specimen::getByID($conn, $_GET['id']);
