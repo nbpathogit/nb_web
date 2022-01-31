@@ -290,13 +290,16 @@ class Patient {
         return $stmt->execute();
     }
     
-        public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id,$next_status_id) {
+        public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id,$next_status_id, $isset_date_first_report) {
         $sql = "UPDATE patient
                 SET status_id = :status_id";
         
         //Update current status as finished date.
         if($cur_status_id > 0) {
             $sql = $sql . ", date_".$cur_status_id." = NOW() ";
+        }
+        if($isset_date_first_report == "0" && $next_status_id == "20000"){
+            $sql = $sql . ", date_first_report = NOW() ";
         }
         
         $sql = $sql . " WHERE id = :id";

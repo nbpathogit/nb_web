@@ -113,10 +113,11 @@
     <div class="container">
 
         <!--loading status-->
-        <div class="d-flex justify-content-center" id="lodingstatus" style="display:block;">
-            <div class="spinner-border" role="status" id="lodingstatus" style="display:block;">
-            </div>
-        </div>
+        <!--<div class="d-flex justify-content-center" id="lodingstatus" style="display:block;">-->
+            <!--<div class="spinner-border" role="status" id="lodingstatus" style="display:block;">-->
+            <!--</div>-->
+        <!--</div>-->
 
         <!--Main section. show on loading finished.-->
-        <main id="mainpage" style="display:none;">
+        <!--<main id="mainpage" style="display:none;">-->
+        <main id="mainpage" style="display:show;">

@@ -14,11 +14,13 @@ function addAction2Flow() {
     $("#move1000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="1000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -33,11 +35,13 @@ function addAction2Flow() {
     $("#move2000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="2000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -52,11 +56,13 @@ function addAction2Flow() {
     $("#move3000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="3000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -73,11 +79,13 @@ function addAction2Flow() {
     $("#move6000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="6000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -92,11 +100,13 @@ function addAction2Flow() {
     $("#move8000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="8000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -112,11 +122,13 @@ function addAction2Flow() {
     $("#move10000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="10000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -131,11 +143,13 @@ function addAction2Flow() {
     $("#move13000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="13000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -150,11 +164,13 @@ function addAction2Flow() {
     $("#move12000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="12000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -169,11 +185,13 @@ function addAction2Flow() {
     $("#move14000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="14000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -189,11 +207,13 @@ function addAction2Flow() {
     $("#move20000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="20000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
         frm.appendTo("body");
         frm.submit();
     });
