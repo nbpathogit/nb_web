@@ -8,6 +8,20 @@ and open the template in the editor.
     Author    :
 */
 
+.cur_tab{
+    background-color:gold;
+/*      margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 80px;*/
+    
+/*    padding: 0 15px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: bold;
+    text-height: 40px;*/
+}
+
 .diagram_arrow_u_d {
     background: url("/png/arrow_up_down.png") no-repeat  center center;
 }
@@ -41,23 +55,30 @@ and open the template in the editor.
 }
 
 .completed {
+    color: #000;
     background: url("/png/box_complete.png") no-repeat center center;
 }
 
 
 .current {
+    color: #000;
     font-weight: bold;
     background: url("/png/box_current.png") no-repeat center center;
 }
 
 .held {
+    color: #fff;
     background: url("/png/box_held.png") no-repeat center center;
 }
 
 .heldover {
+    
+    color: #fff;
+    font-weight: bold;
     text-decoration: underline;
     cursor: pointer;
     background: url("/png/box_held_hover.png")  no-repeat  center center;
+
 }
 
 .expand {
@@ -91,7 +112,7 @@ table.workflow_diagram {
 }*/
 
 td.state {
-    color: #000;
+    /*color: #000;*/
     width: 120px;
     max-width: 160px;
     min-width: 110px;

@@ -6,7 +6,7 @@ $isBorder = true;
 <?php if (isset($curstatus[0]['id'])): ?>
     <li class="cur_status" tabindex="<?= $curstatus[0]['id'] ?>" style="display: none;" > <?= $curstatus[0]['id'] ?> </li>
     <li class="isset_date_first_report" tabindex="<?= $isset_date_first_report ?>" style="display: none;" > <?= $isset_date_first_report ?> </li>
-    
+
 <?php endif; ?>
 <ul class="movelist" style="display: none;">
     <?php if (isset($curstatus[0]['back2'])): ?>
@@ -32,39 +32,43 @@ $isBorder = true;
     <?php endif; ?>
 </ul>
 
+
+
+
+
+
 <h4 align="center"><b>สถานะงาน</b></h4>
-<form  id="" name="" method="post">
-    <div align="center">
-        สถานะงานปัจจุบัน : 
-        <button name="status" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
-        <!--    </div>
-            <div align="center">-->
+<span align="center">
+    <form  id="" name="" method="post"> 
+     สถานะงานปัจจุบัน : 
+    <button name="" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
+
         <?php if ($modePageEditDisable) : ?> 
             <b> &nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปลี่ยนสถานะไปเป็น >> </b>
 
             <?php if ($back2status != null) : ?> 
-                <button name="status" value="<?= $back2status['0']["id"] ?>" class="btn btn-secondary" ><b> <?= $back2status['0']["des"] ?> </b> </button>
+                <button name="status" value="<?= $back2status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $back2status['0']["des"] ?> </b> </button>
             <?php endif; ?>
 
             <?php if ($back1status != null) : ?> 
-                <button name="status" value="<?= $back1status['0']["id"] ?>" class="btn btn-secondary" ><b> <?= $back1status['0']["des"] ?> </b>  </button>
+                <button name="status" value="<?= $back1status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $back1status['0']["des"] ?> </b>  </button>
             <?php endif; ?>
 
             <?php if ($next1status != null) : ?> 
-                <button name="status" value="<?= $next1status['0']["id"] ?>" class="btn btn-secondary" ><b> <?= $next1status['0']["des"] ?> </b> </button>
+                <button name="status" value="<?= $next1status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $next1status['0']["des"] ?> </b> </button>
             <?php endif; ?>
 
             <?php if ($next2status != null) : ?> 
-                <button name="status" value="<?= $next2status['0']["id"] ?>"class="btn btn-secondary" ><b> <?= $next2status['0']["des"] ?> </b> </button>
+                <button name="status" value="<?= $next2status['0']["id"] ?>"class="btn btn-primary" ><b> <?= $next2status['0']["des"] ?> </b> </button>
             <?php endif; ?>
 
             <?php if ($next3status != null) : ?> 
-                <button name="status" value="<?= $next3status['0']["id"] ?>"class="btn btn-secondary" ><b> <?= $next3status['0']["des"] ?> </b> </button>
+                <button name="status" value="<?= $next3status['0']["id"] ?>"class="btn btn-primary" ><b> <?= $next3status['0']["des"] ?> </b> </button>
             <?php endif; ?>
             <input type="hidden" name="cur_status" value="<?= $curstatus[0]['id'] ?>" />
         <?php endif; ?>
 
-    </div>
+    </span>
 </form>
 
 
@@ -145,7 +149,7 @@ $isBorder = true;
                 <!--รอรับเข้า 1000-->
                 <td colspan="7" tabindex="1000" id="keep1000" class=" <?= ($curstatus['0']["id"] == 1000) ? "current" : "held" ?> state">รับเข้า<br>1000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7"  tabindex="2000" id="keep2000" class=" <?= ($curstatus['0']["id"] == 2000) ? "current" : "held" ?> state">กำหนดงาน<br>2000</td>
+                <td colspan="7"  tabindex="2000" id="keep2000" class=" <?= ($curstatus['0']["id"] == 2000) ? "current" : "held" ?> state">วางแผนงาน<br>2000</td>
                 <td class="diagram_arrow">&nbsp;</td>
                 <td colspan="7" tabindex="3000" id="keep3000" class="<?= ($curstatus['0']["id"] == 3000) ? "current" : "held" ?> state">เตรียมชิ้นเนื้อ<br>3000</td>
 
@@ -250,21 +254,21 @@ $isBorder = true;
     </form>
     <br>
     <div>
-    <table class="flow_his" align="center">
-        <tr class="flow_his"><th>เสถานะไอดี</th><th class="flow_his">สถานะ</th><th class="flow_his" flow_his>วันที่เสร็จ</th></tr>
-        <?php if(isset($patient[0]['date_1000'])):         ?> <tr class="flow_his"><td>1000 </td><td class="flow_his">รับเข้า</td><td class="flow_his"> <?= $patient[0]['date_1000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_2000'])):         ?> <tr class="flow_his"><td>2000</td><td class="flow_his">กำหนดงาน</td><td class="flow_his"> <?= $patient[0]['date_2000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_3000'])):         ?> <tr class="flow_his"><td>3000</td><td class="flow_his">เตรียมชิ้นเนื้อ</td><td class="flow_his"><?= $patient[0]['date_3000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_6000'])):         ?> <tr class="flow_his"><td>6000</td><td class="flow_his">เตรียมสไลด์</td><td class="flow_his"><?= $patient[0]['date_6000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_8000'])):         ?> <tr class="flow_his"><td>8000</td><td class="flow_his">เตรียมชิ้นเนื้อพิเศษ</td><td class="flow_his"><?= $patient[0]['date_8000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_10000'])):        ?> <tr class="flow_his"><td>10000</td><td class="flow_his">แลปเซลวิทยา</td><td class="flow_his"><?= $patient[0]['date_10000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_12000'])):        ?> <tr class="flow_his"><td>12000</td><td class="flow_his">วินิจฉัย</td><td class="flow_his"><?= $patient[0]['date_12000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_13000'])):        ?> <tr class="flow_his"><td>13000</td><td class="flow_his">วินิจฉัย(คอนเฟิร์ม)</td><td class="flow_his"><?= $patient[0]['date_13000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_first_report'])): ?> <tr class="flow_his"><td>20000_f</td><td class="flow_his">ออกผลครั้งแรก</td><td class="flow_his"><?= $patient[0]['date_first_report']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_20000'])):        ?> <tr class="flow_his"><td>20000_l</td><td class="flow_his">ออกผลล่าสุด</td><td class="flow_his"><?= $patient[0]['date_20000']; ?> </td></tr> <?php endif; ?>
-        <?php if(isset($patient[0]['date_14000'])):        ?> <tr class="flow_his"><td>14000</td><td class="flow_his">ออกผลเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_14000']; ?> </td></tr> <?php endif; ?>
+        <table class="flow_his" align="center">
+            <tr class="flow_his"><th>สถานะไอดี</th><th class="flow_his">สถานะ</th><th class="flow_his" flow_his>วันที่เสร็จ</th></tr>
+            <?php if (isset($patient[0]['date_1000'])): ?> <tr class="flow_his"><td>1000 </td><td class="flow_his">รับเข้า</td><td class="flow_his"> <?= $patient[0]['date_1000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_2000'])): ?> <tr class="flow_his"><td>2000</td><td class="flow_his">วางแผนงาน</td><td class="flow_his"> <?= $patient[0]['date_2000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_3000'])): ?> <tr class="flow_his"><td>3000</td><td class="flow_his">เตรียมชิ้นเนื้อ</td><td class="flow_his"><?= $patient[0]['date_3000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_6000'])): ?> <tr class="flow_his"><td>6000</td><td class="flow_his">เตรียมสไลด์</td><td class="flow_his"><?= $patient[0]['date_6000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_8000'])): ?> <tr class="flow_his"><td>8000</td><td class="flow_his">เตรียมชิ้นเนื้อพิเศษ</td><td class="flow_his"><?= $patient[0]['date_8000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_10000'])): ?> <tr class="flow_his"><td>10000</td><td class="flow_his">แลปเซลวิทยา</td><td class="flow_his"><?= $patient[0]['date_10000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_12000'])): ?> <tr class="flow_his"><td>12000</td><td class="flow_his">วินิจฉัย</td><td class="flow_his"><?= $patient[0]['date_12000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_13000'])): ?> <tr class="flow_his"><td>13000</td><td class="flow_his">วินิจฉัย(คอนเฟิร์ม)</td><td class="flow_his"><?= $patient[0]['date_13000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_first_report'])): ?> <tr class="flow_his"><td>20000_f</td><td class="flow_his">ออกผลครั้งแรก</td><td class="flow_his"><?= $patient[0]['date_first_report']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_20000'])): ?> <tr class="flow_his"><td>20000_l</td><td class="flow_his">ออกผลล่าสุด</td><td class="flow_his"><?= $patient[0]['date_20000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_14000'])): ?> <tr class="flow_his"><td>14000</td><td class="flow_his">ออกผลเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_14000']; ?> </td></tr> <?php endif; ?>
 
-    </table>
-</div>
+        </table>
+    </div>
 
 <?php endif; ?>
