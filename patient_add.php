@@ -116,6 +116,7 @@ $canViewNBCenter = Auth::canViewNBCenter();
 $isDisableEditNBCenter = Auth::isDisableEditNBCenter();
 
 $canViewResult = Auth::canViewPatientResult();
+$isUpdateResultAval = false;
 $isDisableEditResult = Auth::isDisableEditPatientResult();
 
 //disable by field

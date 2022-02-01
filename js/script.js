@@ -360,7 +360,7 @@ $.validator.addMethod("selectd", function (value, element) {
     return (value != 0);
 }, "Must be selected.");
 
-$("#formAddPatient").validate({
+$("#formAddPatient #formEditPatient").validate({
     rules: {
 
         //==========  a  =============
@@ -469,116 +469,6 @@ $("#formAddPatient").validate({
 });
 
 
-$("#formEditPatient").validate({
-    rules: {
-
-        //==========  a  =============
-        //เลขที่ผู้ป่วย
-        pnum: {
-            required: true
-        },
-        //LAB Number
-        plabnum: {
-            required: true
-        },
-        //วันที่รับ
-        date_1000: {
-            required: true
-        },
-//        เพศ
-        pgender: {
-            pgendered: true
-        },
-        //ชื่อผู้ป่วย
-        pname: {
-            required: true
-        },
-        //นามสกุล
-        plastname: {
-            required: true
-        },
-        //อายุ
-        pedge: {
-            required: true
-        },
-        //เลขที่โรงพยาบาล
-        phospital_num: {
-            required: true
-        },
-        //โรงพยาบาล
-        phospital_id: {
-            selectd: true
-        },
-        //แพทย์ผู้ส่ง
-        pclinician_id: {
-            selectd: true
-        },
-        //สิ่งส่งตรวจ
-        uspecimen_id: {
-            selectd: true
-        },
-        //ความสำคัญ
-        priority_id: {
-            selectd: true
-        },
-
-        //==========  b  =============
-        //สถานะ
-        status_id: {
-            selectd: true
-        },
-        //พนักงานตัดเนื้อ
-        p_cross_section_id: {
-            selectd: true
-        },
-        //พนักงานผู้ช่วยตัดเนื้อ
-        p_cross_section_ass_id: {
-            selectd: true
-        },
-        //พนักงานเตรียมสไลด์
-
-        p_slide_prep_id: {
-            selectd: true
-        },
-        //ราคาค่าตรวจ(บาท)
-        pprice: {
-            required: true
-        },
-        //พนักงานเตรียมไลด์พิเศษ
-        p_slide_prep_sp_id: {
-            selectd: true
-        },
-        //ราคาค่าตรวจพิเศษ(บาท)
-        pspprice: {
-            required: true
-        },
-        //==========  c  =============
-
-        //พยาธิแพทย์ผู้ออกผล
-        ppathologist_id: {
-            selectd: true
-        },
-
-        //พยาธิแพทย์คอนเฟิร์มผล
-        ppathologist2_id: {
-            selectd: true
-        },
-
-        //วันที่รายงานผล
-        date_12_13_000: {
-            required: true
-        },
-        //==========  c  =============
-        //ผลการตรวจ(เพิ่มเติม)
-        p_rs_diagnosis: {
-            required: true
-        }
-    }
-
-
-
-
-});
 
 //function myHide(){
 //    document.getElementById('mainpage').style.display = 'block';//content ที่ต้องการแสดงหลังจากเพจโหลดเสร็จ

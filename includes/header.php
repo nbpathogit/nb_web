@@ -51,8 +51,8 @@
                             <a id="nav-menu" class="nav-link dropdown-toggle dropdown-toggle-split link-dark" href="patient.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">ข้อมูลผู้รักษาและผลการรักษา</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="patient_add.php">เพิ่มข้อมูลผู้รักษา</a></li>
-                                <li><a class="dropdown-item" href="patient_edit_profile.php">แก้ไขข้อมูลผู้รักษา</a></li>
-                                <li><a class="dropdown-item" href="patient_edit_result.php">แก้ไขผลการรักษา</a></li>
+                                <!--<li><a class="dropdown-item" href="patient_edit_profile.php">แก้ไขข้อมูลผู้รักษา</a></li>-->
+                                <!--<li><a class="dropdown-item" href="patient_edit_result.php">แก้ไขผลการรักษา</a></li>-->
                             </ul>
                         </li>
                         
