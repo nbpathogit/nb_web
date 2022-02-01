@@ -360,7 +360,7 @@ $.validator.addMethod("selectd", function (value, element) {
     return (value != 0);
 }, "Must be selected.");
 
-$("#formAddPatient #formEditPatient").validate({
+$("#formAddPatient , #formEditPatient").validate({
     rules: {
 
         //==========  a  =============

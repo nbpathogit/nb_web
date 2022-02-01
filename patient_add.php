@@ -30,33 +30,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['plastname'])       ? $patient->plastname = $_POST['plastname']            : $patient->plastname = $patientini[0]['plastname'];
     isset($_POST['pedge'])           ? $patient->pedge = $_POST['pedge']                    : $patient->pedge = $patientini[0]['pedge'];
     isset($_POST['date_1000'])     ? $patient->date_1000 = $_POST['date_1000']        : $patient->date_1000 = $patientini[0]['date_1000'];
-//    var_dump($patient->date_1000);
-    isset($_POST['date_12_13_000'])     ? $patient->date_12_13_000 = $_POST['date_12_13_000']        : $patient->date_12_13_000 = $patientini[0]['date_12_13_000'];
+    
+    
+    
+    
+    
+    isset($_POST['date_2000'])     ? $patient->date_2000 = $_POST['date_2000']        : $patient->date_2000 = $patientini[0]['date_2000'];
+    isset($_POST['date_3000'])     ? $patient->date_3000 = $_POST['date_3000']        : $patient->date_3000 = $patientini[0]['date_3000'];
+    isset($_POST['date_6000'])     ? $patient->date_6000 = $_POST['date_6000']        : $patient->date_6000 = $patientini[0]['date_6000'];
+    isset($_POST['date_8000'])     ? $patient->date_8000 = $_POST['date_8000']        : $patient->date_8000 = $patientini[0]['date_8000'];
+    isset($_POST['date_10000'])     ? $patient->date_10000 = $_POST['date_10000']        : $patient->date_10000 = $patientini[0]['date_10000'];
+    isset($_POST['date_12000'])     ? $patient->date_12000 = $_POST['date_12000']        : $patient->date_12000 = $patientini[0]['date_12000'];
+    isset($_POST['date_13000'])     ? $patient->date_13000 = $_POST['date_13000']        : $patient->date_13000 = $patientini[0]['date_13000'];
+    isset($_POST['date_14000'])     ? $patient->date_14000 = $_POST['date_14000']        : $patient->date_14000 = $patientini[0]['date_14000'];
+    isset($_POST['date_20000'])     ? $patient->date_20000 = $_POST['date_20000']        : $patient->date_20000 = $patientini[0]['date_20000'];
+    isset($_POST['date_first_report'])     ? $patient->date_first_report = $_POST['date_first_report']        : $patient->date_first_report = $patientini[0]['date_first_report'];
+
 
     
     isset($_POST['status_id'])      ? $patient->status_id = $_POST['status_id']             : $patient->status_id = $patientini[0]['status_id'];
-    
-    
-    isset($_POST['priority'])       ? $patient->priority = $_POST['priority']               : $patient->priority = $patientini[0]['priority'] ;
+    isset($_POST['priority_id'])    ? $patient->priority_id = $_POST['priority_id']               : $patient->priority_id = $patientini[0]['priority_id'] ;
     isset($_POST['phospital_id'])   ? $patient->phospital_id = $_POST['phospital_id']       : $patient->phospital_id = $patientini[0]['phospital_id'];
     isset($_POST['phospital_num'])  ? $patient->phospital_num = $_POST['phospital_num']     : $patient->phospital_num = $patientini[0]['phospital_num'];
     isset($_POST['ppathologist_id'])? $patient->ppathologist_id = $_POST['ppathologist_id'] : $patient->ppathologist_id = $patientini[0]['ppathologist_id'];
     isset($_POST['pspecimen_id'])   ? $patient->pspecimen_id = $_POST['pspecimen_id']       : $patient->pspecimen_id = $patientini[0]['pspecimen_id'];
     isset($_POST['pclinician_id'])  ? $patient->pclinician_id = $_POST["pclinician_id"]     : $patient->pclinician_id = $patientini[0]["pclinician_id"];
-
-    
     isset($_POST['ppathologist2_id'])       ? $patient->ppathologist2_id = $_POST["ppathologist2_id"]               : $patient->ppathologist2_id = $patientini[0]["ppathologist2_id"];
     isset($_POST['p_cross_section_id'])     ? $patient->p_cross_section_id = $_POST["p_cross_section_id"]           : $patient->p_cross_section_id = $patientini[0]["p_cross_section_id"];
     isset($_POST['p_cross_section_ass_id']) ? $patient->p_cross_section_ass_id = $_POST["p_cross_section_ass_id"]   : $patient->p_cross_section_ass_id = $patientini[0]["p_cross_section_ass_id"];
     isset($_POST['p_slide_prep_id'])        ? $patient->p_slide_prep_id = $_POST["p_slide_prep_id"]                 : $patient->p_slide_prep_id = $patientini[0]["p_slide_prep_id"];
     isset($_POST['p_slide_prep_sp_id'])     ? $patient->p_slide_prep_sp_id = $_POST["p_slide_prep_sp_id"]           : $patient->p_slide_prep_sp_id = $patientini[0]["p_slide_prep_sp_id"];
-         
-//    echo "p_slide_prep_sp_id ";
-//    var_dump($patient->p_slide_prep_sp_id);
-//    var_dump($patientini["p_slide_prep_sp_id"]);
-//    var_dump($_POST['p_slide_prep_sp_id']);
-//    var_dump($patient->p_slide_prep_sp_id);
-
     isset($_POST['pprice'])                 ? $patient->pprice = $_POST['pprice']                                   : $patient->pprice = $patientini[0]['pprice'];
     isset($_POST['pspprice'])               ? $patient->pspprice = $_POST['pspprice']                               : $patient->pspprice = $patientini[0]['pspprice'];
     isset($_POST['p_rs_specimen'])          ? $patient->p_rs_specimen = $_POST['p_rs_specimen']                     : $patient->p_rs_specimen = $patientini[0]['p_rs_specimen'];
@@ -69,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if ($patient->create($conn)) {
-        Url::redirect("/patient_detail.php?id=$patient->id");
+        
+        Url::redirect("/patient_edit.php?id=$patient->id");
     } else {
         echo '<script>alert("Add user fail. Please verify again")</script>';
     }

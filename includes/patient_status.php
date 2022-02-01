@@ -1,5 +1,6 @@
 <?php
 $isBorder = true;
+$disableMoveButton = true;
 ?>
 
 <!--Write Data to DOM pass value to java script-->
@@ -37,44 +38,46 @@ $isBorder = true;
 
 
 
-<h4 align="center"><b>สถานะงาน</b></h4>
+<h4 align="center"><b>สถานะงาน ของผู้ป่วยลำดับที่ &nbsp; <?= $_GET['id'] ?> &nbsp; คือ &nbsp; <?= $curstatus['0']["des"] ?> </b></h4>
 <span align="center">
-    <form  id="" name="" method="post"> 
-     สถานะงานปัจจุบัน : 
-    <button name="" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
+    <?php if (!$disableMoveButton) : ?> 
+        <form  id="" name="" method="post"> 
+            สถานะงานปัจจุบัน : 
+            <button name="" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
 
-        <?php if ($modePageEditDisable) : ?> 
-            <b> &nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปลี่ยนสถานะไปเป็น >> </b>
+            <?php if ($modePageEditDisable) : ?> 
+                <b> &nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปลี่ยนสถานะไปเป็น >> </b>
 
-            <?php if ($back2status != null) : ?> 
-                <button name="status" value="<?= $back2status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $back2status['0']["des"] ?> </b> </button>
+                <?php if ($back2status != null) : ?> 
+                    <button name="status" value="<?= $back2status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $back2status['0']["des"] ?> </b> </button>
+                <?php endif; ?>
+
+                <?php if ($back1status != null) : ?> 
+                    <button name="status" value="<?= $back1status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $back1status['0']["des"] ?> </b>  </button>
+                <?php endif; ?>
+
+                <?php if ($next1status != null) : ?> 
+                    <button name="status" value="<?= $next1status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $next1status['0']["des"] ?> </b> </button>
+                <?php endif; ?>
+
+                <?php if ($next2status != null) : ?> 
+                    <button name="status" value="<?= $next2status['0']["id"] ?>"class="btn btn-primary" ><b> <?= $next2status['0']["des"] ?> </b> </button>
+                <?php endif; ?>
+
+                <?php if ($next3status != null) : ?> 
+                    <button name="status" value="<?= $next3status['0']["id"] ?>"class="btn btn-primary" ><b> <?= $next3status['0']["des"] ?> </b> </button>
+                <?php endif; ?>
+                <input type="hidden" name="cur_status" value="<?= $curstatus[0]['id'] ?>" />
             <?php endif; ?>
-
-            <?php if ($back1status != null) : ?> 
-                <button name="status" value="<?= $back1status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $back1status['0']["des"] ?> </b>  </button>
-            <?php endif; ?>
-
-            <?php if ($next1status != null) : ?> 
-                <button name="status" value="<?= $next1status['0']["id"] ?>" class="btn btn-primary" ><b> <?= $next1status['0']["des"] ?> </b> </button>
-            <?php endif; ?>
-
-            <?php if ($next2status != null) : ?> 
-                <button name="status" value="<?= $next2status['0']["id"] ?>"class="btn btn-primary" ><b> <?= $next2status['0']["des"] ?> </b> </button>
-            <?php endif; ?>
-
-            <?php if ($next3status != null) : ?> 
-                <button name="status" value="<?= $next3status['0']["id"] ?>"class="btn btn-primary" ><b> <?= $next3status['0']["des"] ?> </b> </button>
-            <?php endif; ?>
-            <input type="hidden" name="cur_status" value="<?= $curstatus[0]['id'] ?>" />
-        <?php endif; ?>
 
     </span>
-</form>
+    </form>
+<?php endif; ?>
 
 
 <?php if ($modePageEditDisable) : ?>
     <hr>
-    <h4 align="center"><b>ไดอแกรม แสดงสถานะงาน</b></h4>
+    <h6 align="center"><b>ไดอแกรม แสดงสถานะงาน</b></h4>
 
     <form id="formflow">
 
