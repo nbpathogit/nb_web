@@ -39,7 +39,7 @@ $disableMoveButton = true;
 
 
 <h4 align="center"><b>สถานะงาน ของผู้ป่วยลำดับที่ &nbsp; <?= $_GET['id'] ?> &nbsp; คือ &nbsp; <?= $curstatus['0']["des"] ?> </b></h4>
-<span align="center">
+<span align="left">
     <?php if (!$disableMoveButton) : ?> 
         <form  id="" name="" method="post"> 
             สถานะงานปัจจุบัน : 
