@@ -2,7 +2,7 @@
  * Send links of class "delete" via post after a confirm dialog
  */
 function addAction2Flow() {
-    
+
 
 //รอรับเข้า 1000
     $("#move1000").on("mouseover", function (e) {
@@ -19,8 +19,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="1000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -40,8 +40,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="2000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -61,8 +61,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="3000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -84,8 +84,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="6000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -105,8 +105,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="8000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -127,8 +127,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="10000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -148,8 +148,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="13000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -169,12 +169,12 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="12000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
-    
+
     //ออกผลเพิ่มเติม<br>14000</td>
     $("#move14000").on("mouseover", function (e) {
         $(this).addClass("heldover");
@@ -190,8 +190,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="14000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-         frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -212,8 +212,8 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="20000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="'+cur_status+'" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="'+isset_date_first_report+'" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });
@@ -224,7 +224,7 @@ function addAction2Flow() {
 $(document).ready(function () {
     // executes when HTML-Document is loaded and DOM is ready
 //    alert("document is ready " + '<?=$back1id?>');
-    
+
     $("#lodingstatus").remove();
     $("#mainpage").show();
 
@@ -464,11 +464,39 @@ $("#formAddPatient , #formEditPatient").validate({
         p_rs_diagnosis: {
             required: true
         }
+
     }
 
 });
 
+$("#adduser , #chg_passwrd").validate({
+    rules: {
+        
+        ugroup_id: {
+            selectd: true
+        },
+        
+        uhospital_id: {
+            selectd: true
+        },
+        
+        username:{
+            required: true
+        },
 
+        password: {
+            minlength: 5,
+            required: true
+        },
+        set_password_confirm: {
+            minlength: 5,
+            required: true,
+            equalTo: "#password"
+        }
+
+    }
+
+});
 
 //function myHide(){
 //    document.getElementById('mainpage').style.display = 'block';//content ที่ต้องการแสดงหลังจากเพจโหลดเสร็จ

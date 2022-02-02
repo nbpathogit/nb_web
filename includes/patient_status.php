@@ -70,9 +70,9 @@ $disableMoveButton = true;
                 <input type="hidden" name="cur_status" value="<?= $curstatus[0]['id'] ?>" />
             <?php endif; ?>
 
-    </span>
-    </form>
-<?php endif; ?>
+        </form>
+    <?php endif; ?>
+</span>
 
 
 <?php if ($modePageEditDisable) : ?>

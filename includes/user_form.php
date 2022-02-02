@@ -20,10 +20,8 @@
 <div class="mb-3">
     <label for="ugroup_id">กลุ่มผู้ใช้งาน</label><span> *</span>
     <select class="form-select" name="ugroup_id">
-        <option value="#">กรุณาเลือก</option>
+        <!--<option value="#">กรุณาเลือก</option>-->
         <?php foreach ($ugroups as $ugroup) : ?>
-            <?php //Target Format : <option value="1">เจ้าหน้าที่ ร.พ.</option> 
-            ?>
             <option value="<?= htmlspecialchars($ugroup['id']); ?>"><?= htmlspecialchars($ugroup['ugroup']); ?></option>
         <?php endforeach; ?>
     </select>
@@ -31,14 +29,17 @@
 
 <div class="mb-3">
     <label for="uhospital_id">สถานที่ทำงาน</label><span> *</span>
-    <select class="form-select" name="uhospital_id">
-        <option value="#">กรุณาเลือก</option>
-        <?php foreach ($hospitals as $hospital) : ?>
-            <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> 
-            ?>
-            <option value="<?= htmlspecialchars($hospital['id']); ?>"><?= htmlspecialchars($hospital['hospital']); ?></option>
-        <?php endforeach; ?>
-    </select>
+
+    
+        <select name="uhospital_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+            <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
+            <?php foreach ($hospitals as $hospital): ?>
+                <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
+                <option value="<?= htmlspecialchars($hospital['id']); ?>"  ><?= htmlspecialchars($hospital['hospital']); ?></option>
+            <?php endforeach; ?>
+        </select>
+    
+    
 </div>
 
 <div class="mb-3">
@@ -58,8 +59,8 @@
         <span class="form-text">ตั้งรหัสผ่าน</span>
     </div>
     <div class="col-auto">
-        <label for="user_password2">ยืนยันรหัสผ่าน</label><span> *</span>
-        <input class="form-control" name="user_password2" type="password" id="user_password2" size="20" maxlengtd="10">
+        <label for="set_password_confirm">ยืนยันรหัสผ่าน</label><span> *</span>
+        <input class="form-control" name="set_password_confirm" type="password" id="" size="20" maxlengtd="10">
         <span class="form-text">ยืนยันรหัสผ่านอีกรอบ</span>
     </div>
 </div>

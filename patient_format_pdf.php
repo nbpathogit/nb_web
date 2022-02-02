@@ -84,12 +84,12 @@
 
     <span class="header">Pathological Diagnosis:</span><br>
     <span>Stomach, biopsy;</span><br>
-    <span>-Consistent with base of peptic ulcer</span><br>
+    <span>-Consistent with base of peptic ulcer    β-catenin</span><br>
     <br>  
     <span>---- Print Date : 06-11-2021 ---- Pathologist : Apichat Chumtong, M.D.</span><br>
     <br>
     <span class="header">Specimen:</span><br>
-    <span>Stomach</span><br>
+    <span>Stomach</span><br> 
     <br>
     <span class="header">Gross Description:</span><br>
     <span>Received is a 0.5x0.4x0.1 cm tan tissue. It is submitted as A.</span><br>

@@ -111,7 +111,7 @@ $prioritys = Priority::getAll($conn);
                 <td><div align="center"><?= $patient['hospital']; ?></div></td>
                 <td><div align="center"><?= $patient['name']; ?></div></td>
                 <td><div align="center"><?= $patient['date_1000']; ?></div></td>
-                <td><div align="center"><?= $patient['date_12_13_000']; ?></div></td>
+                <td><div align="center"><?= $patient['date_20000']; ?></div></td>
                 <td><div align="center"><?= $patient['des']; ?></div></td>
                 <td><div align="center"><?= $patient['priority']; ?></div></td>
                 <!--<td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>-->

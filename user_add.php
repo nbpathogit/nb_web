@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div align=""><b>เพิ่มผู้ใช้งานระบบ</b></div>
 
-<form id="" method="post">
+<form id="adduser" method="post">
     <?php require 'includes/user_form.php'; ?>
     <div align=""><button class="btn btn-primary">Add</button></div>
 </form>
