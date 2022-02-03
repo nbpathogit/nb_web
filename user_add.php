@@ -14,12 +14,13 @@ $ugroups = Ugroup::getAll($conn);
 
 $hospitals = Hospital::getAll($conn);
 //var_dump($hospitals);
-
+$user=[];
+$user[0]=[];
 
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST);
+    // var_dump($_POST);
     //die();
 
     $user = new User();
@@ -33,8 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user->uhospital_id = $_POST['uhospital_id'];
     $user->udetail = $_POST['udetail'];
 
-
-
+    
     if ($user->create($conn)) {
 
         Url::redirect("/user_detail.php?id=$user->id&result=1");

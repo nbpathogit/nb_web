@@ -23,9 +23,11 @@ if (isset($_GET['id'])) {
 
 <?php
     if (isset($_GET['result'])) {
-        if($_GET['result'] == 1){
-         echo   "USER Added Successful <br>";
-        }
+        if($_GET['result'] == 1) : ?>
+            <div class="alert alert-success" role="alert">
+            USER Added/Edit Successful
+         </div>
+        <?php endif; 
     }
 ?>
 <p></div> <br>
@@ -55,7 +57,7 @@ if (isset($_GET['id'])) {
             <td><div align=""><?= $user[0]['udetail']; ?></div></td>
         </tr>
         <tr>
-            <td>เบอร์โทรศัพย์</td>
+            <td>เบอร์โทรศัพท์</td>
             <td><div align=""><?= $user[0]['umobile']; ?></div></td>
         </tr>
                 <tr>

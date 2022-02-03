@@ -5,7 +5,8 @@
  *
  * A person or entity that can log in to the site
  */
-class User {
+class User
+{
 
     /**
      * Unique identifier
@@ -31,7 +32,8 @@ class User {
      *
      * @return boolean True if the credentials are correct, false otherwise
      */
-    public static function authenticate($conn, $username, $password) {
+    public static function authenticate($conn, $username, $password)
+    {
 
         $sql = "SELECT *
                 FROM user
@@ -49,7 +51,8 @@ class User {
         }
     }
 
-    public static function getAll($conn, $id = 0) {
+    public static function getAll($conn, $id = 0)
+    {
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
                 FROM user U
                 JOIN user_groups G
@@ -66,7 +69,8 @@ class User {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllbyPathologis($conn) {
+    public static function getAllbyPathologis($conn)
+    {
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
                 FROM user U
                 JOIN user_groups G
@@ -80,8 +84,9 @@ class User {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-        public static function getAllbyTeachien($conn) {
+
+    public static function getAllbyTeachien($conn)
+    {
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
                 FROM user U
                 JOIN user_groups G
@@ -100,10 +105,11 @@ class User {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllbyClinicians($conn) {
+    public static function getAllbyClinicians($conn)
+    {
         $sql = "SELECT * "
-                . "FROM `user` "
-                . "WHERE (`ugroup_id`= 5000 or `ugroup_id`= 0 )";
+            . "FROM `user` "
+            . "WHERE (`ugroup_id`= 5000 or `ugroup_id`= 0 )";
 
 
         $results = $conn->query($sql);
@@ -120,7 +126,8 @@ class User {
      *
      * @return mixed An object of this class, or null if not found
      */
-    public static function getByID($conn, $id, $columns = '*') {
+    public static function getByID($conn, $id, $columns = '*')
+    {
         $sql = "SELECT $columns
                 FROM user
                 WHERE id= :id";
@@ -145,7 +152,8 @@ class User {
      *
      * @return mixed An object of this class, or null if not found
      */
-    public static function getByUserName($conn, $username, $columns = '*') {
+    public static function getByUserName($conn, $username, $columns = '*')
+    {
         $sql = "SELECT $columns
                 FROM user
                 WHERE username = :username";
@@ -168,7 +176,8 @@ class User {
      *
      * @return boolean True if the insert was successful, false otherwise
      */
-    public function create($conn) {
+    public function create($conn)
+    {
         // INSERT INTO user (id, name, lastname, username, password, ugroup_id, uhospital_id) VALUES (NULL, 'อนุชิกก', 'ยุงทอม', 'aaaa', 'aaaa', '4', '2');
 
         $sql = "INSERT INTO user ( name, lastname, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id)
@@ -199,11 +208,13 @@ class User {
         }
     }
 
-    public static function getTotal($conn, $user_group = "*") {
+    public static function getTotal($conn, $user_group = "*")
+    {
         return $conn->query("SELECT COUNT(*) FROM user")->fetchColumn();
     }
 
-    public static function getPage($conn, $limit, $offset, $only_published = false) {
+    public static function getPage($conn, $limit, $offset, $only_published = false)
+    {
 
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
                 FROM user U
@@ -211,6 +222,7 @@ class User {
                 JOIN hospital H
                 WHERE U.ugroup_id  = G.id
                 and U.uhospital_id  = H.id
+                ORDER BY U.id
                 LIMIT :limit
                 OFFSET :offset";
 
@@ -223,4 +235,38 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function update($conn)
+    {
+        // need update
+        $sql = "UPDATE user
+                SET name= :name,lastname= :lastname,udetail= :udetail,umobile= :umobile,uemail= :uemail, username=:username, password=:password, ugroup_id=:ugroupid, uhospital_id=:uhospitalid
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':udetail', $this->udetail, PDO::PARAM_STR);
+        $stmt->bindValue(':umobile', $this->umobile, PDO::PARAM_STR);
+        $stmt->bindValue(':uemail', $this->uemail, PDO::PARAM_STR);
+        $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
+        $stmt->bindValue(':password', $this->password, PDO::PARAM_STR);
+        $stmt->bindValue(':ugroupid', $this->ugroup_id, PDO::PARAM_INT);
+        $stmt->bindValue(':uhospitalid', $this->uhospital_id, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function delete($conn)
+    {
+        $sql = "DELETE FROM user
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }
