@@ -19,12 +19,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['status'])) {
         echo "save status";
         if (Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report'])) {
-           // Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+            // Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
         }
     }
 
+    if (isset($_POST['add_result'])) {
+
+
+        $presultupdate = new Presultupdate();
+        $presultupdate->patient_id = $_GET['id'];
+        $presultupdate->result_type = $_POST['result_type'];
+        
+        
+        if ($presultupdate->create($conn)) {
+            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+        } else {
+            echo '<script>alert("Add result fail. Please verify again")</script>';
+        }
+    }
 
     //Save all page
     if (isset($_POST['save'])) {
@@ -106,6 +120,8 @@ $userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
 
+$presultupdates = Presultupdate::getAll($conn,$_GET['id']);
+
 $isset_date_first_report = 0;
 if (isset($patient[0]['date_first_report'])) {
     $isset_date_first_report = 1;
@@ -168,23 +184,43 @@ if (isset($curstatus[0]['next3'])) {
 //var_dump($next2status);
 //var_dump($patient);
 //var_dump($statusLists);
-//disable by group
-$canViewPatientInfo = Auth::canViewPatientInfo();
-$isDisableEditPatientInfo = Auth::isDisableEditPatientInfo();
+
+//can view by group
+$canViewPatientInfo_a_group = Auth::canViewPatientInfo();
+$canViewPlaning_b_1_group = Auth::canViewNBCenter();
+$canViewPlaning_b_2_group = Auth::canViewNBCenter();
+$canViewPlaning_b_3_group = Auth::canViewNBCenter();
+$canViewResult_c_group = Auth::canViewPatientResult();
+$canViewResult_d_group = Auth::canViewPatientResult();
 
 
-$canViewNBCenter = Auth::canViewNBCenter();
-$isDisableEditNBCenter = Auth::isDisableEditNBCenter();
+//disable Edit by group
 
-$canViewResult = Auth::canViewPatientResult();
-$isUpdateResultAval = true;
-$isDisableEditResult = Auth::isDisableEditPatientResult();
+$isDisEditPatientInfo_a_group = Auth::isDisableEditPatientInfo();
+$isDisEditPlaning_b_1_group = Auth::isDisableEditNBCenter();
+$isDisEditPlaning_b_2_group = Auth::isDisableEditNBCenter();
+$isDisEditPlaning_b_3_group = Auth::isDisableEditNBCenter();
+$isDisableEditResult_c_group = Auth::isDisableEditPatientResult();
+$isDisableEditResult_d_group = Auth::isDisableEditPatientResult();
+
+
+
+//Disable by status
+$isDisEditPatientInfo_a_status = Status::is_disable_patient_detail($patient[0]['status_id']) ;
+$isDisEditPlaning_b_1_status = false;
+$isDisEditPlaning_b_2_status = false;
+$isDisEditPlaning_b_3_status = false;
+$isDisableEditResult_c_status = false;
+$isDisableEditResult_d_status = false;
 
 
 //disable by field
 $isHideResult = false;
 $isStatusDisableEdit = true;
 $isDisableSpecialSlide = false;
+
+//Other
+$isUpdateResultAval = true;
 ?>
 
 <?php require 'includes/header.php'; ?>
@@ -212,6 +248,11 @@ $isDisableSpecialSlide = false;
             <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
         <?php endif; ?>
     </form>
+
+    <?php if ($isUpdateResultAval): ?>
+        <hr noshade="noshade" width="" size="6" >
+        <?php require 'includes/patient_form_d.php'; ?>
+    <?php endif; ?>
 
 <?php endif; ?>
 

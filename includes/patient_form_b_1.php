@@ -9,7 +9,7 @@ $isBorder = false;
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">กำหนดทีมตรวจวินิจฉัยแล้วเมื่อวันที่</label>
-        <input name="date_2000" class="form-control border" type="text" class="" id="date_3000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_2000']; ?>">
+        <input name="date_2000" class="form-control border" type="text" class="" id="date_3000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisEditPlaning_b_1_status || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_2000']; ?>">
     </div>
 </div>
 
@@ -18,7 +18,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_cross_section_id"  class="form-label">พนักงานตัดเนื้อ</label>
 
-        <select name="p_cross_section_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
+        <select name="p_cross_section_id" class="form-select" <?= $modePageEditDisable || $isDisEditPlaning_b_1_status ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -34,7 +34,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_cross_section_ass_id"  class="form-label">พนักงานผู้ช่วยตัดเนื้อ</label>
-        <select name="p_cross_section_ass_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter ? " disabled readonly " : "" ?> >
+        <select name="p_cross_section_ass_id" class="form-select" <?= $modePageEditDisable || $isDisEditPlaning_b_1_status ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -50,7 +50,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">เตรียมชิ้นเนื้อแล้วแล้วเมื่อวันที่</label>
-        <input name="date_3000" class="form-control border" type="text" class="" id="date_3000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_3000']; ?>">
+        <input name="date_3000" class="form-control border" type="text" class="" id="date_3000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisEditPlaning_b_1_status || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_3000']; ?>">
     </div>
 
 </div>

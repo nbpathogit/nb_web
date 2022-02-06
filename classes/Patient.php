@@ -321,6 +321,18 @@ class Patient {
     }
 
     public function update($conn, $id) {
+        
+//                            date_1000=:date_1000,
+//                    
+//                    date_2000=:date_2000,
+//                    date_3000=:date_3000,
+//                    date_6000=:date_6000,
+//                    date_8000=:date_8000,
+//                    date_10000=:date_10000,
+//
+//                    date_13000=:date_13000,
+//                    
+//                    date_14000=:date_14000,
 
         $sql = "UPDATE `patient` 
                  SET pnum=:pnum,
@@ -329,17 +341,8 @@ class Patient {
                     pgender=:pgender,
                     plastname=:plastname,
                     pedge=:pedge,
-                    date_1000=:date_1000,
                     
-                    date_2000=:date_2000,
-                    date_3000=:date_3000,
-                    date_6000=:date_6000,
-                    date_8000=:date_8000,
-                    date_10000=:date_10000,
 
-                    date_12_13_000=:date_12_13_000,
-                    
-                    date_14000=:date_14000,
 
                     status_id=:status_id,
                     priority_id=:priority_id,
@@ -375,8 +378,10 @@ class Patient {
         $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
         $stmt->bindValue(':plastname', $this->plastname, PDO::PARAM_STR);
         $stmt->bindValue(':pedge', $this->pedge, PDO::PARAM_STR);
-        $stmt->bindValue(':date_1000', $this->date_1000, PDO::PARAM_STR);
-        $stmt->bindValue(':date_12_13_000', $this->date_12_13_000, PDO::PARAM_STR);
+        
+//        $stmt->bindValue(':date_1000', $this->date_1000, PDO::PARAM_STR);
+//        $stmt->bindValue(':date_13000', $this->date_13000, PDO::PARAM_STR);
+        
         $stmt->bindValue(':status_id', $this->status_id, PDO::PARAM_INT);
         $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
         $stmt->bindValue(':phospital_id', $this->phospital_id, PDO::PARAM_INT);

@@ -11,17 +11,17 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">รับเข้าเมื่อวันที่</label>
-        <input name="date_1000" class="form-control border" type="text" class="" id="date_1000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_1000']; ?>">
+        <input name="date_1000" class="form-control border" type="text" class="" id="date_1000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_1000']; ?>">
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="pnum" align="right" class="">เลขที่ผู้ป่วย</label>
-        <input name="pnum" type="text" id="pnum" class="form-control" placeholder=""  <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>  value="<?= $patient[0]['pnum']; ?>">
+        <input name="pnum" type="text" id="pnum" class="form-control" placeholder=""  <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?>  value="<?= $patient[0]['pnum']; ?>">
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="plabnum"  align="right" class="">LAB Number</label>
-        <input name="plabnum" type="text" class="form-control border" id="plabnum" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?> value="<?= $patient[0]['plabnum']; ?>">
+        <input name="plabnum" type="text" class="form-control border" id="plabnum" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?> value="<?= $patient[0]['plabnum']; ?>">
     </div>
 
 
@@ -29,7 +29,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pgender" class="">เพศ</label>
         <div class="col">
-            <select name="pgender" class="form-select" id="pgender" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+            <select name="pgender" class="form-select" id="pgender" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?>>
                 <option value="กรุณาเลือก">กรุณาเลือก</option>
                 <option value="ชาย" <?= ($patient[0]['pgender'] === "ชาย") ? "selected" : ""; ?> >ชาย</option>
                 <option value="หญิง" <?= ($patient[0]['pgender'] === "หญิง") ? "selected" : ""; ?> >หญิง</option>
@@ -39,13 +39,13 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pname" class="">ชื่อผู้ป่วย</label>
-        <input name="pname" type="text" class="form-control border" id="pname" placeholder="" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?> value="<?= $patient[0]['pname']; ?>">
+        <input name="pname" type="text" class="form-control border" id="pname" placeholder="" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?> value="<?= $patient[0]['pname']; ?>">
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="plastname" class="">นามสกุล</label>
         <div class="col">
-            <input name="plastname" type="text" class="form-control" id="plastname" placeholder="" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?> value="<?= $patient[0]['plastname']; ?>">
+            <input name="plastname" type="text" class="form-control" id="plastname" placeholder="" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?> value="<?= $patient[0]['plastname']; ?>">
         </div>
     </div>
 
@@ -54,17 +54,17 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pedge" class="">อายุ(ปี)</label>
         <div class="col">
-            <input name="pedge" type="text" class="form-control" class="" id="pedge"  placeholder="" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?> value="<?= $patient[0]['pedge']; ?>">
+            <input name="pedge" type="text" class="form-control" class="" id="pedge"  placeholder="" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?> value="<?= $patient[0]['pedge']; ?>">
         </div>
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">เลขที่โรงพยาบาล</label>
-        <input name="phospital_num" type="text" class="form-control" id=""  placeholder="" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?> value="<?= $patient[0]['phospital_num']; ?>" >
+        <input name="phospital_num" type="text" class="form-control" id=""  placeholder="" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?> value="<?= $patient[0]['phospital_num']; ?>" >
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="phospital_id" class="">โรงพยาบาล</label>
-        <select name="phospital_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+        <select name="phospital_id" class="form-select" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?>>
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($hospitals as $hospital): ?>
                 <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
@@ -78,7 +78,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pclinician_id" class="">แพทย์ผู้ส่ง</label>
 
-        <select name="pclinician_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+        <select name="pclinician_id" class="form-select" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?>>
             <!--<option value="กรุณาเลือก" selected>กรุณาเลือก</option>-->
             <?php foreach ($clinicians as $clinician): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
@@ -88,7 +88,7 @@ $isBorder = false;
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pspecimen_id" class="" >สิ่งส่งตรวจ</label>
-        <select name="pspecimen_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+        <select name="pspecimen_id" class="form-select" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?>>
             <option value="กรุณาเลือก">กรุณาเลือก</option>
             <?php foreach ($specimens as $specimen): ?>
                 <?php //Target Format : <option value="1001">ชิ้นเนื้อขนาดเล็กกว่าหรือเท่ากับ 2 ซ.ม. (38001)</option>    ?>
@@ -98,7 +98,7 @@ $isBorder = false;
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">ความสำคัญ</label>
-        <select name="priority_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+        <select name="priority_id" class="form-select" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?>>
             <?php foreach ($prioritys as $priority): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
                 <option value="<?= htmlspecialchars($priority['id']); ?>"  <?= $patient[0]['priority_id'] == $priority['id'] ? "selected" : ""; ?> ><?= htmlspecialchars($priority['priority']); ?></option>
@@ -108,7 +108,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label class="form-label" for="status">สถานะ</label>
         <!--$patient[0]['status_id']-->
-        <select name="status_id" class="form-select" <?= $modePageEditDisable || $isDisableEditPatientInfo ? " disabled readonly " : "" ?>>
+        <select name="status_id" class="form-select" <?= $modePageEditDisable || $isDisEditPatientInfo_a_group ? " disabled readonly " : "" ?>>
             <?php foreach ($statusLists as $status): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
                 <option value="<?= htmlspecialchars($status['id']); ?>"  <?= $patient[0]['status_id'] == $status['id'] ? "selected" : ""; ?> ><?= htmlspecialchars($status['des']); ?></option>

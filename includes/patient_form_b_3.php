@@ -7,7 +7,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_slide_prep_sp_id" class="form-label" >พนักงานเตรียมไลด์พิเศษ</label>
 
-        <select name="p_slide_prep_sp_id" class="form-select" <?= $modePageEditDisable || $isDisableEditNBCenter || $isDisableSpecialSlide ? " disabled readonly " : "" ?> >
+        <select name="p_slide_prep_sp_id" class="form-select" <?= $modePageEditDisable || $isDisEditPlaning_b_3_group || $isDisableSpecialSlide ? " disabled readonly " : "" ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -23,12 +23,12 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="pspprice" class="form-label">ราคาค่าตรวจพิเศษ(บาท)</label>
-        <input name="pspprice" type="text" class="form-control" id="pspprice"  <?= $modePageEditDisable || $isDisableEditNBCenter || $isDisableSpecialSlide ? " disabled readonly " : "" ?>  value="<?= $patient[0]['pspprice']; ?>"  >
+        <input name="pspprice" type="text" class="form-control" id="pspprice"  <?= $modePageEditDisable || $isDisEditPlaning_b_3_group || $isDisableSpecialSlide ? " disabled readonly " : "" ?>  value="<?= $patient[0]['pspprice']; ?>"  >
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">เตรียมสไลด์พิเศษแล้วเมื่อวันที่</label>
-        <input name="date_8000" class="form-control border" type="text" class="" id="date_8000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || $isDisableEditPatientInfo || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_8000']; ?>">
+        <input name="date_8000" class="form-control border" type="text" class="" id="date_8000" placeholder="This Field will Auto Generate" <?= $modePageEditDisable || TRUE ? " disabled readonly " : "" ?> value="<?= $patient[0]['date_8000']; ?>">
     </div>
 
 </div>

@@ -26,17 +26,41 @@ class Presultupdate {
     public $pathologist2_id;
     public $release_time;
 
-    public static function getAll($conn, $id = 0) {
+    public static function getAll($conn, $patient_id = 0) {
         $sql = "SELECT * 
                 FROM presultupdate ";
 
-        if ($id != 0) {
-            $sql = $sql . " WHERE id = " . $id;
+        if ($patient_id != 0 ) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
         }
 
         $results = $conn->query($sql);
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create($conn) {
+
+        $sql = "INSERT INTO `presultupdate` (`id`, `patient_id`, `result_type`, `result_message`, `pathologist_id`, `result2_message`, `pathologist2_id`, `release_time`) "
+                . "VALUES                   (NULL, :patient_id  ,:result_type  , ''              , ''              , ''               , '0'              , NULL)";
+
+        $stmt = $conn->prepare($sql);
+
+        //var_dump($this->name);
+
+        $stmt->bindValue(':patient_id' , $this->patient_id , PDO::PARAM_INT);
+        $stmt->bindValue(':result_type', $this->result_type, PDO::PARAM_STR);
+
+
+        //var_dump($stmt);
+
+        if ($stmt->execute()) {
+            $this->id = $conn->lastInsertId();
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
