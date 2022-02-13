@@ -109,40 +109,10 @@ $statusLists = Status::getAll($conn);
 //var_dump($status);
 
 // true = Disable Edit page, false canEditPage
-$canEditModePage = false;
-
-//can view by group
-$canViewPatientInfo_a_group = Auth::canViewPatientInfo();
-$canViewPlaning_b_1_group = Auth::canViewNBCenter();
-$canViewPlaning_b_2_group = Auth::canViewNBCenter();
-$canViewPlaning_b_3_group = Auth::canViewNBCenter();
-$canViewResult_c_group = Auth::canViewPatientResult();
-$canViewResult_d_group = Auth::canViewPatientResult();
+$canEditModePage = true;
 
 
-//disable Edit by group
-
-$canEditPatientInfo_a_group = Auth::isDisableEditPatientInfo();
-$canEditPlaning_b_1_group = Auth::isDisableEditNBCenter();
-$canEditPlaning_b_2_group = Auth::isDisableEditNBCenter();
-$canEditPlaning_b_3_group = Auth::isDisableEditNBCenter();
-$canEditResult_c_group = Auth::isDisableEditPatientResult();
-$canEditResult_d_group = Auth::isDisableEditPatientResult();
-
-
-
-//Disable by status
-$canEditPatientInfo_a_status = Status::is_disable_patient_detail($patient[0]['status_id']) ;
-$canEditPlaning_b_1_status = false;
-$canEditPlaning_b_2_status = false;
-$canEditPlaning_b_3_status = false;
-$canEditResult_c_status = false;
-$canEditResult_d_status = false;
-
-//disable by field
-$isHideResult = true;
-$isStatusDisableEdit = true;
-$isDisableSpecialSlide = true;
+require 'patient_edit_auth.php';
 
 ?>
 

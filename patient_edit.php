@@ -184,43 +184,10 @@ if (isset($curstatus[0]['next3'])) {
 //var_dump($next2status);
 //var_dump($patient);
 //var_dump($statusLists);
-//can view by user group
-$canViewPatientInfo_a_group = Auth::canViewPatientInfo();
-$canViewPlaning_b_1_group = Auth::canViewNBCenter();
-$canViewPlaning_b_2_group = Auth::canViewNBCenter();
-$canViewPlaning_b_3_group = Auth::canViewNBCenter();
-$canViewResult_c_group = Auth::canViewPatientResult();
-$canViewResult_d_group = Auth::canViewPatientResult();
-
-
-// Editable by user group
-
-$canEditPatientInfo_a_group = !Auth::isDisableEditPatientInfo();
-$canEditPlaning_b_1_group = !Auth::isDisableEditNBCenter();
-$canEditPlaning_b_2_group = !Auth::isDisableEditNBCenter();
-$canEditPlaning_b_3_group = !Auth::isDisableEditNBCenter();
-$canEditResult_c_group = !Auth::isDisableEditPatientResult();
-$canEditResult_d_group = !Auth::isDisableEditPatientResult();
 
 
 
-//Editable by status
-//$canEditPatientInfo_a_status = !Status::is_disable_patient_detail($patient[0]['status_id']) ;
-$canEditPatientInfo_a_status = false || ($patient[0]['status_id'] == 1000);
-$canEditPlaning_b_1_status = false || ($patient[0]['status_id'] == 2000);
-$canEditPlaning_b_2_status = false || ($patient[0]['status_id'] == 2000);
-$canEditPlaning_b_3_status = false || ($patient[0]['status_id'] == 2000);
-$canEditResult_c_status = false || ($patient[0]['status_id'] == 12000) || ($patient[0]['status_id'] == 13000);
-$canEditResult_d_status = false || ($patient[0]['status_id'] == 14000);
-
-
-//disable by field
-$isHideResult = false;
-$isStatusDisableEdit = true;
-$isDisableSpecialSlide = false;
-
-//Other
-$isUpdateResultAval = true;  //Get from database
+require 'patient_edit_auth.php';
 ?>
 
 <?php require 'includes/header.php'; ?>
