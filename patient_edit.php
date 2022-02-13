@@ -40,6 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    if (isset($_POST['save_result'])) {
+        var_dump($_POST);
+    }
+
     //Save all page
     if (isset($_POST['save'])) {
 
@@ -119,6 +123,9 @@ $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
+
+//var_dump($userPathos);
+//die();
 
 $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
 
@@ -200,19 +207,23 @@ require 'patient_edit_auth.php';
 
     <hr noshade="noshade" width="" size="8" >
     <form  id="formEditPatient" name="" method="post">
-
-        <?php if ($canEditModePage): ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-        <?php else: ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+        <?php if ($patient[0]['date_13000'] == NULL): ?>
+            <?php if ($canEditModePage): ?>
+                <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+            <?php else: ?>
+                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+            <?php endif; ?>
         <?php endif; ?>
+                
         <?php require 'includes/patient_form.php'; ?>
 
         <br>
-        <?php if ($canEditModePage): ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-        <?php else: ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+        <?php if ($patient[0]['date_13000'] == NULL): ?>
+            <?php if ($canEditModePage): ?>
+                <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+            <?php else: ?>
+                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+            <?php endif; ?>
         <?php endif; ?>
     </form>
 
