@@ -8,7 +8,7 @@ Auth::requireLogin();
 $conn = require 'includes/db.php';
 
 // true = Disable Edit page, false canEditPage
-$modePageEditDisable = true;
+$canEditModePage = false;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,9 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //
     //Save only field status
     if (isset($_POST['status'])) {
-        echo "save status";
+        //echo "save status";
         if (Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report'])) {
-            // Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
         }
@@ -31,8 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $presultupdate = new Presultupdate();
         $presultupdate->patient_id = $_GET['id'];
         $presultupdate->result_type = $_POST['result_type'];
-        
-        
+
+
         if ($presultupdate->create($conn)) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
@@ -91,12 +91,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Move to edit mode
     if (isset($_POST['edit'])) {
         // true = Disable Edit page, false canEditPage
-        $modePageEditDisable = false;
+        $canEditModePage = true;
     }
     //Move to View only mode
     if (isset($_POST['discard'])) {
         // true = Disable Edit page, false canEditPage
-        $modePageEditDisable = true;
+        $canEditModePage = false;
     }
 }
 
@@ -120,7 +120,7 @@ $userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
 
-$presultupdates = Presultupdate::getAll($conn,$_GET['id']);
+$presultupdates = Presultupdate::getAll($conn, $_GET['id']);
 
 $isset_date_first_report = 0;
 if (isset($patient[0]['date_first_report'])) {
@@ -184,8 +184,7 @@ if (isset($curstatus[0]['next3'])) {
 //var_dump($next2status);
 //var_dump($patient);
 //var_dump($statusLists);
-
-//can view by group
+//can view by user group
 $canViewPatientInfo_a_group = Auth::canViewPatientInfo();
 $canViewPlaning_b_1_group = Auth::canViewNBCenter();
 $canViewPlaning_b_2_group = Auth::canViewNBCenter();
@@ -194,24 +193,25 @@ $canViewResult_c_group = Auth::canViewPatientResult();
 $canViewResult_d_group = Auth::canViewPatientResult();
 
 
-//disable Edit by group
+// Editable by user group
 
-$isDisEditPatientInfo_a_group = Auth::isDisableEditPatientInfo();
-$isDisEditPlaning_b_1_group = Auth::isDisableEditNBCenter();
-$isDisEditPlaning_b_2_group = Auth::isDisableEditNBCenter();
-$isDisEditPlaning_b_3_group = Auth::isDisableEditNBCenter();
-$isDisableEditResult_c_group = Auth::isDisableEditPatientResult();
-$isDisableEditResult_d_group = Auth::isDisableEditPatientResult();
+$canEditPatientInfo_a_group = !Auth::isDisableEditPatientInfo();
+$canEditPlaning_b_1_group = !Auth::isDisableEditNBCenter();
+$canEditPlaning_b_2_group = !Auth::isDisableEditNBCenter();
+$canEditPlaning_b_3_group = !Auth::isDisableEditNBCenter();
+$canEditResult_c_group = !Auth::isDisableEditPatientResult();
+$canEditResult_d_group = !Auth::isDisableEditPatientResult();
 
 
 
-//Disable by status
-$isDisEditPatientInfo_a_status = Status::is_disable_patient_detail($patient[0]['status_id']) ;
-$isDisEditPlaning_b_1_status = false;
-$isDisEditPlaning_b_2_status = false;
-$isDisEditPlaning_b_3_status = false;
-$isDisableEditResult_c_status = false;
-$isDisableEditResult_d_status = false;
+//Editable by status
+//$canEditPatientInfo_a_status = !Status::is_disable_patient_detail($patient[0]['status_id']) ;
+$canEditPatientInfo_a_status = false || ($patient[0]['status_id'] == 1000);
+$canEditPlaning_b_1_status = false || ($patient[0]['status_id'] == 2000);
+$canEditPlaning_b_2_status = false || ($patient[0]['status_id'] == 2000);
+$canEditPlaning_b_3_status = false || ($patient[0]['status_id'] == 2000);
+$canEditResult_c_status = false || ($patient[0]['status_id'] == 12000) || ($patient[0]['status_id'] == 13000);
+$canEditResult_d_status = false || ($patient[0]['status_id'] == 14000);
 
 
 //disable by field
@@ -220,7 +220,7 @@ $isStatusDisableEdit = true;
 $isDisableSpecialSlide = false;
 
 //Other
-$isUpdateResultAval = true;
+$isUpdateResultAval = true;  //Get from database
 ?>
 
 <?php require 'includes/header.php'; ?>
@@ -232,20 +232,20 @@ $isUpdateResultAval = true;
     <?php require 'includes/patient_status.php'; ?>
 
     <hr noshade="noshade" width="" size="8" >
-    <form  id="" name="" method="post">
+    <form  id="formEditPatient" name="" method="post">
 
-        <?php if ($modePageEditDisable): ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-        <?php else: ?>
+        <?php if ($canEditModePage): ?>
             <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+        <?php else: ?>
+            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
         <?php endif; ?>
         <?php require 'includes/patient_form.php'; ?>
 
         <br>
-        <?php if ($modePageEditDisable): ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+        <?php if ($canEditModePage): ?>
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
         <?php else: ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
         <?php endif; ?>
     </form>
 

@@ -109,7 +109,7 @@ $statusLists = Status::getAll($conn);
 //var_dump($status);
 
 // true = Disable Edit page, false canEditPage
-$modePageEditDisable = false;
+$canEditModePage = false;
 
 //can view by group
 $canViewPatientInfo_a_group = Auth::canViewPatientInfo();
@@ -122,22 +122,22 @@ $canViewResult_d_group = Auth::canViewPatientResult();
 
 //disable Edit by group
 
-$isDisEditPatientInfo_a_group = Auth::isDisableEditPatientInfo();
-$isDisEditPlaning_b_1_group = Auth::isDisableEditNBCenter();
-$isDisEditPlaning_b_2_group = Auth::isDisableEditNBCenter();
-$isDisEditPlaning_b_3_group = Auth::isDisableEditNBCenter();
-$isDisableEditResult_c_group = Auth::isDisableEditPatientResult();
-$isDisableEditResult_d_group = Auth::isDisableEditPatientResult();
+$canEditPatientInfo_a_group = Auth::isDisableEditPatientInfo();
+$canEditPlaning_b_1_group = Auth::isDisableEditNBCenter();
+$canEditPlaning_b_2_group = Auth::isDisableEditNBCenter();
+$canEditPlaning_b_3_group = Auth::isDisableEditNBCenter();
+$canEditResult_c_group = Auth::isDisableEditPatientResult();
+$canEditResult_d_group = Auth::isDisableEditPatientResult();
 
 
 
 //Disable by status
-$isDisEditPatientInfo_a_status = Status::is_disable_patient_detail($patient[0]['status_id']) ;
-$isDisEditPlaning_b_1_status = false;
-$isDisEditPlaning_b_2_status = false;
-$isDisEditPlaning_b_3_status = false;
-$isDisableEditResult_c_status = false;
-$isDisableEditResult_d_status = false;
+$canEditPatientInfo_a_status = Status::is_disable_patient_detail($patient[0]['status_id']) ;
+$canEditPlaning_b_1_status = false;
+$canEditPlaning_b_2_status = false;
+$canEditPlaning_b_3_status = false;
+$canEditResult_c_status = false;
+$canEditResult_d_status = false;
 
 //disable by field
 $isHideResult = true;

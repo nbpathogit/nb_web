@@ -57,18 +57,18 @@ $statusLists = Status::getAll($conn);
 
 
 // true = Disable Edit page, false canEditPage
-$modePageEditDisable = false;
+$canEditModePage = false;
 
 
 $canViewPatientInfo = Auth::canViewPatientInfo();
-$isDisableEditPatientInfo = true;
+$canEditPatientInfo = true;
 
 
 $canViewNBCenter = Auth::canViewNBCenter();
-$isDisableEditNBCenter = true;
+$canEditNBCenter = true;
 
 $canViewResult = Auth::canViewPatientResult();
-$isDisableEditResult = true;
+$canEditResult = true;
 
 
 //disable by field

@@ -498,6 +498,16 @@ $("#adduser , #chg_passwrd").validate({
 
 });
 
+$("#add_u_result").validate({
+    rules: {
+        
+        result_type: {
+            selectd: true
+        }
+    }
+
+});
+
 //function myHide(){
 //    document.getElementById('mainpage').style.display = 'block';//content ที่ต้องการแสดงหลังจากเพจโหลดเสร็จ
 //    document.getElementById('lodingstatus').style.display = 'none';//content ที่ต้องการแสดงระหว่างโหลดเพจ
