@@ -40,9 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (isset($_POST['save_result'])) {
-        var_dump($_POST);
-    }
+
 
     //Save all page
     if (isset($_POST['save'])) {
@@ -99,6 +97,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     //Move to View only mode
     if (isset($_POST['discard'])) {
+        // true = Disable Edit page, false canEditPage
+        $canEditModePage = false;
+    }
+    
+    
+    
+    if (isset($_POST['save_u_result'])) {
+        var_dump($_POST);
+        if (Presultupdate::updateResult($conn,$_POST['id'],$_POST['pathologist_id'],$_POST['result_message'])) {
+            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+        } else {
+            echo '<script>alert("Add user fail. Please verify again")</script>';
+        }
+    }
+        //Move to edit mode
+    if (isset($_POST['edit_u_result'])) {
+        // true = Disable Edit page, false canEditPage
+        $canEditModePage = true;
+    }
+    //Move to View only mode
+    if (isset($_POST['discard_u_result'])) {
         // true = Disable Edit page, false canEditPage
         $canEditModePage = false;
     }
@@ -195,6 +214,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
 require 'patient_edit_auth.php';
+var_dump($canEditModePage);
 ?>
 
 <?php require 'includes/header.php'; ?>

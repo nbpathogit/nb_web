@@ -35,10 +35,10 @@ $canEditResult_d_group      = false   || $u_group->id==1000 || $u_group->id==200
 
 //Editable by status
 //$canEditPatientInfo_a_status = !Status::is_disable_patient_detail($patient[0]['status_id']) ;
-$canEditPatientInfo_a_status = false || $u_group->id==1000 || ($patient[0]['status_id'] == 1000);
-$canEditPlaning_b_1_status   = false || $u_group->id==1000 || ($patient[0]['status_id'] == 2000);
-$canEditPlaning_b_2_status   = false || $u_group->id==1000 || ($patient[0]['status_id'] == 2000);
-$canEditPlaning_b_3_status   = false || $u_group->id==1000 || ($patient[0]['status_id'] == 2000   || ($patient[0]['status_id'] == 12000));
+$canEditPatientInfo_a_status = false || $u_group->id==1000   || ($patient[0]['status_id'] == 1000);
+$canEditPlaning_b_1_status   = false || $u_group->id==1000   || ($patient[0]['status_id'] == 2000);
+$canEditPlaning_b_2_status   = false || $u_group->id==1000   || ($patient[0]['status_id'] == 2000);
+$canEditPlaning_b_3_status   = false || $u_group->id==1000   || ($patient[0]['status_id'] == 2000   || ($patient[0]['status_id'] == 12000));
 $canEditResult_c_status      = false || $u_group->id==1000   || ($patient[0]['status_id'] == 12000) || ($patient[0]['status_id'] == 13000);
 $canEditResult_d_status      = false || $u_group->id==1000   || ($patient[0]['status_id'] == 14000);
 

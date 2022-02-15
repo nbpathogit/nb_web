@@ -22,15 +22,13 @@ class Presultupdate {
     public $result_type;
     public $result_message;
     public $pathologist_id;
-    public $result2_message;
-    public $pathologist2_id;
     public $release_time;
 
     public static function getAll($conn, $patient_id = 0) {
         $sql = "SELECT * 
                 FROM presultupdate ";
 
-        if ($patient_id != 0 ) {
+        if ($patient_id != 0) {
             $sql = $sql . " WHERE patient_id = " . $patient_id;
         }
 
@@ -48,7 +46,7 @@ class Presultupdate {
 
         //var_dump($this->name);
 
-        $stmt->bindValue(':patient_id' , $this->patient_id , PDO::PARAM_INT);
+        $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
         $stmt->bindValue(':result_type', $this->result_type, PDO::PARAM_STR);
 
 
@@ -61,6 +59,24 @@ class Presultupdate {
         } else {
             return false;
         }
+    }
+
+    public static function updateResult($conn, $id, $pathologist_id, $result_message) {
+
+        $sql = "UPDATE presultupdate
+                SET result_message = :result_message,
+                pathologist_id = :pathologist_id
+                    WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pathologist_id', $pathologist_id, PDO::PARAM_STR);
+        $stmt->bindValue(':result_message', $result_message, PDO::PARAM_STR);
+
+        return $stmt->execute();
     }
 
 }

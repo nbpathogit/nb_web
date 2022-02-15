@@ -11,15 +11,15 @@ $addResultButton = false;
         <form  id="save_u_result" name="" method="post">
             <input name="id" class="" type="text" class="" id="" style="display: none;"  value="<?= $presultupdate['id']; ?>">
             <div align=""  class="mb-3">
-                <label for="p_rsu_diagnosis"><?= $presultupdate['result_type'] ?></label><br>
-                <textarea name="p_rsu_diagnosis" cols="100" rows="5" class="form-control" id="p_rs_diagnosis" <?= $canEditModePage && $canEditResult_d_group && $canEditResult_d_status ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
+                <label for="result_message"><?= $presultupdate['result_type'] ?></label><br>
+                <textarea name="result_message" cols="100" rows="5" class="form-control" id="p_rs_diagnosis" <?= $canEditModePage && $canEditResult_d_group && $canEditResult_d_status ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
             </div>
 
             <div class="row <?= $isBorder ? "border" : "" ?>">
                 <div class="col-xl-6 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
-                    <label for="ppathologist_u_id" class="col-form-label">พยาธิแพทย์ผู้ออกผลเพิ่มเติม</label>
-                    <select name="ppathologist_u_id" class="form-select" <?= $canEditModePage && $canEditResult_d_group && $canEditResult_d_status ? "" : " disabled readonly " ?> >
+                    <label for="pathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผลเพิ่มเติม</label>
+                    <select name="pathologist_id" class="form-select" <?= $canEditModePage && $canEditResult_d_group && $canEditResult_d_status ? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?> > 
@@ -45,7 +45,14 @@ $addResultButton = false;
                 </div>
             </div>
             <div class="row">
-                <p align="center"><button name="save_result" type="submit" class="btn btn-primary">&nbsp;SAVE&nbsp;&nbsp;</button></p>
+   
+                <?php if ($presultupdate['release_time'] == NULL): ?>
+                    <?php if ($canEditModePage): ?>
+                        <p align="center"><button name="save_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;SAVE&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                    <?php else: ?>
+                        <p align="center"><button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </form>
     <?php endforeach; ?>
