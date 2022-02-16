@@ -32,6 +32,21 @@ $disableMoveButton = true;
         <li tabindex="<?= $curstatus[0]['next3'] ?>"><?= $curstatus[0]['next3'] ?></li>
     <?php endif; ?>
 </ul>
+    
+    
+<ul class="uresultinxlist" style="display: none;">
+<!--<ul class="uresultinxlist" >-->
+    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex=" <?= $prsu['id'] ?>"><?= $prsu['id'] ?></li>
+    <?php endforeach; ?> 
+</ul>
+    
+<ul class="uresultReleasedlist" style="display: none;">
+<!--<ul class="uresultReleaseSetlist" >-->
+    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex=" <?= isset($prsu['release_time'])? 1:0 ?>"><?= $prsu['release_time'] ?></li>
+    <?php endforeach; ?> 
+</ul>
 
 
 
@@ -267,9 +282,9 @@ $disableMoveButton = true;
             <?php if (isset($patient[0]['date_10000'])): ?> <tr class="flow_his"><td>10000</td><td class="flow_his">แลปเซลวิทยา</td><td class="flow_his"><?= $patient[0]['date_10000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_12000'])): ?> <tr class="flow_his"><td>12000</td><td class="flow_his">วินิจฉัย</td><td class="flow_his"><?= $patient[0]['date_12000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_13000'])): ?> <tr class="flow_his"><td>13000</td><td class="flow_his">วินิจฉัย(คอนเฟิร์ม)</td><td class="flow_his"><?= $patient[0]['date_13000']; ?> </td></tr> <?php endif; ?>
-            <?php if (isset($patient[0]['date_first_report'])): ?> <tr class="flow_his"><td>20000_f</td><td class="flow_his">ออกผลครั้งแรก</td><td class="flow_his"><?= $patient[0]['date_first_report']; ?> </td></tr> <?php endif; ?>
-            <?php if (isset($patient[0]['date_20000'])): ?> <tr class="flow_his"><td>20000_l</td><td class="flow_his">ออกผลล่าสุด</td><td class="flow_his"><?= $patient[0]['date_20000']; ?> </td></tr> <?php endif; ?>
-            <?php if (isset($patient[0]['date_14000'])): ?> <tr class="flow_his"><td>14000</td><td class="flow_his">ออกผลเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_14000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_first_report'])): ?> <tr class="flow_his"><td>20000_f</td><td class="flow_his">ออกผลแล้ว</td><td class="flow_his"><?= $patient[0]['date_first_report']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_20000'])): ?> <tr class="flow_his"><td>20000_l</td><td class="flow_his">ออกผลเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_20000']; ?> </td></tr> <?php endif; ?>
+            <?php if (false && isset($patient[0]['date_14000'])): ?> <tr class="flow_his"><td>14000</td><td class="flow_his">วินิจฉัยเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_14000']; ?> </td></tr> <?php endif; ?>
 
         </table>
     </div>

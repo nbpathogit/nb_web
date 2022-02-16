@@ -39,8 +39,8 @@ class Presultupdate {
 
     public function create($conn) {
 
-        $sql = "INSERT INTO `presultupdate` (`id`, `patient_id`, `result_type`, `result_message`, `pathologist_id`, `result2_message`, `pathologist2_id`, `release_time`) "
-                . "VALUES                   (NULL, :patient_id  ,:result_type  , ''              , ''              , ''               , '0'              , NULL)";
+        $sql = "INSERT INTO `presultupdate` (`id`, `patient_id`, `result_type`, `result_message`, `pathologist_id` , `release_time`) "
+                . "VALUES                   (NULL, :patient_id  ,:result_type  , ''              , ''              , NULL)";
 
         $stmt = $conn->prepare($sql);
 
@@ -73,8 +73,20 @@ class Presultupdate {
 
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':pathologist_id', $pathologist_id, PDO::PARAM_STR);
+        $stmt->bindValue(':pathologist_id', $pathologist_id, PDO::PARAM_INT);
         $stmt->bindValue(':result_message', $result_message, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public static function updateReleaseTime($conn, $id) {
+
+        $sql = "UPDATE presultupdate
+                SET release_time = NOW()
+                    WHERE id = :id";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
         return $stmt->execute();
     }

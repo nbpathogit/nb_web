@@ -214,6 +214,14 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="status" value="20000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        //append last update result index to use for update released date.
+        $('.uresultinxlist li').each(function (index) {
+            frm.append('<input type="hidden" name="uresultinxlist" value="' + $(this).attr('tabindex') + '" /> ');
+        });
+        //append last update result release date isSet.
+        $('.uresultReleaseSetlist li').each(function (index) {
+            frm.append('<input type="hidden" name="uresultReleaseSetlist" value="' + $(this).attr('tabindex') + '" /> ');
+        });
         frm.appendTo("body");
         frm.submit();
     });

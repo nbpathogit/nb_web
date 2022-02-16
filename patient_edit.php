@@ -15,17 +15,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    var_dump($_POST);
 //    die();
     //
-    //Save only field status
+    
+    //Request to move status
     if (isset($_POST['status'])) {
         //echo "save status";
-        if (Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report'])) {
+        $isUpdateStatusError = true;
+        $isUpdateReleaseTimeError = true;
+        $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report']);
+        if($_POST['cur_status']==14000 && $_POST['status']==20000 && isset($_POST["uresultinxlist"])  ){
+            if($_POST["uresultReleaseSetlist"] == 0){
+                $isUpdateReleaseTimeError = Presultupdate::updateReleaseTime($conn, $_POST["uresultinxlist"]);
+            }
+        }
+        
+        if ($isUpdateStatusError && $isUpdateReleaseTimeError) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
         }
     }
 
-    if (isset($_POST['add_result'])) {
+    if (isset($_POST['add_u_result'])) {
 
 
         $presultupdate = new Presultupdate();
