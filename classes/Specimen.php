@@ -70,6 +70,23 @@ class Specimen
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getSearch($conn, $search)
+    {
+
+        $sql = "SELECT *
+                FROM specimen_list
+                WHERE specimen LIKE '%$search%';";
+
+        // var_dump($sql);
+
+        $stmt = $conn->prepare($sql);
+
+        // $stmt->bindValue(':search', $search, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getByID($conn, $id, $columns = '*')
     {
         $sql = "SELECT $columns
