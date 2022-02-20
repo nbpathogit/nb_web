@@ -1,6 +1,133 @@
-/**
- * Send links of class "delete" via post after a confirm dialog
- */
+
+function showFollowStatus(status) {
+    if (status == 'lump') {
+
+        $('#p_cross_section_id_hr').show();
+        var a = ['p_cross_section_id', 'p_cross_section_ass_id', 'date_3000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+
+        $('#p_slide_prep_id_hr').show();
+        var a = ['p_slide_prep_id', 'pprice', 'date_6000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+        $('#p_slide_prep_sp_id_hr').show();
+        var a = ['p_slide_prep_sp_id', 'pspprice', 'date_8000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+        $('#p_slide_lab_id_hr').hide();
+        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+    } else if (status == 'fluid') {
+
+        $('#p_cross_section_id_hr').hide();
+        var a = ['p_cross_section_id', 'p_cross_section_ass_id', 'date_3000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+
+        $('#p_slide_prep_id_hr').hide();
+        var a = ['p_slide_prep_id', 'pprice', 'date_6000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+
+        $('#p_slide_prep_sp_id_hr').hide();
+        var a = ['p_slide_prep_sp_id', 'pspprice', 'date_8000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+
+        $('#p_slide_lab_id_hr').show();
+        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+
+    } else if ((status == 'hideall')) {
+
+        $('#p_cross_section_id_hr').hide();
+        var a = ['p_cross_section_id', 'p_cross_section_ass_id', 'date_3000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+
+        $('#p_slide_prep_id_hr').hide();
+        var a = ['p_slide_prep_id', 'pprice', 'date_6000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+
+        $('#p_slide_prep_sp_id_hr').hide();
+        var a = ['p_slide_prep_sp_id', 'pspprice', 'date_8000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+
+        $('#p_slide_lab_id_hr').hide();
+        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
+        }
+    } else {
+        $('#p_cross_section_id_hr').show();
+        var a = ['p_cross_section_id', 'p_cross_section_ass_id', 'date_3000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+        $('#p_slide_prep_id_hr').show();
+        var a = ['p_slide_prep_id', 'pprice', 'date_6000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+        $('#p_slide_prep_sp_id_hr').show();
+        var a = ['p_slide_prep_sp_id', 'pspprice', 'date_8000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+        $('#p_slide_lab_id_hr').show();
+        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        for (var i = 0; i < a.length; i++) {
+            $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
+        }
+
+    }
+
+}
+
+function addAction2statusType() {
+
+    $('#lump').click(function () {
+        if ($(this).is(':checked')) {
+            //alert("เลือกสิ่งส่งตรวจเป็น ชิ้นเนดื้อ");
+            showFollowStatus("lump");
+
+
+        }
+    });
+
+    $('#fluid').click(function () {
+        if ($(this).is(':checked')) {
+            //alert("เลือกสิ่งส่งตรวจเป็น ของเหลว");
+            showFollowStatus("fluid");
+
+        }
+    });
+
+}
+
 function addAction2Flow() {
 
 
@@ -299,6 +426,7 @@ $(document).ready(function () {
 
 
     addAction2Flow()
+    addAction2statusType()
 });
 
 
@@ -479,16 +607,16 @@ $("#formAddPatient , #formEditPatient").validate({
 
 $("#adduser , #chg_passwrd").validate({
     rules: {
-        
+
         ugroup_id: {
             selectd: true
         },
-        
+
         uhospital_id: {
             selectd: true
         },
-        
-        username:{
+
+        username: {
             required: true
         },
 
@@ -508,7 +636,7 @@ $("#adduser , #chg_passwrd").validate({
 
 $("#add_u_result").validate({
     rules: {
-        
+
         result_type: {
             selectd: true
         }
