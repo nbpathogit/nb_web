@@ -69,6 +69,7 @@ $users = User::getPage($conn, $paginator->limit, $paginator->offset);
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
+    // delete user
     $("a.delete").on("click", function(e) {
 
         e.preventDefault();
@@ -82,4 +83,9 @@ $users = User::getPage($conn, $paginator->limit, $paginator->offset);
             frm.submit();
         }
     });
+
+
+    // set active tab
+    $( "#user_main" ).addClass( "active" );
+    $( "#user" ).addClass( "active" );
 </script>

@@ -61,22 +61,22 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <div class="nav-item dropdown">
-                        <a href="user.php" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>ผู้ใช้งาน</a>
+                        <a href="user.php" id="user_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>ผู้ใช้งาน</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" href="user.php">ผู้ใช้งานระบบ</a>
-                            <a class="dropdown-item" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a>
-                            <a class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a>
+                            <a id="user" class="dropdown-item" href="user.php">ผู้ใช้งานระบบ</a>
+                            <a id="user_add" class="dropdown-item" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a>
+                            <a id="user_edit" class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="specimen.php" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>สิ่งส่งตรวจ</a>
+                        <a href="specimen.php" id="specimen_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>สิ่งส่งตรวจ</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="specimen.php" class="dropdown-item">ข้อมูลสิ่งส่งตรวจ</a>
-                            <a href="specimen_add.php" class="dropdown-item">เพิ่มสิ่งส่งตรวจ</a>
+                            <a id="specimen" href="specimen.php" class="dropdown-item">ข้อมูลสิ่งส่งตรวจ</a>
+                            <a id="specimen_add" href="specimen_add.php" class="dropdown-item">เพิ่มสิ่งส่งตรวจ</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="hospital.php" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>โรงพยาบาล</a>
+                        <a href="hospital.php" id="hospital_main"class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>โรงพยาบาล</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a class="dropdown-item" href="hospital.php">ข้อมูลโรงพยาบาล</a>
                             <a class="dropdown-item" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
@@ -86,13 +86,13 @@
                     <a href="#" class="nav-item nav-link"><i class="fa fa-th"></i>Billing</a>
                     <a href="#" class="nav-item nav-link"><i class="fa fa-th"></i>ข้อมูลการใช้งานระบบ</a>
                     <div class="nav-item dropdown">
-                        <a href="about.php" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>เกี่ยวกับ</a>
+                        <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>เกี่ยวกับ</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" href="about.php">เกียวกับเรา</a>
-                            <a class="dropdown-item" href="webfeature.php">เกียวกับเว็บแอฟฟลิเคชั่น</a>
-                            <a class="dropdown-item" href="#">ดาวน์โหลดเอกสาร</a>
-                            <a class="dropdown-item" href="stuff.php">บุคลากร</a>
-                            <a class="dropdown-item" href="service.php">บริการของเรา</a>
+                            <a class="dropdown-item" id="about" href="about.php">เกียวกับเรา</a>
+                            <a class="dropdown-item" id="webfeature" href="webfeature.php">เกียวกับเว็บแอฟฟลิเคชั่น</a>
+                            <a class="dropdown-item" id="" href="#">ดาวน์โหลดเอกสาร</a>
+                            <a class="dropdown-item" id="stuff" href="stuff.php">บุคลากร</a>
+                            <a class="dropdown-item" id="service" href="service.php">บริการของเรา</a>
                         </div>
                     </div>
 
@@ -193,4 +193,4 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-            <div class="container m-3">
+            <div class="container p-3">

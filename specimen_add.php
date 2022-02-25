@@ -8,18 +8,18 @@ $conn = require 'includes/db.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // var_dump($_POST);
-    //die();
+  // var_dump($_POST);
+  //die();
 
-    $specimen = new Specimen();
-    $specimen->specimen = $_POST['specimen'];
+  $specimen = new Specimen();
+  $specimen->specimen = $_POST['specimen'];
 
-    if ($specimen->create($conn)) {
+  if ($specimen->create($conn)) {
 
-        Url::redirect("/specimen.php");
-    } else {
-        echo '<script>alert("Add specimen fail. Please verify again")</script>';
-    }
+    Url::redirect("/specimen.php");
+  } else {
+    echo '<script>alert("Add specimen fail. Please verify again")</script>';
+  }
 }
 ?>
 
@@ -44,3 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+  $("#specimen_main").addClass("active");
+  $("#specimen_add").addClass("active");
+</script>

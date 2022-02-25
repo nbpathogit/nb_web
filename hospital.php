@@ -278,4 +278,8 @@ $hospitals = Hospital::getAll($conn);
             $('#maxRows').trigger('change');
         }
     }
+
+    //set active tab
+    $( "#hospital_main" ).addClass( "active" );
+    $( "#hospital" ).addClass( "active" );
 </script>
