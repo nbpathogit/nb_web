@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
         Auth::login($conn, $_POST['username']);
-        Url::redirect('/');
+        Url::redirect('/home.php');
     } else {
         $error = "login incorrect";
     }
