@@ -3,7 +3,7 @@ require 'includes/init.php';
 
 ?>
 
-<?php require 'includes/header.php'; ?>
+<?php require 'includes/header2.php'; ?>
 
 <header class="text-dark text-center" style="background: url('image/bg.jpg') no-repeat center center;height: 400px;background-size: cover;padding-top: 12rem;padding-bottom: 4rem;text-shadow: 0 .05rem .1rem rgba(0, 0, 0, 0.5);">
     <div class="transbox cover-container d-flex w-100 h-100 p-3 mx-auto flex-column" style="max-width: 50em">
@@ -60,4 +60,4 @@ require 'includes/init.php';
 </section>
 
 
-<?php require 'includes/footer.php'; ?> ?>
+<?php require 'includes/footer2.php'; ?> ?>

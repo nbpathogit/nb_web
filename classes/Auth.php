@@ -23,7 +23,7 @@ class Auth {
      */
     public static function requireLogin() {
         if (!static::isLoggedIn()) {
-            die("unauthorised");
+            Url::redirect('/login.php');
         }
     }
 

@@ -89,3 +89,9 @@ require 'includes/init.php';
 </div>
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+//set active tab
+    $( "#about_main" ).addClass( "active" );
+    $( "#stuff" ).addClass( "active" );
+</script>

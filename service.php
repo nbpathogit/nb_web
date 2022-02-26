@@ -20,3 +20,9 @@ require 'includes/init.php';
     <li>การตรวจเซลล์วิทยาน้ำคัดหลั่ง (Fluid cytology)</li>
 </ul>
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+//set active tab
+    $( "#about_main" ).addClass( "active" );
+    $( "#service" ).addClass( "active" );
+</script>

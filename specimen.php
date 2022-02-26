@@ -93,7 +93,7 @@ $specimens = Specimen::getAll($conn);
     <table class="table table-hover table-striped text-center" id="table-id">
         <thead>
             <tr>
-                <th scope="col">#</th>
+                <!-- <th scope="col">#</th> -->
                 <th scope="col">Specimen</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
@@ -102,7 +102,7 @@ $specimens = Specimen::getAll($conn);
         <tbody>
             <?php foreach ($specimens as $specimen) : ?>
                 <tr>
-                    <th scope="row"><?= $specimen['id']; ?></td>
+                    <!-- <th scope="row"><?= $specimen['id']; ?></td> -->
                     <td><?= $specimen['specimen']; ?></td>
                     <td><a href="specimen_edit.php?id=<?= $specimen['id']; ?>">Edit</a></td>
                     <td><a class="delete" href="specimen_del.php?id=<?= $specimen['id']; ?>">Delete</a></td>
@@ -287,4 +287,8 @@ $specimens = Specimen::getAll($conn);
             $('#maxRows').trigger('change');
         }
     }
+
+    // set active tab
+    $( "#specimen_main" ).addClass( "active" );
+    $( "#specimen" ).addClass( "active" );
 </script>
