@@ -3,7 +3,7 @@
 require 'includes/init.php';
 
 if(Auth::isLoggedIn()){
-    Url::redirect('/home.php');
+    Url::redirect("/home.php");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
