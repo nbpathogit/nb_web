@@ -70,6 +70,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['p_uresult_id'])           ? $patient->p_uresult_id = $_POST['p_uresult_id']                       : $patient->p_uresult_id = $patientini[0]['p_uresult_id'];
 
 
+    isset($_POST['p_speciment_type'])         ? $patient->p_speciment_type = $_POST['p_speciment_type']             : $patient->p_speciment_type = $patientini[0]['p_speciment_type'];
+    isset($_POST['p_slide_lab_id'])           ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id']                 : $patient->p_slide_lab_id = $patientini[0]['p_slide_lab_id'];
+    isset($_POST['p_slide_lab_price'])        ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price']           : $patient->p_slide_lab_price = $patientini[0]['p_slide_lab_price'];
+
+
 
     if ($patient->create($conn)) {
         
@@ -92,6 +97,7 @@ $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
+$labFluids = LabFluid::getAll($conn);
 
 
 

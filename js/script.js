@@ -109,12 +109,22 @@ function showFollowStatus(status) {
 
 function addAction2statusType() {
 
+    if ($('#lump').is(':checked')) {
+        //alert("เลือกสิ่งส่งตรวจเป็น ชิ้นเนดื้อ");
+        showFollowStatus("lump");
+    }
+
+    if ($('#fluid').is(':checked')) {
+        //alert("เลือกสิ่งส่งตรวจเป็น ของเหลว");
+        showFollowStatus("fluid");
+    }
+
+
+
     $('#lump').click(function () {
         if ($(this).is(':checked')) {
             //alert("เลือกสิ่งส่งตรวจเป็น ชิ้นเนดื้อ");
             showFollowStatus("lump");
-
-
         }
     });
 
@@ -122,7 +132,6 @@ function addAction2statusType() {
         if ($(this).is(':checked')) {
             //alert("เลือกสิ่งส่งตรวจเป็น ของเหลว");
             showFollowStatus("fluid");
-
         }
     });
 
@@ -372,6 +381,8 @@ $(document).ready(function () {
 
 
 
+
+
     $('#flowtab1 tr').each(function () {
         $(this).find('td').each(function (index) {
             var flowtabl_td = $(this);
@@ -425,8 +436,12 @@ $(document).ready(function () {
 
 
 
-    addAction2Flow()
-    addAction2statusType()
+    addAction2Flow();
+
+
+
+    addAction2statusType();
+
 });
 
 

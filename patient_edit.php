@@ -91,6 +91,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_rs_microscopic_desc']) ? $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'] : null;
         isset($_POST['p_rs_diagnosis']) ? $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis'] : null;
         isset($_POST['p_uresult_id']) ? $patient->p_uresult_id = $_POST['p_uresult_id'] : null;
+        
+        isset($_POST['p_speciment_type']) ? $patient->p_uresult_id = $_POST['p_speciment_type'] : null;
+        isset($_POST['p_slide_lab_id']) ? $patient->p_uresult_id = $_POST['p_slide_lab_id'] : null;
+        isset($_POST['p_slide_lab_price']) ? $patient->p_uresult_id = $_POST['p_slide_lab_price'] : null;
+        
+
 
         if ($patient->update($conn, $_GET['id'])) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
@@ -152,6 +158,7 @@ $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
+$labFluids = LabFluid::getAll($conn);
 
 //var_dump($userPathos);
 //die();
