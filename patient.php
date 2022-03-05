@@ -45,9 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //$patientLists = Patient::getAllJoin($conn);
 
 //Ternary Operator
-$paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1  ,10,Patient::getTotal($conn));
+$paginator = new Paginator(isset($_GET['page']) ? $_GET['page'] : 1, 10, Patient::getTotal($conn));
 
-$patientLists = Patient::getPage($conn,$paginator->limit,$paginator->offset);
+$patientLists = Patient::getPage($conn, $paginator->limit, $paginator->offset);
 
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
@@ -68,63 +68,123 @@ $prioritys = Priority::getAll($conn);
 <?php require 'includes/header.php'; ?>
 
 
-<?php if (!Auth::isLoggedIn()): ?>
+<?php if (!Auth::isLoggedIn()) : ?>
     You are not authorized.
-<?php else: ?>
+<?php else : ?>
 
- 
-<p>&nbsp;</p>
-<hr>
 
-<?php require 'includes/patient_search.php'; ?>
-<p>&nbsp;</p>
-<hr>
+    <p>&nbsp;</p>
+    <hr>
 
-<table class="table table-hover table-striped">
-<!--<table border="1" align="center">-->
-    <thead>
-        <tr>
-            <td><div align="center">ลำดับที่</div></td>
-            <td><div align="center">เลขที่ผู้ป่วย</div></td>
-            <td><div align="center">ชื่อผู้ป่วย</div></td>
-            <td><div align="center">นามสกุลผู้ป่วย</div></td>
-            <td><div align="center">โรงพยาบาล</div></td>
-            <td><div align="center">พยาธิแพทย์</div></td>
-            <td><div align="center">วันที่รับ</div></td>
-            <td><div align="center">วันที่รายงาน</div></td>
-            <td><div align="center">สถานะ</div></td>
-            <td><div align="center"><p>ความสำคัญ</p></div></td>
-            <!--<td><div align="center">ราย<br>ละเอียด</div></td>-->
-            <td><div align="center">แก้ไข/ราย<br>ละเอียด</div></td>
-            <td><div align="center">รายงาน<br>(pdf)</div></td>
-            <td><div align="center">ลบ</div></td>
-        </tr>
-    </thead>
-    <tbody>
+    <?php require 'includes/patient_search.php'; ?>
+    <p>&nbsp;</p>
+    <hr>
 
-        <?php foreach ($patientLists as $patient): ?>
-            <tr >
-                <td><div align="center"><?= $patient['pid']; ?></div></td>
-                <td><div align="center"><?= $patient['pnum']; ?></div></td>
-                <td><div align="center"><?= $patient['pname']; ?></div></td>
-                <td><div align="center"><?= $patient['plastname']; ?></div></td>
-                <td><div align="center"><?= $patient['hospital']; ?></div></td>
-                <td><div align="center"><?= $patient['name']; ?></div></td>
-                <td><div align="center"><?= $patient['date_1000']; ?></div></td>
-                <td><div align="center"><?= $patient['date_20000']; ?></div></td>
-                <td><div align="center"><?= $patient['des']; ?></div></td>
-                <td><div align="center"><?= $patient['priority']; ?></div></td>
-                <!--<td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>-->
-                <td><div align="center"><a href="patient_edit.php?id=<?= $patient['pid']; ?>">Detail/Edit</a></div></td>
-                <td><div align="center"><a target ="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>">view</a></div></td>
-                <td><div align="center"><a href="patient_del.php?id=<?= $patient['pid']; ?>">Delete</a></div></td>
+    <table class="table table-hover table-striped">
+        <!--<table border="1" align="center">-->
+        <thead>
+            <tr>
+                <td>
+                    <div align="center">ลำดับที่</div>
+                </td>
+                <td>
+                    <div align="center">เลขที่ผู้ป่วย</div>
+                </td>
+                <td>
+                    <div align="center">ชื่อผู้ป่วย</div>
+                </td>
+                <td>
+                    <div align="center">นามสกุลผู้ป่วย</div>
+                </td>
+                <td>
+                    <div align="center">โรงพยาบาล</div>
+                </td>
+                <td>
+                    <div align="center">พยาธิแพทย์</div>
+                </td>
+                <td>
+                    <div align="center">วันที่รับ</div>
+                </td>
+                <td>
+                    <div align="center">วันที่รายงาน</div>
+                </td>
+                <td>
+                    <div align="center">สถานะ</div>
+                </td>
+                <td>
+                    <div align="center">
+                        <p>ความสำคัญ</p>
+                    </div>
+                </td>
+                <!--<td><div align="center">ราย<br>ละเอียด</div></td>-->
+                <td>
+                    <div align="center">แก้ไข/ราย<br>ละเอียด</div>
+                </td>
+                <td>
+                    <div align="center">รายงาน<br>(pdf)</div>
+                </td>
+                <td>
+                    <div align="center">ลบ</div>
+                </td>
             </tr>
-        <?php endforeach; ?>
+        </thead>
+        <tbody>
 
-    </tbody>
-</table>
-<?php require 'includes/pagination.php';?>
+            <?php foreach ($patientLists as $patient) : ?>
+                <tr>
+                    <td>
+                        <div align="center"><?= $patient['pid']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['pnum']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['pname']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['plastname']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['hospital']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['name']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['date_1000']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['date_20000']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['des']; ?></div>
+                    </td>
+                    <td>
+                        <div align="center"><?= $patient['priority']; ?></div>
+                    </td>
+                    <!--<td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>-->
+                    <td>
+                        <div align="center"><a href="patient_edit.php?id=<?= $patient['pid']; ?>">Detail/Edit</a></div>
+                    </td>
+                    <td>
+                        <div align="center"><a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>">view</a></div>
+                    </td>
+                    <td>
+                        <div align="center"><a href="patient_del.php?id=<?= $patient['pid']; ?>">Delete</a></div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+        </tbody>
+    </table>
+    <?php require 'includes/pagination.php'; ?>
 
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+    // set active tab
+    $("#patient_main").addClass("active");
+    $("#patient").addClass("active");
+</script>

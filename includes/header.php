@@ -66,6 +66,13 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <div class="nav-item dropdown">
+                        <a href="patient.php" id="patient_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-clone"></i>ข้อมูลผู้รักษา</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a id="patient" class="dropdown-item" href="patient.php">ข้อมูลผู้รักษา</a>
+                            <a id="patient_add" class="dropdown-item" href="patient_add.php">เพิ่มข้อมูลผู้รักษา</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
                         <a href="user.php" id="user_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-doctor"></i>ผู้ใช้งาน</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="user" class="dropdown-item" href="user.php">ผู้ใช้งานระบบ</a>
@@ -81,7 +88,7 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="hospital.php" id="hospital_main"class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hospital-user"></i>โรงพยาบาล</a>
+                        <a href="hospital.php" id="hospital_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hospital-user"></i>โรงพยาบาล</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a class="dropdown-item" href="hospital.php">ข้อมูลโรงพยาบาล</a>
                             <a class="dropdown-item" href="hospital_add.php">เพิ่มโรงพยาบาล</a>

@@ -273,3 +273,9 @@ var_dump($canEditModePage);
 
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+    // set active tab
+    $("#patient_main").addClass("active");
+    $("#patient").addClass("active");
+</script>
