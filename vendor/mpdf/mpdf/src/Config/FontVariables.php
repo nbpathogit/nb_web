@@ -93,22 +93,6 @@ class FontVariables
 			 */
 
 			'fontdata' => [
-                                "angsana" => [
-					'R' => "angsau.ttf",
-					'B' => "angsaub.ttf",
-					'I' => "angsauwi.ttf",
-					'BI' => "angsauz.ttf",
-					'useOTL' => 0xFF,
-					'useKashida' => 75,
-				],
-                                'sarabun' => [
-                                        'R' => 'THSarabunNew.ttf',
-                                        'I' => 'THSarabunNew Italic.ttf',
-                                        'B' =>  'THSarabunNew Bold.ttf',
-                                        'BI' => "THSarabunNew BoldItalic.ttf",
-//					'useOTL' => 0xFF,
-//					'useKashida' => 75,
-                                ],
 				"dejavusanscondensed" => [
 					'R' => "DejaVuSansCondensed.ttf",
 					'B' => "DejaVuSansCondensed-Bold.ttf",
