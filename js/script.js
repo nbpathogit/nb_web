@@ -22,7 +22,7 @@ function showFollowStatus(status) {
         }
 
         $('#p_slide_lab_id_hr').hide();
-        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        var a = ['p_slide_lab_id', 'p_slide_lab_price', 'date_10000'];
         for (var i = 0; i < a.length; i++) {
             $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
         }
@@ -47,7 +47,7 @@ function showFollowStatus(status) {
         }
 
         $('#p_slide_lab_id_hr').show();
-        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        var a = ['p_slide_lab_id', 'p_slide_lab_price', 'date_10000'];
         for (var i = 0; i < a.length; i++) {
             $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
         }
@@ -74,7 +74,7 @@ function showFollowStatus(status) {
         }
 
         $('#p_slide_lab_id_hr').hide();
-        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        var a = ['p_slide_lab_id', 'p_slide_lab_price', 'date_10000'];
         for (var i = 0; i < a.length; i++) {
             $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).hide();
         }
@@ -98,7 +98,7 @@ function showFollowStatus(status) {
         }
 
         $('#p_slide_lab_id_hr').show();
-        var a = ['p_slide_lab_id', 'plabprice', 'date_10000'];
+        var a = ['p_slide_lab_id', 'p_slide_lab_price', 'date_10000'];
         for (var i = 0; i < a.length; i++) {
             $('label[for=' + a[i] + '], input#' + a[i] + ', select#' + a[i]).show();
         }
