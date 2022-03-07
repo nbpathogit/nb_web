@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once './../../vendor/autoload.php';
 
 class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 
@@ -35,9 +35,9 @@ class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 //             var_dump($adobeCJK);
 ////            die();
             return [false, 'freeserif']; // for Greek language, font is not core suitable and the font is Frutiger
-        } else {
-            return [true, 'angsana'];
-            ; // for Greek language, font is not core suitable and the font is Frutiger
+        }else{
+            return [true, 'angsana'];; // for Greek language, font is not core suitable and the font is Frutiger
+            
         }
 
         return parent::getLanguageOptions($llcc, $adobeCJK);
@@ -45,25 +45,10 @@ class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 
 }
 
-//custom font
 $defaultConfig = (new Mpdf\Config\ConfigVariables())->getDefaults();
 $fontDirs = $defaultConfig['fontDir'];
-
 $defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
 $fontData = $defaultFontConfig['fontdata'];
-
-//$mpdf = new \Mpdf\Mpdf([
-//    'fontDir' => array_merge($fontDirs, [
-//        __DIR__ . '/fonts',
-//    ]),
-//    'fontdata' => $fontData + [
-//            'sarabun' => [
-//                'R' => 'THSarabunNew.ttf',
-//                'I' => 'THSarabunNew Italic.ttf',
-//                'B' =>  'THSarabunNew Bold.ttf',
-//            ]
-//        ],
-//]);
 
 $mpdf = new \Mpdf\Mpdf(
         [
@@ -81,29 +66,30 @@ $mpdf = new \Mpdf\Mpdf(
     'autoLangToFont' => true,
     'default_font' => 'angsana',
     'fontDir' => array_merge($fontDirs, [
-        './fonts',
+        './../../fonts',
     ]),
     'fontdata' => $fontData + [
-'angsana' => [
-    'R' => 'angsau.ttf',
-    'B' => 'angsaub.ttf',
-    'I' => 'angsaui.ttf',
-    'BI' => 'angsaubz.ttf',
-    'useOTL' => 0xFF,  //แก้สระซ้อนทับกัน
-    'useKashida' => 75, //แก้สระซ้อนทับกัน
-],
- 'sarabun' => [
-    'R' => 'THSarabunNew.ttf',
-    'I' => 'THSarabunNewItalic.ttf',
-    'B' => 'THSarabunNewBold.ttf',
-    'BI' => "THSarabunNewBoldItalic.ttf",
-]
-    ],
+            'angsana' => [
+                'R' => 'angsau.ttf',
+                'B' => 'angsaub.ttf',
+                'I' =>  'angsaui.ttf',
+                'BI' => 'angsaubz.ttf',
+            ]
+        ],
         ]
 );
 
-$content = file_get_contents('patient_format_pdf.php');
 
-$mpdf->WriteHTML($content);
+
+
+$texttt = '
+    
+    
+    <p >ไทยengβไทยengβไทยβไทยβeng</p>
+   
+ 
+ 
+    ';
+$mpdf->WriteHTML($texttt, \Mpdf\HTMLParserMode::HTML_BODY);
+//die();
 $mpdf->Output();
-?>
