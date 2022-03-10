@@ -53,14 +53,17 @@ $fontData = $defaultFontConfig['fontdata'];
 $mpdf = new \Mpdf\Mpdf(
         [
     'mode' => 'utf-8',
-    'format' => 'A4' . ('orientation' == 'L' ? '-L' : ''),
-    'orientation' => 0,
-    'margin_left' => 3,
-    'margin_right' => 3,
-    'margin_top' => 3,
-    'margin_bottom' => 0,
-    'margin_header' => 0,
-    'margin_footer' => 0,
+//    'orientation' => 'L',
+//    'format' => 'A4' . ('orientation' == 'L' ? '-L' : ''),
+    'format' => 'A4',
+//    'autoPageBreak' => true,
+    'autoPageBreak' => true,
+    'margin_left' => 15,
+    'margin_right' => 15,
+    'margin_top' => 15,
+    'margin_bottom' => 15,
+    'margin_header' => 15,
+    'margin_footer' => 15,
     'languageToFont' => new CustomLanguageToFontImplementation(),
     'autoScriptToLang' => true,
     'autoLangToFont' => true,
@@ -73,7 +76,7 @@ $mpdf = new \Mpdf\Mpdf(
                 'R' => 'angsau.ttf',
                 'B' => 'angsaub.ttf',
                 'I' =>  'angsaui.ttf',
-                'BI' => 'angsaubz.ttf',
+                'BI' => 'angsauz.ttf',
             ]
         ],
         ]
@@ -83,13 +86,63 @@ $mpdf = new \Mpdf\Mpdf(
 
 
 $texttt = '
-    
-    
-    <p >ไทยengβไทยengβไทยβไทยβeng</p>
-   
- 
- 
-    ';
-$mpdf->WriteHTML($texttt, \Mpdf\HTMLParserMode::HTML_BODY);
+<style>
+    div { border: 1px solid black; padding: 1em; }
+    .level1 { box-decoration-break: slice; }
+    .level2 { box-decoration-break: clone; }
+    .level3 { box-decoration-break: clone; }
+</style>
+
+<div class="level1">
+    level1
+    <div class="level2">
+    level2
+        <div class="level3">
+            level3
+        </div>
+    </div>
+</div>
+';
+
+$texttt2 = '
+<style>
+    div { border: 1px solid black;  }
+    .level1 { box-decoration-break: slice; }
+    .level2 { box-decoration-break: clone; }
+    .level3 { box-decoration-break: clone; }
+</style>
+
+<div class="level1">
+    level1
+    <div class="level2">
+    level2
+        <div class="level3">
+            level3
+        </div>
+    </div>
+</div>
+';
+
+$mpdf->autoPageBreak = true;
+
+$mpdf->SetHeader('Your header [pagetotal]');
+//$mpdf->SetFooter('Document Title');
+
+$mpdf->WriteHTML($texttt);
+$mpdf->WriteHTML($texttt2);
+$mpdf->WriteHTML($texttt);
+$mpdf->WriteHTML($texttt2);
+$mpdf->WriteHTML($texttt);
+$mpdf->WriteHTML($texttt2);
+$mpdf->WriteHTML($texttt);
+$mpdf->WriteHTML($texttt2);
+$mpdf->WriteHTML($texttt);
+$mpdf->WriteHTML($texttt2);
+$mpdf->WriteHTML($texttt);
+$mpdf->WriteHTML($texttt2);
+
+
+//$mpdf->AddPage();
+//$mpdf->WriteHTML($texttt);
 //die();
 $mpdf->Output();

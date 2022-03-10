@@ -70,12 +70,15 @@ $mpdf = new \Mpdf\Mpdf(
     'mode' => 'utf-8',
     'format' => 'A4' . ('orientation' == 'L' ? '-L' : ''),
     'orientation' => 0,
-    'margin_left' => 3,
-    'margin_right' => 3,
-    'margin_top' => 3,
-    'margin_bottom' => 0,
-    'margin_header' => 0,
-    'margin_footer' => 0,
+            
+    'margin_left' => 15,
+    'margin_right' => 15,
+    'margin_top' => 55,  
+    'margin_bottom' => 15,
+            
+    'margin_header' => 10,
+    'margin_footer' => 4,
+            
     'languageToFont' => new CustomLanguageToFontImplementation(),
     'autoScriptToLang' => true,
     'autoLangToFont' => true,
@@ -88,7 +91,7 @@ $mpdf = new \Mpdf\Mpdf(
     'R' => 'angsau.ttf',
     'B' => 'angsaub.ttf',
     'I' => 'angsaui.ttf',
-    'BI' => 'angsaubz.ttf',
+    'BI' => 'angsauz.ttf',
     'useOTL' => 0xFF,  //แก้สระซ้อนทับกัน
     'useKashida' => 75, //แก้สระซ้อนทับกัน
 ],
@@ -102,8 +105,19 @@ $mpdf = new \Mpdf\Mpdf(
         ]
 );
 
-$content = file_get_contents('patient_format_pdf.php');
+$header = file_get_contents('patient_format_header_pdf.php');
+$footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
+$content = file_get_contents('patient_format_result_pdf.php');
+$signature = file_get_contents('patient_format_signature_pdf.php');
 
+
+$mpdf->shrink_tables_to_fit = 1;
+
+$mpdf->SetHTMLHeader($header);
+$mpdf->SetHTMLFooter($footer);
 $mpdf->WriteHTML($content);
+$mpdf->WriteHTML($content);
+$mpdf->WriteHTML($signature);
+
 $mpdf->Output();
 ?>
