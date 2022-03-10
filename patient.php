@@ -82,7 +82,7 @@ $prioritys = Priority::getAll($conn);
     <!-- <p>&nbsp;</p>
     <hr> -->
 
-    <table class="table table-hover table-striped" id="patient_table">
+    <table class="table table-hover table-striped" id="patient_table" style="width:100%">
         <!--<table border="1" align="center">-->
         <thead>
             <tr>
@@ -97,7 +97,7 @@ $prioritys = Priority::getAll($conn);
                 <th>สถานะ</th>
                 <th>ความสำคัญ</th>
                 <!--<th>ราย<br>ละเอียด</th>-->
-                <td></td>
+                <th></th>
                 <!-- <th>แก้ไข/รายละเอียด</th>
                 <th>PDF</th>
                 <th>ลบ</th> -->
@@ -140,9 +140,9 @@ $prioritys = Priority::getAll($conn);
                     <!--<td><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></td>-->
                     <td>
                         <div>
-                        <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
-                        <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-file-pdf fa-lg"></i></a>
-                        <a href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                            <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
+                            <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-file-pdf fa-lg"></i></a>
+                            <a href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -155,28 +155,30 @@ $prioritys = Priority::getAll($conn);
 
 <?php endif; ?>
 
+
+
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
     $(document).ready(function() {
 
         $('#patient_table').DataTable({
-            searchPanes: {
-                cascadePanes: true,
-                initCollapsed: true
-            },
             dom: 'Plfrtip',
+            searchPanes: {
+                initCollapsed: true,
+                // cascadePanes: true,
+            },
             columnDefs: [{
                     searchPanes: {
                         show: true
                     },
-                    targets: [4,5,6,7,8]
+                    targets: [4, 5, 6, 7, 8]
                 },
                 {
                     searchPanes: {
                         show: false
                     },
-                    targets: [0,1,2,3]
+                    targets: [0, 1, 2, 3]
                 }
             ]
         });
