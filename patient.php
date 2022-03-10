@@ -97,9 +97,10 @@ $prioritys = Priority::getAll($conn);
                 <th>สถานะ</th>
                 <th>ความสำคัญ</th>
                 <!--<th>ราย<br>ละเอียด</th>-->
-                <th>แก้ไข/รายละเอียด</th>
+                <td></td>
+                <!-- <th>แก้ไข/รายละเอียด</th>
                 <th>PDF</th>
-                <th>ลบ</th>
+                <th>ลบ</th> -->
             </tr>
         </thead>
         <tbody>
@@ -138,13 +139,11 @@ $prioritys = Priority::getAll($conn);
                     </td>
                     <!--<td><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></td>-->
                     <td>
-                        <a href="patient_edit.php?id=<?= $patient['pid']; ?>">Detail/Edit</a>
-                    </td>
-                    <td>
-                        <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>">view</a>
-                    </td>
-                    <td>
-                        <a href="patient_del.php?id=<?= $patient['pid']; ?>">Delete</a>
+                        <div>
+                        <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
+                        <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-file-pdf fa-lg"></i></a>
+                        <a href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
