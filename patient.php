@@ -45,9 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //$patientLists = Patient::getAllJoin($conn);
 
 //Ternary Operator
-$paginator = new Paginator(isset($_GET['page']) ? $_GET['page'] : 1, 10, Patient::getTotal($conn));
+// $paginator = new Paginator(isset($_GET['page']) ? $_GET['page'] : 1, 10, Patient::getTotal($conn));
+// $patientLists = Patient::getPage($conn, $paginator->limit, $paginator->offset);
 
-$patientLists = Patient::getPage($conn, $paginator->limit, $paginator->offset);
+$patientLists = Patient::getAllJoin($conn, 0);
 
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
@@ -76,56 +77,29 @@ $prioritys = Priority::getAll($conn);
     <p>&nbsp;</p>
     <hr>
 
-    <?php require 'includes/patient_search.php'; ?>
-    <p>&nbsp;</p>
-    <hr>
+    <?php // require 'includes/patient_search.php'; 
+    ?>
+    <!-- <p>&nbsp;</p>
+    <hr> -->
 
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-striped" id="patient_table">
         <!--<table border="1" align="center">-->
         <thead>
             <tr>
-                <td>
-                    <div align="center">ลำดับที่</div>
-                </td>
-                <td>
-                    <div align="center">เลขที่ผู้ป่วย</div>
-                </td>
-                <td>
-                    <div align="center">ชื่อผู้ป่วย</div>
-                </td>
-                <td>
-                    <div align="center">นามสกุลผู้ป่วย</div>
-                </td>
-                <td>
-                    <div align="center">โรงพยาบาล</div>
-                </td>
-                <td>
-                    <div align="center">พยาธิแพทย์</div>
-                </td>
-                <td>
-                    <div align="center">วันที่รับ</div>
-                </td>
-                <td>
-                    <div align="center">วันที่รายงาน</div>
-                </td>
-                <td>
-                    <div align="center">สถานะ</div>
-                </td>
-                <td>
-                    <div align="center">
-                        <p>ความสำคัญ</p>
-                    </div>
-                </td>
-                <!--<td><div align="center">ราย<br>ละเอียด</div></td>-->
-                <td>
-                    <div align="center">แก้ไข/ราย<br>ละเอียด</div>
-                </td>
-                <td>
-                    <div align="center">รายงาน<br>(pdf)</div>
-                </td>
-                <td>
-                    <div align="center">ลบ</div>
-                </td>
+                <th>#</th>
+                <th>เลขที่ผู้ป่วย</th>
+                <th>ชื่อผู้ป่วย</th>
+                <th>นามสกุลผู้ป่วย</th>
+                <th>โรงพยาบาล</th>
+                <th>พยาธิแพทย์</th>
+                <th>วันที่รับ</th>
+                <th>วันที่รายงาน</th>
+                <th>สถานะ</th>
+                <th>ความสำคัญ</th>
+                <!--<th>ราย<br>ละเอียด</th>-->
+                <th>แก้ไข/รายละเอียด</th>
+                <th>PDF</th>
+                <th>ลบ</th>
             </tr>
         </thead>
         <tbody>
@@ -133,58 +107,84 @@ $prioritys = Priority::getAll($conn);
             <?php foreach ($patientLists as $patient) : ?>
                 <tr>
                     <td>
-                        <div align="center"><?= $patient['pid']; ?></div>
+                        <?= $patient['pid']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['pnum']; ?></div>
+                        <?= $patient['pnum']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['pname']; ?></div>
+                        <?= $patient['pname']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['plastname']; ?></div>
+                        <?= $patient['plastname']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['hospital']; ?></div>
+                        <?= $patient['hospital']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['name']; ?></div>
+                        <?= $patient['name']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['date_1000']; ?></div>
+                        <?= $patient['date_1000']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['date_20000']; ?></div>
+                        <?= $patient['date_20000']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['des']; ?></div>
+                        <?= $patient['des']; ?>
                     </td>
                     <td>
-                        <div align="center"><?= $patient['priority']; ?></div>
+                        <?= $patient['priority']; ?>
                     </td>
-                    <!--<td><div align="center"><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></div></td>-->
+                    <!--<td><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></td>-->
                     <td>
-                        <div align="center"><a href="patient_edit.php?id=<?= $patient['pid']; ?>">Detail/Edit</a></div>
-                    </td>
-                    <td>
-                        <div align="center"><a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>">view</a></div>
+                        <a href="patient_edit.php?id=<?= $patient['pid']; ?>">Detail/Edit</a>
                     </td>
                     <td>
-                        <div align="center"><a href="patient_del.php?id=<?= $patient['pid']; ?>">Delete</a></div>
+                        <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>">view</a>
+                    </td>
+                    <td>
+                        <a href="patient_del.php?id=<?= $patient['pid']; ?>">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
 
         </tbody>
     </table>
-    <?php require 'includes/pagination.php'; ?>
+    <?php //require 'includes/pagination.php'; 
+    ?>
 
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    // set active tab
-    $("#patient_main").addClass("active");
-    $("#patient").addClass("active");
+    $(document).ready(function() {
+
+        $('#patient_table').DataTable({
+            searchPanes: {
+                cascadePanes: true,
+                initCollapsed: true
+            },
+            dom: 'Plfrtip',
+            columnDefs: [{
+                    searchPanes: {
+                        show: true
+                    },
+                    targets: [4,5,6,7,8]
+                },
+                {
+                    searchPanes: {
+                        show: false
+                    },
+                    targets: [0,1,2,3]
+                }
+            ]
+        });
+
+        // set active tab
+        $("#patient_main").addClass("active");
+        $("#patient").addClass("active");
+
+    });
 </script>
