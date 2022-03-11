@@ -56,3 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+//set active tab
+    $( "#hospital_main" ).addClass( "active" );
+    $( "#hospital_add" ).addClass( "active" );
+</script>

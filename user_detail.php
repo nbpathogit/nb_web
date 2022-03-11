@@ -102,3 +102,9 @@ if (isset($_GET['id'])) {
 </table>
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+    // set active tab
+    $( "#user_main" ).addClass( "active" );
+    $( "#user_add" ).addClass( "active" );
+</script>

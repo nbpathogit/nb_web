@@ -56,3 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+  $("#specimen_main").addClass("active");
+  $("#specimen_add").addClass("active");
+</script>

@@ -101,3 +101,9 @@ $isStatusDisableEdit = true;
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+    // set active tab
+    $("#patient_main").addClass("active");
+    $("#patient_add").addClass("active");
+</script>
