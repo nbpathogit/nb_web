@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php if (!Auth::isLoggedIn()): ?>
     You are not login.
 <?php else: ?>
-
+    <h4>เพิ่มสถานพยาบาล</h4>
 <?php require 'includes/hospital_form.php'; ?>
 
 <?php endif; ?>

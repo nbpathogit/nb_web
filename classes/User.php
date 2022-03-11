@@ -58,7 +58,8 @@ class User
                 JOIN user_groups G
                 JOIN hospital H
                 WHERE U.ugroup_id  = G.id
-                and U.uhospital_id  = H.id";
+                and U.uhospital_id  = H.id
+                ORDER BY U.id";
 
         if ($id != 0) {
             $sql = $sql . " and U.id = " . $id;

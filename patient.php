@@ -97,7 +97,7 @@ $prioritys = Priority::getAll($conn);
                 <th>สถานะ</th>
                 <th>ความสำคัญ</th>
                 <!--<th>ราย<br>ละเอียด</th>-->
-                <th></th>
+                <th>จัดการ</th>
                 <!-- <th>แก้ไข/รายละเอียด</th>
                 <th>PDF</th>
                 <th>ลบ</th> -->
@@ -111,7 +111,7 @@ $prioritys = Priority::getAll($conn);
                         <?= $patient['pid']; ?>
                     </td>
                     <td>
-                        <?= $patient['pnum']; ?>
+                        <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><?= $patient['pnum']; ?></a>
                     </td>
                     <td>
                         <?= $patient['pname']; ?>
@@ -140,9 +140,8 @@ $prioritys = Priority::getAll($conn);
                     <!--<td><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></td>-->
                     <td>
                         <div>
-                            <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
                             <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-file-pdf fa-lg"></i></a>
-                            <a href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                            <a class="delete" href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -160,6 +159,7 @@ $prioritys = Priority::getAll($conn);
 <script type="text/javascript">
     $(document).ready(function() {
 
+        // datatable
         $('#patient_table').DataTable({
             dom: 'Plfrtip',
             searchPanes: {
@@ -179,6 +179,21 @@ $prioritys = Priority::getAll($conn);
                     targets: [0, 1, 2, 3]
                 }
             ]
+        });
+
+        // delete user
+        $("a.delete").on("click", function(e) {
+
+            e.preventDefault();
+
+            if (confirm("Are you sure?")) {
+
+                var frm = $("<form>");
+                frm.attr('method', 'post');
+                frm.attr('action', $(this).attr('href'));
+                frm.appendTo("body");
+                frm.submit();
+            }
         });
 
         // set active tab

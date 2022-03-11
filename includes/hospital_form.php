@@ -1,5 +1,3 @@
-<h4>เพิ่มสถานพยาบาล</h4>
-
 
 <form class="row g-2" id="checkForm" name="checkForm" method="post">
 

@@ -82,7 +82,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="user" class="dropdown-item" href="user.php">ผู้ใช้งานระบบ</a>
                             <a id="user_add" class="dropdown-item" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a>
-                            <a id="user_edit" class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a>
+                            <!-- <a id="user_edit" class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a> -->
                         </div>
                     </div>
                     <div class="nav-item dropdown">
