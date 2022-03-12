@@ -8,7 +8,7 @@ Auth::requireLogin();
 $conn = require 'includes/db.php';
 
 if (isset($_GET['id'])) {
-    $patient = Patient::getAll($conn,$_GET['id']);
+    $patient = Patient::getAll($conn, $_GET['id']);
 } else {
     $patient = null;
 }
@@ -79,26 +79,38 @@ $isStatusDisableEdit = true;
 
 <?php require 'includes/header.php'; ?>
 
-<?php if (!Auth::isLoggedIn()): ?>
-    You are not authorized.
-<?php else: ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-    <?php //require 'includes/patient_status.php';  ?><hr>
 
-    <form  id="" name="" method="post">
-        <?php if ($canViewPatientInfo): ?>
-            <?php require 'includes/patient_form_a.php'; ?><hr>
+        <?php if (!Auth::isLoggedIn()) : ?>
+            You are not authorized.
+        <?php else : ?>
+
+            <?php //require 'includes/patient_status.php';  
+            ?>
+            <hr>
+
+            <form id="" name="" method="post">
+                <?php if ($canViewPatientInfo) : ?>
+                    <?php require 'includes/patient_form_a.php'; ?>
+                    <hr>
+                <?php endif; ?>
+                <?php if ($canViewNBCenter) : ?>
+                    <?php require 'includes/patient_form_b.php'; ?>
+                    <hr>
+                <?php endif; ?>
+                <?php if ($canViewResult) : ?>
+                    <?php require 'includes/patient_form_c.php'; ?>
+                    <hr>
+                <?php endif; ?>
+
+            </form>
+
         <?php endif; ?>
-        <?php if ($canViewNBCenter): ?>
-            <?php require 'includes/patient_form_b.php'; ?><hr>
-        <?php endif; ?>
-        <?php if ($canViewResult): ?>
-            <?php require 'includes/patient_form_c.php'; ?><hr>
-        <?php endif; ?>
 
-    </form>
-
-<?php endif; ?>
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 

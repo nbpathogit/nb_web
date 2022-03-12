@@ -70,8 +70,9 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
+                    <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>หน้าแรก</a>
                     <div class="nav-item dropdown">
-                        <a href="patient.php" id="patient_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-clone"></i>ข้อมูลผู้รักษา</a>
+                        <a href="patient.php" id="patient_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="patient" class="dropdown-item" href="patient.php">ข้อมูลผู้รักษา</a>
                             <a id="patient_add" class="dropdown-item" href="patient_add.php">เพิ่มข้อมูลผู้รักษา</a>
@@ -210,5 +211,5 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="row bg-light rounded align-items-center justify-content-center mx-0">
+            <!-- <div class="container-fluid pt-4 px-4">
+                    <div class="row bg-light rounded align-items-center justify-content-center mx-0"> -->

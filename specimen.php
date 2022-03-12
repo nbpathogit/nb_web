@@ -26,43 +26,59 @@ $specimens = Specimen::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
-<?php if (!Auth::isLoggedIn()) : ?>
-    You are not login.
-<?php else : ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-    <table class="table table-hover table-striped text-center" id="specimen_table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Specimen</th>
-                <th scope="col">Manage</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($specimens as $specimen) : ?>
-                <tr>
-                    <th scope="row"><?= $specimen['id']; ?></td>
-                    <td><?= $specimen['specimen']; ?></td>
-                    <td>
-                    <a href="specimen_edit.php?id=<?= $specimen['id']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
-                        <a class="delete" href="specimen_del.php?id=<?= $specimen['id']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            </thead>
-    </table>
+        <?php if (!Auth::isLoggedIn()) : ?>
+            You are not login.
+        <?php else : ?>
 
-    <!--		Start Pagination -->
-    <div class='pagination-container'>
-        <nav>
-            <ul class="pagination">
-                <!--	Here the JS Function Will Add the Rows -->
-            </ul>
-        </nav>
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/specimen_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-disease me-2"></i>เพิ่มสิ่งส่งตรวจ</a>
+            </div>
+
     </div>
-    <div class="rows_count"></div>
+</div>
 
-<?php endif; ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+            <table class="table table-hover table-striped text-center" id="specimen_table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Specimen</th>
+                        <th scope="col">Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($specimens as $specimen) : ?>
+                        <tr>
+                            <th scope="row"><?= $specimen['id']; ?></td>
+                            <td><?= $specimen['specimen']; ?></td>
+                            <td>
+                                <a href="specimen_edit.php?id=<?= $specimen['id']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
+                                <a class="delete" href="specimen_del.php?id=<?= $specimen['id']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </thead>
+            </table>
+
+            <!--		Start Pagination -->
+            <div class='pagination-container'>
+                <nav>
+                    <ul class="pagination">
+                        <!--	Here the JS Function Will Add the Rows -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="rows_count"></div>
+
+        <?php endif; ?>
+
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 

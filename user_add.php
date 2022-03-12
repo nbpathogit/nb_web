@@ -14,8 +14,8 @@ $ugroups = Ugroup::getAll($conn);
 
 $hospitals = Hospital::getAll($conn);
 //var_dump($hospitals);
-$user=[];
-$user[0]=[];
+$user = [];
+$user[0] = [];
 
 
 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user->uhospital_id = $_POST['uhospital_id'];
     $user->udetail = $_POST['udetail'];
 
-    
+
     if ($user->create($conn)) {
 
         Url::redirect("/user_detail.php?id=$user->id&result=1");
@@ -46,17 +46,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php require 'includes/header.php'; ?>
 
-<div align=""><b>เพิ่มผู้ใช้งานระบบ</b></div>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-<form id="adduser" method="post">
-    <?php require 'includes/user_form.php'; ?>
-    <div align=""><button class="btn btn-primary">Add</button></div>
-</form>
+        <div align=""><b>เพิ่มผู้ใช้งานระบบ</b></div>
+
+        <form id="adduser" method="post">
+            <?php require 'includes/user_form.php'; ?>
+            <div align=""><button class="btn btn-primary">Add</button></div>
+        </form>
+
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
     // set active tab
-    $( "#user_main" ).addClass( "active" );
-    $( "#user_add" ).addClass( "active" );
+    $("#user_main").addClass("active");
+    $("#user_add").addClass("active");
 </script>

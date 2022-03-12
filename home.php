@@ -3,20 +3,47 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-if(!Auth::isLoggedIn()){
+if (!Auth::isLoggedIn()) {
     Url::redirect("/login.php");
 }
 
+$stats = Stat::getTotal($conn);
+
 require "includes/header.php"; ?>
 
-<!-- Blank Start -->
+
+
 <div class="container-fluid pt-4 px-4">
-    <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
-        <div class="col-md-6 text-center">
-            <h3>หน้าแรก</h3>
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-light rounded d-flex align-items-center justify-content-start p-4">
+                <i class="fa-solid fa-database fa-lg me-2"></i>
+                <h4 class="text-start">ข้อมูลจากฐานระบบ</h4>
+            </div>
         </div>
+        <?php foreach ($stats as $stat) :  ?>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="ms-3 text-end">
+                        <p class="mb-2"><?= $stat["table_name"] ?></p>
+                        <h6 class="mb-0"><?= $stat["table_rows"] ?></h6>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+
     </div>
 </div>
-<!-- Blank End -->
+
 
 <?php require "includes/footer.php"; ?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        //set active tab
+        $("#home").addClass("active");
+
+    });
+</script>

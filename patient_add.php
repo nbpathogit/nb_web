@@ -3,11 +3,10 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-if(!Auth::isLoggedIn()){
-        echo "time out plese login again";
+if (!Auth::isLoggedIn()) {
+    echo "time out plese login again";
     Url::redirect("/login.php");
-}else{
-
+} else {
 }
 
 
@@ -17,24 +16,24 @@ $patientini = Patient::getInit();
 //die();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    var_dump($_POST);
-//    die();
-    
+    //    var_dump($_POST);
+    //    die();
+
     $patientini = Patient::getInit();
 
     $patient = new Patient();
     isset($_POST['pnum'])            ? $patient->pnum = $_POST['pnum']                      : $patient->pnum = $patientini[0]['pnum'];
-    isset($_POST['plabnum'])         ? $patient->plabnum = $_POST['plabnum']                : $patient->plabnum = $patientini[0]['plabnum'] ;
+    isset($_POST['plabnum'])         ? $patient->plabnum = $_POST['plabnum']                : $patient->plabnum = $patientini[0]['plabnum'];
     isset($_POST['pname'])           ? $patient->pname = $_POST['pname']                    : $patient->pname = $patientini[0]['pname'];
     isset($_POST['pgender'])         ? $patient->pgender = $_POST['pgender']                : $patient->pgender = $patientini[0]['pgender'];
     isset($_POST['plastname'])       ? $patient->plastname = $_POST['plastname']            : $patient->plastname = $patientini[0]['plastname'];
     isset($_POST['pedge'])           ? $patient->pedge = $_POST['pedge']                    : $patient->pedge = $patientini[0]['pedge'];
     isset($_POST['date_1000'])     ? $patient->date_1000 = $_POST['date_1000']        : $patient->date_1000 = $patientini[0]['date_1000'];
-    
-    
-    
-    
-    
+
+
+
+
+
     isset($_POST['date_2000'])     ? $patient->date_2000 = $_POST['date_2000']        : $patient->date_2000 = $patientini[0]['date_2000'];
     isset($_POST['date_3000'])     ? $patient->date_3000 = $_POST['date_3000']        : $patient->date_3000 = $patientini[0]['date_3000'];
     isset($_POST['date_6000'])     ? $patient->date_6000 = $_POST['date_6000']        : $patient->date_6000 = $patientini[0]['date_6000'];
@@ -47,12 +46,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['date_first_report'])     ? $patient->date_first_report = $_POST['date_first_report']        : $patient->date_first_report = $patientini[0]['date_first_report'];
 
 
-    
+
     isset($_POST['status_id'])      ? $patient->status_id = $_POST['status_id']             : $patient->status_id = $patientini[0]['status_id'];
-    isset($_POST['priority_id'])    ? $patient->priority_id = $_POST['priority_id']               : $patient->priority_id = $patientini[0]['priority_id'] ;
+    isset($_POST['priority_id'])    ? $patient->priority_id = $_POST['priority_id']               : $patient->priority_id = $patientini[0]['priority_id'];
     isset($_POST['phospital_id'])   ? $patient->phospital_id = $_POST['phospital_id']       : $patient->phospital_id = $patientini[0]['phospital_id'];
     isset($_POST['phospital_num'])  ? $patient->phospital_num = $_POST['phospital_num']     : $patient->phospital_num = $patientini[0]['phospital_num'];
-    isset($_POST['ppathologist_id'])? $patient->ppathologist_id = $_POST['ppathologist_id'] : $patient->ppathologist_id = $patientini[0]['ppathologist_id'];
+    isset($_POST['ppathologist_id']) ? $patient->ppathologist_id = $_POST['ppathologist_id'] : $patient->ppathologist_id = $patientini[0]['ppathologist_id'];
     isset($_POST['pspecimen_id'])   ? $patient->pspecimen_id = $_POST['pspecimen_id']       : $patient->pspecimen_id = $patientini[0]['pspecimen_id'];
     isset($_POST['pclinician_id'])  ? $patient->pclinician_id = $_POST["pclinician_id"]     : $patient->pclinician_id = $patientini[0]["pclinician_id"];
     isset($_POST['ppathologist2_id'])       ? $patient->ppathologist2_id = $_POST["ppathologist2_id"]               : $patient->ppathologist2_id = $patientini[0]["ppathologist2_id"];
@@ -77,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if ($patient->create($conn)) {
-        
+
         Url::redirect("/patient_edit.php?id=$patient->id");
     } else {
         echo '<script>alert("Add user fail. Please verify again")</script>';
@@ -124,22 +123,33 @@ require 'patient_edit_auth.php';
 
 <?php require 'includes/header.php'; ?>
 
-<?php if (!Auth::isLoggedIn()): ?>
-    You are not authorized.
-<?php else: ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-    <?php //require 'includes/patient_status.php';  ?><hr>
 
-    <form  id="formAddPatient" class="" name="" method="post">
-        <?php require 'includes/patient_form.php'; ?>
+        <?php if (!Auth::isLoggedIn()) : ?>
+            You are not authorized.
+        <?php else : ?>
 
-        <p align="center">
-            <!--<button>ตกลง</button>-->
-            <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
-        </p>
-    </form>
+            <?php //require 'includes/patient_status.php';  
+            ?>
+            <hr>
 
-<?php endif; ?>
+            <form id="formAddPatient" class="" name="" method="post">
+                <?php require 'includes/patient_form.php'; ?>
+
+                <p align="center">
+                    <!--<button>ตกลง</button>-->
+                    <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+                </p>
+            </form>
+
+        <?php endif; ?>
+
+
+    </div>
+</div>
+
 
 <?php require 'includes/footer.php'; ?>
 

@@ -24,47 +24,59 @@ $users = User::getAll($conn, 0);
 
 <?php require 'includes/header.php'; ?>
 
-<hr>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-<?php if (!Auth::isLoggedIn()) : ?>
-    You are not authorized.
-<?php else : ?>
+        <?php if (!Auth::isLoggedIn()) : ?>
+            You are not authorized.
+        <?php else : ?>
 
-    <!--<table class="table table-hover table-striped"  border="1" >-->
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/user_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-user-plus me-2"></i>เพิ่มผู้ใช้งานระบบ</a>
+            </div>
 
-    <table class="table table-hover table-striped text-center" id="user_table">
-        <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">username</th>
-                <th scope="col">name</th>
-                <th scope="col">lastname</th>
-                <!-- <th scope="col">password</th> -->
-                <th scope="col">hospital</th>
-                <th scope="col">group</th>
-                <th scope="col">Magane</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user) : ?>
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+        <table class="table table-hover table-striped text-center" id="user_table">
+            <thead>
                 <tr>
-                    <th scope="col"><?= $user['uid']; ?></th>
-                    <td><a href="user_detail.php?id=<?= $user['uid']; ?>"><?= $user['username']; ?></a></td>
-                    <td><?= $user['name']; ?></td>
-                    <td><?= $user['lastname']; ?></td>
-                    <!-- <td>****</td> -->
-                    <td><?= $user['hospital']; ?></td>
-                    <td><?= $user['ugroup']; ?></td>
-                    <td>
-                        <a href="user_edit.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
-                        <a class="delete" href="user_del.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                    </td>
+                    <th scope="col">id</th>
+                    <th scope="col">username</th>
+                    <th scope="col">name</th>
+                    <th scope="col">lastname</th>
+                    <!-- <th scope="col">password</th> -->
+                    <th scope="col">hospital</th>
+                    <th scope="col">group</th>
+                    <th scope="col">Magane</th>
                 </tr>
-            <?php endforeach; ?>
             </thead>
-    </table>
+            <tbody>
+                <?php foreach ($users as $user) : ?>
+                    <tr>
+                        <th scope="col"><?= $user['uid']; ?></th>
+                        <td><a href="user_detail.php?id=<?= $user['uid']; ?>"><?= $user['username']; ?></a></td>
+                        <td><?= $user['name']; ?></td>
+                        <td><?= $user['lastname']; ?></td>
+                        <!-- <td>****</td> -->
+                        <td><?= $user['hospital']; ?></td>
+                        <td><?= $user['ugroup']; ?></td>
+                        <td>
+                            <a href="user_edit.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
+                            <a class="delete" href="user_del.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </thead>
+        </table>
 
-<?php endif; ?>
+    <?php endif; ?>
+
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 

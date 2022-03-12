@@ -47,18 +47,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php require 'includes/header.php'; ?>
 
-<?php if (!Auth::isLoggedIn()) : ?>
-    You are not login.
-<?php else : ?>
-    <h4>แก้ไขสถานพยาบาล</h4>
-    <?php require 'includes/hospital_form.php'; ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-<?php endif; ?>
+        <?php if (!Auth::isLoggedIn()) : ?>
+            You are not login.
+        <?php else : ?>
+            <h4>แก้ไขสถานพยาบาล</h4>
+            <?php require 'includes/hospital_form.php'; ?>
+
+        <?php endif; ?>
+
+
+    </div>
+</div>
+
 
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-//set active tab
-    $( "#hospital_main" ).addClass( "active" );
-    $( "#hospital_add" ).addClass( "active" );
+    //set active tab
+    $("#hospital_main").addClass("active");
+    $("#hospital_add").addClass("active");
 </script>

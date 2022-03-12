@@ -12,22 +12,22 @@ $canEditModePage = false;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    var_dump($_POST);
-//    die();
+    //    var_dump($_POST);
+    //    die();
     //
-    
+
     //Request to move status
     if (isset($_POST['status'])) {
         //echo "save status";
         $isUpdateStatusError = true;
         $isUpdateReleaseTimeError = true;
         $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report']);
-        if($_POST['cur_status']==14000 && $_POST['status']==20000 && isset($_POST["uresultinxlist"])  ){
-            if($_POST["uresultReleaseSetlist"] == 0){
+        if ($_POST['cur_status'] == 14000 && $_POST['status'] == 20000 && isset($_POST["uresultinxlist"])) {
+            if ($_POST["uresultReleaseSetlist"] == 0) {
                 $isUpdateReleaseTimeError = Presultupdate::updateReleaseTime($conn, $_POST["uresultinxlist"]);
             }
         }
-        
+
         if ($isUpdateStatusError && $isUpdateReleaseTimeError) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
@@ -91,11 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_rs_microscopic_desc']) ? $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'] : null;
         isset($_POST['p_rs_diagnosis']) ? $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis'] : null;
         isset($_POST['p_uresult_id']) ? $patient->p_uresult_id = $_POST['p_uresult_id'] : null;
-        
+
         isset($_POST['p_speciment_type']) ? $patient->p_uresult_id = $_POST['p_speciment_type'] : null;
         isset($_POST['p_slide_lab_id']) ? $patient->p_uresult_id = $_POST['p_slide_lab_id'] : null;
         isset($_POST['p_slide_lab_price']) ? $patient->p_uresult_id = $_POST['p_slide_lab_price'] : null;
-        
+
 
 
         if ($patient->update($conn, $_GET['id'])) {
@@ -116,18 +116,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // true = Disable Edit page, false canEditPage
         $canEditModePage = false;
     }
-    
-    
-    
+
+
+
     if (isset($_POST['save_u_result'])) {
         var_dump($_POST);
-        if (Presultupdate::updateResult($conn,$_POST['id'],$_POST['pathologist_id'],$_POST['result_message'])) {
+        if (Presultupdate::updateResult($conn, $_POST['id'], $_POST['pathologist_id'], $_POST['result_message'])) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
         }
     }
-        //Move to edit mode
+    //Move to edit mode
     if (isset($_POST['edit_u_result'])) {
         // true = Disable Edit page, false canEditPage
         $canEditModePage = true;
@@ -236,41 +236,56 @@ var_dump($canEditModePage);
 
 <?php require 'includes/header.php'; ?>
 
-<?php if (!Auth::isLoggedIn()): ?>
-    You are not login.
-<?php else: ?>
-    <hr noshade="noshade" width="" size="8" >
-    <?php require 'includes/patient_status.php'; ?>
 
-    <hr noshade="noshade" width="" size="8" >
-    <form  id="formEditPatient" name="" method="post">
-        <?php if ($patient[0]['date_13000'] == NULL): ?>
-            <?php if ($canEditModePage): ?>
-                <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-            <?php else: ?>
-                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-            <?php endif; ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+
+        <?php if (!Auth::isLoggedIn()) : ?>
+            You are not login.
+        <?php else : ?>
+
+            <hr noshade="noshade" width="" size="8">
+            <?php require 'includes/patient_status.php'; ?>
+
+            <hr noshade="noshade" width="" size="8">
+
+
+            <form id="formEditPatient" name="" method="post">
+                <?php if ($patient[0]['date_13000'] == NULL) : ?>
+                    <?php if ($canEditModePage) : ?>
+                        <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                    <?php else : ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+
+<?php require 'includes/patient_form.php'; ?>
+
+<br>
+<?php if ($patient[0]['date_13000'] == NULL) : ?>
+    <?php if ($canEditModePage) : ?>
+        <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+    <?php else : ?>
+        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+    <?php endif; ?>
+<?php endif; ?>
+</form>
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+        <?php if ($isUpdateResultAval) : ?>
+            <hr noshade="noshade" width="" size="6">
+            <?php require 'includes/patient_form_d.php'; ?>
         <?php endif; ?>
-                
-        <?php require 'includes/patient_form.php'; ?>
 
-        <br>
-        <?php if ($patient[0]['date_13000'] == NULL): ?>
-            <?php if ($canEditModePage): ?>
-                <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-            <?php else: ?>
-                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-            <?php endif; ?>
-        <?php endif; ?>
-    </form>
-
-    <?php if ($isUpdateResultAval): ?>
-        <hr noshade="noshade" width="" size="6" >
-        <?php require 'includes/patient_form_d.php'; ?>
     <?php endif; ?>
 
-<?php endif; ?>
-
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 

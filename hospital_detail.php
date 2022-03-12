@@ -8,7 +8,7 @@ Auth::requireLogin();
 $conn = require 'includes/db.php';
 
 if (isset($_GET['id'])) {
-    $hospital = Hospital::getByID($conn,$_GET['id']);
+    $hospital = Hospital::getByID($conn, $_GET['id']);
 } else {
     $hospital = null;
 }
@@ -19,40 +19,46 @@ if (isset($_GET['id'])) {
 
 <?php require 'includes/header.php'; ?>
 
-<?php if ($hospital) : ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-<table class="table table-hover table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Key</th>
-            <th scope="col">Detail</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">ชื่อสถานพยาบาล</th>
-            <td><?= htmlspecialchars($hospital->hospital); ?></td>
-        </tr>
-        <tr>
-            <th scope="row">ที่อยู่</th>
-            <td><?= htmlspecialchars($hospital->address); ?></td>
-        </tr>
-        <tr>
-            <th scope="row">รายละเอียด</th>
-            <td><?= htmlspecialchars($hospital->hdetail); ?></td>
-        </tr>
+        <?php if ($hospital) : ?>
 
-    </tbody>
-</table>
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Key</th>
+                        <th scope="col">Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">ชื่อสถานพยาบาล</th>
+                        <td><?= htmlspecialchars($hospital->hospital); ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">ที่อยู่</th>
+                        <td><?= htmlspecialchars($hospital->address); ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">รายละเอียด</th>
+                        <td><?= htmlspecialchars($hospital->hdetail); ?></td>
+                    </tr>
 
-<?php else : ?>
-    <p>Hospital not found.</p>
-<?php endif; ?>
+                </tbody>
+            </table>
+
+        <?php else : ?>
+            <p>Hospital not found.</p>
+        <?php endif; ?>
+
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-//set active tab
-    $( "#hospital_main" ).addClass( "active" );
-    $( "#hospital_add" ).addClass( "active" );
+    //set active tab
+    $("#hospital_main").addClass("active");
+    $("#hospital_add").addClass("active");
 </script>

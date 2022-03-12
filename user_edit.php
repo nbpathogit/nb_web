@@ -52,17 +52,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php require 'includes/header.php'; ?>
 
-<div align=""><b>แก้ไขผู้ใช้งานระบบ</b></div>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-<form id="adduser" method="post">
-    <?php require 'includes/user_form.php'; ?>
-    <div align=""><button class="btn btn-primary">Edit</button></div>
-</form>
+        <div><b>แก้ไขผู้ใช้งานระบบ</b></div>
+
+        <form id="adduser" method="post">
+            <?php require 'includes/user_form.php'; ?>
+            <div align=""><button class="btn btn-primary">Edit</button></div>
+        </form>
+
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
     // set active tab
-    $( "#user_main" ).addClass( "active" );
-    $( "#user_edit" ).addClass( "active" );
+    $("#user_main").addClass("active");
+    $("#user_edit").addClass("active");
 </script>

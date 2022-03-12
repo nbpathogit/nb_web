@@ -68,91 +68,98 @@ $prioritys = Priority::getAll($conn);
 
 <?php require 'includes/header.php'; ?>
 
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-<?php if (!Auth::isLoggedIn()) : ?>
-    You are not authorized.
-<?php else : ?>
+        <?php if (!Auth::isLoggedIn()) : ?>
+            You are not authorized.
+        <?php else : ?>
+
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/patient_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>เพิ่มข้อมูลผู้รักษา</a>
+            </div>
+
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
-    <p>&nbsp;</p>
-    <hr>
-
-    <?php // require 'includes/patient_search.php'; 
-    ?>
-    <!-- <p>&nbsp;</p>
-    <hr> -->
-
-    <table class="table table-hover table-striped" id="patient_table" style="width:100%">
-        <!--<table border="1" align="center">-->
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>เลขที่ผู้ป่วย</th>
-                <th>ชื่อผู้ป่วย</th>
-                <th>นามสกุลผู้ป่วย</th>
-                <th>โรงพยาบาล</th>
-                <th>พยาธิแพทย์</th>
-                <th>วันที่รับ</th>
-                <th>วันที่รายงาน</th>
-                <th>สถานะ</th>
-                <th>ความสำคัญ</th>
-                <!--<th>ราย<br>ละเอียด</th>-->
-                <th>จัดการ</th>
-                <!-- <th>แก้ไข/รายละเอียด</th>
+        <table class="table table-hover table-striped" id="patient_table" style="width:100%">
+            <!--<table border="1" align="center">-->
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>เลขที่ผู้ป่วย</th>
+                    <th>ชื่อผู้ป่วย</th>
+                    <th>นามสกุลผู้ป่วย</th>
+                    <th>โรงพยาบาล</th>
+                    <th>พยาธิแพทย์</th>
+                    <th>วันที่รับ</th>
+                    <th>วันที่รายงาน</th>
+                    <th>สถานะ</th>
+                    <th>ความสำคัญ</th>
+                    <!--<th>ราย<br>ละเอียด</th>-->
+                    <th>จัดการ</th>
+                    <!-- <th>แก้ไข/รายละเอียด</th>
                 <th>PDF</th>
                 <th>ลบ</th> -->
-            </tr>
-        </thead>
-        <tbody>
-
-            <?php foreach ($patientLists as $patient) : ?>
-                <tr>
-                    <td>
-                        <?= $patient['pid']; ?>
-                    </td>
-                    <td>
-                        <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><?= $patient['pnum']; ?></a>
-                    </td>
-                    <td>
-                        <?= $patient['pname']; ?>
-                    </td>
-                    <td>
-                        <?= $patient['plastname']; ?>
-                    </td>
-                    <td>
-                        <?= $patient['hospital']; ?>
-                    </td>
-                    <td>
-                        <?= $patient['name']; ?>
-                    </td>
-                    <td>
-                        <?= $patient['date_1000']; ?>
-                    </td>
-                    <td>
-                        <?= $patient['date_20000']; ?>
-                    </td>
-                    <td>
-                        <?= $patient['des']; ?>
-                    </td>
-                    <td>
-                        <?= $patient['priority']; ?>
-                    </td>
-                    <!--<td><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></td>-->
-                    <td>
-                        <div>
-                            <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-file-pdf fa-lg"></i></a>
-                            <a class="delete" href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                        </div>
-                    </td>
                 </tr>
-            <?php endforeach; ?>
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
-    <?php //require 'includes/pagination.php'; 
-    ?>
+                <?php foreach ($patientLists as $patient) : ?>
+                    <tr>
+                        <td>
+                            <?= $patient['pid']; ?>
+                        </td>
+                        <td>
+                            <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><?= $patient['pnum']; ?></a>
+                        </td>
+                        <td>
+                            <?= $patient['pname']; ?>
+                        </td>
+                        <td>
+                            <?= $patient['plastname']; ?>
+                        </td>
+                        <td>
+                            <?= $patient['hospital']; ?>
+                        </td>
+                        <td>
+                            <?= $patient['name']; ?>
+                        </td>
+                        <td>
+                            <?= $patient['date_1000']; ?>
+                        </td>
+                        <td>
+                            <?= $patient['date_20000']; ?>
+                        </td>
+                        <td>
+                            <?= $patient['des']; ?>
+                        </td>
+                        <td>
+                            <?= $patient['priority']; ?>
+                        </td>
+                        <!--<td><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></td>-->
+                        <td>
+                            <div>
+                                <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-file-pdf fa-lg"></i></a>
+                                <a class="delete" href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
 
-<?php endif; ?>
+            </tbody>
+        </table>
+        <?php //require 'includes/pagination.php'; 
+        ?>
+
+    <?php endif; ?>
+
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 
