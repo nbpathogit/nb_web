@@ -58,13 +58,15 @@ class User
                 JOIN user_groups G
                 JOIN hospital H
                 WHERE U.ugroup_id  = G.id
-                and U.uhospital_id  = H.id
-                ORDER BY U.id";
+                and U.uhospital_id  = H.id ";
+                
 
         if ($id != 0) {
             $sql = $sql . " and U.id = " . $id;
         }
-
+        
+        $sql = $sql . " ORDER BY U.id";
+        
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);

@@ -33,11 +33,17 @@ class Hospital
      *
      *@return array An associative array of all the article records
      */
-    public static function getAll($conn)
+    public static function getAll($conn, $id = 0)
     {
         $sql = "SELECT *
                 FROM hospital
-                ORDER BY id;";
+                ";
+        
+        if ($id != 0) {
+             $sql = $sql . " WHERE ";
+            $sql = $sql . " id = " . $id;
+        }
+         $sql = $sql . " ORDER BY id";
 
         $results = $conn->query($sql);
 

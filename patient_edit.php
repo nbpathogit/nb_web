@@ -150,6 +150,7 @@ if (isset($_GET['id'])) {
 //var_dump($patient);
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);s
 //$patientLists = Patient::getAll($conn);
+
 //Get List of Table
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
@@ -163,7 +164,10 @@ $labFluids = LabFluid::getAll($conn);
 //var_dump($userPathos);
 //die();
 
+//Get one by id
 $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
+
+$clinician = User::getAll($conn,$patient[0]['pclinician_id']);
 
 $isset_date_first_report = 0;
 if (isset($patient[0]['date_first_report'])) {
@@ -231,7 +235,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
 require 'patient_edit_auth.php';
-var_dump($canEditModePage);
+//var_dump($canEditModePage);
 ?>
 
 <?php require 'includes/header.php'; ?>
