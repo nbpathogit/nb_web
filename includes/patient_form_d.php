@@ -1,6 +1,6 @@
 <?php
 $isBorder = false;
-$addResultButton = false;
+$addResultButton = true;
 ?>
 
 <h4 align="center"><b>ผลการตรวจ(เพิ่มเติม)</b></h4> 

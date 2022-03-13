@@ -238,22 +238,39 @@ $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:ang
 
 $content = file_get_contents('pdf_result/patient_format_result_pdf.php');
 $content = str_replace("border: 1px solid green;", "", $content);
-$content = str_replace("<p_rs_diagnosis>", $patient[0]['p_rs_diagnosis'], $content);
-$content = str_replace("<p_rs_specimen>", $patient[0]['p_rs_specimen'], $content);
-$content = str_replace("<p_rs_gross_desc>", $patient[0]['p_rs_gross_desc'], $content);
-$content = str_replace("<p_rs_microscopic_desc>", $patient[0]['p_rs_microscopic_desc'], $content);
-$content = str_replace("<p_rs_clinical_diag>", $patient[0]['p_rs_clinical_diag'], $content);
+
+$p_rs_diagnosis = str_replace("\n","<br>",$patient[0]['p_rs_diagnosis']);
+$p_rs_diagnosis = str_replace(" ","&nbsp;",$p_rs_diagnosis);
+$content = str_replace("<p_rs_diagnosis>", $p_rs_diagnosis , $content);
+
+$p_rs_specimen = str_replace("\n","<br>",$patient[0]['p_rs_specimen']);
+$p_rs_specimen = str_replace(" ","&nbsp;",$p_rs_specimen);
+$content = str_replace("<p_rs_specimen>", $p_rs_specimen, $content);
+
+$p_rs_gross_desc = str_replace("\n","<br>",$patient[0]['p_rs_specimen']);
+$p_rs_gross_desc = str_replace(" ","&nbsp;",$p_rs_gross_desc);
+$content = str_replace("<p_rs_gross_desc>", $p_rs_gross_desc, $content);
+
+$p_rs_microscopic_desc = str_replace("\n","<br>",$patient[0]['p_rs_microscopic_desc']);
+$p_rs_microscopic_desc = str_replace(" ","&nbsp;",$p_rs_microscopic_desc);
+$content = str_replace("<p_rs_microscopic_desc>", $p_rs_microscopic_desc, $content);
+
+$p_rs_clinical_diag = str_replace("\n","<br>",$patient[0]['p_rs_clinical_diag']);
+$p_rs_clinical_diag = str_replace(" ","&nbsp;",$p_rs_clinical_diag);
+$content = str_replace("<p_rs_clinical_diag>", $p_rs_clinical_diag, $content);
+
+
 
 $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');
 $signature = str_replace("border: 1px solid green;", "", $signature);
+
+// "<br>", "&#10;"
 
 $mpdf->shrink_tables_to_fit = 1;
 //$mpdf->normalLineheight = 1.0; 
 
 $mpdf->SetHTMLHeader($header);
 $mpdf->SetHTMLFooter($footer);
-$mpdf->WriteHTML($content);
-$mpdf->WriteHTML($content);
 $mpdf->WriteHTML($content);
 $mpdf->WriteHTML($signature);
 
