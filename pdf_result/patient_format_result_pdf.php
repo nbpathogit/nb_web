@@ -19,8 +19,7 @@
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
    
         <b>Pathological Diagnosis:</b><br>
-        Stomach, biopsy;<br>
-        -Consistent with base of peptic ulcer    β-catenin
+        <p_rs_diagnosis>
    
 </div>
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">

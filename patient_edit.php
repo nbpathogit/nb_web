@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $patient = null;
         }
+        var_dump($_POST);
 
         isset($_POST['pnum']) ? $patient->pnum = $_POST['pnum'] : null;
         isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : null;
@@ -70,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : null;
         isset($_POST['pedge']) ? $patient->pedge = $_POST['pedge'] : null;
         isset($_POST['date_1000']) ? $patient->date_1000 = $_POST['date_1000'] : null;
-        isset($_POST['date_12_13_000']) ? $patient->date_12_13_000 = $_POST['date_12_13_000'] : null;
+//        isset($_POST['date_12_13_000']) ? $patient->date_12_13_000 = $_POST['date_12_13_000'] : null;
         isset($_POST['status_id']) ? $patient->status_id = $_POST['status_id'] : null;
         isset($_POST['priority_id']) ? $patient->priority_id = $_POST['priority_id'] : null;
         isset($_POST['phospital_id']) ? $patient->phospital_id = $_POST['phospital_id'] : null;
@@ -90,11 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_rs_gross_desc']) ? $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc'] : null;
         isset($_POST['p_rs_microscopic_desc']) ? $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'] : null;
         isset($_POST['p_rs_diagnosis']) ? $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis'] : null;
-        isset($_POST['p_uresult_id']) ? $patient->p_uresult_id = $_POST['p_uresult_id'] : null;
+        isset($_POST['p_uresult_id']) ? $patient->p_uresult_id = $_POST['p_uresult_id'] : 0;
 
-        isset($_POST['p_speciment_type']) ? $patient->p_uresult_id = $_POST['p_speciment_type'] : null;
-        isset($_POST['p_slide_lab_id']) ? $patient->p_uresult_id = $_POST['p_slide_lab_id'] : null;
-        isset($_POST['p_slide_lab_price']) ? $patient->p_uresult_id = $_POST['p_slide_lab_price'] : null;
+        isset($_POST['p_speciment_type']) ? $patient->p_speciment_type = $_POST['p_speciment_type'] : null;
+        isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
+        isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
 
 
 

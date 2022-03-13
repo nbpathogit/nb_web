@@ -45,16 +45,16 @@
 
             <table width="100%" style=" border: 1px solid green; border-collapse: collapse;">
                 <tr>
-                    <td width="35%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Clinician :</b><pclinician> </span></td>
-                    <td width="25%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Ward :</b><ward></span></td>
+                    <td width="50%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Clinician :</b><pclinician> </span></td>
+                    <td width="10%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Ward :</b><ward></span></td>
                     <td width="40%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Hospital :</b><hospital></span></td>
                 </tr>
             </table>
 
             <table width="100%" style=" border: 1px solid green; border-collapse: collapse;">
                 <tr>
-                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Date Received :</b> <date_1000></span></td>
-                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>เลขที่ AN:</b> <an_name> </span></td>
+                    <td width="40%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Date Received :</b> <date_1000></span></td>
+                    <td width="20%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>เลขที่ AN:</b> <an_name> </span></td>
                     <td width="40%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Date Report :</b> <date_first_report> </span></td>
                 </tr>
 

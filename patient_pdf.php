@@ -230,14 +230,19 @@ $header = str_replace("<phospital_num>"    ,$patient[0]['phospital_num'], $heade
 $header = str_replace("<pclinician>"       ,$clinician[0]['name'] , $header);
 //$header = str_replace("<ward>"           ,"", $header);
 $header = str_replace("<hospital>"         ,$hospital[0]['hospital'], $header);
-//$header = str_replace("<date_1000>"        ,$patient[0][''], $header);
+$header = str_replace("<date_1000>"        ,$patient[0]['date_1000'], $header);
 //$header = str_replace("<an_name>"          ,$patient[0][''], $header);
-//$header = str_replace("<date_first_report>",$patient[0][''], $header);
+$header = str_replace("<date_first_report>",$patient[0]['date_20000'], $header);
 
 $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
 
 $content = file_get_contents('pdf_result/patient_format_result_pdf.php');
 $content = str_replace("border: 1px solid green;", "", $content);
+$content = str_replace("<p_rs_diagnosis>", $patient[0]['p_rs_diagnosis'], $content);
+$content = str_replace("<p_rs_specimen>", $patient[0]['p_rs_specimen'], $content);
+$content = str_replace("<p_rs_gross_desc>", $patient[0]['p_rs_gross_desc'], $content);
+$content = str_replace("<p_rs_microscopic_desc>", $patient[0]['p_rs_microscopic_desc'], $content);
+$content = str_replace("<p_rs_clinical_diag>", $patient[0]['p_rs_clinical_diag'], $content);
 
 $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');
 $signature = str_replace("border: 1px solid green;", "", $signature);
