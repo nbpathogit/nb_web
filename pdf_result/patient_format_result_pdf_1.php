@@ -15,7 +15,7 @@
 
 
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
-    <b>Pathological Diagnosis:</b><br>
+    <b>Pathological Diagnosis:</b> &nbsp; (<date_first_report>)<br>
     <p_rs_diagnosis>
 </div>
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">

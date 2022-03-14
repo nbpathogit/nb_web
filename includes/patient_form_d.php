@@ -78,8 +78,8 @@ $addResultButton = true;
                     <label for="result_type" class="">เลือกชนิดของผลเพิ่มเติม</label>
                     <select name="result_type" class="form-select" id="result_type" >
                         <option value="0">ยังไม่ได้เลือก</option>
-                        <option value="ADDENDUM" >ADDENDUM</option>
-                        <option value="REVISED" >REVISED</option>
+                        <option value="Addendum" >Addendum</option>
+                        <option value="Revised" >Revised</option>
                     </select>
                 </div>
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">

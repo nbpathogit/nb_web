@@ -34,7 +34,11 @@
         <td width="15%" align="left" class="signature"> &nbsp; </td>
         <td width="15%" align="left" class="signature"> </td>
         <td width="30%" align="left" class="signature"> </td>
-        <td width="40%" align="center" class="signature"><span></span></td>
+                <td width="40%" align="center" class="signature"><span>
+            
+                        <img src="signature\apichatchumthong.png" alt="" height="100" style="border: 1px solid red;">
+                        
+            </span></td>
     </tr>
     <tr>
         <td width="15%" align="left" class="signature">&nbsp;  </td>

@@ -36,13 +36,12 @@ $labFluids = LabFluid::getAll($conn);
 
 //var_dump($userPathos);
 //die();
-
 //Get one by id
-$presultupdates = Presultupdate::getAll($conn, $_GET['id']);
+$presultupdates = Presultupdate::getAllDesc($conn, $_GET['id']);
 //var_dump($patient[0]['pclinician_id']);
 
 
-$clinician = User::getAll($conn,$patient[0]['pclinician_id']);
+$clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 $hospital = Hospital::getAll($conn, $patient[0]['phospital_id']);
 
 //var_dump($clinician);
@@ -60,42 +59,42 @@ if (isset($patient[0]['date_first_report'])) {
 $curstatus = Status::getAll($conn, $patient[0]['status_id']);
 //var_dump($curstatus);
 if (isset($curstatus[0]['back2'])) {
-    //echo "back2 is set";
+//echo "back2 is set";
     $back2status = Status::getAll($conn, $curstatus[0]['back2']);
 } else {
-    //echo "back2 is Null";
+//echo "back2 is Null";
     $back2status = null;
 }
 
 if (isset($curstatus[0]['back1'])) {
-    //echo "back1 is set";
+//echo "back1 is set";
     $back1status = Status::getAll($conn, $curstatus[0]['back1']);
 } else {
-    //echo "back1 is Null";
+//echo "back1 is Null";
     $back1status = null;
 }
 
 if (isset($curstatus[0]['next1'])) {
-    //echo "next1 is set";
+//echo "next1 is set";
     $next1status = Status::getAll($conn, $curstatus[0]['next1']);
 } else {
-    //echo "next1 is Null";
+//echo "next1 is Null";
     $next1status = null;
 }
 
 if (isset($curstatus[0]['next2'])) {
-    //echo "next2 is set";
+//echo "next2 is set";
     $next2status = Status::getAll($conn, $curstatus[0]['next2']);
 } else {
-    //echo "next2 is Null";
+//echo "next2 is Null";
     $next2status = null;
 }
 
 if (isset($curstatus[0]['next3'])) {
-    //echo "next3 is set";
+//echo "next3 is set";
     $next3status = Status::getAll($conn, $curstatus[0]['next3']);
 } else {
-    //echo "next3 is Null";
+//echo "next3 is Null";
     $next3status = null;
 }
 
@@ -114,7 +113,6 @@ if (isset($curstatus[0]['next3'])) {
 
 
 require 'patient_edit_auth.php';
-
 
 class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 
@@ -217,61 +215,78 @@ $mpdf = new \Mpdf\Mpdf(
         ]
 );
 
+$mpdf->shrink_tables_to_fit = 1;
+
 $header = file_get_contents('pdf_result/patient_format_header_pdf.php');
 $header = str_replace("border: 1px solid green;", "", $header);
 $header = str_replace("border: 1px solid red;", "", $header);
 $header = str_replace("<pname>", $patient[0]['pname'], $header);
-$header = str_replace("<plastname>"        ,$patient[0]['plastname'], $header);
-$header = str_replace("<Surgical_Number>"  ,"", $header);
-$header = str_replace("<pg>"               ,$patient[0]['pgender'], $header);
-$header = str_replace("<pedge>"            ,$patient[0]['pedge'], $header);
-$header = str_replace("<plabnum>"          ,$patient[0]['pname'], $header);
-$header = str_replace("<phospital_num>"    ,$patient[0]['phospital_num'], $header);
-$header = str_replace("<pclinician>"       ,$clinician[0]['name'] , $header);
+$header = str_replace("<plastname>", $patient[0]['plastname'], $header);
+$header = str_replace("<Surgical_Number>", "", $header);
+$header = str_replace("<pg>", $patient[0]['pgender'], $header);
+$header = str_replace("<pedge>", $patient[0]['pedge'], $header);
+$header = str_replace("<plabnum>", $patient[0]['pname'], $header);
+$header = str_replace("<phospital_num>", $patient[0]['phospital_num'], $header);
+$header = str_replace("<pclinician>", $clinician[0]['name'], $header);
 //$header = str_replace("<ward>"           ,"", $header);
-$header = str_replace("<hospital>"         ,$hospital[0]['hospital'], $header);
-$header = str_replace("<date_1000>"        ,$patient[0]['date_1000'], $header);
+$header = str_replace("<hospital>", $hospital[0]['hospital'], $header);
+$header = str_replace("<date_1000>", $patient[0]['date_1000'], $header);
 //$header = str_replace("<an_name>"          ,$patient[0][''], $header);
-$header = str_replace("<date_first_report>",$patient[0]['date_20000'], $header);
+$header = str_replace("<date_first_report>", $patient[0]['date_20000'], $header);
+$mpdf->SetHTMLHeader($header);
 
 $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
+$mpdf->SetHTMLFooter($footer);
 
-$content = file_get_contents('pdf_result/patient_format_result_pdf.php');
-$content = str_replace("border: 1px solid green;", "", $content);
 
-$p_rs_diagnosis = str_replace("\n","<br>",$patient[0]['p_rs_diagnosis']);
-$p_rs_diagnosis = str_replace(" ","&nbsp;",$p_rs_diagnosis);
-$content = str_replace("<p_rs_diagnosis>", $p_rs_diagnosis , $content);
 
-$p_rs_specimen = str_replace("\n","<br>",$patient[0]['p_rs_specimen']);
-$p_rs_specimen = str_replace(" ","&nbsp;",$p_rs_specimen);
-$content = str_replace("<p_rs_specimen>", $p_rs_specimen, $content);
+if (isset($presultupdates)) {
+//    <?php foreach ($presultupdates as $presultupdate): 
+    foreach ($presultupdates as $prsu) {
+        $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_2.php');
+        $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
+        $u_result2 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2);
+        $u_result2 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2);
+        $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $prsu['result_message'] : "", $u_result2);
+        $mpdf->WriteHTML($u_result2);
+    }
+} else {
+    
+}
 
-$p_rs_gross_desc = str_replace("\n","<br>",$patient[0]['p_rs_specimen']);
-$p_rs_gross_desc = str_replace(" ","&nbsp;",$p_rs_gross_desc);
-$content = str_replace("<p_rs_gross_desc>", $p_rs_gross_desc, $content);
 
-$p_rs_microscopic_desc = str_replace("\n","<br>",$patient[0]['p_rs_microscopic_desc']);
-$p_rs_microscopic_desc = str_replace(" ","&nbsp;",$p_rs_microscopic_desc);
-$content = str_replace("<p_rs_microscopic_desc>", $p_rs_microscopic_desc, $content);
 
-$p_rs_clinical_diag = str_replace("\n","<br>",$patient[0]['p_rs_clinical_diag']);
-$p_rs_clinical_diag = str_replace(" ","&nbsp;",$p_rs_clinical_diag);
-$content = str_replace("<p_rs_clinical_diag>", $p_rs_clinical_diag, $content);
+$u_result1 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
+$u_result1 = str_replace("border: 1px solid green;", "", $u_result1);
 
+$p_rs_diagnosis = str_replace("\n", "<br>", $patient[0]['p_rs_diagnosis']);
+$p_rs_diagnosis = str_replace(" ", "&nbsp;", $p_rs_diagnosis);
+$u_result1 = str_replace("<p_rs_diagnosis>", $p_rs_diagnosis, $u_result1);
+$u_result1 = str_replace("<date_first_report>", $patient[0]['date_first_report'], $u_result1);
+
+$p_rs_specimen = str_replace("\n", "<br>", $patient[0]['p_rs_specimen']);
+$p_rs_specimen = str_replace(" ", "&nbsp;", $p_rs_specimen);
+$u_result1 = str_replace("<p_rs_specimen>", $p_rs_specimen, $u_result1);
+
+$p_rs_gross_desc = str_replace("\n", "<br>", $patient[0]['p_rs_specimen']);
+$p_rs_gross_desc = str_replace(" ", "&nbsp;", $p_rs_gross_desc);
+$u_result1 = str_replace("<p_rs_gross_desc>", $p_rs_gross_desc, $u_result1);
+
+$p_rs_microscopic_desc = str_replace("\n", "<br>", $patient[0]['p_rs_microscopic_desc']);
+$p_rs_microscopic_desc = str_replace(" ", "&nbsp;", $p_rs_microscopic_desc);
+$u_result1 = str_replace("<p_rs_microscopic_desc>", $p_rs_microscopic_desc, $u_result1);
+
+$p_rs_clinical_diag = str_replace("\n", "<br>", $patient[0]['p_rs_clinical_diag']);
+$p_rs_clinical_diag = str_replace(" ", "&nbsp;", $p_rs_clinical_diag);
+$u_result1 = str_replace("<p_rs_clinical_diag>", $p_rs_clinical_diag, $u_result1);
+
+
+$mpdf->WriteHTML($u_result1);
 
 
 $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');
 $signature = str_replace("border: 1px solid green;", "", $signature);
-
-// "<br>", "&#10;"
-
-$mpdf->shrink_tables_to_fit = 1;
-//$mpdf->normalLineheight = 1.0; 
-
-$mpdf->SetHTMLHeader($header);
-$mpdf->SetHTMLFooter($footer);
-$mpdf->WriteHTML($content);
+$signature = str_replace("border: 1px solid red;", "", $signature);
 $mpdf->WriteHTML($signature);
 
 //die();

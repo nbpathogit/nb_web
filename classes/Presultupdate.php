@@ -36,6 +36,21 @@ class Presultupdate {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+        public static function getAllDesc($conn, $patient_id = 0) {
+        $sql = "SELECT * 
+                FROM presultupdate ";
+
+        if ($patient_id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
+        }
+        
+        $sql = $sql . " ORDER BY id DESC";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function create($conn) {
 
