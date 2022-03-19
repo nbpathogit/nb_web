@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <title>NB Phatho</title>
+    <title>NB Patho</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="NB Phatho" name="keywords">
+    <meta content="NB Patho" name="keywords">
     <meta content="" name="description">
 
     <!-- Favicon -->
@@ -31,9 +31,11 @@
     <link href="css/style.css" rel="stylesheet">
 
     <!-- datatable css -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/2.0.0/css/searchPanes.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.4/css/select.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 
     <!-- from old header -->
     <link rel="stylesheet" href="css/jquery.datetimepicker.min.css">
@@ -57,7 +59,7 @@
         <div class="sidebar pe-2 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="home.php" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Phatho</h3>
+                    <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Patho</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -100,9 +102,9 @@
                             <a class="dropdown-item" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
                         </div>
                     </div>
-                    <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a>
+                    <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a>
                     <a href="billing.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Billing</a>
-                    <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a>
+                    <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                     <div class="nav-item dropdown">
                         <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>เกี่ยวกับ</a>
                         <div class="dropdown-menu bg-transparent border-0">

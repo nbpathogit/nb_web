@@ -86,7 +86,7 @@ $prioritys = Priority::getAll($conn);
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
-        <table class="table table-hover table-striped" id="patient_table" style="width:100%">
+        <table class="table table-hover" id="patient_table" style="width:100%">
             <!--<table border="1" align="center">-->
             <thead>
                 <tr>
@@ -206,6 +206,27 @@ $prioritys = Priority::getAll($conn);
         // set active tab
         $("#patient_main").addClass("active");
         $("#patient").addClass("active");
+
+
+        // add color class for priority
+        var count = $('.table').children('tbody').children('tr:first-child').children('td').length;
+        table = document.getElementById("patient_table");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 1; i < tr.length; i++) {
+            for (j = 0; j < count; j++) {
+                td = tr[i].getElementsByTagName("td")[j];
+                if (td.innerHTML.indexOf('ด่วน') > -1) {
+                    tr[i].classList.add('table-danger');
+                }
+                else if (td.innerHTML.indexOf('ออกผล') > -1) {
+                    tr[i].classList.add('table-success');
+                } else {
+                    //DO NOTHING
+                }
+            }
+        }
+
 
     });
 </script>
