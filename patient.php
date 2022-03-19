@@ -166,27 +166,6 @@ $prioritys = Priority::getAll($conn);
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // datatable
-        $('#patient_table').DataTable({
-            dom: 'Plfrtip',
-            searchPanes: {
-                initCollapsed: true,
-                // cascadePanes: true,
-            },
-            columnDefs: [{
-                    searchPanes: {
-                        show: true
-                    },
-                    targets: [4, 5, 6, 7, 8]
-                },
-                {
-                    searchPanes: {
-                        show: false
-                    },
-                    targets: [0, 1, 2, 3]
-                }
-            ]
-        });
 
         // delete user
         $("a.delete").on("click", function(e) {
@@ -228,5 +207,27 @@ $prioritys = Priority::getAll($conn);
         }
 
 
+        // datatable
+        $('#patient_table').DataTable({
+            dom: 'Plfrtip',
+            searchPanes: {
+                initCollapsed: true,
+                // cascadePanes: true,
+            },
+            columnDefs: [{
+                    searchPanes: {
+                        show: true
+                    },
+                    targets: [4, 5, 6, 7, 8]
+                },
+                {
+                    searchPanes: {
+                        show: false
+                    },
+                    targets: [0, 1, 2, 3]
+                }
+            ]
+        });
+        
     });
 </script>
