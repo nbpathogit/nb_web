@@ -21,7 +21,8 @@ class Presultupdate {
     public $patient_id;
     public $result_type;
     public $result_message;
-    public $pathologist_id;
+    public $pathologist_id; 
+    public $pathologist2_id;
     public $release_time;
 
     public static function getAll($conn, $patient_id = 0) {
@@ -54,8 +55,8 @@ class Presultupdate {
 
     public function create($conn) {
 
-        $sql = "INSERT INTO `presultupdate` (`id`, `patient_id`, `result_type`, `result_message`, `pathologist_id` , `release_time`) "
-                . "VALUES                   (NULL, :patient_id  ,:result_type  , ''              , ''              , NULL)";
+        $sql = "INSERT INTO `presultupdate` (`id`, `patient_id`, `result_type`, `result_message`, `pathologist_id`, `pathologist2_id` , `release_time`) "
+                . "VALUES                   (NULL, :patient_id  ,:result_type  , ''             , :pathologist_id , 0             , NULL)";
 
         $stmt = $conn->prepare($sql);
 
@@ -63,6 +64,7 @@ class Presultupdate {
 
         $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
         $stmt->bindValue(':result_type', $this->result_type, PDO::PARAM_STR);
+        $stmt->bindValue(':pathologist_id', $this->pathologist_id, PDO::PARAM_INT);
 
 
         //var_dump($stmt);
@@ -76,19 +78,19 @@ class Presultupdate {
         }
     }
 
-    public static function updateResult($conn, $id, $pathologist_id, $result_message) {
+    public static function updateResult($conn, $id, $pathologist_id, $pathologist2_id, $result_message) {
 
         $sql = "UPDATE presultupdate
                 SET result_message = :result_message,
-                pathologist_id = :pathologist_id
+                pathologist_id = :pathologist_id,
+                pathologist2_id = :pathologist2_id
                     WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
-
-
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':pathologist_id', $pathologist_id, PDO::PARAM_INT);
+        $stmt->bindValue(':pathologist2_id', $pathologist2_id, PDO::PARAM_INT);
         $stmt->bindValue(':result_message', $result_message, PDO::PARAM_STR);
 
         return $stmt->execute();

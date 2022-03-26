@@ -12,8 +12,8 @@ $isBorder = false;
 
         <fieldset>
             <legend>เลือกชนิดสิ่งส่งตรวจ</legend>
-            <input type="radio" name="p_speciment_type" id="lump" value="lump" <?= $patient[0]['p_speciment_type'] == "lump" ? "checked" : ""; ?> >ชิ้นเนื้อ&nbsp;
-            <input type="radio" name="p_speciment_type" id="fluid" value="fluid" <?= $patient[0]['p_speciment_type'] == "fluid" ? "checked" : ""; ?>>ของเหลว
+            <input type="radio" name="p_speciment_type" id="lump" value="lump" <?= $patient[0]['p_speciment_type'] == "lump" ? "checked" : ""; ?>    <?= $canEditModePage && $canEditPlaning_b_1_status && $canEditPlaning_b_1_group ? "" : " disabled readonly " ?>   >ชิ้นเนื้อ&nbsp;
+            <input type="radio" name="p_speciment_type" id="fluid" value="fluid" <?= $patient[0]['p_speciment_type'] == "fluid" ? "checked" : ""; ?> <?= $canEditModePage && $canEditPlaning_b_1_status && $canEditPlaning_b_1_group ? "" : " disabled readonly " ?>  >เซลวิทยา
         </fieldset>
 
     </div>

@@ -5,10 +5,12 @@ require 'includes/init.php';
 
 Auth::requireLogin();
 
+
 $conn = require 'includes/db.php';
 
 // true = Disable Edit page, false canEditPage
-$canEditModePage = false;
+$canEditModePage = false;  //For initial data page
+$canEditModePage2 = false; //For Result added page
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -22,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isUpdateStatusError = true;
         $isUpdateReleaseTimeError = true;
         $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report']);
-        if ($_POST['cur_status'] == 14000 && $_POST['status'] == 20000 && isset($_POST["uresultinxlist"])) {
+        if (  ($_POST['cur_status'] == 12000 or $_POST['cur_status'] == 13000)  && $_POST['status'] == 20000 && isset($_POST["uresultinxlist"])) {
             if ($_POST["uresultReleaseSetlist"] == 0) {
                 $isUpdateReleaseTimeError = Presultupdate::updateReleaseTime($conn, $_POST["uresultinxlist"]);
             }
@@ -35,18 +37,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (isset($_POST['add_u_result'])) {
 
+
+    if (isset($_POST['add_u_result'])) {
 
         $presultupdate = new Presultupdate();
         $presultupdate->patient_id = $_GET['id'];
         $presultupdate->result_type = $_POST['result_type'];
+        $presultupdate->pathologist_id = $_POST['pathologist_id'];
 
+//        var_dump($_POST);
+//        die();
 
         if ($presultupdate->create($conn)) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add result fail. Please verify again")</script>';
+        }
+    }
+
+    if (isset($_POST['save_u_result'])) {
+        var_dump($_POST);
+        if (Presultupdate::updateResult($conn, $_POST['id'], $_POST['pathologist_id'], $_POST['pathologist2_id'], $_POST['result_message'])) {
+            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+        } else {
+            echo '<script>alert("Add user fail. Please verify again")</script>';
         }
     }
 
@@ -108,6 +123,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     //Move to edit mode
+
+    if (isset($_POST['edit_result'])) {
+        // true = Disable Edit page, false canEditPage
+        $canEditModePage = true;
+    }
+
     if (isset($_POST['edit'])) {
         // true = Disable Edit page, false canEditPage
         $canEditModePage = true;
@@ -120,23 +141,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    if (isset($_POST['save_u_result'])) {
-        var_dump($_POST);
-        if (Presultupdate::updateResult($conn, $_POST['id'], $_POST['pathologist_id'], $_POST['result_message'])) {
-            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
-        } else {
-            echo '<script>alert("Add user fail. Please verify again")</script>';
-        }
-    }
-    //Move to edit mode
-    if (isset($_POST['edit_u_result'])) {
-        // true = Disable Edit page, false canEditPage
-        $canEditModePage = true;
-    }
+
     //Move to View only mode
     if (isset($_POST['discard_u_result'])) {
         // true = Disable Edit page, false canEditPage
-        $canEditModePage = false;
+        $canEditModePage2 = false;
+    }
+    if (isset($_POST['edit_u_result'])) {
+        // true = Disable Edit page, false canEditPage
+        $canEditModePage2 = true;
     }
 }
 
@@ -151,7 +164,6 @@ if (isset($_GET['id'])) {
 //var_dump($patient);
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);s
 //$patientLists = Patient::getAll($conn);
-
 //Get List of Table
 $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getAll($conn);
@@ -164,11 +176,10 @@ $labFluids = LabFluid::getAll($conn);
 
 //var_dump($userPathos);
 //die();
-
 //Get one by id
 $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
 
-$clinician = User::getAll($conn,$patient[0]['pclinician_id']);
+$clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
 $isset_date_first_report = 0;
 if (isset($patient[0]['date_first_report'])) {
@@ -261,41 +272,45 @@ require 'patient_edit_auth.php';
                     <?php if ($canEditModePage) : ?>
                         <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
                     <?php else : ?>
-                        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                        <?php if (!$canEditModePage2) : ?>
+                            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                        <?php endif; ?>
                     <?php endif; ?>
                 <?php endif; ?>
 
 
-<?php require 'includes/patient_form.php'; ?>
+                <?php require 'includes/patient_form.php'; ?>
 
-<br>
-<?php if ($patient[0]['date_13000'] == NULL) : ?>
-    <?php if ($canEditModePage) : ?>
-        <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-    <?php else : ?>
-        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-    <?php endif; ?>
-<?php endif; ?>
-</form>
+                <br>
+                <?php if ($patient[0]['date_13000'] == NULL) : ?>
+                    <?php if ($canEditModePage) : ?>
+                        <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                    <?php else : ?>
+                        <?php if (!$canEditModePage2) : ?>
+                            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </form>
 
 
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-        <?php if ($isUpdateResultAval) : ?>
-            <hr noshade="noshade" width="" size="6">
-            <?php require 'includes/patient_form_2result.php'; ?>
-        <?php endif; ?>
+                    <?php if ($isUpdateResultAval) : ?>
+                        <hr noshade="noshade" width="" size="6">
+                        <?php require 'includes/patient_form_2result.php'; ?>
+                    <?php endif; ?>
 
-    <?php endif; ?>
+                <?php endif; ?>
 
-    </div>
-</div>
+            </div>
+        </div>
 
-<?php require 'includes/footer.php'; ?>
+        <?php require 'includes/footer.php'; ?>
 
-<script type="text/javascript">
-    // set active tab
-    $("#patient_main").addClass("active");
-    $("#patient").addClass("active");
-</script>
+        <script type="text/javascript">
+            // set active tab
+            $("#patient_main").addClass("active");
+            $("#patient").addClass("active");
+        </script>

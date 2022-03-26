@@ -269,26 +269,7 @@ function addAction2Flow() {
         frm.submit();
     });
 
-//วินิจฉัย(คอนเฟิร์ม) 13000
-    $("#move13000").on("mouseover", function (e) {
-        $(this).addClass("heldover");
-    });
-    $("#move13000").on("mouseout", function (e) {
-        $(this).removeClass("heldover");
-    });
-    $("#move13000").on("click", function (e) {
-        e.preventDefault();
-        var cur_status = $(".cur_status").attr('tabindex');
-        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        var frm = $("<form>");
-        frm.attr('method', 'post');
-        frm.attr('');
-        frm.append('<input type="hidden" name="status" value="13000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
-        frm.appendTo("body");
-        frm.submit();
-    });
+
 
 //วินิจฉัย12000
     $("#move12000").on("mouseover", function (e) {
@@ -297,7 +278,7 @@ function addAction2Flow() {
     $("#move12000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move12000").on("click", function (e) {
+    $("#move12000,#btnmove12000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
@@ -305,6 +286,28 @@ function addAction2Flow() {
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="12000" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        frm.appendTo("body");
+        frm.submit();
+    });
+    
+    //วินิจฉัย(คอนเฟิร์ม) 13000
+    $("#move13000").on("mouseover", function (e) {
+        $(this).addClass("heldover");
+    });
+    $("#move13000").on("mouseout", function (e) {
+        $(this).removeClass("heldover");
+    });
+    $("#move13000, #btnmove13000").on("click", function (e) {
+        e.preventDefault();
+        alert("move 13000");
+        var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('');
+        frm.append('<input type="hidden" name="status" value="13000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
@@ -340,7 +343,7 @@ function addAction2Flow() {
     $("#move20000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move20000").on("click", function (e) {
+    $("#move20000,#btnmove20000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');

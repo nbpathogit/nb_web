@@ -125,8 +125,8 @@ $disableMoveButton = true;
 
                 <td>&nbsp;</td>
 
-                <td colspan="7"  tabindex="14000" id="keep14000" class="<?= ($curstatus['0']["id"] == 14000) ? "current" : "held" ?> state" >ออกผลเพิ่มเติม<br>14000</td>
-
+                <td colspan="7"></td>
+               
 
 
             </tr>
@@ -157,7 +157,7 @@ $disableMoveButton = true;
 
                 <td>&nbsp;</td>
 
-                <td colspan="7" class="diagram_arrow_u_d"></td>
+                <td colspan="7"</td>
 
             </tr>
 
@@ -282,12 +282,9 @@ $disableMoveButton = true;
             <?php if (isset($patient[0]['date_10000'])): ?> <tr class="flow_his"><td>10000</td><td class="flow_his">แลปเซลวิทยา</td><td class="flow_his"><?= $patient[0]['date_10000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_12000'])): ?> <tr class="flow_his"><td>12000</td><td class="flow_his">วินิจฉัย</td><td class="flow_his"><?= $patient[0]['date_12000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_13000'])): ?> <tr class="flow_his"><td>13000</td><td class="flow_his">วินิจฉัย(คอนเฟิร์ม)</td><td class="flow_his"><?= $patient[0]['date_13000']; ?> </td></tr> <?php endif; ?>
-            <?php if (isset($patient[0]['date_first_report'])): ?> <tr class="flow_his"><td>20000_f</td><td class="flow_his">ออกผลแล้ว</td><td class="flow_his"><?= $patient[0]['date_first_report']; ?> </td></tr> <?php endif; ?>
-            <?php if (isset($patient[0]['date_20000'])): ?> <tr class="flow_his"><td>20000_l</td><td class="flow_his">ออกผลเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_20000']; ?> </td></tr> <?php endif; ?>
-            <?php if (false && isset($patient[0]['date_14000'])): ?> <tr class="flow_his"><td>14000</td><td class="flow_his">วินิจฉัยเพิ่มเติม</td><td class="flow_his"><?= $patient[0]['date_14000']; ?> </td></tr> <?php endif; ?>
-
+            
             <?php foreach ($presultupdates as $presultupdate): ?>
-                <?php if (isset($presultupdate['id'])): ?> <tr class="flow_his"><td>20000</td><td class="flow_his">ออกผล <?= $presultupdate['result_type']; ?> </td><td class="flow_his"><?= $presultupdate['release_time']; ?> </td></tr> <?php endif; ?>
+                <?php if (isset($presultupdate['id'])): ?> <tr class="flow_his"><td>20000</td><td class="flow_his"> <?= $presultupdate['result_type']; ?> </td><td class="flow_his"><?= $presultupdate['release_time']; ?> </td></tr> <?php endif; ?>
             <?php endforeach; ?>
 
 

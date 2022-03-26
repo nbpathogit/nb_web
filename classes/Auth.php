@@ -41,6 +41,7 @@ class Auth {
         session_regenerate_id(true);
         $_SESSION['is_logged_in'] = true;
         $_SESSION['username'] = $username;
+        $_SESSION['user'] = $user;
         $_SESSION['usergroup'] = $ugroup;
 
 //                var_dump($user);
@@ -49,6 +50,14 @@ class Auth {
     }
 
     public static function getUser() {
+        if (isset($_SESSION['user'])) {
+            return $_SESSION['user'];
+        } else {
+            return null;
+        }
+    }
+    
+        public static function getUsername() {
         if (isset($_SESSION['username'])) {
             return $_SESSION['username'];
         } else {
