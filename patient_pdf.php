@@ -43,6 +43,15 @@ $presultupdates = Presultupdate::getAllDesc($conn, $_GET['id']);
 
 $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 $hospital = Hospital::getAll($conn, $patient[0]['phospital_id']);
+$pathologist = User::getAllbyPathologis($conn,$patient[0]['ppathologist_id']);
+$pathologist2 = User::getAllbyPathologis($conn,$patient[0]['ppathologist2_id']);
+
+//var_dump($patient[0]['ppathologist_id']);
+//var_dump($patient[0]['ppathologist2_id']);
+//var_dump($pathologist);
+//var_dump($pathologist2);
+//die();
+
 
 //var_dump($clinician);
 //die();

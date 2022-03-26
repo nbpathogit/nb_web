@@ -93,7 +93,7 @@ $isStatusDisableEdit = true;
 
             <form id="" name="" method="post">
                 <?php if ($canViewPatientInfo) : ?>
-                    <?php require 'includes/patient_form_a.php'; ?>
+                    <?php require 'includes/patient_form_detail.php'; ?>
                     <hr>
                 <?php endif; ?>
                 <?php if ($canViewNBCenter) : ?>
@@ -101,7 +101,7 @@ $isStatusDisableEdit = true;
                     <hr>
                 <?php endif; ?>
                 <?php if ($canViewResult) : ?>
-                    <?php require 'includes/patient_form_c.php'; ?>
+                    <?php require 'includes/patient_form_1result.php'; ?>
                     <hr>
                 <?php endif; ?>
 

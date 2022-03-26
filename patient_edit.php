@@ -284,7 +284,7 @@ require 'patient_edit_auth.php';
 
         <?php if ($isUpdateResultAval) : ?>
             <hr noshade="noshade" width="" size="6">
-            <?php require 'includes/patient_form_d.php'; ?>
+            <?php require 'includes/patient_form_2result.php'; ?>
         <?php endif; ?>
 
     <?php endif; ?>

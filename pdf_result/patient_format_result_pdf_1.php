@@ -17,6 +17,7 @@
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
     <b>Pathological Diagnosis:</b> &nbsp; (<date_first_report>)<br>
     <p_rs_diagnosis>
+    <br><span>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist </span>
 </div>
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
     <span><b>Specimen:</b></span><br>

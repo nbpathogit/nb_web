@@ -8,7 +8,7 @@ $isBorder = false;
 <div class="row <?= $isBorder ? "border" : "" ?>">
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="p_slide_lab_id" class="form-label" >แลปเตรียมสไลด์จากของเหลว</label>
+        <label for="p_slide_lab_id" class="form-label" >แลปเซลด์วิทยา</label>
         <select name="p_slide_lab_id" id="p_slide_lab_id" class="form-select" <?= $canEditModePage && $canEditPlaning_b_3_group  && $canEditPlaning_b_3_status ? "" : " disabled readonly " ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($labFluids as $labFluid): ?>

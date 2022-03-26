@@ -2,7 +2,7 @@
 $isBorder = false;
 ?>
 
-<h4 align="center"><b>ผลการตรวจ</b></h4> 
+<h4 align="center"><b>ข้อมูลสิ่งส่งตรวจ</b></h4> 
 
 
 <?php if ($isHideResult): ?>
@@ -44,7 +44,7 @@ $isBorder = false;
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userPathos as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
-                <option value="<?= htmlspecialchars($user['id']); ?>" <?= $patient[0]['ppathologist_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['ppathologist_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
                     <?=
                     htmlspecialchars($user['name']);
                     echo ' ';
@@ -59,7 +59,7 @@ $isBorder = false;
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userPathos as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
-                <option value="<?= htmlspecialchars($user['id']); ?>" <?= $patient[0]['ppathologist_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['ppathologist_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
                     <?=
                     htmlspecialchars($user['name']);
                     echo ' ';

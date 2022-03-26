@@ -3,7 +3,7 @@ $isBorder = false;
 $addResultButton = true;
 ?>
 
-<h4 align="center"><b>ผลการตรวจ(เพิ่มเติม)</b></h4> 
+<h4 align="center"><b>ผลการตรวจ</b></h4> 
 
 <?php if (isset($presultupdates)): ?>
     <?php foreach ($presultupdates as $presultupdate): ?>
@@ -78,6 +78,8 @@ $addResultButton = true;
                     <label for="result_type" class="">เลือกชนิดของผลเพิ่มเติม</label>
                     <select name="result_type" class="form-select" id="result_type" >
                         <option value="0">ยังไม่ได้เลือก</option>
+                        <option value="Addendum" >Preliminary</option>
+                        <option value="Addendum" >Diagnosis</option>
                         <option value="Addendum" >Addendum</option>
                         <option value="Revised" >Revised</option>
                     </select>
