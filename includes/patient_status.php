@@ -41,7 +41,7 @@ $disableMoveButton = true;
     <?php endforeach; ?> 
 </ul>
 
-<ul class="uresultReleasedlist" style="display: none;">
+<ul class="uresultReleaseSetlist" style="display: none;">
     <!--<ul class="uresultReleaseSetlist" >-->
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
         <li tabindex=" <?= isset($prsu['release_time']) ? 1 : 0 ?>"><?= $prsu['release_time'] ?></li>
