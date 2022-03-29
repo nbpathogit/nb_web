@@ -15,7 +15,7 @@ $hospitals = Hospital::getAll($conn);
 
 // $users = User::getPage($conn, $paginator->limit, $paginator->offset);
 
-$users = User::getAll($conn, 0);
+// $users = User::getAll($conn, 0);
 
 //var_dump($users);
 //var_dump($ugroups);
@@ -52,27 +52,10 @@ $users = User::getAll($conn, 0);
                     <!-- <th scope="col">password</th> -->
                     <th scope="col">hospital</th>
                     <th scope="col">group</th>
-                    <th scope="col">Magane</th>
+                    <th scope="col">manage</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php foreach ($users as $user) : ?>
-                    <tr>
-                        <th scope="col"><?= $user['uid']; ?></th>
-                        <td><a href="user_detail.php?id=<?= $user['uid']; ?>"><?= $user['username']; ?></a></td>
-                        <td><?= $user['pre_name']; ?><br><?= $user['pre_name_e']; ?></td>
-                        <td><?= $user['name']; ?><br><?= $user['name_e']; ?></td>
-                        <td><?= $user['lastname']; ?><br><?= $user['lastname_e']; ?></td>
-                        <!-- <td>****</td> -->
-                        <td><?= $user['hospital']; ?></td>
-                        <td><?= $user['ugroup']; ?></td>
-                        <td>
-                            <a href="user_edit.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
-                            <a class="delete" href="user_del.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </thead>
+
         </table>
 
     <?php endif; ?>
@@ -85,24 +68,10 @@ $users = User::getAll($conn, 0);
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // delete user
-        $("a.delete").on("click", function(e) {
-
-            e.preventDefault();
-
-            if (confirm("Are you sure?")) {
-
-                var frm = $("<form>");
-                frm.attr('method', 'post');
-                frm.attr('action', $(this).attr('href'));
-                frm.appendTo("body");
-                frm.submit();
-            }
-        });
-
 
         // table data
-        $('#user_table').DataTable({
+        var table = $('#user_table').DataTable({
+            "ajax": "data/user.php?skey=<?= $_SESSION["skey"]; ?>",
             dom: 'Plfrtip',
             searchPanes: {
                 initCollapsed: true,
@@ -119,8 +88,42 @@ $users = User::getAll($conn, 0);
                         show: false
                     },
                     targets: [0, 1, 2, 3]
-                }
+                }, {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": '<a class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i></a><a class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can fa-lg"></i></a>',
+                },
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="user_detail.php?id=' + row[0] + '">' + data + '</a>';
+                    },
+                    "targets": 1
+                },
             ]
+        });
+
+        $('#user_table tbody').on('click', 'a.detail', function() {
+            var data = table.row($(this).parents('tr')).data();
+            // alert( data[0] +"'s salary is: "+ data[ 5 ] );
+            location.href = "user_detail.php?id=" + data[0];
+        });
+        $('#user_table tbody').on('click', 'a.edit', function() {
+            var data = table.row($(this).parents('tr')).data();
+            // alert( data[0] +"'s salary is: "+ data[ 5 ] );
+            location.href = "user_edit.php?id=" + data[0];
+        });
+        $('#user_table tbody').on('click', 'a.delete', function(e) {
+            var data = table.row($(this).parents('tr')).data();
+
+            e.preventDefault();
+            if (confirm("Are you sure?")) {
+                var frm = $("<form>");
+                frm.attr('method', 'post');
+                frm.attr('action', "user_del.php?id=" + data[0]);
+                frm.appendTo("body");
+                frm.submit();
+            }
         });
 
 
