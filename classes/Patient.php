@@ -438,5 +438,19 @@ class Patient {
             return false;
         }
     }
+    
+    
+    public static function  updateEverReport($conn, $id){
+        
+        $sql = "UPDATE patient
+                SET reported = 1
+                    WHERE id = :id";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+        
+    }
 
 }

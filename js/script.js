@@ -1,4 +1,5 @@
 
+
 function showFollowStatus(status) {
     if (status == 'lump') {
 
@@ -237,12 +238,31 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+
+
+        var isset_sp_slide_assigned = '0';
+        $('.p_slide_prep_sp_id li').each(function (index) {
+            isset_sp_slide_assigned = $(this).attr('tabindex');
+        });
+//         console.log("isset_second_patho : " + isset_second_patho);
+//          return;
+        if (isset_sp_slide_assigned == '0') {
+            alert("Person to prepare slide not selected Yet!");
+            return;
+        }
+
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="8000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        $('.p_slide_prep_sp_id li').each(function (index) {
+            frm.append('<input type="hidden" name="p_slide_prep_sp_id" value="' + $(this).attr('tabindex') + '" /> ');
+        });
+
+
+
         frm.appendTo("body");
         frm.submit();
     });
@@ -291,7 +311,7 @@ function addAction2Flow() {
         frm.appendTo("body");
         frm.submit();
     });
-    
+
     //วินิจฉัย(คอนเฟิร์ม) 13000
     $("#move13000").on("mouseover", function (e) {
         $(this).addClass("heldover");
@@ -301,7 +321,22 @@ function addAction2Flow() {
     });
     $("#move13000, #btnmove13000").on("click", function (e) {
         e.preventDefault();
-        alert("move 13000");
+
+        // Stop move to 13000 when not select Second Patho
+
+        var isset_second_patho = '0';
+        $('.uresultSecondPatho li').each(function (index) {
+            isset_second_patho = $(this).attr('tabindex');
+        });
+//         console.log("isset_second_patho : " + isset_second_patho);
+//          return;
+        if (isset_second_patho == '0') {
+            alert("Second Patho not selected Yet!");
+            return;
+        }
+
+
+//        alert("move 13000");
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
@@ -524,7 +559,7 @@ $("#formAddPatient , #formEditPatient").validate({
         },
         //LAB Number
         plabnum: {
-            required: true
+            required: false
         },
         //วันที่รับ
         date_1000: {
@@ -559,7 +594,7 @@ $("#formAddPatient , #formEditPatient").validate({
             selectd: true
         },
         //สิ่งส่งตรวจ
-        uspecimen_id: {
+        pspecimen_id: {
             selectd: true
         },
         //ความสำคัญ
@@ -597,6 +632,14 @@ $("#formAddPatient , #formEditPatient").validate({
         pspprice: {
             required: true
         },
+        // แลปเซล
+        p_slide_lab_id : {
+            selectd: true
+        },
+        // ราคาแลปเซล
+        p_slide_lab_price: {
+            required: true
+        },
         //==========  c  =============
 
         //พยาธิแพทย์ผู้ออกผล
@@ -622,6 +665,7 @@ $("#formAddPatient , #formEditPatient").validate({
     }
 
 });
+
 
 $("#adduser , #chg_passwrd").validate({
     rules: {

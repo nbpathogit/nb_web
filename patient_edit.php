@@ -23,10 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //echo "save status";
         $isUpdateStatusError = true;
         $isUpdateReleaseTimeError = true;
+
         $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report']);
-        if (  ($_POST['cur_status'] == 12000 or $_POST['cur_status'] == 13000)  && $_POST['status'] == 20000 && isset($_POST["uresultinxlist"])) {
+        if (($_POST['cur_status'] == 12000 or $_POST['cur_status'] == 13000) && $_POST['status'] == 20000 && isset($_POST["uresultinxlist"])) {
             if ($_POST["uresultReleaseSetlist"] == 0) {
                 $isUpdateReleaseTimeError = Presultupdate::updateReleaseTime($conn, $_POST["uresultinxlist"]);
+                $isEverReport = Patient::updateEverReport($conn, $_GET['id']);
             }
         }
 
@@ -252,65 +254,69 @@ require 'patient_edit_auth.php';
 
 <?php require 'includes/header.php'; ?>
 
+<?php if (!Auth::isLoggedIn()) : ?>
+    You are not login.
+<?php else : ?>
 
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-
-
-        <?php if (!Auth::isLoggedIn()) : ?>
-            You are not login.
-        <?php else : ?>
-
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
             <hr noshade="noshade" width="" size="8">
             <?php require 'includes/patient_status.php'; ?>
-
-            <hr noshade="noshade" width="" size="8">
-
-
-            <form id="formEditPatient" name="" method="post">
-                <?php if ($patient[0]['date_13000'] == NULL) : ?>
-                    <?php if ($canEditModePage) : ?>
-                        <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-                    <?php else : ?>
-                        <?php if (!$canEditModePage2) : ?>
-                            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                <?php endif; ?>
-
-
-                <?php require 'includes/patient_form.php'; ?>
-
-                <br>
-                <?php if ($patient[0]['date_13000'] == NULL) : ?>
-                    <?php if ($canEditModePage) : ?>
-                        <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-                    <?php else : ?>
-                        <?php if (!$canEditModePage2) : ?>
-                            <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </form>
-
-
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-
-                    <?php if ($isUpdateResultAval) : ?>
-                        <hr noshade="noshade" width="" size="6">
-                        <?php require 'includes/patient_form_2result.php'; ?>
-                    <?php endif; ?>
-
-                <?php endif; ?>
-
-            </div>
         </div>
+    </div>
+     <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
+           
+ 
 
-        <?php require 'includes/footer.php'; ?>
+    <hr noshade="noshade" width="" size="8">
 
-        <script type="text/javascript">
-            // set active tab
-            $("#patient_main").addClass("active");
-            $("#patient").addClass("active");
-        </script>
+
+    <form id="formEditPatient" name="" method="post">
+
+        <?php if ($canEditModePage) : ?>
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+        <?php else : ?>
+            <?php if (!$canEditModePage2) : ?>
+                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+            <?php endif; ?>
+        <?php endif; ?>
+
+
+
+        <?php require 'includes/patient_form.php'; ?>
+
+        <br>
+
+        <?php if ($canEditModePage) : ?>
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+        <?php else : ?>
+            <?php if (!$canEditModePage2) : ?>
+                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+            <?php endif; ?>
+        <?php endif; ?>
+
+    </form>
+       </div>
+    </div>
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+            <?php if ($isUpdateResultAval) : ?>
+                <hr noshade="noshade" width="" size="6">
+                <?php require 'includes/patient_form_080_result.php'; ?>
+            <?php endif; ?>
+
+        <?php endif; ?>
+
+    </div>
+</div>
+
+<?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+    // set active tab
+    $("#patient_main").addClass("active");
+    $("#patient").addClass("active");
+</script>

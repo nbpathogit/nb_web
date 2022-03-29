@@ -1,6 +1,7 @@
 <?php
 $isBorder = true;
 $disableMoveButton = true;
+$hiddom = true;
 ?>
 
 <!--Write Data to DOM pass value to java script-->
@@ -34,23 +35,28 @@ $disableMoveButton = true;
 </ul>
 
 
-<ul class="uresultinxlist" style="display: none;">
-    <!--<ul class="uresultinxlist" >-->
+<ul class="uresultinxlist" style="<?= $hiddom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
         <li tabindex=" <?= $prsu['id'] ?>"><?= $prsu['id'] ?></li>
     <?php endforeach; ?> 
 </ul>
 
-<ul class="uresultReleaseSetlist" style="display: none;">
-    <!--<ul class="uresultReleaseSetlist" >-->
+<ul class="uresultReleaseSetlist" style="<?= $hiddom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
         <li tabindex=" <?= isset($prsu['release_time']) ? 1 : 0 ?>"><?= $prsu['release_time'] ?></li>
     <?php endforeach; ?> 
 </ul>
 
+<ul class="uresultSecondPatho" style="<?= $hiddom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex=" <?= ($prsu['pathologist2_id']) ?>"><?= $prsu['pathologist2_id'] ?></li>
+    <?php endforeach; ?> 
+</ul>
 
-
-
+<!--p_slide_prep_sp_id-->
+<ul class="p_slide_prep_sp_id" style="<?= $hiddom ? "display: none;":"" ?>" >
+    <li tabindex="<?= $patient[0]['p_slide_prep_sp_id'] ?>"><?= $patient[0]['p_slide_prep_sp_id'] ?></li>
+</ul>
 
 
 <h4 align="center"><b>สถานะงาน ของผู้ป่วยลำดับที่ &nbsp; <?= $_GET['id'] ?> &nbsp; คือ &nbsp; <?= $curstatus['0']["des"] ?> </b></h4>
@@ -126,7 +132,7 @@ $disableMoveButton = true;
                 <td>&nbsp;</td>
 
                 <td colspan="7"></td>
-               
+
 
 
             </tr>
@@ -178,7 +184,7 @@ $disableMoveButton = true;
                 <td class="diagram_arrow">&nbsp;</td>
                 <td colspan="7"  tabindex="13000" id="keep13000" class="<?= ($curstatus['0']["id"] == 13000) ? "current" : "held" ?> state">วินิจฉัย(คอนเฟิร์ม)<br>13000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7"  tabindex="20000" id="keep20000" class="<?= ($curstatus['0']["id"] == 20000) ? "completed" : "held" ?> state">ออกผล<br>20000</td>
+                <td colspan="7"  tabindex="20000" id="keep20000" class="<?= ($curstatus['0']["id"] == 20000 || $patient[0]['reported'] == 1) ? "completed" : "held" ?> state">ออกผล<br>20000</td>
             </tr>	<!-- end of Second row -->
 
             <tr>
@@ -282,7 +288,7 @@ $disableMoveButton = true;
             <?php if (isset($patient[0]['date_10000'])): ?> <tr class="flow_his"><td>10000</td><td class="flow_his">แลปเซลวิทยา</td><td class="flow_his"><?= $patient[0]['date_10000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_12000'])): ?> <tr class="flow_his"><td>12000</td><td class="flow_his">วินิจฉัย</td><td class="flow_his"><?= $patient[0]['date_12000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_13000'])): ?> <tr class="flow_his"><td>13000</td><td class="flow_his">วินิจฉัย(คอนเฟิร์ม)</td><td class="flow_his"><?= $patient[0]['date_13000']; ?> </td></tr> <?php endif; ?>
-            
+
             <?php foreach ($presultupdates as $presultupdate): ?>
                 <?php if (isset($presultupdate['id'])): ?> <tr class="flow_his"><td>20000</td><td class="flow_his"> <?= $presultupdate['result_type']; ?> </td><td class="flow_his"><?= $presultupdate['release_time']; ?> </td></tr> <?php endif; ?>
             <?php endforeach; ?>
@@ -290,5 +296,6 @@ $disableMoveButton = true;
 
         </table>
     </div>
-
+<?php else: ?>
+    <p align="center"  style="font-size:20px" ><span >กรุณากรอกข้อมูล หลังจากเสร็จแล้วให้กดปุ่ม Save all</span></p>
 <?php endif; ?>

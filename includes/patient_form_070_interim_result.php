@@ -36,7 +36,7 @@ $isBorder = false;
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="ppathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
-        <select name="ppathologist_id" class="form-select" <?= $canEditModePage && $canEditPlaning_b_2_status && $canEditPlaning_b_2_group  ? "" : " disabled readonly " ?> >
+        <select name="ppathologist_id" id="ppathologist_id" class="form-select" <?= $canEditModePage && $canEditPlaning_b_2_status && $canEditPlaning_b_2_group  ? "" : " disabled readonly " ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userPathos as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
