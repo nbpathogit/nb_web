@@ -73,35 +73,10 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>หน้าแรก</a>
-                    <div class="nav-item dropdown">
-                        <a href="patient.php" id="patient_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a id="patient" class="dropdown-item" href="patient.php">ข้อมูลผู้รักษา</a>
-                            <a id="patient_add" class="dropdown-item" href="patient_add.php">เพิ่มข้อมูลผู้รักษา</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="user.php" id="user_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-doctor"></i>ผู้ใช้งาน</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a id="user" class="dropdown-item" href="user.php">ผู้ใช้งานระบบ</a>
-                            <a id="user_add" class="dropdown-item" href="user_add.php">เพิ่มผู้ใช้งานระบบ</a>
-                            <!-- <a id="user_edit" class="dropdown-item" href="user_edit.php">แก้ไขผู้ใช้งานระบบ</a> -->
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="specimen.php" id="specimen_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-disease"></i>สิ่งส่งตรวจ</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a id="specimen" href="specimen.php" class="dropdown-item">ข้อมูลสิ่งส่งตรวจ</a>
-                            <a id="specimen_add" href="specimen_add.php" class="dropdown-item">เพิ่มสิ่งส่งตรวจ</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="hospital.php" id="hospital_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hospital-user"></i>โรงพยาบาล</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" href="hospital.php">ข้อมูลโรงพยาบาล</a>
-                            <a class="dropdown-item" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
-                        </div>
-                    </div>
+                    <a id="patient" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา</a>
+                    <a id="user" class="nav-item nav-link" href="user.php"><i class="fa-solid fa-user-doctor"></i>ผู้ใช้งานระบบ</a>
+                    <a id="specimen" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>
+                    <a class="nav-item nav-link" id="hospital" href="hospital.php"><i class="fa-solid fa-hospital-user"></i>ข้อมูลโรงพยาบาล</a>
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a>
                     <a href="billing.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Billing</a>
                     <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->

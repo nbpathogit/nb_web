@@ -183,7 +183,6 @@ $prioritys = Priority::getAll($conn);
         });
 
         // set active tab
-        $("#patient_main").addClass("active");
         $("#patient").addClass("active");
 
 
@@ -200,6 +199,7 @@ $prioritys = Priority::getAll($conn);
                 }
                 else if (td.innerHTML.indexOf('ออกผล') > -1) {
                     tr[i].classList.add('table-success');
+                    break;
                 } else {
                     //DO NOTHING
                 }

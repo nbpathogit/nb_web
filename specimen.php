@@ -108,7 +108,6 @@ $specimens = Specimen::getAll($conn);
 
 
         // set active tab
-        $("#specimen_main").addClass("active");
         $("#specimen").addClass("active");
     });
 </script>

@@ -453,4 +453,15 @@ class Patient {
         
     }
 
+    public function delete($conn)
+    {
+        $sql = "DELETE FROM patient
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }

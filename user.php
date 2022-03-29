@@ -46,6 +46,7 @@ $users = User::getAll($conn, 0);
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">username</th>
+                    <th scope="col">pre name</th>
                     <th scope="col">name</th>
                     <th scope="col">lastname</th>
                     <!-- <th scope="col">password</th> -->
@@ -59,8 +60,9 @@ $users = User::getAll($conn, 0);
                     <tr>
                         <th scope="col"><?= $user['uid']; ?></th>
                         <td><a href="user_detail.php?id=<?= $user['uid']; ?>"><?= $user['username']; ?></a></td>
-                        <td><?= $user['name']; ?></td>
-                        <td><?= $user['lastname']; ?></td>
+                        <td><?= $user['pre_name']; ?><br><?= $user['pre_name_e']; ?></td>
+                        <td><?= $user['name']; ?><br><?= $user['name_e']; ?></td>
+                        <td><?= $user['lastname']; ?><br><?= $user['lastname_e']; ?></td>
                         <!-- <td>****</td> -->
                         <td><?= $user['hospital']; ?></td>
                         <td><?= $user['ugroup']; ?></td>
@@ -82,6 +84,22 @@ $users = User::getAll($conn, 0);
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+        // delete user
+        $("a.delete").on("click", function(e) {
+
+            e.preventDefault();
+
+            if (confirm("Are you sure?")) {
+
+                var frm = $("<form>");
+                frm.attr('method', 'post');
+                frm.attr('action', $(this).attr('href'));
+                frm.appendTo("body");
+                frm.submit();
+            }
+        });
+
 
         // table data
         $('#user_table').DataTable({
@@ -106,24 +124,7 @@ $users = User::getAll($conn, 0);
         });
 
 
-        // delete user
-        $("a.delete").on("click", function(e) {
-
-            e.preventDefault();
-
-            if (confirm("Are you sure?")) {
-
-                var frm = $("<form>");
-                frm.attr('method', 'post');
-                frm.attr('action', $(this).attr('href'));
-                frm.appendTo("body");
-                frm.submit();
-            }
-        });
-
-
         // set active tab
-        $("#user_main").addClass("active");
         $("#user").addClass("active");
     });
 </script>

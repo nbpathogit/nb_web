@@ -69,11 +69,6 @@ $hospitals = Hospital::getAll($conn);
 <script type="text/javascript">
     $(document).ready(function() {
 
-
-        // table data
-        $('#hospital_table').DataTable({});
-
-
         // delete
         $("a.delete").on("click", function(e) {
 
@@ -89,9 +84,11 @@ $hospitals = Hospital::getAll($conn);
             }
         });
 
+        // table data
+        $('#hospital_table').DataTable({});
+
 
         //set active tab
-        $("#hospital_main").addClass("active");
         $("#hospital").addClass("active");
 
     });
