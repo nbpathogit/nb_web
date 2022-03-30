@@ -73,7 +73,7 @@ $specimens = Specimen::getAll($conn);
                 {
                     "render": function(data, type, row) {
                         // return data + ' (' + row[3] + ')';
-                        return '<a href="specimen_edit.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a><a href="specimen_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                        return '<a href="specimen_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a><a href="specimen_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
                     },
                     "targets": -1
                 },
