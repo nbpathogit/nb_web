@@ -3,42 +3,42 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //var_dump($_POST);
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     //var_dump($_POST);
 
 
-    $patient = new Patient();
-    $patient->pnum = $_POST['pnum'];
-    $patient->plabnum = $_POST['plabnum'];
-    $patient->pname = $_POST['pname'];
-    $patient->pgender = $_POST['pgender'];
-    $patient->plastname = $_POST['plastname'];
-    $patient->pedge = $_POST['pedge'];
-    $patient->date_1000 = $_POST['date_1000'];
-    $patient->date_12_13_000 = $_POST['date_12_13_000'];
-    $patient->status = $_POST['status'];
-    $patient->priority = $_POST['priority'];
-    $patient->phospital_id = $_POST['phospital_id'];
-    $patient->phospital_num = $_POST['phospital_num'];
-    $patient->ppathologist_id = $_POST['ppathologist_id'];
-    $patient->pspecimen_id = $_POST['pspecimen_id'];
-    $patient->pclinician_id = $_POST["pclinician_id"];
-    $patient->pprice = $_POST['pprice'];
-    $patient->pspprice = $_POST['pspprice'];
-    $patient->p_rs_specimen = $_POST['p_rs_specimen'];
-    $patient->p_rs_clinical_diag = $_POST['p_rs_clinical_diag'];
-    $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc'];
-    $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'];
-    $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis'];
+//     $patient = new Patient();
+//     $patient->pnum = $_POST['pnum'];
+//     $patient->plabnum = $_POST['plabnum'];
+//     $patient->pname = $_POST['pname'];
+//     $patient->pgender = $_POST['pgender'];
+//     $patient->plastname = $_POST['plastname'];
+//     $patient->pedge = $_POST['pedge'];
+//     $patient->date_1000 = $_POST['date_1000'];
+//     $patient->date_12_13_000 = $_POST['date_12_13_000'];
+//     $patient->status = $_POST['status'];
+//     $patient->priority = $_POST['priority'];
+//     $patient->phospital_id = $_POST['phospital_id'];
+//     $patient->phospital_num = $_POST['phospital_num'];
+//     $patient->ppathologist_id = $_POST['ppathologist_id'];
+//     $patient->pspecimen_id = $_POST['pspecimen_id'];
+//     $patient->pclinician_id = $_POST["pclinician_id"];
+//     $patient->pprice = $_POST['pprice'];
+//     $patient->pspprice = $_POST['pspprice'];
+//     $patient->p_rs_specimen = $_POST['p_rs_specimen'];
+//     $patient->p_rs_clinical_diag = $_POST['p_rs_clinical_diag'];
+//     $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc'];
+//     $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'];
+//     $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis'];
 
 
 
-    if ($patient->create($conn)) {
-        Url::redirect("/patient_detail.php?id=$patient->id");
-    } else {
-        echo '<script>alert("Add user fail. Please verify again")</script>';
-    }
-}
+//     if ($patient->create($conn)) {
+//         Url::redirect("/patient_detail.php?id=$patient->id");
+//     } else {
+//         echo '<script>alert("Add user fail. Please verify again")</script>';
+//     }
+// }
 
 //$patients = Patient::getInit();
 
@@ -50,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $patientLists = Patient::getAllJoin($conn, 0);
 
-$hospitals = Hospital::getAll($conn);
-$specimens = Specimen::getAll($conn);
-$clinicians = User::getAllbyClinicians($conn);
-$userPathos = User::getAllbyPathologis($conn);
-$prioritys = Priority::getAll($conn);
+// $hospitals = Hospital::getAll($conn);
+// $specimens = Specimen::getAll($conn);
+// $clinicians = User::getAllbyClinicians($conn);
+// $userPathos = User::getAllbyPathologis($conn);
+// $prioritys = Priority::getAll($conn);
 
 //var_dump($patients);
 
@@ -100,61 +100,10 @@ $prioritys = Priority::getAll($conn);
                     <th>วันที่รายงาน</th>
                     <th>สถานะ</th>
                     <th>ความสำคัญ</th>
-                    <!--<th>ราย<br>ละเอียด</th>-->
                     <th>จัดการ</th>
-                    <!-- <th>แก้ไข/รายละเอียด</th>
-                <th>PDF</th>
-                <th>ลบ</th> -->
                 </tr>
             </thead>
-            <tbody>
-
-                <?php foreach ($patientLists as $patient) : ?>
-                    <tr>
-                        <td>
-                            <?= $patient['pid']; ?>
-                        </td>
-                        <td>
-                            <a href="patient_edit.php?id=<?= $patient['pid']; ?>"><?= $patient['pnum']; ?></a>
-                        </td>
-                        <td>
-                            <?= $patient['pname']; ?>
-                        </td>
-                        <td>
-                            <?= $patient['plastname']; ?>
-                        </td>
-                        <td>
-                            <?= $patient['hospital']; ?>
-                        </td>
-                        <td>
-                            <?= $patient['name']; ?>
-                        </td>
-                        <td>
-                            <?= $patient['date_1000']; ?>
-                        </td>
-                        <td>
-                            <?= $patient['date_20000']; ?>
-                        </td>
-                        <td>
-                            <?= $patient['des']; ?>
-                        </td>
-                        <td>
-                            <?= $patient['priority']; ?>
-                        </td>
-                        <!--<td><a href="patient_detail.php?id=<?= $patient['pid']; ?>">Detail</a></td>-->
-                        <td>
-                            <div>
-                                <a target="_blank" href="patient_pdf.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-file-pdf fa-lg"></i></a>
-                                <a class="delete" href="patient_del.php?id=<?= $patient['pid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-
-            </tbody>
         </table>
-        <?php //require 'includes/pagination.php'; 
-        ?>
 
     <?php endif; ?>
 
@@ -166,49 +115,10 @@ $prioritys = Priority::getAll($conn);
 <script type="text/javascript">
     $(document).ready(function() {
 
-
-        // delete user
-        $("a.delete").on("click", function(e) {
-
-            e.preventDefault();
-
-            if (confirm("Are you sure?")) {
-
-                var frm = $("<form>");
-                frm.attr('method', 'post');
-                frm.attr('action', $(this).attr('href'));
-                frm.appendTo("body");
-                frm.submit();
-            }
-        });
-
-        // set active tab
-        $("#patient").addClass("active");
-
-
-        // add color class for priority
-        var count = $('.table').children('tbody').children('tr:first-child').children('td').length;
-        table = document.getElementById("patient_table");
-        tr = table.getElementsByTagName("tr");
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 1; i < tr.length; i++) {
-            for (j = 0; j < count; j++) {
-                td = tr[i].getElementsByTagName("td")[j];
-                if (td.innerHTML.indexOf('ด่วน') > -1) {
-                    tr[i].classList.add('table-danger');
-                }
-                else if (td.innerHTML.indexOf('ออกผล') > -1) {
-                    tr[i].classList.add('table-success');
-                    break;
-                } else {
-                    //DO NOTHING
-                }
-            }
-        }
-
-
         // datatable
-        $('#patient_table').DataTable({
+        var table = $('#patient_table').DataTable({
+            "ajax": "data/patient.php?skey=<?= $_SESSION["skey"]; ?>",
+            responsive: true,
             dom: 'Plfrtip',
             searchPanes: {
                 initCollapsed: true,
@@ -225,9 +135,68 @@ $prioritys = Priority::getAll($conn);
                         show: false
                     },
                     targets: [0, 1, 2, 3]
+                },
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a><a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i></a><a href="patient_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                    },
+                    "targets": -1
+                },
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="patient_edit.php?id=' + row[0] + '">' + data + '</a>';
+                    },
+                    "targets": 1
+                },
+            ],
+            "initComplete": function() {
+                // add color class for priority
+                var count = $('.table').children('tbody').children('tr:first-child').children('td').length;
+                tablee = document.getElementById("patient_table");
+                tr = tablee.getElementsByTagName("tr");
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 1; i < tr.length; i++) {
+                    for (j = 0; j < count; j++) {
+                        td = tr[i].getElementsByTagName("td")[j];
+                        if (td.innerHTML.indexOf('ด่วน') > -1) {
+                            tr[i].classList.add('table-danger');
+                        } else if (td.innerHTML.indexOf('ออกผล') > -1) {
+                            tr[i].classList.add('table-success');
+                            break;
+                        } else {
+                            //DO NOTHING
+                        }
+                    }
                 }
-            ]
+            }
         });
-        
+
+
+        // delete user
+        $('#patient_table tbody').on('click', 'a.delete', function(e) {
+            var data = table.row($(this).parents('tr')).data();
+
+            e.preventDefault();
+            if (confirm("Are you sure?")) {
+                var frm = $("<form>");
+                frm.attr('method', 'post');
+                frm.attr('action', "patient_del.php?id=" + data[0]);
+                frm.appendTo("body");
+                frm.submit();
+            }
+        });
+
+        // set active tab
+        $("#patient").addClass("active");
+
+
+
+
+
+
+
+
     });
 </script>

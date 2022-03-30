@@ -6,9 +6,9 @@ $conn = require 'includes/db.php';
 
 //$users = User::getAll($conn);
 
-$ugroups = Ugroup::getAll($conn);
+// $ugroups = Ugroup::getAll($conn);
 
-$hospitals = Hospital::getAll($conn);
+// $hospitals = Hospital::getAll($conn);
 
 //Ternary Operator
 // $paginator = new Paginator(isset($_GET['page']) ? $_GET['page'] : 1, 10, User::getTotal($conn));
