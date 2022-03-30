@@ -44,24 +44,18 @@ $conn = require 'includes/db.php';
         <table class="table table-hover table-striped text-center" id="user_table" style="width:100%">
             <thead>
                 <tr>
-                    <th rowspan="2" scope="col">id</th>
-                    <th rowspan="2" scope="col">username</th>
-                    <th colspan="3" scope="col">ชื่อเต็ม</th>
-                    <th colspan="3" scope="col">Fullname</th><th rowspan="2"  scope="col">hospital</th>
-                    <th rowspan="2"  scope="col">group</th>
-                    <th rowspan="2"  scope="col">manage</th>
-                </tr>
-                <tr>
-                    <th scope="col">pre name</th>
-                    <th scope="col">name</th>
-                    <th scope="col">lastname</th>
-                    <th scope="col">pre name e</th>
-                    <th scope="col">name e</th>
-                    <th scope="col">lastname e</th>
+                    <th scope="col">id</th>
+                    <th scope="col">username</th>
+                    <th scope="col">#</th>
+                    <th scope="col">ชื่อ</th>
+                    <th scope="col">นามสกุล</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Lastname</th>
                     <!-- <th scope="col">password</th> -->
-                    <!-- </tr>
-                <tr> -->
-                    
+                    <th scope="col">Hospital</th>
+                    <th scope="col">group</th>
+                    <th scope="col">manage</th>
                 </tr>
             </thead>
 
@@ -113,6 +107,38 @@ $conn = require 'includes/db.php';
                     },
                     "targets": 1
                 },
+                {
+                    responsivePriority: 1,
+                    targets: 1
+                },
+                {
+                    responsivePriority: 3,
+                    targets: 3
+                },
+                {
+                    responsivePriority: 4,
+                    targets: [8, 9]
+                },
+                {
+                    responsivePriority: 2,
+                    targets: 10
+                },
+                {
+                    responsivePriority: 10004,
+                    targets: [2, 5]
+                },
+                {
+                    responsivePriority: 10003,
+                    targets: [6, 7]
+                },
+                {
+                    responsivePriority: 10002,
+                    targets: 4
+                },
+                {
+                    responsivePriority: 10005,
+                    targets: 0
+                }
             ]
         });
 
