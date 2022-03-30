@@ -33,7 +33,7 @@ $conn = require 'includes/db.php';
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
-        <table class="table table-hover table-striped text-center" id="hospital_table">
+        <table class="table table-hover table-striped text-center" id="hospital_table" style="width:100%">
             <thead>
                 <tr>
                     <th scope="col">#</th>

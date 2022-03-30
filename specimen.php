@@ -43,7 +43,7 @@ $specimens = Specimen::getAll($conn);
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-            <table class="table table-hover table-striped text-center" id="specimen_table">
+            <table class="table table-hover table-striped text-center" id="specimen_table" style="width:100%">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

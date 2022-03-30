@@ -41,18 +41,27 @@ $conn = require 'includes/db.php';
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-        <table class="table table-hover table-striped text-center" id="user_table">
+        <table class="table table-hover table-striped text-center" id="user_table" style="width:100%">
             <thead>
                 <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">username</th>
+                    <th rowspan="2" scope="col">id</th>
+                    <th rowspan="2" scope="col">username</th>
+                    <th colspan="3" scope="col">ชื่อเต็ม</th>
+                    <th colspan="3" scope="col">Fullname</th><th rowspan="2"  scope="col">hospital</th>
+                    <th rowspan="2"  scope="col">group</th>
+                    <th rowspan="2"  scope="col">manage</th>
+                </tr>
+                <tr>
                     <th scope="col">pre name</th>
                     <th scope="col">name</th>
                     <th scope="col">lastname</th>
+                    <th scope="col">pre name e</th>
+                    <th scope="col">name e</th>
+                    <th scope="col">lastname e</th>
                     <!-- <th scope="col">password</th> -->
-                    <th scope="col">hospital</th>
-                    <th scope="col">group</th>
-                    <th scope="col">manage</th>
+                    <!-- </tr>
+                <tr> -->
+                    
                 </tr>
             </thead>
 
@@ -82,13 +91,13 @@ $conn = require 'includes/db.php';
                     searchPanes: {
                         show: true
                     },
-                    targets: [4, 5]
+                    targets: [8, 9]
                 },
                 {
                     searchPanes: {
                         show: false
                     },
-                    targets: [0, 1, 2, 3]
+                    targets: [0, 1, 2, 3, 4, 5, 6, 7]
                 },
                 {
                     "render": function(data, type, row) {
@@ -107,16 +116,7 @@ $conn = require 'includes/db.php';
             ]
         });
 
-        // $('#user_table tbody').on('click', 'a.detail', function() {
-        //     var data = table.row($(this).parents('tr')).data();
-        //     // alert( data[0] +"'s salary is: "+ data[ 5 ] );
-        //     location.href = "user_detail.php?id=" + data[0];
-        // });
-        // $('#user_table tbody').on('click', 'a.edit', function() {
-        //     var data = table.row($(this).parents('tr')).data();
-        //     // alert( data[0] +"'s salary is: "+ data[ 5 ] );
-        //     location.href = "user_edit.php?id=" + data[0];
-        // });
+        // delete user
         $('#user_table tbody').on('click', 'a.delete', function(e) {
             var data = table.row($(this).parents('tr')).data();
 
