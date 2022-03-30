@@ -51,30 +51,7 @@ $specimens = Specimen::getAll($conn);
                         <th scope="col">Manage</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php foreach ($specimens as $specimen) : ?>
-                        <tr>
-                            <th scope="row"><?= $specimen['id']; ?></td>
-                            <td><?= $specimen['specimen']; ?></td>
-                            <td>
-                                <a href="specimen_edit.php?id=<?= $specimen['id']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
-                                <a class="delete" href="specimen_del.php?id=<?= $specimen['id']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </thead>
             </table>
-
-            <!--		Start Pagination -->
-            <div class='pagination-container'>
-                <nav>
-                    <ul class="pagination">
-                        <!--	Here the JS Function Will Add the Rows -->
-                    </ul>
-                </nav>
-            </div>
-            <div class="rows_count"></div>
-
         <?php endif; ?>
 
     </div>
@@ -87,25 +64,35 @@ $specimens = Specimen::getAll($conn);
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // delete
-        $("a.delete").on("click", function(e) {
+
+        // table data
+        var table = $('#specimen_table').DataTable({
+            "ajax": "data/specimen.php?skey=<?= $_SESSION["skey"]; ?>",
+            responsive: true,
+            columnDefs: [
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="specimen_edit.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a><a href="specimen_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                    },
+                    "targets": -1
+                },
+            ],
+        });
+
+        // delete user
+        $('#specimen_table tbody').on('click', 'a.delete', function(e) {
+            var data = table.row($(this).parents('tr')).data();
 
             e.preventDefault();
-
             if (confirm("Are you sure?")) {
-
                 var frm = $("<form>");
                 frm.attr('method', 'post');
-                frm.attr('action', $(this).attr('href'));
+                frm.attr('action', "specimen_del.php?id=" + data[0]);
                 frm.appendTo("body");
                 frm.submit();
             }
         });
-
-
-        // table data
-        $('#specimen_table').DataTable({});
-
 
         // set active tab
         $("#specimen").addClass("active");
