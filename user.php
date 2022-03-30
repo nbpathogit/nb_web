@@ -72,6 +72,7 @@ $hospitals = Hospital::getAll($conn);
         // table data
         var table = $('#user_table').DataTable({
             "ajax": "data/user.php?skey=<?= $_SESSION["skey"]; ?>",
+            responsive: true,
             dom: 'Plfrtip',
             searchPanes: {
                 initCollapsed: true,
@@ -88,10 +89,13 @@ $hospitals = Hospital::getAll($conn);
                         show: false
                     },
                     targets: [0, 1, 2, 3]
-                }, {
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": '<a class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i></a><a class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can fa-lg"></i></a>',
+                },
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="user_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="user_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i></a><a href="user_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can fa-lg"></i></a>';
+                    },
+                    "targets": -1
                 },
                 {
                     "render": function(data, type, row) {
@@ -103,16 +107,16 @@ $hospitals = Hospital::getAll($conn);
             ]
         });
 
-        $('#user_table tbody').on('click', 'a.detail', function() {
-            var data = table.row($(this).parents('tr')).data();
-            // alert( data[0] +"'s salary is: "+ data[ 5 ] );
-            location.href = "user_detail.php?id=" + data[0];
-        });
-        $('#user_table tbody').on('click', 'a.edit', function() {
-            var data = table.row($(this).parents('tr')).data();
-            // alert( data[0] +"'s salary is: "+ data[ 5 ] );
-            location.href = "user_edit.php?id=" + data[0];
-        });
+        // $('#user_table tbody').on('click', 'a.detail', function() {
+        //     var data = table.row($(this).parents('tr')).data();
+        //     // alert( data[0] +"'s salary is: "+ data[ 5 ] );
+        //     location.href = "user_detail.php?id=" + data[0];
+        // });
+        // $('#user_table tbody').on('click', 'a.edit', function() {
+        //     var data = table.row($(this).parents('tr')).data();
+        //     // alert( data[0] +"'s salary is: "+ data[ 5 ] );
+        //     location.href = "user_edit.php?id=" + data[0];
+        // });
         $('#user_table tbody').on('click', 'a.delete', function(e) {
             var data = table.row($(this).parents('tr')).data();
 

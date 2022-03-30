@@ -40,91 +40,77 @@ if (isset($_GET['id'])) {
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
-                    <th>Key</th>
-                    <th>Detail</th>
+                    <th scope="col">Key</th>
+                    <th scope="col">Detail</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>id</td>
                     <td>
-                        <div align=""><?= $user[0]['uid']; ?></div>
+                        <?= $user[0]['uid']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>name</td>
                     <td>
-                        <div align=""><?= $user[0]['name']; ?></div>
+                        <?= $user[0]['name']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>lastname</td>
                     <td>
-                        <div align=""><?= $user[0]['lastname']; ?></div>
+                        <?= $user[0]['lastname']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>รายละเอียดเพิ่มเติม</td>
                     <td>
-                        <div align=""><?= $user[0]['udetail']; ?></div>
+                        <?= $user[0]['udetail']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>เบอร์โทรศัพท์</td>
                     <td>
-                        <div align=""><?= $user[0]['umobile']; ?></div>
+                        <?= $user[0]['umobile']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>e-mail</td>
                     <td>
-                        <div align=""><?= $user[0]['uemail']; ?></div>
+                        <?= $user[0]['uemail']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>username</td>
                     <td>
-                        <div align=""><?= $user[0]['username']; ?></div>
+                        <?= $user[0]['username']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>password</td>
                     <td>
-                        <div align=""><?= $user[0]['password']; ?></div>
+                        <?= "****" //password$user[0]['password']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>hospital</td>
                     <td>
-                        <div align=""><?= $user[0]['hospital']; ?></div>
+                        <?= $user[0]['hospital']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>ugroup</td>
                     <td>
-                        <div align=""><?= $user[0]['ugroup']; ?></div>
+                        <?= $user[0]['ugroup']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>detail</td>
                     <td>
-                        <div align=""><?= $user[0]['udetail']; ?></div>
+                        <?= $user[0]['udetail']; ?>
                     </td>
                 </tr>
-                <!--
-        <tr>
-            <td></td>
-            <td><div align=""></div></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><div align=""></div></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        -->
             </tbody>
         </table>
 
