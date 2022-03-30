@@ -13,7 +13,11 @@ class Auth {
      * @return boolean True if a user is logged in, false otherwies
      */
     public static function isLoggedIn() {
-        return isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'];
+        return isset($_SESSION['is_logged_in']) && 
+        $_SESSION['is_logged_in'] && 
+        isset($_SESSION['username']) && 
+        isset($_SESSION['user']) && 
+        isset($_SESSION['usergroup']);
     }
 
     /**
@@ -36,13 +40,13 @@ class Auth {
         $user = User::getByUserName($conn, $username);
         $ugroup = Ugroup::getByID($conn, $user->ugroup_id);
 
-
-
         session_regenerate_id(true);
+        
         $_SESSION['is_logged_in'] = true;
         $_SESSION['username'] = $username;
         $_SESSION['user'] = $user;
         $_SESSION['usergroup'] = $ugroup;
+        $_SESSION['skey'] = self::randomString();
 
 //                var_dump($user);
 //                var_dump($ugroup);
@@ -166,7 +170,22 @@ class Auth {
         }
     }
     
-    
+    public static function block()
+    {
+        header("HTTP/1.1 403 Forbidden");
+        exit;
+    }
+
+    public static function randomString($length = 10)
+    {
+        $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $charactersLength = strlen($characters);
+        $randomString = "";
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
     
     
     

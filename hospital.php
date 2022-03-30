@@ -7,7 +7,7 @@ $conn = require 'includes/db.php';
 
 // $paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1 ,20,Hospital::getTotal($conn));
 // $hospitals = Hospital::getPage($conn,$paginator->limit,$paginator->offset);
-$hospitals = Hospital::getAll($conn);
+// $hospitals = Hospital::getAll($conn);
 
 // var_dump($hospitals);
 ?>
@@ -33,7 +33,7 @@ $hospitals = Hospital::getAll($conn);
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
-        <table class="table table-hover table-striped text-center" id="hospital_table">
+        <table class="table table-hover table-striped text-center" id="hospital_table" style="width:100%">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -43,20 +43,6 @@ $hospitals = Hospital::getAll($conn);
                     <th scope="col">Manage</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php foreach ($hospitals as $hospital) : ?>
-                    <tr>
-                        <th scope="row"><?= $hospital['id']; ?></th>
-                        <td><a href="hospital_detail.php?id=<?= $hospital['id']; ?>"><?= $hospital['hospital']; ?></a></td>
-                        <td><?= $hospital['address']; ?></td>
-                        <td><?= $hospital['hdetail']; ?></td>
-                        <td>
-                            <a href="hospital_edit.php?id=<?= $hospital['id']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
-                            <a class="delete" href="hospital_del.php?id=<?= $hospital['id']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </thead>
         </table>
 
     <?php endif; ?>
@@ -85,8 +71,39 @@ $hospitals = Hospital::getAll($conn);
         });
 
         // table data
-        $('#hospital_table').DataTable({});
+        var table = $('#hospital_table').DataTable({
+            "ajax": "data/hospital.php?skey=<?= $_SESSION["skey"]; ?>",
+            responsive: true,
+            columnDefs: [
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="hospital_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="hospital_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a><a href="hospital_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                    },
+                    "targets": -1
+                },
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="hospital_detail.php?id=' + row[0] + '">' + data + '</a>';
+                    },
+                    "targets": 1
+                },
+            ],});
 
+            // delete hospital
+        $('#hospital_table tbody').on('click', 'a.delete', function(e) {
+            var data = table.row($(this).parents('tr')).data();
+
+            e.preventDefault();
+            if (confirm("Are you sure?")) {
+                var frm = $("<form>");
+                frm.attr('method', 'post');
+                frm.attr('action', "hospital_del.php?id=" + data[0]);
+                frm.appendTo("body");
+                frm.submit();
+            }
+        });
 
         //set active tab
         $("#hospital").addClass("active");

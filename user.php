@@ -6,16 +6,16 @@ $conn = require 'includes/db.php';
 
 //$users = User::getAll($conn);
 
-$ugroups = Ugroup::getAll($conn);
+// $ugroups = Ugroup::getAll($conn);
 
-$hospitals = Hospital::getAll($conn);
+// $hospitals = Hospital::getAll($conn);
 
 //Ternary Operator
 // $paginator = new Paginator(isset($_GET['page']) ? $_GET['page'] : 1, 10, User::getTotal($conn));
 
 // $users = User::getPage($conn, $paginator->limit, $paginator->offset);
 
-$users = User::getAll($conn, 0);
+// $users = User::getAll($conn, 0);
 
 //var_dump($users);
 //var_dump($ugroups);
@@ -41,38 +41,24 @@ $users = User::getAll($conn, 0);
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-        <table class="table table-hover table-striped text-center" id="user_table">
+        <table class="table table-hover table-striped text-center" id="user_table" style="width:100%">
             <thead>
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">username</th>
-                    <th scope="col">pre name</th>
-                    <th scope="col">name</th>
-                    <th scope="col">lastname</th>
+                    <th scope="col">#</th>
+                    <th scope="col">ชื่อ</th>
+                    <th scope="col">นามสกุล</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Lastname</th>
                     <!-- <th scope="col">password</th> -->
-                    <th scope="col">hospital</th>
+                    <th scope="col">Hospital</th>
                     <th scope="col">group</th>
-                    <th scope="col">Magane</th>
+                    <th scope="col">manage</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php foreach ($users as $user) : ?>
-                    <tr>
-                        <th scope="col"><?= $user['uid']; ?></th>
-                        <td><a href="user_detail.php?id=<?= $user['uid']; ?>"><?= $user['username']; ?></a></td>
-                        <td><?= $user['pre_name']; ?><br><?= $user['pre_name_e']; ?></td>
-                        <td><?= $user['name']; ?><br><?= $user['name_e']; ?></td>
-                        <td><?= $user['lastname']; ?><br><?= $user['lastname_e']; ?></td>
-                        <!-- <td>****</td> -->
-                        <td><?= $user['hospital']; ?></td>
-                        <td><?= $user['ugroup']; ?></td>
-                        <td>
-                            <a href="user_edit.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-marker fa-lg"></i></a>
-                            <a class="delete" href="user_del.php?id=<?= $user['uid']; ?>"><i class="fa-solid fa-trash-can fa-lg"></i></a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </thead>
+
         </table>
 
     <?php endif; ?>
@@ -85,24 +71,11 @@ $users = User::getAll($conn, 0);
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // delete user
-        $("a.delete").on("click", function(e) {
-
-            e.preventDefault();
-
-            if (confirm("Are you sure?")) {
-
-                var frm = $("<form>");
-                frm.attr('method', 'post');
-                frm.attr('action', $(this).attr('href'));
-                frm.appendTo("body");
-                frm.submit();
-            }
-        });
-
 
         // table data
-        $('#user_table').DataTable({
+        var table = $('#user_table').DataTable({
+            "ajax": "data/user.php?skey=<?= $_SESSION["skey"]; ?>",
+            responsive: true,
             dom: 'Plfrtip',
             searchPanes: {
                 initCollapsed: true,
@@ -112,15 +85,75 @@ $users = User::getAll($conn, 0);
                     searchPanes: {
                         show: true
                     },
-                    targets: [4, 5]
+                    targets: [8, 9]
                 },
                 {
                     searchPanes: {
                         show: false
                     },
-                    targets: [0, 1, 2, 3]
+                    targets: [0, 1, 2, 3, 4, 5, 6, 7]
+                },
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="user_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="user_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i></a><a href="user_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can fa-lg"></i></a>';
+                    },
+                    "targets": -1
+                },
+                {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        return '<a href="user_detail.php?id=' + row[0] + '">' + data + '</a>';
+                    },
+                    "targets": 1
+                },
+                {
+                    responsivePriority: 1,
+                    targets: 1
+                },
+                {
+                    responsivePriority: 3,
+                    targets: 3
+                },
+                {
+                    responsivePriority: 4,
+                    targets: [8, 9]
+                },
+                {
+                    responsivePriority: 2,
+                    targets: 10
+                },
+                {
+                    responsivePriority: 10004,
+                    targets: [2, 5]
+                },
+                {
+                    responsivePriority: 10003,
+                    targets: [6, 7]
+                },
+                {
+                    responsivePriority: 10002,
+                    targets: 4
+                },
+                {
+                    responsivePriority: 10005,
+                    targets: 0
                 }
             ]
+        });
+
+        // delete user
+        $('#user_table tbody').on('click', 'a.delete', function(e) {
+            var data = table.row($(this).parents('tr')).data();
+
+            e.preventDefault();
+            if (confirm("Are you sure?")) {
+                var frm = $("<form>");
+                frm.attr('method', 'post');
+                frm.attr('action', "user_del.php?id=" + data[0]);
+                frm.appendTo("body");
+                frm.submit();
+            }
         });
 
 
