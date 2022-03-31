@@ -39,6 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/specimen.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-disease me-2"></i>สิ่งส่งตรวจทั้งหมด</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
         <h4>แก้ไขสิ่งส่งตรวจ</h4>
 
@@ -51,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="d-grid gap-2 d-md-block">
-                <button name="Submit" type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>
+                <button name="Submit" id="save" type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>
                 <button name="Reset" type="reset" class="btn btn-secondary" id="Reset">ยกเลิก</button>
             </div>
 
@@ -63,6 +71,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    $("#specimen_main").addClass("active");
-    $("#specimen_add").addClass("active");
+  $(document).ready(function() {
+    $("#specimentab").addClass("active");
+
+    // prevent from unsave
+    function onNosave(e) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+
+    $("#specimen").change(function() {
+      window.addEventListener("beforeunload", onNosave);
+    });
+
+    $("#save").click(function() {
+      window.removeEventListener("beforeunload", onNosave);
+    })
+  });
 </script>

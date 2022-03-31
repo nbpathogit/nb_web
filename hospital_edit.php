@@ -53,10 +53,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!Auth::isLoggedIn()) : ?>
             You are not login.
         <?php else : ?>
-            <h4>แก้ไขสถานพยาบาล</h4>
-            <?php require 'includes/hospital_form.php'; ?>
 
-        <?php endif; ?>
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/hospital.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-house-chimney-medical me-2"></i>โรงพยาบาลทั้งหมด</a>
+            </div>
+    </div>
+</div>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+        <h4>แก้ไขสถานพยาบาล</h4>
+        <?php require 'includes/hospital_form.php'; ?>
+
+
+    <?php endif; ?>
 
 
     </div>
@@ -66,7 +76,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    //set active tab
-    $("#hospital_main").addClass("active");
-    $("#hospital_add").addClass("active");
+    $(document).ready(function() {
+        //set active tab
+        $("#hospital").addClass("active");
+
+        // prevent from unsave
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
+        $("#hospital_name, #hospital_address, #hospital_detail").change(function() {
+            window.addEventListener("beforeunload", onNosave);
+        });
+
+        $("#save").click(function() {
+            window.removeEventListener("beforeunload", onNosave);
+        })
+    });
 </script>

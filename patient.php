@@ -48,7 +48,7 @@ $conn = require 'includes/db.php';
 // $paginator = new Paginator(isset($_GET['page']) ? $_GET['page'] : 1, 10, Patient::getTotal($conn));
 // $patientLists = Patient::getPage($conn, $paginator->limit, $paginator->offset);
 
-$patientLists = Patient::getAllJoin($conn, 0);
+// $patientLists = Patient::getAllJoin($conn, 0);
 
 // $hospitals = Hospital::getAll($conn);
 // $specimens = Specimen::getAll($conn);
@@ -189,7 +189,7 @@ $patientLists = Patient::getAllJoin($conn, 0);
         });
 
         // set active tab
-        $("#patient").addClass("active");
+        $("#patienttab").addClass("active");
 
 
 

@@ -131,20 +131,29 @@ require 'patient_edit_auth.php';
             You are not authorized.
         <?php else : ?>
 
-            <?php //require 'includes/patient_status.php';  
-            ?>
-            <hr>
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>
+            </div>
+    </div>
+</div>
 
-            <form id="formAddPatient" class="" name="" method="post">
-                <?php require 'includes/patient_form.php'; ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-                <p align="center">
-                    <!--<button>ตกลง</button>-->
-                    <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
-                </p>
-            </form>
+        <?php //require 'includes/patient_status.php';  
+        ?>
+        <hr>
 
-        <?php endif; ?>
+        <form id="formAddPatient" class="" name="" method="post">
+            <?php require 'includes/patient_form.php'; ?>
+
+            <p align="center">
+                <!--<button>ตกลง</button>-->
+                <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+            </p>
+        </form>
+
+    <?php endif; ?>
 
 
     </div>
@@ -155,6 +164,5 @@ require 'patient_edit_auth.php';
 
 <script type="text/javascript">
     // set active tab
-    $("#patient_main").addClass("active");
-    $("#patient_add").addClass("active");
+    $("#patienttab").addClass("active");
 </script>

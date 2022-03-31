@@ -116,6 +116,5 @@ $isStatusDisableEdit = true;
 
 <script type="text/javascript">
     // set active tab
-    $("#patient_main").addClass("active");
-    $("#patient_add").addClass("active");
+    $("#patientab").addClass("active");
 </script>

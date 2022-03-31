@@ -49,11 +49,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-        <div align=""><b>เพิ่มผู้ใช้งานระบบ</b></div>
+        <div><b>เพิ่มผู้ใช้งานระบบ</b></div>
 
         <form id="adduser" method="post">
             <?php require 'includes/user_form.php'; ?>
-            <div align=""><button class="btn btn-primary">Add</button></div>
+            <div><button id="save" class="btn btn-primary">Add</button></div>
         </form>
 
     </div>
@@ -62,7 +62,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    // set active tab
-    $("#user_main").addClass("active");
-    $("#user_add").addClass("active");
+    $(document).ready(function() {
+        //set active tab
+        $("#user").addClass("active");
+
+        // prevent from unsave
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
+        $("input").change(function() {
+            window.addEventListener("beforeunload", onNosave);
+        });
+
+        $("#save").click(function() {
+            window.removeEventListener("beforeunload", onNosave);
+        })
+    });
 </script>
