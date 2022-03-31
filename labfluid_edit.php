@@ -9,7 +9,7 @@ $conn = require 'includes/db.php';
 if (isset($_GET['id'])) {
 
     $fluid = LabFluid::getByID($conn, $_GET['id']);
-// var_dump($fluid);exit;
+    // var_dump($fluid);exit;
     if (!$fluid) {
         die("fluid not found");
     }
@@ -40,9 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
-            <div class="d-flex align-items-center justify-content-between">
-                <a href="/labfluid.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-water me-2"></i>Fluid ทั้งหมด</a>
-            </div>
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/labfluid.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-water me-2"></i>Fluid ทั้งหมด</a>
+        </div>
     </div>
 </div>
 
@@ -76,5 +76,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    $("#fluid").addClass("active");
+    $(document).ready(function() {
+
+        $("#fluid").addClass("active");
+
+        $("#labname, #lab_des").change(function() {
+            window.addEventListener("beforeunload", function(e) {
+                e.preventDefault();
+                e.returnValue = '';
+            });
+        });
+
+    });
 </script>

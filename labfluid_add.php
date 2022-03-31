@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="d-grid gap-2 d-md-block">
-                <button name="Submit" type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>
+                <button name="Submit" id="submit" type="submit" class="btn btn-primary">เพิ่ม</button>
                 <button name="Reset" type="reset" class="btn btn-secondary" id="Reset">ยกเลิก</button>
             </div>
 
@@ -72,6 +72,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    //set active tab
-    $("#fluid").addClass("active");
+    $(document).ready(function() {
+
+        $("#fluid").addClass("active");
+
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
+        $("#labname, #lab_des").change(function() {
+            window.addEventListener("beforeunload", onNosave);
+        });
+
+        $("#submit").click(function() {
+            window.removeEventListener("beforeunload", onNosave);
+        })
+
+
+
+    });
 </script>
