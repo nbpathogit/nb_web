@@ -82,7 +82,9 @@ $isBorder = false;
             <!--<option value="กรุณาเลือก" selected>กรุณาเลือก</option>-->
             <?php foreach ($clinicians as $clinician): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
-                <option value="<?= htmlspecialchars($clinician['id']); ?>"  <?= $patient[0]['pclinician_id'] == $clinician['id'] ? "selected" : ""; ?> ><?= htmlspecialchars($clinician['name']); ?></option>
+                <option value="<?= htmlspecialchars($clinician['id']); ?>"  <?= $patient[0]['pclinician_id'] == $clinician['id'] ? "selected" : ""; ?> >
+                    <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
+                </option>
             <?php endforeach; ?>
         </select>                                    
     </div>

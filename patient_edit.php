@@ -175,6 +175,7 @@ $userTechnic = User::getAllbyTeachien($conn);
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
 $labFluids = LabFluid::getAll($conn);
+$userGroupLists = Ugroup::getAll($conn);
 
 //var_dump($userPathos);
 //die();
@@ -280,6 +281,13 @@ require 'patient_edit_auth.php';
 
             <hr noshade="noshade" width="" size="8">
 
+        <?php if ($canEditModePage) : ?>
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+        <?php else : ?>
+            <?php if (!$canEditModePage2) : ?>
+            <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?= $canCurPathoEditAndReleasedResult || $isCurUserAdmin  ?"":"disabled"; ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+            <?php endif; ?>
+        <?php endif; ?>
 
             <form id="formEditPatient" name="" method="post">
 
@@ -293,17 +301,13 @@ require 'patient_edit_auth.php';
 
 
 
-                <?php require 'includes/patient_form.php'; ?>
-
-                <br>
-
-                <?php if ($canEditModePage) : ?>
-                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-                <?php else : ?>
-                    <?php if (!$canEditModePage2) : ?>
-                        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-                    <?php endif; ?>
-                <?php endif; ?>
+        <?php if ($canEditModePage) : ?>
+            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+        <?php else : ?>
+            <?php if (!$canEditModePage2) : ?>
+                <p align="center"><button name="edit" type="submit" class="btn btn-primary"   <?= $canCurPathoEditAndReleasedResult || $isCurUserAdmin ?"":"disabled"; ?>     >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+            <?php endif; ?>
+        <?php endif; ?>
 
             </form>
         </div>

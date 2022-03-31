@@ -29,7 +29,7 @@ $addResultButton = true;
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?> > 
                                 <?= $user['name']; ?>
                                 &nbsp;
-                                <?= $user['lastname']; ?>
+                                <?= $user['lastname']; ?><?= '('.$user['ugroup'].')'; ?>
                             </option>
                         <?php endforeach; ?>                                     
                     </select> 
@@ -43,7 +43,7 @@ $addResultButton = true;
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist2_id'] == $user['uid'] ? "selected" : ""; ?> > 
                                 <?= $user['name']; ?>
                                 &nbsp;
-                                <?= $user['lastname']; ?>
+                                <?= $user['lastname']; ?><?= '('.$user['ugroup'].')'; ?>
                             </option>
                         <?php endforeach; ?>                                     
                     </select> 

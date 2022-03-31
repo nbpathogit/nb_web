@@ -13,10 +13,8 @@ $isBorder = false;
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
                 <option value="<?= htmlspecialchars($user['id']); ?>" <?= $patient[0]['p_slide_prep_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
-                    <?=
-                    htmlspecialchars($user['name']);
-                    echo ' ';
-                    ?> <?= htmlspecialchars($user['lastname']); ?></option>
+                    <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
+                </option>
             <?php endforeach; ?>                                     
         </select> 
 

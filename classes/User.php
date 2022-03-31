@@ -117,9 +117,15 @@ class User {
     }
 
     public static function getAllbyClinicians($conn) {
-        $sql = "SELECT * "
-                . "FROM `user` "
-                . "WHERE (`ugroup_id`= 5000 or `ugroup_id`= 0 )";
+        $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
+                FROM user U
+                JOIN user_groups G
+                JOIN hospital H
+                WHERE U.ugroup_id  = G.id
+                and U.uhospital_id  = H.id
+                and 
+                (U.ugroup_id = 5000 
+                or U.id = 0 )";
 
 
         $results = $conn->query($sql);

@@ -2,7 +2,7 @@
 //กำหนด คน ตัดเนื้อ
 $isBorder = false;
 ?>
-<hr>
+
 <hr noshade="noshade" width="" size="5" >
 <h4 align="center"><b>กำหนดทีมวินิจฉัย โดยสถายัน เอ็น แอน บี</b></h4>
 

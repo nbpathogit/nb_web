@@ -3,8 +3,6 @@ $isBorder = false;
 ?>
 <hr id="p_slide_lab_id_hr">
 
-
-
 <div class="row <?= $isBorder ? "border" : "" ?>">
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
