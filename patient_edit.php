@@ -324,8 +324,24 @@ require 'patient_edit_auth.php';
 
     <?php require 'includes/footer.php'; ?>
 
+
     <script type="text/javascript">
-        // set active tab
-        $("#patient_main").addClass("active");
-        $("#patient").addClass("active");
+        $(document).ready(function() {
+            //set active tab
+            $("#patienttab").addClass("active");
+
+            // prevent from unsave
+            function onNosave(e) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+
+            $("input").change(function() {
+                window.addEventListener("beforeunload", onNosave);
+            });
+
+            $(":submit").click(function() {
+                window.removeEventListener("beforeunload", onNosave);
+            })
+        });
     </script>

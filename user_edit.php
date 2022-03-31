@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form id="adduser" method="post">
             <?php require 'includes/user_form.php'; ?>
-            <div align=""><button class="btn btn-primary">Edit</button></div>
+            <div ><button id="save" class="btn btn-primary">Edit</button></div>
         </form>
 
     </div>
@@ -68,7 +68,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    // set active tab
-    $("#user_main").addClass("active");
-    $("#user_edit").addClass("active");
+    $(document).ready(function() {
+        //set active tab
+        $("#user").addClass("active");
+
+        // prevent from unsave
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
+        $("input").change(function() {
+            window.addEventListener("beforeunload", onNosave);
+        });
+
+        $("#save").click(function() {
+            window.removeEventListener("beforeunload", onNosave);
+        })
+    });
 </script>

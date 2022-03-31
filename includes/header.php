@@ -74,10 +74,10 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>หน้าแรก</a>
-                    <a id="patient" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา</a>
+                    <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา</a>
                     <a id="user" class="nav-item nav-link" href="user.php"><i class="fa-solid fa-user-doctor"></i>ผู้ใช้งานระบบ</a>
                     <a class="nav-item nav-link" id="hospital" href="hospital.php"><i class="fa-solid fa-hospital-user"></i>ข้อมูลโรงพยาบาล</a>
-                    <a id="specimen" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>
+                    <a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>
                     <a id="fluid" href="labfluid.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>Fluid</a>
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a>
                     <a href="billing.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Billing</a>

@@ -95,6 +95,6 @@ $conn = require 'includes/db.php';
         });
 
         // set active tab
-        $("#specimen").addClass("active");
+        $("#specimentab").addClass("active");
     });
 </script>

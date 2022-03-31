@@ -22,9 +22,13 @@ if (isset($_GET['id'])) {
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-<div class="d-flex align-items-center justify-content-between">
-                <a href="/hospital.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-house-chimney-medical me-2"></i>โรงพยาบาลทั้งหมด</a>
-            </div></div></div>
+        <div class="d-flex align-items-center justify-content-start">
+            <a href="/hospital.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-hospital-user me-2"></i>โรงพยาบาลทั้งหมด</a>
+            <a href="/hospital_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-house-chimney-medical me-2"></i>เพิ่มโรงพยาบาล</a>
+            <a href="/hospital_edit.php?id=<?= $_GET['id'] ?>" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-marker me-2"></i>แก้ไข</a>
+        </div>
+    </div>
+</div>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
@@ -66,6 +70,5 @@ if (isset($_GET['id'])) {
 
 <script type="text/javascript">
     //set active tab
-    $("#hospital_main").addClass("active");
-    $("#hospital_add").addClass("active");
+    $("#hospital").addClass("active");
 </script>

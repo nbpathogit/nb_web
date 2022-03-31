@@ -76,7 +76,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    //set active tab
-    $("#hospital_main").addClass("active");
-    $("#hospital_add").addClass("active");
+    $(document).ready(function() {
+        //set active tab
+        $("#hospital").addClass("active");
+
+        // prevent from unsave
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
+        $("#hospital_name, #hospital_address, #hospital_detail").change(function() {
+            window.addEventListener("beforeunload", onNosave);
+        });
+
+        $("#save").click(function() {
+            window.removeEventListener("beforeunload", onNosave);
+        })
+    });
 </script>

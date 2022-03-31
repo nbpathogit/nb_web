@@ -17,8 +17,8 @@
   </div>
 
   <div class="d-grid gap-2 d-md-block">
-    <button name="Submit2" type="submit" class="btn btn-primary">บันทึก</button>
-    <button name="Reset" type="reset" class="btn btn-primary" id="Reset">ยกเลิก</button>
+    <button name="Submit2" id="save" type="submit" class="btn btn-primary">บันทึก</button>
+    <button name="Reset" type="reset" class="btn btn-secondary" id="Reset">ยกเลิก</button>
   </div>
 
 </form>

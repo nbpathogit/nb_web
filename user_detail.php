@@ -18,6 +18,15 @@ if (isset($_GET['id'])) {
 ?>
 
 <?php require 'includes/header.php'; ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-start p-3 mx-1">
+    <div class="d-flex align-items-center justify-content-start">
+        <a href="/user.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-user-doctor me-2"></i>ผู้ใช้งานทั้งหมด</a>
+        <a href="/user_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-user-plus me-2"></i>เพิ่มผู้ใช้งาน</a>
+        <a href="/user_edit.php?id=<?= $_GET['id'] ?>" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-marker me-2"></i>แก้ไข</a>
+        </div>
+    </div>
+</div>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
@@ -90,13 +99,14 @@ if (isset($_GET['id'])) {
                 <tr>
                     <td>password</td>
                     <td>
-                        <?= "****" //password$user[0]['password']; ?>
+                        <?= "****" //password$user[0]['password']; 
+                        ?>
                     </td>
                 </tr>
                 <tr>
-                    <td>hospital</td>
+                    <td>user</td>
                     <td>
-                        <?= $user[0]['hospital']; ?>
+                        <?= $user[0]['user']; ?>
                     </td>
                 </tr>
                 <tr>
@@ -121,6 +131,5 @@ if (isset($_GET['id'])) {
 
 <script type="text/javascript">
     // set active tab
-    $("#user_main").addClass("active");
-    $("#user_add").addClass("active");
+    $("#user").addClass("active");
 </script>

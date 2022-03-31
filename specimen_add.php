@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
 
       <div class="d-grid gap-2 d-md-block">
-        <button name="Submit" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+        <button name="Submit" id="save" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
         <button name="Reset" type="reset" class="btn btn-secondary" id="Reset">ยกเลิก</button>
       </div>
 
@@ -59,6 +59,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-  $("#specimen_main").addClass("active");
-  $("#specimen_add").addClass("active");
+  $(document).ready(function() {
+    $("#specimentab").addClass("active");
+
+    // prevent from unsave
+    function onNosave(e) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+
+    $("#specimen").change(function() {
+      window.addEventListener("beforeunload", onNosave);
+    });
+
+    $("#save").click(function() {
+      window.removeEventListener("beforeunload", onNosave);
+    })
+  });
 </script>

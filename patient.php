@@ -189,7 +189,7 @@ $conn = require 'includes/db.php';
         });
 
         // set active tab
-        $("#patient").addClass("active");
+        $("#patienttab").addClass("active");
 
 
 

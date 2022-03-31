@@ -164,6 +164,5 @@ require 'patient_edit_auth.php';
 
 <script type="text/javascript">
     // set active tab
-    $("#patient_main").addClass("active");
-    $("#patient_add").addClass("active");
+    $("#patienttab").addClass("active");
 </script>

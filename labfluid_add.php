@@ -76,6 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $("#fluid").addClass("active");
 
+
+        // prevent from unsave
         function onNosave(e) {
             e.preventDefault();
             e.returnValue = '';

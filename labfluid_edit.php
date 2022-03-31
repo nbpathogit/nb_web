@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="d-grid gap-2 d-md-block">
-                <button name="Submit" type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>
+                <button name="Submit" id="submit" type="submit" class="btn btn-primary">แก้ไขข้อมูล</button>
                 <button name="Reset" type="reset" class="btn btn-secondary" id="Reset">ยกเลิก</button>
             </div>
 
@@ -80,12 +80,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $("#fluid").addClass("active");
 
+        // prevent from unsave
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
         $("#labname, #lab_des").change(function() {
-            window.addEventListener("beforeunload", function(e) {
-                e.preventDefault();
-                e.returnValue = '';
-            });
+            window.addEventListener("beforeunload", onNosave);
         });
+
+        $("#submit").click(function() {
+            window.removeEventListener("beforeunload", onNosave);
+        })
 
     });
 </script>
