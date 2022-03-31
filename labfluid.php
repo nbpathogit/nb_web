@@ -20,7 +20,7 @@ $conn = require 'includes/db.php';
         <?php else : ?>
 
             <div class="d-flex align-items-center justify-content-between">
-                <a href="/labfluid_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-disease me-2"></i>เพิ่ม Fluid</a>
+                <a href="/labfluid_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-water me-2"></i>เพิ่ม Fluid</a>
             </div>
 
     </div>

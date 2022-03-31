@@ -39,6 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/specimen.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-disease me-2"></i>สิ่งส่งตรวจทั้งหมด</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
         <h4>แก้ไขสิ่งส่งตรวจ</h4>
 

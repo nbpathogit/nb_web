@@ -53,10 +53,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!Auth::isLoggedIn()) : ?>
             You are not login.
         <?php else : ?>
-            <h4>แก้ไขสถานพยาบาล</h4>
-            <?php require 'includes/hospital_form.php'; ?>
 
-        <?php endif; ?>
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/hospital.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-house-chimney-medical me-2"></i>โรงพยาบาลทั้งหมด</a>
+            </div>
+    </div>
+</div>
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+        <h4>แก้ไขสถานพยาบาล</h4>
+        <?php require 'includes/hospital_form.php'; ?>
+
+
+    <?php endif; ?>
 
 
     </div>

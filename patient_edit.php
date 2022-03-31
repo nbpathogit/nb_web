@@ -48,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $presultupdate->result_type = $_POST['result_type'];
         $presultupdate->pathologist_id = $_POST['pathologist_id'];
 
-//        var_dump($_POST);
-//        die();
+        //        var_dump($_POST);
+        //        die();
 
         if ($presultupdate->create($conn)) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : null;
         isset($_POST['pedge']) ? $patient->pedge = $_POST['pedge'] : null;
         isset($_POST['date_1000']) ? $patient->date_1000 = $_POST['date_1000'] : null;
-//        isset($_POST['date_12_13_000']) ? $patient->date_12_13_000 = $_POST['date_12_13_000'] : null;
+        //        isset($_POST['date_12_13_000']) ? $patient->date_12_13_000 = $_POST['date_12_13_000'] : null;
         isset($_POST['status_id']) ? $patient->status_id = $_POST['status_id'] : null;
         isset($_POST['priority_id']) ? $patient->priority_id = $_POST['priority_id'] : null;
         isset($_POST['phospital_id']) ? $patient->phospital_id = $_POST['phospital_id'] : null;
@@ -260,44 +260,53 @@ require 'patient_edit_auth.php';
 
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
+
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="/patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
             <hr noshade="noshade" width="" size="8">
             <?php require 'includes/patient_status.php'; ?>
         </div>
     </div>
-     <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-           
- 
-
-    <hr noshade="noshade" width="" size="8">
-
-
-    <form id="formEditPatient" name="" method="post">
-
-        <?php if ($canEditModePage) : ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-        <?php else : ?>
-            <?php if (!$canEditModePage2) : ?>
-                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-            <?php endif; ?>
-        <?php endif; ?>
 
 
 
-        <?php require 'includes/patient_form.php'; ?>
+            <hr noshade="noshade" width="" size="8">
 
-        <br>
 
-        <?php if ($canEditModePage) : ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-        <?php else : ?>
-            <?php if (!$canEditModePage2) : ?>
-                <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-            <?php endif; ?>
-        <?php endif; ?>
+            <form id="formEditPatient" name="" method="post">
 
-    </form>
-       </div>
+                <?php if ($canEditModePage) : ?>
+                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                <?php else : ?>
+                    <?php if (!$canEditModePage2) : ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+
+
+                <?php require 'includes/patient_form.php'; ?>
+
+                <br>
+
+                <?php if ($canEditModePage) : ?>
+                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                <?php else : ?>
+                    <?php if (!$canEditModePage2) : ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+            </form>
+        </div>
     </div>
 
     <div class="container-fluid pt-4 px-4">
@@ -310,13 +319,13 @@ require 'patient_edit_auth.php';
 
         <?php endif; ?>
 
+        </div>
     </div>
-</div>
 
-<?php require 'includes/footer.php'; ?>
+    <?php require 'includes/footer.php'; ?>
 
-<script type="text/javascript">
-    // set active tab
-    $("#patient_main").addClass("active");
-    $("#patient").addClass("active");
-</script>
+    <script type="text/javascript">
+        // set active tab
+        $("#patient_main").addClass("active");
+        $("#patient").addClass("active");
+    </script>
