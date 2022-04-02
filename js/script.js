@@ -110,26 +110,26 @@ function showFollowStatus(status) {
 
 function addAction2statusType() {
 
-    if ($('#lump').is(':checked')) {
+    if ($('#lumptype').is(':checked')) {
         //alert("เลือกสิ่งส่งตรวจเป็น ชิ้นเนดื้อ");
         showFollowStatus("lump");
     }
 
-    if ($('#fluid').is(':checked')) {
+    if ($('#fluidtype').is(':checked')) {
         //alert("เลือกสิ่งส่งตรวจเป็น ของเหลว");
         showFollowStatus("fluid");
     }
 
 
 
-    $('#lump').click(function () {
+    $('#lumptype').click(function () {
         if ($(this).is(':checked')) {
             //alert("เลือกสิ่งส่งตรวจเป็น ชิ้นเนดื้อ");
             showFollowStatus("lump");
         }
     });
 
-    $('#fluid').click(function () {
+    $('#fluidtype').click(function () {
         if ($(this).is(':checked')) {
             //alert("เลือกสิ่งส่งตรวจเป็น ของเหลว");
             showFollowStatus("fluid");
