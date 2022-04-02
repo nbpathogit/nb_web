@@ -279,32 +279,42 @@ require 'patient_edit_auth.php';
 
 
 
-        <hr noshade="noshade" width="" size="8">
+            <hr noshade="noshade" width="" size="8">
 
 
-        <form id="formEditPatient" name="" method="post">
+            <form id="formEditPatient" name="" method="post">
 
-        <?php if ($canEditModePage) : ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-        <?php else : ?>
-            <?php if (!$canEditModePage2) : ?>
-            <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?= $canCurPathoEditAndReleasedResult || $isCurUserAdmin  ?"":"disabled"; ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-            <?php endif; ?>
-        <?php endif; ?>
+                <?php if ($canEditModePage) : ?>
+                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                <?php else : ?>
+                    <?php if (!$canEditModePage2) : ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
+                            ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff) 
+                        || ($canCurPathoEditAndReleasedResult) 
+                        || $isCurUserAdmin 
+                            ? "" : "disabled";
+                            ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                        <?php endif; ?>
+                    <?php endif; ?>
 
 
 
-                <?php require 'includes/patient_form.php'; ?>
+    <?php require 'includes/patient_form.php'; ?>
 
                 <br>
 
-        <?php if ($canEditModePage) : ?>
-            <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-        <?php else : ?>
-            <?php if (!$canEditModePage2) : ?>
-                <p align="center"><button name="edit" type="submit" class="btn btn-primary"   <?= $canCurPathoEditAndReleasedResult || $isCurUserAdmin ?"":"disabled"; ?>     >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-            <?php endif; ?>
-        <?php endif; ?>
+    <?php if ($canEditModePage) : ?>
+                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                <?php else : ?>
+                    <?php if (!$canEditModePage2) : ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
+                            ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff) 
+                        || ($canCurPathoEditAndReleasedResult) 
+                        || $isCurUserAdmin 
+                            ? "" : "disabled";
+                            ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>                   
+                            <?php endif; ?>
+                <?php endif; ?>
 
             </form>
         </div>
@@ -313,36 +323,36 @@ require 'patient_edit_auth.php';
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-            <?php if ($isUpdateResultAval) : ?>
+    <?php if ($isUpdateResultAval) : ?>
                 <hr noshade="noshade" width="" size="6">
                 <?php require 'includes/patient_form_080_result.php'; ?>
             <?php endif; ?>
 
         <?php endif; ?>
 
-        </div>
     </div>
+</div>
 
-    <?php require 'includes/footer.php'; ?>
+<?php require 'includes/footer.php'; ?>
 
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            //set active tab
-            $("#patienttab").addClass("active");
+<script type="text/javascript">
+    $(document).ready(function () {
+        //set active tab
+        $("#patienttab").addClass("active");
 
-            // prevent from unsave
-            function onNosave(e) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
+        // prevent from unsave
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
 
-            $("input").change(function() {
-                window.addEventListener("beforeunload", onNosave);
-            });
-
-            $(":submit").click(function() {
-                window.removeEventListener("beforeunload", onNosave);
-            })
+        $("input").change(function () {
+            window.addEventListener("beforeunload", onNosave);
         });
-    </script>
+
+        $(":submit").click(function () {
+            window.removeEventListener("beforeunload", onNosave);
+        })
+    });
+</script>

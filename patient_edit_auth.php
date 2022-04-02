@@ -54,15 +54,19 @@ $isUpdateResultAval = true;  //Get from database
 // ผู้ใช้ปัจจุบันเป็น แอดมินหรือไม่
 $isCurUserAdmin = $u_cur_group_id->id == 1000; 
 // ผู้ใช้ปัจจุบันเป็น พยาธิ์แพทย์ หรือไม่
-$idCurUserPatho = $u_cur_group_id->id == 2000;
+$isCurUserPatho = $u_cur_group_id->id == 2000;
 // ผู้ใช้ปัจจุบันเป็น ผู้ช่วยพยาธิแพทย์ หรือไม่
-$idCurUserPathoAssis = $u_cur_group_id->id == 2100;
+$isCurUserPathoAssis = $u_cur_group_id->id == 2100;
 // ผู้ใช้ปัจจุบันเป็น เจ้าหน้าที่แลป หรือไม่
-$idCurUserLabOfficerNB = $u_cur_group_id->id == 2200;
+$isCurUserLabOfficerNB = $u_cur_group_id->id == 2200;
 // ผู้ใช้ปัจจุบันเป็น เจ้าหน้าที่ธุรการ หรือไม่
-$idCurUserAdminStaff = $u_cur_group_id->id == 2500;
+$isCurUserAdminStaff = $u_cur_group_id->id == 2500;
 
-$idCurUserAdminStaff = $u_cur_group_id->id == 1000;
+// แพทย์ผู้ส่ง
+$isCurUserClinicianCust = $u_cur_group_id->id == 5000;
+// โรงพยาบาลผู้ส่ง
+$isCurUserHospitalCust = $u_cur_group_id->id == 5100;
+
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
 $canCurPathoEditAndReleasedResult = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
 

@@ -80,9 +80,9 @@ $isBorder = false;
 
         <select name="pclinician_id" class="form-select" <?= $canEditModePage && $canEditPatientInfo_a_group && $canEditPatientInfo_a_status ? "" : " disabled readonly " ?>>
             <!--<option value="กรุณาเลือก" selected>กรุณาเลือก</option>-->
-            <?php foreach ($clinicians as $clinician): ?>
+            <?php foreach ($clinicians as $user): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
-                <option value="<?= htmlspecialchars($clinician['id']); ?>"  <?= $patient[0]['pclinician_id'] == $clinician['id'] ? "selected" : ""; ?> >
+                <option value="<?= htmlspecialchars($user['id']); ?>"  <?= $patient[0]['pclinician_id'] == $user['id'] ? "selected" : ""; ?> >
                     <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                 </option>
             <?php endforeach; ?>
