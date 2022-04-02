@@ -279,7 +279,10 @@ require 'patient_edit_auth.php';
 
 
 
-            <hr noshade="noshade" width="" size="8">
+        <hr noshade="noshade" width="" size="8">
+
+
+        <form id="formEditPatient" name="" method="post">
 
         <?php if ($canEditModePage) : ?>
             <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
@@ -289,17 +292,11 @@ require 'patient_edit_auth.php';
             <?php endif; ?>
         <?php endif; ?>
 
-            <form id="formEditPatient" name="" method="post">
-
-                <?php if ($canEditModePage) : ?>
-                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
-                <?php else : ?>
-                    <?php if (!$canEditModePage2) : ?>
-                        <p align="center"><button name="edit" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-                    <?php endif; ?>
-                <?php endif; ?>
 
 
+                <?php require 'includes/patient_form.php'; ?>
+
+                <br>
 
         <?php if ($canEditModePage) : ?>
             <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>

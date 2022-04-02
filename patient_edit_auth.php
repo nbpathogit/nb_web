@@ -13,7 +13,7 @@ $u_cur_group_id = Auth::getUserGroup();
 // 2700 เจ้าหน้าที่งานคุณภาพ
 // 5000 แพทย์ผู้ส่งตรวจ
 // 5100 เจ้าหน้าที่แลป(ลูกค้า)
-//                                       ผู้ดูแลระบบ                 พยาธิ์แพทย์                ผู้ช่วยพยาธิแพทย์            เจ้าหน้าที่แลป               เจ้าหน้าที่ธุรการ             แพทย์ผู้ส่งตรวจ              เจ้าหน้าที่แลป(ลูกค้า)
+//                                       ผู้ดูแลระบบ                            พยาธิ์แพทย์                ผู้ช่วยพยาธิแพทย์                 เจ้าหน้าที่แลป                  เจ้าหน้าที่ธุรการ                    แพทย์ผู้ส่งตรวจ                   เจ้าหน้าที่แลป(ลูกค้า)
 $canViewPatientInfo_a_group = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
 $canViewPlaning_b_1_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
 $canViewPlaning_b_2_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;

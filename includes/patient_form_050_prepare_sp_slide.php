@@ -7,7 +7,7 @@ $isBorder = false;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_slide_prep_sp_id"  class="form-label" >พนักงานเตรียมไลด์พิเศษ</label>
 
-        <select name="p_slide_prep_sp_id" id="p_slide_prep_sp_id"  class="form-select" <?= $canEditModePage && $canEditPlaning_b_3_group  && $canEditPlaning_b_3_status && $curstatus[0]['id'] == 12000 ? "" : " disabled readonly " ?> >
+        <select name="p_slide_prep_sp_id" id="p_slide_prep_sp_id"  class="form-select" <?= $isCurUserAdmin || ($canEditModePage && $canEditPlaning_b_3_group  && $canEditPlaning_b_3_status && $curstatus[0]['id'] == 12000) ? "" : " disabled readonly " ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
@@ -21,7 +21,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="pspprice" class="form-label">ราคาค่าตรวจพิเศษ(บาท)</label>
-        <input name="pspprice" id="pspprice" type="text" class="form-control"   <?= $canEditModePage && $canEditPlaning_b_3_group && $canEditPlaning_b_3_status && $curstatus[0]['id'] == 12000  ? "" : " disabled readonly " ?>  value="<?= $patient[0]['pspprice']; ?>"  >
+        <input name="pspprice" id="pspprice" type="text" class="form-control"   <?= $isCurUserAdmin || ($canEditModePage && $canEditPlaning_b_3_group && $canEditPlaning_b_3_status && $curstatus[0]['id'] == 12000 )  ? "" : " disabled readonly " ?>  value="<?= $patient[0]['pspprice']; ?>"  >
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
