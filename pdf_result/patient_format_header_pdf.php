@@ -27,7 +27,7 @@
         <td style="border: 1px solid green;  border-collapse: collapse;"><!-- comment -->
             <table width="100%" style=" border: 1px solid green;    border-collapse: collapse;">
                 <tr>
-                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Name :</b> <pname>_</span></td>
+                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Name :</b> <pname></span></td>
                     <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Surname :</b> <plastname></span></td>
                     <td width="40%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Surgical Number :</b> <surgical_number> </span></td>
                     <td width="0%"  align="left" style="border: 1px solid green;  border-collapse: collapse;"></td>

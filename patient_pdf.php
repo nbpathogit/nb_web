@@ -43,16 +43,14 @@ $presultupdates = Presultupdate::getAllDesc($conn, $_GET['id']);
 
 $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 $hospital = Hospital::getAll($conn, $patient[0]['phospital_id']);
-$pathologist = User::getAllbyPathologis($conn,$patient[0]['ppathologist_id']);
-$pathologist2 = User::getAllbyPathologis($conn,$patient[0]['ppathologist2_id']);
+$pathologist = User::getAllbyPathologis($conn, $patient[0]['ppathologist_id']);
+$pathologist2 = User::getAllbyPathologis($conn, $patient[0]['ppathologist2_id']);
 
 //var_dump($patient[0]['ppathologist_id']);
 //var_dump($patient[0]['ppathologist2_id']);
 //var_dump($pathologist);
 //var_dump($pathologist2);
 //die();
-
-
 //var_dump($clinician);
 //die();
 
@@ -121,7 +119,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
 
-require 'patient_edit_auth.php';
+require 'user_auth.php';
 
 class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 
@@ -257,6 +255,17 @@ if (isset($presultupdates)) {
         $u_result2 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2);
         $u_result2 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2);
         $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $prsu['result_message'] : "", $u_result2);
+        if ($prsu['pathologist2_id'] != 0) {
+            $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
+            $secondPatho = User::getByID($conn, $prsu['pathologist2_id']);
+            $confirm_msg = $confirm_msg . "(" . $secondPatho->name_e . " " . $secondPatho->lastname_e . ")";
+//            var_dump($confirm_msg);
+//            die();
+            $u_result2 = str_replace("<confirm_message>", $confirm_msg, $u_result2);
+        } else {
+            $u_result2 = str_replace("<confirm_message>", "", $u_result2);
+        }
+
         $mpdf->WriteHTML($u_result2);
     }
 } else {
