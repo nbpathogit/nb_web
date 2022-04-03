@@ -35,13 +35,14 @@ $canEditResult_d_group      = false   || $u_cur_group_id->id==1000 || $u_cur_gro
 
 //Editable by status
 //$canEditPatientInfo_a_status = !Status::is_disable_patient_detail($patient[0]['status_id']) ;
+if(isset($patient)){
 $canEditPatientInfo_a_status = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 1000);
 $canEditPlaning_b_1_status   = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 2000);
 $canEditPlaning_b_2_status   = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 2000);
 $canEditPlaning_b_3_status   = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 2000   || ($patient[0]['status_id'] == 12000));
 $canEditResult_c_status      = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 12000) || ($patient[0]['status_id'] == 13000);
 $canEditResult_d_status      = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 12000);
-
+}
 
 //disable by field
 $isHideResult = false;
@@ -68,5 +69,6 @@ $isCurUserClinicianCust = $u_cur_group_id->id == 5000;
 $isCurUserHospitalCust = $u_cur_group_id->id == 5100;
 
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
+if(isset($patient)){
 $canCurPathoEditAndReleasedResult = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
-
+}
