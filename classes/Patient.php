@@ -144,6 +144,30 @@ class Patient {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+    public static function getAllJoinWithReported($conn, $id = 0) {
+        $sql = "SELECT * ,p.id as pid
+                FROM patient as p
+                JOIN user as u
+                JOIN hospital as h
+                JOIN priority as pri
+                JOIN status as s
+                WHERE p.ppathologist_id = u.id
+                and p.phospital_id = h.id
+                and p.priority_id = pri.id
+                and p.status_id = s.id
+                and p.reported = 1
+                ORDER BY  p.id DESC";
+
+        if ($id != 0) {
+            $sql = $sql . " and p.id = " . $id;
+        }
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /**
      * Get the article record based on the ID
      *
