@@ -3,7 +3,7 @@
 require 'includes/init.php';
 
 if(Auth::isLoggedIn()){
-    Url::redirect("/home.php");
+    Url::redirect("/patient.php");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
         Auth::login($conn, $_POST['username']);
-        Url::redirect('/home.php');
+        Url::redirect('/patient.php');
     } else {
         $error = "login incorrect";
     }

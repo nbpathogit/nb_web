@@ -59,7 +59,7 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-2 pb-3">
             <nav class="navbar bg-light navbar-light">
-                <a href="home.php" class="navbar-brand mx-4 mb-3">
+                <a href="patient.php" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Patho</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
@@ -73,12 +73,12 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>หน้าแรก</a>
                     <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา</a>
+                    <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a>
                     <a id="user" class="nav-item nav-link" href="user.php"><i class="fa-solid fa-user-doctor"></i>ผู้ใช้งานระบบ</a>
                     <a class="nav-item nav-link" id="hospital" href="hospital.php"><i class="fa-solid fa-hospital-user"></i>ข้อมูลโรงพยาบาล</a>
                     <a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>
-                    <a id="fluid" href="labfluid.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>Fluid</a>
+                    <a id="fluid" href="labfluid.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>แลปเซลล์วิทยา</a>
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a>
                     <a href="billing.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Billing</a>
                     <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
@@ -103,7 +103,7 @@
         <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-3 py-2 mb-2">
-                <a href="home.php" class="navbar-brand d-flex d-lg-none me-4">
+                <a href="patient.php" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0">NB</h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
