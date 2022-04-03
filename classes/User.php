@@ -84,7 +84,8 @@ class User {
                 JOIN hospital H
                 WHERE (U.ugroup_id  = G.id
                 and U.uhospital_id  = H.id
-                and (U.ugroup_id = 2000 ))";
+                and (U.ugroup_id = 2000 or U.id =0)
+                )";
         
         if ($id != 0) {
             $sql = $sql . " and U.id = " . $id;

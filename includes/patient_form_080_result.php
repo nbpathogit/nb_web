@@ -23,13 +23,11 @@ $addResultButton = true;
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="pathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
-                    <select name="pathologist_id" class="form-select" <?= $canEditModePage2 ($canCurPathoEditAndReleasedResult || $isCurUserAdmin)? "" : " disabled readonly " ?> >
+                    <select name="pathologist_id" class="form-select" <?= $canEditModePage2 && ($canCurPathoEditAndReleasedResult || $isCurUserAdmin)? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?> > 
-                                <?= $user['name']; ?>
-                                &nbsp;
-                                <?= $user['lastname']; ?><?= '('.$user['ugroup'].')'; ?>
+                                <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                             </option>
                         <?php endforeach; ?>                                     
                     </select> 
@@ -40,10 +38,8 @@ $addResultButton = true;
                     <select name="pathologist2_id" class="form-select" <?= $canEditModePage2 && ($canCurPathoEditAndReleasedResult || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
-                            <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist2_id'] == $user['uid'] ? "selected" : ""; ?> > 
-                                <?= $user['name']; ?>
-                                &nbsp;
-                                <?= $user['lastname']; ?><?= '('.$user['ugroup'].')'; ?>
+                            <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist2_id'] == $user['uid'] ? "selected" : ""; ?> >           
+                                <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                             </option>
                         <?php endforeach; ?>                                     
                     </select> 

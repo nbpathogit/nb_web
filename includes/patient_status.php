@@ -49,7 +49,7 @@ $hiddom = true;
 
 <ul class="uresultSecondPatho" style="<?= $hiddom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex=" <?= ($prsu['pathologist2_id']) ?>"><?= $prsu['pathologist2_id'] ?></li>
+        <li tabindex="<?= ($prsu['pathologist2_id']) ?>"><?= $prsu['pathologist2_id'] ?></li>
     <?php endforeach; ?> 
 </ul>
 
