@@ -249,7 +249,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
 
-require 'patient_edit_auth.php';
+
 //var_dump($canEditModePage);
 ?>
 
@@ -258,7 +258,8 @@ require 'patient_edit_auth.php';
 <?php if (!Auth::isLoggedIn()) : ?>
     You are not login.
 <?php else : ?>
-
+    <?php   require 'user_auth.php';?>
+    
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
