@@ -52,6 +52,10 @@ $isDisableSpecialSlide = false;
 //Other
 $isUpdateResultAval = true;  //Get from database
 
+
+
+
+
 // ผู้ใช้ปัจจุบันเป็น แอดมินหรือไม่
 $isCurUserAdmin = $u_cur_group_id->id == 1000; 
 // ผู้ใช้ปัจจุบันเป็น พยาธิ์แพทย์ หรือไม่
@@ -69,6 +73,10 @@ $isCurUserClinicianCust = $u_cur_group_id->id == 5000;
 $isCurUserHospitalCust = $u_cur_group_id->id == 5100;
 
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
-if(isset($patient)){
-$canCurPathoEditAndReleasedResult = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
+if(isset($patient[0]['ppathologist_id'])){
+$isPathoOwneThisrCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
+//var_dump($_SESSION['user']->id);
+//var_dump($patient[0]['ppathologist_id']); die();
+
+
 }

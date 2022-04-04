@@ -10,7 +10,7 @@ Auth::requireLogin();
 $conn = require 'includes/db.php';
 
 // true = Disable Edit page, false canEditPage
-$canEditModePage = false;
+$isEditModePageOn = false;
 
 
 
