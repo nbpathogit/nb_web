@@ -505,6 +505,8 @@ $("#formArticle").validate({
     }
 });
 
+
+
 $("button.publish").on("click", function (e) {
 
     var id = $(this).data('id');
@@ -533,6 +535,19 @@ $('#dateInput').datetimepicker({
 //    format:'Y-m-d H:i:s'
 //});
 
+$('#sp_slide_owner').change(function () {
+    if (this.checked) {
+
+        // Enable #x
+        $("#p_slide_prep_sp_id").prop("disabled", false);
+        $("#pspprice").prop("disabled", false);
+    }else{
+        // Disable #x
+        $("#p_slide_prep_sp_id").prop("disabled", true);
+        $("#pspprice").prop("disabled", true);
+    }
+    
+});
 
 $('#date_1000').on('blur', function () {
 //      if($(this).val().trim().length === 0){
@@ -633,7 +648,7 @@ $("#formAddPatient , #formEditPatient").validate({
             required: true
         },
         // แลปเซล
-        p_slide_lab_id : {
+        p_slide_lab_id: {
             selectd: true
         },
         // ราคาแลปเซล
