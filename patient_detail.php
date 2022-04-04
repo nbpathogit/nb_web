@@ -57,7 +57,7 @@ $statusLists = Status::getAll($conn);
 
 
 // true = Disable Edit page, false canEditPage
-$canEditModePage = false;
+$isEditModePageOn = false;
 
 
 $canViewPatientInfo = Auth::canViewPatientInfo();

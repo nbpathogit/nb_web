@@ -66,7 +66,7 @@ $hiddom = true;
             สถานะงานปัจจุบัน : 
             <button name="" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
 
-            <?php if (!$canEditModePage) : ?> 
+            <?php if (!$isEditModePageOn) : ?> 
                 <b> &nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปลี่ยนสถานะไปเป็น >> </b>
 
                 <?php if ($back2status != null) : ?> 
@@ -96,7 +96,7 @@ $hiddom = true;
 </span>
 
 
-<?php if (!$canEditModePage) : ?>
+<?php if (!$isEditModePageOn) : ?>
     <hr>
     <h6 align="center"><b>ไดอแกรม แสดงสถานะงาน</b></h4>
 

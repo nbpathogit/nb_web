@@ -114,10 +114,15 @@ $labFluids = LabFluid::getAll($conn);
 //var_dump($status);
 
 // true = Disable Edit page, false canEditPage
-$canEditModePage = true;
+$isEditModePageOn = true;
 
 
-require 'patient_edit_auth.php';
+require 'user_auth.php';
+
+//Prepare Status
+$curstatus[0]['id'] = 1000;
+//เช็คและเตรียมตัวแปรสถานะปัจจุบัน
+require 'includes/status_cur.php';
 
 ?>
 

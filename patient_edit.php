@@ -9,7 +9,7 @@ Auth::requireLogin();
 $conn = require 'includes/db.php';
 
 // true = Disable Edit page, false canEditPage
-$canEditModePage = false;  //For initial data page
+$isEditModePageOn = false;  //For initial data page
 $canEditModePage2 = false; //For Result added page
 
 
@@ -128,17 +128,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['edit_result'])) {
         // true = Disable Edit page, false canEditPage
-        $canEditModePage = true;
+        $isEditModePageOn = true;
     }
 
     if (isset($_POST['edit'])) {
         // true = Disable Edit page, false canEditPage
-        $canEditModePage = true;
+        $isEditModePageOn = true;
     }
     //Move to View only mode
     if (isset($_POST['discard'])) {
         // true = Disable Edit page, false canEditPage
-        $canEditModePage = false;
+        $isEditModePageOn = false;
     }
 
 
@@ -184,6 +184,7 @@ $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
 
 $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
+//Check whether date of fisrt report is define
 $isset_date_first_report = 0;
 if (isset($patient[0]['date_first_report'])) {
     $isset_date_first_report = 1;
@@ -194,6 +195,10 @@ if (isset($patient[0]['date_first_report'])) {
 
 //Prepare Status
 $curstatus = Status::getAll($conn, $patient[0]['status_id']);
+
+//เช็คและเตรียมตัวแปรสถานะปัจจุบัน
+require 'includes/status_cur.php';
+
 //var_dump($curstatus);
 if (isset($curstatus[0]['back2'])) {
     //echo "back2 is set";
@@ -285,13 +290,13 @@ if (isset($curstatus[0]['next3'])) {
 
             <form id="formEditPatient" name="" method="post">
 
-                <?php if ($canEditModePage) : ?>
+                <?php if ($isEditModePageOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
                 <?php else : ?>
                     <?php if (!$canEditModePage2) : ?>
                         <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
                             ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff) 
-                        || ($canCurPathoEditAndReleasedResult) 
+                        || ($isPathoOwneThisrCase) 
                         || $isCurUserAdmin 
                             ? "" : "disabled";
                             ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
@@ -304,13 +309,13 @@ if (isset($curstatus[0]['next3'])) {
 
                 <br>
 
-    <?php if ($canEditModePage) : ?>
+    <?php if ($isEditModePageOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
                 <?php else : ?>
                     <?php if (!$canEditModePage2) : ?>
                         <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
                             ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff) 
-                        || ($canCurPathoEditAndReleasedResult) 
+                        || ($isPathoOwneThisrCase) 
                         || $isCurUserAdmin 
                             ? "" : "disabled";
                             ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>                   

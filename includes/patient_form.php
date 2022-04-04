@@ -11,7 +11,7 @@
     <!--<div class="container-fluid pt-4 px-4">-->
         <!--<div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">-->
 
-            <?php require 'includes/patient_form_020_specimen.php'; ?>
+            <?php require 'includes/patient_form_020_specimen_type.php'; ?>
             
             <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>
 
@@ -20,6 +20,8 @@
             <?php require 'includes/patient_form_050_prepare_sp_slide.php'; ?>
 
             <?php require 'includes/patient_form_060_lab_cell.php'; ?>
+        
+            <?php require 'includes/patient_form_065_assigned_patho.php'; ?>
 
         <!--</div>-->
     <!--</div>-->

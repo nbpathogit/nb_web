@@ -29,7 +29,7 @@
 
 <div class="mb-3">
     <label for="uhospital_id">สถานที่ทำงาน</label><span> *</span>
-    <select name="uhospital_id" class="form-select" <?= $canEditModePage || $canEditPatientInfo ? " disabled readonly " : "" ?>>
+    <select name="uhospital_id" class="form-select" <?= $isEditModePageOn || $canEditPatientInfo ? " disabled readonly " : "" ?>>
         <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
         <?php foreach ($hospitals as $hospital) : ?>
             <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>

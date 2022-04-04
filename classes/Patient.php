@@ -53,10 +53,11 @@ class Patient {
     public $p_rs_gross_desc;
     public $p_rs_microscopic_desc;
     public $p_rs_diagnosis;
-    public $p_uresult_id;
+    public $p_uresult_id;//unused
     public $p_speciment_type;
     public $p_slide_lab_id;
     public $p_slide_lab_price;
+    public $reported_as;
 
     /**
      * Validation errors
@@ -320,7 +321,8 @@ class Patient {
                 "p_uresult_id" => 0,
                 "p_speciment_type" => "lump",
                 "p_slide_lab_id" => 0,
-                "p_slide_lab_price" => 0
+                "p_slide_lab_price" => 0,
+                "reported_as" => ""
         ]];
     }
 
