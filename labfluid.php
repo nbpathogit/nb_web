@@ -4,7 +4,7 @@ require 'includes/init.php';
 //Auth::requireLogin();
 
 $conn = require 'includes/db.php';
-
+require 'user_auth.php';
 ?>
 
 
@@ -59,8 +59,13 @@ $conn = require 'includes/db.php';
             columnDefs: [
                 {
                     "render": function(data, type, row) {
-                        // return data + ' (' + row[3] + ')';
-                        return '<a href="labfluid_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a><a href="labfluid_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                        var renderdata = '<a href="labfluid_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a>';
+                    
+                        <?php if ($isCurUserAdmin) : ?>
+                            renderdata+='<a href="labfluid_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                        <?php endif; ?>
+                    
+                        return renderdata;
                     },
                     "targets": -1
                 },

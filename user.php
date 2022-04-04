@@ -3,7 +3,7 @@ require 'includes/init.php';
 
 
 $conn = require 'includes/db.php';
-
+require 'user_auth.php';
 //$users = User::getAll($conn);
 
 // $ugroups = Ugroup::getAll($conn);
@@ -95,8 +95,14 @@ $conn = require 'includes/db.php';
                 },
                 {
                     "render": function(data, type, row) {
-                        // return data + ' (' + row[3] + ')';
-                        return '<a href="user_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="user_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i></a><a href="user_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can fa-lg"></i></a>';
+
+                        var renderdata = '<a href="user_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="user_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i></a>';
+
+                        <?php if ($isCurUserAdmin) : ?>
+                            renderdata += '<a href="user_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                        <?php endif; ?>
+
+                        return renderdata;
                     },
                     "targets": -1
                 },
