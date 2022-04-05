@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST['save_u_result'])) {
-        var_dump($_POST);
+        //var_dump($_POST);
         if (Presultupdate::updateResult($conn, $_POST['id'], $_POST['pathologist_id'], $_POST['pathologist2_id'], $_POST['result_message'])) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
