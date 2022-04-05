@@ -143,10 +143,10 @@ class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
         $unifont = '';
         $coreSuitable = false;
 
-        var_dump($lang);
-        var_dump($country);
-        var_dump($script);
-        echo "<br>";
+        // var_dump($lang);
+        // var_dump($country);
+        // var_dump($script);
+        // echo "<br>";
 //            die();
         if ($llcc === 'el' || $llcc === 'ell') {
 //        if ($llcc === 'th' || $llcc === 'tha') {
