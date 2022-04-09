@@ -52,6 +52,12 @@ $hiddom = true;
         <li tabindex="<?= ($prsu['pathologist2_id']) ?>"><?= $prsu['pathologist2_id'] ?></li>
     <?php endforeach; ?> 
 </ul>
+    
+<ul class="uresultTypeName" style="<?= $hiddom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex=" <?= $prsu['result_type'] ?>"><?= $prsu['result_type'] ?></li>
+    <?php endforeach; ?> 
+</ul>
 
 <!--p_slide_prep_sp_id-->
 <ul class="p_slide_prep_sp_id" style="<?= $hiddom ? "display: none;":"" ?>" >

@@ -70,9 +70,10 @@ $addResultButton = true;
                             <br><p align="center">
                                 
                                 <?php //To show edit button
-                                if ( $curstatus[0]['id'] == 12000  //current status is 12000 will can edit
+                                if ( $isCurUserAdmin ||
+                                        ($curstatus[0]['id'] == 12000  //current status is 12000 will can edit
                                         && $_SESSION['user']->id == $presultupdate['pathologist_id'] // First patho is ownder this patient id (Cur_user == First patho)
-                                        && !$isEditModePageOn
+                                        && !$isEditModePageOn)
                                 ):?>
                                     <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                                 <?php endif; ?>

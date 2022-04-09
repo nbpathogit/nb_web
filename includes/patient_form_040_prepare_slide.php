@@ -29,11 +29,11 @@ $curStatusAuthEdit = (
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_slide_prep_id" class="form-label">พนักงานเตรียมสไลด์</label>
-        <select name="p_slide_prep_id" id="p_slide_prep_id" class="form-select" <?= $isEditModePageOn  && ($userAuthEdit) && ($curStatusAuthEdit) ? "" : " disabled readonly " ?> >
+        <select name="p_slide_prep_id" id="p_slide_prep_id" class="form-select" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
-                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['p_slide_prep_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['p_slide_prep_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
                     <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                 </option>
             <?php endforeach; ?>                                     
@@ -43,7 +43,7 @@ $curStatusAuthEdit = (
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="pprice" class="form-label">ราคาค่าตรวจ(บาท)</label>
-        <input name="pprice" id="pprice" type="text" class="form-control"   <?= $isEditModePageOn  && ($userAuthEdit) && ($curStatusAuthEdit) ? "" : " disabled readonly " ?> value="<?= $patient[0]['pprice']; ?>"   >
+        <input name="pprice" id="pprice" type="text" class="form-control"   <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['pprice']; ?>"   >
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">

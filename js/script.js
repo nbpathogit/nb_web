@@ -396,6 +396,11 @@ function addAction2Flow() {
         $('.uresultReleaseSetlist li').each(function (index) {
             frm.append('<input type="hidden" name="uresultReleaseSetlist" value="' + $(this).attr('tabindex') + '" /> ');
         });
+        //
+        //append last update result name.
+        $('.uresultTypeName li').each(function (index) {
+            frm.append('<input type="hidden" name="uresultTypeName" value="' + $(this).attr('tabindex') + '" /> ');
+        });
         frm.appendTo("body");
         frm.submit();
     });
