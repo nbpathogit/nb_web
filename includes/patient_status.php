@@ -184,7 +184,7 @@ $hiddom = true;
                 <td class="diagram_arrow">&nbsp;</td>
                 <td colspan="7"  tabindex="13000" id="keep13000" class="<?= ($curstatus['0']["id"] == 13000) ? "current" : "held" ?> state">วินิจฉัย(คอนเฟิร์ม)<br>13000</td>
                 <td class="diagram_arrow">&nbsp;</td>
-                <td colspan="7"  tabindex="20000" id="keep20000" class="<?= ($curstatus['0']["id"] == 20000 || $patient[0]['reported'] == 1) ? "completed" : "held" ?> state">ออกผล<br>20000</td>
+                <td colspan="7"  tabindex="20000" id="keep20000" class="<?= ($curstatus['0']["id"] == 20000 || $patient[0]['reported_as'] != '') ? "completed" : "held" ?> state">ออกผล<br>20000</td>
             </tr>	<!-- end of Second row -->
 
             <tr>

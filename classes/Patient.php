@@ -157,7 +157,7 @@ class Patient {
                 and p.phospital_id = h.id
                 and p.priority_id = pri.id
                 and p.status_id = s.id
-                and p.reported = 1
+                and p.reported_as != ''
                 ORDER BY  p.id DESC";
 
         if ($id != 0) {
@@ -469,7 +469,7 @@ class Patient {
     public static function  updateEverReport($conn, $id){
         
         $sql = "UPDATE patient
-                SET reported = 1
+                SET reported_as != ''
                     WHERE id = :id";
         
         $stmt = $conn->prepare($sql);

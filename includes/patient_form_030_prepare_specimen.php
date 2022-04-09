@@ -34,7 +34,7 @@ $curStatusAuthEdit = (
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
-                <option value="<?= htmlspecialchars($user['id']); ?>" <?= $patient[0]['p_cross_section_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['p_cross_section_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
                     <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                 </option>
             <?php endforeach; ?>                                     
@@ -48,7 +48,7 @@ $curStatusAuthEdit = (
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
-                <option value="<?= htmlspecialchars($user['id']); ?>" <?= $patient[0]['p_cross_section_ass_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['p_cross_section_ass_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
                     <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                 </option>
             <?php endforeach; ?>                                     

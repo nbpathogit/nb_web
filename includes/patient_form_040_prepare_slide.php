@@ -33,7 +33,7 @@ $curStatusAuthEdit = (
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
-                <option value="<?= htmlspecialchars($user['id']); ?>" <?= $patient[0]['p_slide_prep_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['p_slide_prep_id'] == htmlspecialchars($user['id']) ? "selected" : ""; ?> > 
                     <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                 </option>
             <?php endforeach; ?>                                     
