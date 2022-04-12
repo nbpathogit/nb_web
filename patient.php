@@ -89,10 +89,25 @@ require 'user_auth.php';
                 },
                 {
                     "render": function(data, type, row) {
-                        // return data + ' (' + row[3] + ')';
                         return '<a href="patient_edit.php?id=' + row[0] + '">' + data + '</a>';
                     },
                     "targets": 1
+                },
+                {
+                    responsivePriority: 1,
+                    targets: 1
+                },
+                {
+                    responsivePriority: 2,
+                    targets: 2
+                },
+                {
+                    responsivePriority: 3,
+                    targets: -1
+                },
+                {
+                    responsivePriority: 10001,
+                    targets: 0
                 },
             ],
             "initComplete": function() {
