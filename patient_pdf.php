@@ -277,24 +277,24 @@ if (isset($presultupdates)) {
 $u_result1 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
 $u_result1 = str_replace("border: 1px solid green;", "", $u_result1);
 
-$p_rs_diagnosis = str_replace("\n", "<br>", $patient[0]['p_rs_diagnosis']);
+$p_rs_diagnosis = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_diagnosis']));
 $p_rs_diagnosis = str_replace(" ", "&nbsp;", $p_rs_diagnosis);
 $u_result1 = str_replace("<p_rs_diagnosis>", $p_rs_diagnosis, $u_result1);
 $u_result1 = str_replace("<date_first_report>", $patient[0]['date_first_report'], $u_result1);
 
-$p_rs_specimen = str_replace("\n", "<br>", $patient[0]['p_rs_specimen']);
+$p_rs_specimen = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_specimen']));
 $p_rs_specimen = str_replace(" ", "&nbsp;", $p_rs_specimen);
 $u_result1 = str_replace("<p_rs_specimen>", $p_rs_specimen, $u_result1);
 
-$p_rs_gross_desc = str_replace("\n", "<br>", $patient[0]['$p_rs_gross_desc']);
+$p_rs_gross_desc = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_gross_desc']));
 $p_rs_gross_desc = str_replace(" ", "&nbsp;", $p_rs_gross_desc);
 $u_result1 = str_replace("<p_rs_gross_desc>", $p_rs_gross_desc, $u_result1);
 
-$p_rs_microscopic_desc = str_replace("\n", "<br>", $patient[0]['p_rs_microscopic_desc']);
+$p_rs_microscopic_desc = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_microscopic_desc']));
 $p_rs_microscopic_desc = str_replace(" ", "&nbsp;", $p_rs_microscopic_desc);
 $u_result1 = str_replace("<p_rs_microscopic_desc>", $p_rs_microscopic_desc, $u_result1);
 
-$p_rs_clinical_diag = str_replace("\n", "<br>", $patient[0]['p_rs_clinical_diag']);
+$p_rs_clinical_diag = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_clinical_diag']));
 $p_rs_clinical_diag = str_replace(" ", "&nbsp;", $p_rs_clinical_diag);
 $u_result1 = str_replace("<p_rs_clinical_diag>", $p_rs_clinical_diag, $u_result1);
 
