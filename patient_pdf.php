@@ -254,7 +254,10 @@ if (isset($presultupdates)) {
         $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
         $u_result2 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2);
         $u_result2 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2);
-        $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $prsu['result_message'] : "", $u_result2);
+        $result_message = htmlspecialchars($prsu['result_message']);
+        $result_message = str_replace("\n", "<br>", $result_message);
+        $result_message = str_replace(" ", "&nbsp;", $result_message);
+        $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result2);
         if ($prsu['pathologist2_id'] != 0) {
             $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
             $secondPatho = User::getByID($conn, $prsu['pathologist2_id']);

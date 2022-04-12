@@ -61,7 +61,7 @@
             </table><!-- comment -->
         </td><!-- comment -->
     </tr>
-</table><!-- comment -->
+</table> 
 
 <!--<hr style="border: 10px solid black; border-radius: 1px;">-->
 
