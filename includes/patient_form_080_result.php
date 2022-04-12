@@ -65,7 +65,8 @@ $addResultButton = true;
                         // To show Save and Discard Btn
                         if ($canEditModePage2):
                             ?>
-                            <br><p align="center"><button name="save_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;SAVE&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                            <br><p align="center"><button name="save_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;SAVE&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;                   
+                            <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                         <?php else: ?>
                             <br><p align="center">
                                 

@@ -294,7 +294,8 @@ if (isset($curstatus[0]['next3'])) {
             <form id="formEditPatient" name="" method="post">
 
                 <?php if ($isEditModePageOn) : ?>
-                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                    <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                 <?php else : ?>
                     <?php if (!$canEditModePage2) : ?>
                         <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
@@ -313,7 +314,8 @@ if (isset($curstatus[0]['next3'])) {
                 <br>
 
     <?php if ($isEditModePageOn) : ?>
-                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;<button name="discard" type="submit" class="btn btn-primary">Discard</button></p>
+                    <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                    <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                 <?php else : ?>
                     <?php if (!$canEditModePage2) : ?>
                         <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
@@ -321,7 +323,7 @@ if (isset($curstatus[0]['next3'])) {
                         || ($isPathoOwneThisrCase) 
                         || $isCurUserAdmin 
                             ? "" : "disabled";
-                            ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>                   
+                            ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>  
                             <?php endif; ?>
                 <?php endif; ?>
 
@@ -341,6 +343,10 @@ if (isset($curstatus[0]['next3'])) {
 
     </div>
 </div>
+    
+    <?php if (!($isEditModePageOn || $canEditModePage2) ) : ?>
+    <p align="center"><a  class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">View PDF</a>    </p>               
+    <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
 

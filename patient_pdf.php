@@ -286,7 +286,7 @@ $p_rs_specimen = str_replace("\n", "<br>", $patient[0]['p_rs_specimen']);
 $p_rs_specimen = str_replace(" ", "&nbsp;", $p_rs_specimen);
 $u_result1 = str_replace("<p_rs_specimen>", $p_rs_specimen, $u_result1);
 
-$p_rs_gross_desc = str_replace("\n", "<br>", $patient[0]['p_rs_specimen']);
+$p_rs_gross_desc = str_replace("\n", "<br>", $patient[0]['$p_rs_gross_desc']);
 $p_rs_gross_desc = str_replace(" ", "&nbsp;", $p_rs_gross_desc);
 $u_result1 = str_replace("<p_rs_gross_desc>", $p_rs_gross_desc, $u_result1);
 

@@ -29,7 +29,7 @@
 </div>
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
     <span><b>Gross Description:</b></span><br>
-    <p_rs_gross_desc><
+    <p_rs_gross_desc>
 </div>
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
     <span><b>Microscopic Description:</b></span><br>
