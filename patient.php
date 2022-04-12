@@ -38,6 +38,7 @@ require 'user_auth.php';
                     <th>วันที่รับ</th>
                     <th>วันที่รายงาน</th>
                     <th>สถานะ</th>
+                    <th>การออกผล</th>
                     <th>ความสำคัญ</th>
                     <th>จัดการ</th>
                 </tr>
@@ -133,12 +134,6 @@ require 'user_auth.php';
 
         // set active tab
         $("#patienttab").addClass("active");
-
-
-
-
-
-
 
 
     });
