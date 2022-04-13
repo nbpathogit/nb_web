@@ -381,6 +381,12 @@ function addAction2Flow() {
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         
+
+        var uresultTypeNameLastest = '';
+        $('.uresultTypeName li').each(function (index) {
+            uresultTypeNameLastest = $(this).attr('tabindex');
+        });
+        
         var isset_second_patho = '0';
         $('.uresultSecondPatho li').each(function (index) {
             isset_second_patho = $(this).attr('tabindex');
@@ -390,6 +396,18 @@ function addAction2Flow() {
             alert("Second patho need to be agree first!");
             return;
         }
+
+//        console.log("uresultTypeNameLastest ::--" + uresultTypeNameLastest +"--");
+//        return;
+        var reported_as = 'ยังไม่ออกผล';
+        if ( uresultTypeNameLastest == 'Preliminary' ) {
+            reported_as = 'ออกผลเบื้องต้น';
+        }
+        
+        if (uresultTypeNameLastest == 'Pathological Diagnosis' || uresultTypeNameLastest == 'Addendum' || uresultTypeNameLastest == 'Revised' ) {
+            reported_as = 'ออกผลแล้ว';
+        }
+        
         
         var frm = $("<form>");
         frm.attr('method', 'post');
@@ -410,6 +428,7 @@ function addAction2Flow() {
         $('.uresultTypeName li').each(function (index) {
             frm.append('<input type="hidden" name="uresultTypeName" value="' + $(this).attr('tabindex') + '" /> ');
         });
+        frm.append('<input type="hidden" name="reported_as" value="' + reported_as + '" /> ');
         frm.appendTo("body");
         frm.submit();
     });

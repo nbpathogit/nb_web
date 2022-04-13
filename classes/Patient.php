@@ -463,7 +463,21 @@ class Patient {
     }
     
     
-    public static function  updateEverReport($conn, $id, $resultname = ""){
+    public static function  updateReportTypeName($conn, $id, $resultname = ""){
+        
+        $sql = "UPDATE patient
+                SET reported_name = :resultname
+                    WHERE id = :id";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':resultname', $resultname, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+        
+    }
+    
+        public static function  updateReportAs($conn, $id, $resultname = ""){
         
         $sql = "UPDATE patient
                 SET reported_as = :resultname
