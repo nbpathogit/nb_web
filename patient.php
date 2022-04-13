@@ -121,7 +121,7 @@ require 'user_auth.php';
                         td = tr[i].getElementsByTagName("td")[j];
                         if (td.innerHTML.indexOf('ด่วน') > -1) {
                             tr[i].classList.add('table-danger');
-                        } else if (td.innerHTML.indexOf('ออกผล') > -1) {
+                        } else if (td.innerHTML.indexOf('ออกผลแล้ว') > -1) {
                             tr[i].classList.add('table-success');
                             break;
                         } else {
