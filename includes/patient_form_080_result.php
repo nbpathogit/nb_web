@@ -16,7 +16,7 @@ $addResultButton = true;
             <input name="id" class="" type="text" class="" id="" style="display: none;"  value="<?= $presultupdate['id']; ?>">
             <div align=""  class="mb-3">
                 <label for="result_message"><?= $presultupdate['result_type'] ?></label><br>
-                <textarea name="result_message" cols="100" rows="5" class="form-control" id="p_rs_diagnosis" <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
+                <textarea name="result_message" cols="100" rows="5" class="form-control" id="rs_diagnosis" <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
             </div>
 
             <div class="row <?= $isBorder ? "border" : "" ?>">

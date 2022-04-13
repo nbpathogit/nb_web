@@ -678,7 +678,7 @@ $("#formAddPatient , #formEditPatient").validate({
         },
         //==========  c  =============
         //ผลการตรวจ(เพิ่มเติม)
-        p_rs_diagnosis: {
+        rs_diagnosis: {
             required: true
         }
 

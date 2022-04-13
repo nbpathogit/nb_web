@@ -52,7 +52,6 @@ class Patient {
     public $p_rs_clinical_diag;
     public $p_rs_gross_desc;
     public $p_rs_microscopic_desc;
-    public $p_rs_diagnosis;
     public $p_uresult_id;//unused
     public $p_speciment_type;
     public $p_slide_lab_id;
@@ -203,11 +202,9 @@ class Patient {
      */
     public function create($conn) {
 
-//        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`, `date_1000`   ,`date_2000`  ,`date_3000`  ,`date_6000` ,`date_8000` ,`date_10000` ,`date_12000` ,`date_13000` ,`date_14000` ,`date_20000` ,`date_first_report`  ,`status_id`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`, `ppathologist2_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`, `p_rs_diagnosis`, `p_uresult_id`) "
-//                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge,  NULL,        ,NULL         ,NULL         ,NULL        ,NULL        ,NULL         ,NULL         ,NULL         ,NULL         ,NULL         ,NULL                 ,:status_id,    :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id,  :ppathologist2_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,  :p_rs_diagnosis , :p_uresult_id);";
 
-        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`, `ppathologist2_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`, `p_rs_diagnosis`, `p_uresult_id`,  `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`) "
-                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,    :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id,  :ppathologist2_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,  :p_rs_diagnosis , :p_uresult_id  ,:p_speciment_type,  :p_slide_lab_id,  :p_slide_lab_price);";
+        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`, `ppathologist2_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,  `p_uresult_id`,  `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`) "
+                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,    :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id,  :ppathologist2_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_uresult_id  ,:p_speciment_type,  :p_slide_lab_id,  :p_slide_lab_price);";
 
 
 
@@ -256,7 +253,7 @@ class Patient {
         $stmt->bindValue(':p_rs_clinical_diag', $this->p_rs_clinical_diag, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_gross_desc', $this->p_rs_gross_desc, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_microscopic_desc', $this->p_rs_microscopic_desc, PDO::PARAM_STR);
-        $stmt->bindValue(':p_rs_diagnosis', $this->p_rs_diagnosis, PDO::PARAM_STR);
+
 
         $stmt->bindValue(':p_speciment_type', $this->p_speciment_type, PDO::PARAM_STR);
         $stmt->bindValue(':p_slide_lab_id', $this->p_slide_lab_id, PDO::PARAM_INT);
@@ -317,7 +314,7 @@ class Patient {
                 "p_rs_clinical_diag" => "",
                 "p_rs_gross_desc" => "",
                 "p_rs_microscopic_desc" => "",
-                "p_rs_diagnosis" => "",
+              
                 "p_uresult_id" => 0,
                 "p_speciment_type" => "lump",
                 "p_slide_lab_id" => 0,
@@ -403,7 +400,7 @@ class Patient {
                     p_rs_clinical_diag=:p_rs_clinical_diag,
                     p_rs_gross_desc=:p_rs_gross_desc,
                     p_rs_microscopic_desc=:p_rs_microscopic_desc,
-                    p_rs_diagnosis=:p_rs_diagnosis,
+
                     p_uresult_id=:p_uresult_id,
                     
                     p_speciment_type=:p_speciment_type,
@@ -446,7 +443,7 @@ class Patient {
         $stmt->bindValue(':p_rs_clinical_diag', $this->p_rs_clinical_diag, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_gross_desc', $this->p_rs_gross_desc, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_microscopic_desc', $this->p_rs_microscopic_desc, PDO::PARAM_STR);
-        $stmt->bindValue(':p_rs_diagnosis', $this->p_rs_diagnosis, PDO::PARAM_STR);
+
         $stmt->bindValue(':p_uresult_id', $this->p_uresult_id, PDO::PARAM_INT);
 
         $stmt->bindValue(':p_speciment_type', $this->p_speciment_type, PDO::PARAM_STR);

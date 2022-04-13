@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['p_rs_clinical_diag'])     ? $patient->p_rs_clinical_diag = $_POST['p_rs_clinical_diag']           : $patient->p_rs_clinical_diag = $patientini[0]['p_rs_clinical_diag'];
     isset($_POST['p_rs_gross_desc'])        ? $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc']                 : $patient->p_rs_gross_desc = $patientini[0]['p_rs_gross_desc'];
     isset($_POST['p_rs_microscopic_desc'])  ? $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc']     : $patient->p_rs_microscopic_desc = $patientini[0]['p_rs_microscopic_desc'];
-    isset($_POST['p_rs_diagnosis'])         ? $patient->p_rs_diagnosis = $_POST['p_rs_diagnosis']                   : $patient->p_rs_diagnosis = $patientini[0]['p_rs_diagnosis'];
+   
     isset($_POST['p_uresult_id'])           ? $patient->p_uresult_id = $_POST['p_uresult_id']                       : $patient->p_uresult_id = $patientini[0]['p_uresult_id'];
 
 

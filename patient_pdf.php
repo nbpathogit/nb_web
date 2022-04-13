@@ -229,7 +229,7 @@ $header = str_replace("border: 1px solid green;", "", $header);
 $header = str_replace("border: 1px solid red;", "", $header);
 $header = str_replace("<pname>", $patient[0]['pname'], $header);
 $header = str_replace("<plastname>", $patient[0]['plastname'], $header);
-$header = str_replace("<Surgical_Number>", "", $header);
+$header = str_replace("<Surgical_Number>", $patient[0]['plastname'], $header);
 $header = str_replace("<pg>", $patient[0]['pgender'], $header);
 $header = str_replace("<pedge>", $patient[0]['pedge'], $header);
 $header = str_replace("<plabnum>", $patient[0]['pname'], $header);
@@ -280,10 +280,7 @@ if (isset($presultupdates)) {
 $u_result1 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
 $u_result1 = str_replace("border: 1px solid green;", "", $u_result1);
 
-$p_rs_diagnosis = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_diagnosis']));
-$p_rs_diagnosis = str_replace(" ", "&nbsp;", $p_rs_diagnosis);
-$u_result1 = str_replace("<p_rs_diagnosis>", $p_rs_diagnosis, $u_result1);
-$u_result1 = str_replace("<date_first_report>", $patient[0]['date_first_report'], $u_result1);
+
 
 $p_rs_specimen = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_specimen']));
 $p_rs_specimen = str_replace(" ", "&nbsp;", $p_rs_specimen);
