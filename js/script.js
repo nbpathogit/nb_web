@@ -261,8 +261,6 @@ function addAction2Flow() {
             frm.append('<input type="hidden" name="p_slide_prep_sp_id" value="' + $(this).attr('tabindex') + '" /> ');
         });
 
-
-
         frm.appendTo("body");
         frm.submit();
     });
@@ -382,6 +380,17 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        
+        var isset_second_patho = '0';
+        $('.uresultSecondPatho li').each(function (index) {
+            isset_second_patho = $(this).attr('tabindex');
+        });
+        
+        if (cur_status == '12000' && isset_second_patho != '0') {
+            alert("Second patho need to be agree first!");
+            return;
+        }
+        
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');

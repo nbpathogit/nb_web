@@ -34,35 +34,41 @@ $hiddom = true;
     <?php endif; ?>
 </ul>
 
-
+<?php //List of index result ?>
 <ul class="uresultinxlist" style="<?= $hiddom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex=" <?= $prsu['id'] ?>"><?= $prsu['id'] ?></li>
+        <li tabindex=" <?= $prsu['id'] ?>">uresultinxlist::prsu['id']::<?= $prsu['id'] ?></li>
     <?php endforeach; ?> 
 </ul>
 
+<?php //List of time result ?>
 <ul class="uresultReleaseSetlist" style="<?= $hiddom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex=" <?= isset($prsu['release_time']) ? 1 : 0 ?>"><?= $prsu['release_time'] ?></li>
+        <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist::prsu['release_time']::<?= $prsu['release_time'] ?></li>
     <?php endforeach; ?> 
 </ul>
 
-<ul class="uresultSecondPatho" style="<?= $hiddom ? "display: none;":"" ?>" >
-    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex="<?= ($prsu['pathologist2_id']) ?>"><?= $prsu['pathologist2_id'] ?></li>
-    <?php endforeach; ?> 
-</ul>
-    
+<?php //List of result type ?>
 <ul class="uresultTypeName" style="<?= $hiddom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex=" <?= $prsu['result_type'] ?>"><?= $prsu['result_type'] ?></li>
+        <li tabindex=" <?= $prsu['result_type'] ?>">uresultTypeName::prsu['result_type']::<?= $prsu['result_type'] ?></li>
     <?php endforeach; ?> 
 </ul>
 
-<!--p_slide_prep_sp_id-->
+<?php //List of special result ?>
 <ul class="p_slide_prep_sp_id" style="<?= $hiddom ? "display: none;":"" ?>" >
-    <li tabindex="<?= $patient[0]['p_slide_prep_sp_id'] ?>"><?= $patient[0]['p_slide_prep_sp_id'] ?></li>
+    <li tabindex="<?= $patient[0]['p_slide_prep_sp_id'] ?>">p_slide_prep_sp_id::patient[0]['p_slide_prep_sp_id']::<?= $patient[0]['p_slide_prep_sp_id'] ?></li>
 </ul>
+
+<?php //List of second patho ?>
+<ul class="uresultSecondPatho" style="<?= $hiddom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex="<?= ($prsu['pathologist2_id']) ?>">uresultSecondPatho::prsu['pathologist2_id']::<?= $prsu['pathologist2_id'] ?></li>
+    <?php endforeach; ?> 
+</ul>
+
+
+
 
 
 <h4 align="center"><b>สถานะงาน ของผู้ป่วยลำดับที่ &nbsp; <?= $_GET['id'] ?> &nbsp; คือ &nbsp; <?= $curstatus['0']["des"] ?> </b></h4>
