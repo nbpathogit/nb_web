@@ -126,15 +126,24 @@ require 'includes/status_cur.php';
 
 ?>
 
+
 <?php require 'includes/header.php'; ?>
+<?php require 'user_auth.php';?>
+
+
+    
+    
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
-        <?php if (!Auth::isLoggedIn()) : ?>
-            You are not authorized.
-        <?php else : ?>
+<?php if (!Auth::isLoggedIn()) : ?>
+    You are not login.
+<?php elseif( ($isCurUserClinicianCust || $isCurUserHospitalCust) ): ?>   
+    You have no authorize to view this content.
+    คุณไม่มีสิทธิ์ในการเข้าถึงส่วนนี้
+<?php else : ?>
 
             <div class="d-flex align-items-center justify-content-between">
                 <a href="/patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>

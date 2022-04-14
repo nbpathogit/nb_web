@@ -2,10 +2,22 @@
 
 require 'includes/init.php';
 
-Auth::requireLogin();
-
 $conn = require 'includes/db.php';
-require 'user_auth.php';
+
+?>
+<?php require 'user_auth.php'; ?>
+    <?php if (!Auth::isLoggedIn()) : ?>
+        <?php require 'blockopen.php'; ?>
+        You are not login.<br>
+        คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน    
+        <?php require 'blockclose.php';?>
+    <?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ ?> 
+        <?php require 'blockopen.php'; ?>
+        You have no authorize to view this content. <br>
+        คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
+        <?php require 'blockclose.php';?>
+    <?php else : ?>
+<?php 
 
 if (!$isCurUserAdmin){
     Auth::block();
@@ -31,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
+    
+    
 <?php require 'includes/header.php'; ?>
 
 <h2>Delete patient</h2>
@@ -45,3 +59,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 <?php require 'includes/footer.php'; ?>
+<?php endif; ?>

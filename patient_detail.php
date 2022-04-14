@@ -11,8 +11,18 @@ if (isset($_GET['id'])) {
     $patient = Patient::getAll($conn, $_GET['id']);
 } else {
     $patient = null;
+    require 'blockopen.php';
+    echo( "No Patient ID assigned");
+    require 'blockclose.php';
+    die();
+    
 }
-
+if (!$patient) {
+    require 'blockopen.php';
+    echo( "No Patient ID " . $_GET['id'] . ".");
+    require 'blockclose.php';
+    die();
+}
 //var_dump($patient);
 //die();
 
@@ -21,11 +31,7 @@ if (isset($_GET['id'])) {
 //$patientLists = Patient::getAll($conn);
 
 //Get Specific Row from Table
-if (isset($_GET['id'])) {
-    $patient = Patient::getAll($conn, $_GET['id']);
-} else {
-    $patient = null;
-}
+
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);
 
 //$patientLists = Patient::getAll($conn);
@@ -78,14 +84,21 @@ $isStatusDisableEdit = true;
 ?>
 
 <?php require 'includes/header.php'; ?>
+<?php if (!Auth::isLoggedIn()) : ?>
+    <?php require 'blockopen.php'; ?>
+    You are not login.
+    <?php require 'blockclose.php'; ?>
+<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital): ?>   
+    <?php require 'blockopen.php'; ?>
+    You have no authorize to view other hospital group. 
+    <?php require 'blockclose.php'; ?>
+<?php else : ?>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
-        <?php if (!Auth::isLoggedIn()) : ?>
-            You are not authorized.
-        <?php else : ?>
+
 
             <?php //require 'includes/patient_status.php';  
             ?>
@@ -107,10 +120,11 @@ $isStatusDisableEdit = true;
 
             </form>
 
-        <?php endif; ?>
+        
 
     </div>
 </div>
+<?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
 

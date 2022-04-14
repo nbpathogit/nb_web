@@ -24,12 +24,21 @@ require 'user_auth.php';
 
 <?php require 'includes/header.php'; ?>
 
+    <?php if (!Auth::isLoggedIn()) : ?>
+        <?php require 'blockopen.php'; ?>
+        You are not login.<br>
+        คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน    
+        <?php require 'blockclose.php';?>
+    <?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ ?> 
+        <?php require 'blockopen.php'; ?>
+        You have no authorize to view this content. <br>
+        คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
+        <?php require 'blockclose.php';?>
+    <?php else : ?>
+
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-        <?php if (!Auth::isLoggedIn()) : ?>
-            You are not authorized.
-        <?php else : ?>
 
             <div class="d-flex align-items-center justify-content-between">
                 <a href="/user_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-user-plus me-2"></i>เพิ่มผู้ใช้งานระบบ</a>
@@ -61,11 +70,11 @@ require 'user_auth.php';
 
         </table>
 
-    <?php endif; ?>
+    
 
     </div>
 </div>
-
+<?php endif; ?>
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">

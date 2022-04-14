@@ -16,16 +16,25 @@ if (isset($_GET['id'])) {
 } else {
     $patient = null;
 }
+
+if (!$patient) {
+    require 'blockopen.php';
+    echo( "No Patient ID " . $_GET['id'] . ".");
+    require 'blockclose.php';
+    die();
+}
 ?>
 
 <?php require 'user_auth.php'; ?>
-
+<?php //require 'includes/header.php';?>
 <?php if (!Auth::isLoggedIn()) : ?>
+    <?php require 'blockopen.php'; ?>
     You are not login.
-    คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน
-<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital): ?> //  เจ้าหน้าที่รับผล เข้าได้เฉพาะ รพ.ของตัวเอง
-    You have no authorize to view other hospital group. <br>
-    คุณสามารถเข้าดูได้เฉพาะโรงพยาบาลที่คุณสังกัดเท่านั้น
+    <?php require 'blockclose.php'; ?>
+<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital): ?>   
+    <?php require 'blockopen.php'; ?>
+    You have no authorize to view other hospital group. 
+    <?php require 'blockclose.php'; ?>
 <?php else : ?>
 
     <?php

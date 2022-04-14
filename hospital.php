@@ -4,11 +4,10 @@ require 'includes/init.php';
 //Auth::requireLogin();
 
 $conn = require 'includes/db.php';
-require 'user_auth.php';
+
 // $paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1 ,20,Hospital::getTotal($conn));
 // $hospitals = Hospital::getPage($conn,$paginator->limit,$paginator->offset);
 // $hospitals = Hospital::getAll($conn);
-
 // var_dump($hospitals);
 ?>
 
@@ -17,8 +16,13 @@ require 'user_auth.php';
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
+        <?php require 'user_auth.php'; ?>
         <?php if (!Auth::isLoggedIn()) : ?>
-            You are not login.
+            You are not login.<br>
+            คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน
+        <?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้  ?> 
+            You have no authorize to view this content. <br>
+            คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
         <?php else : ?>
 
 
@@ -26,26 +30,26 @@ require 'user_auth.php';
                 <a href="/hospital_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-house-chimney-medical me-2"></i>เพิ่มโรงพยาบาล</a>
             </div>
 
+        </div>
     </div>
-</div>
 
-<div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
-        <table class="table table-hover table-striped text-center" id="hospital_table" style="width:100%">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">hospital</th>
-                    <th scope="col">address</th>
-                    <th scope="col">detail</th>
-                    <th scope="col">Manage</th>
-                </tr>
-            </thead>
-        </table>
+            <table class="table table-hover table-striped text-center" id="hospital_table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">hospital</th>
+                        <th scope="col">address</th>
+                        <th scope="col">detail</th>
+                        <th scope="col">Manage</th>
+                    </tr>
+                </thead>
+            </table>
 
-    <?php endif; ?>
+        <?php endif; ?>
 
     </div>
 </div>
@@ -53,10 +57,10 @@ require 'user_auth.php';
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         // delete
-        $("a.delete").on("click", function(e) {
+        $("a.delete").on("click", function (e) {
 
             e.preventDefault();
 
@@ -76,27 +80,27 @@ require 'user_auth.php';
             responsive: true,
             columnDefs: [
                 {
-                    "render": function(data, type, row) {
+                    "render": function (data, type, row) {
                         var renderdata = '<a href="hospital_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="hospital_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a>';
-                        <?php if ($isCurUserAdmin) : ?>
-                            renderdata+='<a href="hospital_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
-                        <?php endif; ?>
-                    
+<?php if ($isCurUserAdmin) : ?>
+                            renderdata += '<a href="hospital_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+<?php endif; ?>
+
                         return renderdata;
                     },
                     "targets": -1
                 },
                 {
-                    "render": function(data, type, row) {
+                    "render": function (data, type, row) {
                         // return data + ' (' + row[3] + ')';
                         return '<a href="hospital_detail.php?id=' + row[0] + '">' + data + '</a>';
                     },
                     "targets": 1
                 },
-            ],});
+            ], });
 
-            // delete hospital
-        $('#hospital_table tbody').on('click', 'a.delete', function(e) {
+        // delete hospital
+        $('#hospital_table tbody').on('click', 'a.delete', function (e) {
             var data = table.row($(this).parents('tr')).data();
 
             e.preventDefault();

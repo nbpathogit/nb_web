@@ -6,6 +6,7 @@ require 'includes/init.php';
 Auth::requireLogin();
 
 $conn = require 'includes/db.php';
+require 'user_auth.php';
 
 if (isset($_GET['id'])) {
     $user = User::getAll($conn, $_GET['id']);
@@ -18,6 +19,17 @@ if (isset($_GET['id'])) {
 ?>
 
 <?php require 'includes/header.php'; ?>
+<?php if (!Auth::isLoggedIn()) : ?>
+    <?php require 'blockopen.php'; ?>
+    You are not login.<br>
+    คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน    
+    <?php require 'blockclose.php';?>
+<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ ?> 
+    <?php require 'blockopen.php'; ?>
+    You have no authorize to view this content. <br>
+    คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
+    <?php require 'blockclose.php';?>
+<?php else : ?>
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-light rounded align-items-center justify-content-start p-3 mx-1">
     <div class="d-flex align-items-center justify-content-start">
@@ -126,7 +138,7 @@ if (isset($_GET['id'])) {
 
     </div>
 </div>
-
+<?php endif; ?>
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
