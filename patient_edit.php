@@ -264,11 +264,14 @@ if (isset($curstatus[0]['next3'])) {
 ?>
 
 <?php require 'includes/header.php'; ?>
+<?php require 'user_auth.php';?>
 
 <?php if (!Auth::isLoggedIn()) : ?>
     You are not login.
+<?php elseif( ($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital ): ?>   
+    You have no authorize to view other hospital group. 
 <?php else : ?>
-    <?php   require 'user_auth.php';?>
+    
     
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">

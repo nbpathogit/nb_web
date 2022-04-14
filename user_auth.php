@@ -3,6 +3,7 @@
 //can view by user group
 
 $u_cur_group_id = Auth::getUserGroup();
+$cur_user = Auth::getUser();
 //user group id
 // 1000 ผู้ดูแลระบบ
 // 2000 พยาธิ์แพทย์
@@ -72,9 +73,12 @@ $isCurUserClinicianCust = $u_cur_group_id->id == 5000;
 // โรงพยาบาลผู้ส่ง
 $isCurUserHospitalCust = $u_cur_group_id->id == 5100;
 
+
+
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
 if(isset($patient[0]['ppathologist_id'])){
 $isPathoOwneThisrCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
+$isUnderCurHospital = $cur_user->uhospital_id == $patient[0]['phospital_id']; 
 //var_dump($_SESSION['user']->id);
 //var_dump($patient[0]['ppathologist_id']); die();
 
