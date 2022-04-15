@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_rs_gross_desc']) ? $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc'] : null;
         isset($_POST['p_rs_microscopic_desc']) ? $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc'] : null;
 
-        
+
 
         isset($_POST['p_speciment_type']) ? $patient->p_speciment_type = $_POST['p_speciment_type'] : null;
         isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
@@ -268,11 +268,11 @@ if (isset($curstatus[0]['next3'])) {
 //var_dump($patient);
 //var_dump($statusLists);
 //var_dump($canEditModePage);
-require 'user_auth.php'; 
+require 'user_auth.php';
 ?>
 
 
-<?php require 'includes/header.php';?>
+<?php require 'includes/header.php'; ?>
 
 <?php if (!Auth::isLoggedIn()) : ?>
     <?php require 'blockopen.php'; ?>
@@ -297,7 +297,7 @@ require 'user_auth.php';
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
             <hr noshade="noshade" width="" size="8">
-    <?php require 'includes/patient_status.php'; ?>
+            <?php require 'includes/patient_status.php'; ?>
         </div>
     </div>
     <div class="container-fluid pt-4 px-4">
@@ -310,33 +310,35 @@ require 'user_auth.php';
 
             <form id="formEditPatient" name="" method="post">
 
-    <?php if ($isEditModePageOn) : ?>
+                <?php if ($isEditModePageOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                         <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
-    <?php else : ?>
+                <?php else : ?>
+                    <?php
+                    $isEnableEditButton = ($isCurUserAdmin || (( $isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isPathoOwneThisrCase) ) || (( $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000) && ($isPathoOwneThisrCase))
+                            );
+                    ?>
                     <?php if (!$canEditModePage2) : ?>
-                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
-                        ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff) || ($isPathoOwneThisrCase) || $isCurUserAdmin ? "" : "disabled";
-                        ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-                        <?php endif; ?>
-                                          <?php endif; ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>  
+                                                  >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+                        </p>
+                    <?php endif; ?>
+                <?php endif; ?>
 
-
-
-    <?php require 'includes/patient_form.php'; ?>
+                <?php require 'includes/patient_form.php'; ?>
 
                 <br>
 
-    <?php if ($isEditModePageOn) : ?>
+                <?php if ($isEditModePageOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                         <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
-    <?php else : ?>
+                <?php else : ?>
                     <?php if (!$canEditModePage2) : ?>
-                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=
-                        ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff) || ($isPathoOwneThisrCase) || $isCurUserAdmin ? "" : "disabled";
-                        ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>  
-                        <?php endif; ?>
-                                          <?php endif; ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=($isEnableEditButton ) ? "" : "disabled"; ?>   
+                                                  >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+                        </p>  
+                    <?php endif; ?>
+                <?php endif; ?>
 
             </form>
         </div>
@@ -345,7 +347,7 @@ require 'user_auth.php';
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-    <?php if ($isUpdateResultAval) : ?>
+            <?php if ($isUpdateResultAval) : ?>
                 <hr noshade="noshade" width="" size="6">
                 <?php require 'includes/patient_form_080_result.php'; ?>
             <?php endif; ?>
