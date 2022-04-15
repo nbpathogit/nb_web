@@ -32,7 +32,8 @@
     <select name="uhospital_id" class="form-select" <?= $isEditModePageOn || $canEditPatientInfo ? " disabled readonly " : "" ?>>
         <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
         <?php foreach ($hospitals as $hospital) : ?>
-            <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
+            <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> 
+            ?>
             <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= (isset($user[0]['uhospital_id']) ? (($user[0]['uhospital_id'] == $hospital['id']) ? "selected" : "") : ""); ?>><?= htmlspecialchars($hospital['hospital']); ?></option>
         <?php endforeach; ?>
     </select>
@@ -46,17 +47,24 @@
 <div class="row mb-3 g-3 align-items-center">
     <div class="col-auto">
         <label for="username">ชื่อเข้าใช้</label>
-        <input class="form-control" name="username" type="text" id="username" size="20" maxlengtd="10" value="<?= (isset($user[0]['username']) ? $user[0]['username'] : ''); ?>">
+        <input class="form-control" name="username" type="text" id="username" size="20" maxlength="10" value="<?= (isset($user[0]['username']) ? $user[0]['username'] : ''); ?>">
         <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 6-10 ตัวอักษร</span>
     </div>
+    <?php if (isset($user[0]['password'])) : ?>
+        <div class="col-auto">
+            <label for="old_password">รหัสผ่านเก่า</label>
+            <input class="form-control" name="old_password" type="password" id="old_password" size="20" maxlength="10">
+            <span class="form-text">กรณีเปลี่ยนรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)</span>
+        </div>
+    <?php endif; ?>
     <div class="col-auto">
-        <label for="password"><?= (isset($user[0]['password']) ? "ตั้งรหัสผ่านใหม่" : "รหัสผ่าน"); ?></label><span> *</span>
-        <input class="form-control" name="password" type="password" id="password" size="20" maxlengtd="10" value="<?= (isset($user[0]['password']) ? $user[0]['password'] : '');?>">
+        <label for="password"><?= (isset($user[0]['password']) ? "ตั้งรหัสผ่านใหม่" : "รหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
+        <input class="form-control" name="password" type="password" id="password" size="20" maxlength="10">
         <span class="form-text"><?= (isset($user[0]['password']) ? "เปลี่ยนรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)" : "ตั้งรหัสผ่าน"); ?></span>
     </div>
     <div class="col-auto">
-        <label for="set_password_confirm"><?= (isset($user[0]['password']) ? "ยืนยันรหัสผ่านผ่านใหม่" : "ยืนยันรหัสผ่าน"); ?></label><span> *</span>
-        <input class="form-control" name="set_password_confirm" type="password" id="" size="20" maxlengtd="10" value="<?= (isset($user[0]['password']) ? $user[0]['password'] : '');?>">
+        <label for="set_password_confirm"><?= (isset($user[0]['password']) ? "ยืนยันรหัสผ่านผ่านใหม่" : "ยืนยันรหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
+        <input class="form-control" name="set_password_confirm" type="password" id="set_password_confirm" size="20"  maxlength="10">
         <span class="form-text"><?= (isset($user[0]['password']) ? "ยีนยันรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)" : "ยืนยันรหัสผ่านอีกรอบ"); ?></span>
     </div>
 </div>

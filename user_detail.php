@@ -53,6 +53,12 @@ if (isset($_GET['id'])) {
                 USER Added/Edit Successful
             </div>
     <?php endif;
+                }if (isset($_GET['psch'])) {
+                    if ($_GET['psch'] == 1) : ?>
+            <div class="alert alert-success" role="alert">
+                Edit new password Successful
+            </div>
+    <?php endif;
                 }
     ?>
     <p>

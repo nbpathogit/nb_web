@@ -744,6 +744,25 @@ $("#adduser , #chg_passwrd").validate({
 
 });
 
+$("#edituser").validate({
+    rules: {
+
+        ugroup_id: {
+            selectd: true
+        },
+
+        uhospital_id: {
+            selectd: true
+        },
+
+        username: {
+            required: true
+        },
+
+    }
+
+});
+
 $("#add_u_result").validate({
     rules: {
 
