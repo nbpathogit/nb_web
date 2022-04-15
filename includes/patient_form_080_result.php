@@ -1,6 +1,6 @@
 <?php
 $isBorder = false;
-$addResultButton = true;
+$isSetShowaddResultButton = true;
 ?>
 
 <h4 align="center"><b>ผลการตรวจ</b></h4> 
@@ -23,11 +23,11 @@ $addResultButton = true;
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="pathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
-                    <select name="pathologist_id" class="form-select" <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin)? "" : " disabled readonly " ?> >
+                    <select name="pathologist_id" class="form-select" <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?> > 
-                                <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
+                                <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
                             </option>
                         <?php endforeach; ?>                                     
                     </select> 
@@ -39,7 +39,7 @@ $addResultButton = true;
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist2_id'] == $user['uid'] ? "selected" : ""; ?> >           
-                                <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
+                                <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
                             </option>
                         <?php endforeach; ?>                                     
                     </select> 
@@ -50,9 +50,9 @@ $addResultButton = true;
                     <input name="date_14000"  type="text" class="form-control border" id="date_14000"  placeholder="This Field will Auto Generate"  <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
                     <?php
                     if ($presultupdate['release_time'] == NULL) {
-                        $addResultButton = false;
+                        $isSetShowaddResultButton = false;
                     } else {
-                        $addResultButton = true;
+                        $isSetShowaddResultButton = true;
                     }
                     ?>
                 </div>
@@ -66,20 +66,23 @@ $addResultButton = true;
                         if ($canEditModePage2):
                             ?>
                             <br><p align="center"><button name="save_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;SAVE&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;                   
-                            <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
+                                <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                         <?php else: ?>
                             <br><p align="center">
-                                
-                                <?php //To show edit button
-                                if ( $isCurUserAdmin ||
+
+                                <?php
+                                //To show edit button
+                                if ($isCurUserAdmin ||
                                         ($curstatus[0]['id'] == 12000  //current status is 12000 will can edit
                                         && $_SESSION['user']->id == $presultupdate['pathologist_id'] // First patho is ownder this patient id (Cur_user == First patho)
                                         && !$isEditModePageOn)
-                                ):?>
+                                ):
+                                    ?>
                                     <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                                 <?php endif; ?>
-                                    
-                                <?php // to show botton move to 13000 for second patho to review
+
+                                <?php
+                                // to show botton move to 13000 for second patho to review
                                 if ($_SESSION['user']->id == $presultupdate['pathologist_id'] // First patho is ownder this patient id (Cur_user == First patho)
                                         && $presultupdate['pathologist2_id'] != 0 //If Second Patho is select 
                                         && $curstatus[0]['id'] == 12000): //and Status == 12000
@@ -93,11 +96,11 @@ $addResultButton = true;
                                     ?>
                                     <button name="move12000" id="btnmove12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
                                     <button name="move20000" id="btnmove20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
-                                <?php endif; ?>
+                            <?php endif; ?>
 
                             </p>
-                        <?php endif; ?>
-                    <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
                 </div>
             </div>
 
@@ -105,12 +108,12 @@ $addResultButton = true;
     <?php endforeach; ?>
 
 <?php else: ?>
-    <?php $addResultButton = true; ?>  
+    <?php $isSetShowaddResultButton = true; ?>  
 <?php endif; ?>
 
-
+        
 <?php if ($patient[0]["status_id"] == 12000): ?>
-    <?php if ($addResultButton): ?>
+    <?php if ($isSetShowaddResultButton && $isPathoOwneThisrCase): ?>
         <hr>
         <form  id="add_u_result" name="" method="post">
             <div class="row <?= $isBorder ? "border" : "" ?>">
