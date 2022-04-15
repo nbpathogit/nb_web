@@ -11,68 +11,85 @@ require 'includes/init.php';
 $conn = require 'includes/db.php';
 require 'user_auth.php';
 ?>
+
+<?php
+    $ugroups = Ugroup::getAll($conn);
+
+    $hospitals = Hospital::getAll($conn);
+    //var_dump($hospitals);
+    // $user = [];
+    // $user[0] = [];
+
+
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // var_dump($_POST);
+        // die();
+
+        $user_new = new User();
+        $user_new->name = $_POST['name'];
+        $user_new->lastname = $_POST['lastname'];
+        $user_new->umobile = $_POST['umobile'];
+        $user_new->uemail = $_POST['uemail'];
+        $user_new->username = $_POST['username'];
+        $user_new->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $user_new->ugroup_id = $_POST['ugroup_id'];
+        $user_new->uhospital_id = $_POST['uhospital_id'];
+        $user_new->udetail = $_POST['udetail'];
+
+        try {
+            if ($user_new->create($conn)) {
+
+                Url::redirect("/user_detail.php?id=$user_new->id&result=1");
+            } else {
+                echo '<script>alert("Add user fail. Please verify again")</script>';
+            }
+        } catch (Exception $e) {
+            $user_new->errors[] = $e->getMessage();
+        }
+    }
+    ?>
+
+
 <?php require 'includes/header.php'; ?>
 <?php if (!Auth::isLoggedIn()) : ?>
     <?php require 'blockopen.php'; ?>
     You are not login.<br>
-    คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน    
-    <?php require 'blockclose.php';?>
-<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ ?> 
+    คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน
+    <?php require 'blockclose.php'; ?>
+<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)) : //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ 
+?>
     <?php require 'blockopen.php'; ?>
     You have no authorize to view this content. <br>
     คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
-    <?php require 'blockclose.php';?>
+    <?php require 'blockclose.php'; ?>
 <?php else : ?>
 
 
-<?php
-$ugroups = Ugroup::getAll($conn);
-
-$hospitals = Hospital::getAll($conn);
-//var_dump($hospitals);
-$user = [];
-$user[0] = [];
+    
 
 
+    <div class="container-fluid pt-4 px-4">
+        <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // var_dump($_POST);
-    //die();
+            <div><b>เพิ่มผู้ใช้งานระบบ</b></div>
 
-    $user = new User();
-    $user->name = $_POST['name'];
-    $user->lastname = $_POST['lastname'];
-    $user->umobile = $_POST['umobile'];
-    $user->uemail = $_POST['uemail'];
-    $user->username = $_POST['username'];
-    $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $user->ugroup_id = $_POST['ugroup_id'];
-    $user->uhospital_id = $_POST['uhospital_id'];
-    $user->udetail = $_POST['udetail'];
+            <?php if (!empty($user_new->errors)) : ?>
+                <div class="alert alert-warning" role="alert">
+                    <?php foreach ($user_new->errors as $error) : ?>
+                        <li><?= $error ?></li>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
 
-    if ($user->create($conn)) {
+            <form id="adduser" method="post">
+                <?php require 'includes/user_form.php'; ?>
+                <div><button id="save" class="btn btn-primary">Add</button></div>
+            </form>
 
-        Url::redirect("/user_detail.php?id=$user->id&result=1");
-    } else {
-        echo '<script>alert("Add user fail. Please verify again")</script>';
-    }
-}
-?>
-
-
-<div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
-
-        <div><b>เพิ่มผู้ใช้งานระบบ</b></div>
-
-        <form id="adduser" method="post">
-            <?php require 'includes/user_form.php'; ?>
-            <div><button id="save" class="btn btn-primary">Add</button></div>
-        </form>
-
+        </div>
     </div>
-</div>
 <?php endif; ?>
 <?php require 'includes/footer.php'; ?>
 

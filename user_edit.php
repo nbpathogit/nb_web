@@ -54,13 +54,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_edit->udetail = $_POST['udetail'];
 
 
-
-    if ($user_edit->update($conn)) {
-        $url = "/user_detail.php?id=$user_edit->id&result=1";
-        if ($passchg) $url = $url . "&psch=1";
-        Url::redirect($url);
-    } else {
-        echo '<script>alert("Edit user fail. Please verify again")</script>';
+    try {
+        if ($user_edit->update($conn)) {
+            $url = "/user_detail.php?id=$user_edit->id&result=1";
+            if ($passchg) $url = $url . "&psch=1";
+            Url::redirect($url);
+        } else {
+            echo '<script>alert("Edit user fail. Please verify again")</script>';
+        }
+    } catch (Exception $e) {
+        $user->errors[] = $e->getMessage();
     }
 }
 ?>

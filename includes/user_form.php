@@ -50,7 +50,8 @@
         <input class="form-control" name="username" type="text" id="username" size="20" maxlength="10" value="<?= (isset($user[0]['username']) ? $user[0]['username'] : ''); ?>">
         <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 6-10 ตัวอักษร</span>
     </div>
-    <?php if (isset($user[0]['password'])) : ?>
+    <!-- show when edit  -->
+     <?php if (isset($user[0]['password'])) : ?> 
         <div class="col-auto">
             <label for="old_password">รหัสผ่านเก่า</label>
             <input class="form-control" name="old_password" type="password" id="old_password" size="20" maxlength="10">
