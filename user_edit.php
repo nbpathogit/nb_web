@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // if have old password field correct and new pass correct -> save hash new password
     if (
         !empty($_POST['old_password'])
-        &&  User::authenticate($conn, $user[0]['username'], $_POST['old_password'])
+        &&  (User::authenticate($conn, $user[0]['username'], $_POST['old_password']) || $isCurUserAdmin)  // admin can change password without old password
         && ($_POST['password'] == $_POST['set_password_confirm'])
     ) {
         $user_edit->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
