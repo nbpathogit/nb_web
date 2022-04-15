@@ -26,6 +26,7 @@ if ($auth) {
 
     $data = [];
     foreach ($users as $user) {
+        if($user['uid'])
         $data[] = [$user['uid'], $user['username'], $user['pre_name'], $user['name'], $user['lastname'], $user['pre_name_e'], $user['name_e'], $user['lastname_e'], $user['hospital'], $user['ugroup'], "action"];
     }
     $result = ["data" => $data];

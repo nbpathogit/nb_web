@@ -26,6 +26,7 @@ if ($auth) {
 
     $data = [];
     foreach ($specimens as $specimen) {
+        if($specimen['id'])
         $data[] = [$specimen['id'], $specimen['specimen'], "action",];
     }
     $result = ["data" => $data];

@@ -26,7 +26,8 @@ if ($auth) {
 
     $data = [];
     foreach ($hospitals as $hospital) {
-        $data[] = [$hospital['id'], $hospital['hospital'],$hospital['address'],$hospital['hdetail'], "",];
+        if ($hospital['id'])
+            $data[] = [$hospital['id'], $hospital['hospital'], $hospital['address'], $hospital['hdetail'], "",];
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);

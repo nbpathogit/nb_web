@@ -26,7 +26,8 @@ if ($auth) {
 
     $data = [];
     foreach ($fluids as $fluid) {
-        $data[] = [$fluid['id'], $fluid['labname'], $fluid['lab_des'], "",];
+        if ($fluid['id'])
+            $data[] = [$fluid['id'], $fluid['labname'], $fluid['lab_des'], "",];
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
