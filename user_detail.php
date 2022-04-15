@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
     You are not login.<br>
     คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน    
     <?php require 'blockclose.php';?>
-<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ ?> 
+<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && $_SESSION['user']->id != $_GET['id']): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้  + ดูได้เฉพาะของตัวเอง ?> 
     <?php require 'blockopen.php'; ?>
     You have no authorize to view this content. <br>
     คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
