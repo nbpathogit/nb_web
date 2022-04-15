@@ -81,7 +81,11 @@ $hidden = true;
 
 
 
-<h4 align="center"><b>สถานะงาน ของผู้ป่วยลำดับที่ &nbsp; <?= $_GET['id'] ?> &nbsp; คือ &nbsp; <?= $curstatus['0']["des"] ?> </b></h4>
+    <h4 align="center"><b>
+            คนไข้เลขที่: <span style="color:orange;text-decoration: underline;"><?=$patient[0]['pnum'];?></span> &nbsp; 
+            สถานะงาน: <span style="<?= $curstatus['0']["des"] == "เสร็จสิ้น" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?= $curstatus['0']["des"] ?> </span> &nbsp;
+            การออกผล: <span style="<?= $patient[0]['reported_as'] == "ออกผลแล้ว" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?=$patient[0]['reported_as'];?></span>
+        </b></h4>
 <span align="left">
     <?php if (!$disableMoveButton) : ?> 
         <form  id="" name="" method="post"> 
