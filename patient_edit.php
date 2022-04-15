@@ -315,7 +315,9 @@ require 'user_auth.php';
                         <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                 <?php else : ?>
                     <?php
-                    $isEnableEditButton = ($isCurUserAdmin || (( $isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isPathoOwneThisrCase) ) || (( $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000) && ($isPathoOwneThisrCase))
+                    $isEnableEditButton = ($isCurUserAdmin 
+                            || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isPathoOwneThisrCase) ) 
+                            || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000  ) && ($isPathoOwneThisrCase))
                             );
                     ?>
                     <?php if (!$canEditModePage2) : ?>
