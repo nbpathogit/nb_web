@@ -319,9 +319,11 @@ function addAction2Flow() {
     });
     $("#move13000, #btnmove13000").on("click", function (e) {
         e.preventDefault();
+        var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var isCurrentPathoIsOwnerThisCase = isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
 
         // Stop move to 13000 when not select Second Patho
-
         var isset_second_patho = '0';
         $('.uresultSecondPatho li').each(function (index) {
             isset_second_patho = $(this).attr('tabindex');
@@ -332,36 +334,20 @@ function addAction2Flow() {
             alert("Second Patho not selected Yet!");
             return;
         }
+        
+        // only owner can do this        
+        //console.log("isCurrentPathoIsOwnerThisCase :" + isCurrentPathoIsOwnerThisCase);return;
+        if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
+            alert("You not have authorize to do this ! Only owner can proceed");
+            return;
+        }
 
-
-//        alert("move 13000");
-        var cur_status = $(".cur_status").attr('tabindex');
-        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        
+        
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="13000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
-        frm.appendTo("body");
-        frm.submit();
-    });
-
-    //ออกผลเพิ่มเติม<br>14000</td>
-    $("#move14000").on("mouseover", function (e) {
-        $(this).addClass("heldover");
-    });
-    $("#move14000").on("mouseout", function (e) {
-        $(this).removeClass("heldover");
-    });
-    $("#move14000").on("click", function (e) {
-        e.preventDefault();
-        var cur_status = $(".cur_status").attr('tabindex');
-        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        var frm = $("<form>");
-        frm.attr('method', 'post');
-        frm.attr('');
-        frm.append('<input type="hidden" name="status" value="14000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
