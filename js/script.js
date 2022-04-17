@@ -380,7 +380,7 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        
+        var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
 
         var uresultTypeNameLastest = '';
         $('.uresultTypeName li').each(function (index) {
@@ -392,8 +392,20 @@ function addAction2Flow() {
             isset_second_patho = $(this).attr('tabindex');
         });
         
+        if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
+            alert("You not have authorize to do this ! Only owner can proceed");
+            return;
+        }
+        
         if (cur_status == '12000' && isset_second_patho != '0') {
             alert("Second patho need to be agree first!");
+            return;
+        }
+        
+        if (confirm("คุณกำลังจะออกผล! \nหากออกผลแล้วจะไม่สามารถแก้ไขได้ \nคุณสามารถดูตัวอย่างรายงานในรูปแบบ pdf ได้")) {
+            //txt = "You pressed OK!";
+        } else {
+            //txt = "You pressed Cancel!";
             return;
         }
 
