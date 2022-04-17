@@ -16,14 +16,14 @@ $isSetShowaddResultButton = true;
             <input name="id" class="" type="text" class="" id="" style="display: none;"  value="<?= $presultupdate['id']; ?>">
             <div align=""  class="mb-3">
                 <label for="result_message"><?= $presultupdate['result_type'] ?></label><br>
-                <textarea name="result_message" cols="100" rows="5" class="form-control" id="rs_diagnosis" <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
+                <textarea name="result_message" cols="100" rows="5" class="form-control" id="rs_diagnosis" <?= $canEditModePage2 && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
             </div>
 
             <div class="row <?= $isBorder ? "border" : "" ?>">
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="pathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
-                    <select name="pathologist_id" class="form-select" <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
+                    <select name="pathologist_id" class="form-select" <?= $canEditModePage2 && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?> > 
@@ -35,7 +35,7 @@ $isSetShowaddResultButton = true;
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="pathologist2_id" class="col-form-label">พยาธิแพทย์คอนเฟิร์มผล</label>
-                    <select name="pathologist2_id" class="form-select" <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
+                    <select name="pathologist2_id" class="form-select" <?= $canEditModePage2 && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist2_id'] == $user['uid'] ? "selected" : ""; ?> >           
@@ -47,7 +47,7 @@ $isSetShowaddResultButton = true;
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="date_14000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
-                    <input name="date_14000"  type="text" class="form-control border" id="date_14000"  placeholder="This Field will Auto Generate"  <?= $canEditModePage2 && ($isPathoOwneThisrCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
+                    <input name="date_14000"  type="text" class="form-control border" id="date_14000"  placeholder="This Field will Auto Generate"  <?= $canEditModePage2 && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
                     <?php
                     if ($presultupdate['release_time'] == NULL) {
                         $isSetShowaddResultButton = false;
@@ -74,7 +74,7 @@ $isSetShowaddResultButton = true;
                                 //To show edit button
                                 if ($isCurUserAdmin ||
                                         ($curstatus[0]['id'] == 12000  //current status is 12000 will can edit
-                                        && $_SESSION['user']->id == $presultupdate['pathologist_id'] // First patho is ownder this patient id (Cur_user == First patho)
+                                        && $isCurrentPathoIsOwnerThisCase // First patho is ownder this patient id (Cur_user == First patho)
                                         && !$isEditModePageOn)
                                 ):
                                     ?>
@@ -83,7 +83,7 @@ $isSetShowaddResultButton = true;
 
                                 <?php
                                 // to show botton move to 13000 for second patho to review
-                                if ($_SESSION['user']->id == $presultupdate['pathologist_id'] // First patho is ownder this patient id (Cur_user == First patho)
+                                if ($isCurrentPathoIsOwnerThisCase // First patho is ownder this patient id (Cur_user == First patho)
                                         && $presultupdate['pathologist2_id'] != 0 //If Second Patho is select 
                                         && $curstatus[0]['id'] == 12000): //and Status == 12000
                                     ?>
@@ -91,7 +91,7 @@ $isSetShowaddResultButton = true;
                                 <?php endif; ?>
 
                                 <?php
-                                if ($_SESSION['user']->id == $presultupdate['pathologist2_id'] // Second patho is ownder this patient id (Cur_user == Second patho)
+                                if ($isCurrentPathoIsSecondOwneThisCaseLastest // Second patho is ownder this patient id (Cur_user == Second patho)
                                         && $curstatus[0]['id'] == 13000): //and CurrentStatus == 13000
                                     ?>
                                     <button name="move12000" id="btnmove12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
@@ -113,7 +113,7 @@ $isSetShowaddResultButton = true;
 
         
 <?php if ($patient[0]["status_id"] == 12000): ?>
-    <?php if ($isSetShowaddResultButton && $isPathoOwneThisrCase): ?>
+    <?php if ($isSetShowaddResultButton && $isCurrentPathoIsOwnerThisCase): ?>
         <hr>
         <form  id="add_u_result" name="" method="post">
             <div class="row <?= $isBorder ? "border" : "" ?>">

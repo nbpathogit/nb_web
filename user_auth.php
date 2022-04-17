@@ -15,34 +15,34 @@ $cur_user = Auth::getUser();
 // 5000 แพทย์ผู้ส่งตรวจ
 // 5100 เจ้าหน้าที่แลป(ลูกค้า)
 //                                       ผู้ดูแลระบบ                            พยาธิ์แพทย์                ผู้ช่วยพยาธิแพทย์                 เจ้าหน้าที่แลป                  เจ้าหน้าที่ธุรการ                    แพทย์ผู้ส่งตรวจ                   เจ้าหน้าที่แลป(ลูกค้า)
-$canViewPatientInfo_a_group = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
-$canViewPlaning_b_1_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
-$canViewPlaning_b_2_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
-$canViewPlaning_b_3_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
-$canViewResult_c_group      = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
-$canViewResult_d_group      = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==5000 || $u_cur_group_id->id==5100;
+$canViewPatientInfo_a_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
+$canViewPlaning_b_1_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
+$canViewPlaning_b_2_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
+$canViewPlaning_b_3_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
+$canViewResult_c_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
+$canViewResult_d_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
 
 // Editable by user group
 //                                       ผู้ดูแลระบบ                       พยาธิ์แพทย์                    ผู้ช่วยพยาธิแพทย์                 เจ้าหน้าที่แลป                    เจ้าหน้าที่ธุรการ                   แพทย์ผู้ส่งตรวจ                  เจ้าหน้าที่แลป(ลูกค้า)
 
-$canEditPatientInfo_a_group = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==""   || $u_cur_group_id->id=="";
-$canEditPlaning_b_1_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==""   || $u_cur_group_id->id=="";
-$canEditPlaning_b_2_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==""   || $u_cur_group_id->id=="";
-$canEditPlaning_b_3_group   = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==2100 || $u_cur_group_id->id==2200 || $u_cur_group_id->id==2500 || $u_cur_group_id->id==""   || $u_cur_group_id->id=="";
-$canEditResult_c_group      = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==""   || $u_cur_group_id->id==""   || $u_cur_group_id->id==""   || $u_cur_group_id->id==""   || $u_cur_group_id->id=="";
-$canEditResult_d_group      = false   || $u_cur_group_id->id==1000 || $u_cur_group_id->id==2000 || $u_cur_group_id->id==""   || $u_cur_group_id->id==""   || $u_cur_group_id->id==""   || $u_cur_group_id->id==""   || $u_cur_group_id->id=="";
+$canEditPatientInfo_a_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
+$canEditPlaning_b_1_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
+$canEditPlaning_b_2_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
+$canEditPlaning_b_3_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
+$canEditResult_c_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "" || $u_cur_group_id->id == "" || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
+$canEditResult_d_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "" || $u_cur_group_id->id == "" || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
 
 
 
 //Editable by status
 //$canEditPatientInfo_a_status = !Status::is_disable_patient_detail($patient[0]['status_id']) ;
-if(isset($patient)){
-$canEditPatientInfo_a_status = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 1000);
-$canEditPlaning_b_1_status   = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 2000);
-$canEditPlaning_b_2_status   = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 2000);
-$canEditPlaning_b_3_status   = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 2000   || ($patient[0]['status_id'] == 12000));
-$canEditResult_c_status      = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 12000) || ($patient[0]['status_id'] == 13000);
-$canEditResult_d_status      = false || $u_cur_group_id->id==1000   || ($patient[0]['status_id'] == 12000);
+if (isset($patient)) {
+    $canEditPatientInfo_a_status = false || $u_cur_group_id->id == 1000 || ($patient[0]['status_id'] == 1000);
+    $canEditPlaning_b_1_status = false || $u_cur_group_id->id == 1000 || ($patient[0]['status_id'] == 2000);
+    $canEditPlaning_b_2_status = false || $u_cur_group_id->id == 1000 || ($patient[0]['status_id'] == 2000);
+    $canEditPlaning_b_3_status = false || $u_cur_group_id->id == 1000 || ($patient[0]['status_id'] == 2000 || ($patient[0]['status_id'] == 12000));
+    $canEditResult_c_status = false || $u_cur_group_id->id == 1000 || ($patient[0]['status_id'] == 12000) || ($patient[0]['status_id'] == 13000);
+    $canEditResult_d_status = false || $u_cur_group_id->id == 1000 || ($patient[0]['status_id'] == 12000);
 }
 
 //disable by field
@@ -52,13 +52,8 @@ $isDisableSpecialSlide = false;
 
 //Other
 $isUpdateResultAval = true;  //Get from database
-
-
-
-
-
 // ผู้ใช้ปัจจุบันเป็น แอดมินหรือไม่
-$isCurUserAdmin = $u_cur_group_id->id == 1000; 
+$isCurUserAdmin = $u_cur_group_id->id == 1000;
 // ผู้ใช้ปัจจุบันเป็น พยาธิ์แพทย์ หรือไม่
 $isCurUserPatho = $u_cur_group_id->id == 2000;
 // ผู้ใช้ปัจจุบันเป็น ผู้ช่วยพยาธิแพทย์ หรือไม่
@@ -76,11 +71,22 @@ $isCurUserHospitalCust = $u_cur_group_id->id == 5100;
 
 
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
-if(isset($patient[0]['ppathologist_id'])){
-$isPathoOwneThisrCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
-$isUnderCurHospital = $cur_user->uhospital_id == $patient[0]['phospital_id']; 
-//var_dump($_SESSION['user']->id);
-//var_dump($patient[0]['ppathologist_id']); die();
+$isCurrentPathoIsOwnerThisCase = false;
+if (isset($patient[0]['ppathologist_id'])) {
+    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
+}
+// หมอพยาธิ ปัจจุบัน เป็นเจ้าคนคอนเฟรฺมผลคนที่สอง หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
+$isCurrentPathoIsSecondOwneThisCaseLastest = false;
+if (isset($patient[0]['ppathologist2_id'])) {
+    //$isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $patient[0]['ppathologist2_id']; // Second Pathologist owner case only can edit this part
 
+    foreach ($presultupdates as $presultupdate) {
 
+        $isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $presultupdate['pathologist2_id'];
+    }
+}
+// หมอปัจจุบัน อยู่ในโรงพยาบาลที่สังกัดหรือไม่
+//$isUnderCurHospital = false;
+if (isset($patient[0]['phospital_id'])) {
+    $isUnderCurHospital = $cur_user->uhospital_id == $patient[0]['phospital_id']; // Is current user under current current hospital
 }

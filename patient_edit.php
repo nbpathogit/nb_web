@@ -316,8 +316,8 @@ require 'user_auth.php';
                 <?php else : ?>
                     <?php
                     $isEnableEditButton = ($isCurUserAdmin 
-                            || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isPathoOwneThisrCase) ) 
-                            || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000  ) && ($isPathoOwneThisrCase))
+                            || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase) ) 
+                            || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000  ) && ($isCurrentPathoIsOwnerThisCase))
                             );
                     ?>
                     <?php if (!$canEditModePage2) : ?>
