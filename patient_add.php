@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['ppathologist_id']) ? $patient->ppathologist_id = $_POST['ppathologist_id'] : $patient->ppathologist_id = $patientini[0]['ppathologist_id'];
     isset($_POST['pspecimen_id'])   ? $patient->pspecimen_id = $_POST['pspecimen_id']       : $patient->pspecimen_id = $patientini[0]['pspecimen_id'];
     isset($_POST['pclinician_id'])  ? $patient->pclinician_id = $_POST["pclinician_id"]     : $patient->pclinician_id = $patientini[0]["pclinician_id"];
-    isset($_POST['ppathologist2_id'])       ? $patient->ppathologist2_id = $_POST["ppathologist2_id"]               : $patient->ppathologist2_id = $patientini[0]["ppathologist2_id"];
+    
     isset($_POST['p_cross_section_id'])     ? $patient->p_cross_section_id = $_POST["p_cross_section_id"]           : $patient->p_cross_section_id = $patientini[0]["p_cross_section_id"];
     isset($_POST['p_cross_section_ass_id']) ? $patient->p_cross_section_ass_id = $_POST["p_cross_section_ass_id"]   : $patient->p_cross_section_ass_id = $patientini[0]["p_cross_section_ass_id"];
     isset($_POST['p_slide_prep_id'])        ? $patient->p_slide_prep_id = $_POST["p_slide_prep_id"]                 : $patient->p_slide_prep_id = $patientini[0]["p_slide_prep_id"];

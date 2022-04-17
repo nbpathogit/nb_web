@@ -77,11 +77,8 @@ if (isset($patient[0]['ppathologist_id'])) {
 }
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าคนคอนเฟรฺมผลคนที่สอง หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
 $isCurrentPathoIsSecondOwneThisCaseLastest = false;
-if (isset($patient[0]['ppathologist2_id'])) {
-    //$isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $patient[0]['ppathologist2_id']; // Second Pathologist owner case only can edit this part
-
+if(isset($presultupdates)){
     foreach ($presultupdates as $presultupdate) {
-
         $isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $presultupdate['pathologist2_id'];
     }
 }

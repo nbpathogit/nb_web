@@ -41,7 +41,7 @@ class Patient {
     public $ppathologist_id;
     public $pspecimen_id;
     public $pclinician_id;
-    public $ppathologist2_id;
+
     public $p_cross_section_id;
     public $p_cross_section_ass_id;
     public $p_slide_prep_id;
@@ -203,8 +203,8 @@ class Patient {
     public function create($conn) {
 
 
-        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`, `ppathologist2_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,    `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`) "
-                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,    :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id,  :ppathologist2_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,  :p_slide_lab_id,  :p_slide_lab_price);";
+        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,    `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`) "
+                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,    :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,  :p_slide_lab_id,  :p_slide_lab_price);";
 
 
 
@@ -242,7 +242,7 @@ class Patient {
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_INT);
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_INT);
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_INT);
-        $stmt->bindValue(':ppathologist2_id', $this->ppathologist2_id, PDO::PARAM_INT);
+        
         $stmt->bindValue(':p_cross_section_id', $this->p_cross_section_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_cross_section_ass_id', $this->p_cross_section_ass_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_prep_id', $this->p_slide_prep_id, PDO::PARAM_INT);
@@ -303,7 +303,7 @@ class Patient {
                 "ppathologist_id" => 0,
                 "pspecimen_id" => 0,
                 "pclinician_id" => 0,
-                "ppathologist2_id" => 0,
+                
                 "p_cross_section_id" => 0,
                 "p_cross_section_ass_id" => 0,
                 "p_slide_prep_id" => 0,
@@ -312,7 +312,7 @@ class Patient {
                 "pspprice" => "",
                 "p_rs_specimen" => "",
                 "p_rs_clinical_diag" => "",
-                "p_rs_gross_desc" => "",
+               "p_rs_gross_desc" => "",
                 "p_rs_microscopic_desc" => "",
               
                
@@ -389,7 +389,7 @@ class Patient {
                     ppathologist_id=:ppathologist_id,
                     pspecimen_id=:pspecimen_id,
                     pclinician_id=:pclinician_id,
-                    ppathologist2_id=:ppathologist2_id,
+                   
                     p_cross_section_id=:p_cross_section_id,
                     p_cross_section_ass_id=:p_cross_section_ass_id,
                     p_slide_prep_id=:p_slide_prep_id,
@@ -432,7 +432,7 @@ class Patient {
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_INT);
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_INT);
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_INT);
-        $stmt->bindValue(':ppathologist2_id', $this->ppathologist2_id, PDO::PARAM_INT);
+        
         $stmt->bindValue(':p_cross_section_id', $this->p_cross_section_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_cross_section_ass_id', $this->p_cross_section_ass_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_prep_id', $this->p_slide_prep_id, PDO::PARAM_INT);

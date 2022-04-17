@@ -238,7 +238,7 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-
+        var isCurrentPathoIsOwnerThisCase = isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');  
 
         var isset_sp_slide_assigned = '0';
         $('.p_slide_prep_sp_id li').each(function (index) {
@@ -248,6 +248,11 @@ function addAction2Flow() {
 //          return;
         if (isset_sp_slide_assigned == '0') {
             alert("Person to prepare slide not selected Yet!");
+            return;
+        }
+        
+        if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
+            alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }
 
@@ -300,6 +305,9 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        
+        
+        
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
