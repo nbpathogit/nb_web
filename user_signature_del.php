@@ -23,7 +23,7 @@ if (isset($_GET['id'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($isCurUserAdmin || $_SESSION['user']->id == $_GET['id']) {
-        $pre_signature = $_SERVER['DOCUMENT_ROOT'] . $user->signature_file;
+        $pre_signature = $user->signature_file;
 
         $user->signature_file = null;
 
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //delete old file
             if (!$pre_signature == "" && !is_null($pre_signature)) {
-                unlink($pre_signature);
+                unlink($_SERVER['DOCUMENT_ROOT'] . $pre_signature);
             }
 
             Url::redirect("/user_edit.php?id=" . $_GET['id']);

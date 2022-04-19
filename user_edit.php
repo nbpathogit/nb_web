@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
 
                     // pre signature file to delete
-                    $pre_signature = $_SERVER['DOCUMENT_ROOT'] . $user[0]['signature_file'];
+                    $pre_signature = $user[0]['signature_file'];
 
                     if (move_uploaded_file($_FILES['signature']['tmp_name'], $destination)) {
                         // echo "upload success";
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             //delete old file
                             if (!$pre_signature == "" && !is_null($pre_signature)) {
-                                unlink($pre_signature);
+                                unlink($_SERVER['DOCUMENT_ROOT'] . $pre_signature);
                             }
 
                             $url .= "&signature=1";
