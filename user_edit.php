@@ -22,9 +22,21 @@ if (isset($_GET['id'])) {
 
 $user_edit = new User();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // var_dump($_POST);
-    // die();
+    var_dump($_POST);
 
+
+
+    if ($_FILES['signature']['size'] < 5000000) {
+        $mime_types = ['image/gif', 'image/png', 'image/jpeg', 'image/jpg'];
+        if (in_array($_FILES['signature']['type'], $mime_types)) {
+            var_dump($_FILES);
+            $destination = $_SERVER['DOCUMENT_ROOT'] . "/signature/" . $_FILES['signature']['name'];
+            if(move_uploaded_file($_FILES['signature']['tmp_name'], $destination)){
+                echo "upload success";
+            }
+        }
+    }
+    die();
 
     $user_edit->id = $_GET['id'];
     $user_edit->name = $_POST['name'];
@@ -96,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
 
-            <form id="edituser" method="post">
+            <form id="edituser" method="post" enctype="multipart/form-data">
                 <?php require 'includes/user_form.php'; ?>
                 <div><button id="save" class="btn btn-primary">Edit</button></div>
             </form>

@@ -68,4 +68,8 @@
         <input class="form-control" name="set_password_confirm" type="password" id="set_password_confirm" size="20"  maxlength="10">
         <span class="form-text"><?= (isset($user[0]['password']) ? "ยีนยันรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)" : "ยืนยันรหัสผ่านอีกรอบ"); ?></span>
     </div>
+    <div>
+        <label for="signature">Signature</label>
+        <input type="file" name="signature" id="signature">
+    </div>
 </div>
