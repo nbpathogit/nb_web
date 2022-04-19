@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     if (move_uploaded_file($_FILES['signature']['tmp_name'], $destination)) {
                         // echo "upload success";
-                        $user_edit->signature_file = $destination;
+                        $user_edit->signature_file = "/signature/" . $filename;
                         if ($user_edit->setSignatureFile($conn)) {
                             $url .= "&signature=1";
                             Url::redirect($url);

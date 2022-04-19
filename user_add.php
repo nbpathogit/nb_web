@@ -21,6 +21,12 @@ require 'user_auth.php';
     // $user[0] = [];
 
 
+    $url = "";
+
+    // flag var
+    $user_updated = false;  //update user success
+    $is_signature_file = false;  // have signature file
+
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // var_dump($_POST);
@@ -39,14 +45,86 @@ require 'user_auth.php';
 
         try {
             if ($user_new->create($conn)) {
-
-                Url::redirect("/user_detail.php?id=$user_new->id&result=1");
+                $user_updated = true;
+                $url = "/user_detail.php?id=$user_new->id&result=1";
             } else {
                 echo '<script>alert("Add user fail. Please verify again")</script>';
             }
         } catch (Exception $e) {
             $user_new->errors[] = $e->getMessage();
         }
+
+
+        if ($user_updated) {
+            try {
+    
+                switch ($_FILES['signature']['error']) {
+                    case UPLOAD_ERR_OK:
+                        break;
+    
+                    case UPLOAD_ERR_NO_FILE:
+                        Url::redirect($url);
+                        break;
+    
+                    case UPLOAD_ERR_INI_SIZE:
+                        throw new Exception('File is too large');
+                        break;
+    
+                    default:
+                        throw new Exception('An error occurred');
+                }
+    
+                if (empty($_FILES)) {
+                    // do nothing
+                } else if ($_FILES['signature']['size'] < 5000000) {
+                    $mime_types = ['image/gif', 'image/png', 'image/jpeg', 'image/jpg'];
+                    if (in_array($_FILES['signature']['type'], $mime_types)) {
+    
+    
+                        // validate filename
+                        $pathinfo = pathinfo($_FILES['signature']['name']); //split file extension
+    
+                        //use username as filename
+                        $base = $_POST['username'];
+                        $base = preg_replace('/[^a-zA-Z0-9_-]/', '_', $base);
+                        $filename = $base . "." . $pathinfo['extension'];
+    
+                        // save destination
+                        $destination = $_SERVER['DOCUMENT_ROOT'] . "/signature/" . $filename;
+    
+                        // chech exitsting filename
+                        $i = 1;
+                        while (file_exists($destination)) {
+                            $filename = $base . "-$i." . $pathinfo['extension'];
+                            $destination = $_SERVER['DOCUMENT_ROOT'] . "/signature/" . $filename;
+                            $i++;
+                        }
+    
+    
+                        if (move_uploaded_file($_FILES['signature']['tmp_name'], $destination)) {
+                            // echo "upload success";
+                            $user_new->signature_file = "/signature/" . $filename;
+                            if ($user_new->setSignatureFile($conn)) {
+                                $url .= "&signature=1";
+                                Url::redirect($url);
+                            }
+                        } else {
+    
+                            throw new Exception('Unable to move uploaded file');
+                        }
+                    } else {
+                        throw new Exception('Invalid file type');
+                    }
+                } else {
+                    throw new Exception('File is too large');
+                }
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+                $url .= "&signature=" . urlencode($error);
+                Url::redirect($url);
+            }
+        }
+
     }
     ?>
 
@@ -83,7 +161,7 @@ require 'user_auth.php';
             <?php endif; ?>
 
 
-            <form id="adduser" method="post">
+            <form id="adduser" method="post" enctype="multipart/form-data">
                 <?php require 'includes/user_form.php'; ?>
                 <div><button id="save" class="btn btn-primary">Add</button></div>
             </form>

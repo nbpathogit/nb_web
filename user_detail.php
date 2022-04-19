@@ -14,7 +14,7 @@ if (isset($_GET['id'])) {
     $user = null;
 }
 
-//var_dump($user);
+var_dump($user);
 
 ?>
 
