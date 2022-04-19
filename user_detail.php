@@ -14,7 +14,9 @@ if (isset($_GET['id'])) {
     $user = null;
 }
 
-var_dump($user);
+// var_dump($user);
+
+
 
 ?>
 
@@ -151,6 +153,17 @@ var_dump($user);
                         <td>detail</td>
                         <td>
                             <?= $user[0]['udetail']; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Signature</td>
+                        <td>
+                            <?php if ($user[0]['signature_file'] == "" || is_null($user[0]['signature_file'])) : ?>
+                                no file
+                            <?php else : ?>
+                                <img src="<?= $user[0]['signature_file'] ?>"  class="img-thumbnail" style="max-height: 150px;">
+                            <?php endif; ?>
+                            
                         </td>
                     </tr>
                 </tbody>

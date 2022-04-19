@@ -51,7 +51,7 @@
         <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 6-10 ตัวอักษร</span>
     </div>
     <!-- show when edit  -->
-     <?php if (isset($user[0]['password'])) : ?> 
+    <?php if (isset($user[0]['password'])) : ?>
         <div class="col-auto">
             <label for="old_password">รหัสผ่านเก่า</label>
             <input class="form-control" name="old_password" type="password" id="old_password" size="20" maxlength="10">
@@ -65,11 +65,19 @@
     </div>
     <div class="col-auto">
         <label for="set_password_confirm"><?= (isset($user[0]['password']) ? "ยืนยันรหัสผ่านผ่านใหม่" : "ยืนยันรหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
-        <input class="form-control" name="set_password_confirm" type="password" id="set_password_confirm" size="20"  maxlength="10">
+        <input class="form-control" name="set_password_confirm" type="password" id="set_password_confirm" size="20" maxlength="10">
         <span class="form-text"><?= (isset($user[0]['password']) ? "ยีนยันรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)" : "ยืนยันรหัสผ่านอีกรอบ"); ?></span>
     </div>
-    <div>
-        <label for="signature">Signature</label>
-        <input type="file" name="signature" id="signature">
+
+    <?php if (isset($user[0]['signature_file'])) : ?>
+        <?php if (!$user[0]['signature_file'] == "" && !is_null($user[0]['signature_file'])) : ?>
+            <div>
+                <img src="<?= $user[0]['signature_file'] ?>" class="img-thumbnail" style="max-height: 150px;">
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+    <div class="col-4">
+        <label for="signature" class="form-label">Signature</label>
+        <input class="form-control" type="file" name="signature" id="signature">
     </div>
 </div>
