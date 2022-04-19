@@ -294,4 +294,17 @@ class User
 
         return $stmt->execute();
     }
+
+    public function setSignatureFile($conn){
+        $sql = "UPDATE user
+                SET signature_file = :signature_file
+                WHERE id = :id";
+        
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':signature_file', $this->signature_file, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 }
