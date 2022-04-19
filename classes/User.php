@@ -303,7 +303,7 @@ class User
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $stmt->bindValue(':signature_file', $this->signature_file, PDO::PARAM_STR);
+        $stmt->bindValue(':signature_file', $this->signature_file,$this->signature_file == null ? PDO::PARAM_NULL : PDO::PARAM_STR);
 
         return $stmt->execute();
     }

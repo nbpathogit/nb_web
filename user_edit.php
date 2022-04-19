@@ -74,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // var_dump($_FILES);
+    // exit;
     if ($user_updated) {
         try {
 
@@ -119,11 +120,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $i++;
                     }
 
+                    // pre signature file to delete
+                    $pre_signature = $_SERVER['DOCUMENT_ROOT'] . $user[0]['signature_file'];
 
                     if (move_uploaded_file($_FILES['signature']['tmp_name'], $destination)) {
                         // echo "upload success";
                         $user_edit->signature_file = "/signature/" . $filename;
                         if ($user_edit->setSignatureFile($conn)) {
+
+                            //delete old file
+                            if (!$pre_signature == "" && !is_null($pre_signature)) {
+                                unlink($pre_signature);
+                            }
+
                             $url .= "&signature=1";
                             Url::redirect($url);
                         }
@@ -189,6 +198,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+
+
         //set active tab
         $("#user").addClass("active");
 
@@ -204,6 +216,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $("#save").click(function() {
             window.removeEventListener("beforeunload", onNosave);
-        })
+        });
+
+        $("#signature-delete").on("click",function(e) {
+
+            e.preventDefault();
+            if (confirm("Are you sure?")) {
+                var frm = $("<form>");
+                frm.attr('method', 'post');
+                frm.attr('action', $(this).attr('href'));
+                frm.appendTo("body");
+                frm.submit();
+            }
+
+        });
+
     });
 </script>

@@ -55,25 +55,32 @@
         <div class="col-auto">
             <label for="old_password">รหัสผ่านเก่า</label>
             <input class="form-control" name="old_password" type="password" id="old_password" size="20" maxlength="10">
-            <span class="form-text">กรณีเปลี่ยนรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)</span>
+            <span class="form-text">กรณีเปลี่ยนรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องใส่)</span>
         </div>
     <?php endif; ?>
     <div class="col-auto">
         <label for="password"><?= (isset($user[0]['password']) ? "ตั้งรหัสผ่านใหม่" : "รหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
         <input class="form-control" name="password" type="password" id="password" size="20" maxlength="10">
-        <span class="form-text"><?= (isset($user[0]['password']) ? "เปลี่ยนรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)" : "ตั้งรหัสผ่าน"); ?></span>
+        <span class="form-text"><?= (isset($user[0]['password']) ? "เปลี่ยนรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องใส่)" : "ตั้งรหัสผ่าน"); ?></span>
     </div>
     <div class="col-auto">
         <label for="set_password_confirm"><?= (isset($user[0]['password']) ? "ยืนยันรหัสผ่านผ่านใหม่" : "ยืนยันรหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
         <input class="form-control" name="set_password_confirm" type="password" id="set_password_confirm" size="20" maxlength="10">
-        <span class="form-text"><?= (isset($user[0]['password']) ? "ยีนยันรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องแก้ไข)" : "ยืนยันรหัสผ่านอีกรอบ"); ?></span>
+        <span class="form-text"><?= (isset($user[0]['password']) ? "ยีนยันรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องใส่)" : "ยืนยันรหัสผ่านอีกรอบ"); ?></span>
     </div>
 
     <?php if (isset($user[0]['signature_file'])) : ?>
         <?php if (!$user[0]['signature_file'] == "" && !is_null($user[0]['signature_file'])) : ?>
-            <div>
-                <img src="<?= $user[0]['signature_file'] ?>" class="img-thumbnail" style="max-height: 150px;">
+
+            <div class="card border-light mb-3" style="max-width: 18rem;">
+                <div class="card-body text-center">
+                    <img src="<?= $user[0]['signature_file'] ?>" class="img-fluid" style="max-height: 150px;">
+
+                    <a id="signature-delete" href="user_signature_del.php?id=<?= $_GET['id']; ?>" class="btn btn-danger"><i class="fa-solid fa-trash-can me-2"></i>delete</a>
+
+                </div>
             </div>
+
         <?php endif; ?>
     <?php endif; ?>
     <div class="col-4">
