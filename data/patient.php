@@ -4,7 +4,7 @@ require '../includes/init.php';
 
 $auth = false;
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    if (!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient.php")) {
+    if (!empty($_SERVER['HTTP_REFERER']) && ((strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient.php"))  || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_monitor_8000.php")))) {
 
         // >>>> Security check
         if (empty($_SESSION['skey']) || empty($_REQUEST['skey']) || ($_SESSION['skey'] != $_REQUEST['skey'])) {
@@ -24,7 +24,9 @@ if ($auth) {
     $conn = require '../includes/db.php';
     require '../user_auth.php';
 
-    if ($isCurUserClinicianCust || $isCurUserHospitalCust) {
+    if (isset($_REQUEST['psid']) && $_REQUEST['psid'] == 8000) {
+        $patientLists = Patient::getAllJoinID8000($conn);
+    } else if ($isCurUserClinicianCust || $isCurUserHospitalCust) {
         $patientLists = Patient::getAllJoinWithReported($conn, 0);
     } else {
         $patientLists = Patient::getAllJoin($conn, 0);
@@ -32,8 +34,9 @@ if ($auth) {
 
     $data = [];
     foreach ($patientLists as $patient) {
-        if($patient['pid'])
-        $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
+        if ($patient['pid']) {
+            $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
+        }
     }
 
 
