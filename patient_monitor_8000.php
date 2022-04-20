@@ -60,6 +60,7 @@ require 'user_auth.php';
             "ajax": "data/patient.php?skey=<?= $_SESSION["skey"]; ?>&psid=8000",
             responsive: true,
             dom: 'Plfrtip',
+            "order": [[ 6, "desc" ]],
             searchPanes: {
                 initCollapsed: true,
                 // cascadePanes: true,
