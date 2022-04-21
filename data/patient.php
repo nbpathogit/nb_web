@@ -24,12 +24,32 @@ if ($auth) {
     $conn = require '../includes/db.php';
     require '../user_auth.php';
 
-    if (isset($_REQUEST['psid']) && $_REQUEST['psid'] == 8000) {
-        $patientLists = Patient::getAllJoinID8000($conn);
-    } else if ($isCurUserClinicianCust || $isCurUserHospitalCust) {
-        $patientLists = Patient::getAllJoinWithReported($conn, 0);
-    } else {
-        $patientLists = Patient::getAllJoin($conn, 0);
+    $range = "0";
+    if (isset($_REQUEST['range'])) {
+
+        date_default_timezone_set('Asia/Bangkok');
+
+        if ($_REQUEST['range'] == '1m')
+            $dateTime = new DateTime("-1 Months");
+        else if ($_REQUEST['range'] == '3m')
+            $dateTime = new DateTime("-3 Months");
+        else if ($_REQUEST['range'] == '6m')
+            $dateTime = new DateTime("-6 Months");
+        else if ($_REQUEST['range'] == '1y')
+            $dateTime = new DateTime("-1 Years");
+        else if ($_REQUEST['range'] == '2y')
+            $dateTime = new DateTime("-2 Years");
+        else $dateTime = new DateTime("-10 Years");
+
+        $range = $dateTime->format('Y-m-d');
+    }
+
+    if (isset($_REQUEST['psid']) && $_REQUEST['psid'] == 8000) {   // get patient statas id = 8000
+        $patientLists = Patient::getAllJoinID8000($conn, 0, $range);
+    } else if ($isCurUserClinicianCust || $isCurUserHospitalCust) {  // get patient with reported
+        $patientLists = Patient::getAllJoinWithReported($conn, 0, $range);
+    } else {                                                        // get all patient
+        $patientLists = Patient::getAllJoin($conn, 0, $range);
     }
 
     $data = [];
@@ -37,8 +57,15 @@ if ($auth) {
         if ($patient['pid']) {
             $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
         }
-    }
 
+        // if ($_REQUEST['range'] == "1m")
+        //         $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], "30", $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
+        //     else if ($_REQUEST['range'] == "3m")
+        //         $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], "90", $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
+        //     else if ($_REQUEST['range'] == "1y")
+        //         $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], "360", $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
+
+    }
 
 
     $result = ["data" => $data];

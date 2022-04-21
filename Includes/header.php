@@ -32,12 +32,14 @@
 
     <!-- datatable css -->
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/2.0.0/css/searchPanes.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.4/css/select.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-    
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap5.min.css">
+
     <!-- from old header -->
     <link rel="stylesheet" href="css/jquery.datetimepicker.min.css">
     <link rel="stylesheet" href="css/flowchart.css">
@@ -184,7 +186,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="user_edit.php?id=<?= $_SESSION['user']->id ?>" class="dropdown-item">My Profile</a>
-                          <!--   <a href="#" class="dropdown-item">Settings</a> -->
+                            <!--   <a href="#" class="dropdown-item">Settings</a> -->
                             <a href="logout.php" class="dropdown-item">Log Out</a>
                         </div>
                     </div>

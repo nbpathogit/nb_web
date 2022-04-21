@@ -55,12 +55,79 @@ require 'user_auth.php';
 <script type="text/javascript">
     $(document).ready(function() {
 
+
+        // add color class for priority 
+        function colorAdd() {
+            var count = $('.table').children('tbody').children('tr:first-child').children('td').length;
+            tablee = document.getElementById("patient_table");
+            tr = tablee.getElementsByTagName("tr");
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 1; i < tr.length; i++) {
+                for (j = 0; j < count; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td.innerHTML.indexOf('ด่วน') > -1) {
+                        tr[i].classList.add('table-danger');
+                    } else if (td.innerHTML.indexOf('ออกผลแล้ว') > -1) {
+                        tr[i].classList.add('table-success');
+                        break;
+                    } else {
+                        //DO NOTHING
+                    }
+                }
+            }
+        }
+
+
         // datatable
         var table = $('#patient_table').DataTable({
-            "ajax": "data/patient.php?skey=<?= $_SESSION["skey"]; ?>&psid=8000",
+            "ajax": "data/patient.php?skey=<?= $_SESSION["skey"]; ?>&psid=8000&range=1m",
             responsive: true,
-            dom: 'Plfrtip',
-            "order": [[ 6, "desc" ]],
+            dom: 'PlfBrtip',
+            buttons: [{
+                extend: 'collection',
+                text: 'Range',
+                autoClose: true,
+                buttons: [{
+                        text: '1 เดือนล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/patient.php?skey=<?= $_SESSION['skey']; ?>&psid=8000&range=1m").load();
+                        }
+                    },
+                    {
+                        text: '3 เดือนล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/patient.php?skey=<?= $_SESSION['skey']; ?>&psid=8000&range=3m").load();
+                        }
+                    },
+                    {
+                        text: '6 เดือนล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/patient.php?skey=<?= $_SESSION['skey']; ?>&psid=8000&range=6m").load();
+                        }
+                    },
+                    {
+                        text: '1 ปีล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/patient.php?skey=<?= $_SESSION['skey']; ?>&psid=8000&range=1y").load();
+                        }
+                    },
+                    {
+                        text: '2 ปีล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/patient.php?skey=<?= $_SESSION['skey']; ?>&psid=8000&range=2y").load();
+                        }
+                    },
+                    {
+                        text: 'ทั้งหมด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/patient.php?skey=<?= $_SESSION['skey']; ?>&psid=8000").load();
+                        }
+                    }
+                ]
+            }, ],
+            "order": [
+                [6, "desc"]
+            ],
             searchPanes: {
                 initCollapsed: true,
                 // cascadePanes: true,
@@ -111,27 +178,11 @@ require 'user_auth.php';
                     targets: 0
                 },
             ],
-            "initComplete": function() {
-                // add color class for priority
-                var count = $('.table').children('tbody').children('tr:first-child').children('td').length;
-                tablee = document.getElementById("patient_table");
-                tr = tablee.getElementsByTagName("tr");
-                // Loop through all table rows, and hide those who don't match the search query
-                for (i = 1; i < tr.length; i++) {
-                    for (j = 0; j < count; j++) {
-                        td = tr[i].getElementsByTagName("td")[j];
-                        if (td.innerHTML.indexOf('ด่วน') > -1) {
-                            tr[i].classList.add('table-danger');
-                        } else if (td.innerHTML.indexOf('ออกผลแล้ว') > -1) {
-                            tr[i].classList.add('table-success');
-                            break;
-                        } else {
-                            //DO NOTHING
-                        }
-                    }
-                }
-            }
+            "initComplete": colorAdd,
         });
+
+        // add color when reload
+        table.on('draw', colorAdd);
 
         // Reload the table data every 30 seconds (paging retained)
         setInterval(function() {

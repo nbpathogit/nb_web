@@ -126,7 +126,7 @@ class Patient
      *
      * @return array An associative array of all the article records
      */
-    public static function getAllJoin($conn, $id = 0)
+    public static function getAllJoin($conn, $id = 0, $start = '0')
     {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
@@ -137,12 +137,18 @@ class Patient
                 WHERE p.ppathologist_id = u.id
                 and p.phospital_id = h.id
                 and p.priority_id = pri.id
-                and p.status_id = s.id
-                ORDER BY  p.id DESC;";
+                and p.status_id = s.id";
+
 
         if ($id != 0) {
             $sql = $sql . " and p.id = " . $id;
         }
+
+        if ($start != '0') {
+            $sql .= " and date(p.date_1000) >= '{$start}'";
+        }
+
+        $sql .= " ORDER BY  p.id DESC;";
 
         $results = $conn->query($sql);
 
@@ -150,7 +156,7 @@ class Patient
     }
 
 
-    public static function getAllJoinWithReported($conn, $id = 0)
+    public static function getAllJoinWithReported($conn, $id = 0, $start = '0')
     {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
@@ -162,12 +168,17 @@ class Patient
                 and p.phospital_id = h.id
                 and p.priority_id = pri.id
                 and p.status_id = s.id
-                and p.reported_as != ''
-                ORDER BY  p.id DESC";
+                and p.reported_as != ''";
 
         if ($id != 0) {
             $sql = $sql . " and p.id = " . $id;
         }
+
+        if ($start != '0') {
+            $sql .= " and date(p.date_1000) >= '{$start}'";
+        }
+
+        $sql .= " ORDER BY  p.id DESC;";
 
         $results = $conn->query($sql);
 
@@ -175,7 +186,7 @@ class Patient
     }
 
 
-    public static function getAllJoinID8000($conn, $id = 0)
+    public static function getAllJoinID8000($conn, $id = 0, $start = '0')
     {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
@@ -187,12 +198,17 @@ class Patient
                 and p.phospital_id = h.id
                 and p.priority_id = pri.id
                 and p.status_id = s.id
-                and p.status_id = 8000
-                ORDER BY  p.id DESC;";
+                and p.status_id = 8000";
 
         if ($id != 0) {
             $sql = $sql . " and p.id = " . $id;
         }
+
+        if ($start != '0') {
+            $sql .= " and date(p.date_1000) >= '{$start}'";
+        }
+
+        $sql .= " ORDER BY  p.id DESC;";
 
         $results = $conn->query($sql);
 
