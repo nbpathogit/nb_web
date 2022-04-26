@@ -1,6 +1,7 @@
 <?php
 $isBorder = false;
 
+
 $userAuthEdit = (
         $isCurUserAdmin 
     || $isCurUserPatho 
@@ -43,7 +44,7 @@ $curStatusAuthEdit = (
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="plabnum"  align="right" class="">LAB Number</label>
-        <input name="plabnum" type="text" class="form-control border" id="plabnum" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['plabnum']; ?>">
+        <input name="plabnum" type="text" class="form-control border" id="plabnum" <?= $isEditModePageOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['plabnum']; ?>">
     </div>
 
 
@@ -51,7 +52,7 @@ $curStatusAuthEdit = (
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pgender" class="">เพศ</label>
         <div class="col">
-            <select name="pgender" class="form-select" id="pgender" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>>
+            <select name="pgender" class="form-select" id="pgender" <?= $isEditModePageOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>>
                 <option value="กรุณาเลือก">กรุณาเลือก</option>
                 <option value="ชาย" <?= ($patient[0]['pgender'] === "ชาย") ? "selected" : ""; ?> >ชาย</option>
                 <option value="หญิง" <?= ($patient[0]['pgender'] === "หญิง") ? "selected" : ""; ?> >หญิง</option>
@@ -67,7 +68,7 @@ $curStatusAuthEdit = (
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="plastname" class="">นามสกุล</label>
         <div class="col">
-            <input name="plastname" type="text" class="form-control" id="plastname" placeholder="" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['plastname']; ?>">
+            <input name="plastname" type="text" class="form-control" id="plastname" placeholder="" <?= $isEditModePageOn  && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['plastname']; ?>">
         </div>
     </div>
 
@@ -76,17 +77,17 @@ $curStatusAuthEdit = (
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pedge" class="">อายุ(ปี)</label>
         <div class="col">
-            <input name="pedge" type="text" class="form-control" class="" id="pedge"  placeholder="" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['pedge']; ?>">
+            <input name="pedge" type="text" class="form-control" class="" id="pedge"  placeholder="" <?= $isEditModePageOn  && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['pedge']; ?>">
         </div>
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">เลขที่โรงพยาบาล</label>
-        <input name="phospital_num" type="text" class="form-control" id=""  placeholder="" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['phospital_num']; ?>" >
+        <input name="phospital_num" type="text" class="form-control" id=""  placeholder="" <?= $isEditModePageOn  && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['phospital_num']; ?>" >
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="phospital_id" class="">โรงพยาบาล</label>
-        <select name="phospital_id" class="form-select" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
+        <select name="phospital_id" class="form-select" <?= $isEditModePageOn && !$isAddPage &&  ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($hospitals as $hospital): ?>
                 <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
@@ -100,7 +101,7 @@ $curStatusAuthEdit = (
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pclinician_id" class="">แพทย์ผู้ส่ง</label>
 
-        <select name="pclinician_id" class="form-select" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
+        <select name="pclinician_id" class="form-select" <?= $isEditModePageOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
             <!--<option value="กรุณาเลือก" selected>กรุณาเลือก</option>-->
             <?php foreach ($clinicians as $user): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
@@ -112,7 +113,7 @@ $curStatusAuthEdit = (
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pspecimen_id" class="" >สิ่งส่งตรวจ</label>
-        <select name="pspecimen_id" id="pspecimen_id" class="form-select" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
+        <select name="pspecimen_id" id="pspecimen_id" class="form-select" <?= $isEditModePageOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
 <!--            <option value="กรุณาเลือก">กรุณาเลือก</option>-->
             <?php foreach ($specimens as $specimen): ?>
                 <?php //Target Format : <option value="1001">ชิ้นเนื้อขนาดเล็กกว่าหรือเท่ากับ 2 ซ.ม. (38001)</option>    ?>
@@ -122,7 +123,7 @@ $curStatusAuthEdit = (
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">ความสำคัญ</label>
-        <select name="priority_id" class="form-select" <?= $isEditModePageOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
+        <select name="priority_id" class="form-select" <?= $isEditModePageOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
             <?php foreach ($prioritys as $priority): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
                 <option value="<?= htmlspecialchars($priority['id']); ?>"  <?= $patient[0]['priority_id'] == $priority['id'] ? "selected" : ""; ?> ><?= htmlspecialchars($priority['priority']); ?></option>

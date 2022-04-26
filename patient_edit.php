@@ -7,7 +7,7 @@ $conn = require 'includes/db.php';
 
 Auth::requireLogin();
 
-
+$isAddPage = false; // if add page then diable edit almost of all.
 
 
 

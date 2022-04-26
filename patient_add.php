@@ -10,6 +10,7 @@ if (!Auth::isLoggedIn()) {
 }
 
 
+$isAddPage = true;
 
 $patientini = Patient::getInit();
 //var_dump($patientini);
