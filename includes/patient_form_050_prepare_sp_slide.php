@@ -39,7 +39,7 @@ $curStatusAuthEdit = (
             <?php foreach ($userTechnic as $user): ?>
                 <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
                 <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['p_slide_prep_sp_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
-                    <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
+                    <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0 && $isCurUserAdmin):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
                 </option>
             <?php endforeach; ?>
         </select> 
