@@ -649,7 +649,7 @@ $("#formAddPatient , #formEditPatient").validate({
         },
         //สิ่งส่งตรวจ
         pspecimen_id: {
-            selectd: true
+            selectd: false
         },
         //ความสำคัญ
         priority_id: {
