@@ -186,7 +186,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <form id="edituser" method="post" enctype="multipart/form-data">
                 <?php require 'includes/user_form.php'; ?>
-                <div><button id="save" class="btn btn-primary">Edit</button></div>
+                <div><button id="save" class="btn btn-primary">Save</button></div>
             </form>
 
         </div>
