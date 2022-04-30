@@ -3,7 +3,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 require 'includes/init.php';
 Auth::requireLogin();
 ?>
-
 <?php
 $conn = require 'includes/db.php';
 
@@ -24,7 +23,6 @@ if (!$patient) {
     die();
 }
 ?>
-
 <?php require 'user_auth.php'; ?>
 <?php //require 'includes/header.php';?>
 <?php if (!Auth::isLoggedIn()) : ?>
@@ -36,8 +34,7 @@ if (!$patient) {
     You have no authorize to view other hospital group. 
     <?php require 'blockclose.php'; ?>
 <?php else : ?>
-
-    <?php
+<?php
 //var_dump($patient);
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);s
 //$patientLists = Patient::getAll($conn);
