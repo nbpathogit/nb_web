@@ -5,19 +5,16 @@ Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 require 'user_auth.php';
-?>
-<?php require 'user_auth.php'; ?>
 
-<?php
 if (isset($_GET['id'])) {
 
     $hospital = Hospital::getByID($conn, $_GET['id']);
 
     if (!$hospital) {
-        die("hospital not found for id ::"+ $_GET['id']);
+        die("hospital not found for id ::". $_GET['id']);
     }
 } else {
-    die("id not supplied, hospital not found, for id ::"+ $_GET['id']);
+    die("id not supplied, hospital not found, for id ::". $_GET['id']);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

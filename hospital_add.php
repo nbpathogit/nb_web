@@ -5,10 +5,7 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-?>
-<?php require 'user_auth.php'; ?>
-
-<?php
+ require 'user_auth.php'; 
 
 $hospital = new Hospital();
 
