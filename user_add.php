@@ -10,9 +10,7 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 require 'user_auth.php';
-?>
 
-<?php
     $ugroups = Ugroup::getAll($conn);
 
     $hospitals = Hospital::getAll($conn);
