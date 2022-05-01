@@ -7,7 +7,7 @@ Auth::requireLogin();
 $conn = require 'includes/db.php';
 
 // true = Disable Edit page, false canEditPage
-$isEditModePageOn = false;
+$isEditModePageForInitialDataOn = false;
 
 //Get Specific Patient Row from Table
 if (isset($_GET['id'])) {

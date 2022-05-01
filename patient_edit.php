@@ -12,8 +12,8 @@ $isAddPage = false; // if add page then diable edit almost of all.
 
 
 // true = Disable Edit page, false canEditPage
-$isEditModePageOn = false;  //For initial data page
-$canEditModePage2 = false; //For Result added page
+$isEditModePageForInitialDataOn = false;  //For initial data page, flase = view mode, true = editing mode
+$isEditModePageForResultDataOn = false; //For Result added page
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -136,17 +136,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['edit_result'])) {
         // true = Disable Edit page, false canEditPage
-        $isEditModePageOn = true;
+        $isEditModePageForInitialDataOn = true;
     }
 
     if (isset($_POST['edit'])) {
         // true = Disable Edit page, false canEditPage
-        $isEditModePageOn = true;
+        $isEditModePageForInitialDataOn = true;
     }
     //Move to View only mode
     if (isset($_POST['discard'])) {
         // true = Disable Edit page, false canEditPage
-        $isEditModePageOn = false;
+        $isEditModePageForInitialDataOn = false;
     }
 
 
@@ -155,11 +155,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Move to View only mode
     if (isset($_POST['discard_u_result'])) {
         // true = Disable Edit page, false canEditPage
-        $canEditModePage2 = false;
+        $isEditModePageForResultDataOn = false;
     }
     if (isset($_POST['edit_u_result'])) {
         // true = Disable Edit page, false canEditPage
-        $canEditModePage2 = true;
+        $isEditModePageForResultDataOn = true;
     }
 }
 
@@ -310,7 +310,7 @@ require 'user_auth.php';
 
             <form id="formEditPatient" name="" method="post">
 
-                <?php if ($isEditModePageOn) : ?>
+                <?php if ($isEditModePageForInitialDataOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                         <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                 <?php else : ?>
@@ -320,7 +320,7 @@ require 'user_auth.php';
                             || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000  ) && ($isCurrentPathoIsOwnerThisCase))
                             );
                     ?>
-                    <?php if (!$canEditModePage2) : ?>
+                    <?php if (!$isEditModePageForResultDataOn) : ?>
                         <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>  
                                                   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                         </p>
@@ -331,11 +331,11 @@ require 'user_auth.php';
 
                 <br>
 
-                <?php if ($isEditModePageOn) : ?>
+                <?php if ($isEditModePageForInitialDataOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                         <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                 <?php else : ?>
-                    <?php if (!$canEditModePage2) : ?>
+                    <?php if (!$isEditModePageForResultDataOn) : ?>
                         <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=($isEnableEditButton ) ? "" : "disabled"; ?>   
                                                   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                         </p>  
@@ -359,7 +359,7 @@ require 'user_auth.php';
     </div>
 </div>
 
-<?php if (!($isEditModePageOn || $canEditModePage2)) : ?>
+<?php if (!($isEditModePageForInitialDataOn || $isEditModePageForResultDataOn)) : ?>
     <p align="center"><a  class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">View PDF</a>    </p>               
 <?php endif; ?>
 
