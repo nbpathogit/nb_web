@@ -8,12 +8,10 @@ $conn = require 'includes/db.php';
 Auth::requireLogin();
 
 $isAddPage = false; // if add page then diable edit almost of all.
-
-
-
 // true = Disable Edit page, false canEditPage
 $isEditModePageForInitialDataOn = false;  //For initial data page, flase = view mode, true = editing mode
-$isEditModePageForResultDataOn = false; //For Result added page
+$isEditModePageForIniResultDataOn = false; //For Result added page flase = view mode, true = editing mode
+$isEditModePageForFinResultDataOn = false; //For Result added page flase = view mode, true = editing mode
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -104,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['ppathologist_id']) ? $patient->ppathologist_id = $_POST['ppathologist_id'] : null;
         isset($_POST['pspecimen_id']) ? $patient->pspecimen_id = $_POST['pspecimen_id'] : null;
         isset($_POST['pclinician_id']) ? $patient->pclinician_id = $_POST['pclinician_id'] : null;
-        
+
         isset($_POST['p_cross_section_id']) ? $patient->p_cross_section_id = $_POST['p_cross_section_id'] : null;
         isset($_POST['p_cross_section_ass_id']) ? $patient->p_cross_section_ass_id = $_POST['p_cross_section_ass_id'] : null;
         isset($_POST['p_slide_prep_id']) ? $patient->p_slide_prep_id = $_POST['p_slide_prep_id'] : null;
@@ -155,11 +153,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Move to View only mode
     if (isset($_POST['discard_u_result'])) {
         // true = Disable Edit page, false canEditPage
-        $isEditModePageForResultDataOn = false;
+        $isEditModePageForFinResultDataOn = false;
     }
     if (isset($_POST['edit_u_result'])) {
         // true = Disable Edit page, false canEditPage
-        $isEditModePageForResultDataOn = true;
+        $isEditModePageForFinResultDataOn = true;
     }
 }
 
@@ -297,7 +295,7 @@ require 'user_auth.php';
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
             <hr noshade="noshade" width="" size="8">
-            <?php require 'includes/patient_status.php'; ?>
+    <?php require 'includes/patient_status.php'; ?>
         </div>
     </div>
     <div class="container-fluid pt-4 px-4">
@@ -310,33 +308,31 @@ require 'user_auth.php';
 
             <form id="formEditPatient" name="" method="post">
 
-                <?php if ($isEditModePageForInitialDataOn) : ?>
+    <?php if ($isEditModePageForInitialDataOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                         <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                 <?php else : ?>
-                    <?php
-                    $isEnableEditButton = ($isCurUserAdmin 
-                            || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase) ) 
-                            || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000  ) && ($isCurrentPathoIsOwnerThisCase))
-                            );
-                    ?>
-                    <?php if (!$isEditModePageForResultDataOn) : ?>
+        <?php
+        $isEnableEditButton = ($isCurUserAdmin || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase) ) || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000 ) && ($isCurrentPathoIsOwnerThisCase))
+                );
+        ?>
+                    <?php if (!$isEditModePageForFinResultDataOn) : ?>
                         <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>  
                                                   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                         </p>
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php require 'includes/patient_form.php'; ?>
+    <?php require 'includes/patient_form.php'; ?>
 
                 <br>
 
                 <?php if ($isEditModePageForInitialDataOn) : ?>
                     <p align="center"><button name="save" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save All&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                         <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
-                <?php else : ?>
-                    <?php if (!$isEditModePageForResultDataOn) : ?>
-                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?=($isEnableEditButton ) ? "" : "disabled"; ?>   
+    <?php else : ?>
+                    <?php if (!$isEditModePageForFinResultDataOn) : ?>
+                        <p align="center"><button name="edit" type="submit" class="btn btn-primary"  <?= ($isEnableEditButton ) ? "" : "disabled"; ?>   
                                                   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                         </p>  
                     <?php endif; ?>
@@ -349,17 +345,17 @@ require 'user_auth.php';
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-            <?php if ($isUpdateResultAval) : ?>
+    <?php if ($isUpdateResultAval) : ?>
                 <hr noshade="noshade" width="" size="6">
-                <?php require 'includes/patient_form_080_result.php'; ?>
-            <?php endif; ?>
+        <?php require 'includes/patient_form_080_result.php'; ?>
+    <?php endif; ?>
 
         <?php endif; ?>
 
     </div>
 </div>
 
-<?php if (!($isEditModePageForInitialDataOn || $isEditModePageForResultDataOn)) : ?>
+        <?php if (!($isEditModePageForInitialDataOn || $isEditModePageForFinResultDataOn)) : ?>
     <p align="center"><a  class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">View PDF</a>    </p>               
 <?php endif; ?>
 

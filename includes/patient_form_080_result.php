@@ -16,14 +16,14 @@ $isSetShowaddResultButton = true;
             <input name="id" class="" type="text" class="" id="" style="display: none;"  value="<?= $presultupdate['id']; ?>">
             <div align=""  class="mb-3">
                 <label for="result_message"><?= $presultupdate['result_type'] ?></label><br>
-                <textarea name="result_message" cols="100" rows="5" class="form-control" id="rs_diagnosis" <?= $isEditModePageForResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
+                <textarea name="result_message" cols="100" rows="5" class="form-control" id="rs_diagnosis" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
             </div>
 
             <div class="row <?= $isBorder ? "border" : "" ?>">
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="pathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
-                    <select name="pathologist_id" class="form-select" <?= $isEditModePageForResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
+                    <select name="pathologist_id" class="form-select" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?> > 
@@ -35,7 +35,7 @@ $isSetShowaddResultButton = true;
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="pathologist2_id" class="col-form-label">พยาธิแพทย์คอนเฟิร์มผล</label>
-                    <select name="pathologist2_id" class="form-select" <?= $isEditModePageForResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
+                    <select name="pathologist2_id" class="form-select" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) ? "" : " disabled readonly " ?> >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist2_id'] == $user['uid'] ? "selected" : ""; ?> >           
@@ -47,7 +47,7 @@ $isSetShowaddResultButton = true;
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="date_14000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
-                    <input name="date_14000"  type="text" class="form-control border" id="date_14000"  placeholder="This Field will Auto Generate"  <?= $isEditModePageForResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
+                    <input name="date_14000"  type="text" class="form-control border" id="date_14000"  placeholder="This Field will Auto Generate"  <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
                     <?php
                     if ($presultupdate['release_time'] == NULL) {
                         $isSetShowaddResultButton = false;
@@ -63,7 +63,7 @@ $isSetShowaddResultButton = true;
                     <?php if ($presultupdate['release_time'] == NULL): //If released not show any edit assigned  botton ?>
                         <?php
                         // To show Save and Discard Btn
-                        if ($isEditModePageForResultDataOn):
+                        if ($isEditModePageForFinResultDataOn):
                             ?>
                             <br><p align="center"><button name="save_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;SAVE&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;                   
                                 <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
