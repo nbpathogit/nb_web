@@ -145,7 +145,7 @@ class Patient
         }
 
         if ($start != '0') {
-            $sql .= " and (date(p.date_1000) >= '{$start}' OR p.date_1000 is NULL)";
+            $sql .= " and date(p.date_1000) >= '{$start}'";
         }
 
         $sql .= " ORDER BY  p.id DESC;";
@@ -205,7 +205,7 @@ class Patient
         }
 
         if ($start != '0') {
-            $sql .= " and (date(p.date_1000) >= '{$start}' OR p.date_1000 is NULL)";
+            $sql .= " and date(p.date_1000) >= '{$start}'";
         }
 
         $sql .= " ORDER BY  p.id DESC;";

@@ -126,7 +126,7 @@ require 'user_auth.php';
                 ]
             }, ],
             "order": [
-                [0, "desc"]
+                [6, "desc"]
             ],
             searchPanes: {
                 initCollapsed: true,
