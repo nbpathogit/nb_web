@@ -9,9 +9,11 @@ Auth::requireLogin();
 
 $isAddPage = false; // if add page then diable edit almost of all.
 // true = Disable Edit page, false canEditPage
-$isEditModePageForInitialDataOn = false;  //For initial data page, flase = view mode, true = editing mode
-$isEditModePageForIniResultDataOn = false; //For Result added page flase = view mode, true = editing mode
-$isEditModePageForFinResultDataOn = false; //For Result added page flase = view mode, true = editing mode
+$isEditModePageForInitialDataOn = false;      //flase = view mode, true = editing mode
+$isEditModePageForPatientInfoDataOn = false;  //flase = view mode, true = editing mode
+$isEditModePageForPlaningDataOn = false;      //flase = view mode, true = editing mode
+$isEditModePageForIniResultDataOn = false;    //flase = view mode, true = editing mode
+$isEditModePageForFinResultDataOn = false;    //flase = view mode, true = editing mode
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
