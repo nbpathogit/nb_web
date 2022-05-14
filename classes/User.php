@@ -78,7 +78,7 @@ class User
 
         $results = $conn->query($sql);
 
-        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+        return  $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function getAllbyPathologis($conn, $id = 0)
@@ -205,15 +205,21 @@ class User
     {
         // INSERT INTO user (id, name, lastname, username, password, ugroup_id, uhospital_id) VALUES (NULL, 'อนุชิกก', 'ยุงทอม', 'aaaa', 'aaaa', '4', '2');
 
-        $sql = "INSERT INTO user ( name, lastname, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id)
-            VALUES ( :name, :lastname, :udetail, :umobile, :uemail, :username, :password, :ugroupid, :uhospitalid)";
+        $sql = "INSERT INTO user ( pre_name, name, lastname, pre_name_e, name_e, lastname_e, educational_bf, role, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id)
+            VALUES (:pre_name, :name, :lastname, :pre_name_e, :name_e, :lastname_e, :educational_bf, :role, :udetail, :umobile, :uemail, :username, :password, :ugroupid, :uhospitalid)";
 
         $stmt = $conn->prepare($sql);
 
         //var_dump($this->name);
 
+        $stmt->bindValue(':pre_name', $this->pre_name, PDO::PARAM_STR);
         $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
         $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':pre_name_e', $this->pre_name_e, PDO::PARAM_STR);
+        $stmt->bindValue(':name_e', $this->name_e, PDO::PARAM_STR);
+        $stmt->bindValue(':lastname_e', $this->lastname_e, PDO::PARAM_STR);
+        $stmt->bindValue(':educational_bf', $this->educational_bf, PDO::PARAM_STR);
+        $stmt->bindValue(':role', $this->role, PDO::PARAM_STR);
         $stmt->bindValue(':udetail', $this->udetail, PDO::PARAM_STR);
         $stmt->bindValue(':umobile', $this->umobile, PDO::PARAM_STR);
         $stmt->bindValue(':uemail', $this->uemail, PDO::PARAM_STR);
@@ -264,13 +270,19 @@ class User
     {
         // need update
         $sql = "UPDATE user
-                SET name= :name,lastname= :lastname,udetail= :udetail,umobile= :umobile,uemail= :uemail, username=:username, password=:password, ugroup_id=:ugroupid, uhospital_id=:uhospitalid
+                SET pre_name=:pre_name, name= :name,lastname= :lastname, pre_name_e=:pre_name_e, name_e= :name_e,lastname_e= :lastname_e, educational_bf=:educational_bf,role=:role, udetail= :udetail,umobile= :umobile,uemail= :uemail, username=:username, password=:password, ugroup_id=:ugroupid, uhospital_id=:uhospitalid
                 WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
+        $stmt->bindValue(':pre_name', $this->pre_name, PDO::PARAM_STR);
         $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
         $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':pre_name_e', $this->pre_name_e, PDO::PARAM_STR);
+        $stmt->bindValue(':name_e', $this->name_e, PDO::PARAM_STR);
+        $stmt->bindValue(':lastname_e', $this->lastname_e, PDO::PARAM_STR);
+        $stmt->bindValue(':educational_bf', $this->educational_bf, PDO::PARAM_STR);
+        $stmt->bindValue(':role', $this->role, PDO::PARAM_STR);
         $stmt->bindValue(':udetail', $this->udetail, PDO::PARAM_STR);
         $stmt->bindValue(':umobile', $this->umobile, PDO::PARAM_STR);
         $stmt->bindValue(':uemail', $this->uemail, PDO::PARAM_STR);
@@ -295,15 +307,16 @@ class User
         return $stmt->execute();
     }
 
-    public function setSignatureFile($conn){
+    public function setSignatureFile($conn)
+    {
         $sql = "UPDATE user
                 SET signature_file = :signature_file
                 WHERE id = :id";
-        
+
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $stmt->bindValue(':signature_file', $this->signature_file,$this->signature_file == null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+        $stmt->bindValue(':signature_file', $this->signature_file, $this->signature_file == null ? PDO::PARAM_NULL : PDO::PARAM_STR);
 
         return $stmt->execute();
     }

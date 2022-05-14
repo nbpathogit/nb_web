@@ -33,8 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $is_signature_file = false;  // have signature file
 
     $user_edit->id = $_GET['id'];
+    $user_edit->pre_name = $_POST['pre_name'];
     $user_edit->name = $_POST['name'];
     $user_edit->lastname = $_POST['lastname'];
+    $user_edit->pre_name_e = $_POST['pre_name_e'];
+    $user_edit->name_e = $_POST['name_e'];
+    $user_edit->lastname_e = $_POST['lastname_e'];
+    $user_edit->educational_bf = $_POST['educational_bf'];
+    $user_edit->role = $_POST['role'];
     $user_edit->umobile = $_POST['umobile'];
     $user_edit->uemail = $_POST['uemail'];
     $user_edit->username = $_POST['username'];

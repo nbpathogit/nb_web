@@ -85,7 +85,7 @@ require 'user_auth.php';
             dom: 'PlfBrtip',
             buttons: [{
                 extend: 'collection',
-                text: 'Range',
+                text: 'Date range',
                 autoClose: true,
                 buttons: [{
                         text: '1 เดือนล่าสุด',

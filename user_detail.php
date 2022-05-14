@@ -48,7 +48,6 @@ if (isset($_GET['id'])) {
 
             <div>
                 <p>
-
                     <?php
                     if (isset($_GET['result'])) {
                         if ($_GET['result'] == 1) : ?>
@@ -80,10 +79,10 @@ if (isset($_GET['id'])) {
         <p>
             </div> <br>
 
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th scope="col">Key</th>
+                        <th scope="col" style="width:20%">Key</th>
                         <th scope="col">Detail</th>
                     </tr>
                 </thead>
@@ -95,21 +94,27 @@ if (isset($_GET['id'])) {
                         </td>
                     </tr>
                     <tr>
-                        <td>name</td>
+                        <td>ชื่อนามสกุล</td>
                         <td>
-                            <?= $user[0]['name']; ?>
+                            <?= $user[0]['pre_name'] . " " . $user[0]['name'] .  " " . $user[0]['lastname']; ?>
                         </td>
                     </tr>
                     <tr>
-                        <td>lastname</td>
+                        <td>Fullname</td>
                         <td>
-                            <?= $user[0]['lastname']; ?>
+                        <?= $user[0]['pre_name_e'] . " " . $user[0]['name_e'] .  " " . $user[0]['lastname_e']; ?>
                         </td>
                     </tr>
                     <tr>
-                        <td>รายละเอียดเพิ่มเติม</td>
+                        <td>วุฒิการศึกษา</td>
                         <td>
-                            <?= $user[0]['udetail']; ?>
+                            <?= $user[0]['educational_bf']; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ตำแหน่ง</td>
+                        <td>
+                            <?= $user[0]['role']; ?>
                         </td>
                     </tr>
                     <tr>
@@ -125,45 +130,38 @@ if (isset($_GET['id'])) {
                         </td>
                     </tr>
                     <tr>
+                        <td>รายละเอียดเพิ่มเติม</td>
+                        <td>
+                            <?= $user[0]['udetail']; ?>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>username</td>
                         <td>
                             <?= $user[0]['username']; ?>
                         </td>
                     </tr>
                     <tr>
-                        <td>password</td>
-                        <td>
-                            <?= "****" //password$user[0]['password']; 
-                            ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>user</td>
-                        <td>
-                            <?= $user[0]['user']; ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ugroup</td>
+                        <td>กลุ่มผู้ใช้งาน</td>
                         <td>
                             <?= $user[0]['ugroup']; ?>
                         </td>
                     </tr>
                     <tr>
-                        <td>detail</td>
+                        <td>รายละเอียด</td>
                         <td>
                             <?= $user[0]['udetail']; ?>
                         </td>
                     </tr>
                     <tr>
-                        <td>Signature</td>
+                        <td>ลายเซ็น</td>
                         <td>
                             <?php if ($user[0]['signature_file'] == "" || is_null($user[0]['signature_file'])) : ?>
                                 no file
                             <?php else : ?>
-                                <img src="<?= $user[0]['signature_file'] ?>"  class="img-thumbnail" style="max-height: 150px;">
+                                <img src="<?= $user[0]['signature_file'] ?>" class="img-thumbnail" style="max-height: 150px;">
                             <?php endif; ?>
-                            
+
                         </td>
                     </tr>
                 </tbody>
