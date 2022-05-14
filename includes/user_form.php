@@ -1,7 +1,12 @@
 <div class="row pt-3 mb-3 g-5 align-items-center">
     <div class="col-3 col-md-2">
         <label for="pre_name" class="form-label">คำนำหน้าชื่อ</label><span> *</span>
-        <input name="pre_name" type="text" class="form-control" id="pre_name" required value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
+        <input name="pre_name" type="text" list="pre_name_list"  class="form-control" id="pre_name" required value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
+        <datalist id="pre_name_list">
+            <option>นาย</option>
+            <option>นาง</option>
+            <option>นางสาว</option>
+        </datalist>
     </div>
     <div class="col-5 col-md-4">
         <label for="name" class="form-label">ชื่อ</label><span> *</span>
@@ -16,7 +21,13 @@
 <div class="row mb-3 g-5 align-items-center">
     <div class="col-3 col-md-2">
         <label for="pre_name_e" class="form-label">Name Title</label>
-        <input name="pre_name_e" type="text" class="form-control" id="pre_name_e" value="<?= (isset($user[0]['pre_name_e']) ? $user[0]['pre_name_e'] : ''); ?>">
+        <input name="pre_name_e" type="text" list="pre_name_e_list" class="form-control" id="pre_name_e" value="<?= (isset($user[0]['pre_name_e']) ? $user[0]['pre_name_e'] : ''); ?>">
+        <datalist id="pre_name_e_list">
+            <option>Mr.</option>
+            <option>Mrs.</option>
+            <option>Miss.</option>
+            <option>Ms.</option>
+        </datalist>
     </div>
     <div class="col-5 col-md-4">
         <label for="name_e" class="form-label">Name</label>
@@ -31,11 +42,17 @@
 <div class="row mb-3 g-5 align-items-center">
     <div class="col-3 col-md-2">
         <label for="educational_bf" class="form-label">วุฒิการศึกษา</label>
-        <input name="educational_bf" type="text" class="form-control" id="educational_bf" value="<?= (isset($user[0]['educational_bf']) ? $user[0]['educational_bf'] : ''); ?>" placeholder="MD.">
+        <input name="educational_bf"  list="educational_bf_list"  type="text" class="form-control" id="educational_bf" value="<?= (isset($user[0]['educational_bf']) ? $user[0]['educational_bf'] : ''); ?>" placeholder="MD.">
+        <datalist id="educational_bf_list">
+            <option>MD.</option>
+        </datalist>
     </div>
     <div class="col-3 col-md-2">
         <label for="role" class="form-label">ตำแหน่ง</label>
-        <input name="role" type="text" class="form-control" id="role" value="<?= (isset($user[0]['role']) ? $user[0]['role'] : ''); ?>" placeholder="Pathologist">
+        <input name="role" list="role_list" type="text" class="form-control" id="role" value="<?= (isset($user[0]['role']) ? $user[0]['role'] : ''); ?>" placeholder="Pathologist">
+        <datalist id="role_list">
+            <option>Pathologist</option>
+        </datalist>
     </div>
     <div class="col-4 col-md-3">
         <label for="umobile" class="form-label">เบอร์โทรศัพท์</label><span> *</span>
