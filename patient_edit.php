@@ -133,25 +133,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     //Move to edit mode
-
     if (isset($_POST['edit_result'])) {
         // true = Disable Edit page, false canEditPage
         $isEditModePageForInitialDataOn = true;
+        
     }
 
     if (isset($_POST['edit'])) {
         // true = Disable Edit page, false canEditPage
         $isEditModePageForInitialDataOn = true;
     }
+    
+    
+    
     //Move to View only mode
     if (isset($_POST['discard'])) {
         // true = Disable Edit page, false canEditPage
-        $isEditModePageForInitialDataOn = false;
+        $isEditModePageForInitialDataOn = false;      //flase = view mode, true = editing mode
+        $isEditModePageForPatientInfoDataOn = false;  //flase = view mode, true = editing mode
+        $isEditModePageForPlaningDataOn = false;      //flase = view mode, true = editing mode
+        $isEditModePageForIniResultDataOn = false;    //flase = view mode, true = editing mode
+        $isEditModePageForFinResultDataOn = false;    //flase = view mode, true = editing mode
     }
-
-
-
-
+    
     //Move to View only mode
     if (isset($_POST['discard_u_result'])) {
         // true = Disable Edit page, false canEditPage
