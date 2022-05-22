@@ -71,6 +71,11 @@ and open the template in the editor.
     background: url("/png/box_held.png") no-repeat center center;
 }
 
+.prelim {
+    color: #fff;
+    background: url("/png/box_prelim.png") no-repeat center center;
+}
+
 .heldover {
     
     color: #fff;
