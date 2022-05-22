@@ -1,6 +1,6 @@
 <?php if ($canViewPatientInfo_a_group) : ?>
     <!-- <hr noshade="noshade" width="" size="5"> -->
-    <?php require 'includes/patient_form_010_detail.php'; ?>
+    
 <?php endif; ?>
 
 <!--</div>-->
@@ -11,17 +11,7 @@
     <!--<div class="container-fluid pt-4 px-4">-->
         <!--<div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">-->
 
-            <?php require 'includes/patient_form_020_specimen_type.php'; ?>
-            
-            <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>
 
-            <?php require 'includes/patient_form_040_prepare_slide.php'; ?>
-
-            <?php require 'includes/patient_form_050_prepare_sp_slide.php'; ?>
-
-            <?php require 'includes/patient_form_060_lab_cell.php'; ?>
-        
-            <?php require 'includes/patient_form_065_assigned_patho.php'; ?>
 
         <!--</div>-->
     <!--</div>-->
@@ -33,7 +23,7 @@
     <!--<div class="container-fluid pt-4 px-4">-->
         <!--<div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">-->
 
-            <?php require 'includes/patient_form_070_interim_result.php'; ?>
+            
 
             <!--</div>-->
     <!--</div>-->

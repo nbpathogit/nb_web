@@ -75,7 +75,7 @@ $isSetShowaddResultButton = true;
                                 if ($isCurUserAdmin ||
                                         ($curstatus[0]['id'] == 12000  //current status is 12000 will can edit
                                         && $isCurrentPathoIsOwnerThisCase // First patho is ownder this patient id (Cur_user == First patho)
-                                        && !$isEditModePageForInitialDataOn)
+                                        && !$isEditModePageOn)
                                 ):
                                     ?>
                                     <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>

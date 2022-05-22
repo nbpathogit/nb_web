@@ -516,6 +516,154 @@ class Patient
     }
 
 
+    public function updatePatientDetail($conn, $id)
+    {
+/*array(12) { 
+ * ["pnum"]=> string(8) "sc657766" 
+ * ["plabnum"]=> string(2) "cc" 
+ * ["pgender"]=> string(12) "หญิง" 
+ * ["pname"]=> string(18) "กกกกกก" 
+ * ["plastname"]=> string(18) "ขขขขขข" 
+ * ["pedge"]=> string(1) "9" 
+ * ["phospital_num"]=> string(2) "cc" 
+ * ["phospital_id"]=> string(1) "0" 
+ * ["pclinician_id"]=> string(2) "35" 
+ * ["pspecimen_id"]=> string(2) "74" 
+ * ["priority_id"]=> string(1) "5" 
+ * ["save_patient_detail"]=> string(0) "" }
+*/
+        $sql = "UPDATE `patient` 
+                 SET pnum=:pnum,
+                    plabnum=:plabnum,
+                    pname=:pname,
+                    pgender=:pgender,
+                    plastname=:plastname,
+                    pedge=:pedge,
+                    phospital_num=:phospital_num,
+                    phospital_id=:phospital_id,
+                    pclinician_id=:pclinician_id,
+                    pspecimen_id=:pspecimen_id,
+                    priority_id=:priority_id
+
+                    WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+
+        //var_dump( $this->name);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
+        $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
+        $stmt->bindValue(':pname', $this->pname, PDO::PARAM_STR);
+        $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
+        $stmt->bindValue(':plastname', $this->plastname, PDO::PARAM_STR);
+        $stmt->bindValue(':pedge', $this->pedge, PDO::PARAM_STR);
+        $stmt->bindValue(':phospital_num', $this->phospital_num, PDO::PARAM_STR);
+        $stmt->bindValue(':phospital_id', $this->phospital_id, PDO::PARAM_INT);
+        $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_INT);
+        $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_INT);
+        $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
+
+        //        var_dump($stmt);
+        //die();
+        if ($stmt->execute()) {
+            //            $this->id = $conn->lastInsertId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updatePatientPlan($conn, $id)
+    {
+
+/*array(9) { 
+ * ["p_speciment_type"]=> string(4) "lump" 
+ * ["p_cross_section_id"]=> string(2) "21" 
+ * ["p_cross_section_ass_id"]=> string(2) "22" 
+ * ["p_slide_prep_id"]=> string(2) "22" 
+ * ["pprice"]=> string(2) "88" 
+ * ["p_slide_lab_id"]=> string(1) "0" 
+ * ["p_slide_lab_price"]=> string(1) "0" 
+ * ["ppathologist_id"]=> string(2) "21" 
+ * ["save_patient_plan"]=> string(0) "" }
+*/
+
+
+        $sql = "UPDATE `patient` 
+                 SET p_speciment_type=:p_speciment_type,
+                    p_cross_section_id=:p_cross_section_id,
+                    p_cross_section_ass_id=:p_cross_section_ass_id,
+                    p_slide_prep_id=:p_slide_prep_id,
+                    pprice=:pprice,
+                    p_slide_lab_id=:p_slide_lab_id,
+                    p_slide_lab_price=:p_slide_lab_price
+                    ppathologist_id=:ppathologist_id
+        
+                    WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+
+        //var_dump( $this->name);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':p_speciment_type', $this->p_speciment_type, PDO::PARAM_STR);
+        $stmt->bindValue(':p_cross_section_id', $this->p_cross_section_id, PDO::PARAM_INT);
+        $stmt->bindValue(':p_cross_section_ass_id', $this->p_cross_section_ass_id, PDO::PARAM_INT);
+        $stmt->bindValue(':p_slide_prep_id', $this->p_slide_prep_id, PDO::PARAM_INT);
+        $stmt->bindValue(':pprice', $this->pprice, PDO::PARAM_STR);
+        $stmt->bindValue(':p_slide_lab_id', $this->p_slide_lab_id, PDO::PARAM_INT);
+        $stmt->bindValue(':p_slide_lab_price', $this->p_slide_lab_price, PDO::PARAM_INT);
+        $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_INT);
+        
+
+        //        var_dump($stmt);
+        //die();
+        if ($stmt->execute()) {
+            //            $this->id = $conn->lastInsertId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updateInterimResult($conn, $id)
+    {
+    /*array(5) { 
+     * ["p_rs_specimen"]=> string(3) "aaa" 
+     * ["p_rs_clinical_diag"]=> string(3) "bbb" 
+     * ["p_rs_gross_desc"]=> string(3) "ccc" 
+     * ["p_rs_microscopic_desc"]=> string(3) "ddd" 
+     * ["save_interim_result"]=> string(0) "" }
+*/
+        $sql = "UPDATE `patient` 
+                 SET     p_rs_specimen=:p_rs_specimen,
+                    p_rs_clinical_diag=:p_rs_clinical_diag,
+                    p_rs_gross_desc=:p_rs_gross_desc,
+                    p_rs_microscopic_desc=:p_rs_microscopic_desc
+                 
+                    WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+
+        //var_dump( $this->name);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':p_rs_specimen', $this->p_rs_specimen, PDO::PARAM_STR);
+        $stmt->bindValue(':p_rs_clinical_diag', $this->p_rs_clinical_diag, PDO::PARAM_STR);
+        $stmt->bindValue(':p_rs_gross_desc', $this->p_rs_gross_desc, PDO::PARAM_STR);
+        $stmt->bindValue(':p_rs_microscopic_desc', $this->p_rs_microscopic_desc, PDO::PARAM_STR);
+        
+        //        var_dump($stmt);
+        //die();
+        if ($stmt->execute()) {
+            //            $this->id = $conn->lastInsertId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public static function  updateReportTypeName($conn, $id, $resultname = "")
     {
 

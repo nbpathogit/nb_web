@@ -115,7 +115,7 @@ $labFluids = LabFluid::getAll($conn);
 //var_dump($status);
 
 // true = Disable Edit page, false canEditPage
-$isEditModePageForInitialDataOn = true;
+$isEditModePageOn = true;
 
 
 require 'user_auth.php';
