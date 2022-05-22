@@ -9,16 +9,23 @@ if (!Auth::isLoggedIn()) {
 } else {
 }
 
+$isAddPage = true; // if add page then diable edit almost of all.
+// true = Disable Edit page, false canEditPage
+$isEditModePageOn = true;      //flase = view mode, true = editing mode
+$isEditModePageForPatientInfoDataOn = true;  //flase = view mode, true = editing mode
+$isEditModePageForPlaningDataOn = false;      //flase = view mode, true = editing mode
+$isEditModePageForIniResultDataOn = false;    //flase = view mode, true = editing mode
+$isEditModePageForFinResultDataOn = false;    //flase = view mode, true = editing mode
 
-$isAddPage = true;
+
 
 $patientini = Patient::getInit();
 //var_dump($patientini);
 //die();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //    var_dump($_POST);
-    //    die();
+//        var_dump($_POST);
+//        die();
 
     $patientini = Patient::getInit();
 
@@ -160,7 +167,7 @@ require 'includes/status_cur.php';
         <hr>
 
         <form id="formAddPatient" class="" name="" method="post">
-            <?php require 'includes/patient_form.php'; ?>
+            <?php require 'includes/patient_form_010_detail.php'; ?>
 
             <p align="center">
                 <!--<button>ตกลง</button>-->
