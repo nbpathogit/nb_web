@@ -597,7 +597,7 @@ class Patient
                     p_slide_prep_id=:p_slide_prep_id,
                     pprice=:pprice,
                     p_slide_lab_id=:p_slide_lab_id,
-                    p_slide_lab_price=:p_slide_lab_price
+                    p_slide_lab_price=:p_slide_lab_price,
                     ppathologist_id=:ppathologist_id
         
                     WHERE id = :id";
