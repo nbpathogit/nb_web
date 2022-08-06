@@ -583,6 +583,11 @@ class Patient
  * ["p_cross_section_ass_id"]=> string(2) "22" 
  * ["p_slide_prep_id"]=> string(2) "22" 
  * ["pprice"]=> string(2) "88" 
+ 
+ * ["sp_slide_owner"]=>   string(0) ""
+ * ["p_slide_prep_sp_id"]=>   string(3) "773"
+ * ["pspprice"]=>   string(1) "0"
+ 
  * ["p_slide_lab_id"]=> string(1) "0" 
  * ["p_slide_lab_price"]=> string(1) "0" 
  * ["ppathologist_id"]=> string(2) "21" 
@@ -596,6 +601,10 @@ class Patient
                     p_cross_section_ass_id=:p_cross_section_ass_id,
                     p_slide_prep_id=:p_slide_prep_id,
                     pprice=:pprice,
+                    
+                    p_slide_prep_sp_id=:p_slide_prep_sp_id,
+                    pspprice=:pspprice,
+                    
                     p_slide_lab_id=:p_slide_lab_id,
                     p_slide_lab_price=:p_slide_lab_price,
                     ppathologist_id=:ppathologist_id
@@ -612,6 +621,10 @@ class Patient
         $stmt->bindValue(':p_cross_section_ass_id', $this->p_cross_section_ass_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_prep_id', $this->p_slide_prep_id, PDO::PARAM_INT);
         $stmt->bindValue(':pprice', $this->pprice, PDO::PARAM_STR);
+        
+        $stmt->bindValue(':p_slide_prep_sp_id', $this->p_slide_prep_sp_id, PDO::PARAM_INT);
+        $stmt->bindValue(':pspprice', $this->pspprice, PDO::PARAM_STR);
+        
         $stmt->bindValue(':p_slide_lab_id', $this->p_slide_lab_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_lab_price', $this->p_slide_lab_price, PDO::PARAM_INT);
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_INT);
