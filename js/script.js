@@ -396,6 +396,11 @@ function addAction2Flow() {
             return;
         }
         
+        if (cur_status == '13000' && isset_second_patho != '0') {
+            alert("Only Second patho can do this!");
+            return;
+        }
+        
         if (confirm("คุณกำลังจะออกผล! \nหากออกผลแล้วจะไม่สามารถแก้ไขได้ \nคุณสามารถดูตัวอย่างรายงานในรูปแบบ pdf ได้")) {
             //txt = "You pressed OK!";
         } else {
