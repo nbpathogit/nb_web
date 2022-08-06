@@ -375,6 +375,7 @@ function addAction2Flow() {
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
+        var isCurrentPathoIsSecondOwneThisCaseLastest = $(".isCurrentPathoIsSecondOwneThisCaseLastest").attr('tabindex');
 
         var uresultTypeNameLastest = '';
         $('.uresultTypeName li').each(function (index) {
@@ -396,8 +397,8 @@ function addAction2Flow() {
             return;
         }
         
-        if (cur_status == '13000' && isset_second_patho != '0') {
-            alert("Only Second patho can do this!");
+        if (cur_status == '13000' && isCurrentPathoIsSecondOwneThisCaseLastest == '0') {
+            alert("Only Second patho of this case can do this!");
             return;
         }
         
