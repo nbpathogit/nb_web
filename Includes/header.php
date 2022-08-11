@@ -76,7 +76,7 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา</a>
-                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ข้อมูลผู้รักษา_8000</a>
+                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>งานเตรียมสไลด์พิเศษ</a>
                     <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a>
                     <a id="user" class="nav-item nav-link" href="user.php"><i class="fa-solid fa-user-doctor"></i>ผู้ใช้งานระบบ</a>
                     <a class="nav-item nav-link" id="hospital" href="hospital.php"><i class="fa-solid fa-hospital-user"></i>ข้อมูลโรงพยาบาล</a>

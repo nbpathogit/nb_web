@@ -558,7 +558,7 @@ $curStatusAuthEdit = (
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
             <hr noshade="noshade" width="" size="8" >
-            <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถายันเอ็นแอนบี</b></h4>
+            <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี</b></h4>
             <form id="patient_plan" name="" method="post">
                 <?php require 'includes/patient_form_020_specimen_type.php'; ?>
                 <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>

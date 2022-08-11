@@ -13,7 +13,7 @@ $isBorder = false;
         <fieldset>
             <legend>เลือกชนิดสิ่งส่งตรวจ</legend>
             <input type="radio" name="p_speciment_type" id="lumptype" value="lump"   <?= $patient[0]['p_speciment_type'] == "lump"  ? "checked" : ""; ?> <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >ชิ้นเนื้อ&nbsp;
-            <input type="radio" name="p_speciment_type" id="fluidtype" value="fluid" <?= $patient[0]['p_speciment_type'] == "fluid" ? "checked" : ""; ?> <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >เซลวิทยา
+            <input type="radio" name="p_speciment_type" id="fluidtype" value="fluid" <?= $patient[0]['p_speciment_type'] == "fluid" ? "checked" : ""; ?> <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >เซลล์วิทยา
         </fieldset>
 
     </div>  

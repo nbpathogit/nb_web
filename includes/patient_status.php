@@ -99,7 +99,7 @@ $disableMoveButton = true;
 
                 <td>&nbsp;</td>
 
-                <td colspan="7"  tabindex="8000" id="keep8000" class="<?= ($curstatus['0']["id"] == 8000) ? "current" : "held" ?> state" >เตรียมชิ้นเนื้อ<br>พิเศษ8000</td>
+                <td colspan="7"  tabindex="8000" id="keep8000" class="<?= ($curstatus['0']["id"] == 8000) ? "current" : "held" ?> state" >สั่งย้อมพิเศษ<br>8000</td>
 
                 <td>&nbsp;</td>
 
@@ -262,7 +262,7 @@ $disableMoveButton = true;
             <?php if (isset($patient[0]['date_2000'])): ?> <tr class="flow_his"><td>2000</td><td class="flow_his">วางแผนงาน</td><td class="flow_his"> <?= $patient[0]['date_2000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_3000'])): ?> <tr class="flow_his"><td>3000</td><td class="flow_his">เตรียมชิ้นเนื้อ</td><td class="flow_his"><?= $patient[0]['date_3000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_6000'])): ?> <tr class="flow_his"><td>6000</td><td class="flow_his">เตรียมสไลด์</td><td class="flow_his"><?= $patient[0]['date_6000']; ?> </td></tr> <?php endif; ?>
-            <?php if (isset($patient[0]['date_8000'])): ?> <tr class="flow_his"><td>8000</td><td class="flow_his">เตรียมชิ้นเนื้อพิเศษ</td><td class="flow_his"><?= $patient[0]['date_8000']; ?> </td></tr> <?php endif; ?>
+            <?php if (isset($patient[0]['date_8000'])): ?> <tr class="flow_his"><td>8000</td><td class="flow_his">สั่งย้อมพิเศษ</td><td class="flow_his"><?= $patient[0]['date_8000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_10000'])): ?> <tr class="flow_his"><td>10000</td><td class="flow_his">แลปเซลวิทยา</td><td class="flow_his"><?= $patient[0]['date_10000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_12000'])): ?> <tr class="flow_his"><td>12000</td><td class="flow_his">วินิจฉัย</td><td class="flow_his"><?= $patient[0]['date_12000']; ?> </td></tr> <?php endif; ?>
             <?php if (isset($patient[0]['date_13000'])): ?> <tr class="flow_his"><td>13000</td><td class="flow_his">วินิจฉัย(คอนเฟิร์ม)</td><td class="flow_his"><?= $patient[0]['date_13000']; ?> </td></tr> <?php endif; ?>
