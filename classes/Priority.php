@@ -33,7 +33,7 @@ class Priority {
     
     public static function getInit() {
         
-        return [["id"=>5,"priority"=>"ปรกติ"]];
+        return [["id"=>5,"priority"=>"ปกติ"]];
 
     }
     
