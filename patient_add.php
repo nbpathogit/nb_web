@@ -39,9 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['date_1000'])     ? $patient->date_1000 = $_POST['date_1000']        : $patient->date_1000 = $patientini[0]['date_1000'];
 
 
-
-
-
     isset($_POST['date_2000'])     ? $patient->date_2000 = $_POST['date_2000']        : $patient->date_2000 = $patientini[0]['date_2000'];
     isset($_POST['date_3000'])     ? $patient->date_3000 = $_POST['date_3000']        : $patient->date_3000 = $patientini[0]['date_3000'];
     isset($_POST['date_6000'])     ? $patient->date_6000 = $_POST['date_6000']        : $patient->date_6000 = $patientini[0]['date_6000'];
@@ -52,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['date_14000'])     ? $patient->date_14000 = $_POST['date_14000']        : $patient->date_14000 = $patientini[0]['date_14000'];
     isset($_POST['date_20000'])     ? $patient->date_20000 = $_POST['date_20000']        : $patient->date_20000 = $patientini[0]['date_20000'];
     isset($_POST['date_first_report'])     ? $patient->date_first_report = $_POST['date_first_report']        : $patient->date_first_report = $patientini[0]['date_first_report'];
-
 
 
     isset($_POST['status_id'])      ? $patient->status_id = $_POST['status_id']             : $patient->status_id = $patientini[0]['status_id'];
@@ -74,18 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['p_rs_gross_desc'])        ? $patient->p_rs_gross_desc = $_POST['p_rs_gross_desc']                 : $patient->p_rs_gross_desc = $patientini[0]['p_rs_gross_desc'];
     isset($_POST['p_rs_microscopic_desc'])  ? $patient->p_rs_microscopic_desc = $_POST['p_rs_microscopic_desc']     : $patient->p_rs_microscopic_desc = $patientini[0]['p_rs_microscopic_desc'];
    
-  
-
-
     isset($_POST['p_speciment_type'])         ? $patient->p_speciment_type = $_POST['p_speciment_type']             : $patient->p_speciment_type = $patientini[0]['p_speciment_type'];
     isset($_POST['p_slide_lab_id'])           ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id']                 : $patient->p_slide_lab_id = $patientini[0]['p_slide_lab_id'];
     isset($_POST['p_slide_lab_price'])        ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price']           : $patient->p_slide_lab_price = $patientini[0]['p_slide_lab_price'];
 
-
-
     if ($patient->create($conn)) {
 
-        Url::redirect("/patient_edit.php?id=$patient->id");
+        Url::redirect("/patient_edit.php?id=$patient->id&add=1");
     } else {
         echo '<script>alert("Add user fail. Please verify again")</script>';
     }
@@ -164,16 +155,17 @@ require 'includes/status_cur.php';
 
         <?php //require 'includes/patient_status.php';  
         ?>
-        <hr>
-
+        <hr noshade="noshade" width="" size="8">
+        <h4 align="center"><b>เพิ่มข้อมูลผู้ป่วยใหม่ลงในระบบ</b></h4>
         <form id="formAddPatient" class="" name="" method="post">
-            <?php require 'includes/patient_form_010_detail.php'; ?>
+            <?php require 'includes/patient_form_005_add_pat_num.php'; ?>
 
             <p align="center">
                 <!--<button>ตกลง</button>-->
-                <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูล</button>
+                <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูลใหม่ลงในระบบ</button>
             </p>
         </form>
+        <hr>
 
     <?php endif; ?>
 

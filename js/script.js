@@ -141,7 +141,7 @@ function addAction2statusType() {
 function addAction2Flow() {
 
 
-//รอรับเข้า 1000
+//รับเข้า ใส่ข้อมูลคนไข้ 1000
     $("#move1000").on("mouseover", function (e) {
         $(this).addClass("heldover");
     });
@@ -162,7 +162,47 @@ function addAction2Flow() {
         frm.submit();
     });
 
-//รับเข้า 2000
+
+//ไปวางแผน 2000
+
+    $("#btnmove2000").on("click", function (e) {
+        e.preventDefault();
+        var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('');
+        frm.append('<input type="hidden" name="status" value="2000" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        frm.appendTo("body");
+        frm.submit();
+    });
+    
+    
+    //btnmove3000_10000
+    $("#btnmove3000_10000").on("click", function (e) {
+        e.preventDefault();
+        var cur_status = $(".cur_status").attr('tabindex');
+        var cur_speciment_type = $(".cur_speciment_type").attr('tabindex');
+        alert("cur_speciment_type "+cur_speciment_type);
+        console.log("cur_speciment_type "+cur_speciment_type);
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('');
+        if(cur_speciment_type == "lump"){
+            frm.append('<input type="hidden" name="status" value="3000" /> ');
+        }else{
+            frm.append('<input type="hidden" name="status" value="10000" /> ');
+        }
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        frm.appendTo("body");
+        frm.submit();
+    });
+
+//ไปวางแผน 2000
     $("#move2000").on("mouseover", function (e) {
         $(this).addClass("heldover");
     });
@@ -238,7 +278,7 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        var isCurrentPathoIsOwnerThisCase = isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');  
+        var isCurrentPathoIsOwnerThisCase = isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
 
         var isset_sp_slide_assigned = '0';
         $('.p_slide_prep_sp_id li').each(function (index) {
@@ -250,7 +290,7 @@ function addAction2Flow() {
             alert("Person to prepare slide not selected Yet!");
             return;
         }
-        
+
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
@@ -305,9 +345,9 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        
-        
-        
+
+
+
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
@@ -342,7 +382,7 @@ function addAction2Flow() {
             alert("Second Patho not selected Yet!");
             return;
         }
-        
+
         // only owner can do this        
         //console.log("isCurrentPathoIsOwnerThisCase :" + isCurrentPathoIsOwnerThisCase);return;
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
@@ -350,8 +390,8 @@ function addAction2Flow() {
             return;
         }
 
-        
-        
+
+
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
@@ -381,28 +421,28 @@ function addAction2Flow() {
         $('.uresultTypeName li').each(function (index) {
             uresultTypeNameLastest = $(this).attr('tabindex');
         });
-        
+
         var isset_second_patho = '0';
         $('.uresultSecondPatho li').each(function (index) {
             isset_second_patho = $(this).attr('tabindex');
         });
-        
+
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }
-        
+
         if (cur_status == '12000' && isset_second_patho != '0') {
             alert("Second patho need to be agree first!");
             return;
         }
-        
+
         if (cur_status == '13000' && isCurrentPathoIsSecondOwneThisCaseLastest == '0') {
             alert("Only Second patho of this case can do this!");
             return;
         }
-        
-        if (confirm("คุณกำลังจะออกผล! \nหากออกผลแล้วจะไม่สามารถแก้ไขได้ \nคุณสามารถดูตัวอย่างรายงานในรูปแบบ pdf ได้")) {
+
+        if (confirm("คุณกำลังจะออกผลถึงลูกค้า! \nหากออกผลแล้วคุณจะไม่สามารถแก้ไขผลที่ออกไปแล้วได้")) {
             //txt = "You pressed OK!";
         } else {
             //txt = "You pressed Cancel!";
@@ -412,15 +452,15 @@ function addAction2Flow() {
 //        console.log("uresultTypeNameLastest ::--" + uresultTypeNameLastest +"--");
 //        return;
         var reported_as = 'ยังไม่ออกผล';
-        if ( uresultTypeNameLastest == 'Preliminary' ) {
+        if (uresultTypeNameLastest == 'Preliminary') {
             reported_as = 'ออกผลเบื้องต้น';
         }
-        
-        if (uresultTypeNameLastest == 'Pathological Diagnosis' || uresultTypeNameLastest == 'Addendum' || uresultTypeNameLastest == 'Revised' ) {
+
+        if (uresultTypeNameLastest == 'Pathological Diagnosis' || uresultTypeNameLastest == 'Addendum' || uresultTypeNameLastest == 'Revised') {
             reported_as = 'ออกผลแล้ว';
         }
-        
-        
+
+
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
@@ -521,9 +561,23 @@ $(document).ready(function () {
 
     addAction2Flow();
 
-
-
     addAction2statusType();
+
+
+    var pautoscroll = '0';
+    $('.pautoscroll li').each(function (index) {
+        pautoscroll = $(this).attr('tabindex');
+    });
+
+    console.log("pautoscroll " + pautoscroll);
+
+    // Auto Scroll to
+    if (pautoscroll != "NA" && pautoscroll != null && pautoscroll != 0 ) {
+        document.getElementById(pautoscroll).scrollIntoView();
+    }
+
+
+
 
 });
 
@@ -586,12 +640,12 @@ $('#sp_slide_owner').change(function () {
         // Enable #x
         $("#p_slide_prep_sp_id").prop("disabled", false);
         $("#pspprice").prop("disabled", false);
-    }else{
+    } else {
         // Disable #x
         $("#p_slide_prep_sp_id").prop("disabled", true);
         $("#pspprice").prop("disabled", true);
     }
-    
+
 });
 
 $('#date_1000').on('blur', function () {
@@ -609,7 +663,7 @@ $.validator.addMethod("selectd", function (value, element) {
     return (value != 0);
 }, "Must be selected.");
 
-$("#formAddPatient , #formEditPatient").validate({
+$("#formAddPatient , #patient_detail , #patient_plan").validate({
     rules: {
 
         //==========  a  =============
@@ -643,7 +697,7 @@ $("#formAddPatient , #formEditPatient").validate({
         },
         //เลขที่โรงพยาบาล
         phospital_num: {
-            required: true
+            required: false
         },
         //โรงพยาบาล
         phospital_id: {

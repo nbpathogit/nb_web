@@ -1,5 +1,5 @@
 <?php
-$hidden = true;
+$hidden = false;
 ?>
 
 <!--Write Data to DOM pass value to java script-->
@@ -55,3 +55,12 @@ $hidden = true;
 <ul class="reported_name" style="<?= $hidden ? "display: none;":"" ?>" >
     <li tabindex="<?= $patient[0]['reported_name'] ?>">reported_name::patient[0]['reported_name']::<?= $patient[0]['reported_name'] ?></li>
 </ul>
+
+<?php //["pautoscroll"] ?>
+<ul class="pautoscroll" style="<?= $hidden ? "display: none;":"" ?>" >
+    <li tabindex="<?= $patient[0]['pautoscroll'] ?>">pautoscroll::patient[0]['pautoscroll']::<?= $patient[0]['pautoscroll'] ?></li>
+</ul>
+    
+<?php //    $patient[0]['p_speciment_type']?>
+    
+<li class="cur_speciment_type" tabindex="<?= $patient[0]['p_speciment_type'] ?>" style="<?= $hidden ? "display: none;":"" ?>"  >$patient[0]['p_speciment_type']::<?= $patient[0]['p_speciment_type'] ?> </li>

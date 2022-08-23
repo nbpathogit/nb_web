@@ -10,7 +10,7 @@ $isBorder = false;
 
 
     <?php if ( $isCurrentPathoIsOwnerThisCase): ?>
-        <p align="center">คุณคือออกผลของผู้ป่วยท่านนี้</p>
+        <p align="center">คุณคือคนออกผลของผู้ป่วยท่านนี้</p>
     <?php else: ?> 
         <p align="center">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
     <?php endif; ?>

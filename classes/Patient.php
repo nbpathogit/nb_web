@@ -5,8 +5,7 @@
  *
  * A piece of writing for publication
  */
-class Patient
-{
+class Patient {
 
     /**
      * Uniqure identifier
@@ -42,7 +41,6 @@ class Patient
     public $ppathologist_id;
     public $pspecimen_id;
     public $pclinician_id;
-
     public $p_cross_section_id;
     public $p_cross_section_ass_id;
     public $p_slide_prep_id;
@@ -53,11 +51,12 @@ class Patient
     public $p_rs_clinical_diag;
     public $p_rs_gross_desc;
     public $p_rs_microscopic_desc;
-
     public $p_speciment_type;
     public $p_slide_lab_id;
     public $p_slide_lab_price;
     public $reported_as;
+    public $isautoeditmode;
+    public $pautoscroll;
 
     /**
      * Validation errors
@@ -65,13 +64,11 @@ class Patient
      */
     public $errors = [];
 
-    public static function getTotal($conn, $user_group = "*")
-    {
+    public static function getTotal($conn, $user_group = "*") {
         return $conn->query("SELECT COUNT(*) FROM patient")->fetchColumn();
     }
 
-    public static function getPage($conn, $limit, $offset)
-    {
+    public static function getPage($conn, $limit, $offset) {
 
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
@@ -105,8 +102,7 @@ class Patient
      *
      * @return array An associative array of all the article records
      */
-    public static function getAll($conn, $id = 0)
-    {
+    public static function getAll($conn, $id = 0) {
         $sql = "SELECT * 
                 FROM patient ";
 
@@ -126,8 +122,7 @@ class Patient
      *
      * @return array An associative array of all the article records
      */
-    public static function getAllJoin($conn, $id = 0, $start = '0')
-    {
+    public static function getAllJoin($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -155,9 +150,7 @@ class Patient
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public static function getAllJoinWithReported($conn, $id = 0, $start = '0')
-    {
+    public static function getAllJoinWithReported($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -185,9 +178,7 @@ class Patient
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public static function getAllJoinID8000($conn, $id = 0, $start = '0')
-    {
+    public static function getAllJoinID8000($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -214,6 +205,7 @@ class Patient
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+
     /**
      * Get the article record based on the ID
      *
@@ -223,8 +215,7 @@ class Patient
      *
      * @return An object of this class, or null if not found
      */
-    public static function getByID($conn, $id, $columns = '*')
-    {
+    public static function getByID($conn, $id, $columns = '*') {
         $sql = "SELECT $columns
                 FROM patient
                 WHERE id= :id";
@@ -247,12 +238,11 @@ class Patient
      *
      * @return boolean True if the insert was successful, false otherwise
      */
-    public function create($conn)
-    {
+    public function create($conn) {
 
 
         $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,    `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`) "
-               .  "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,  :p_slide_lab_id,  :p_slide_lab_price);";
+                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,  :p_slide_lab_id,  :p_slide_lab_price);";
 
 
 
@@ -323,8 +313,7 @@ class Patient
         }
     }
 
-    public static function getInit()
-    {
+    public static function getInit() {
         return [
             [
                 "id" => "",
@@ -352,7 +341,6 @@ class Patient
                 "ppathologist_id" => 0,
                 "pspecimen_id" => 0,
                 "pclinician_id" => 0,
-
                 "p_cross_section_id" => 0,
                 "p_cross_section_ass_id" => 0,
                 "p_slide_prep_id" => 0,
@@ -363,18 +351,17 @@ class Patient
                 "p_rs_clinical_diag" => "",
                 "p_rs_gross_desc" => "",
                 "p_rs_microscopic_desc" => "",
-
-
                 "p_speciment_type" => "lump",
                 "p_slide_lab_id" => 0,
                 "p_slide_lab_price" => 0,
-                "reported_as" => ""
+                "reported_as" => "",
+                "isautoeditmode" => 1,
+                "pautoscroll" => ""
             ]
         ];
     }
 
-    public static function updateStatus($conn, $id, $status_id)
-    {
+    public static function updateStatus($conn, $id, $status_id) {
         $sql = "UPDATE patient
                 SET status_id = :status_id
                 WHERE id = :id";
@@ -387,8 +374,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id, $next_status_id, $isset_date_first_report)
-    {
+    public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id, $next_status_id, $isset_date_first_report) {
         $sql = "UPDATE patient
                 SET status_id = :status_id";
 
@@ -410,8 +396,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public function update($conn, $id)
-    {
+    public function update($conn, $id) {
 
         //                            date_1000=:date_1000,
         //                    
@@ -515,23 +500,21 @@ class Patient
         }
     }
 
-
-    public function updatePatientDetail($conn, $id)
-    {
-/*array(12) { 
- * ["pnum"]=> string(8) "sc657766" 
- * ["plabnum"]=> string(2) "cc" 
- * ["pgender"]=> string(12) "หญิง" 
- * ["pname"]=> string(18) "กกกกกก" 
- * ["plastname"]=> string(18) "ขขขขขข" 
- * ["pedge"]=> string(1) "9" 
- * ["phospital_num"]=> string(2) "cc" 
- * ["phospital_id"]=> string(1) "0" 
- * ["pclinician_id"]=> string(2) "35" 
- * ["pspecimen_id"]=> string(2) "74" 
- * ["priority_id"]=> string(1) "5" 
- * ["save_patient_detail"]=> string(0) "" }
-*/
+    public function updatePatientDetail($conn, $id) {
+        /* array(12) { 
+         * ["pnum"]=> string(8) "sc657766" 
+         * ["plabnum"]=> string(2) "cc" 
+         * ["pgender"]=> string(12) "หญิง" 
+         * ["pname"]=> string(18) "กกกกกก" 
+         * ["plastname"]=> string(18) "ขขขขขข" 
+         * ["pedge"]=> string(1) "9" 
+         * ["phospital_num"]=> string(2) "cc" 
+         * ["phospital_id"]=> string(1) "0" 
+         * ["pclinician_id"]=> string(2) "35" 
+         * ["pspecimen_id"]=> string(2) "74" 
+         * ["priority_id"]=> string(1) "5" 
+         * ["save_patient_detail"]=> string(0) "" }
+         */
         $sql = "UPDATE `patient` 
                  SET pnum=:pnum,
                     plabnum=:plabnum,
@@ -543,7 +526,9 @@ class Patient
                     phospital_id=:phospital_id,
                     pclinician_id=:pclinician_id,
                     pspecimen_id=:pspecimen_id,
-                    priority_id=:priority_id
+                    priority_id=:priority_id,
+                    isautoeditmode=:isautoeditmode,
+                    pautoscroll=:pautoscroll
 
                     WHERE id = :id";
 
@@ -563,6 +548,8 @@ class Patient
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_INT);
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_INT);
         $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
+        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_INT);
+        $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
 
         //        var_dump($stmt);
         //die();
@@ -574,25 +561,24 @@ class Patient
         }
     }
 
-    public function updatePatientPlan($conn, $id)
-    {
+    public function updatePatientPlan($conn, $id) {
 
-/*array(9) { 
- * ["p_speciment_type"]=> string(4) "lump" 
- * ["p_cross_section_id"]=> string(2) "21" 
- * ["p_cross_section_ass_id"]=> string(2) "22" 
- * ["p_slide_prep_id"]=> string(2) "22" 
- * ["pprice"]=> string(2) "88" 
- 
- * ["sp_slide_owner"]=>   string(0) ""
- * ["p_slide_prep_sp_id"]=>   string(3) "773"
- * ["pspprice"]=>   string(1) "0"
- 
- * ["p_slide_lab_id"]=> string(1) "0" 
- * ["p_slide_lab_price"]=> string(1) "0" 
- * ["ppathologist_id"]=> string(2) "21" 
- * ["save_patient_plan"]=> string(0) "" }
-*/
+        /* array(9) { 
+         * ["p_speciment_type"]=> string(4) "lump" 
+         * ["p_cross_section_id"]=> string(2) "21" 
+         * ["p_cross_section_ass_id"]=> string(2) "22" 
+         * ["p_slide_prep_id"]=> string(2) "22" 
+         * ["pprice"]=> string(2) "88" 
+
+         * ["sp_slide_owner"]=>   string(0) ""
+         * ["p_slide_prep_sp_id"]=>   string(3) "773"
+         * ["pspprice"]=>   string(1) "0"
+
+         * ["p_slide_lab_id"]=> string(1) "0" 
+         * ["p_slide_lab_price"]=> string(1) "0" 
+         * ["ppathologist_id"]=> string(2) "21" 
+         * ["save_patient_plan"]=> string(0) "" }
+         */
 
 
         $sql = "UPDATE `patient` 
@@ -607,7 +593,8 @@ class Patient
                     
                     p_slide_lab_id=:p_slide_lab_id,
                     p_slide_lab_price=:p_slide_lab_price,
-                    ppathologist_id=:ppathologist_id
+                    ppathologist_id=:ppathologist_id,
+                    isautoeditmode=:isautoeditmode
         
                     WHERE id = :id";
 
@@ -621,14 +608,14 @@ class Patient
         $stmt->bindValue(':p_cross_section_ass_id', $this->p_cross_section_ass_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_prep_id', $this->p_slide_prep_id, PDO::PARAM_INT);
         $stmt->bindValue(':pprice', $this->pprice, PDO::PARAM_STR);
-        
+
         $stmt->bindValue(':p_slide_prep_sp_id', $this->p_slide_prep_sp_id, PDO::PARAM_INT);
         $stmt->bindValue(':pspprice', $this->pspprice, PDO::PARAM_STR);
-        
+
         $stmt->bindValue(':p_slide_lab_id', $this->p_slide_lab_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_lab_price', $this->p_slide_lab_price, PDO::PARAM_INT);
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_INT);
-        
+        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_INT);
 
         //        var_dump($stmt);
         //die();
@@ -640,15 +627,14 @@ class Patient
         }
     }
 
-    public function updateInterimResult($conn, $id)
-    {
-    /*array(5) { 
-     * ["p_rs_specimen"]=> string(3) "aaa" 
-     * ["p_rs_clinical_diag"]=> string(3) "bbb" 
-     * ["p_rs_gross_desc"]=> string(3) "ccc" 
-     * ["p_rs_microscopic_desc"]=> string(3) "ddd" 
-     * ["save_interim_result"]=> string(0) "" }
-*/
+    public function updateInterimResult($conn, $id) {
+        /* array(5) { 
+         * ["p_rs_specimen"]=> string(3) "aaa" 
+         * ["p_rs_clinical_diag"]=> string(3) "bbb" 
+         * ["p_rs_gross_desc"]=> string(3) "ccc" 
+         * ["p_rs_microscopic_desc"]=> string(3) "ddd" 
+         * ["save_interim_result"]=> string(0) "" }
+         */
         $sql = "UPDATE `patient` 
                  SET     p_rs_specimen=:p_rs_specimen,
                     p_rs_clinical_diag=:p_rs_clinical_diag,
@@ -666,7 +652,7 @@ class Patient
         $stmt->bindValue(':p_rs_clinical_diag', $this->p_rs_clinical_diag, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_gross_desc', $this->p_rs_gross_desc, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_microscopic_desc', $this->p_rs_microscopic_desc, PDO::PARAM_STR);
-        
+
         //        var_dump($stmt);
         //die();
         if ($stmt->execute()) {
@@ -676,9 +662,8 @@ class Patient
             return false;
         }
     }
-    
-    public static function  updateReportTypeName($conn, $id, $resultname = "")
-    {
+
+    public static function updateReportTypeName($conn, $id, $resultname = "") {
 
         $sql = "UPDATE patient
                 SET reported_name = :resultname
@@ -691,8 +676,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public static function  updateReportAs($conn, $id, $resultname = "")
-    {
+    public static function updateReportAs($conn, $id, $resultname = "") {
 
         $sql = "UPDATE patient
                 SET reported_as = :resultname
@@ -705,8 +689,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public function delete($conn)
-    {
+    public function delete($conn) {
         $sql = "DELETE FROM patient
                 WHERE id = :id";
 
@@ -716,4 +699,40 @@ class Patient
 
         return $stmt->execute();
     }
+
+    public static function clearAutoScroll($conn, $id) {
+        $sql = "UPDATE patient
+                SET pautoscroll = :pautoscroll
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pautoscroll', "NA", PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public static function setAutoScroll($conn, $id, $pautoscroll) {
+        $sql = "UPDATE `patient` 
+                 SET 
+                 pautoscroll=:pautoscroll
+                 WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        //var_dump( $this->name);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pautoscroll', $pautoscroll, PDO::PARAM_STR);
+
+        //var_dump($stmt);
+        //die();
+        if ($stmt->execute()) {
+            //            $this->id = $conn->lastInsertId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

@@ -244,7 +244,7 @@ if (!$patient) {
     $header = str_replace("<surgical_number>", $patient[0]['pnum'], $header);
     $header = str_replace("<pg>", $patient[0]['pgender'], $header);
     $header = str_replace("<pedge>", $patient[0]['pedge'], $header);
-    $header = str_replace("<plabnum>", $patient[0]['pname'], $header);
+    $header = str_replace("<plabnum>", $patient[0]['plabnum'], $header);
     $header = str_replace("<phospital_num>", $patient[0]['phospital_num'], $header);
     $header = str_replace("<pclinician>", $clinician[0]['name'], $header);
 //$header = str_replace("<ward>"           ,"", $header);
