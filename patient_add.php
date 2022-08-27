@@ -73,10 +73,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['p_speciment_type'])         ? $patient->p_speciment_type = $_POST['p_speciment_type']             : $patient->p_speciment_type = $patientini[0]['p_speciment_type'];
     isset($_POST['p_slide_lab_id'])           ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id']                 : $patient->p_slide_lab_id = $patientini[0]['p_slide_lab_id'];
     isset($_POST['p_slide_lab_price'])        ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price']           : $patient->p_slide_lab_price = $patientini[0]['p_slide_lab_price'];
-
+    $patient->isautoeditmode = "patient_detail_section"; //save and auto move to edit next section
+    $patient->pautoscroll = "patient_detail_section"; //set auto scroll
+    
+    
+    
+    
     if ($patient->create($conn)) {
 
-        Url::redirect("/patient_edit.php?id=$patient->id&add=1");
+        Url::redirect("/patient_edit.php?id=$patient->id");
     } else {
         echo '<script>alert("Add user fail. Please verify again")</script>';
     }

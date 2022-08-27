@@ -87,15 +87,15 @@ $isSetShowaddResultButton = true;
                                         && $presultupdate['pathologist2_id'] != 0 //If Second Patho is select 
                                         && $curstatus[0]['id'] == 12000): //and Status == 12000
                                     ?>
-                                    <button name="move13000" id="btnmove13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button>
+                                    <button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button>
                                 <?php endif; ?>
 
                                 <?php
                                 if ($isCurrentPathoIsSecondOwneThisCaseLastest // Second patho is ownder this patient id (Cur_user == Second patho)
                                         && $curstatus[0]['id'] == 13000): //and CurrentStatus == 13000
                                     ?>
-                                    <button name="move12000" id="btnmove12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
-                                    <button name="move20000" id="btnmove20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
+                                    <button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
+                                    <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
                             <?php endif; ?>
 
                             </p>

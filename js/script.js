@@ -176,7 +176,7 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         
-        frm.append('<input type="hidden" name="autoscrollto" value="' + "patient_plan_section" + '" /> ');
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "patient_plan_section" + '" /> ');
         frm.append('<input type="hidden" name="isautoeditmode" value="' + "patient_plan_section" + '" /> ');
         
 
@@ -207,6 +207,26 @@ function addAction2Flow() {
         }
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        frm.appendTo("body");
+        frm.submit();
+    });
+    
+    //btnmove12000
+    $("#btnmove12000").on("click", function (e) {
+        e.preventDefault();
+        var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('');
+        frm.append('<input type="hidden" name="status" value="12000" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');                            
+        frm.append('<input type="hidden" name="isautoeditmode" value="' + "NA" + '" /> ');
+        
+
         frm.appendTo("body");
         frm.submit();
     });
@@ -350,7 +370,7 @@ function addAction2Flow() {
     $("#move12000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move12000,#btnmove12000").on("click", function (e) {
+    $("#move12000,#btnrejto12000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
@@ -372,7 +392,7 @@ function addAction2Flow() {
     $("#move13000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move13000, #btnmove13000").on("click", function (e) {
+    $("#move13000, #btn2review13000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
@@ -417,7 +437,7 @@ function addAction2Flow() {
     $("#move20000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move20000,#btnmove20000").on("click", function (e) {
+    $("#move20000,#btnagreeto20000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');

@@ -241,8 +241,8 @@ class Patient {
     public function create($conn) {
 
 
-        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,    `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`) "
-                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,  :p_slide_lab_id,  :p_slide_lab_price);";
+        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
+                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
 
 
 
@@ -296,9 +296,9 @@ class Patient {
         $stmt->bindValue(':p_speciment_type', $this->p_speciment_type, PDO::PARAM_STR);
         $stmt->bindValue(':p_slide_lab_id', $this->p_slide_lab_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_lab_price', $this->p_slide_lab_price, PDO::PARAM_INT);
-
-
-
+        
+        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
+        $stmt->bindValue(':pautoscroll'      , $this->pautoscroll, PDO::PARAM_STR);
 
         //var_dump($stmt);
 
@@ -356,7 +356,7 @@ class Patient {
                 "p_slide_lab_price" => 0,
                 "reported_as" => "",
                 "isautoeditmode" => "patient_detail_section",
-                "pautoscroll" => ""
+                "pautoscroll" => "patient_detail_section"
             ]
         ];
     }
@@ -641,7 +641,9 @@ class Patient {
                  SET     p_rs_specimen=:p_rs_specimen,
                     p_rs_clinical_diag=:p_rs_clinical_diag,
                     p_rs_gross_desc=:p_rs_gross_desc,
-                    p_rs_microscopic_desc=:p_rs_microscopic_desc
+                    p_rs_microscopic_desc=:p_rs_microscopic_desc,
+                    isautoeditmode=:isautoeditmode,
+                    pautoscroll=:pautoscroll
                  
                     WHERE id = :id";
 
@@ -654,6 +656,8 @@ class Patient {
         $stmt->bindValue(':p_rs_clinical_diag', $this->p_rs_clinical_diag, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_gross_desc', $this->p_rs_gross_desc, PDO::PARAM_STR);
         $stmt->bindValue(':p_rs_microscopic_desc', $this->p_rs_microscopic_desc, PDO::PARAM_STR);
+        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
+        $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
 
         //        var_dump($stmt);
         //die();

@@ -18,6 +18,7 @@ step   DOM_Section
 */
 
 $hidden_data2dom = true;
+$is_vardump = false;
 
 Auth::requireLogin();
 
@@ -169,6 +170,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['discard_patient_plan'])) {
         //var_dump($_POST);
         if (Patient::setAutoScroll($conn, $_GET['id'], "patient_plan_section")) {
+            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+        } else {
+            echo '<script>alert("Add user fail. Please verify again")</script>';
+        }
+        
+    }
+    
+    //discard patient_plan section
+    if (isset($_POST['discard_interim_result'])) {
+        //var_dump($_POST);
+        if (Patient::setAutoScroll($conn, $_GET['id'], "interim_result_section")) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
@@ -464,7 +476,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_speciment_type']) ? $patient->p_speciment_type = $_POST['p_speciment_type'] : null;
         isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
-
+        $patient->isautoeditmode = "NA"; //save only
+        $patient->pautoscroll = "interim_result_section"; //set auto scroll
 
 
         if ($patient->updateInterimResult($conn, $_GET['id'])) {
@@ -483,7 +496,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //Get Specific Row from Table
 if (isset($_GET['id'])) {
     $patient = Patient::getAll($conn, $_GET['id']);
-    var_dump($patient);
+    if($is_vardump){var_dump($patient);}
     Patient::clearAutoScroll($conn, $_GET['id']);
     Patient::clearisautoeditmode($conn, $_GET['id']);
 } else {
@@ -533,7 +546,7 @@ if (!$patient) {
     }
     if (isset($_POST['edit_interim_result'])) {
         //patient[0]['pautoscroll']
-        $patient[0]['pautoscroll']="interim_result";
+        $patient[0]['pautoscroll']="interim_result_section";
         // true = Disable Edit page, false canEditPage
         $isEditModePageOn = true;
         $isEditModePageForPatientInfoDataOn = false;  //flase = view mode, true = editing mode
@@ -784,7 +797,6 @@ require 'user_auth.php';
             //|| $isCurUserClinicianCust 
             //|| $isCurUserHospitalCust
             );
-
     $curStatusAuthEdit = (
             $isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000
             );
@@ -860,7 +872,8 @@ require 'user_auth.php';
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForIniResultDataOn) : ?>
                         <p align="left"><button name="save_interim_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                            <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
+                            <button name="discard_interim_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                        </p>
                     <?php endif; ?>
                 <?php else : ?>
                     <?php $isEnableEditButton = ($isCurUserAdmin || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase) ) || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000 ) && ($isCurrentPathoIsOwnerThisCase)) ); ?>
@@ -873,9 +886,15 @@ require 'user_auth.php';
         </div>
     </div>
 
+    
     <div id="diag_result_section" class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
             <h4 align="center"><b>วินิจฉัย/ผลการตรวจ<span style="color:orange;text-decoration: underline;"><?=($curstatusid=="12000")?"<-ขั้นตอนปัจจุบัน":"" ?></span> 
+                <?php if ($curstatusid != "12000" && !$isEditModePageOn) : ?>
+                            <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
+                <?php endif; ?>
+                
+                </b>
             <?php if ($isUpdateResultAval) : ?>
                 <!--hr noshade="noshade" width="" size="8"-->
                 <?php require 'includes/patient_form_080_result.php'; ?>
