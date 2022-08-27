@@ -3,7 +3,7 @@ $isBorder = false;
 $isSetShowaddResultButton = true;
 ?>
 
-<h4 align="center"><b>ผลการตรวจ</b></h4> 
+
 
 <?php if (isset($presultupdates)): ?>
     <?php foreach ($presultupdates as $presultupdate): ?>

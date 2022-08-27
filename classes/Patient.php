@@ -355,7 +355,7 @@ class Patient {
                 "p_slide_lab_id" => 0,
                 "p_slide_lab_price" => 0,
                 "reported_as" => "",
-                "isautoeditmode" => 1,
+                "isautoeditmode" => "patient_detail_section",
                 "pautoscroll" => ""
             ]
         ];
@@ -700,18 +700,7 @@ class Patient {
         return $stmt->execute();
     }
 
-    public static function clearAutoScroll($conn, $id) {
-        $sql = "UPDATE patient
-                SET pautoscroll = :pautoscroll
-                WHERE id = :id";
 
-        $stmt = $conn->prepare($sql);
-
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':pautoscroll', "NA", PDO::PARAM_INT);
-
-        return $stmt->execute();
-    }
 
     public static function setAutoScroll($conn, $id, $pautoscroll) {
         $sql = "UPDATE `patient` 
@@ -734,5 +723,55 @@ class Patient {
             return false;
         }
     }
+    
+        public static function clearAutoScroll($conn, $id) {
+        $sql = "UPDATE patient
+                SET pautoscroll = :pautoscroll
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pautoscroll', "NA", PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    
+    public static function setisautoeditmode($conn, $id, $isautoeditmode) {
+        $sql = "UPDATE `patient` 
+                 SET 
+                 isautoeditmode=:isautoeditmode
+                 WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        //var_dump( $this->name);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':isautoeditmode', $isautoeditmode, PDO::PARAM_STR);
+
+        //var_dump($stmt);
+        //die();
+        if ($stmt->execute()) {
+            //            $this->id = $conn->lastInsertId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+        public static function clearisautoeditmode($conn, $id) {
+        $sql = "UPDATE patient
+                SET isautoeditmode = :isautoeditmode
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':isautoeditmode', "NA", PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    
+    
 
 }

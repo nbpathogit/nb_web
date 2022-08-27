@@ -9,11 +9,7 @@ $isBorder = false;
 <?php else: ?>
 
 
-    <?php if ( $isCurrentPathoIsOwnerThisCase): ?>
-        <p align="center">คุณคือคนออกผลของผู้ป่วยท่านนี้</p>
-    <?php else: ?> 
-        <p align="center">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
-    <?php endif; ?>
+
 
     <div align=""  class="mb-3">
         <label for="p_rs_specimen">SPECIMEN</label><br>

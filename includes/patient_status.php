@@ -31,6 +31,7 @@ $disableMoveButton = true;
 
 
 <?php require 'includes/patient_data2DOM.php';?>
+
     <h4 align="center"><b>
             คนไข้เลขที่: <span style="color:orange;text-decoration: underline;"><?=$patient[0]['pnum'];?></span> &nbsp; 
             สถานะงาน: <span style="<?= $curstatus['0']["des"] == "เสร็จสิ้น" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?= $curstatus['0']["des"] ?> </span> &nbsp;

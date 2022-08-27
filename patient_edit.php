@@ -4,6 +4,20 @@
 require 'includes/init.php';
 $conn = require 'includes/db.php';
 
+/*
+
+step   DOM_Section
+1000   patient_detail_section
+2000   patient_plan_section
+3000   specimen_prep_section
+6000   slide_prep_section
+10000  lab_fluid_section_section
+11000  interim_result_section
+12000  diag_result_section
+
+*/
+
+$hidden_data2dom = true;
 
 Auth::requireLogin();
 
@@ -20,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //var_dump($_POST);die();
     //    die();
     //
+    
 
     //Request to move status
     if (isset($_POST['status'])) {
@@ -38,6 +53,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $isUpdateReportAsError = Patient::updateReportAs($conn, $_GET['id'], $_POST['reported_as']);
             //reported_as
             //}
+        }
+        if(isset($_POST['autoscrollto'])){
+            Patient::setAutoScroll($conn, $_GET['id'], $_POST['autoscrollto']);
+        }
+        
+        if(isset($_POST['isautoeditmode'])){
+            Patient::setisautoeditmode($conn, $_GET['id'], $_POST['isautoeditmode']);
         }
 
         if ($isUpdateStatusError && $isUpdateReleaseTimeError) {
@@ -187,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_speciment_type']) ? $patient->p_speciment_type = $_POST['p_speciment_type'] : null;
         isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
-        $patient->isautoeditmode = 0; //save only
+        $patient->isautoeditmode = "NA"; //save only
         $patient->pautoscroll = "patient_detail_section"; //set auto scroll
 
 
@@ -248,7 +270,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_speciment_type']) ? $patient->p_speciment_type = $_POST['p_speciment_type'] : null;
         isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
-        $patient->isautoeditmode = 2; //save and auto move to edit next section
+        $patient->isautoeditmode = "patient_plan_section"; //save and auto move to edit next section
         $patient->pautoscroll = "patient_plan_section"; //set auto scroll
 
 
@@ -307,7 +329,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
         //$patient->isfirstadd = 2; //save and auto move to edit next section
-        $patient->isautoeditmode = 0; //save only
+        $patient->isautoeditmode = "NA"; //save only
         $patient->pautoscroll = "patient_detail_section"; //set auto scroll
 
 
@@ -321,7 +343,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     //Save save_patient_plan
     if (isset($_POST['save_patient_plan_next'])) {
-        $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], "2000", "3000", "0");
+        
+        if($_POST['p_speciment_type'] == "lump"){
+            $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], "2000", "3000", "0");
+        }else{
+            $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], "2000", "10000", "0");
+        }
+        
+        
+        
         //var_dump($_POST);die();
         $patient = new Patient();
         //Get Specific Row from Table
@@ -364,7 +394,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_speciment_type']) ? $patient->p_speciment_type = $_POST['p_speciment_type'] : null;
         isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
-        $patient->isautoeditmode = 0; //save only
+        $patient->isautoeditmode = "NA"; //save only
         $patient->pautoscroll = "patient_plan_section"; //set auto scroll
 
 
@@ -442,6 +472,7 @@ if (isset($_GET['id'])) {
     $patient = Patient::getAll($conn, $_GET['id']);
     var_dump($patient);
     Patient::clearAutoScroll($conn, $_GET['id']);
+    Patient::clearisautoeditmode($conn, $_GET['id']);
 } else {
     $patient = null;
 }
@@ -467,7 +498,7 @@ if (!$patient) {
         $isEditModePageOn = true;
     }
 
-    if (isset($_POST['edit_patient_detail']) ||  $patient[0]['isautoeditmode'] == '1' ) {
+    if (isset($_POST['edit_patient_detail']) ||  $patient[0]['isautoeditmode'] == "patient_detail_section" ) {
         //patient[0]['pautoscroll']
         $patient[0]['pautoscroll']="patient_detail_section";
         // true = Disable Edit page, false canEditPage
@@ -477,7 +508,7 @@ if (!$patient) {
         $isEditModePageForIniResultDataOn = false;    //flase = view mode, true = editing mode
         $isEditModePageForFinResultDataOn = false;    //flase = view mode, true = editing mode
     }
-    if (isset($_POST['edit_patient_plan']) ||  $patient[0]['isautoeditmode'] == '2' ) {
+    if (isset($_POST['edit_patient_plan']) ||  $patient[0]['isautoeditmode'] == "patient_plan_section" ) {
         //patient[0]['pautoscroll']
         $patient[0]['pautoscroll']="patient_plan_section";
         // true = Disable Edit page, false canEditPage
@@ -687,7 +718,6 @@ require 'user_auth.php';
 
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-
             <div class="d-flex align-items-center justify-content-between">
                 <a href="/patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>
             </div>
@@ -695,8 +725,8 @@ require 'user_auth.php';
     </div>
 
     <div class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-            <hr noshade="noshade" width="" size="8">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+            <!--hr noshade="noshade" width="" size="8"-->
             <?php require 'includes/patient_status.php'; ?>
         </div>
     </div>
@@ -704,11 +734,11 @@ require 'user_auth.php';
     <form id="patient_detail" name="" method="post">
     <?php $isEnableEditButton = ($isCurUserAdmin || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase) ) || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000 ) && ($isCurrentPathoIsOwnerThisCase)) ); ?>             
     <div id="patient_detail_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-            <hr noshade="noshade" width="" size="8">
-            <h4 align="center"><b>รับเข้า/ข้อมูลผู้ป่วย <?=($curstatusid=="1000")?"(ขั้นตอนปัจจุบัน)":"" ?>
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+            <!--hr noshade="noshade" width="" size="8"-->
+            <h4 align="center"><b>รับเข้า/ใส่ข้อมูลผู้ป่วย <span style="color:orange;text-decoration: underline;"><?=($curstatusid=="1000")?"<-ขั้นตอนปัจจุบัน":"" ?></span>
                 <?php if ($curstatusid == "1000" && !$isEditModePageOn) : ?>
-                            <button name="btnmove2000" id="btnmove2000" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Finish and Move to next step&nbsp;&nbsp;</button>
+                            <button name="btnmove2000" id="btnmove2000" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
                 <?php endif; ?></b></h4>
 
             <p align="center"></p>
@@ -717,7 +747,7 @@ require 'user_auth.php';
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForPatientInfoDataOn) : ?>
 
-                            <button name="save_patient_detail_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                            <button name="save_patient_detail_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                             <button name="save_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                             <button name="discard_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
 
@@ -750,17 +780,17 @@ require 'user_auth.php';
     ?>
     <form id="patient_plan" name="" method="post">
     <div id="patient_plan_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-            <hr noshade="noshade" width="" size="8" >
-            <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี<?=($curstatusid=="2000")?"(ขั้นตอนปัจจุบัน)":"" ?>
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี<span style="color:orange;text-decoration: underline;"><?=($curstatusid=="2000")?"<-ขั้นตอนปัจจุบัน":"" ?></span>
                 <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
-                            <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Finish and Move to next step&nbsp;&nbsp;</button>
+                            <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
                 <?php endif; ?></b></h4>
 
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForPlaningDataOn) : ?>
                         <p align="left">
-                            <button name="save_patient_plan_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save and send to next job &nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                            <button name="save_patient_plan_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                             <button name="save_patient_plan" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                             <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                     <?php endif; ?>
@@ -782,37 +812,62 @@ require 'user_auth.php';
     </div>
     </form>
 
+    
+    <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;text-decoration: underline;"><?=($curstatusid=="3000")?"<-ขั้นตอนปัจจุบัน":"" ?></span>
+        </div>
+    </div>
+    
+    <div id="slide_prep_section" class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;text-decoration: underline;"><?=($curstatusid=="6000")?"<-ขั้นตอนปัจจุบัน":"" ?></span>
+        </div>
+    </div>
+    
+    <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;text-decoration: underline;"><?=($curstatusid=="10000")?"<-ขั้นตอนปัจจุบัน":"" ?></span>
+        </div>
+    </div>
 
-
-    <div id="interim_result" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-            <hr noshade="noshade" width="" size="8" >
+    <div id="interim_result_section" class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+            <!-- hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>ข้อมูลสิ่งส่งตรวจ</b></h4> 
+            <?php if ( $isCurrentPathoIsOwnerThisCase): ?>
+                <p align="center">คุณคือผู้ออกผลของผู้ป่วยท่านนี้</p>
+            <?php else: ?> 
+                <p align="center">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
+            <?php endif; ?>
             <form id="patient_interim_result" name="" method="post">
-                <?php require 'includes/patient_form_070_interim_result.php'; ?>
+                
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForIniResultDataOn) : ?>
-                        <p align="center"><button name="save_interim_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                        <p align="left"><button name="save_interim_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                             <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
                     <?php endif; ?>
                 <?php else : ?>
                     <?php $isEnableEditButton = ($isCurUserAdmin || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase) ) || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000 ) && ($isCurrentPathoIsOwnerThisCase)) ); ?>
                     <?php if (!$isEditModePageForIniResultDataOn) : ?>
-                        <p align="center"><button name="edit_interim_result" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                        <p align="left"><button name="edit_interim_result" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
                     <?php endif; ?>
                 <?php endif; ?>
+                <?php require 'includes/patient_form_070_interim_result.php'; ?>
             </form>
         </div>
     </div>
 
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
-
+    <div id="diag_result_section" class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+            <h4 align="center"><b>วินิจฉัย/ผลการตรวจ<span style="color:orange;text-decoration: underline;"><?=($curstatusid=="12000")?"<-ขั้นตอนปัจจุบัน":"" ?></span> 
             <?php if ($isUpdateResultAval) : ?>
-                <hr noshade="noshade" width="" size="8">
+                <!--hr noshade="noshade" width="" size="8"-->
                 <?php require 'includes/patient_form_080_result.php'; ?>
             <?php endif; ?>
-
         </div>
     </div>
 
@@ -820,7 +875,9 @@ require 'user_auth.php';
 
 <?php if (!($isEditModePageOn || $isEditModePageForFinResultDataOn)) : ?>
     <div class="container-fluid pt-4 px-4">
-        <p align="center"><a  class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">PreView PDF</a>    </p>      
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+            <p align="center"><a  class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">PreView PDF</a>    </p>      
+        </div>
     </div>
 <?php endif; ?>
 

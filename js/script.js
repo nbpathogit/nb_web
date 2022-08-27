@@ -175,6 +175,11 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="status" value="2000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        
+        frm.append('<input type="hidden" name="autoscrollto" value="' + "patient_plan_section" + '" /> ');
+        frm.append('<input type="hidden" name="isautoeditmode" value="' + "patient_plan_section" + '" /> ');
+        
+
         frm.appendTo("body");
         frm.submit();
     });
@@ -193,6 +198,8 @@ function addAction2Flow() {
         frm.attr('');
         if(cur_speciment_type == "lump"){
             frm.append('<input type="hidden" name="status" value="3000" /> ');
+                    frm.append('<input type="hidden" name="autoscrollto" value="' + "patient_plan_section" + '" /> ');
+        frm.append('<input type="hidden" name="isautoeditmode" value="' + "patient_plan_section" + '" /> ');
         }else{
             frm.append('<input type="hidden" name="status" value="10000" /> ');
         }
@@ -345,8 +352,6 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-
-
 
         var frm = $("<form>");
         frm.attr('method', 'post');
