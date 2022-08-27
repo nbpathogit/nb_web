@@ -54,8 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //reported_as
             //}
         }
-        if(isset($_POST['autoscrollto'])){
-            Patient::setAutoScroll($conn, $_GET['id'], $_POST['autoscrollto']);
+        if(isset($_POST['pautoscroll'])){
+            Patient::setAutoScroll($conn, $_GET['id'], $_POST['pautoscroll']);
         }
         
         if(isset($_POST['isautoeditmode'])){
@@ -158,6 +158,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['discard_patient_detail'])) {
         //var_dump($_POST);
         if (Patient::setAutoScroll($conn, $_GET['id'], "patient_detail_section")) {
+            Url::redirect("/patient_edit.php?id=" . $_GET['id']);
+        } else {
+            echo '<script>alert("Add user fail. Please verify again")</script>';
+        }
+        
+    }
+    
+    //discard patient_plan section
+    if (isset($_POST['discard_patient_plan'])) {
+        //var_dump($_POST);
+        if (Patient::setAutoScroll($conn, $_GET['id'], "patient_plan_section")) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';
@@ -330,7 +341,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
         //$patient->isfirstadd = 2; //save and auto move to edit next section
         $patient->isautoeditmode = "NA"; //save only
-        $patient->pautoscroll = "patient_detail_section"; //set auto scroll
+        $patient->pautoscroll = "patient_plan_section"; //set auto scroll
 
 
         if ($patient->updatePatientPlan($conn, $_GET['id'])) {
@@ -344,11 +355,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Save save_patient_plan
     if (isset($_POST['save_patient_plan_next'])) {
         
-        if($_POST['p_speciment_type'] == "lump"){
-            $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], "2000", "3000", "0");
-        }else{
-            $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], "2000", "10000", "0");
-        }
+
         
         
         
@@ -394,9 +401,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_speciment_type']) ? $patient->p_speciment_type = $_POST['p_speciment_type'] : null;
         isset($_POST['p_slide_lab_id']) ? $patient->p_slide_lab_id = $_POST['p_slide_lab_id'] : null;
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : null;
-        $patient->isautoeditmode = "NA"; //save only
-        $patient->pautoscroll = "patient_plan_section"; //set auto scroll
-
+        if($_POST['p_speciment_type'] == "lump"){
+            $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], "2000", "3000", "0");
+            $patient->isautoeditmode = "NA"; //save only
+            $patient->pautoscroll = "specimen_prep_section"; //set auto scroll
+        }else{
+            $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], "2000", "10000", "0");
+            $patient->isautoeditmode = "NA"; //save only
+            $patient->pautoscroll = "lab_fluid_section_section"; //set auto scroll
+        }
 
         if ($patient->updatePatientPlan($conn, $_GET['id'])) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
@@ -746,11 +759,9 @@ require 'user_auth.php';
 
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForPatientInfoDataOn) : ?>
-
-                            <button name="save_patient_detail_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                            <button name="save_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                            <button name="discard_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-
+                    <?php if ($curstatusid == "1000") : ?> <button name="save_patient_detail_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp; <?php endif; ?>
+                         <button name="save_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                         <button name="discard_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                     <?php endif; ?>
                 <?php else : ?>
                     <?php if (!$isEditModePageForPatientInfoDataOn) : ?>
@@ -790,9 +801,10 @@ require 'user_auth.php';
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForPlaningDataOn) : ?>
                         <p align="left">
-                            <button name="save_patient_plan_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                             <?php if ($curstatusid == "2000") : ?><button name="save_patient_plan_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp; <?php endif; ?>
                             <button name="save_patient_plan" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                            <a  class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>" >Discard</a></p>
+                            <button name="discard_patient_plan" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                    
                     <?php endif; ?>
                 <?php else : ?>
                     <?php $isEnableEditButton = ($isCurUserAdmin || (( $isCurStatus_1000 || $isCurStatus_2000 ) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase) ) || (( $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000 ) && ($isCurrentPathoIsOwnerThisCase)) ); ?>

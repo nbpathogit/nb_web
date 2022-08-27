@@ -190,7 +190,7 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var cur_speciment_type = $(".cur_speciment_type").attr('tabindex');
-        alert("cur_speciment_type "+cur_speciment_type);
+        //alert("cur_speciment_type "+cur_speciment_type);
         console.log("cur_speciment_type "+cur_speciment_type);
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
@@ -198,10 +198,12 @@ function addAction2Flow() {
         frm.attr('');
         if(cur_speciment_type == "lump"){
             frm.append('<input type="hidden" name="status" value="3000" /> ');
-                    frm.append('<input type="hidden" name="autoscrollto" value="' + "patient_plan_section" + '" /> ');
-        frm.append('<input type="hidden" name="isautoeditmode" value="' + "patient_plan_section" + '" /> ');
+            frm.append('<input type="hidden" name="pautoscroll" value="' + "specimen_prep_section" + '" /> ');
+            frm.append('<input type="hidden" name="isautoeditmode" value="' + "specimen_prep_section" + '" /> ');
         }else{
             frm.append('<input type="hidden" name="status" value="10000" /> ');
+            frm.append('<input type="hidden" name="pautoscroll" value="' + "lab_fluid_section_section" + '" /> ');
+            frm.append('<input type="hidden" name="isautoeditmode" value="' + "lab_fluid_section_section" + '" /> ');
         }
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
@@ -567,12 +569,8 @@ $(document).ready(function () {
     addAction2Flow();
 
     addAction2statusType();
-
-
-    var pautoscroll = '0';
-    $('.pautoscroll li').each(function (index) {
-        pautoscroll = $(this).attr('tabindex');
-    });
+ 
+    var pautoscroll = $(".pautoscroll").attr('tabindex');
 
     console.log("pautoscroll " + pautoscroll);
 

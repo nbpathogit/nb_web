@@ -55,10 +55,12 @@
 </ul>
 
 <?php //["pautoscroll"] ?>
-<ul class="pautoscroll" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
-    <li tabindex="<?= $patient[0]['pautoscroll'] ?>">pautoscroll::patient[0]['pautoscroll']::<?= $patient[0]['pautoscroll'] ?></li>
-</ul>
+<li class="pautoscroll" tabindex="<?= $patient[0]['pautoscroll'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pautoscroll']::<?= $patient[0]['pautoscroll'] ?> </li>
+
     
-<?php //    $patient[0]['p_speciment_type']?>
+      
+<?php //    $patient[0]['p_speciment_type']?>   
+<li class="isautoeditmode" tabindex="<?= $patient[0]['isautoeditmode'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['isautoeditmode']::<?= $patient[0]['isautoeditmode'] ?> </li>
     
+<?php //    $patient[0]['p_speciment_type']?>   
 <li class="cur_speciment_type" tabindex="<?= $patient[0]['p_speciment_type'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['p_speciment_type']::<?= $patient[0]['p_speciment_type'] ?> </li>

@@ -548,7 +548,7 @@ class Patient {
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_INT);
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_INT);
         $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
-        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_INT);
+        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
         $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
 
         //        var_dump($stmt);
@@ -594,7 +594,8 @@ class Patient {
                     p_slide_lab_id=:p_slide_lab_id,
                     p_slide_lab_price=:p_slide_lab_price,
                     ppathologist_id=:ppathologist_id,
-                    isautoeditmode=:isautoeditmode
+                    isautoeditmode=:isautoeditmode,
+                    pautoscroll=:pautoscroll
         
                     WHERE id = :id";
 
@@ -615,7 +616,8 @@ class Patient {
         $stmt->bindValue(':p_slide_lab_id', $this->p_slide_lab_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_lab_price', $this->p_slide_lab_price, PDO::PARAM_INT);
         $stmt->bindValue(':ppathologist_id', $this->ppathologist_id, PDO::PARAM_INT);
-        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_INT);
+        $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
+        $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
 
         //        var_dump($stmt);
         //die();
