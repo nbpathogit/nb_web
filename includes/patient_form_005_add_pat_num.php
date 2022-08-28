@@ -17,11 +17,18 @@ $curStatusAuthEdit = (
     || $isCurStatus_2000 
     || $isCurStatus_3000 
     || $isCurStatus_6000 
+    || $isCurStatus_8000
     || $isCurStatus_10000
     || $isCurStatus_12000
     || $isCurStatus_13000
     || $isCurStatus_20000
         );
+
+if($debug){
+    echo "$userAuthEdit and $curStatusAuthEdit";
+    var_dump($userAuthEdit);
+    var_dump($curStatusAuthEdit);
+}
 ?>
 
 <!-- Content here -->

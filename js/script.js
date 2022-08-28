@@ -285,7 +285,7 @@ function addAction2Flow() {
     $("#move8000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move8000").on("click", function (e) {
+    $("#move8000,#btnmove8000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
@@ -297,10 +297,10 @@ function addAction2Flow() {
         });
 //         console.log("isset_second_patho : " + isset_second_patho);
 //          return;
-        if (isset_sp_slide_assigned == '0') {
-            alert("Person to prepare slide not selected Yet!");
-            return;
-        }
+//        if (isset_sp_slide_assigned == '0') {
+//            alert("Person to prepare slide not selected Yet!");
+//            return;
+//        }
 
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");

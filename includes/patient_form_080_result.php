@@ -91,6 +91,7 @@ $isSetShowaddResultButton = true;
 
                                 <?php if ($isShowEditBTNuResult)://To show edit button?>
                                     <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+                                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
                                 <?php endif; ?>
 
                                 <?php if ($isShowSendToReviewbtn): ?><button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button><?php endif; ?>
