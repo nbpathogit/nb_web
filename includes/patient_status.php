@@ -276,5 +276,5 @@ $disableMoveButton = true;
         </table>
     </div>
 <?php else: ?>
-    <p align="center"  style="font-size:20px" ><span >กรุณากรอกข้อมูล หลังจากเสร็จแล้วให้กดปุ่ม Save all</span></p>
+    <!--<p align="center"  style="font-size:20px" ><span >กรุณากรอกข้อมูล หลังจากเสร็จแล้วให้กดปุ่ม Save all</span></p>-->
 <?php endif; ?>

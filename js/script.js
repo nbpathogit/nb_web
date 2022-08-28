@@ -211,25 +211,7 @@ function addAction2Flow() {
         frm.submit();
     });
     
-    //btnmove12000
-    $("#btnmove12000").on("click", function (e) {
-        e.preventDefault();
-        var cur_status = $(".cur_status").attr('tabindex');
-        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        var frm = $("<form>");
-        frm.attr('method', 'post');
-        frm.attr('');
-        frm.append('<input type="hidden" name="status" value="12000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
-        
-        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');                            
-        frm.append('<input type="hidden" name="isautoeditmode" value="' + "NA" + '" /> ');
-        
 
-        frm.appendTo("body");
-        frm.submit();
-    });
 
 //ไปวางแผน 2000
     $("#move2000").on("mouseover", function (e) {
@@ -307,7 +289,7 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        var isCurrentPathoIsOwnerThisCase = isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
+        var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
 
         var isset_sp_slide_assigned = '0';
         $('.p_slide_prep_sp_id li').each(function (index) {
@@ -374,6 +356,11 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
+        if (isCurrentPathoIsOwnerThisCase == '0') {
+            alert("You not have authorize to do this ! Only owner can proceed");
+            return;
+        }
 
         var frm = $("<form>");
         frm.attr('method', 'post');
@@ -381,6 +368,32 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="status" value="12000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        frm.appendTo("body");
+        frm.submit();
+    });
+    
+        //btnmove12000
+    $("#btnmove12000").on("click", function (e) {
+        e.preventDefault();
+        var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
+        if (isCurrentPathoIsOwnerThisCase == '0') {
+            alert("You not have authorize to do this ! Only owner can proceed");
+            return;
+        }
+        
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('');
+        frm.append('<input type="hidden" name="status" value="12000" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');                            
+        frm.append('<input type="hidden" name="isautoeditmode" value="' + "NA" + '" /> ');
+        
+
         frm.appendTo("body");
         frm.submit();
     });
@@ -396,7 +409,7 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        var isCurrentPathoIsOwnerThisCase = isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
+        var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
 
         // Stop move to 13000 when not select Second Patho
         var isset_second_patho = '0';
