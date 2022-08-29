@@ -699,7 +699,7 @@ $.validator.addMethod("selectd", function (value, element) {
     return (value != 0);
 }, "Must be selected.");
 
-$("#formAddPatient , #patient_detail , #patient_plan").validate({
+$("#formAddPatient , #patient_detail , #patient_plan , #save_patient_detail , #save_patient_detail_next").validate({
     rules: {
 
         //==========  a  =============

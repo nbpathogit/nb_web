@@ -9,6 +9,9 @@ if (!Auth::isLoggedIn()) {
 } else {
 }
 
+$debug = false;
+
+
 $isAddPage = true; // if add page then diable edit almost of all.
 // true = Disable Edit page, false canEditPage
 $isEditModePageOn = true;      //flase = view mode, true = editing mode
