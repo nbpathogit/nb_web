@@ -16,7 +16,7 @@ $conn = require 'includes/db.php';
   12000  diag_result_section
 
  */
-$debug = true;
+$debug = false;
 if ($debug) {
     $hidden_data2dom = false;
     $is_vardump = true;
