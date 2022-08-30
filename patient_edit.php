@@ -85,11 +85,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $presultupdate->result_type = $_POST['result_type'];
         $presultupdate->pathologist_id = $_POST['pathologist_id'];
 
-        Patient::setAutoScroll($conn, $_GET['id'], "diag_result_section");
-        Patient::setisautoeditmode($conn, $GET['id'], "diag_result_section");
+        Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
+        Patient::setisautoeditmode($conn, $_GET['id'], "uresultLastSection");
 
-        //        var_dump($_POST);
-        //        die();
+//                var_dump($_POST);
+//                die();
 
         if ($presultupdate->create($conn)) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
@@ -677,11 +677,11 @@ if (isset($_POST['edit_interim_result'])) {
     $isEditModePageForFinResultDataOn = false;    //flase = view mode, true = editing mode
     $isEditModePageForSpSlidePrepDataOn = false;        //flase = view mode, true = editing mode
 }
-if (isset($_POST['edit_u_result']) || $patient[0]['isautoeditmode'] == "diag_result_section") {
+if (isset($_POST['edit_u_result']) || $patient[0]['isautoeditmode'] == "uresultLastSection") {
 
     $patient[0]['pautoscroll'] = "uresultLastSection";
     // true = Disable Edit page, false canEditPage
-    $isEditModePageOn = false;      //flase = view mode, true = editing mode
+    $isEditModePageOn = true;      //flase = view mode, true = editing mode
     $isEditModePageForPatientInfoDataOn = false;  //flase = view mode, true = editing mode
     $isEditModePageForPlaningDataOn = false;      //flase = view mode, true = editing mode
     $isEditModePageForIniResultDataOn = false;    //flase = view mode, true = editing mode
@@ -999,14 +999,14 @@ $curStatusAuthEdit = (
 
 <?php endif; ?>
 
-
+<?php if($curstatusid == "20000"):?> 
 <div id="finish_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
         <h4 align="center"><b>เสร็จสิ้น</b><span style="color:green;"><?= ($curstatusid == "20000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
     </div>
 </div>
-
+<?php endif; ?>
 
 <?php if (!($isEditModePageOn || $isEditModePageForFinResultDataOn)) : ?>
     <div class="container-fluid pt-4 px-4">

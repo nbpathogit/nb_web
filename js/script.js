@@ -298,7 +298,7 @@ function addAction2Flow() {
 //         console.log("isset_second_patho : " + isset_second_patho);
 //          return;
         if (isset_sp_slide_assigned == '0') {
-            alert("<b>กรุณาเลือกคนเตรียมใสล์พิเศษก่อน!</b>");
+            alert("กรุณาเลือกคนเตรียมใสล์พิเศษก่อน!");
             return;
         }
 
@@ -476,7 +476,7 @@ function addAction2Flow() {
     $("#move20000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move20000,#btnagreeto20000").on("click", function (e) {
+    $("#move20000,#btnagreeto20000,#btn_release").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');

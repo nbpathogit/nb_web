@@ -94,7 +94,11 @@ $isSetShowaddResultButton = true;
                                 <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
                             <?php endif; ?>
                             <?php if ($isShowSendToReviewbtn): ?><button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button><?php endif; ?>
+                            <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary">&nbsp;&nbsp;ออกผล&nbsp;&nbsp;</button>
                             </p>
+                            
+                            
+                            <?php //ส่วนของแพทย์คนที่สอง รีวิว ?>
                             <?php if($curstatusid == "13000"):  ?>
                                 <hr noshade="noshade" width="" size="4">
                                 <h4 align="center"><b>แพทย์คนที่สองรีวิว</b><span style="color:orange;"><-ขั้นตอนปัจจุบัน</span></h4>

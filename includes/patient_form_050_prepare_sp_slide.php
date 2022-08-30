@@ -28,10 +28,7 @@ $curStatusAuthEdit = (
 
 ?>
 
-<hr id="p_slide_prep_sp_id_hr">
-  <input type="checkbox" id="sp_slide_owner" name="sp_slide_owner" value="" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?>  >
-  
-  <label for="sp_slide_owner">Select Spcial slide owner.</label><br>
+
 <div class="row <?= $isBorder ? "border" : "" ?>">
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">

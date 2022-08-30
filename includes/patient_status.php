@@ -34,13 +34,13 @@ $disableMoveButton = true;
 
     <h4 align="center"><b>
             คนไข้เลขที่: <span style="color:orange;text-decoration: underline;"><?=$patient[0]['pnum'];?></span> &nbsp; 
-            สถานะงาน: <span style="<?= $curstatus['0']["des"] == "เสร็จสิ้น" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?= $curstatus['0']["des"] ?> </span> &nbsp;
+            ขั้นตอน: <span style="<?= $curstatus['0']["des"] == "เสร็จสิ้น" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?= $curstatus['0']["des"] ?> </span> &nbsp;
             การออกผล: <span style="<?= $patient[0]['reported_as'] == "ออกผลแล้ว" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?=$patient[0]['reported_as'];?></span>
         </b></h4>
 <span align="left">
     <?php if (!$disableMoveButton) : ?> 
         <form  id="" name="" method="post"> 
-            สถานะงานปัจจุบัน : 
+            ขั้นตอนปัจจุบัน : 
             <button name="" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
 
             <?php if (!$isEditModePageOn) : ?> 
