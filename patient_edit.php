@@ -605,13 +605,9 @@ $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
 
 $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
-//Check whether date of fisrt report is define
-$isset_date_first_report = 0;
-if (isset($patient[0]['date_first_report'])) {
-    $isset_date_first_report = 1;
-} else {
-    $isset_date_first_report = 0;
-}
+$pathoOwnerNameObj = User::getByID($conn, $patient[0]['ppathologist_id']);
+
+//$patho2OwnerName = User::getName($conn, $patient[0]['ppathologist_id']);
 
 
 //Prepare Status/step
@@ -620,6 +616,15 @@ $curstatus = Status::getAll($conn, $patient[0]['status_id']);
 
 //Prepare release status
 $isReleased = ($patient[0]['reported_as'] == "ยังไม่ออกผล");
+
+
+//Check whether date of fisrt report is define
+$isset_date_first_report = 0;
+if (isset($patient[0]['date_first_report'])) {
+    $isset_date_first_report = 1;
+} else {
+    $isset_date_first_report = 0;
+}
 
 //เช็คและเตรียมตัวแปรสถานะปัจจุบัน
 require 'includes/status_cur.php';
@@ -934,7 +939,7 @@ $curStatusAuthEdit = (
         <h4 align="center"><b>ข้อมูลสิ่งส่งตรวจ</b></h4> 
         
     <?php if ($isCurrentPathoIsOwnerThisCase): ?>
-        <p align="center">คุณคือผู้ออกผลของผู้ป่วยท่านนี้</p>
+        <p align="center">คุณคือผู้ออกผลของผู้ป่วยท่านนี้  <?= $pathoOwnerNameObj->name_e . " " . $pathoOwnerNameObj->lastname_e; ?> </p>
     <?php else: ?> 
         <p align="center">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
     <?php endif; ?>
@@ -979,7 +984,7 @@ $curStatusAuthEdit = (
 <div id="slide_prep_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>แพทย์คนที่สองรีวิว</b><span style="color:orange;"><?= ($curstatusid == "13000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span></h4>
+        
     </div>
 </div>
 

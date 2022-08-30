@@ -352,7 +352,7 @@ function addAction2Flow() {
     $("#move12000").on("mouseout", function (e) {
         $(this).removeClass("heldover");
     });
-    $("#move12000,#btnrejto12000").on("click", function (e) {
+    $("#move12000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
@@ -372,13 +372,39 @@ function addAction2Flow() {
         frm.submit();
     });
     
-        //btnmove12000
+    //btnmove12000
     $("#btnmove12000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
         if (isCurrentPathoIsOwnerThisCase == '0') {
+            alert("You not have authorize to do this ! Only owner can proceed");
+            return;
+        }
+        
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('');
+        frm.append('<input type="hidden" name="status" value="12000" /> ');
+        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+        
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');                            
+        frm.append('<input type="hidden" name="isautoeditmode" value="' + "NA" + '" /> ');
+        
+
+        frm.appendTo("body");
+        frm.submit();
+    });
+    
+    //btnrejto12000
+    $("#btnrejto12000").on("click", function (e) {
+        e.preventDefault();
+        var cur_status = $(".cur_status").attr('tabindex');
+        var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
+        var isCurrentPathoIsSecondOwneThisCase = $(".isCurrentPathoIsSecondOwneThisCase").attr('tabindex');
+        if (isCurrentPathoIsSecondOwneThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }

@@ -19,7 +19,7 @@ $isSetShowaddResultButton = true;
         }
         ?>
         <?php $isUResultNotReleased = ($presultupdate['release_time'] == NULL); ?>
-
+        <?php $pathoOwner2NameObj = User::getByID($conn, $presultupdate['pathologist2_id']);  ?>
         <?php
         $isShowEditBTNuResult = $isCurUserAdmin ||
                 ($curstatus[0]['id'] == 12000  //current status is 12000 will can edit
@@ -93,18 +93,27 @@ $isSetShowaddResultButton = true;
                                     <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                                     <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
                                 <?php endif; ?>
-
                                 <?php if ($isShowSendToReviewbtn): ?><button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button><?php endif; ?>
-
+                            </p>
+<?php if($curstatusid == "13000"):  ?>
+                            <hr noshade="noshade" width="" size="4">
+                            <h4 align="center"><b>แพทย์คนที่สองรีวิว</b><span style="color:orange;"><-ขั้นตอนปัจจุบัน</span></h4>
+<?php endif; ?>
+                            
                 <?php
+                 
                 if ($isCurrentPathoIsSecondOwneThisCaseLastest // Second patho is ownder this patient id (Cur_user == Second patho)
                         && $curstatus[0]['id'] == 13000): //and CurrentStatus == 13000
                     ?>
-                                    <button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
+                               
+                                    <p align="center">คุณ  <?= $pathoOwner2NameObj->name_e . " " . $pathoOwner2NameObj->lastname_e. " "; ?> </p>
+                                    <p align="center">คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม </p>
+                                    <p align="center"><button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
                                     <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
-                            <?php endif; ?>
+                                                        </p>
 
-                            </p>
+                                        <?php endif; ?>
+
             <?php endif; ?>
         <?php endif; ?>
                 </div>
