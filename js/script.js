@@ -297,10 +297,10 @@ function addAction2Flow() {
         });
 //         console.log("isset_second_patho : " + isset_second_patho);
 //          return;
-//        if (isset_sp_slide_assigned == '0') {
-//            alert("Person to prepare slide not selected Yet!");
-//            return;
-//        }
+        if (isset_sp_slide_assigned == '0') {
+            alert("<b>กรุณาเลือกคนเตรียมใสล์พิเศษก่อน!</b>");
+            return;
+        }
 
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");
@@ -445,7 +445,7 @@ function addAction2Flow() {
 //         console.log("isset_second_patho : " + isset_second_patho);
 //          return;
         if (isset_second_patho == '0') {
-            alert("Second Patho not selected Yet!");
+            alert("<b>กรุณาเลือกแพทย์ผู้ช่วยรีวิวก่อน!</b>");
             return;
         }
 

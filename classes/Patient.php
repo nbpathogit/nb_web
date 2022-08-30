@@ -57,6 +57,8 @@ class Patient {
     public $reported_as;
     public $isautoeditmode;
     public $pautoscroll;
+    
+    public $p_sp_patho_comment;
 
     /**
      * Validation errors
@@ -612,6 +614,7 @@ class Patient {
         $sql = "UPDATE `patient` 
                  SET p_slide_prep_sp_id=:p_slide_prep_sp_id,
                     pspprice=:pspprice,
+                    p_sp_patho_comment=:p_sp_patho_comment,
 
                     isautoeditmode=:isautoeditmode,
                     pautoscroll=:pautoscroll
@@ -629,6 +632,8 @@ class Patient {
 
         $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
         $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
+        
+        $stmt->bindValue(':p_sp_patho_comment', $this->p_sp_patho_comment, PDO::PARAM_STR);
 
         //        var_dump($stmt);
         //die();

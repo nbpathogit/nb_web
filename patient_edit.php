@@ -457,6 +457,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         isset($_POST['p_slide_prep_sp_id']) ? $patient->p_slide_prep_sp_id = $_POST['p_slide_prep_sp_id'] : null;
         isset($_POST['pspprice']) ? $patient->pspprice = $_POST['pspprice'] : null;
+        isset($_POST['p_sp_patho_comment']) ? $patient->p_sp_patho_comment = $_POST['p_sp_patho_comment'] : null;
         
         $patient->isautoeditmode = "NA"; //save only
         $patient->pautoscroll = "slide_sp_prep_section"; //set auto scroll
@@ -797,12 +798,6 @@ if (isset($curstatus[0]['next3'])) {
 //var_dump($statusLists);
 //var_dump($canEditModePage);
 
-
-
-
-
-
-
 ?>
 
 
@@ -840,7 +835,7 @@ if (isset($curstatus[0]['next3'])) {
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
 
         <!--hr noshade="noshade" width="" size="8"-->
-        <h4 align="center"><b>รับเข้า/ใส่ข้อมูลผู้ป่วย</b> <span style="color:orange;"><?= ($curstatusid == "1000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span>
+        <h4 align="center"><b>รับเข้า/ใส่ข้อมูลผู้ป่วย</b> <span style="color:orange;"><?= ($curstatusid == "1000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
 
         <?php if ($curstatusid == "1000" && !$isEditModePageOn) : ?>
             <button name="btnmove2000" id="btnmove2000" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
@@ -879,7 +874,7 @@ $curStatusAuthEdit = (
 <div id="patient_plan_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี</b><span style="color:orange;"><?= ($curstatusid == "2000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span>
+        <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี</b><span style="color:orange;"><?= ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
         <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
                         <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary"  <?= $isEnableEditButton ? "" : "disabled"; ?>   >&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
         <?php endif; ?></h4>
@@ -914,29 +909,54 @@ $curStatusAuthEdit = (
 <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ($curstatusid == "3000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span></h4>
+        <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
     </div>
 </div>
 
 <div id="slide_prep_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;"><?= ($curstatusid == "6000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span></h4>
+        <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;"><?= ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
     </div>
 </div>
 
 <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span></h4>
+        <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
     </div>
 </div>
+    
+    
+<div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <!--hr noshade="noshade" width="" size="8" -->
+        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+        <form id="slide_prep" name="" method="post">
+
+        <?php if ($isEditModePageOn) : ?>
+            <?php if ($isEditModePageForSpSlidePrepDataOn) : ?>
+                <button name="save_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                <button name="discard_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+            <?php endif; ?>
+        <?php else : ?>
+            <?php if (!$isEditModePageForSpSlidePrepDataOn) : ?>
+                <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary"  <?= (($curstatusid >= 8000) || $isCurrentPathoIsOwnerThisCase) ? "" : "disabled"; ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+            <?php endif; ?>
+        <?php endif; ?> 
+            
+            
+        <?php require 'includes/patient_form_050_prepare_sp_slide.php'; ?>
+        </form>
+    </div>
+</div>
+    
 
     
 <div id="interim_result_section" class="container-fluid pt-4 px-4">
   <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
         <!-- hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>ข้อมูลสิ่งส่งตรวจ</b></h4> 
+    <h4 align="center"><b>ข้อมูลสิ่งส่งตรวจ</b></h4> 
         
     <?php if ($isCurrentPathoIsOwnerThisCase): ?>
         <p align="center">คุณคือผู้ออกผลของผู้ป่วยท่านนี้  <?= $pathoOwnerNameObj->name_e . " " . $pathoOwnerNameObj->lastname_e; ?> </p>
@@ -964,14 +984,14 @@ $curStatusAuthEdit = (
 
 <div id="diag_result_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
-        <h4 align="center"><b>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span> 
+        <h4 align="center"><b>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span> 
 <?php if ($curstatusid != "12000" && !$isEditModePageOn) : ?>
-                    <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary"  <?= $isCurrentPathoIsOwnerThisCase ? "" : "disabled"; ?>   >&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
+            <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary"  <?= $isCurrentPathoIsOwnerThisCase ? "" : "disabled"; ?>   >&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
 <?php endif; ?>
 
             </h4>
                 <?php if ($isUpdateResultAval) : ?>
-            <!--hr noshade="noshade" width="" size="8"-->
+                    <!--hr noshade="noshade" width="" size="8"-->
                     <?php require 'includes/patient_form_080_result.php'; ?>
                 <?php endif; ?>
     </div>
@@ -980,42 +1000,10 @@ $curStatusAuthEdit = (
 <?php endif; ?>
 
 
-
-<div id="slide_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <!--hr noshade="noshade" width="" size="8" -->
-        
-    </div>
-</div>
-
-<div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>สั่งย้อมพิเศษ</b><span style="color:orange;"><?= ($curstatusid == "8000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span></h4>
-        <form id="slide_prep" name="" method="post">
-            
-
-        <?php if ($isEditModePageOn) : ?>
-            <?php if ($isEditModePageForSpSlidePrepDataOn) : ?>
-                <button name="save_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                <button name="discard_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-            <?php endif; ?>
-        <?php else : ?>
-            <?php if (!$isEditModePageForSpSlidePrepDataOn) : ?>
-                <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary"  <?= (($curstatusid >= 8000) || $isCurrentPathoIsOwnerThisCase) ? "" : "disabled"; ?>   >&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
-            <?php endif; ?>
-        <?php endif; ?> 
-            
-            
-        <?php require 'includes/patient_form_050_prepare_sp_slide.php'; ?>
-        </form>
-    </div>
-</div>
-    
 <div id="finish_section" class="container-fluid pt-4 px-4">
     <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>ออกผลแล้ว</b><span style="color:green;"><?= ($curstatusid == "20000") ? "<-ขั้นตอนปัจจุบัน" : "" ?></span></h4>
+        <h4 align="center"><b>เสร็จสิ้น</b><span style="color:green;"><?= ($curstatusid == "20000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
     </div>
 </div>
 

@@ -58,6 +58,12 @@ $curStatusAuthEdit = (
         <label for="date_8000" class="">เตรียมสไลด์พิเศษแล้วเมื่อวันที่</label>
         <input name="date_8000" id="date_8000" class="form-control border" type="text" class=""  placeholder="This Field will Auto Generate" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn  && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> value="<?= $patient[0]['date_8000']; ?>">
     </div>
+    
+    <div align=""  class="mb-3">
+        <label for="p_sp_patho_comment">Comment</label><br>
+
+        <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+    </div>
 
 </div>
 

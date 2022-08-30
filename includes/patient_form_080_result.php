@@ -5,9 +5,8 @@ $isSetShowaddResultButton = true;
 
 
 
-<?php if (isset($presultupdates)): ?>
+<?php if (isset($presultupdates)): //start if (isset($presultupdates)): ?>
     <?php foreach ($presultupdates as $key => $presultupdate): ?>
-
         <?php
         $isReleased = false;
         if ($presultupdate['release_time'] == NULL) {
@@ -35,7 +34,6 @@ $isSetShowaddResultButton = true;
         ?>
         <?php $isEditableUResult = $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && !$isReleased ?>
 
-
         <?php if ($key === array_key_last($presultupdates)) : ?>
              <hr id="uresultLastSection" noshade="noshade" width="" size="4">
         <?php else: ?>
@@ -44,6 +42,7 @@ $isSetShowaddResultButton = true;
         
         <form  id="save_u_result" name="" method="post">
             <input name="id" class="" type="text" class="" id="" style="display: none;"  value="<?= $presultupdate['id']; ?>">
+            
             <div align=""  class="mb-3">
                 <label for="result_message"><?= $presultupdate['result_type'] ?></label><br>
                 <textarea name="result_message" cols="100" rows="5" class="form-control" id="rs_diagnosis" <?= $isEditableUResult ? "" : " disabled readonly " ?> ><?= $presultupdate['result_message'] ?></textarea>
@@ -55,9 +54,10 @@ $isSetShowaddResultButton = true;
                     <select name="pathologist_id" class="form-select" <?= $isEditableUResult ? "" : " disabled readonly " ?> >
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?> > 
-            <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0 && $isCurUserAdmin): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
+                               <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0 && $isCurUserAdmin): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
                             </option>
-        <?php endforeach; ?>                                     
+                        <?php endforeach; ?>
+                            
                     </select> 
                 </div>
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
@@ -65,9 +65,9 @@ $isSetShowaddResultButton = true;
                     <select name="pathologist2_id" class="form-select" <?= $isEditableUResult ? "" : " disabled readonly " ?> >
                         <?php foreach ($userPathos as $user): ?>
                             <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist2_id'] == $user['uid'] ? "selected" : ""; ?> >           
-            <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0 && $isCurUserAdmin): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
+                              <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0 && $isCurUserAdmin): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
                             </option>
-        <?php endforeach; ?>                                     
+                         <?php endforeach; ?>                                     
                     </select> 
                 </div>
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
@@ -80,53 +80,50 @@ $isSetShowaddResultButton = true;
 
             <div class="row  <?= $isBorder ? "border" : "" ?> ">
                 <div class=" <?= $isBorder ? "border" : "" ?> ">
-        <?php if (!$isReleased): //If not released show edit assigned second patho botton  ?>
+                    <?php if (!$isReleased): //If not released show edit assigned second patho botton  ?>
                         <?php if ($isEditModePageForFinResultDataOn):  // To show Save and Discard Btn  ?>
                             <br><p align="center">
                                 <button name="save_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                                 <button name="discard_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
                             </p>
-                            <?php else: ?>
+                        <?php else: //Else if ($isEditModePageForFinResultDataOn): To show Edit , sent to special slide , send to second patho, Release report Btn ?>
                             <br><p align="center">
 
-                                <?php if ($isShowEditBTNuResult)://To show edit button?>
-                                    <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
-                                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
-                                <?php endif; ?>
-                                <?php if ($isShowSendToReviewbtn): ?><button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button><?php endif; ?>
+                            <?php if ($isShowEditBTNuResult)://To show edit button?>
+                                <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+                                <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
+                            <?php endif; ?>
+                            <?php if ($isShowSendToReviewbtn): ?><button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button><?php endif; ?>
                             </p>
-<?php if($curstatusid == "13000"):  ?>
-                            <hr noshade="noshade" width="" size="4">
-                            <h4 align="center"><b>แพทย์คนที่สองรีวิว</b><span style="color:orange;"><-ขั้นตอนปัจจุบัน</span></h4>
-<?php endif; ?>
-                            
-                <?php
-                 
-                if ($isCurrentPathoIsSecondOwneThisCaseLastest // Second patho is ownder this patient id (Cur_user == Second patho)
-                        && $curstatus[0]['id'] == 13000): //and CurrentStatus == 13000
-                    ?>
-                               
-                                    <p align="center">คุณ  <?= $pathoOwner2NameObj->name_e . " " . $pathoOwner2NameObj->lastname_e. " "; ?> </p>
-                                    <p align="center">คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม </p>
-                                    <p align="center"><button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
-                                    <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
-                                                        </p>
+                            <?php if($curstatusid == "13000"):  ?>
+                                <hr noshade="noshade" width="" size="4">
+                                <h4 align="center"><b>แพทย์คนที่สองรีวิว</b><span style="color:orange;"><-ขั้นตอนปัจจุบัน</span></h4>
+                            <?php endif; ?>
 
-                                        <?php endif; ?>
+                            <?php
+                            if ($isCurrentPathoIsSecondOwneThisCaseLastest // Second patho is ownder this patient id (Cur_user == Second patho)
+                                    && $curstatus[0]['id'] == 13000): //and CurrentStatus == 13000
+                                ?>
+                                            <p align="center">คุณ  <?= $pathoOwner2NameObj->name_e . " " . $pathoOwner2NameObj->lastname_e. " "; ?> </p>
+                                            <p align="center">คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม </p>
+                                            <p align="center"><button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
+                                            <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
+                                            </p>
 
-            <?php endif; ?>
-        <?php endif; ?>
+                            <?php endif;?>
+                        <?php endif;//End if ($isEditModePageForFinResultDataOn):  ?>
+                    <?php endif;//End of if (!$isReleased):  ?>
                 </div>
             </div>
-
         </form>
     <?php endforeach; ?>
 
-<?php else: ?>
+<?php else:  //else if (isset($presultupdates)): ?>
     <?php $isSetShowaddResultButton = true; ?>  
-<?php endif; ?>
+<?php endif; //end if (isset($presultupdates)): ?>
 
 
+             
 <?php if ($patient[0]["status_id"] == 12000): ?>
     <?php if ($isSetShowaddResultButton && $isCurrentPathoIsOwnerThisCase): ?>
         <hr>
