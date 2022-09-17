@@ -3,8 +3,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 require 'includes/init.php';
 Auth::requireLogin();
 ?>
-<?php
-$conn = require 'includes/db.php'; ?>
+<?php $conn = require 'includes/db.php'; ?>
 
 <?php require 'user_auth.php'; ?>
 <?php //require 'includes/header.php';?>
@@ -17,9 +16,7 @@ $conn = require 'includes/db.php'; ?>
     You have no authorize to view other hospital group. 
     <?php require 'blockclose.php'; ?>
 <?php else : ?>
-<?php
-
-
+    <?php
 
     class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 
@@ -78,9 +75,9 @@ $conn = require 'includes/db.php'; ?>
         'mode' => 'utf-8',
         'format' => 'A4' . ('orientation' == 'L' ? '-L' : ''),
         'orientation' => 0,
-        'margin_left' => 1.5,
+        'margin_left' => 3.0,
         'margin_right' => 0,
-        'margin_top' => 1.5,
+        'margin_top' => 3.0,
         'margin_bottom' => 0,
         'margin_header' => 0,
         'margin_footer' => 0,
@@ -115,22 +112,62 @@ $conn = require 'includes/db.php'; ?>
 
 
 
+$labelPrints = LabelPrint::getAllbyUserID($conn, $_GET['userid']);
+
+if (!$labelPrints) {
+    // Skip show table
+}
 
 
 
 
 
- 
 
 
+
+
+
+
+
+
+    $num_cal = 8;
+    $num_row = 10;
+
+    $count_element = 0;
 
     $sn = file_get_contents('pdf_sn1/sn1.php');
+    $htmltxt = "";
+    $htmltxt = $htmltxt . $sn;
+    $htmltxt = $htmltxt . "<table>\n";
+    foreach ($labelPrints as $element) {
+        $count_element ++;
+        if ($count_element % $num_cal == 1) {
+            $htmltxt = $htmltxt . "<tr>\n";
+        }
+        $htmltxt = $htmltxt . "<td class='datatd'>"  ;
+        $htmltxt = $htmltxt . "<span class='r1' >" . $element['sn_num'] . "</span>". "<br>";
+        $htmltxt = $htmltxt . "<span class='r2' >" . $element['hn_num']  . "</span>". "<br>";
+        $htmltxt = $htmltxt . "<span class='r3' >" . $element['patho_abbreviation']."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;". $element['speciment_abbreviation'] . "</span>". "<br>";
+        $htmltxt = $htmltxt . "<span class='r4' >" . $element['accept_date']  . "</span>". "<br>";
+        $htmltxt = $htmltxt . "<span class='r5' >" . $element['company_name']  . "</span>". "<br>";
+        $htmltxt = $htmltxt . "</td>\n";
+        $htmltxt = $htmltxt . "<td class='colspacetbl'></td>\n";
+        if ($count_element % $num_cal == 0) {
+            $htmltxt = $htmltxt . "</tr>\n<tr><td class='rolspacetbl'></td></tr>\n";
+        }
+    }
+    $htmltxt = $htmltxt . "</table>\n";
 
-    $mpdf->WriteHTML($sn);
+
+//echo $htmltxt;
+//die();
+
+    $mpdf->WriteHTML($htmltxt);
+
+
 
 //die();
     $mpdf->Output();
-    
     ?>
 
 

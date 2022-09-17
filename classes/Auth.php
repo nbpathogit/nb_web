@@ -38,6 +38,7 @@ class Auth {
      */
     public static function login($conn, $username) {
         $user = User::getByUserName($conn, $username);
+        $userid = $user->id;
         $ugroup = Ugroup::getByID($conn, $user->ugroup_id);
 
         session_regenerate_id(true);
@@ -45,6 +46,7 @@ class Auth {
         $_SESSION['is_logged_in'] = true;
         $_SESSION['username'] = $username;
         $_SESSION['user'] = $user;
+        $_SESSION['userid'] = $userid;
         $_SESSION['usergroup'] = $ugroup;
         $_SESSION['skey'] = self::randomString();
 
@@ -56,6 +58,14 @@ class Auth {
     public static function getUser() {
         if (isset($_SESSION['user'])) {
             return $_SESSION['user'];
+        } else {
+            return null;
+        }
+    }
+    
+    public static function getUserId() {
+        if (isset($_SESSION['userid'])) {
+            return $_SESSION['userid'];
         } else {
             return null;
         }

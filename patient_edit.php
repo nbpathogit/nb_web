@@ -3,6 +3,7 @@
 
 require 'includes/init.php';
 $conn = require 'includes/db.php';
+Auth::requireLogin();
 
 /*
 
@@ -25,7 +26,7 @@ if ($debug) {
     $is_vardump = false;
 }
 
-Auth::requireLogin();
+
 
 $isAddPage = false; // if add page then diable edit almost of all.
 // true = Disable Edit page, false canEditPage
