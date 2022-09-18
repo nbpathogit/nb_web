@@ -7,7 +7,8 @@ Auth::requireLogin();
 var_dump($_POST);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['submit'])) {
+//    die();
+    if (isset($_POST['add'])) {
 
         $labelPrint = new LabelPrint();
 
@@ -103,6 +104,11 @@ if (!$labelPrints) {
         <label for="speciment_abbreviation">specimen_Abbrevation: </label>
         <input type="text" name="speciment_abbreviation">
     </div>
+    
+    
+    <input type="checkbox" value="A" name="A"><label for="A">A</label>
+    
+    <input type="checkbox" value="B" name="B"><label for="B">B</label>
 
     <div class="">
         <label for="accept_date">accept_date: </label>

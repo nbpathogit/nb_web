@@ -81,7 +81,7 @@ Auth::requireLogin();
         'margin_bottom' => 0,
         'margin_header' => 0,
         'margin_footer' => 0,
-        'useFixedNormalLineHeight' => true,
+        'useFixedNormalLineHeight' => false,
         'languageToFont' => new CustomLanguageToFontImplementation(),
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
@@ -145,12 +145,16 @@ if (!$labelPrints) {
             $htmltxt = $htmltxt . "<tr>\n";
         }
         $htmltxt = $htmltxt . "<td class='datatd'>"  ;
-        $htmltxt = $htmltxt . "<span class='r1' >" . $element['sn_num'] . "</span>". "<br>";
-        $htmltxt = $htmltxt . "<span class='r2' >" . $element['hn_num']  . "</span>". "<br>";
-        $htmltxt = $htmltxt . "<span class='r3' >" . $element['patho_abbreviation']."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;". $element['speciment_abbreviation'] . "</span>". "<br>";
+        $htmltxt = $htmltxt . "<p>"  ;
+        $htmltxt = $htmltxt . "<span class='r1' >" . $element['sn_num'] . "<br>". "</span>";
+        $htmltxt = $htmltxt . "<span class='r2_1' >" . $element['patho_abbreviation']."</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='r2_2'>". $element['speciment_abbreviation'] . "<br>" . "</span>";
+        $htmltxt = $htmltxt . "<span class='r3' >" . $element['hn_num']  . "</span>". "<br>";
         $htmltxt = $htmltxt . "<span class='r4' >" . $element['accept_date']  . "</span>". "<br>";
         $htmltxt = $htmltxt . "<span class='r5' >" . $element['company_name']  . "</span>". "<br>";
+        $htmltxt = $htmltxt . "</p>"  ;
+        
         $htmltxt = $htmltxt . "</td>\n";
+        
         $htmltxt = $htmltxt . "<td class='colspacetbl'></td>\n";
         if ($count_element % $num_cal == 0) {
             $htmltxt = $htmltxt . "</tr>\n<tr><td class='rolspacetbl'></td></tr>\n";
@@ -163,7 +167,6 @@ if (!$labelPrints) {
 //die();
 
     $mpdf->WriteHTML($htmltxt);
-
 
 
 //die();
