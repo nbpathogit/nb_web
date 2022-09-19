@@ -4,7 +4,7 @@ require 'includes/init.php';
 $conn = require 'includes/db.php';
 Auth::requireLogin();
 
-var_dump($_POST);
+//var_dump($_POST);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    die();
@@ -90,19 +90,19 @@ if (!$labelPrints) {
     </div>
     <div class="">
         <label for="sn_num">SN Number: </label>
-        <input type="text" name="sn_num">
+        <input type="text" name="sn_num"  value="SN229988">
     </div>
     <div class="">
         <label for="hn_num">Hospital Number: </label>
-        <input type="text" name="hn_num">
+        <input type="text" name="hn_num" value="HN221234">
     </div>
     <div class="">
         <label for="patho_abbreviation">patho_Abbreviation: </label>
-        <input type="text" name="patho_abbreviation">
+        <input type="text" name="patho_abbreviation" value="AC.">
     </div>
     <div class="">
         <label for="speciment_abbreviation">specimen_Abbrevation: </label>
-        <input type="text" name="speciment_abbreviation">
+        <input type="text" name="speciment_abbreviation" value="Z">
     </div>
     
     
@@ -112,7 +112,7 @@ if (!$labelPrints) {
 
     <div class="">
         <label for="accept_date">accept_date: </label>
-        <input type="text" name="accept_date">
+        <input type="text" name="accept_date" value="01//02//2526">
     </div>
 
     <div class="">
@@ -122,7 +122,7 @@ if (!$labelPrints) {
 </form>
 
 <div class="">
-    <a href="<?= URL::currentURL() ?>/patient_sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+    <a href="<?= URL::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
         <button name="viewpdf1" type="submit" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm&nbsp;&nbsp;</button>
     </a>
 
