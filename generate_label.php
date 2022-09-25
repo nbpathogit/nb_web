@@ -52,6 +52,14 @@ if (!$labelPrints) {
     }
 </style>
 
+
+
+
+
+
+
+
+
 <table> 
     <tr>
         <th> row_id </td>
@@ -121,8 +129,9 @@ if (!$labelPrints) {
 
 </form>
 
+
 <div class="">
-    <a href="<?= URL::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+    <a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
         <button name="viewpdf1" type="submit" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm&nbsp;&nbsp;</button>
     </a>
 
