@@ -59,7 +59,7 @@ if (!$labelPrints) {
 
 
 
-
+<?php require 'includes/header.php'; ?>
 <table> 
     <tr>
         <th> row_id </td>
@@ -136,3 +136,4 @@ if (!$labelPrints) {
     </a>
 
 </div>
+<?php require 'includes/footer.php'; ?>
