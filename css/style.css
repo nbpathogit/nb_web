@@ -275,3 +275,15 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+div.dtsp-topRow.dtsp-bordered {
+    border: 2px solid #888888;
+}
+
+div.dtsp-topRow {
+    border: 2px solid #888888;
+}
+
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dataTables_wrapper {
+    border: 2px solid #9e9d9d;
+}
