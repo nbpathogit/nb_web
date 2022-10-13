@@ -136,7 +136,7 @@ require 'user_auth.php';
                     searchPanes: {
                         show: true
                     },
-                    targets: [4, 5, 6, 7, 8]
+                    targets: [4, 5, 6, 7, 8, 9, 10]
                 },
                 {
                     searchPanes: {
