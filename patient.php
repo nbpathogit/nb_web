@@ -8,7 +8,7 @@ require 'user_auth.php';
 <?php require 'includes/header.php'; ?>
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 addsolidborder">
 
         <?php if (!Auth::isLoggedIn()) : ?>
             You are not authorized.
@@ -22,7 +22,7 @@ require 'user_auth.php';
 </div>
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 addsolidborder">
 
 
         <table class="table table-hover" id="patient_table" style="width:100%">

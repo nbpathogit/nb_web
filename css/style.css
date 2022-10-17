@@ -276,6 +276,9 @@
     border-color: var(--primary);
 }
 
+
+/* Over write DataTable Style sheet*/
+
 div.dtsp-topRow.dtsp-bordered {
     border: 2px solid #888888;
 }
@@ -299,4 +302,25 @@ div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-pan
     background-color: #b9b8b8f7;
     margin-bottom: 0px;
     opacity: .6;
+}
+
+div.addsolidborder {
+    border: 1px solid #9e9d9d;
+}
+
+table.dataTable{
+    border: solid 2px;
+    border-color: black;  
+}
+
+table.dataTable>thead .sorting{
+    cursor: pointer;
+    position: relative;
+    border: solid 1px;
+    border-color: #bdbdbd;
+}
+
+table.dataTable>tbody>tr>td{
+    border: solid 1px;
+    border-color: #dddddd;  
 }
