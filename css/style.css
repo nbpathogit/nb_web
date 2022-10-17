@@ -287,3 +287,16 @@ div.dtsp-topRow {
 div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dataTables_wrapper {
     border: 2px solid #9e9d9d;
 }
+
+
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton {
+    height: 30px;
+    width: 30px;
+    min-width: 0;
+    display: inline-block;
+    margin: 2px;
+    border: 1px solid transparent;
+    background-color: #b9b8b8f7;
+    margin-bottom: 0px;
+    opacity: .6;
+}
