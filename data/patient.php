@@ -55,7 +55,7 @@ if ($auth) {
     $data = [];
     foreach ($patientLists as $patient) {
         if ($patient['pid']) {
-            $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
+            $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",""];
         }
 
         // if ($_REQUEST['range'] == "1m")
