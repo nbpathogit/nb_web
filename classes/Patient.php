@@ -797,7 +797,7 @@ class Patient {
         return $stmt->execute();
     }
     
-    public static function get_max_sn_run(){
+    public static function get_max_sn_run($conn){
         $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p GROUP BY `sn_year` ORDER BY `sn_year`;";
         $stmt = $conn->prepare($sql);
 
