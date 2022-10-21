@@ -28,7 +28,7 @@ if ($debug) {
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="pnum" align="right" class="">เลขที่ผู้ป่วย</label>
-        <input name="pnum" type="text" id="pnum" class="form-control" placeholder=""  <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  value="<?= $patient[0]['pnum']; ?>">
+        <input name="pnum" type="text" id="pnum" class="form-control" disabled placeholder=""  <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  value="<?= $patient[0]['pnum']; ?>">
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">

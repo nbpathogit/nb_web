@@ -710,6 +710,19 @@ $('#sp_slide_owner').change(function () {
 
 });
 
+$('#autogen').change(function () {
+    if (this.checked) {
+
+        $("#pnum").prop("disabled", true);
+
+    } else {
+
+        $("#pnum").prop("disabled", false);
+
+    }
+
+});
+
 $('#date_1000').on('blur', function () {
 //      if($(this).val().trim().length === 0){
     //$(this).val("01/05/2022");
