@@ -32,7 +32,7 @@ class Util {
     //Output: string(6) "111111"
     //
     ////////////////////////////
-    function prepend_string_with_zero($numdigit, $runstr) {
+    public static function prepend_string_with_zero($numdigit, $runstr) {
         $res = "null";
         // Using concatenation operator (.)
         if (strlen($runstr) >= $numdigit) {
@@ -60,6 +60,12 @@ class Util {
 
         // Returning the result 
         return $res;
+    }
+
+    public static function get_curreint_year() {
+
+        date_default_timezone_set('Asia/Bangkok');
+        return date('y');
     }
 
 }

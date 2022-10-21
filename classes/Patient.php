@@ -18,6 +18,8 @@ class Patient {
      * @var string
      */
     public $pnum;
+    public $sn_year;
+    public $sn_run;
     public $plabnum;
     public $pname;
     public $pgender;
@@ -243,8 +245,8 @@ class Patient {
     public function create($conn) {
 
 
-        $sql = "INSERT INTO `patient` (`id`,   `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
-                . "            VALUES (NULL,   :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
+        $sql = "INSERT INTO `patient` (`id`,  `sn_year`, `sn_run`, `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
+                . "            VALUES (NULL,  :sn_year,  :sn_run,  :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
 
 
 
@@ -255,6 +257,10 @@ class Patient {
         //var_dump( $this->name);
 
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
+        
+        $stmt->bindValue(':sn_year', $this->sn_year, PDO::PARAM_STR);
+        $stmt->bindValue(':sn_run', $this->sn_run, PDO::PARAM_INT);
+        
         $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
         $stmt->bindValue(':pname', $this->pname, PDO::PARAM_STR);
         $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
@@ -319,6 +325,8 @@ class Patient {
         return [
             [
                 "id" => "",
+                "sn_year" => "0",
+                "sn_run" => 0,
                 "pnum" => "",
                 "plabnum" => "",
                 "pname" => "",
@@ -797,11 +805,35 @@ class Patient {
         return $stmt->execute();
     }
     
-    public static function get_max_sn_run($conn){
-        $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p GROUP BY `sn_year` ORDER BY `sn_year`;";
+    
+//    ++Example table input
+//    call  get_max_sn_run_by_year($conn,22");
+//    
+//    ++Example table output++
+//    |sn_year |max_sn_run
+//    |22      |2
+//
+    public static function get_max_sn_run_by_year($conn,$sn_year){
+        $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p WHERE sn_year = :sn_year GROUP BY `sn_year` ORDER BY `sn_year`;";
         $stmt = $conn->prepare($sql);
-
-        return $stmt->execute();
+        $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    //Print for debug
+    //$count_sn_year = Patient::get_count_sn_year($conn, "22");
+    //var_dump($count_sn_year);
+    //echo '<br>';
+    //echo $count_sn_year[0]['count'];
+    //echo '<br>';
+    //die();
+    public static function  get_count_sn_year($conn,$sn_year){
+        $sql = "SELECT COUNT(*) as count FROM patient WHERE `sn_year` = :sn_year";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
