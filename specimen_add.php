@@ -12,7 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   //die();
 
   $specimen = new Specimen();
+  $specimen->speciment_num = $_POST['num'];
   $specimen->specimen = $_POST['specimen'];
+  $specimen->price = $_POST['price'];
 
   if ($specimen->create($conn)) {
 
@@ -41,9 +43,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form class="row g-2" method="post">
 
-      <div class="mb-3">
+      <div>
+        <label class="form-label" for="num">Number</label>
+        <input class="form-control" type="number" id="num" name="num">
+      </div>
+
+      <div>
         <label for="specimen" class="form-label">สิ่งส่งตรวจ</label>
         <textarea name="specimen" class="form-control" id="specimen" rows="3"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="price">Price</label>
+        <input class="form-control" type="number" id="price" name="price">
       </div>
 
       <div class="d-grid gap-2 d-md-block">

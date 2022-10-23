@@ -15,7 +15,9 @@ class Specimen
 {
 
     public $id;
+    public $speciment_num;
     public $specimen;
+    public $price;
 
     public static function getAll($conn)
     {
@@ -31,12 +33,14 @@ class Specimen
     public function create($conn)
     {
 
-        $sql = "INSERT INTO specimen_list ( specimen)
-                VALUES ( :specimen)";
+        $sql = "INSERT INTO specimen_list (speciment_num, specimen, price)
+                VALUES (:speciment_num, :specimen, :price)";
 
         $stmt = $conn->prepare($sql);
 
+        $stmt->bindValue(':speciment_num', $this->speciment_num, PDO::PARAM_INT);
         $stmt->bindValue(':specimen', $this->specimen, PDO::PARAM_STR);
+        $stmt->bindValue(':price', $this->price, PDO::PARAM_INT);
 
         //var_dump($stmt);
 
@@ -108,13 +112,17 @@ class Specimen
     {
 
         $sql = "UPDATE specimen_list
-                    SET specimen = :specimen
+                    SET specimen = :specimen,
+                        speciment_num =:speciment_num,
+                        price =:price
                     WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':speciment_num', $this->speciment_num, PDO::PARAM_INT);
         $stmt->bindValue(':specimen', $this->specimen, PDO::PARAM_STR);
+        $stmt->bindValue(':price', $this->price, PDO::PARAM_INT);
 
         return $stmt->execute();
     }

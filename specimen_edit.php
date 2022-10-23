@@ -25,7 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $specimen = new Specimen();
     $specimen->id = $_GET['id'];
     $specimen->specimen = $_POST['specimen'];
-
+    $specimen->speciment_num = $_POST['num'];
+    $specimen->specimen = $_POST['specimen'];
+    $specimen->price = $_POST['price'];
+    
     if ($specimen->update($conn)) {
 
         Url::redirect("/specimen.php");
@@ -53,9 +56,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form class="row g-2" method="post">
 
-            <div class="mb-3">
+            <div>
+                <label class="form-label" for="num">Number</label>
+                <input class="form-control" type="number" id="num" name="num" value="<?= htmlspecialchars($specimen->speciment_num); ?>">
+            </div>
+
+            <div>
                 <label for="specimen" class="form-label">สิ่งส่งตรวจ</label>
                 <textarea name="specimen" class="form-control" id="specimen" rows="3"><?= htmlspecialchars($specimen->specimen); ?></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="price">Price</label>
+                <input class="form-control" type="number" id="price" name="price" value="<?= htmlspecialchars($specimen->price); ?>">
             </div>
 
             <div class="d-grid gap-2 d-md-block">
@@ -71,21 +84,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $("#specimentab").addClass("active");
+    $(document).ready(function() {
+        $("#specimentab").addClass("active");
 
-    // prevent from unsave
-    function onNosave(e) {
-      e.preventDefault();
-      e.returnValue = '';
-    }
+        // prevent from unsave
+        function onNosave(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
 
-    $("#specimen").change(function() {
-      window.addEventListener("beforeunload", onNosave);
+        $("#specimen").change(function() {
+            window.addEventListener("beforeunload", onNosave);
+        });
+
+        $("#save").click(function() {
+            window.removeEventListener("beforeunload", onNosave);
+        })
     });
-
-    $("#save").click(function() {
-      window.removeEventListener("beforeunload", onNosave);
-    })
-  });
 </script>

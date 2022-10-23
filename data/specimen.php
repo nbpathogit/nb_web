@@ -27,7 +27,7 @@ if ($auth) {
     $data = [];
     foreach ($specimens as $specimen) {
         if($specimen['id'])
-        $data[] = [$specimen['id'], $specimen['specimen'], "action",];
+        $data[] = [$specimen['id'], $specimen['speciment_num'],$specimen['specimen'],$specimen['price'], "action",];
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
