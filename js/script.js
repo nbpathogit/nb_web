@@ -175,32 +175,32 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="status" value="2000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
-        
+
         frm.append('<input type="hidden" name="pautoscroll" value="' + "patient_plan_section" + '" /> ');
         frm.append('<input type="hidden" name="isautoeditmode" value="' + "patient_plan_section" + '" /> ');
-        
+
 
         frm.appendTo("body");
         frm.submit();
     });
-    
-    
+
+
     //btnmove3000_10000
     $("#btnmove3000_10000").on("click", function (e) {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var cur_speciment_type = $(".cur_speciment_type").attr('tabindex');
         //alert("cur_speciment_type "+cur_speciment_type);
-        console.log("cur_speciment_type "+cur_speciment_type);
+        console.log("cur_speciment_type " + cur_speciment_type);
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
-        if(cur_speciment_type == "lump"){
+        if (cur_speciment_type == "lump") {
             frm.append('<input type="hidden" name="status" value="3000" /> ');
             frm.append('<input type="hidden" name="pautoscroll" value="' + "specimen_prep_section" + '" /> ');
             frm.append('<input type="hidden" name="isautoeditmode" value="' + "specimen_prep_section" + '" /> ');
-        }else{
+        } else {
             frm.append('<input type="hidden" name="status" value="10000" /> ');
             frm.append('<input type="hidden" name="pautoscroll" value="' + "lab_fluid_section_section" + '" /> ');
             frm.append('<input type="hidden" name="isautoeditmode" value="' + "lab_fluid_section_section" + '" /> ');
@@ -210,7 +210,7 @@ function addAction2Flow() {
         frm.appendTo("body");
         frm.submit();
     });
-    
+
 
 
 //ไปวางแผน 2000
@@ -371,7 +371,7 @@ function addAction2Flow() {
         frm.appendTo("body");
         frm.submit();
     });
-    
+
     //btnmove12000
     $("#btnmove12000").on("click", function (e) {
         e.preventDefault();
@@ -382,22 +382,22 @@ function addAction2Flow() {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }
-        
+
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="12000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
-        
-        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');                            
+
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');
         frm.append('<input type="hidden" name="isautoeditmode" value="' + "NA" + '" /> ');
-        
+
 
         frm.appendTo("body");
         frm.submit();
     });
-    
+
     //btnrejto12000
     $("#btnrejto12000").on("click", function (e) {
         e.preventDefault();
@@ -408,17 +408,17 @@ function addAction2Flow() {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }
-        
+
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="12000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
-        
-        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');                            
+
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');
         frm.append('<input type="hidden" name="isautoeditmode" value="' + "NA" + '" /> ');
-        
+
 
         frm.appendTo("body");
         frm.submit();
@@ -628,16 +628,41 @@ $(document).ready(function () {
     addAction2Flow();
 
     addAction2statusType();
- 
+
     var pautoscroll = $(".pautoscroll").attr('tabindex');
 
     console.log("pautoscroll " + pautoscroll);
 
     // Auto Scroll to
-    if (pautoscroll != "NA" && pautoscroll != null && pautoscroll != 0 ) {
+    if (pautoscroll != "NA" && pautoscroll != null && pautoscroll != 0) {
         document.getElementById(pautoscroll).scrollIntoView();
     }
 
+    document.getElementById("sessioncountdown").value = "aaaaa";
+
+
+
+//    var initialSecs = 86400; //24 hrs
+    var initialSecs = 1200; //20 min.
+    var currentSecs = initialSecs;
+
+    setTimeout(decrement, 1000);
+
+    function decrement() {
+        var displayedSecs = currentSecs % 60;
+        var displayedMin = Math.floor(currentSecs / 60) % 60;
+        var displayedHrs = Math.floor(currentSecs / 60 / 60);
+
+        if (displayedMin <= 9)
+            displayedMin = "0" + displayedMin;
+        if (displayedSecs <= 9)
+            displayedSecs = "0" + displayedSecs;
+        currentSecs--;
+//        document.getElementById("sessioncountdown").value = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
+        document.getElementById("sessioncountdown").innerHTML = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
+        if (currentSecs !== -1)
+            setTimeout(decrement, 1000);
+    }
 
 
 
