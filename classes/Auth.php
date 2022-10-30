@@ -25,9 +25,14 @@ class Auth {
      *
      * @return void
      */
-    public static function requireLogin() {
+    
+    public static function requireLogin($page_name,$page_id) {
         if (!static::isLoggedIn()) {
-            Url::redirect('/login.php');
+            if(isset($page_name)){
+                Url::redirect('/login.php?page_name='.$page_name.'&page_id='.$page_id);
+            }else{
+                Url::redirect('/login.php');
+            }
         }
     }
 

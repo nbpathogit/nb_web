@@ -3,7 +3,7 @@
 
 require 'includes/init.php';
 $conn = require 'includes/db.php';
-Auth::requireLogin();
+Auth::requireLogin("patient_edit.php",$_GET['id']);
 
 /*
 
