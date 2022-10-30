@@ -50,7 +50,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js">
 </script>
 <script src="/js/jquery.datetimepicker.full.min.js"></script>
-<script src="/js/script.js?v1"></script>
+<script src="/js/script.js?v2"></script>
 
 
 

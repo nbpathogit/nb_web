@@ -30,8 +30,8 @@ $patientini = Patient::getInit();
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST);
-    echo '<br>';
+//    var_dump($_POST);
+//    echo '<br>';
 
     $curyear = ""; // string
     $runnum = 0; // Integer
@@ -41,44 +41,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['autogen'])) {
         $curyear = Util::get_curreint_year(); // string
 //        $curyear = "23";              //fake 23 for debug new generate
-        echo "<br>Current year (String) = " . $curyear . "<br>";
-        echo "Init runnum (Integer) = " . $runnum . "<br>";
-        echo "Init runstr (String) = " . $runstr . "<br>";
-        echo "Init sn (String) = " . $sn . "<br><br>";
+        
+//        echo "<br>Current year (String) = " . $curyear . "<br>";
+//        echo "Init runnum (Integer) = " . $runnum . "<br>";
+//        echo "Init runstr (String) = " . $runstr . "<br>";
+//        echo "Init sn (String) = " . $sn . "<br><br>";
 
         // If no record of new year is zero  then Set runing =1 else set runing = cur_runing + 1
         $count_sn_year = Patient::get_count_sn_year($conn, $curyear);
-        var_dump($count_sn_year);
-        echo '<br>';
-        echo "Record Count of year ".$curyear." = " . $count_sn_year[0]['count'] . "<br><br>";
+        
+//        var_dump($count_sn_year);
+//        echo '<br>';
+//        echo "Record Count of year ".$curyear." = " . $count_sn_year[0]['count'] . "<br><br>";
 
         if ($count_sn_year[0]['count'] == 0) {
-            echo "count = 0 <br>";
-            echo "initial runing number = 1<br>";
+//            echo "count = 0 <br>";
+//            echo "initial runing number = 1<br>";
             $runnum = 1;
         } else {
-            echo "count > 0<br>";
-            echo "get runing from DB and increasing running number by one <br>";
+//            echo "count > 0<br>";
+//            echo "get runing from DB and increasing running number by one <br>";
             $a = Patient::get_max_sn_run_by_year($conn, $curyear);
             $b = $a[0]['max_sn_run'];
             $runnum = intval($b);
-            var_dump($runnum);
+//            var_dump($runnum);
 
             $runnum += 1;
         }
         $runstr = Util::prepend_string_with_zero(5, $runnum);
         $sn = "SN" . $curyear . $runstr;
     } else {
-        echo "Manual fill in<br><br>";
+//        echo "Manual fill in<br><br>";
         $curyear = "0"; // string
         $runnum = 0; // Integer
         $sn = $_POST['pnum']; // String  keep manual input
     }
 
-    echo "<br>Current year (String) = " . $curyear . "<br>";
-    echo "Calculate runnum (Integer) = " . $runnum . "<br>";
-    echo "Calculate runstr (String) = " . $runstr . "<br>";
-    echo "Calculate sn (String) = " . $sn . "<br><br>";
+//    echo "<br>Current year (String) = " . $curyear . "<br>";
+//    echo "Calculate runnum (Integer) = " . $runnum . "<br>";
+//    echo "Calculate runstr (String) = " . $runstr . "<br>";
+//    echo "Calculate sn (String) = " . $sn . "<br><br>";
 
 
 
