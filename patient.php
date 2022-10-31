@@ -4,7 +4,7 @@ require 'includes/init.php';
 $conn = require 'includes/db.php';
 require 'user_auth.php';
 
-var_dump($_SESSION);exit;
+// var_dump($_SESSION);exit;
 ?>
 
 <?php require 'includes/header.php'; ?>
@@ -150,7 +150,7 @@ var_dump($_SESSION);exit;
                     "render": function(data, type, row) {
                         var renderdata = '';
 
-                        <?php if ($_SESSION['usergroup']->id == '5000' || $_SESSION['usergroup']->id == '5100') : ?>
+                        <?php if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') : ?>
                             if (row[9] == "ยังไม่ออกผล") {
                                 renderdata += '<p class="btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
                             } else {
@@ -172,7 +172,7 @@ var_dump($_SESSION);exit;
                     "render": function(data, type, row) {
                         var renderdata = '';
 
-                        <?php if ($_SESSION['usergroup']->id == '5000' || $_SESSION['usergroup']->id == '5100') : ?>
+                        <?php if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') : ?>
                             if (row[9] == "ยังไม่ออกผล") {
                                 renderdata += '<p class="btn btn-secondary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i>PDF</p>';
                             } else {
