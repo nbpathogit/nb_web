@@ -55,7 +55,14 @@ if ($auth) {
     $data = [];
     foreach ($patientLists as $patient) {
         if ($patient['pid']) {
-            $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",""];
+
+            if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') {
+                if ($_SESSION['user']->uhospital_id == $patient['phospital_id']) {
+                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "", ""];
+                }
+            } else {
+                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "", ""];
+            }
         }
 
         // if ($_REQUEST['range'] == "1m")
