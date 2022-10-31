@@ -3,6 +3,8 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 require 'user_auth.php';
+
+var_dump($_SESSION);exit;
 ?>
 
 <?php require 'includes/header.php'; ?>
@@ -146,9 +148,20 @@ require 'user_auth.php';
                 },
                 {
                     "render": function(data, type, row) {
-                        var renderdata = '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Edit</a>';
+                        var renderdata = '';
+
+                        <?php if ($_SESSION['usergroup']->id == '5000' || $_SESSION['usergroup']->id == '5100') : ?>
+                            if (row[9] == "ยังไม่ออกผล") {
+                                renderdata += '<p class="btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
+                            } else {
+                                renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                            }
+                        <?php else : ?>
+                            renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                        <?php endif; ?>
+
                         <?php if ($isCurUserAdmin) : ?>
-                            renderdata += '<a href="patient_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i>Delete</a>';
+                            renderdata += '<a href="patient_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
                         <?php endif; ?>
 
                         return renderdata;
@@ -157,7 +170,17 @@ require 'user_auth.php';
                 },
                 {
                     "render": function(data, type, row) {
-                        var renderdata = '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                        var renderdata = '';
+
+                        <?php if ($_SESSION['usergroup']->id == '5000' || $_SESSION['usergroup']->id == '5100') : ?>
+                            if (row[9] == "ยังไม่ออกผล") {
+                                renderdata += '<p class="btn btn-secondary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i>PDF</p>';
+                            } else {
+                                renderdata += '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                            }
+                        <?php else : ?>
+                            renderdata += '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                        <?php endif; ?>
 
                         return renderdata;
                     },
@@ -172,15 +195,15 @@ require 'user_auth.php';
                         data += '</h5></div>';
 
                         if (row[8] == "รับเข้า" || row[8] == "วางแผนงาน") {
-                             data += '<span class="badge bg-dark">' + row[8] + '</span>';
+                            data += '<span class="badge bg-dark">' + row[8] + '</span>';
                         } else if (row[8] == "วินิจฉัย(อ่านไสลด์)") {
-                             data += '<span class="badge bg-secondary">' + row[8] + '</span>';
+                            data += '<span class="badge bg-secondary">' + row[8] + '</span>';
                         } else if (row[8] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[8] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
-                             data += '<span class="badge bg-info text-dark">' + row[8] + '</span>';
+                            data += '<span class="badge bg-info text-dark">' + row[8] + '</span>';
                         } else if (row[8] == "เสร็จสิ้น") {
-                             data += '<span class="badge bg-success">' + row[8] + '</span>';
+                            data += '<span class="badge bg-success">' + row[8] + '</span>';
                         } else {
-                             data += '<span class="badge bg-secondary">' + row[8] + '</span>';
+                            data += '<span class="badge bg-secondary">' + row[8] + '</span>';
                         }
                         return data;
                     },
