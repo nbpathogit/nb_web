@@ -171,36 +171,35 @@ require 'user_auth.php';
                         }
                         data += '</h5></div>';
 
-                        if (row[9] == "ยังไม่ออกผล") {
-                            data += '<span class="badge bg-secondary">' + row[9] + '</span>';
-                        } else if (row[9] == "ออกผลเบื้องต้น") {
-                            data += '<span class="badge bg-info text-dark">' + row[9] + '</span>';
-                        } else if (row[9] == "ออกผลแล้ว") {
-                            data += '<span class="badge bg-success">' + row[9] + '</span>';
+                        if (row[8] == "รับเข้า" || row[8] == "วางแผนงาน") {
+                             data += '<span class="badge bg-dark">' + row[8] + '</span>';
+                        } else if (row[8] == "วินิจฉัย(อ่านไสลด์)") {
+                             data += '<span class="badge bg-secondary">' + row[8] + '</span>';
+                        } else if (row[8] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[8] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
+                             data += '<span class="badge bg-info text-dark">' + row[8] + '</span>';
+                        } else if (row[8] == "เสร็จสิ้น") {
+                             data += '<span class="badge bg-success">' + row[8] + '</span>';
                         } else {
-                            data += '<span class="badge bg-secondary">' + row[9] + '</span>';
+                             data += '<span class="badge bg-secondary">' + row[8] + '</span>';
                         }
-
                         return data;
                     },
                     "targets": 1
                 },
                 {
                     "render": function(data, type, row) {
-                        if (row[8] == "รับเข้า" || row[8] == "วางแผนงาน") {
-                            var data = '<h5><span class="badge bg-dark">' + row[8] + '</span></h5>';
-                        } else if (row[8] == "วินิจฉัย(อ่านไสลด์)") {
-                            var data = '<h5><span class="badge bg-secondary">' + row[8] + '</span></h5>';
-                        } else if (row[8] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[8] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
-                            var data = '<h5><span class="badge bg-info text-dark">' + row[8] + '</span></h5>';
-                        } else if (row[8] == "เสร็จสิ้น") {
-                            var data = '<h5><span class="badge bg-success">' + row[8] + '</span></h5>';
+                        if (row[9] == "ยังไม่ออกผล") {
+                            data = '<h5><span class="badge bg-secondary">' + row[9] + '</span></h5>';
+                        } else if (row[9] == "ออกผลเบื้องต้น") {
+                            data = '<h5><span class="badge bg-info text-dark">' + row[9] + '</span></h5>';
+                        } else if (row[9] == "ออกผลแล้ว") {
+                            data = '<h5><span class="badge bg-success">' + row[9] + '</span></h5>';
                         } else {
-                            var data = '<h5><span class="badge bg-secondary">' + row[8] + '</span></h5>';
+                            data = '<h5><span class="badge bg-secondary">' + row[9] + '</span></h5>';
                         }
                         return data;
                     },
-                    "targets": 8
+                    "targets": 9
                 },
                 {
                     "render": function(data, type, row) {
@@ -226,7 +225,7 @@ require 'user_auth.php';
                 },
                 {
                     visible: false,
-                    targets: [0, 3, 9, 10]
+                    targets: [0, 3, 8, 10]
                 },
             ],
             "initComplete": colorAdd,
