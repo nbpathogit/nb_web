@@ -154,10 +154,10 @@ require 'user_auth.php';
                             if (row[9] == "ยังไม่ออกผล") {
                                 renderdata += '<p class="btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
                             } else {
-                                renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                                renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
                             }
                         <?php else : ?>
-                            renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                            renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
                         <?php endif; ?>
 
                         <?php if ($isCurUserAdmin) : ?>
@@ -188,7 +188,19 @@ require 'user_auth.php';
                 },
                 {
                     "render": function(data, type, row) {
-                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '">' + data + '</a>';
+
+
+                        <?php if (($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100')) : ?>
+                            if (row[9] == "ยังไม่ออกผล") {
+                                var data = '<div><h5>' + data;
+                            } else {
+                                var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '" target="_blank">' + data + '</a>';
+                            }
+                        <?php else : ?>
+                            var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '" target="_blank">' + data + '</a>';
+                        <?php endif; ?>
+
+
                         if (row[10] == "ด่วน") {
                             data += ' <span class="badge bg-danger">' + row[10] + '</span>';
                         }
