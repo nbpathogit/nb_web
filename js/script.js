@@ -643,25 +643,58 @@ $(document).ready(function () {
 
 
 //    var initialSecs = 86400; //24 hrs
-    var initialSecs = 1200; //20 min.
-    var currentSecs = initialSecs;
+    var setTimeOut = 1200; //20 min.
+
+    var runningSecs = 0;
+
+
+    const date = new Date();
+    var curtimeint = Math.floor(date.getTime() / 1000);
+    var initialSecs = Math.floor(curtimeint + setTimeOut);
+    runningSecs = Math.floor(initialSecs - curtimeint);
+    showTimeRuning(runningSecs);
+    console.log("curtimeint:" + curtimeint);
+    console.log("runningSecs:" + runningSecs);
+    console.log("----");
 
     setTimeout(decrement, 1000);
 
+
     function decrement() {
-        var displayedSecs = currentSecs % 60;
-        var displayedMin = Math.floor(currentSecs / 60) % 60;
-        var displayedHrs = Math.floor(currentSecs / 60 / 60);
+
+        const date = new Date();
+        var curtimeint = Math.floor(date.getTime() / 1000);
+
+        runningSecs = Math.floor(initialSecs - curtimeint);
+
+
+
+        console.log("curtimeint:" + curtimeint);
+        console.log("runningSecs:" + runningSecs);
+        console.log("----");
+
+        showTimeRuning(runningSecs);
+
+        if (runningSecs > -1) {
+            setTimeout(decrement, 1000);
+        }else{
+            //Auto Logout
+        }
+    }
+
+    function showTimeRuning(runningSecs) {
+        var displayedSecs = runningSecs % 60;
+        var displayedMin = Math.floor(runningSecs / 60) % 60;
+        var displayedHrs = Math.floor(runningSecs / 60 / 60);
 
         if (displayedMin <= 9)
             displayedMin = "0" + displayedMin;
         if (displayedSecs <= 9)
             displayedSecs = "0" + displayedSecs;
-        currentSecs--;
+//        runningSecs--;
 //        document.getElementById("sessioncountdown").value = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
         document.getElementById("sessioncountdown").innerHTML = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
-        if (currentSecs !== -1)
-            setTimeout(decrement, 1000);
+
     }
 
 
