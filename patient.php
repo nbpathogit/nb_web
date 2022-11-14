@@ -2,8 +2,9 @@
 require 'includes/init.php';
 
 $conn = require 'includes/db.php';
-require 'user_auth.php';
 Auth::requireLogin();
+
+require 'user_auth.php';
 
 // var_dump($_SESSION);exit;
 ?>
