@@ -641,20 +641,20 @@ $(document).ready(function () {
     document.getElementById("sessioncountdown").value = "aaaaa";
 
 
+    var sesstion_timeout_int_sec = $(".sesstion_timeout_int_sec").attr('tabindex');
 
-//    var initialSecs = 86400; //24 hrs
-    var setTimeOut = 1200; //20 min.
+    console.log("sesstion_timeout_int_sec " + sesstion_timeout_int_sec);
 
-    var runningSecs = 0;
-
+    var setTimeOutIntSecs = parseInt(sesstion_timeout_int_sec);
+    var runningDownTimeIntSecs = 0;
 
     const date = new Date();
-    var curtimeint = Math.floor(date.getTime() / 1000);
-    var initialSecs = Math.floor(curtimeint + setTimeOut);
-    runningSecs = Math.floor(initialSecs - curtimeint);
-    showTimeRuning(runningSecs);
-    console.log("curtimeint:" + curtimeint);
-    console.log("runningSecs:" + runningSecs);
+    var curTimeIntSecs = Math.floor(date.getTime() / 1000);
+    var targetTimeOutIntSecs = Math.floor(curTimeIntSecs + setTimeOutIntSecs);
+    runningDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curTimeIntSecs);
+    showTimeRuning(runningDownTimeIntSecs);
+    console.log("curTimeIntSecs:" + curTimeIntSecs);
+    console.log("runningDownTimeIntSecs:" + runningDownTimeIntSecs);
     console.log("----");
 
     setTimeout(decrement, 1000);
@@ -663,35 +663,36 @@ $(document).ready(function () {
     function decrement() {
 
         const date = new Date();
-        var curtimeint = Math.floor(date.getTime() / 1000);
+        var curTimeIntSecs = Math.floor(date.getTime() / 1000);
 
-        runningSecs = Math.floor(initialSecs - curtimeint);
+        runningDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curTimeIntSecs);
 
 
 
-        console.log("curtimeint:" + curtimeint);
-        console.log("runningSecs:" + runningSecs);
+        console.log("curTimeIntSecs:" + curTimeIntSecs);
+        console.log("runningDownTimeIntSecs:" + i);
         console.log("----");
 
-        showTimeRuning(runningSecs);
+        showTimeRuning(runningDownTimeIntSecs);
 
-        if (runningSecs > -1) {
+        if (runningDownTimeIntSecs > -1) {
             setTimeout(decrement, 1000);
-        }else{
+        } else {
             //Auto Logout
+            $(window).attr('location','/logout.php');
         }
     }
 
-    function showTimeRuning(runningSecs) {
-        var displayedSecs = runningSecs % 60;
-        var displayedMin = Math.floor(runningSecs / 60) % 60;
-        var displayedHrs = Math.floor(runningSecs / 60 / 60);
+    function showTimeRuning(runningDownTimeIntSecs) {
+        var displayedSecs = runningDownTimeIntSecs % 60;
+        var displayedMin = Math.floor(runningDownTimeIntSecs / 60) % 60;
+        var displayedHrs = Math.floor(runningDownTimeIntSecs / 60 / 60);
 
         if (displayedMin <= 9)
             displayedMin = "0" + displayedMin;
         if (displayedSecs <= 9)
             displayedSecs = "0" + displayedSecs;
-//        runningSecs--;
+//        runningDownTimeIntSecs--;
 //        document.getElementById("sessioncountdown").value = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
         document.getElementById("sessioncountdown").innerHTML = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
 

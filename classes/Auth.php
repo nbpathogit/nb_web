@@ -6,6 +6,9 @@
  * Login and logout
  */
 class Auth {
+    
+//    public static $sesstion_timeout_int_sec = 15; //60second = 1 min.; <-- Write to DOM
+    public static $sesstion_timeout_int_sec = 1200; //1200second = 20 min.; <-- Write to DOM
 
     /**
      * return the user authentication status
@@ -13,11 +16,11 @@ class Auth {
      * @return boolean True if a user is logged in, false otherwies
      */
     public static function isLoggedIn() {
-        return isset($_SESSION['is_logged_in']) && 
-        $_SESSION['is_logged_in'] && 
-        isset($_SESSION['username']) && 
-        isset($_SESSION['user']) && 
-        isset($_SESSION['usergroup']);
+        return isset($_SESSION['is_logged_in']) &&
+                $_SESSION['is_logged_in'] &&
+                isset($_SESSION['username']) &&
+                isset($_SESSION['user']) &&
+                isset($_SESSION['usergroup']);
     }
 
     /**
@@ -25,15 +28,27 @@ class Auth {
      *
      * @return void
      */
-    
-    public static function requireLogin($page_name="na",$page_id=0) {
+    public static function requireLogin($page_name = "na", $page_id = 0) {
+
+        $curTime = Time();
+        $_SESSION['setTimeOutIntSecs'] = Auth::$sesstion_timeout_int_sec;
+        
+        if ($curTime >= $_SESSION['targetTimeOutIntSecs']) {
+            Auth::logout();
+        } else {
+            $_SESSION['curTimeIntSecs'] = $curTime;
+            $_SESSION['targetTimeOutIntSecs'] = $curTime + $_SESSION['setTimeOutIntSecs'];
+        }
+
         if (!static::isLoggedIn()) {
-            if($page_name != "na" ){
-                Url::redirect('/login.php?page_name='.$page_name.'&page_id='.$page_id);
-            }else{
+            if ($page_name != "na") {
+                Url::redirect('/login.php?page_name=' . $page_name . '&page_id=' . $page_id);
+            } else {
                 Url::redirect('/login.php');
             }
         }
+
+//        session_regenerate_id(true);
     }
 
     /**
@@ -47,52 +62,27 @@ class Auth {
         $ugroup = Ugroup::getByID($conn, $user->ugroup_id);
 
         session_regenerate_id(true);
+
         
-        $_SESSION['is_logged_in'] = true;
         $_SESSION['username'] = $username;
         $_SESSION['user'] = $user;
         $_SESSION['userid'] = $userid;
         $_SESSION['usergroup'] = $ugroup;
         $_SESSION['skey'] = self::randomString();
 
+        $_SESSION['setTimeOutIntSecs'] = Auth::$sesstion_timeout_int_sec;
+        $curTime = Time();
+        $_SESSION['curTimeIntSecs'] = $curTime;
+        $_SESSION['targetTimeOutIntSecs'] = $curTime + $_SESSION['setTimeOutIntSecs'];
+
+        
+        $_SESSION['is_logged_in'] = true;
 //                var_dump($user);
 //                var_dump($ugroup);
 //                die();
     }
-
-    public static function getUser() {
-        if (isset($_SESSION['user'])) {
-            return $_SESSION['user'];
-        } else {
-            return null;
-        }
-    }
     
-    public static function getUserId() {
-        if (isset($_SESSION['userid'])) {
-            return $_SESSION['userid'];
-        } else {
-            return null;
-        }
-    }
-    
-        public static function getUsername() {
-        if (isset($_SESSION['username'])) {
-            return $_SESSION['username'];
-        } else {
-            return null;
-        }
-    }
-
-    public static function getUserGroup() {
-        if (isset($_SESSION['usergroup'])) {
-            return $_SESSION['usergroup'];
-        } else {
-            return null;
-        }
-    }
-
-    /**
+        /**
      * Log out using the session
      *
      * @return void
@@ -110,6 +100,40 @@ class Auth {
         // Finally, destroy the session.
         session_destroy();
     }
+
+    public static function getUser() {
+        if (isset($_SESSION['user'])) {
+            return $_SESSION['user'];
+        } else {
+            return null;
+        }
+    }
+
+    public static function getUserId() {
+        if (isset($_SESSION['userid'])) {
+            return $_SESSION['userid'];
+        } else {
+            return null;
+        }
+    }
+
+    public static function getUsername() {
+        if (isset($_SESSION['username'])) {
+            return $_SESSION['username'];
+        } else {
+            return null;
+        }
+    }
+
+    public static function getUserGroup() {
+        if (isset($_SESSION['usergroup'])) {
+            return $_SESSION['usergroup'];
+        } else {
+            return null;
+        }
+    }
+
+
 
     public static function canViewPatientResult() {
 
@@ -143,7 +167,6 @@ class Auth {
             return false;
         }
     }
-    
 
     public static function isDisableEditNBCenter() {
 
@@ -157,13 +180,7 @@ class Auth {
         }
     }
 
-    
-    
-    
-    
-    
-    
-       public static function canViewPatientInfo() {
+    public static function canViewPatientInfo() {
         $str = $_SESSION['usergroup']->ppatient;
 
         if ($str[0] == '1') {
@@ -173,7 +190,6 @@ class Auth {
         }
     }
 
-    
     public static function isDisableEditPatientInfo() {
 
         $str = $_SESSION['usergroup']->ppatient;
@@ -184,15 +200,13 @@ class Auth {
             return false;
         }
     }
-    
-    public static function block()
-    {
+
+    public static function block() {
         header("HTTP/1.1 403 Forbidden");
         exit;
     }
 
-    public static function randomString($length = 10)
-    {
+    public static function randomString($length = 10) {
         $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $charactersLength = strlen($characters);
         $randomString = "";
@@ -201,9 +215,5 @@ class Auth {
         }
         return $randomString;
     }
-    
-    
-    
-    
-    
+
 }
