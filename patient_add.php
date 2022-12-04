@@ -39,37 +39,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sn = ""; //String
 
     if (isset($_POST['autogen'])) {
+        $dbg_autogen = false;
+        
         $curyear = Util::get_curreint_year(); // string
 //        $curyear = "23";              //fake 23 for debug new generate
         
-//        echo "<br>Current year (String) = " . $curyear . "<br>";
-//        echo "Init runnum (Integer) = " . $runnum . "<br>";
-//        echo "Init runstr (String) = " . $runstr . "<br>";
-//        echo "Init sn (String) = " . $sn . "<br><br>";
+        if($dbg_autogen){echo "<br>Current year (String) = " . $curyear . "<br>";}
+        if($dbg_autogen){echo "Init runnum (Integer) = " . $runnum . "<br>";}
+        if($dbg_autogen){echo "Init runstr (String) = " . $runstr . "<br>";}
+        if($dbg_autogen){echo "Init sn (String) = " . $sn . "<br><br>";}
 
         // If no record of new year is zero  then Set runing =1 else set runing = cur_runing + 1
         $count_sn_year = Patient::get_count_sn_year($conn, $curyear);
         
-//        var_dump($count_sn_year);
-//        echo '<br>';
-//        echo "Record Count of year ".$curyear." = " . $count_sn_year[0]['count'] . "<br><br>";
+        if($dbg_autogen){ var_dump($count_sn_year);}
+        if($dbg_autogen){echo '<br>';}
+        if($dbg_autogen){echo "Record Count of year ".$curyear." = " . $count_sn_year[0]['count'] . "<br><br>";}
 
         if ($count_sn_year[0]['count'] == 0) {
-//            echo "count = 0 <br>";
-//            echo "initial runing number = 1<br>";
+            if($dbg_autogen){echo "count = 0 <br>";}
+            if($dbg_autogen){echo "initial runing number = 1<br>";}
             $runnum = 1;
         } else {
-//            echo "count > 0<br>";
-//            echo "get runing from DB and increasing running number by one <br>";
+            if($dbg_autogen){echo "count > 0<br>";}
+            if($dbg_autogen){echo "get runing from DB and increasing running number by one <br>";}
             $a = Patient::get_max_sn_run_by_year($conn, $curyear);
             $b = $a[0]['max_sn_run'];
             $runnum = intval($b);
 //            var_dump($runnum);
-
+            if($dbg_autogen){echo "Current runnum = ".$runnum." <br>";}
             $runnum += 1;
+            if($dbg_autogen){echo "New runnum = ".$runnum." <br>";}
         }
         $runstr = Util::prepend_string_with_zero(5, $runnum);
         $sn = "SN" . $curyear . $runstr;
+        if($dbg_autogen){echo " <br>New SN = ".$sn." <br>";}
+        
+        if($dbg_autogen){die("stop debug");}
     } else {
 //        echo "Manual fill in<br><br>";
         $curyear = "0"; // string

@@ -670,7 +670,7 @@ $(document).ready(function () {
 
 
         console.log("curTimeIntSecs:" + curTimeIntSecs);
-        console.log("runningDownTimeIntSecs:" + i);
+        console.log("runningDownTimeIntSecs:" + runningDownTimeIntSecs);
         console.log("----");
 
         showTimeRuning(runningDownTimeIntSecs);
