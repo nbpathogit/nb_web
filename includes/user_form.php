@@ -1,7 +1,7 @@
 <div class="row pt-3 mb-3 g-5 align-items-center">
     <div class="col-3 col-md-2">
         <label for="pre_name" class="form-label">คำนำหน้าชื่อ</label><span> *</span>
-        <input name="pre_name" type="text" list="pre_name_list"  class="form-control" id="pre_name" required value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
+        <input name="pre_name" type="text" list="pre_name_list" class="form-control" id="pre_name" required value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
         <datalist id="pre_name_list">
             <option>นาย</option>
             <option>นาง</option>
@@ -37,12 +37,16 @@
         <label for="lastname_e" class="form-label">Lastname</label>
         <input name="lastname_e" type="text" class="form-control" id="lastname" value="<?= (isset($user[0]['lastname_e']) ? $user[0]['lastname_e'] : ''); ?>">
     </div>
+    <div class="col-3 col-md-2">
+        <label for="short_name" class="form-label">ชื่อย่อ</label>
+        <input name="short_name" type="text" class="form-control" id="short_name" value="<?= (isset($user[0]['short_name']) ? $user[0]['short_name'] : ''); ?>">
+    </div>
 </div>
 
 <div class="row mb-3 g-5 align-items-center">
     <div class="col-3 col-md-2">
         <label for="educational_bf" class="form-label">วุฒิการศึกษา</label>
-        <input name="educational_bf"  list="educational_bf_list"  type="text" class="form-control" id="educational_bf" value="<?= (isset($user[0]['educational_bf']) ? $user[0]['educational_bf'] : ''); ?>" placeholder="MD.">
+        <input name="educational_bf" list="educational_bf_list" type="text" class="form-control" id="educational_bf" value="<?= (isset($user[0]['educational_bf']) ? $user[0]['educational_bf'] : ''); ?>" placeholder="MD.">
         <datalist id="educational_bf_list">
             <option>MD.</option>
         </datalist>

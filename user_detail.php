@@ -106,6 +106,12 @@ if (isset($_GET['id'])) {
                         </td>
                     </tr>
                     <tr>
+                        <td>ชื่อย่อ</td>
+                        <td>
+                        <?= $user[0]['short_name']; ?>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>วุฒิการศึกษา</td>
                         <td>
                             <?= $user[0]['educational_bf']; ?>

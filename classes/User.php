@@ -19,6 +19,7 @@ class User
     public $pre_name_e;
     public $name_e;
     public $lastname_e;
+    public $short_name;
     public $educational_bf;
     public $role;
     public $udetail;
@@ -205,8 +206,8 @@ class User
     {
         // INSERT INTO user (id, name, lastname, username, password, ugroup_id, uhospital_id) VALUES (NULL, 'อนุชิกก', 'ยุงทอม', 'aaaa', 'aaaa', '4', '2');
 
-        $sql = "INSERT INTO user ( pre_name, name, lastname, pre_name_e, name_e, lastname_e, educational_bf, role, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id)
-            VALUES (:pre_name, :name, :lastname, :pre_name_e, :name_e, :lastname_e, :educational_bf, :role, :udetail, :umobile, :uemail, :username, :password, :ugroupid, :uhospitalid)";
+        $sql = "INSERT INTO user ( pre_name, name, lastname, pre_name_e, name_e, lastname_e, short_name, educational_bf, role, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id)
+            VALUES (:pre_name, :name, :lastname, :pre_name_e, :name_e, :lastname_e, :short_name, :educational_bf, :role, :udetail, :umobile, :uemail, :username, :password, :ugroupid, :uhospitalid)";
 
         $stmt = $conn->prepare($sql);
 
@@ -218,6 +219,7 @@ class User
         $stmt->bindValue(':pre_name_e', $this->pre_name_e, PDO::PARAM_STR);
         $stmt->bindValue(':name_e', $this->name_e, PDO::PARAM_STR);
         $stmt->bindValue(':lastname_e', $this->lastname_e, PDO::PARAM_STR);
+        $stmt->bindValue(':short_name', $this->short_name, PDO::PARAM_STR);
         $stmt->bindValue(':educational_bf', $this->educational_bf, PDO::PARAM_STR);
         $stmt->bindValue(':role', $this->role, PDO::PARAM_STR);
         $stmt->bindValue(':udetail', $this->udetail, PDO::PARAM_STR);
@@ -270,7 +272,7 @@ class User
     {
         // need update
         $sql = "UPDATE user
-                SET pre_name=:pre_name, name= :name,lastname= :lastname, pre_name_e=:pre_name_e, name_e= :name_e,lastname_e= :lastname_e, educational_bf=:educational_bf,role=:role, udetail= :udetail,umobile= :umobile,uemail= :uemail, username=:username, password=:password, ugroup_id=:ugroupid, uhospital_id=:uhospitalid
+                SET pre_name=:pre_name, name= :name,lastname= :lastname, pre_name_e=:pre_name_e, name_e= :name_e,lastname_e= :lastname_e, short_name=:short_name, educational_bf=:educational_bf,role=:role, udetail= :udetail,umobile= :umobile,uemail= :uemail, username=:username, password=:password, ugroup_id=:ugroupid, uhospital_id=:uhospitalid
                 WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
@@ -281,6 +283,7 @@ class User
         $stmt->bindValue(':pre_name_e', $this->pre_name_e, PDO::PARAM_STR);
         $stmt->bindValue(':name_e', $this->name_e, PDO::PARAM_STR);
         $stmt->bindValue(':lastname_e', $this->lastname_e, PDO::PARAM_STR);
+        $stmt->bindValue(':short_name', $this->short_name, PDO::PARAM_STR);
         $stmt->bindValue(':educational_bf', $this->educational_bf, PDO::PARAM_STR);
         $stmt->bindValue(':role', $this->role, PDO::PARAM_STR);
         $stmt->bindValue(':udetail', $this->udetail, PDO::PARAM_STR);

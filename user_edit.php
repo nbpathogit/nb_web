@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_edit->pre_name_e = $_POST['pre_name_e'];
     $user_edit->name_e = $_POST['name_e'];
     $user_edit->lastname_e = $_POST['lastname_e'];
+    $user_edit->short_name = $_POST['short_name'];
     $user_edit->educational_bf = $_POST['educational_bf'];
     $user_edit->role = $_POST['role'];
     $user_edit->umobile = $_POST['umobile'];
@@ -70,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user_edit->update($conn)) {
             $user_updated = true;
             $url = "/user_detail.php?id=$user_edit->id&result=1";
-            if ($passchg) $url = $url . "&psch=1";
+            if ($passchg===true) $url = $url . "&psch=1";
         } else {
             echo '<script>alert("Edit user fail. Please verify again")</script>';
         }

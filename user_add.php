@@ -37,6 +37,7 @@ require 'user_auth.php';
         $user_new->pre_name_e = $_POST['pre_name_e'];
         $user_new->name_e = $_POST['name_e'];
         $user_new->lastname_e = $_POST['lastname_e'];
+        $user_new->short_name = $_POST['short_name'];
         $user_new->educational_bf = $_POST['educational_bf'];
         $user_new->role = $_POST['role'];
         $user_new->umobile = $_POST['umobile'];

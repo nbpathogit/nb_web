@@ -24,56 +24,58 @@ require 'user_auth.php';
 
 <?php require 'includes/header.php'; ?>
 
-    <?php if (!Auth::isLoggedIn()) : ?>
-        <?php require 'blockopen.php'; ?>
-        You are not login.<br>
-        คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน    
-        <?php require 'blockclose.php';?>
-    <?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)): //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ ?> 
-        <?php require 'blockopen.php'; ?>
-        You have no authorize to view this content. <br>
-        คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
-        <?php require 'blockclose.php';?>
-    <?php else : ?>
+<?php if (!Auth::isLoggedIn()) : ?>
+    <?php require 'blockopen.php'; ?>
+    You are not login.<br>
+    คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน
+    <?php require 'blockclose.php'; ?>
+<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust)) : //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ 
+?>
+    <?php require 'blockopen.php'; ?>
+    You have no authorize to view this content. <br>
+    คุณไม่มีสิทธิ์ในการเข้าดูส่วนนี้
+    <?php require 'blockclose.php'; ?>
+<?php else : ?>
 
-<div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
 
             <div class="d-flex align-items-center justify-content-between">
                 <a href="/user_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-user-plus me-2"></i>เพิ่มผู้ใช้งานระบบ</a>
             </div>
 
+        </div>
     </div>
-</div>
 
-<div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
 
-        <table class="table table-hover table-striped text-center" id="user_table" style="width:100%">
-            <thead>
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">username</th>
-                    <th scope="col">#</th>
-                    <th scope="col">ชื่อ</th>
-                    <th scope="col">นามสกุล</th>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Lastname</th>
-                    <!-- <th scope="col">password</th> -->
-                    <th scope="col">Hospital</th>
-                    <th scope="col">group</th>
-                    <th scope="col">manage</th>
-                </tr>
-            </thead>
+            <table class="table table-hover table-striped text-center" id="user_table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">username</th>
+                        <th scope="col">#</th>
+                        <th scope="col">ชื่อ</th>
+                        <th scope="col">นามสกุล</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Short name</th>
+                        <!-- <th scope="col">password</th> -->
+                        <th scope="col">Hospital</th>
+                        <th scope="col">group</th>
+                        <th scope="col">manage</th>
+                    </tr>
+                </thead>
 
-        </table>
+            </table>
 
-    
 
+
+        </div>
     </div>
-</div>
 <?php endif; ?>
 <?php require 'includes/footer.php'; ?>
 
@@ -94,13 +96,13 @@ require 'user_auth.php';
                     searchPanes: {
                         show: true
                     },
-                    targets: [8, 9]
+                    targets: [9, 10]
                 },
                 {
                     searchPanes: {
                         show: false
                     },
-                    targets: [0, 1, 2, 3, 4, 5, 6, 7]
+                    targets: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 },
                 {
                     "render": function(data, type, row) {
@@ -123,6 +125,17 @@ require 'user_auth.php';
                     "targets": 1
                 },
                 {
+                    "render": function(data, type, row) {
+                        // return data + ' (' + row[3] + ')';
+                        data = row[2] + ' ' + row[3] + ' ' + row[4] + '<br>' + row[5] + row[6] + row[7];
+                        if (row[8] != null) {
+                            data += "<br>" + row[8];
+                        }
+                        return data;
+                    },
+                    "targets": 3
+                },
+                {
                     responsivePriority: 1,
                     targets: 1
                 },
@@ -132,11 +145,11 @@ require 'user_auth.php';
                 },
                 {
                     responsivePriority: 4,
-                    targets: [8, 9]
+                    targets: [9, 10]
                 },
                 {
                     responsivePriority: 2,
-                    targets: 10
+                    targets: 11
                 },
                 {
                     responsivePriority: 10004,
@@ -153,7 +166,15 @@ require 'user_auth.php';
                 {
                     responsivePriority: 10005,
                     targets: 0
-                }
+                },
+                {
+                    responsivePriority: 10005,
+                    targets: 8
+                },
+                {
+                    visible: false,
+                    targets: [0, 2, 4, 5, 6, 7, 8]
+                },
             ]
         });
 
