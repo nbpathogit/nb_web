@@ -35,6 +35,15 @@ class Ugroup {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    //get only customer group id 5000 ro 5100
+    public static function getCust($conn) {
+        $sql = "SELECT * FROM user_groups WHERE id=5000 or id=5100;";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function getByID($conn, $id, $columns = '*') {
         $sql = "SELECT $columns
                 FROM user_groups

@@ -11,7 +11,13 @@ require 'includes/init.php';
 $conn = require 'includes/db.php';
 require 'user_auth.php';
 
-$ugroups = Ugroup::getAll($conn);
+$canCurUserChangeUGroup = TRUE;
+
+if($isCurUserAdmin){
+   $ugroups = Ugroup::getAll($conn); 
+}else{
+   $ugroups = Ugroup::getCust($conn);
+}
 
 $hospitals = Hospital::getAll($conn);
 //var_dump($hospitals);

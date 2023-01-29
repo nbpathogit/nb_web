@@ -75,10 +75,14 @@
 <div class="row mb-3">
     <div class="col-6 col-md-4">
         <label for="ugroup_id">กลุ่มผู้ใช้งาน</label><span style="color:red"> *</span>
-        <select class="form-select" name="ugroup_id">
+        <select class="form-select" name="ugroup_id" <?= $canCurUserChangeUGroup?"":"disabled"; ?> >
             <!--<option value="#">กรุณาเลือก</option>-->
             <?php foreach ($ugroups as $ugroup) : ?>
+                <?php if($canCurUserChangeUGroup): ?>
                 <option value="<?= htmlspecialchars($ugroup['id']); ?>" <?= (isset($user[0]['ugroup_id']) ? (($user[0]['ugroup_id'] == $ugroup['id']) ? "selected" : "") : ""); ?>><?= htmlspecialchars($ugroup['ugroup']); ?></option>
+                <?php else : ?>
+                <option value="<?= htmlspecialchars($ugroup['id']); ?>" <?= (isset($user[0]['ugroup_id']) ? (($user[0]['ugroup_id'] == $ugroup['id']) ? "selected" : "disabled") : ""); ?>><?= htmlspecialchars($ugroup['ugroup']); ?></option>    
+                <?php endif; ?> 
             <?php endforeach; ?>
         </select>
     </div>
