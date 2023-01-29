@@ -194,6 +194,36 @@ class User
         }
     }
 
+    
+    public static function getInit() {
+        return [
+            [
+            'id' => '',
+            'username' => NULL,
+            'password' => '',
+            'pre_name' => '',
+            'name' => '',
+            'lastname' => '',
+            'pre_name_e' => '',
+            'name_e' => '',
+            'lastname_e' => '',
+            'short_name' => '',
+            'educational_bf' => '',
+            'role' => '',
+            'udetail' => '',
+            'umobile' => '',
+            'uemail' => '',
+            'ugroup_id' => '0',
+            'uhospital_id' => '0',
+            'signature_file' => '',
+            'profile_file' => '',
+            'user_status' => 1
+                
+
+            ]
+        ];
+    }
+
 
     /**
      * Insert a new user

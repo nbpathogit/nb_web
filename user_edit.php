@@ -22,8 +22,8 @@ if (isset($_GET['id'])) {
 
 $user_edit = new User();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // var_dump($_POST);
-    // die();
+//     var_dump($_POST);
+//     die();
 
     $url = "";
 
@@ -42,22 +42,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_edit->short_name = $_POST['short_name'];
     $user_edit->educational_bf = $_POST['educational_bf'];
     $user_edit->role = $_POST['role'];
-    $user_edit->umobile = $_POST['umobile'];
-    $user_edit->uemail = $_POST['uemail'];
-    $user_edit->username = $_POST['username'];
-
-
-    // if have old password field correct and new pass correct -> save hash new password
-    if (
-        !empty($_POST['old_password'])
-        &&  (User::authenticate($conn, $user[0]['username'], $_POST['old_password']) || $isCurUserAdmin)  // admin can change password without old password
-        && ($_POST['password'] == $_POST['set_password_confirm'])
-    ) {
-        $user_edit->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $passchg = true;
+    if(isset( $_POST["umobile_enable"])){ //IF checkbox umobile_enable checked
+        $user_edit->umobile = $_POST['umobile'];
+    }else{
+        $user_edit->umobile = $user[0]['umobile'];
+        if(!isset($user_edit->umobile)){$user_edit->umobile="";} //replace blank instead of NULL
     }
-    // use old pass with no rehash
-    else {
+    if(isset( $_POST["uemail_enable"])){ //IF checkbox uemail_enable checked
+        $user_edit->uemail = $_POST['uemail'];
+    }else{
+        $user_edit->uemail = $user[0]['uemail'];
+        if(!isset($user_edit->uemail)){$user_edit->uemail="";} //replace blank instead of NULL
+    }
+    
+    
+
+
+    if(isset( $_POST["username_enable"])){ //IF checkbox username_enable checked
+        $user_edit->username = $_POST['username'];
+        // if have old password field correct and new pass correct -> save hash new password
+        if (
+                !empty($_POST['old_password']) && (User::authenticate($conn, $user[0]['username'], $_POST['old_password']) || $isCurUserAdmin)  // admin can change password without old password
+                && ($_POST['password'] == $_POST['set_password_confirm'])
+        ) {
+            $user_edit->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $passchg = true;
+        }
+        // use old pass with no rehash
+        else {
+            $user_edit->password = $user[0]['password'];
+            $passchg = false;
+        }
+    }else{
+        //keep username password as is
+        $user_edit->username = $user[0]['username'];
         $user_edit->password = $user[0]['password'];
         $passchg = false;
     }
@@ -65,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_edit->ugroup_id = $_POST['ugroup_id'];
     $user_edit->uhospital_id = $_POST['uhospital_id'];
     $user_edit->udetail = $_POST['udetail'];
-
+    
 
     try {
         if ($user_edit->update($conn)) {

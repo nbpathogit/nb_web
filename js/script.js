@@ -637,6 +637,44 @@ $(document).ready(function () {
     if (pautoscroll != "NA" && pautoscroll != null && pautoscroll != 0) {
         document.getElementById(pautoscroll).scrollIntoView();
     }
+    
+    
+    
+    
+    
+    //on ready for User Form Action handler
+
+    //Check box id username_enable is checked
+    if ($('#username_enable').is(':checked')) {
+        // Enable #x
+        $("#username").prop("disabled", false);
+        $("#old_password").prop("disabled", false);
+        $("#password").prop("disabled", false);
+        $("#set_password_confirm").prop("disabled", false);
+    } else {
+        // Disable #x
+        $("#username").prop("disabled", true);
+        $("#old_password").prop("disabled", true);
+        $("#password").prop("disabled", true);
+        $("#set_password_confirm").prop("disabled", true);
+    }
+
+    //Check box id umobile_enable is checked
+    if ($('#umobile_enable').is(':checked')) {
+        $("#umobile").prop("disabled", false);
+    } else {
+        $("#umobile").prop("disabled", true);
+    }
+
+
+    //Check box id uemail_enable is checked
+
+    if ($('#uemail_enable').is(':checked')) {
+        $("#uemail").prop("disabled", false);
+    } else {
+        $("#uemail").prop("disabled", true);
+    }
+
 
     document.getElementById("sessioncountdown").value = "aaaaa";
 
@@ -788,6 +826,44 @@ $('#date_1000').on('blur', function () {
 //      }
 });
 
+
+//User Form Action handler
+
+//Check box id username_enable is checked
+$('#username_enable').change(function () {
+    if (this.checked) {
+        $("#username").prop("disabled", false);
+        $("#old_password").prop("disabled", false);
+        $("#password").prop("disabled", false);
+        $("#set_password_confirm").prop("disabled", false);
+    } else {
+        // Disable #x
+        $("#username").prop("disabled", true);
+        $("#old_password").prop("disabled", true);
+        $("#password").prop("disabled", true);
+        $("#set_password_confirm").prop("disabled", true);
+    }
+});
+
+//Check box id umobile_enable is checked
+$('#umobile_enable').change(function () {
+    if (this.checked) {
+        $("#umobile").prop("disabled", false);
+    } else {
+        $("#umobile").prop("disabled", true);
+    }
+});
+
+//Check box id uemail_enable is checked
+$('#uemail_enable').change(function () {
+    if (this.checked) {
+        $("#uemail").prop("disabled", false);
+    } else {
+        $("#uemail").prop("disabled", true);
+    }
+});
+
+
 $.validator.addMethod("pgendered", function (value, element) {
     return (value != "กรุณาเลือก");
 }, "Must be selected.");
@@ -915,7 +991,7 @@ $("#formAddPatient , #patient_detail , #patient_plan , #save_patient_detail , #s
 });
 
 
-$("#adduser , #chg_passwrd").validate({
+$("#adduser , #chg_passwrd ,#edituser").validate({
     rules: {
 
         ugroup_id: {
@@ -944,24 +1020,7 @@ $("#adduser , #chg_passwrd").validate({
 
 });
 
-$("#edituser").validate({
-    rules: {
 
-        ugroup_id: {
-            selectd: true
-        },
-
-        uhospital_id: {
-            selectd: true
-        },
-
-        username: {
-            required: true
-        },
-
-    }
-
-});
 
 $("#add_u_result").validate({
     rules: {

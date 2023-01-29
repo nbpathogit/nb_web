@@ -1,7 +1,7 @@
 <div class="row pt-3 mb-3 g-5 align-items-center">
     <div class="col-3 col-md-2">
-        <label for="pre_name" class="form-label">คำนำหน้าชื่อ</label><span> *</span>
-        <input name="pre_name" type="text" list="pre_name_list" class="form-control" id="pre_name" required value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
+        <label for="pre_name" class="form-label">คำนำหน้าชื่อ</label><!--span> *</span-->
+        <input name="pre_name" type="text" list="pre_name_list" class="form-control" id="pre_name"  value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
         <datalist id="pre_name_list">
             <option>นาย</option>
             <option>นาง</option>
@@ -9,11 +9,11 @@
         </datalist>
     </div>
     <div class="col-5 col-md-4">
-        <label for="name" class="form-label">ชื่อ</label><span> *</span>
+        <label for="name" class="form-label">ชื่อ</label><span  style="color:red"> *</span>
         <input name="name" type="text" class="form-control" id="name" required value="<?= (isset($user[0]['name']) ? $user[0]['name'] : ''); ?>">
     </div>
     <div class="col-5 col-md-4">
-        <label for="lastname" class="form-label">นามสกุล</label><span> *</span>
+        <label for="lastname" class="form-label">นามสกุล</label><span style="color:red"> *</span>
         <input name="lastname" type="text" class="form-control" id="lastname" required value="<?= (isset($user[0]['lastname']) ? $user[0]['lastname'] : ''); ?>">
     </div>
 </div>
@@ -46,23 +46,27 @@
 <div class="row mb-3 g-5 align-items-center">
     <div class="col-3 col-md-2">
         <label for="educational_bf" class="form-label">วุฒิการศึกษา</label>
-        <input name="educational_bf" list="educational_bf_list" type="text" class="form-control" id="educational_bf" value="<?= (isset($user[0]['educational_bf']) ? $user[0]['educational_bf'] : ''); ?>" placeholder="MD.">
+        <input name="educational_bf" list="educational_bf_list" type="text" class="form-control" id="educational_bf" value="<?= (isset($user[0]['educational_bf']) ? $user[0]['educational_bf'] : ''); ?>" placeholder="">
         <datalist id="educational_bf_list">
             <option>MD.</option>
         </datalist>
     </div>
     <div class="col-3 col-md-2">
         <label for="role" class="form-label">ตำแหน่ง</label>
-        <input name="role" list="role_list" type="text" class="form-control" id="role" value="<?= (isset($user[0]['role']) ? $user[0]['role'] : ''); ?>" placeholder="Pathologist">
+        <input name="role" list="role_list" type="text" class="form-control" id="role" value="<?= (isset($user[0]['role']) ? $user[0]['role'] : ''); ?>" placeholder="">
         <datalist id="role_list">
             <option>Pathologist</option>
         </datalist>
     </div>
     <div class="col-4 col-md-3">
+        <?php $isUMobileBlank = !isset($user[0]['umobile'])  ||  $user[0]['umobile'] == ""; ?>
+        <input type="checkbox" id="umobile_enable" name="umobile_enable" value="" <?= $isUMobileBlank ? "" : " checked " ?>  >
         <label for="umobile" class="form-label">เบอร์โทรศัพท์</label><span> *</span>
         <input name="umobile" type="text" class="form-control" id="umobile" required value="<?= (isset($user[0]['umobile']) ? $user[0]['umobile'] : ''); ?>">
     </div>
     <div class="col-4 col-md-3">
+        <?php $isUEmailBlank = !isset($user[0]['uemail']) || $user[0]['uemail'] == ""; ?>
+        <input type="checkbox" id="uemail_enable" name="uemail_enable" value="" <?= $isUEmailBlank ? "" : " checked " ?>  >
         <label for="uemail" class="form-label">อีเมล</label><span> *</span>
         <input name="uemail" type="email" class="form-control" id="uemail" size="40" required value="<?= (isset($user[0]['uemail']) ? $user[0]['uemail'] : ''); ?>">
     </div>
@@ -70,7 +74,7 @@
 
 <div class="row mb-3">
     <div class="col-6 col-md-4">
-        <label for="ugroup_id">กลุ่มผู้ใช้งาน</label><span> *</span>
+        <label for="ugroup_id">กลุ่มผู้ใช้งาน</label><span style="color:red"> *</span>
         <select class="form-select" name="ugroup_id">
             <!--<option value="#">กรุณาเลือก</option>-->
             <?php foreach ($ugroups as $ugroup) : ?>
@@ -79,7 +83,7 @@
         </select>
     </div>
     <div class="col-6 col-md-4">
-        <label for="uhospital_id">สถานที่ทำงาน</label><span> *</span>
+        <label for="uhospital_id">สถานที่ทำงาน</label><span style="color:red"> *</span>
         <select name="uhospital_id" class="form-select" <?= $isEditModePageForInitialDataOn || $canEditPatientInfo ? " disabled readonly " : "" ?>>
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($hospitals as $hospital) : ?>
@@ -96,6 +100,12 @@
     <textarea class="form-control" name="udetail" cols="60" rows="4" id="udetail"><?= (isset($user[0]['udetail']) ? htmlspecialchars($user[0]['udetail']) : ''); ?></textarea>
 </div>
 
+<hr>
+
+<?php $isUsernameBlank = !isset($user[0]['username']) || $user[0]['username']=="" ; ?>
+<input type="checkbox" id="username_enable" name="username_enable" value="" <?= $isUsernameBlank ? "" : " checked " ?>  >
+<label for="username_enable">Edit or add user/password.</label><br>
+        
 <div class="row mb-3 g-3 align-items-center">
     <div class="col-auto">
         <label for="username">ชื่อเข้าใช้</label>
@@ -121,6 +131,8 @@
         <span class="form-text"><?= (isset($user[0]['password']) ? "ยีนยันรหัสผ่านใหม่(ถ้าไม่เปลี่ยนไม่ต้องใส่)" : "ยืนยันรหัสผ่านอีกรอบ"); ?></span>
     </div>
 </div>
+
+<hr>
 
 <div class="row mb-3 g-3 align-items-center">
     <?php if (isset($user[0]['signature_file'])) : ?>
