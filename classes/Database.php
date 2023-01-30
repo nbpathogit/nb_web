@@ -18,10 +18,18 @@ class Database{
     *
     */
     public function getConn(){
+        
+        // Uncomment for local PC Development
         $db_host = "localhost";
         $db_name = "zp12370_abc";
         $db_user = "zp12370_zp12370";
         $db_pass = "123456";
+        
+        // Uncomment for IOTKIDDLE database
+//        $db_host = "localhost";
+//        $db_name = "u189879599_nb";
+//        $db_user = "u189879599_nb";
+//        $db_pass = "tO22dE^4&$";
         
         $dsn= 'mysql:host=' . $db_host . ';dbname='.$db_name . ';charset=utf8';
         
