@@ -7,7 +7,7 @@
 
         </td>
         <td width="60%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:middle; text-align:center"><!-- comment -->
-            <span style="font-size:20pt;"><b>Diagnosis results</b></span>
+            <span style="font-size:20pt;"><b>Pathological diagnosis</b></span>
 
         </td>
         <td width="20%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right"><!-- comment -->

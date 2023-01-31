@@ -137,7 +137,7 @@ $isSetShowaddResultButton = true;
                     <label for="result_type" class="">เลือกชนิดของการรายงานผล</label>
                     <select name="result_type" class="form-select" id="result_type" >
                         <option value="0">ยังไม่ได้เลือก</option>
-                        <option value="Preliminary" >Preliminary</option>
+                        <option value="Preliminary" >Provisional Diagnosis</option>
                         <option value="Pathological Diagnosis" >Pathological Diagnosis</option>
                         <option value="Addendum" >Addendum</option>
                         <option value="Revised" >Revised</option>
