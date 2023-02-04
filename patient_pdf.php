@@ -9,6 +9,13 @@ $conn = require 'includes/db.php';
 // true = Disable Edit page, false canEditPage
 $isEditModePageOn = false;
 
+// show/hide table for see layout
+if(isset($_GET['layout'])){
+    $hideTable = false;
+}else{
+    $hideTable = true;
+}
+
 //Get Specific Patient Row from Table
 if (isset($_GET['id'])) {
     $patient = Patient::getAll($conn, $_GET['id']);
@@ -24,7 +31,7 @@ if (!$patient) {
 }
 ?>
 <?php require 'user_auth.php'; ?>
-<?php //require 'includes/header.php';?>
+<?php //require 'includes/header.php';   ?>
 <?php if (!Auth::isLoggedIn()) : ?>
     <?php require 'blockopen.php'; ?>
     You are not login.
@@ -34,7 +41,7 @@ if (!$patient) {
     You have no authorize to view other hospital group. 
     <?php require 'blockclose.php'; ?>
 <?php else : ?>
-<?php
+    <?php
 //var_dump($patient);
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);s
 //$patientLists = Patient::getAll($conn);
@@ -57,7 +64,7 @@ if (!$patient) {
     $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
     $hospital = Hospital::getAll($conn, $patient[0]['phospital_id']);
     $pathologist = User::getAllbyPathologis($conn, $patient[0]['ppathologist_id']);
-   
+
 
 //var_dump($patient[0]['ppathologist_id']);
 //var_dump($pathologist);
@@ -237,8 +244,10 @@ if (!$patient) {
     $mpdf->shrink_tables_to_fit = 1;
 
     $header = file_get_contents('pdf_result/patient_format_header_pdf.php');
-    $header = str_replace("border: 1px solid green;", "", $header);
-    $header = str_replace("border: 1px solid red;", "", $header);
+    if ($hideTable) {
+        $header = str_replace("border: 1px solid green;", "", $header);
+        $header = str_replace("border: 1px solid red;", "", $header);
+    }
     $header = str_replace("<pname>", $patient[0]['pname'], $header);
     $header = str_replace("<plastname>", $patient[0]['plastname'], $header);
     $header = str_replace("<surgical_number>", $patient[0]['pnum'], $header);
@@ -261,7 +270,9 @@ if (!$patient) {
 //    <?php foreach ($presultupdates as $presultupdate): 
         foreach ($presultupdates as $prsu) {
             $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_2.php');
-            $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
+            if ($hideTable) {
+                $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
+            }
             $u_result2 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2);
             $u_result2 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2);
             $result_message = htmlspecialchars($prsu['result_message']);
@@ -288,9 +299,9 @@ if (!$patient) {
 
 
     $u_result1 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
-    $u_result1 = str_replace("border: 1px solid green;", "", $u_result1);
-
-
+    if ($hideTable) {
+        $u_result1 = str_replace("border: 1px solid green;", "", $u_result1);
+    }
 
     $p_rs_specimen = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_specimen']));
     $p_rs_specimen = str_replace(" ", "&nbsp;", $p_rs_specimen);
@@ -313,8 +324,15 @@ if (!$patient) {
 
 
     $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');
-    $signature = str_replace("border: 1px solid green;", "", $signature);
-    $signature = str_replace("border: 1px solid red;", "", $signature);
+    $signature = $signature.file_get_contents('pdf_result/patient_format_signature_pdf_1.php');
+    if($patient[0][iscritical] == 1){
+         $signature = $signature.file_get_contents('pdf_result/patient_format_signature_pdf_2.php');
+    }
+    $signature = $signature.file_get_contents('pdf_result/patient_format_signature_pdf_3.php');
+    if ($hideTable) {
+        $signature = str_replace("border: 1px solid green;", "", $signature);
+        $signature = str_replace("border: 1px solid red;", "", $signature);
+    }
     $mpdf->WriteHTML($signature);
 
 //die();
