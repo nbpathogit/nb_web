@@ -84,7 +84,7 @@ class Presultupdate {
                 SET result_message = :result_message,
                 pathologist_id = :pathologist_id,
                 pathologist2_id = :pathologist2_id
-                    WHERE id = :id";
+                WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 

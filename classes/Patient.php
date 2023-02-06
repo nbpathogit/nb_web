@@ -5,7 +5,8 @@
  *
  * A piece of writing for publication
  */
-class Patient {
+class Patient
+{
 
     /**
      * Uniqure identifier
@@ -59,7 +60,7 @@ class Patient {
     public $reported_as;
     public $isautoeditmode;
     public $pautoscroll;
-    
+
     public $p_sp_patho_comment;
 
     /**
@@ -68,11 +69,13 @@ class Patient {
      */
     public $errors = [];
 
-    public static function getTotal($conn, $user_group = "*") {
+    public static function getTotal($conn, $user_group = "*")
+    {
         return $conn->query("SELECT COUNT(*) FROM patient")->fetchColumn();
     }
 
-    public static function getPage($conn, $limit, $offset) {
+    public static function getPage($conn, $limit, $offset)
+    {
 
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
@@ -106,7 +109,8 @@ class Patient {
      *
      * @return array An associative array of all the article records
      */
-    public static function getAll($conn, $id = 0) {
+    public static function getAll($conn, $id = 0)
+    {
         $sql = "SELECT * 
                 FROM patient ";
 
@@ -126,7 +130,8 @@ class Patient {
      *
      * @return array An associative array of all the article records
      */
-    public static function getAllJoin($conn, $id = 0, $start = '0') {
+    public static function getAllJoin($conn, $id = 0, $start = '0')
+    {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -154,7 +159,8 @@ class Patient {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllJoinWithReported($conn, $id = 0, $start = '0') {
+    public static function getAllJoinWithReported($conn, $id = 0, $start = '0')
+    {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -182,7 +188,8 @@ class Patient {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllJoinID8000($conn, $id = 0, $start = '0') {
+    public static function getAllJoinID8000($conn, $id = 0, $start = '0')
+    {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -219,7 +226,8 @@ class Patient {
      *
      * @return An object of this class, or null if not found
      */
-    public static function getByID($conn, $id, $columns = '*') {
+    public static function getByID($conn, $id, $columns = '*')
+    {
         $sql = "SELECT $columns
                 FROM patient
                 WHERE id= :id";
@@ -242,11 +250,12 @@ class Patient {
      *
      * @return boolean True if the insert was successful, false otherwise
      */
-    public function create($conn) {
+    public function create($conn)
+    {
 
 
         $sql = "INSERT INTO `patient` (`id`,  `sn_year`, `sn_run`, `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
-                . "            VALUES (NULL,  :sn_year,  :sn_run,  :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
+            . "            VALUES (NULL,  :sn_year,  :sn_run,  :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
 
 
 
@@ -257,10 +266,10 @@ class Patient {
         //var_dump( $this->name);
 
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
-        
+
         $stmt->bindValue(':sn_year', $this->sn_year, PDO::PARAM_STR);
         $stmt->bindValue(':sn_run', $this->sn_run, PDO::PARAM_INT);
-        
+
         $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
         $stmt->bindValue(':pname', $this->pname, PDO::PARAM_STR);
         $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
@@ -304,9 +313,9 @@ class Patient {
         $stmt->bindValue(':p_speciment_type', $this->p_speciment_type, PDO::PARAM_STR);
         $stmt->bindValue(':p_slide_lab_id', $this->p_slide_lab_id, PDO::PARAM_INT);
         $stmt->bindValue(':p_slide_lab_price', $this->p_slide_lab_price, PDO::PARAM_INT);
-        
+
         $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
-        $stmt->bindValue(':pautoscroll'      , $this->pautoscroll, PDO::PARAM_STR);
+        $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
 
         //var_dump($stmt);
 
@@ -321,7 +330,8 @@ class Patient {
         }
     }
 
-    public static function getInit() {
+    public static function getInit()
+    {
         return [
             [
                 "id" => "",
@@ -371,7 +381,8 @@ class Patient {
         ];
     }
 
-    public static function updateStatus($conn, $id, $status_id) {
+    public static function updateStatus($conn, $id, $status_id)
+    {
         $sql = "UPDATE patient
                 SET status_id = :status_id
                 WHERE id = :id";
@@ -384,7 +395,8 @@ class Patient {
         return $stmt->execute();
     }
 
-    public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id, $next_status_id, $isset_date_first_report) {
+    public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id, $next_status_id, $isset_date_first_report)
+    {
         $sql = "UPDATE patient
                 SET status_id = :status_id";
 
@@ -406,7 +418,8 @@ class Patient {
         return $stmt->execute();
     }
 
-    public function update($conn, $id) {
+    public function update($conn, $id)
+    {
 
         //                            date_1000=:date_1000,
         //                    
@@ -510,7 +523,8 @@ class Patient {
         }
     }
 
-    public function updatePatientDetail($conn, $id) {
+    public function updatePatientDetail($conn, $id)
+    {
         /* array(12) { 
          * ["pnum"]=> string(8) "sc657766" 
          * ["plabnum"]=> string(2) "cc" 
@@ -571,7 +585,8 @@ class Patient {
         }
     }
 
-    public function updatePatientPlan($conn, $id) {
+    public function updatePatientPlan($conn, $id)
+    {
 
 
         $sql = "UPDATE `patient` 
@@ -616,8 +631,9 @@ class Patient {
         }
     }
 
-    
-    public function updateSpcialSlide($conn, $id) {
+
+    public function updateSpcialSlide($conn, $id)
+    {
 
         $sql = "UPDATE `patient` 
                  SET p_slide_prep_sp_id=:p_slide_prep_sp_id,
@@ -640,7 +656,7 @@ class Patient {
 
         $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
         $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
-        
+
         $stmt->bindValue(':p_sp_patho_comment', $this->p_sp_patho_comment, PDO::PARAM_STR);
 
         //        var_dump($stmt);
@@ -653,10 +669,11 @@ class Patient {
         }
     }
 
-    
-    
-    
-    public function updateInterimResult($conn, $id) {
+
+
+
+    public function updateInterimResult($conn, $id)
+    {
         /* array(5) { 
          * ["p_rs_specimen"]=> string(3) "aaa" 
          * ["p_rs_clinical_diag"]=> string(3) "bbb" 
@@ -696,7 +713,8 @@ class Patient {
         }
     }
 
-    public static function updateReportTypeName($conn, $id, $resultname = "") {
+    public static function updateReportTypeName($conn, $id, $resultname = "")
+    {
 
         $sql = "UPDATE patient
                 SET reported_name = :resultname
@@ -709,7 +727,8 @@ class Patient {
         return $stmt->execute();
     }
 
-    public static function updateReportAs($conn, $id, $resultname = "") {
+    public static function updateReportAs($conn, $id, $resultname = "")
+    {
 
         $sql = "UPDATE patient
                 SET reported_as = :resultname
@@ -722,7 +741,8 @@ class Patient {
         return $stmt->execute();
     }
 
-    public function delete($conn) {
+    public function delete($conn)
+    {
         $sql = "DELETE FROM patient
                 WHERE id = :id";
 
@@ -735,7 +755,8 @@ class Patient {
 
 
 
-    public static function setAutoScroll($conn, $id, $pautoscroll) {
+    public static function setAutoScroll($conn, $id, $pautoscroll)
+    {
         $sql = "UPDATE `patient` 
                  SET 
                  pautoscroll=:pautoscroll
@@ -756,8 +777,9 @@ class Patient {
             return false;
         }
     }
-    
-        public static function clearAutoScroll($conn, $id) {
+
+    public static function clearAutoScroll($conn, $id)
+    {
         $sql = "UPDATE patient
                 SET pautoscroll = :pautoscroll
                 WHERE id = :id";
@@ -769,8 +791,9 @@ class Patient {
 
         return $stmt->execute();
     }
-    
-    public static function setisautoeditmode($conn, $id, $isautoeditmode) {
+
+    public static function setisautoeditmode($conn, $id, $isautoeditmode)
+    {
         $sql = "UPDATE `patient` 
                  SET 
                  isautoeditmode=:isautoeditmode
@@ -791,8 +814,9 @@ class Patient {
             return false;
         }
     }
-    
-    public static function clearisautoeditmode($conn, $id) {
+
+    public static function clearisautoeditmode($conn, $id)
+    {
         $sql = "UPDATE patient
                 SET isautoeditmode = :isautoeditmode
                 WHERE id = :id";
@@ -804,23 +828,24 @@ class Patient {
 
         return $stmt->execute();
     }
-    
-    
-//    ++Example table input
-//    call  get_max_sn_run_by_year($conn,22");
-//    
-//    ++Example table output++
-//    |sn_year |max_sn_run
-//    |22      |2
-//
-    public static function get_max_sn_run_by_year($conn,$sn_year){
+
+
+    //    ++Example table input
+    //    call  get_max_sn_run_by_year($conn,22");
+    //    
+    //    ++Example table output++
+    //    |sn_year |max_sn_run
+    //    |22      |2
+    //
+    public static function get_max_sn_run_by_year($conn, $sn_year)
+    {
         $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p WHERE sn_year = :sn_year GROUP BY `sn_year` ORDER BY `sn_year`;";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     //Print for debug
     //$count_sn_year = Patient::get_count_sn_year($conn, "22");
     //var_dump($count_sn_year);
@@ -828,7 +853,8 @@ class Patient {
     //echo $count_sn_year[0]['count'];
     //echo '<br>';
     //die();
-    public static function  get_count_sn_year($conn,$sn_year){
+    public static function  get_count_sn_year($conn, $sn_year)
+    {
         $sql = "SELECT COUNT(*) as count FROM patient WHERE `sn_year` = :sn_year";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
@@ -836,4 +862,16 @@ class Patient {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function addCriticalReport($conn, $id, $critical_report)
+    {
+        $sql = "UPDATE patient
+                SET iscritical = :iscritical
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':iscritical', $critical_report, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }
