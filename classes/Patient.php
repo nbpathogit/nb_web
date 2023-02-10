@@ -19,9 +19,11 @@ class Patient
      * @var string
      */
     public $pnum;
+    public $sn_type;
     public $sn_year;
     public $sn_run;
     public $plabnum;
+    public $ppre_name;
     public $pname;
     public $pgender;
     public $plastname;
@@ -254,8 +256,8 @@ class Patient
     {
 
 
-        $sql = "INSERT INTO `patient` (`id`,  `sn_year`, `sn_run`, `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
-            . "            VALUES (NULL,  :sn_year,  :sn_run,  :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
+        $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
+            . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
 
 
 
@@ -267,6 +269,7 @@ class Patient
 
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
 
+        $stmt->bindValue(':sn_type', $this->sn_type, PDO::PARAM_STR);
         $stmt->bindValue(':sn_year', $this->sn_year, PDO::PARAM_STR);
         $stmt->bindValue(':sn_run', $this->sn_run, PDO::PARAM_INT);
 
@@ -837,11 +840,12 @@ class Patient
     //    |sn_year |max_sn_run
     //    |22      |2
     //
-    public static function get_max_sn_run_by_year($conn, $sn_year)
+    public static function get_max_sn_run_by_year($conn, $sn_year, $sn_type)
     {
-        $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p WHERE sn_year = :sn_year GROUP BY `sn_year` ORDER BY `sn_year`;";
+        $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p WHERE sn_year = :sn_year and sn_type = :sn_type GROUP BY `sn_year` ORDER BY `sn_year`;";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
+        $stmt->bindValue(':sn_type', $sn_type, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

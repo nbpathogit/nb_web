@@ -21,32 +21,96 @@ if ($debug) {
 
 <!-- Content here -->
 
-<div class="row <?= $isBorder ? "border" : "" ?>">
-    <div>
-        <input type="checkbox" id="autogen" name="autogen" value="autogen" checked>
-        <label for="autogen">Auto Generate</label>
-    </div>
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="pnum" align="right" class="">เลขที่ผู้ป่วย</label>
-        <input name="pnum" type="text" id="pnum" class="form-control" disabled placeholder=""  <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  value="<?= $patient[0]['pnum']; ?>">
-    </div>
 
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="pname" class="">ชื่อผู้ป่วย</label>
-        <input name="pname" type="text" class="form-control border" id="pname" placeholder="" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['pname']; ?>">
-    </div>
 
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="plastname" class="">นามสกุล</label>
-        <div class="col">
-            <input name="plastname" type="text" class="form-control" id="plastname" placeholder="" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['plastname']; ?>">
+<div class="container-fluid pt-4 px-4">
+    <hr noshade="noshade" width="" size="8">
+    <h4 align="center"><b>เพิ่มข้อมูลผู้ป่วยใหม่ลงในระบบ</b></h4>
+
+    <br>
+
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+
+
+        <div class=" <?= $isBorder ? "border" : "" ?>">
+            <input type="radio" id="autogen" name="is_autogen" value="yes" checked>
+            <label for="autogen"><b>auto generate.</b></label>
+        </div><br>
+
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+            <label for="snprefix">อักษรย่อชนิดส่งตรวจ</label>
+            <select class="form-select" name="snprefix" id="snprefix" >
+                <!--<option value="#">กรุณาเลือก</option>-->
+                <?php foreach ($snPrefixs as $snPrefix) : ?>
+                    <option value="<?= ($snPrefix['name']); ?>" ><?= $snPrefix['name'] . "   ::" . $snPrefix['description']; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>"></div>
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>"></div>
     </div>
+    <br>
 
 
+
+
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class=" <?= $isBorder ? "border" : "" ?>">
+            <input type="radio" id="manualgen" name="is_autogen" value="no" >
+            <label for="manualgen"><b>Manual input.</b></label>
+        </div><br>
+
+
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+            <label for="prenum" align="right" class="">อักษรย่อชนิดส่งตรวจ(สองตัว)</label>
+            <input name="prenum" type="text" id="prenum" list="prenumlist" class="form-control"  placeholder="EX: SN"    value=""  maxlength="2" size="4">
+            <datalist id="prenumlist">
+                <option>SN</option>
+                <option>CN</option>
+            </datalist>
+        </div>
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+            <label for="yearnum" align="right" class="">เลขปี(สองหลัก)</label>
+            <input name="yearnum" type="text" id="yearnum" list="yearnumlist" class="form-control"  placeholder="EX: 23"    value="" maxlength="2" size="4">
+            <datalist id="yearnumlist">
+                <option>23</option>
+            </datalist>
+        </div>
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+            <label for="runnum" align="right" class="">เลขรัน(ห้าหลักขึ้นไป)</label>
+            <input name="runnum" type="text" id="runnum" class="form-control"  placeholder="EX: 00001"    value="">
+        </div>
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>"></div>
+
+    </div>
+    <br>
+    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+
+
+        <div class="row <?= $isBorder ? "border" : "" ?>">
+
+            <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+                <label for="pname" class="">ชื่อผู้ป่วย</label>
+                <input name="pname" type="text" class="form-control border" id="pname" placeholder=""  value="<?= $patient[0]['pname']; ?>">
+            </div>
+
+            <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+                <label for="plastname" class="">นามสกุล</label>
+                <div class="col">
+                    <input name="plastname" type="text" class="form-control" id="plastname" placeholder=""  value="<?= $patient[0]['plastname']; ?>">
+                </div>
+            </div>
+
+
+        </div>
+
+        <p align="center">
+            <!--<button>ตกลง</button>-->
+            <br>
+            <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูลใหม่ลงในระบบ</button>
+        </p>
+
+
+
+    </div>
 </div>
-
-
-
-
-

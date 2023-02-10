@@ -569,6 +569,14 @@ $(document).ready(function () {
 
 
 
+//Set default for add_patent.php
+        //Disable
+        $("#prenum").prop("disabled", true);
+        $("#yearnum").prop("disabled", true);
+        $("#runnum").prop("disabled", true);
+        //Enable
+        $("#snprefix").prop("disabled", false);
+
 
 
 
@@ -668,12 +676,15 @@ $(document).ready(function () {
 
 
     //Check box id uemail_enable is checked
-
     if ($('#uemail_enable').is(':checked')) {
         $("#uemail").prop("disabled", false);
     } else {
         $("#uemail").prop("disabled", true);
     }
+    
+    
+    
+    
 
 
     document.getElementById("sessioncountdown").value = "aaaaa";
@@ -809,12 +820,26 @@ $('#sp_slide_owner').change(function () {
 
 $('#autogen').change(function () {
     if (this.checked) {
+        //Disable
+        $("#prenum").prop("disabled", true);
+        $("#yearnum").prop("disabled", true);
+        $("#runnum").prop("disabled", true);
+        //Enable
+        $("#snprefix").prop("disabled", false);
 
-        $("#pnum").prop("disabled", true);
+    } 
 
-    } else {
+});
 
-        $("#pnum").prop("disabled", false);
+
+$('#manualgen').change(function () {
+    if (this.checked) {
+        //Enable
+        $("#prenum").prop("disabled", false);
+        $("#yearnum").prop("disabled", false);
+        $("#runnum").prop("disabled", false);
+        //Disable
+        $("#snprefix").prop("disabled", true);
 
     }
 
