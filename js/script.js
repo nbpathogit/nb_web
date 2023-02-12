@@ -1069,3 +1069,26 @@ $("#add_u_result").validate({
 //    todayHighlight: true
 //});
 
+$("#refresh_spcimen_list").on("click",function(){
+    //alert("start ajax");
+        $.ajax({
+            url: "/ajax_patient/getSpecimenList.php?id=%s",
+            data: {id: "150"},
+            success: function(data) {
+                //display_false()
+                var datajson = JSON.parse(data);
+                console.log(datajson[0].description);
+                console.log(datajson[1].description);
+
+                // clear all data in table befor show new retrived record
+                $('#spcimen_list_table tbody tr').remove();
+                // Show new retrived record
+                for (var i in datajson)
+                {
+                      $('#spcimen_list_table tbody').append('<tr><td>'+datajson[i].number+'</td><td>'+datajson[i].description+'</td><td>'+datajson[i].cost+'</td><td>'+datajson[i].comment+'</td></tr>');
+                }
+                alert("refresh done");
+            }
+        });
+
+});

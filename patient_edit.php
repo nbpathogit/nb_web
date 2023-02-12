@@ -622,6 +622,10 @@ $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
 $pathoOwnerNameObj = User::getByID($conn, $patient[0]['ppathologist_id']);
 
+$billings = Billing::getAll($conn, $_GET['id']);
+
+//var_dump($billings);die();
+
 //$patho2OwnerName = User::getName($conn, $patient[0]['ppathologist_id']);
 
 
@@ -827,6 +831,14 @@ if (isset($curstatus[0]['next3'])) {
     <?php require 'blockclose.php'; ?>
 <?php else : ?>
 
+<?php if (!empty($errors)) : ?>
+    <br>
+    <div class="alert alert-warning" role="alert">
+    <?php foreach ($errors as $error) : ?>
+        <li><?= $error ?></li>
+    <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1">
@@ -873,8 +885,14 @@ if (isset($curstatus[0]['next3'])) {
 
         </div>
     </div>
+    
+    <div id="patient_detail_section" class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
 
+            <?php require 'includes/patient_form_015_add_specimen.php'; ?>
 
+        </div>
+    </div>
 
     <?php
     $userAuthEdit = ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff
@@ -908,6 +926,8 @@ if (isset($curstatus[0]['next3'])) {
                         <p align="left"><button name="edit_patient_plan" type="submit" class="btn btn-primary" <?= ($curstatusid >= 2000) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
                     <?php endif; ?>
                 <?php endif; ?>
+                        
+                
 
                 <?php require 'includes/patient_form_020_specimen_type.php'; ?>
                 <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>
