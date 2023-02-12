@@ -21,10 +21,7 @@ $isBorder = false;
 
     </div>
 
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="pprice" class="form-label">ราคาค่าตรวจ(บาท)</label>
-        <input name="pprice" id="pprice" type="text" class="form-control"   <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['pprice']; ?>"   >
-    </div>
+
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="date_6000" class="">เตรียมสไลด์แล้วเมื่อวันที่</label>

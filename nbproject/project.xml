@@ -6,6 +6,7 @@
             <name>nb_web</name>
         </data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>plastname</word>
             <word>งาน</word>
         </spellchecker-wordlist>
     </configuration>

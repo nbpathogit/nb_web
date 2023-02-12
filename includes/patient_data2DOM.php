@@ -1,5 +1,5 @@
 
-<?php $hidden_data2dom = true; ?>
+<?php $hidden_data2dom = false; ?>
 <!--Write Data to DOM pass value to java script-->
 <?php if (isset($curstatus[0]['id'])): ?>
     <li class="cur_status" tabindex="<?= $curstatus[0]['id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >cur_status::$curstatus[0]['id']::<?= $curstatus[0]['id'] ?> </li>
@@ -64,3 +64,37 @@
     
 <?php //    $patient[0]['p_speciment_type']?>   
 <li class="cur_speciment_type" tabindex="<?= $patient[0]['p_speciment_type'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['p_speciment_type']::<?= $patient[0]['p_speciment_type'] ?> </li>
+
+<?php //    $patient[0]['id']?>   
+<li class="cur_patient_id" tabindex="<?= $patient[0]['id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['id']::<?= $patient[0]['id'] ?> </li>
+
+<?php //    $patient[0]['pnum']?>   
+<li class="cur_pnum" tabindex="<?= $patient[0]['pnum'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pnum']::<?= $patient[0]['pnum'] ?> </li>
+
+<?php //    $patient[0]['pname']?>   
+<li class="cur_pname" tabindex="<?= $patient[0]['pname'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pname']::<?= $patient[0]['pname'] ?> </li>
+
+<?php //    $patient[0]['plastname']?>   
+<li class="cur_plastname" tabindex="<?= $patient[0]['plastname'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['plastname']::<?= $patient[0]['plastname'] ?> </li>
+
+<?php //    $patient[0]['date_1000']?>   
+<li class="cur_date_1000" tabindex="<?= $patient[0]['date_1000'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['date_1000']::<?= $patient[0]['date_1000'] ?> </li>
+
+<?php //    $patient[0]['phospital_id']?>   
+<li class="cur_phospital_id" tabindex="<?= $patient[0]['phospital_id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['phospital_id']::<?= $patient[0]['phospital_id'] ?> </li>
+
+<?php //    $patient[0]['phospital_id']?>   
+<li class="cur_phospital_num" tabindex="<?= $patient[0]['phospital_num'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['phospital_num']::<?= $patient[0]['phospital_num'] ?> </li>
+
+<?php //    $patient[0]['pspecimen_id']?>   
+<li class="cur_pspecimen_id" tabindex="<?= $patient[0]['pspecimen_id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pspecimen_id']::<?= $patient[0]['pspecimen_id'] ?> </li>
+
+pclinician_id
+<?php //    $patient[0]['pclinician_id']?>   
+<li class="cur_pclinician_id" tabindex="<?= $patient[0]['pclinician_id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pclinician_id']::<?= $patient[0]['pclinician_id'] ?> </li>
+
+
+
+
+
+
