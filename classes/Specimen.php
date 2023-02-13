@@ -42,6 +42,21 @@ class Specimen
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    public static function getSpecimenByHospitalID($conn,$hospital_id)
+    {
+        $sql = "SELECT *
+                FROM specimen_list
+                WHERE jobtype = 1 and hospital_id = :hospital_id
+                ORDER BY id;";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function getSpecialSlide($conn)
     {
         $sql = "SELECT *

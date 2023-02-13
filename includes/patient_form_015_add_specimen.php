@@ -33,7 +33,7 @@
     <hr>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="phospital_select_for_price1" class="">เลือกโรงพยาบาล</label>
+        <label for="phospital_select_for_price1" class="">เลือกโรงพยาบาล (หากกด ยังไม่ได้เลือก จะแสดงรายการราคามาตรฐาน)</label>
         <select name="phospital_select_for_price1" id="phospital_select_for_price1" class="form-select" <?= ( true ) ? "" : " disabled readonly " ?> >
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($hospitals as $hospital): ?>
@@ -41,8 +41,7 @@
                 <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= htmlspecialchars($hospital['hospital']); ?></option>
             <?php endforeach; ?>
         </select>
-        <botton id="retrieve_pspecimen_by_hospital" class="btn btn-primary" >ดึงข้อมูล</botton>
-        <botton id="btntest" class="btn btn-primary" <?= false ? "hidden":""?> >test</botton>
+
     </div>
 
     <div class=" <?= $isBorder ? "border" : "" ?>">
@@ -73,3 +72,4 @@
 
     </div>
 </div>
+<botton id="btntest" class="btn btn-primary" <?= true ? "hidden":""?> >test</botton>
