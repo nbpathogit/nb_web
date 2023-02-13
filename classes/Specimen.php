@@ -29,6 +29,30 @@ class Specimen
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public static function getSpecimen($conn)
+    {
+        $sql = "SELECT *
+                FROM specimen_list
+                WHERE jobtype = 1
+                ORDER BY id;";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getSpecialSlide($conn)
+    {
+        $sql = "SELECT *
+                FROM specimen_list
+                WHERE jobtype = 2
+                ORDER BY id;";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function create($conn)
     {

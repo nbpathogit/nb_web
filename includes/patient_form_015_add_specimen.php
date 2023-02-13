@@ -32,6 +32,18 @@
     
     <hr>
 
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label for="phospital_select_for_price1" class="">เลือกโรงพยาบาล</label>
+        <select name="phospital_select_for_price1" id="phospital_select_for_price1" class="form-select" <?= ( true ) ? "" : " disabled readonly " ?> >
+            <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
+            <?php foreach ($hospitals as $hospital): ?>
+                <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
+                <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= htmlspecialchars($hospital['hospital']); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <botton id="retrieve_pspecimen_by_hospital" class="btn btn-primary" >ดึงข้อมูล</botton>
+        <botton id="btntest" class="btn btn-primary" <?= false ? "hidden":""?> >test</botton>
+    </div>
 
     <div class=" <?= $isBorder ? "border" : "" ?>">
         <label for="pspecimen_for_select" class="" >เลือกสิ่งส่งตรวจ</label>
@@ -58,6 +70,6 @@
     <div>
         <br>
         <botton id="add_spcimen_list" class="btn btn-primary" >Add</botton>
-        <botton id="btntest" class="btn btn-primary" hidden>test</botton>
+
     </div>
 </div>

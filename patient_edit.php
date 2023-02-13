@@ -604,7 +604,7 @@ if (!$patient) {
 //$patientLists = Patient::getAll($conn);
 //Get List of Table
 $hospitals = Hospital::getAll($conn);
-$specimens = Specimen::getAll($conn);
+$specimens = Specimen::getSpecimen($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);

@@ -1,0 +1,153 @@
+
+
+$(document).ready(function () {
+
+
+});
+
+
+
+
+$("#refresh_spcimen_list").on("click",function(){
+    //alert("start ajax");
+    
+    var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+    //alert(cur_patient_id);
+        $.ajax({
+            url: "/ajax_patient/getBillingSpecimenList.php?id=%s",
+            data: {id: cur_patient_id},
+            success: function(data) {
+                //display_false()
+                var datajson = JSON.parse(data);
+
+
+                // clear all data in table befor show new retrived record
+                $('#spcimen_list_table tbody tr').remove();
+                // Show new retrived record
+                for (var i in datajson)
+                {
+                      $('#spcimen_list_table tbody').append('<tr><td>'+datajson[i].id+'</td><td>'+datajson[i].number+'</td><td>'+datajson[i].description+'</td><td>'+datajson[i].cost+'</td><td>'+datajson[i].comment+'</td></tr>');
+                }
+                alert("refresh done");
+            }
+        });
+
+});
+
+
+//
+
+$("#add_spcimen_list").on("click",function(){
+    //alert("start ajax");
+    
+    var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+    var date_1000 = $(".cur_date_1000").attr('tabindex');
+    var cur_pnum = $(".cur_pnum").attr('tabindex');
+    
+    var e = document.getElementById("pspecimen_for_select");
+    var specimen_id = e.value;
+    var specimen_text = e.options[e.selectedIndex].text;
+    
+    var price_for_specimen = document.getElementById("price_for_specimen").value;
+    if(price_for_specimen==""){price_for_specimen="0";}
+    
+    var comment_for_specimen = document.getElementById("comment_for_specimen").value;
+
+    
+    $.ajax({
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: '/ajax_patient/createBillingSpecimen.php',
+        data: { 
+            'id': cur_patient_id, 
+            'cur_pnum': cur_pnum,
+            'specimen_id': specimen_id,
+            'specimen_text': specimen_text,
+            'price_for_specimen': price_for_specimen,
+            'comment_for_specimen': comment_for_specimen,
+            'date_1000': date_1000 
+        },
+        success: function(msg){
+            alert('Success');
+        }
+    });
+    
+    
+   
+    $.ajax({
+        url: "/ajax_patient/getBillingSpecimenList.php?id=%s",
+        data: {id: cur_patient_id},
+        success: function(data) {
+            //display_false()
+            var datajson = JSON.parse(data);
+
+
+            // clear all data in table befor show new retrived record
+            $('#spcimen_list_table tbody tr').remove();
+            // Show new retrived record
+            for (var i in datajson)
+            {
+                  $('#spcimen_list_table tbody').append('<tr><td>'+datajson[i].id+'</td><td>'+datajson[i].number+'</td><td>'+datajson[i].description+'</td><td>'+datajson[i].cost+'</td><td>'+datajson[i].comment+'</td></tr>');
+            }
+            //alert("refresh done");
+        }
+    });
+
+});
+
+
+
+
+$("#btntest").on("click",function(){
+    //alert("start ajax");
+    
+    var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+    var date_1000 = $(".cur_date_1000").attr('tabindex');
+    var cur_pnum = $(".cur_pnum").attr('tabindex');
+    
+
+    var e = document.getElementById("pspecimen_for_select");
+    var specimen_id = e.value;
+    var specimen_text = e.options[e.selectedIndex].text;
+    
+    var price_for_specimen = document.getElementById("price_for_specimen").value;
+    if(price_for_specimen==""){price_for_specimen="0";}
+    var comment_for_specimen = document.getElementById("comment_for_specimen").value;
+
+
+    
+   //phospital_select_for_price1
+   
+    var e = document.getElementById("phospital_select_for_price1");
+    var hospital_id = e.value;
+    var hospital_text = e.options[e.selectedIndex].text;
+    
+    console.log("==============");
+    console.log(specimen_id);
+    console.log(specimen_text);
+    console.log("==============");
+    console.log(price_for_specimen);
+    console.log(comment_for_specimen);
+    console.log("==============");
+    console.log(hospital_id);
+    console.log(hospital_text);
+    console.log("==============");
+
+});
+
+
+
+//retrieve_pspecimen_by_hospital
+$("#btntest").on("click",function(){
+    
+    var e = document.getElementById("phospital_select_for_price1");
+    var hospital_id = e.value;
+    var hospital_text = e.options[e.selectedIndex].text;
+    
+    
+
+
+
+});
+

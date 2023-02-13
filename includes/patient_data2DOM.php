@@ -89,7 +89,7 @@
 <?php //    $patient[0]['pspecimen_id']?>   
 <li class="cur_pspecimen_id" tabindex="<?= $patient[0]['pspecimen_id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pspecimen_id']::<?= $patient[0]['pspecimen_id'] ?> </li>
 
-pclinician_id
+
 <?php //    $patient[0]['pclinician_id']?>   
 <li class="cur_pclinician_id" tabindex="<?= $patient[0]['pclinician_id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pclinician_id']::<?= $patient[0]['pclinician_id'] ?> </li>
 
