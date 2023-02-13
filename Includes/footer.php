@@ -51,8 +51,7 @@
 </script>
 <script src="/js/jquery.datetimepicker.full.min.js"></script>
 <script src="/js/script.js?v9"></script>
-<script src="/js/specimenlist.js?v1"></script>
-
+<script src="/js/specimenlist.js?v1xxxxxxxx"></script>
 
 
 </body>

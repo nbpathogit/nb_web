@@ -19,11 +19,15 @@ class Specimen
     public $specimen;
     public $price;
 
-    public static function getAll($conn)
+    public static function getAll($conn,$id= -1)
     {
         $sql = "SELECT *
-                FROM specimen_list
-                ORDER BY id;";
+                FROM specimen_list";
+        if ($id != -1) {
+            $sql = $sql . " WHERE id = $id";
+        }
+
+        $sql = $sql . " ORDER BY id;";
 
         $results = $conn->query($sql);
 

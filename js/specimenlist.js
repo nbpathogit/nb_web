@@ -66,9 +66,21 @@ $("#refresh_spcimen_list").on("click", function () {
 
 $("#add_spcimen_list").on("click", function () {
     //alert("start ajax");
+    var printdbg = true;
 
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     var date_1000 = $(".cur_date_1000").attr('tabindex');
+    var cur_phospital_num = $(".cur_phospital_num").attr('tabindex');
+    
+    var e = document.getElementById("phospital_id");
+    var phospital_id = e.value;
+    var phospital_text = e.options[e.selectedIndex].text;
+    
+    var e = document.getElementById("pclinician_id");
+    var pclinician_id = e.value;
+    var pclinician_text = e.options[e.selectedIndex].text;
+    
+    
     var cur_pnum = $(".cur_pnum").attr('tabindex');
 
     var e = document.getElementById("pspecimen_for_select");
@@ -80,6 +92,25 @@ $("#add_spcimen_list").on("click", function () {
         price_for_specimen = "0";
     }
     var comment_for_specimen = document.getElementById("comment_for_specimen").value;
+
+    if(printdbg){
+    console.log("==============");
+    console.log("cur_patient_id::"+cur_patient_id);
+    console.log("date_1000::"+date_1000);
+    console.log("cur_phospital_num::"+cur_phospital_num);
+    console.log("phospital_id::"+phospital_id);
+    console.log("pclinician_text::"+pclinician_text);
+    console.log("cur_pnum::"+cur_pnum);
+    console.log("specimen_id::"+ specimen_id);
+    console.log("specimen_text"+specimen_text);
+    console.log("price_for_specimen"+price_for_specimen);
+    console.log("comment_for_specimen"+comment_for_specimen);
+
+    console.log("==============");
+        
+    }
+
+
 
     $.ajax({
         type: 'POST',
@@ -93,11 +124,18 @@ $("#add_spcimen_list").on("click", function () {
             'specimen_text': specimen_text,
             'price_for_specimen': price_for_specimen,
             'comment_for_specimen': comment_for_specimen,
+            'phospital_text': phospital_text,
+            'cur_phospital_num': cur_phospital_num,
+            'pclinician_text': pclinician_text,
             'date_1000': date_1000
         },
         success: function (msg) {
             alert('Success');
+        },
+        error: function(jqxhr, status, exception) {
+            alert('Exception:', exception);
         }
+        
     });
 
     $.ajax({
@@ -165,4 +203,11 @@ $('#phospital_select_for_price1').on('change', function () {
     var message;
     updateSelectionSpeceman(true);
     alert(tmpmsg);
+});
+
+$('#pspecimen_for_select').on('change', function () {
+    //alert( "Get from ID: "+this.value );
+    $('#price_for_specimen').val($('#pspecimen_for_select option').filter(':selected').text());
+    //$('#comment_for_specimen').val($('#pspecimen_for_select option').filter(':selected').val());
+    
 });

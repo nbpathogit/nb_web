@@ -89,7 +89,7 @@ $curStatusAuthEdit = (
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="phospital_id" class="">โรงพยาบาล</label>
-        <select name="phospital_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage &&  ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
+        <select name="phospital_id" id="phospital_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage &&  ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($hospitals as $hospital): ?>
                 <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
@@ -103,7 +103,7 @@ $curStatusAuthEdit = (
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pclinician_id" class="">แพทย์ผู้ส่ง</label>
 
-        <select name="pclinician_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
+        <select name="pclinician_id" id="pclinician_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
             <!--<option value="กรุณาเลือก" selected>กรุณาเลือก</option>-->
             <?php foreach ($clinicians as $user): ?>
                 <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>

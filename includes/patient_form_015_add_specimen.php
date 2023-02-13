@@ -50,7 +50,7 @@
             <!--            <option value="กรุณาเลือก">กรุณาเลือก</option>-->
             <?php foreach ($specimens as $specimen): ?>
                 <?php //Target Format : <option value="1001">ชิ้นเนื้อขนาดเล็กกว่าหรือเท่ากับ 2 ซ.ม. (38001)</option>    ?>
-                <option value="<?= $specimen['id']; ?>" <?= $patient[0]['pspecimen_id'] == $specimen['id'] ? "selected" : ""; ?>   ><?= htmlspecialchars($specimen['specimen']); ?></option>
+                <option price="2" value="<?= $specimen['id']; ?>" <?= $patient[0]['pspecimen_id'] == $specimen['id'] ? "selected" : ""; ?>   ><?= htmlspecialchars($specimen['specimen']); ?></option>
             <?php endforeach; ?>
         </select>
     </div>
