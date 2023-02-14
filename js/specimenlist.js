@@ -26,7 +26,11 @@ function updateSelectionSpeceman(isalert) {
                 $('#pspecimen_for_select option').remove();
                 for (var i in datajson)
                 {
-                    $('#pspecimen_for_select').append('<option value="' + datajson[i].id + '">' + datajson[i].specimen + '</option>');
+                    if (i == 0) {
+                        $('#pspecimen_for_select').append('<option value="' + datajson[i].id + '" >กรุณาเลือก</option>');
+                    } else {
+                        $('#pspecimen_for_select').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
+                    }
                 }
                 if (isalert) {
                     alert('Please select specimen.');
@@ -72,7 +76,7 @@ $("#add_spcimen_list").on("click", function () {
     var date_1000 = $(".cur_date_1000").attr('tabindex');
     var cur_phospital_num = $(".cur_phospital_num").attr('tabindex');
     
-    var e = document.getElementById("phospital_id");
+    var e = document.getElementById("phospital_select_for_price1");
     var phospital_id = e.value;
     var phospital_text = e.options[e.selectedIndex].text;
     
@@ -85,7 +89,10 @@ $("#add_spcimen_list").on("click", function () {
 
     var e = document.getElementById("pspecimen_for_select");
     var specimen_id = e.value;
-    var specimen_text = e.options[e.selectedIndex].text;
+    var specimen_text_selected = e.options[e.selectedIndex].text;
+    
+    var specimen_text = document.getElementById("specimen_for_specimen").value;
+    var specimen_num = document.getElementById("specimen_num").value;
 
     var price_for_specimen = document.getElementById("price_for_specimen").value;
     if (price_for_specimen == "") {
@@ -207,7 +214,10 @@ $('#phospital_select_for_price1').on('change', function () {
 
 $('#pspecimen_for_select').on('change', function () {
     //alert( "Get from ID: "+this.value );
-    $('#price_for_specimen').val($('#pspecimen_for_select option').filter(':selected').text());
-    //$('#comment_for_specimen').val($('#pspecimen_for_select option').filter(':selected').val());
+    $('#specimen_num').val($('#pspecimen_for_select option').filter(':selected').attr('specimen_num'));
+    $('#specimen_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('specimen'));
+    $('#price_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('price'));
+    $('#comment_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('comment'));
+    
     
 });

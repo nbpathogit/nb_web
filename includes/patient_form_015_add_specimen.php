@@ -33,12 +33,12 @@
     <hr>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="phospital_select_for_price1" class="">เลือกโรงพยาบาล (หากกด ยังไม่ได้เลือก จะแสดงรายการราคามาตรฐาน)</label>
+        <label for="phospital_select_for_price1" class="">เลือกโรงพยาบาล</label>
         <select name="phospital_select_for_price1" id="phospital_select_for_price1" class="form-select" <?= ( true ) ? "" : " disabled readonly " ?> >
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($hospitals as $hospital): ?>
                 <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
-                <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= htmlspecialchars($hospital['hospital']); ?></option>
+                <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= ($hospital['id']==0)? "โรงพยาบาลราคามาตรฐาน" : $hospital['hospital']; ?></option>
             <?php endforeach; ?>
         </select>
 
@@ -50,12 +50,20 @@
             <!--            <option value="กรุณาเลือก">กรุณาเลือก</option>-->
             <?php foreach ($specimens as $specimen): ?>
                 <?php //Target Format : <option value="1001">ชิ้นเนื้อขนาดเล็กกว่าหรือเท่ากับ 2 ซ.ม. (38001)</option>    ?>
-                <option price="2" value="<?= $specimen['id']; ?>" <?= $patient[0]['pspecimen_id'] == $specimen['id'] ? "selected" : ""; ?>   ><?= htmlspecialchars($specimen['specimen']); ?></option>
+                
             <?php endforeach; ?>
         </select>
     </div>
+    
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+        <label for="specimen_num" class="form-label">รหัสรายการ</label>
+        <input name="specimen_num" id="specimen_num" type="text" class="form-control"    value=""   >
+    </div>
 
-
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+        <label for="specimen_for_specimen" class="form-label">รายการส่งตรวจ</label>
+        <input name="specimen_for_specimen" id="specimen_for_specimen" type="text" class="form-control"    value=""   >
+    </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="price_for_specimen" class="form-label">ราคาค่าตรวจ(บาท)</label>

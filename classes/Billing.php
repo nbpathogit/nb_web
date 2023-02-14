@@ -18,7 +18,8 @@ class Billing {
     public $number;      //varchar(32)	
     public $name;        //varchar(32)	
     public $lastname;    //varchar(32)	
-    public $slide_type;  //tinyint(4)	
+    public $slide_type;  //tinyint(4)
+    public $code_description;
     public $description; //text	        
     public $import_date; //date			
     public $report_date; //varchar(16)	
@@ -52,8 +53,8 @@ class Billing {
         $sql = "INSERT INTO hospital (hospital,address,hdetail)
                 VALUES ( :hospital,:address,:hdetail)";
         
-        $sql = "INSERT INTO `billing` (`id`, `patient_id`, `number`, `name`, `lastname`, `slide_type`, `description`, `import_date`, `report_date`, `hospital`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
-        . "VALUES                     (NULL, :patient_id,  :number , :name , :lastname,  :slide_type , :description , :import_date ,  :report_date, :hospital,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
+        $sql = "INSERT INTO `billing` (`id`, `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, `hospital`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
+        . "VALUES                     (NULL, :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, :hospital,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
 
 
         $stmt = $conn->prepare($sql);
@@ -63,6 +64,8 @@ class Billing {
     $stmt->bindValue(':name'       ,$this->name        ,PDO::PARAM_STR);      //varchar(32)	
     $stmt->bindValue(':lastname'   ,$this->lastname    ,PDO::PARAM_STR);      //varchar(32)	
     $stmt->bindValue(':slide_type' ,$this->slide_type  ,PDO::PARAM_STR);      //tinyint(4)	
+    $stmt->bindValue(':code_description' ,$this->code_description  ,PDO::PARAM_STR);      
+    
     $stmt->bindValue(':description',$this->description ,PDO::PARAM_STR);      //text	        
     $stmt->bindValue(':import_date',$this->import_date ,PDO::PARAM_STR);      //date			
     $stmt->bindValue(':report_date',$this->report_date ,PDO::PARAM_STR);      //varchar(16)	
@@ -92,7 +95,8 @@ class Billing {
         $billing->number      ="";      //varchar(32)	patient pnum
         $billing->name        ="";      //varchar(32)	
         $billing->lastname    ="";      //varchar(32)	
-        $billing->slide_type  =0;      //tinyint(4)	
+        $billing->slide_type  =0;      //tinyint(4)
+        $billing->code_description = "";
         $billing->description ="";      //text	        
         $billing->import_date ="0000-00-00 00:00:00";      //datetime			
         $billing->report_date =null;      //datetime	

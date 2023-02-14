@@ -14,14 +14,15 @@ $billing->number=$_POST['cur_pnum'];//surgical number
 $billing->name="";//patient name
 $billing->lastname="";//patient surname
 $billing->slide_type=1;//patient surname
-$billing->description=$specimens[0]['specimen'];
+$billing->code_description=$_POST['specimen_id'];
+$billing->description=$_POST['specimen_text'];
 $billing->import_date=$_POST['date_1000'];
 $billing->report_date=NULL;
 $billing->hospital=$_POST['phospital_text'];
 $billing->hn=$_POST['cur_phospital_num'];;
 $billing->send_doctor=$_POST['pclinician_text'];
 $billing->pathologist="";
-$billing->cost=(int)$specimens[0]['price'];
+$billing->cost=(int)$_POST['price_for_specimen'];
 $billing->comment=$specimens[0]['comment'];
 
 
