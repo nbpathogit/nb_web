@@ -1,0 +1,140 @@
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all dialogShadow ui-draggable" tabindex="-1" role="dialog" aria-labelledby="ui-dialog-title-compileResults" style="display: block; z-index: 1004; outline: 0px; height: auto; width: auto; top: 373.318px; left: 447.5px;"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-dialog-title-compileResults">Compiled Results for <a style="color: #0066A4; text-decoration: underline" href="https://confluence.wdc.com/display/CTT/CAT" target="_blank">CAT*</a></span><a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a></div><div id="compileResults" style="overflow: auto; width: auto; min-height: 106.309px; height: auto;" class="ui-dialog-content ui-widget-content" scrolltop="0" scrollleft="0"><div id="compileResultData"> 
+
+	<link rel="stylesheet" type="text/css" href="/cdtracker/css/compile_mgmt_tabs.1589572518.css">	
+<link rel="stylesheet" type="text/css" href="/cdtracker/css/cat_compile_results.1589572518.css">	
+<div class="plot_title"></div>
+        <input id="hashComponentId" type="hidden" value="16">
+        <input id="hashServer" type="hidden" value="cat-jenkins">
+		<button id="defaultButton" class="tab button active" onclick="openAction(event, 'archivedHash')">Archived Hash</button>
+			<button class="tab button" onclick="openAction(event, 'compileHash')">Request Compile</button>
+	 
+	<div id="archivedHash" class="tabcontent" style="display: block;">
+		<br><br><br>
+		
+					Use this if you want to see if your compiled binaries already exist on the network drive.
+				    <table class="firmware-filter-table" style="padding: 5px 0 0 0">
+				    <tbody><tr></tr>
+
+					                			<tr>
+                        			<td>Select Folder
+						</td>
+                        			<td>
+						<select class="select-cat-folders" name="catChangeSelect">
+                                        		<option value="_old" name="_old">_old</option>
+                                		
+                                        		<option value="86" name="86">86</option>
+                                		
+                                        		<option value="85" name="85">85</option>
+                                		
+                                        		<option value="84" name="84">84</option>
+                                		
+                                        		<option value="83" name="83">83</option>
+                                		
+                                        		<option value="82" name="82">82</option>
+                                		
+                                        		<option value="81" name="81">81</option>
+                                		
+                                        		<option value="80" name="80">80</option>
+                                		
+                                        		<option value="79" name="79">79</option>
+                                		
+                                        		<option value="78" name="78">78</option>
+                                		
+                                        		<option value="77" name="77">77</option>
+                                		
+                                        		<option value="76" name="76">76</option>
+                                		
+                                        		<option value="75" name="75">75</option>
+                                		
+                                        		<option value="74" name="74">74</option>
+                                		
+                                        		<option value="73" name="73">73</option>
+                                		
+                                        		<option value="72" name="72">72</option>
+                                		
+                                        		<option value="71" name="71">71</option>
+                                		
+                                        		<option value="70" name="70">70</option>
+                                		
+                                        		<option value="6Z" name="6Z">6Z</option>
+                                		
+                                        		<option value="6Y" name="6Y">6Y</option>
+                                		
+                                        		<option value="6X" name="6X">6X</option>
+                                		
+                                        		<option value="6W" name="6W">6W</option>
+                                		
+                                        		<option value="6V" name="6V">6V</option>
+                                		
+                                        		<option value="6U" name="6U">6U</option>
+                                		
+                                        		<option value="6T" name="6T">6T</option>
+                                		
+                                        		<option value="6S" name="6S">6S</option>
+                                		
+                                        		<option value="6R" name="6R">6R</option>
+                                		
+                                        		<option value="6Q" name="6Q">6Q</option>
+                                		
+                                        		<option value="6P" name="6P">6P</option>
+                                		
+                                        		<option value="6N" name="6N">6N</option>
+                                		
+                                        		<option value="6M" name="6M">6M</option>
+                                		                        			</select>
+						</td>
+                        			<td><button class="select-cat-button" id="loadCatChanges" data-component-id="16">Load Archived Changes</button>
+						</td>
+                			</tr>
+                                				</tbody></table>
+
+   	        <div id="compileOptions" style="display: block;"> 
+                                                       <table class="cat-filter-table">
+                                <tbody><tr>
+                                        <td class="cat-filter-title">
+                                                Trunk Code Legacy-WD
+                                        </td>
+                                        <td class="cat-filter-title">
+                                                Trunk Code Legacy-HGST
+                                        </td>
+                                        <td class="cat-filter-title">
+                                                Branch Code Legacy-WD
+                                        </td>
+                                        <td class="cat-filter-title">
+                                                Branch Code Legacy-HGST
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td>
+                                                <select class="cat-filter-select" id="trunkWDFilter"><option value="">Select...</option><option value="82">82</option></select>
+                                        </td>
+                                        <td>
+                                                <select class="cat-filter-select" id="trunkHGSTFilter"><option value="">Select...</option><option value="7L">7L</option></select>
+                                        </td>
+                                        <td>
+                                                <select class="cat-filter-select" id="branchWDFilter"><option value="">Select...</option><option value="00">00</option><option value="01">01</option></select>
+                                        </td>
+                                        <td>
+                                                <select class="cat-filter-select" id="branchHGSTFilter"><option value="">Select...</option><option value="00">00</option><option value="A1">A1</option><option value="A3">A3</option><option value="B1">B1</option><option value="B2">B2</option><option value="B4">B4</option><option value="B5">B5</option><option value="B6">B6</option><option value="C1">C1</option><option value="C2">C2</option><option value="C3">C3</option><option value="D1">D1</option><option value="EZ">EZ</option><option value="Q1">Q1</option><option value="Q2">Q2</option></select>
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td style="padding: 15px 0 0 0">Select Build</td>
+                                        <td style="padding: 15px 0 0 0">
+                                                <select id="listChangesCat"><option value="">Select...</option><option class="option-change" value="A6-CAT-827L00001" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="00" style="display: none;">A6-CAT-827L00001</option><option class="option-change" value="A6-CAT-827L00A11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="A1" style="display: block;">A6-CAT-827L00A11</option><option class="option-change" value="A6-CAT-827L00A12" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="A1" style="display: block;">A6-CAT-827L00A12</option><option class="option-change" value="A6-CAT-827L00A13" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="A1" style="display: block;">A6-CAT-827L00A13</option><option class="option-change" value="A6-CAT-827L00A14" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="A1" style="display: block;">A6-CAT-827L00A14</option><option class="option-change" value="A6-CAT-827L00A15" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="A1" style="display: block;">A6-CAT-827L00A15</option><option class="option-change" value="A6-CAT-827L00A16" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="A1" style="display: block;">A6-CAT-827L00A16</option><option class="option-change" value="A6-CAT-827L00A31" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="A3" style="display: none;">A6-CAT-827L00A31</option><option class="option-change" value="A6-CAT-827L00B11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B1" style="display: none;">A6-CAT-827L00B11</option><option class="option-change" value="A6-CAT-827L00B12" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B1" style="display: none;">A6-CAT-827L00B12</option><option class="option-change" value="A6-CAT-827L00B13" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B1" style="display: none;">A6-CAT-827L00B13</option><option class="option-change" value="A6-CAT-827L00B14" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B1" style="display: none;">A6-CAT-827L00B14</option><option class="option-change" value="A6-CAT-827L00B15" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B1" style="display: none;">A6-CAT-827L00B15</option><option class="option-change" value="A6-CAT-827L00B21" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B2" style="display: none;">A6-CAT-827L00B21</option><option class="option-change" value="A6-CAT-827L00B22" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B2" style="display: none;">A6-CAT-827L00B22</option><option class="option-change" value="A6-CAT-827L00B23" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B2" style="display: none;">A6-CAT-827L00B23</option><option class="option-change" value="A6-CAT-827L00B24" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B2" style="display: none;">A6-CAT-827L00B24</option><option class="option-change" value="A6-CAT-827L00B25" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B2" style="display: none;">A6-CAT-827L00B25</option><option class="option-change" value="A6-CAT-827L00B26" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B2" style="display: none;">A6-CAT-827L00B26</option><option class="option-change" value="A6-CAT-827L00B27" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B2" style="display: none;">A6-CAT-827L00B27</option><option class="option-change" value="A6-CAT-827L00B41" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B4" style="display: none;">A6-CAT-827L00B41</option><option class="option-change" value="A6-CAT-827L00B51" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B5" style="display: none;">A6-CAT-827L00B51</option><option class="option-change" value="A6-CAT-827L00B52" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B5" style="display: none;">A6-CAT-827L00B52</option><option class="option-change" value="A6-CAT-827L00B53" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B5" style="display: none;">A6-CAT-827L00B53</option><option class="option-change" value="A6-CAT-827L00B61" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="B6" style="display: none;">A6-CAT-827L00B61</option><option class="option-change" value="A6-CAT-827L00C11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C1" style="display: none;">A6-CAT-827L00C11</option><option class="option-change" value="A6-CAT-827L00C12" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C1" style="display: none;">A6-CAT-827L00C12</option><option class="option-change" value="A6-CAT-827L00C21" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C21</option><option class="option-change" value="A6-CAT-827L00C22" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C22</option><option class="option-change" value="A6-CAT-827L00C23" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C23</option><option class="option-change" value="A6-CAT-827L00C24" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C24</option><option class="option-change" value="A6-CAT-827L00C25" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C25</option><option class="option-change" value="A6-CAT-827L00C26" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C26</option><option class="option-change" value="A6-CAT-827L00C27" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C27</option><option class="option-change" value="A6-CAT-827L00C28" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C2" style="display: none;">A6-CAT-827L00C28</option><option class="option-change" value="A6-CAT-827L00C31" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="C3" style="display: none;">A6-CAT-827L00C31</option><option class="option-change" value="A6-CAT-827L00D11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="D1" style="display: none;">A6-CAT-827L00D11</option><option class="option-change" value="A6-CAT-827L00EZ1" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="EZ" style="display: none;">A6-CAT-827L00EZ1</option><option class="option-change" value="A6-CAT-827L00Q11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="Q1" style="display: none;">A6-CAT-827L00Q11</option><option class="option-change" value="A6-CAT-827L00Q12" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="Q1" style="display: none;">A6-CAT-827L00Q12</option><option class="option-change" value="A6-CAT-827L00Q13" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="Q1" style="display: none;">A6-CAT-827L00Q13</option><option class="option-change" value="A6-CAT-827L00Q14" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="Q1" style="display: none;">A6-CAT-827L00Q14</option><option class="option-change" value="A6-CAT-827L00Q15" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="Q1" style="display: none;">A6-CAT-827L00Q15</option><option class="option-change" value="A6-CAT-827L00Q29" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="Q2" style="display: none;">A6-CAT-827L00Q29</option><option class="option-change" value="A6-CAT-827L00Q2A" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="00" data-branchhgst="Q2" style="display: none;">A6-CAT-827L00Q2A</option><option class="option-change" value="A6-CAT-827L01DZ1" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="DZ" style="display: none;">A6-CAT-827L01DZ1</option><option class="option-change" value="A6-CAT-827L01G11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="G1" style="display: none;">A6-CAT-827L01G11</option><option class="option-change" value="A6-CAT-827L01S11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S11</option><option class="option-change" value="A6-CAT-827L01S12" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S12</option><option class="option-change" value="A6-CAT-827L01S13" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S13</option><option class="option-change" value="A6-CAT-827L01S14" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S14</option><option class="option-change" value="A6-CAT-827L01S15" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S15</option><option class="option-change" value="A6-CAT-827L01S16" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S16</option><option class="option-change" value="A6-CAT-827L01S17" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S17</option><option class="option-change" value="A6-CAT-827L01S18" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S18</option><option class="option-change" value="A6-CAT-827L01S19" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S19</option><option class="option-change" value="A6-CAT-827L01S1A" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1A</option><option class="option-change" value="A6-CAT-827L01S1B" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1B</option><option class="option-change" value="A6-CAT-827L01S1C" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1C</option><option class="option-change" value="A6-CAT-827L01S1D" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1D</option><option class="option-change" value="A6-CAT-827L01S1E" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1E</option><option class="option-change" value="A6-CAT-827L01S1F" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1F</option><option class="option-change" value="A6-CAT-827L01S1G" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1G</option><option class="option-change" value="A6-CAT-827L01S1H" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1H</option><option class="option-change" value="A6-CAT-827L01S1J" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1J</option><option class="option-change" value="A6-CAT-827L01S1K" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1K</option><option class="option-change" value="A6-CAT-827L01S1L" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S1" style="display: none;">A6-CAT-827L01S1L</option><option class="option-change" value="A6-CAT-827L01S21" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S2" style="display: none;">A6-CAT-827L01S21</option><option class="option-change" value="A6-CAT-827L01S22" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S2" style="display: none;">A6-CAT-827L01S22</option><option class="option-change" value="A6-CAT-827L01S23" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S2" style="display: none;">A6-CAT-827L01S23</option><option class="option-change" value="A6-CAT-827L01S31" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S3" style="display: none;">A6-CAT-827L01S31</option><option class="option-change" value="A6-CAT-827L01S33" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="S3" style="display: none;">A6-CAT-827L01S33</option><option class="option-change" value="A6-CAT-827L01X11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X1" style="display: none;">A6-CAT-827L01X11</option><option class="option-change" value="A6-CAT-827L01X21" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X2" style="display: none;">A6-CAT-827L01X21</option><option class="option-change" value="A6-CAT-827L01X41" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X4" style="display: none;">A6-CAT-827L01X41</option><option class="option-change" value="A6-CAT-827L01X42" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X4" style="display: none;">A6-CAT-827L01X42</option><option class="option-change" value="A6-CAT-827L01X51" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X5" style="display: none;">A6-CAT-827L01X51</option><option class="option-change" value="A6-CAT-827L01X61" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X6" style="display: none;">A6-CAT-827L01X61</option><option class="option-change" value="A6-CAT-827L01X71" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X7" style="display: none;">A6-CAT-827L01X71</option><option class="option-change" value="A6-CAT-827L01X81" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X8" style="display: none;">A6-CAT-827L01X81</option><option class="option-change" value="A6-CAT-827L01X91" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="X9" style="display: none;">A6-CAT-827L01X91</option><option class="option-change" value="A6-CAT-827L01XA1" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="XA" style="display: none;">A6-CAT-827L01XA1</option><option class="option-change" value="A6-CAT-827L01Z11" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="Z1" style="display: none;">A6-CAT-827L01Z11</option><option class="option-change" value="A6-CAT-827L01ZZ4" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="ZZ" style="display: none;">A6-CAT-827L01ZZ4</option><option class="option-change" value="A6-CAT-827L01ZZ5" data-trunkwd="82" data-trunkhgst="7L" data-branchwd="01" data-branchhgst="ZZ" style="display: none;">A6-CAT-827L01ZZ5</option></select>
+                                        </td>
+                                        <td style="padding: 15px 0 0 0">
+					<button class="select-cat-button" id="retrieveBuild">Retrieve Selected Build</button>
+					</td>
+                                </tr>
+                                </tbody></table>
+                        
+		</div>
+	</div>
+		<div id="compileHash" class="tabcontent" style="display: none;">
+		<br><br><br>
+		<div>Use this if you cannot find the binaries on a network drive.</div>
+		<div>NOTE: Requesting a new compile will open a new window to preserve your Code Release Manager progress.</div>
+		<div><button id="requestCompile" style="float:middle" value="16">Request New Compile</button></div>
+	</div>
+	</div></div></div>
