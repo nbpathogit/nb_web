@@ -622,7 +622,8 @@ $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
 $pathoOwnerNameObj = User::getByID($conn, $patient[0]['ppathologist_id']);
 
-$billings = Billing::getAll($conn, $_GET['id']);
+$billings = Billing::getAll($conn, $_GET['id'],1);
+$billing2s = Billing::getAll($conn, $_GET['id'],2);
 
 //var_dump($billings);die();
 
@@ -962,7 +963,30 @@ if (isset($curstatus[0]['next3'])) {
     </div>
 
 
+<div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <!--hr noshade="noshade" width="" size="8" -->
+        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+        <form id="slide_prep" name="" method="post">
 
+            <?php if ($isEditModePageOn) : ?>
+                <?php if ($isEditModePageForSpSlidePrepDataOn) : ?>
+                    <button name="save_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                    <button name="discard_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                <?php endif; ?>
+            <?php else : ?>
+                <?php if (!$isEditModePageForSpSlidePrepDataOn) : ?>
+                    <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (($curstatusid >= 8000) || $isCurrentPathoIsOwnerThisCase) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
+                <?php endif; ?>
+            <?php endif; ?>
+
+
+            <?php require 'includes/patient_form_050_prepare_sp_slide.php'; ?>
+        </form>
+        <?php require 'includes/patient_form_055_prepare_sp_slide.php'; ?>
+    </div>
+</div>
 
 
 
@@ -1014,29 +1038,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
 
-<div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-        <form id="slide_prep" name="" method="post">
 
-            <?php if ($isEditModePageOn) : ?>
-                <?php if ($isEditModePageForSpSlidePrepDataOn) : ?>
-                    <button name="save_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                    <button name="discard_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                <?php endif; ?>
-            <?php else : ?>
-                <?php if (!$isEditModePageForSpSlidePrepDataOn) : ?>
-                    <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (($curstatusid >= 8000) || $isCurrentPathoIsOwnerThisCase) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
-                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
-                <?php endif; ?>
-            <?php endif; ?>
-
-
-            <?php require 'includes/patient_form_050_prepare_sp_slide.php'; ?>
-        </form>
-    </div>
-</div>
 
 <?php if ($curstatusid == "20000") : ?>
     <div id="finish_section" class="container-fluid pt-4 px-4">
@@ -1056,7 +1058,9 @@ if (isset($curstatus[0]['next3'])) {
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
-
+    
+<script src="/ajax_patient_specimen_list1/specimenlist1.js?v2"></script>
+<script src="/ajax_special_slide_list2/specialslide2.js?v2"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -1076,5 +1080,6 @@ if (isset($curstatus[0]['next3'])) {
         $(":submit").click(function() {
             window.removeEventListener("beforeunload", onNosave);
         })
+
     });
 </script>

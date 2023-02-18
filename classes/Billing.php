@@ -33,14 +33,18 @@ class Billing {
 
     //put your code here
 
-    public static function getAll($conn, $id = 0) {
+    public static function getAll($conn, $patient_id = 0,$type = 0) {
         $sql = "SELECT *
-                FROM billing
-                ";
-
-        if ($id != 0) {
-            $sql = $sql . " WHERE ";
-            $sql = $sql . " patient_id = " . $id;
+                FROM billing ";
+        
+        $sql = $sql . " WHERE 1=1 ";
+        
+        
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        if ($type != 0) {
+            $sql = $sql . " and slide_type = " . $type;
         }
         $sql = $sql . " ORDER BY id";
 
