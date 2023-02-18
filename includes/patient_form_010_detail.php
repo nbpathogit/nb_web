@@ -133,6 +133,17 @@ $curStatusAuthEdit = (
             <?php endforeach; ?>
         </select>     
     </div>
+    
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label for="pspecimen_id" class="" >สิ่งส่งตรวจ</label>
+        <select name="pspecimen_id" id="pspecimen_id" class="form-select" disabled readonly >
+<!--            <option value="กรุณาเลือก">กรุณาเลือก</option>-->
+            <?php foreach ($specimens as $specimen): ?>
+                <?php //Target Format : <option value="1001">ชิ้นเนื้อขนาดเล็กกว่าหรือเท่ากับ 2 ซ.ม. (38001)</option>    ?>
+                <option value="<?= $specimen['id']; ?>" <?= $patient[0]['pspecimen_id'] == $specimen['id'] ? "selected" : ""; ?>   ><?= htmlspecialchars($specimen['specimen']); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
 
 </div>
 

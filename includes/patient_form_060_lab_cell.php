@@ -22,7 +22,7 @@ $isBorder = false;
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <label for="p_slide_lab_price" class="form-label">ราคาค่าตรวจ(บาท)</label>
-        <input name="p_slide_lab_price" id="p_slide_lab_price" type="text" class="form-control"   <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  value="<?= $patient[0]['p_slide_lab_price']; ?>"  >
+        <input name="p_slide_lab_price" id="p_slide_lab_price" type="text" class="form-control"   disabled readonly  value="<?= $patient[0]['p_slide_lab_price']; ?>"  >
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
