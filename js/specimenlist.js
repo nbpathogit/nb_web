@@ -1,3 +1,5 @@
+
+//Update table of speciment in main page
 function refreshSpecimenList(isAlert) {
     //alert("start ajax");
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
@@ -7,14 +9,7 @@ function refreshSpecimenList(isAlert) {
         data: {id: cur_patient_id},
         success: function (data) {
             //alert(data);
-            var datajson = JSON.parse(data);
-            // clear all data in table befor show new retrived record
-            $('#spcimen_list_table tbody tr').remove();
-            // Show new retrived record
-            for (var i in datajson)
-            {
-                $('#spcimen_list_table tbody').append('<tr><td>' + datajson[i].id + '</td><td>' + datajson[i].number + '</td><td>' + datajson[i].description + '</td><td>' + datajson[i].cost + '</td><td>' + datajson[i].comment + '</td></tr>');
-            }
+            repeintspecimentable(data);
             if (isAlert) {
                 alert("refresh done");
             }
@@ -23,6 +18,7 @@ function refreshSpecimenList(isAlert) {
 
 }
 
+//update drop down list of specimen
 function updateSelectionSpeceman(isalert) {
     var hospital_id = $('#phospital_select_for_price1 option').filter(':selected').val();
     //alert(hospital_id);
@@ -41,10 +37,13 @@ function updateSelectionSpeceman(isalert) {
                 $('#pspecimen_for_select option').remove();
                 $('#pspecimen_for_select').append('<option >No Data for this hospital</option>');
                 $('#pspecimen_for_select').prop('disabled', true);
+                $('#add_spcimen_list').prop('disabled', true);
                 if (isalert) {
-                    alert('No Data for this Hospital');
+                    
+                    alert('No Data for this Hospital , Please select other hospital');
                 }
             } else {
+                
                 //alert('Success' + datajson);
                 $('#pspecimen_for_select').prop('disabled', false);
                 $('#pspecimen_for_select option').remove();
@@ -56,15 +55,50 @@ function updateSelectionSpeceman(isalert) {
                         $('#pspecimen_for_select').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
                     }
                 }
-                if (isalert) {
-                    alert('Please select specimen.');
-                }
+//                if (isalert) {
+//                    alert('Please select specimen.');
+//                }
             }
         }
     });
 }
 
 
+function repeintspecimentable(data) {
+    var datajson = JSON.parse(data);
+    if((typeof datajson) != 'object'){alert(data);}
+    // clear all data in table befor show new retrived record
+    $('#spcimen_list_table tbody tr').remove();
+    // Show new retrived record
+    for (var i in datajson)
+    {
+        
+//                <tr>
+//                    <td ><?= $billing['id'] ?></td>
+//                    <td ><?= $billing['number'] ?></td>
+//                    <td ><?= $billing['code_description'] ?></td>
+//                    <td ><?= $billing['description'] ?></td>
+//                    <td ><?= $billing['cost'] ?></td>
+//                    <td ><?= $billing['comment'] ?></td>
+//                    <td >
+//                        <a  billid="<?= $billing['id'] ?>" onclick="delbill(<?= $billing['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
+//                    </td>
+//                </tr>
+        
+        var str = '<tr>'+
+                '<td>' + datajson[i].id + '</td>'+
+                '<td>' + datajson[i].number + '</td>'+//Surgical Number
+                '<td>' + datajson[i].code_description + '</td>'+ //ex 33000
+                '<td>' + datajson[i].description + '</td>'+
+                '<td>' + datajson[i].cost + '</td>'+
+                '<td>' + datajson[i].comment + '</td>'+
+                '<td>' + '<a  billid="'+datajson[i].id+'" onclick="delbill('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
+                '</tr>';
+        
+        $('#spcimen_list_table tbody').append(str);
+    }
+
+}
 
 
 
@@ -73,6 +107,7 @@ $("#refresh_spcimen_list").on("click", function () {
 });
 
 
+//On button click add new specimen bill
 $("#add_spcimen_list").on("click", function () {
     //alert("start ajax");
     var printdbg = true;
@@ -134,9 +169,10 @@ $("#add_spcimen_list").on("click", function () {
         // http://en.wikipedia.org/wiki/Same_origin_policy
         url: '/ajax_patient_specimen_list/createBillingSpecimen.php',
         data: {
-            'id': cur_patient_id,
+            'patient_id': cur_patient_id,
             'cur_pnum': cur_pnum,
             'specimen_id': specimen_id,
+            'specimen_num': specimen_num,//specimen code
             'specimen_text': specimen_text,
             'price_for_specimen': price_for_specimen,
             'comment_for_specimen': comment_for_specimen,
@@ -145,23 +181,85 @@ $("#add_spcimen_list").on("click", function () {
             'pclinician_text': pclinician_text,
             'date_1000': date_1000
         },
-        success: function (msg) {
-            //alert('Success');
+        success: function (data) {
+            repeintspecimentable(data);
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+
+    alert('Finish Added.');
+});
+
+
+
+//on click button delete for seleced specimen list bill in main page
+function delbill(billid,patientid) {
+    
+    if( confirm("delete bill "+billid)){
+       
+        $.ajax({
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: '/ajax_patient_specimen_list/delBill.php',
+        data: {
+            'bill_id': billid,
+            'patient_id': patientid,
+            
+        },
+        success: function (data) {
+           
+            repeintspecimentable(data);
+            if (isAlert) {
+                alert("refresh done");
+            }
+        
+            alert('Success'+data);
         },
         error: function (jqxhr, status, exception) {
             alert('Exception:', exception);
         }
 
     });
+        
+    }else{
+       
+    }
 
-    setTimeout(refreshSpecimenList(false), 1000);
+}
 
 
-
-    alert('Finish Added.');
-    
+//on select hospital change 
+$('#phospital_select_for_price1').on('change', function () {
+    //update drop down list of specimen
+    updateSelectionSpeceman(true);
 });
 
+//on select specimen change
+$('#pspecimen_for_select').on('change', function () {
+    //alert( "Get from ID: "+this.value );
+    if( ($('#pspecimen_for_select option').filter(':selected').attr('value')) == '0' ){
+        $('#add_spcimen_list').prop('disabled', true);
+    }else{
+        $('#add_spcimen_list').prop('disabled', false);
+    }
+    
+    $('#specimen_num').val($('#pspecimen_for_select option').filter(':selected').attr('specimen_num'));
+    $('#specimen_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('specimen'));
+    $('#price_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('price'));
+    $('#comment_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('comment'));
+
+});
+
+
+
+
+$(document).ready(function () {
+    updateSelectionSpeceman(false);
+
+});
 
 
 
@@ -199,28 +297,3 @@ $("#btntest").on("click", function () {
 
 });
 
-
-
-//retrieve_pspecimen_List_by_hospital
-//function updateSelectionSpeceman()
-$('#phospital_select_for_price1').on('change', function () {
-    //alert( "Get from ID: "+this.value );
-
-    updateSelectionSpeceman(true);
-    //alert(tmpmsg);
-});
-
-$('#pspecimen_for_select').on('change', function () {
-    //alert( "Get from ID: "+this.value );
-    $('#specimen_num').val($('#pspecimen_for_select option').filter(':selected').attr('specimen_num'));
-    $('#specimen_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('specimen'));
-    $('#price_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('price'));
-    $('#comment_for_specimen').val($('#pspecimen_for_select option').filter(':selected').attr('comment'));
-
-
-});
-
-$(document).ready(function () {
-    updateSelectionSpeceman(false);
-
-});

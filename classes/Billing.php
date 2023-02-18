@@ -13,13 +13,14 @@
  */
 class Billing {
     
-    public $id;          //int(11)		
+    public $id;          //int(11)
+    public $specimen_id; //int(11) link ot id in specimenList table
     public $patient_id;  //int(11)		
     public $number;      //varchar(32)	
     public $name;        //varchar(32)	
     public $lastname;    //varchar(32)	
     public $slide_type;  //tinyint(4)
-    public $code_description;
+    public $code_description; //Code Name
     public $description; //text	        
     public $import_date; //date			
     public $report_date; //varchar(16)	
@@ -50,15 +51,14 @@ class Billing {
 
     public function create($conn) {
 
-        $sql = "INSERT INTO hospital (hospital,address,hdetail)
-                VALUES ( :hospital,:address,:hdetail)";
-        
-        $sql = "INSERT INTO `billing` (`id`, `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, `hospital`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
-        . "VALUES                     (NULL, :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, :hospital,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
+        //$specimen_id
+        $sql = "INSERT INTO `billing` (`id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, `hospital`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
+        . "VALUES                     (NULL, :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, :hospital,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
 
 
         $stmt = $conn->prepare($sql);
 
+    $stmt->bindValue(':specimen_id',$this->specimen_id ,PDO::PARAM_INT);      //int(11)		
     $stmt->bindValue(':patient_id' ,$this->patient_id  ,PDO::PARAM_INT);      //int(11)		
     $stmt->bindValue(':number'     ,$this->number      ,PDO::PARAM_STR);      //varchar(32)	patient pnum
     $stmt->bindValue(':name'       ,$this->name        ,PDO::PARAM_STR);      //varchar(32)	
@@ -111,5 +111,16 @@ class Billing {
        
     }
 
+    public static function delete($conn,$id)
+    {
+        
+        $sql = "DELETE FROM `billing` WHERE `billing`.`id` = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 
 }

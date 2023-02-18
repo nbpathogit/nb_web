@@ -9,9 +9,12 @@
             <tr>
                 <th >Id</th>
                 <th >Patient Number</th>
-                <th >description</th>
+                <th >Code Name</th>
+                <th >Description</th>
                 <th >Price</th>
                 <th >Remark/comment</th>
+                <th >Manage</th>
+                
             </tr>
         </thead>
         <tbody id="spcimen_list_table_body">
@@ -19,18 +22,22 @@
                 <tr>
                     <td ><?= $billing['id'] ?></td>
                     <td ><?= $billing['number'] ?></td>
+                    <td ><?= $billing['code_description'] ?></td>
                     <td ><?= $billing['description'] ?></td>
                     <td ><?= $billing['cost'] ?></td>
                     <td ><?= $billing['comment'] ?></td>
+                    <td >
+                        <a  billid="<?= $billing['id'] ?>" onclick="delbill(<?= $billing['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal"> Add Specimen </button>
-    <botton id="refresh_spcimen_list" class="btn btn-primary" >Refresh</botton>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal"> Add Specimen </button>
+    <button id="refresh_spcimen_list" class="btn btn-primary" >Refresh</button>
     <br><br>
 </div>
-<botton id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</botton>
+<button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 
 
 
@@ -91,7 +98,7 @@
                 </div>
                 <div>
                     <br>
-                    <botton type="button" id="add_spcimen_list" class="btn btn-primary" data-bs-dismiss="modal">Add</botton>
+                    <button type="button" id="add_spcimen_list" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
                 </div>
