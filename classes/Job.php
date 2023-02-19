@@ -117,6 +117,25 @@ class Job {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+        //คนช่วยตัดเนื้อ
+    public static function getAssisCrossSection($conn, $patient_id = 0) {
+        $sql = "SELECT * FROM `job` ";
+
+        $sql = $sql . " WHERE 1=1 ";
+
+
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        $sql = $sql . " and job_role_id = 2";
+
+        $sql = $sql . " ORDER BY id";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function delete($conn,$id)
     {
         

@@ -627,6 +627,7 @@ $billings = Billing::getAll($conn, $_GET['id'],1);
 $billing2s = Billing::getAll($conn, $_GET['id'],2);
 
 $job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
+$job_assis_crosss = Job::getAssisCrossSection($conn, $patient[0]['id']);
 
 //var_dump($billings);die();
 
@@ -1067,7 +1068,8 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_patient_specimen_list1/specimenlist1.js?v2"></script>
 <script src="/ajax_special_slide_list2/specialslide2.js?v2"></script>
 
-<script src="/ajax_job1_crossection/job1.js?v0xxxxxxxxxxxxxxxxxx"></script>
+<script src="/ajax_job1_crossection/job1.js?v0xxxxxxxxxxxxxxxxxxxx"></script>
+<script src="/ajax_job2_assis_cross/job2.js?v0xxx"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
