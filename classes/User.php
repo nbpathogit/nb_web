@@ -104,6 +104,7 @@ class User
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    //2000 2100 2200
     public static function getAllbyTeachien($conn)
     {
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
@@ -116,7 +117,8 @@ class User
                 (U.ugroup_id = 2000 
                 or U.ugroup_id = 2100
                 or U.ugroup_id = 2200
-                or U.id = 0 )";
+                or U.id = 0 )
+                ORDER BY U.id ASC";
 
 
         $results = $conn->query($sql);

@@ -607,11 +607,12 @@ $hospitals = Hospital::getAll($conn);
 $specimens = Specimen::getSpecimen($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
-$userTechnic = User::getAllbyTeachien($conn);
+$userTechnic = User::getAllbyTeachien($conn);   //2000 2100 2200
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
 $labFluids = LabFluid::getAll($conn);
 $userGroupLists = Ugroup::getAll($conn);
+$jobRoles = JobRole::getAll($conn);
 
 //var_dump($userPathos);
 //die();
@@ -624,6 +625,8 @@ $pathoOwnerNameObj = User::getByID($conn, $patient[0]['ppathologist_id']);
 
 $billings = Billing::getAll($conn, $_GET['id'],1);
 $billing2s = Billing::getAll($conn, $_GET['id'],2);
+
+$job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
 
 //var_dump($billings);die();
 
@@ -931,8 +934,8 @@ if (isset($curstatus[0]['next3'])) {
                 
 
                 <?php require 'includes/patient_form_020_specimen_type.php'; ?>
-                <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>
-                <?php require 'includes/patient_form_040_prepare_slide.php'; ?>
+                
+                
                 <?php require 'includes/patient_form_060_lab_cell.php'; ?>
                 <?php require 'includes/patient_form_065_assigned_patho.php'; ?>
             </form>
@@ -945,6 +948,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+            <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>
         </div>
     </div>
 
@@ -952,6 +956,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;"><?= ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+            <?php require 'includes/patient_form_040_prepare_slide.php'; ?>
         </div>
     </div>
 
@@ -1061,6 +1066,8 @@ if (isset($curstatus[0]['next3'])) {
     
 <script src="/ajax_patient_specimen_list1/specimenlist1.js?v2"></script>
 <script src="/ajax_special_slide_list2/specialslide2.js?v2"></script>
+
+<script src="/ajax_job1_crossection/job1.js?v0xxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
