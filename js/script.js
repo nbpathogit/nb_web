@@ -297,10 +297,11 @@ function addAction2Flow() {
         });
 //         console.log("isset_second_patho : " + isset_second_patho);
 //          return;
-        if (isset_sp_slide_assigned == '0') {
-            alert("กรุณาเลือกคนเตรียมใสล์พิเศษก่อน!");
-            return;
-        }
+
+//        if (isset_sp_slide_assigned == '0') {
+//            alert("กรุณาเลือกคนเตรียมใสล์พิเศษก่อน!");
+//            return;
+//        }
 
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");
