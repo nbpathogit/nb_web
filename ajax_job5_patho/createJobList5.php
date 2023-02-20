@@ -27,6 +27,8 @@ $job->finish_date = null;
 
 $job->create($conn);
 
+Patient::setPathoID($conn, $_POST['patient_id'], $_POST['user_id']);
+
 $jobs = Job::getByPatientJobRole($conn, (int) $_POST['patient_id'],5);
 
 echo json_encode($jobs);

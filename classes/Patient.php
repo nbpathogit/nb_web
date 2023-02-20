@@ -878,4 +878,19 @@ class Patient
 
         return $stmt->execute();
     }
+    
+    public static function setPathoID($conn, $id, $ppathologist_id)
+    {
+        $sql = "UPDATE patient
+                SET ppathologist_id = :ppathologist_id
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':ppathologist_id', $ppathologist_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
 }
