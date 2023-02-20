@@ -866,7 +866,7 @@ if (isset($curstatus[0]['next3'])) {
 
     <?php $isEnableEditButton = ($isCurUserAdmin || (($isCurStatus_1000 || $isCurStatus_2000) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase)) || (($isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000) && ($isCurrentPathoIsOwnerThisCase))); ?>
     <div id="patient_detail_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
 
             <!--hr noshade="noshade" width="" size="8"-->
             <h4 align="center"><b>รับเข้า/ใส่ข้อมูลผู้ป่วย</b> <span style="color:orange;"><?= ($curstatusid == "1000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
@@ -895,7 +895,7 @@ if (isset($curstatus[0]['next3'])) {
     </div>
     
     <div id="patient_detail_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
 
             <?php require 'includes/patient_form_015_add_specimen.php'; ?>
 
@@ -911,7 +911,7 @@ if (isset($curstatus[0]['next3'])) {
     );
     ?>
     <div id="patient_plan_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี</b><span style="color:orange;"><?= ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
                 <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
@@ -949,7 +949,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
     <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
             <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>
@@ -957,7 +957,7 @@ if (isset($curstatus[0]['next3'])) {
     </div>
 
     <div id="slide_prep_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;"><?= ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
             <?php require 'includes/patient_form_040_prepare_slide.php'; ?>
@@ -965,7 +965,7 @@ if (isset($curstatus[0]['next3'])) {
     </div>
 
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
             <?php require 'includes/patient_form_060_lab_cell.php'; ?>
@@ -974,7 +974,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
 <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+    <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
         <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
         <form id="slide_prep" name="" method="post">
@@ -1000,7 +1000,7 @@ if (isset($curstatus[0]['next3'])) {
 
     
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>แพทย์ผู้ออกผล</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
             <?php require 'includes/patient_form_065_assigned_patho.php'; ?>
@@ -1011,7 +1011,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
     <div id="interim_result_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
             <!-- hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>ข้อมูลสิ่งส่งตรวจ</b></h4>
 
@@ -1040,7 +1040,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
     <div id="diag_result_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
             <h4 align="center"><b>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
                 <?php if ($curstatusid != "12000" && !$isEditModePageOn) : ?>
                     <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isCurrentPathoIsOwnerThisCase ? "" : "disabled"; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
@@ -1062,7 +1062,7 @@ if (isset($curstatus[0]['next3'])) {
 
 <?php if ($curstatusid == "20000") : ?>
     <div id="finish_section" class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เสร็จสิ้น</b><span style="color:green;"><?= ($curstatusid == "20000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
         </div>
@@ -1071,7 +1071,7 @@ if (isset($curstatus[0]['next3'])) {
 
 <?php if (!($isEditModePageOn || $isEditModePageForFinResultDataOn)) : ?>
     <div class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
             <p align="center"><a class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">PreView PDF</a> </p>
         </div>
     </div>

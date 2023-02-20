@@ -324,3 +324,7 @@ table.dataTable>tbody>tr>td{
     border: solid 1px;
     border-color: #dddddd;  
 }
+
+.bg-blue-a {
+    background-color: #e1ebf3;
+}
