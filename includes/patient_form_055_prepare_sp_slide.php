@@ -1,6 +1,10 @@
 <hr style=" border: 3px solid black;">
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
-<h4 align="center"><b>รายการขอสไลดด์พิเศษ</b></h4>
+<h4 align="left">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModa2"> Add Special Slide </button>
+    <button id="refresh_spcimen_list2" class="btn btn-primary" >Refresh</button>
+    <b>รายการขอสไลดด์พิเศษ</b>
+</h4>
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
@@ -33,8 +37,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModa2"> Add Special Slide </button>
-    <button id="refresh_spcimen_list2" class="btn btn-primary" >Refresh</button>
+
     <br><br>
 </div>
 <!--<button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>-->
@@ -129,7 +132,7 @@
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job4"> เพิ่มพนักงานเตรียมสใลด์พิเศษ </button>
     <button id="refresh_job4" class="btn btn-primary" >Refresh</button>
     </span>
-    <span align="center"><b>(พนักงานเตรียมใสลด์พิเศษ)</b></span>
+    <span align="center"><b>(พนักงานเตรียมสใลด์พิเศษ)</b></span>
 </h5>
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
