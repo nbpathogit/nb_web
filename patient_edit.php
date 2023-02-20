@@ -632,6 +632,9 @@ $job3s = Job::getByPatientJobRole($conn, $patient[0]['id'],3);
 $job4s = Job::getByPatientJobRole($conn, $patient[0]['id'],4);
 $job5s = Job::getByPatientJobRole($conn, $patient[0]['id'],5);
 
+$outsideContracts = OutsideContract::getAll($conn);
+$hires = HireList::getAll($conn, $patient[0]['id']);
+
 //var_dump($billings);die();
 
 //$patho2OwnerName = User::getName($conn, $patient[0]['ppathologist_id']);
@@ -1087,6 +1090,8 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_job3_prep_slide/job3.js?v1"></script>
 <script src="/ajax_job4_prep_sp_slide/job4.js?v1"></script>
 <script src="/ajax_job5_patho/job5.js?v1"></script>
+
+<script src="/ajax_hire1_fluidlab/hire1.js?v1"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
