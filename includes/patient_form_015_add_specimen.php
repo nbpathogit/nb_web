@@ -9,7 +9,7 @@
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
-    <table class="table table-bordered" id="spcimen_list_table1">
+    <table class="table table-bordered border-dark" id="spcimen_list_table1">
         <thead>
             <tr>
                 <th >Id</th>

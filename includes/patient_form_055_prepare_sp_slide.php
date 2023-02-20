@@ -8,7 +8,7 @@
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
-    <table class="table table-bordered" id="spcimen_list_table2">
+    <table class="table table-bordered border-dark" id="spcimen_list_table2">
         <thead>
             <tr>
                 <th >Id</th>
@@ -135,7 +135,7 @@
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
-    <table class="table table-bordered" id="table_body_job4">
+    <table class="table table-bordered border-dark" id="table_body_job4">
         <thead>
             <tr>
                 <th >Id</th>

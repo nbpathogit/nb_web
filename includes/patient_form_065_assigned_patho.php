@@ -52,7 +52,7 @@ $isBorder = false;
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
-    <table class="table table-bordered" id="table_body_job5">
+    <table class="table table-bordered border-dark" id="table_body_job5">
         <thead>
             <tr>
                 <th >Id</th>

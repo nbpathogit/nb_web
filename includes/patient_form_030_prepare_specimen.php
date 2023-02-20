@@ -56,7 +56,7 @@ $isBorder = false;
 </h5>
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
-    <table class="table table-bordered" id="table_body_job1">
+    <table class="table table-bordered border-dark" id="table_body_job1">
         <thead>
             <tr>
                 <th >Id</th>
@@ -158,7 +158,7 @@ $isBorder = false;
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
-    <table class="table table-bordered" id="table_body_job2">
+    <table class="table table-bordered border-dark" id="table_body_job2">
         <thead>
             <tr>
                 <th >Id</th>
@@ -191,8 +191,6 @@ $isBorder = false;
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <br><br>
 </div>
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 

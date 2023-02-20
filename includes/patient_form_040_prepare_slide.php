@@ -52,7 +52,7 @@ $isBorder = false;
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
-    <table class="table table-bordered" id="table_body_job3">
+    <table class="table table-bordered border-dark" id="table_body_job3">
         <thead>
             <tr>
                 <th >Id</th>
@@ -86,7 +86,7 @@ $isBorder = false;
         </tbody>
     </table>
 
-    <br><br>
+
 </div>
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 
