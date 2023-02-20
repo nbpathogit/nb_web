@@ -48,8 +48,8 @@ function repaintTbljob1(data) {
         var finishdate = (datajson[i].finish_date == null)?'Not Specify':(datajson[i].finish_date);
         var str = '<tr>'+
                 '<td>' + datajson[i].id + '</td>'+
-                '<td>' + datajson[i].patient_number + '</td>'+
                 '<td>' + datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname + '</td>'+ 
+                '<td>' + datajson[i].patient_number + '</td>'+
                 '<td>' + datajson[i].jobname + '</td>'+
                 '<td>' + datajson[i].pay + '</td>'+
                 '<td>' + datajson[i].comment + '</td>'+

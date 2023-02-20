@@ -46,7 +46,7 @@ $isBorder = false;
 
 
 
-
+<!--Table Modal Job1-->
 <hr style=" border: 3px solid black;">
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
 <h5 align="left">
@@ -145,7 +145,7 @@ $isBorder = false;
 
 
 
-
+<!--Table Modal Job2-->
 <hr style=" border: 3px solid black;">
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
 <h5>

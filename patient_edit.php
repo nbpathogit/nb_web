@@ -628,6 +628,9 @@ $billing2s = Billing::getAll($conn, $_GET['id'],2);
 
 $job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
 $job_assis_crosss = Job::getAssisCrossSection($conn, $patient[0]['id']);
+$job3s = Job::getByPatientJobRole($conn, $patient[0]['id'],3);
+$job4s = Job::getByPatientJobRole($conn, $patient[0]['id'],4);
+$job5s = Job::getByPatientJobRole($conn, $patient[0]['id'],5);
 
 //var_dump($billings);die();
 
@@ -934,11 +937,11 @@ if (isset($curstatus[0]['next3'])) {
                         
                 
 
-                <?php require 'includes/patient_form_020_specimen_type.php'; ?>
+                <?php //require 'includes/patient_form_020_specimen_type.php'; ?>
                 
                 
-                <?php require 'includes/patient_form_060_lab_cell.php'; ?>
-                <?php require 'includes/patient_form_065_assigned_patho.php'; ?>
+
+                <?php //require 'includes/patient_form_065_assigned_patho.php'; ?>
             </form>
         </div>
     </div>
@@ -965,6 +968,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+            <?php require 'includes/patient_form_060_lab_cell.php'; ?>
         </div>
     </div>
 
@@ -994,6 +998,16 @@ if (isset($curstatus[0]['next3'])) {
     </div>
 </div>
 
+    
+    <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>แพทย์ผู้ออกผล</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+            <?php require 'includes/patient_form_065_assigned_patho.php'; ?>
+        </div>
+    </div>
+    
+    
 
 
     <div id="interim_result_section" class="container-fluid pt-4 px-4">
@@ -1068,8 +1082,11 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_patient_specimen_list1/specimenlist1.js?v2"></script>
 <script src="/ajax_special_slide_list2/specialslide2.js?v2"></script>
 
-<script src="/ajax_job1_crossection/job1.js?v0xxxxxxxxxxxxxxxxxxxx"></script>
-<script src="/ajax_job2_assis_cross/job2.js?v0xxx"></script>
+<script src="/ajax_job1_crossection/job1.js?v1"></script>
+<script src="/ajax_job2_assis_cross/job2.js?v1"></script>
+<script src="/ajax_job3_prep_slide/job3.js?v1"></script>
+<script src="/ajax_job4_prep_sp_slide/job4.js?v1"></script>
+<script src="/ajax_job5_patho/job5.js?v1"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
