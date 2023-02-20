@@ -85,8 +85,6 @@ $isBorder = false;
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <br><br>
 </div>
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 

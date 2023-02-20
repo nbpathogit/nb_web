@@ -931,7 +931,7 @@ if (isset($curstatus[0]['next3'])) {
                 <?php else : ?>
                     <?php $isEnableEditButton = ($isCurUserAdmin || (($isCurStatus_1000 || $isCurStatus_2000) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase)) || (($isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000) && ($isCurrentPathoIsOwnerThisCase))); ?>
                     <?php if (!$isEditModePageOn || !$isEditModePageForPlaningDataOn) : ?>
-                        <p align="left"><button name="edit_patient_plan" type="submit" class="btn btn-primary" <?= ($curstatusid >= 2000) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
+                        <p align="left"><button name="edit_patient_plan" type="submit" class="btn btn-primary" disabled <?= ($curstatusid >= 2000) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
                     <?php endif; ?>
                 <?php endif; ?>
                         

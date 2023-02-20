@@ -1,10 +1,10 @@
 <hr style=" border: 3px solid black;">
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
-<h4 align="left">
+<h5 align="left">
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModa2"> Add Special Slide </button>
     <button id="refresh_spcimen_list2" class="btn btn-primary" >Refresh</button>
-    <b>รายการขอสไลดด์พิเศษ</b>
-</h4>
+    <b>(รายการขอสไลดด์พิเศษ)</b>
+</h5>
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
@@ -37,8 +37,6 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <br><br>
 </div>
 <!--<button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>-->
 
@@ -170,8 +168,6 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <br><br>
 </div>
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 

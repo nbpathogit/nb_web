@@ -1,6 +1,11 @@
 
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
 <h4 align="center"><b>รายการส่งตรวจ</b></h4>
+<h5 align="left">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal1"> Add Specimen </button>
+    <button id="refresh_spcimen_list1" class="btn btn-primary" >Refresh</button>
+    <b>(เพิ่มรายการส่งตรวจ)</b>
+</h5>
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
@@ -33,9 +38,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal1"> Add Specimen </button>
-    <button id="refresh_spcimen_list1" class="btn btn-primary" >Refresh</button>
-    <br><br>
+
 </div>
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 
