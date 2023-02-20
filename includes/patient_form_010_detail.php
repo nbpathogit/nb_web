@@ -135,7 +135,7 @@ $curStatusAuthEdit = (
     </div>
     
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="pspecimen_id" class="" >สิ่งส่งตรวจ</label>
+        <label for="pspecimen_id" class="" >สิ่งส่งตรวจ(To be remove)</label>
         <select name="pspecimen_id" id="pspecimen_id" class="form-select" disabled readonly >
 <!--            <option value="กรุณาเลือก">กรุณาเลือก</option>-->
             <?php foreach ($specimens as $specimen): ?>

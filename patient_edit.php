@@ -986,8 +986,8 @@ if (isset($curstatus[0]['next3'])) {
                 <?php endif; ?>
             <?php else : ?>
                 <?php if (!$isEditModePageForSpSlidePrepDataOn) : ?>
-                    <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (($curstatusid >= 8000) || $isCurrentPathoIsOwnerThisCase) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
-                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary">&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
+                    <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (($curstatusid >= 8000) || $isCurrentPathoIsOwnerThisCase ) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>
+                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= (($curstatusid != 8000) || $isCurrentPathoIsOwnerThisCase) ? "" : "disabled"; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
                 <?php endif; ?>
             <?php endif; ?>
 

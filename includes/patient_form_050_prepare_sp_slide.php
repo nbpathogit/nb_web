@@ -32,7 +32,7 @@ $curStatusAuthEdit = (
 <div class="row <?= $isBorder ? "border" : "" ?>">
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="p_slide_prep_sp_id"  class="form-label" >พนักงานเตรียมไลด์พิเศษ</label>
+        <label for="p_slide_prep_sp_id"  class="form-label" >พนักงานเตรียมไลด์พิเศษ(To be remove)</label>
 
         <select name="p_slide_prep_sp_id" id="p_slide_prep_sp_id"  class="form-select" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> >
             <!--<option value="">กรุณาเลือก</option>-->
@@ -47,12 +47,12 @@ $curStatusAuthEdit = (
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="pspprice" class="form-label">ราคาค่าตรวจพิเศษ(บาท)</label>
+        <label for="pspprice" class="form-label">ราคาค่าตรวจพิเศษ(บาท)(To be remove)</label>
         <input name="pspprice" id="pspprice" type="text" class="form-control"   <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit)  ? "" : " disabled  " ?>  value="<?= $patient[0]['pspprice']; ?>"  >
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="date_8000" class="">เตรียมสไลด์พิเศษแล้วเมื่อวันที่</label>
+        <label for="date_8000" class="">เตรียมสไลด์พิเศษแล้วเมื่อวันที่(To be remove)</label>
         <input name="date_8000" id="date_8000" class="form-control border" type="text" class=""  placeholder="This Field will Auto Generate" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn  && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> value="<?= $patient[0]['date_8000']; ?>">
     </div>
     
