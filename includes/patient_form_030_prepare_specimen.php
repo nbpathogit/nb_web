@@ -47,18 +47,21 @@ $isBorder = false;
 
 
 
-<hr>
+<hr style=" border: 3px solid black;">
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
-<h5 align="left"><b>พนักงานตัดเนื้อ</b></h4>
-
+<h5 align="left">
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job1"> เพิ่มพนักงานตัดเนื้อ </button>
+<button id="refresh_job1" class="btn btn-primary" >Refresh</button>
+<b>(พนักงานตัดเนื้อ)</b>
+</h5>
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
     <table class="table table-bordered" id="table_body_job1">
         <thead>
             <tr>
                 <th >Id</th>
+                <th >พนักงานตัดเนื้อ</th>
                 <th >Patient Number</th>
-                <th >Owner</th>
                 <th >Job Name</th>
                 <th >Cost</th>
                 <th >Remark/comment</th>
@@ -72,8 +75,8 @@ $isBorder = false;
             <?php foreach ($job_crosss as $joblist): ?>
                 <tr>
                     <td ><?= $joblist['id'] ?></td>
+                    <td ><b><?= $joblist['pre_name'] ?> <?= $joblist['name'] ?> <?= $joblist['lastname'] ?></b></td>
                     <td ><?= $joblist['patient_number'] ?></td>
-                    <td ><?= $joblist['pre_name'] ?> <?= $joblist['name'] ?> <?= $joblist['lastname'] ?></td>
                     <td ><?= $joblist['jobname'] ?></td>
                     <td ><?= $joblist['pay'] ?></td>
                     <td ><?= $joblist['comment'] ?></td>
@@ -86,9 +89,7 @@ $isBorder = false;
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job1"> เพิ่มพนักงานตัดเนื้อ </button>
-    <button id="refresh_job1" class="btn btn-primary" >Refresh</button>
-    <br><br>
+
 </div>
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 
@@ -145,9 +146,15 @@ $isBorder = false;
 
 
 
-<hr>
+<hr style=" border: 3px solid black;">
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
-<h5 align="left"><b>พนักงานผู้ช่วยตัดเนื้อ</b></h4>
+<h5>
+    <span align="center">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job2"> เพิ่มพนักงานช่วยตัดเนื้อ </button>
+    <button id="refresh_job2" class="btn btn-primary" >Refresh</button>
+    </span>
+    <span align="center"><b>(พนักงานผู้ช่วยตัดเนื้อ)</b></span>
+</h5>
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
@@ -155,8 +162,8 @@ $isBorder = false;
         <thead>
             <tr>
                 <th >Id</th>
+                <th >พนักงานผู้ช่วยตัดเนื้อ</th>
                 <th >Patient Number</th>
-                <th >Owner</th>
                 <th >Job Name</th>
                 <th >Cost</th>
                 <th >Remark/comment</th>
@@ -170,8 +177,8 @@ $isBorder = false;
             <?php foreach ($job_assis_crosss as $joblist): ?>
                 <tr>
                     <td ><?= $joblist['id'] ?></td>
+                    <td ><b><?= $joblist['pre_name'] ?> <?= $joblist['name'] ?> <?= $joblist['lastname'] ?></b></td>
                     <td ><?= $joblist['patient_number'] ?></td>
-                    <td ><?= $joblist['pre_name'] ?> <?= $joblist['name'] ?> <?= $joblist['lastname'] ?></td>
                     <td ><?= $joblist['jobname'] ?></td>
                     <td ><?= $joblist['pay'] ?></td>
                     <td ><?= $joblist['comment'] ?></td>
@@ -184,8 +191,7 @@ $isBorder = false;
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job2"> เพิ่มพนักงานช่วยตัดเนื้อ </button>
-    <button id="refresh_job2" class="btn btn-primary" >Refresh</button>
+
     <br><br>
 </div>
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
