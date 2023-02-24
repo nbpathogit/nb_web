@@ -17,6 +17,7 @@ Auth::requireLogin("patient_edit.php", $_GET['id']);
   12000  diag_result_section
 
  */
+
 $debug = false;
 if ($debug) {
     $hidden_data2dom = false;
@@ -26,7 +27,8 @@ if ($debug) {
     $is_vardump = false;
 }
 
-
+$hide = false;
+$show = true;
 
 $isAddPage = false; // if add page then diable edit almost of all.
 // true = Disable Edit page, false canEditPage
@@ -630,7 +632,8 @@ $job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
 $job_assis_crosss = Job::getAssisCrossSection($conn, $patient[0]['id']);
 $job3s = Job::getByPatientJobRole($conn, $patient[0]['id'],3);
 $job4s = Job::getByPatientJobRole($conn, $patient[0]['id'],4);
-$job5s = Job::getByPatientJobRole($conn, $patient[0]['id'],5);
+$job5s = Job::getByPatientJobRole($conn, $patient[0]['id'],5);// Patho1
+$job6s = Job::getByPatientJobRole($conn, $patient[0]['id'],6);// Second Patho1
 
 $outsideContracts = OutsideContract::getAll($conn);
 $hires = HireList::getAll($conn, $patient[0]['id']);
@@ -900,7 +903,7 @@ if (isset($curstatus[0]['next3'])) {
     <div id="patient_detail_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
 
-            <?php require 'includes/patient_form_015_add_specimen.php'; ?>
+            
 
         </div>
     </div>
@@ -915,13 +918,15 @@ if (isset($curstatus[0]['next3'])) {
     ?>
     <div id="patient_plan_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี</b><span style="color:orange;"><?= ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
                 <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
                     <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
                 <?php endif; ?>
             </h4>
-
+            
+            <?php if (false) : ?>
             <form id="patient_plan" name="" method="post">
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForPlaningDataOn) : ?>
@@ -946,6 +951,22 @@ if (isset($curstatus[0]['next3'])) {
 
                 <?php //require 'includes/patient_form_065_assigned_patho.php'; ?>
             </form>
+            <?php endif; ?>
+            
+            <?php require 'includes/patient_form_015_slide1_add_specimen.php'; ?>
+            <?php require 'includes/patient_form_030_job1_prepare_specimen.php'; ?>
+            <?php require 'includes/patient_form_035_job2_prepare_specimen.php'; ?>
+            
+            <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
+            
+            <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
+            
+            <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
+            
+            <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
+            
+            <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?>
+            
         </div>
     </div>
 
@@ -955,7 +976,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            <?php require 'includes/patient_form_030_prepare_specimen.php'; ?>
+            
         </div>
     </div>
 
@@ -963,7 +984,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;"><?= ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            <?php require 'includes/patient_form_040_prepare_slide.php'; ?>
+            
         </div>
     </div>
 
@@ -971,7 +992,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            <?php require 'includes/patient_form_060_lab_cell.php'; ?>
+
         </div>
     </div>
 
@@ -995,9 +1016,9 @@ if (isset($curstatus[0]['next3'])) {
             <?php endif; ?>
 
 
-            <?php require 'includes/patient_form_050_prepare_sp_slide.php'; ?>
+           
         </form>
-        <?php require 'includes/patient_form_055_prepare_sp_slide.php'; ?>
+       
     </div>
 </div>
 
@@ -1006,7 +1027,20 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>แพทย์ผู้ออกผล</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            <?php require 'includes/patient_form_065_assigned_patho.php'; ?>
+                            
+        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+        <label for="ppathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
+        <select name="ppathologist_id" id="ppathologist_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit) && ($curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
+            <!--<option value="">กรุณาเลือก</option>-->
+            <?php foreach ($userPathos as $user): ?>
+                <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option>   ?>
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['ppathologist_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
+                <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0  && $isCurUserAdmin): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
+                </option>
+            <?php endforeach; ?>                                     
+        </select> 
+
+        </div>
         </div>
     </div>
     
@@ -1052,7 +1086,7 @@ if (isset($curstatus[0]['next3'])) {
             </h4>
             <?php if ($isUpdateResultAval) : ?>
                 <!--hr noshade="noshade" width="" size="8"-->
-                <?php require 'includes/patient_form_080_result.php'; ?>
+                <?php require 'includes/patient_form_080_job6_result.php'; ?>
             <?php endif; ?>
         </div>
     </div>
@@ -1082,16 +1116,17 @@ if (isset($curstatus[0]['next3'])) {
 
 <?php require 'includes/footer.php'; ?>
     
-<script src="/ajax_patient_specimen_list1/specimenlist1.js?v2"></script>
-<script src="/ajax_special_slide_list2/specialslide2.js?v2"></script>
+<script src="/ajax_slide1_specimen/specimenlist1.js?v2xxxxxxxxxxx"></script>
+<script src="/ajax_slide2__special/specialslide2.js?v2xxxxx"></script>
 
-<script src="/ajax_job1_crossection/job1.js?v1"></script>
-<script src="/ajax_job2_assis_cross/job2.js?v1"></script>
-<script src="/ajax_job3_prep_slide/job3.js?v1"></script>
-<script src="/ajax_job4_prep_sp_slide/job4.js?v1"></script>
-<script src="/ajax_job5_patho/job5.js?v1"></script>
+<script src="/ajax_job1_crossection/job1.js?v1xxxxxxxx"></script>
+<script src="/ajax_job2_assis_cross/job2.js?v1xxxxxปx"></script>
+<script src="/ajax_job3_prep_slide/job3.js?v1xxxx"></script>
+<script src="/ajax_job4_prep_sp_slide/job4.js?v1xxxx"></script>
+<script src="/ajax_job5_patho/job5.js?v1xxxxx"></script>
+<script src="/ajax_job6_patho/job6.js?v1xxxxx"></script>
 
-<script src="/ajax_hire1_fluidlab/hire1.js?v1"></script>
+<script src="/ajax_hire1_fluidlab/hire1.js?v1xxx"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

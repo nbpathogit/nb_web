@@ -148,7 +148,7 @@ class Job {
         }
         $sql = $sql . " and job_role_id = " . $jobrole_id;
 
-        $sql = $sql . " ORDER BY id";
+        $sql = $sql . " ORDER BY id DESC";
 
         $results = $conn->query($sql);
 

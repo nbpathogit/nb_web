@@ -1,10 +1,109 @@
-<hr style=" border: 3px solid black;">
+<?php
+//เตรียมสไลด์พิเศษ 8000
+$isBorder = false;
+
+
+
+$userAuthEdit = (
+        $isCurUserAdmin 
+    || $isCurUserPatho 
+    || $isCurUserPathoAssis 
+    || $isCurUserLabOfficerNB 
+    || $isCurUserAdminStaff 
+    //|| $isCurUserClinicianCust 
+    //|| $isCurUserHospitalCust
+        );
+
+$curStatusAuthEdit = (
+        $isCurStatus_1000 
+    || $isCurStatus_2000 
+    || $isCurStatus_3000 
+    || $isCurStatus_6000 
+    || $isCurStatus_8000
+    || $isCurStatus_10000
+    || $isCurStatus_12000
+    || $isCurStatus_13000
+    || $isCurStatus_20000
+        );
+
+?>
+
+<?php if ($hide) : ?>
+
+
+<div class="row <?= $isBorder ? "border" : "" ?>">
+
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+        <label for="p_slide_prep_sp_id"  class="form-label" >พนักงานเตรียมไลด์พิเศษ(To be remove)</label>
+
+        <select name="p_slide_prep_sp_id" id="p_slide_prep_sp_id"  class="form-select" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> >
+            <!--<option value="">กรุณาเลือก</option>-->
+            <?php foreach ($userTechnic as $user): ?>
+                <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option> ?>
+                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['p_slide_prep_sp_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
+                    <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0 && $isCurUserAdmin):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
+                </option>
+            <?php endforeach; ?>
+        </select> 
+
+    </div>
+
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+        <label for="pspprice" class="form-label">ราคาค่าตรวจพิเศษ(บาท)(To be remove)</label>
+        <input name="pspprice" id="pspprice" type="text" class="form-control"   <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit)  ? "" : " disabled  " ?>  value="<?= $patient[0]['pspprice']; ?>"  >
+    </div>
+
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label for="date_8000" class="">เตรียมสไลด์พิเศษแล้วเมื่อวันที่(To be remove)</label>
+        <input name="date_8000" id="date_8000" class="form-control border" type="text" class=""  placeholder="This Field will Auto Generate" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn  && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> value="<?= $patient[0]['date_8000']; ?>">
+    </div>
+    
+    <div align=""  class="mb-3">
+        <label for="p_sp_patho_comment">Comment</label><br>
+
+        <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+    </div>
+   
+</div>
+
+<?php endif; ?>
+
+<hr>
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
-<h5 align="left">
+<!--<h5 align="left">
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModa2"> Add Special Slide </button>
     <button id="refresh_spcimen_list2" class="btn btn-primary" >Refresh</button>
     <b>(รายการขอสไลดด์พิเศษ)</b>
-</h5>
+</h5>-->
+<p align="left">
+    <b>รายการขอสไลดด์พิเศษ:</b>
+    <span id="spcimen_list2" style="font-size:20px">
+        <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
+        <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
+        <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
+    </span>  
+    <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal1"> Add Specimen </button>-->
+    <!--<button id="refresh_spcimen_list1" class="btn btn-primary" >Refresh</button>-->
+    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#addSpecimenModal2"><i class="fa-sharp fa-solid fa-plus"></i> Add</a>
+    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_spcimen_list2"><i class="fa-solid fa-rotate-right"></i> refresh </a>
+    <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#spcimen_tbl_list2"><i class="fa-solid fa-table"></i> detail </a>
+    
+    
+</p>
+
+
+<?php if ($show) : ?>
+<!-- Modal -->
+<div class="modal fade" id="spcimen_tbl_list2" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">เลือกพนักงานช่วยตัดเนื้อ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+<?php endif; ?>
+
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
@@ -39,12 +138,29 @@
     </table>
 </div>
 <!--<button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>-->
+                
+                
+                
+                
+                
+                
+                
+
+                <?php if ($show) : ?>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+    </div>
+</div>
+</div>
+<?php endif; ?>
 
 
 
 
 <!-- Modal -->
-<div class="modal fade" id="addSpecimenModa2" tabindex="-1" aria-labelledby="exampleaddSpecialSlideModal" aria-hidden="true">
+<div class="modal fade" id="addSpecimenModal2" tabindex="-1" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -113,105 +229,3 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
-<!--Table Modal Job4-->
-<hr style=" border: 3px solid black;">
-<div class="row <?= $isBorder ? "border" : "" ?>"></div>
-<h5>
-    <span align="center">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job4"> เพิ่มพนักงานเตรียมสใลด์พิเศษ </button>
-    <button id="refresh_job4" class="btn btn-primary" >Refresh</button>
-    </span>
-    <span align="center"><b>(พนักงานเตรียมสใลด์พิเศษ)</b></span>
-</h5>
-
-<div class=" <?= $isBorder ? "border" : "" ?>">
-
-    <table class="table table-bordered border-dark" id="table_body_job4">
-        <thead>
-            <tr>
-                <th >Id</th>
-                <th >พนักงานเตรียมสไลด์พิเศษ</th>
-                <th >Patient Number</th>
-                <th >Job Name</th>
-                <th >Cost</th>
-                <th >Remark/comment</th>
-                <th >Insert time</th>
-                <th >Finish time</th>
-                <th >Manage</th>
-                
-            </tr>
-        </thead>
-        <tbody id="">
-            <?php foreach ($job4s as $joblist): ?>
-                <tr>
-                    <td ><?= $joblist['id'] ?></td>
-                    <td ><b><?= $joblist['pre_name'] ?> <?= $joblist['name'] ?> <?= $joblist['lastname'] ?></b></td>
-                    <td ><?= $joblist['patient_number'] ?></td>
-                    <td ><?= $joblist['jobname'] ?></td>
-                    <td ><?= $joblist['pay'] ?></td>
-                    <td ><?= $joblist['comment'] ?></td>
-                    <td ><?= $joblist['insert_time'] ?></td>
-                    <td ><?= is_null($joblist['finish_date'])?"Not Specific":$joblist['finish_date'] ?></td>
-                    <td >
-                        <a  jobid="<?= $joblist['id'] ?>" onclick="deljob4(<?= $joblist['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-<button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="add_modal_job4" tabindex="-1" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel4">เลือกพนักงานเตรียมสใลด์พิเศษ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <?php //$userTechnic ?>      
-                <div class="<?= $isBorder ? "border" : "" ?> ">
-                    <label for="p_slide_prep_id_job4"  class="form-label">เลือกพนักงานเตรียมสใลด์พิเศษ</label>
-                    <select name="p_slide_prep_id_job4" id="select_job4" class="form-select"  >
-                        <!--<option value="">กรุณาเลือก</option>-->
-                        <?php foreach ($userTechnic as $user): ?>
-                            <option value="<?= ($user['uid']); //user id     ?>"  
-                                    job_role_id="4"
-                                    patient_id="<?= $patient[0]['id']; //patient id     ?>"
-                                    patient_number="<?= $patient[0]['pnum']; //Sergical number     ?>"
-                                    user_id="<?= ($user['uid']); //user id     ?>"
-                                    pre_name="<?= ($user['pre_name']); //pre name     ?>"
-                                    name="<?= ($user['name']); //name     ?>"
-                                    lastname="<?= ($user['lastname']); //name     ?>"
-                                    jobname="<?= $jobRoles[3]['name']; //     ?>"
-                                    pay="<?= $jobRoles[3]['cost_per_job']; //     ?>"
-                                    cost_count_per_day="<?= $jobRoles[3]['cost_count_per_day']; //     ?>"
-                                    comment=""
-                                    >  <?= $user['pre_name'] . ' ' . $user['name'] . ' ' . $user['lastname'] ?>
-                            </option>
-                        <?php endforeach; ?>                                     
-                    </select> 
-                </div>   
-                <div>
-                    <br>
-                    <button type="button" id="add_job_list4" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer"></div>
-    </div>
-</div>

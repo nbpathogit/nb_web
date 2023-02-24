@@ -107,5 +107,19 @@ class Presultupdate {
 
         return $stmt->execute();
     }
+    
+        public static function setPatho2ID($conn, $id, $pathologist2_id)
+    {
+        $sql = "UPDATE presultupdate
+                SET pathologist2_id = :pathologist2_id
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pathologist2_id', $pathologist2_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 
 }

@@ -65,16 +65,12 @@ $isSetShowaddResultButton = true;
 
             <div class="row <?= $isBorder ? "border" : "" ?>">
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-                    <label for="pathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
-                    <select name="pathologist_id" class="form-select" <?= $isEditableUResult ? "" : " disabled readonly " ?>>
-                        <?php foreach ($userPathos as $user) : ?>
-                            <option value="<?= $user['uid']; ?>" <?= $presultupdate['pathologist_id'] == $user['uid'] ? "selected" : ""; ?>>
-                                <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0 && $isCurUserAdmin) : ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
-                            </option>
-                        <?php endforeach; ?>
-
-                    </select>
+                    <b>แพทย์ผู้ออกผล:</b>
+                    <span id="owner_job5a" style="font-size:20px">
+                        <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
+                    </span>  
                 </div>
+                
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
                     <label for="pathologist2_id" class="col-form-label">พยาธิแพทย์คอนเฟิร์มผล</label>
                     <select name="pathologist2_id" class="form-select" <?= $isEditableUResult ? "" : " disabled readonly " ?>>
@@ -84,7 +80,148 @@ $isSetShowaddResultButton = true;
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    <b>แพทย์ผู้ออกผล:</b>
+                    <span id="owner_job6a" style="font-size:20px">
+                        <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
+                        <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
+                        <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
+                    </span>  
+                    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#add_modal_job6"><i class="fa-sharp fa-solid fa-plus"></i> Add</a>
+                    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job6"><i class="fa-solid fa-rotate-right"></i> refresh </a>
+                    <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6"><i class="fa-solid fa-table"></i> detail </a>
+                
+             
+                    
+                    
+                    
+                    
+                    
+                    
+<?php if ($show) : ?>
+<!-- Modal -->
+<div class="modal fade" id="owner_tbl_job6" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">เลือกแพทย์ผู้คอนเฟริ์มผล</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+<?php endif; ?>
+
+
+
+<div class=" <?= $isBorder ? "border" : "" ?>">
+
+    <table class="table table-bordered border-dark" id="table_body_job6">
+        <thead>
+            <tr>
+                <th >Id</th>
+                <th >แพทย์ผู้คอนเฟริ์มผล</th>
+                <th >Patient Number</th>
+                <th >Job Name</th>
+                <th >Cost</th>
+                <th >Remark/comment</th>
+                <th >Insert time</th>
+                <th >Finish time</th>
+                <th >Manage</th>
+                
+            </tr>
+        </thead>
+        <tbody id="">
+            <?php foreach ($job6s as $joblist): ?>
+                <tr>
+                    <td ><?= $joblist['id'] ?></td>
+                    <td ><b><?= $joblist['pre_name'] ?> <?= $joblist['name'] ?> <?= $joblist['lastname'] ?></b></td>
+                    <td ><?= $joblist['patient_number'] ?></td>
+                    <td ><?= $joblist['jobname'] ?></td>
+                    <td ><?= $joblist['pay'] ?></td>
+                    <td ><?= $joblist['comment'] ?></td>
+                    <td ><?= $joblist['insert_time'] ?></td>
+                    <td ><?= is_null($joblist['finish_date'])?"Not Specific":$joblist['finish_date'] ?></td>
+                    <td >
+                        <a  jobid="<?= $joblist['id'] ?>" onclick="deljob6(<?= $joblist['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
+
+
+
+                <?php if ($show) : ?>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+    </div>
+</div>
+</div>
+<?php endif; ?>
+
+                    
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="add_modal_job6" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel6">เลือกแพทย์ผู้คอนเฟริ์มผล</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php //$userTechnic ?>      
+                <div class="<?= $isBorder ? "border" : "" ?> ">
+                    <label for="select_job6"  class="form-label">เลือกแพทย์ผู้คอนเฟริ์มผล</label>
+                    <select name="select_job6" id="select_job6" class="form-select"  >
+                        <!--<option value="">กรุณาเลือก</option>-->
+                        <?php foreach ($userPathos as $user): ?>
+                            <option value="<?= ($user['uid']); //user id     ?>"  
+                                    job_role_id="6"
+                                    patient_id="<?= $patient[0]['id']; //patient id     ?>"
+                                    patient_number="<?= $patient[0]['pnum']; //Sergical number     ?>"
+                                    user_id="<?= ($user['uid']); //user id     ?>"
+                                    pre_name="<?= ($user['pre_name']); //pre name     ?>"
+                                    name="<?= ($user['name']); //name     ?>"
+                                    lastname="<?= ($user['lastname']); //name     ?>"
+                                    jobname="<?= $jobRoles[-1 + 6]['name']; //     ?>"
+                                    pay="<?= $jobRoles[-1 + 6]['cost_per_job']; //     ?>"
+                                    cost_count_per_day="<?= $jobRoles[-1 + 6]['cost_count_per_day']; //     ?>"
+                                    comment=""
+                                    >  <?= $user['pre_name'] . ' ' . $user['name'] . ' ' . $user['lastname'] ?>
+                            </option>
+                        <?php endforeach; ?>                                     
+                    </select> 
+                </div>   
+                <div>
+                    <br>
+                    <button type="button" id="add_job_list6" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                    
+                    
+                    
+                    
+                </div>
+              
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
                     <label for="date_14000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
@@ -117,7 +254,7 @@ $isSetShowaddResultButton = true;
                                     <button name="edit_u_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
 
                                 <?php endif; ?>
-                                <?php if ($isShowSendToReviewbtn) : ?><button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Patho Review&nbsp;&nbsp;</button><?php endif; ?>
+                                <?php if ($isShowSendToReviewbtn) : ?><button name="btn2review13000" id="btn2review13000" type="" class="btn btn-primary">&nbsp;&nbsp;Send to Second Pathologist Review&nbsp;&nbsp;</button><?php endif; ?>
                                 <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary">&nbsp;&nbsp;ออกผล&nbsp;&nbsp;</button>
                             </p>
 

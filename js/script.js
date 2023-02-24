@@ -688,7 +688,7 @@ $(document).ready(function () {
     
 
 
-    document.getElementById("sessioncountdown").value = "aaaaa";
+    document.getElementById("sessioncountdown").value = "iniValue";
 
 
     var sesstion_timeout_int_sec = $(".sesstion_timeout_int_sec").attr('tabindex');
@@ -696,15 +696,15 @@ $(document).ready(function () {
     console.log("sesstion_timeout_int_sec " + sesstion_timeout_int_sec);
 
     var setTimeOutIntSecs = parseInt(sesstion_timeout_int_sec);
-    var runningDownTimeIntSecs = 0;
+    var runningWebDownTimeIntSecs = 0;
 
     const date = new Date();
-    var curTimeIntSecs = Math.floor(date.getTime() / 1000);
-    var targetTimeOutIntSecs = Math.floor(curTimeIntSecs + setTimeOutIntSecs);
-    runningDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curTimeIntSecs);
-    showTimeRuning(runningDownTimeIntSecs);
-    console.log("curTimeIntSecs:" + curTimeIntSecs);
-    console.log("runningDownTimeIntSecs:" + runningDownTimeIntSecs);
+    var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
+    var targetTimeOutIntSecs = Math.floor(curWebTimeIntSecs + setTimeOutIntSecs);
+    runningWebDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curWebTimeIntSecs);
+    showTimeRuning(runningWebDownTimeIntSecs);
+    console.log("curWebTimeIntSecs:" + curWebTimeIntSecs);
+    console.log("runningWebDownTimeIntSecs:" + runningWebDownTimeIntSecs);
     console.log("----");
 
     setTimeout(decrement, 1000);
@@ -713,19 +713,22 @@ $(document).ready(function () {
     function decrement() {
 
         const date = new Date();
-        var curTimeIntSecs = Math.floor(date.getTime() / 1000);
+        var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
 
-        runningDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curTimeIntSecs);
+        runningWebDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curWebTimeIntSecs);
 
 
 
-        console.log("curTimeIntSecs:" + curTimeIntSecs);
-        console.log("runningDownTimeIntSecs:" + runningDownTimeIntSecs);
+        console.log("curWebTimeIntSecs:" + curWebTimeIntSecs);
+        console.log("curWebTimeIntSecs:" + date);
+        
+        console.log("runningWebDownTimeIntSecs:" + runningWebDownTimeIntSecs);
+        console.log("runningWebDownTimeIntSecs:" + convertTimeSec2HHMMSS(runningWebDownTimeIntSecs));
         console.log("----");
 
-        showTimeRuning(runningDownTimeIntSecs);
+        showTimeRuning(runningWebDownTimeIntSecs);
 
-        if (runningDownTimeIntSecs > -1) {
+        if (runningWebDownTimeIntSecs > -1) {
             setTimeout(decrement, 1000);
         } else {
             //Auto Logout
@@ -733,22 +736,26 @@ $(document).ready(function () {
         }
     }
 
-    function showTimeRuning(runningDownTimeIntSecs) {
-        var displayedSecs = runningDownTimeIntSecs % 60;
-        var displayedMin = Math.floor(runningDownTimeIntSecs / 60) % 60;
-        var displayedHrs = Math.floor(runningDownTimeIntSecs / 60 / 60);
+    function showTimeRuning(runningWebDownTimeIntSecs) {
+
+        document.getElementById("sessioncountdown").innerHTML = convertTimeSec2HHMMSS(runningWebDownTimeIntSecs);
+
+    }
+
+    function convertTimeSec2HHMMSS(runningWebDownTimeIntSecs) {
+        
+        var displayedSecs = runningWebDownTimeIntSecs % 60;
+        var displayedMin = Math.floor(runningWebDownTimeIntSecs / 60) % 60;
+        var displayedHrs = Math.floor(runningWebDownTimeIntSecs / 60 / 60);
 
         if (displayedMin <= 9)
             displayedMin = "0" + displayedMin;
         if (displayedSecs <= 9)
             displayedSecs = "0" + displayedSecs;
-//        runningDownTimeIntSecs--;
-//        document.getElementById("sessioncountdown").value = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
-        document.getElementById("sessioncountdown").innerHTML = displayedHrs + ":" + displayedMin + ":" + displayedSecs;
+
+        return displayedHrs + ":" + displayedMin + ":" + displayedSecs;
 
     }
-
-
 
 });
 

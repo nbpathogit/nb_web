@@ -7,8 +7,11 @@
  */
 class Auth {
     
-//    public static $sesstion_timeout_int_sec = 15; //60second = 1 min.; <-- Write to DOM
+    // time limit setting at server side
+    // public static $sesstion_timeout_int_sec = 15; //60second = 1 min.; <-- Write to DOM
     public static $sesstion_timeout_int_sec = 1200; //1200second = 20 min.; <-- Write to DOM
+    public  $curSrvTimeIntSecs;  // <-- Write to DOM
+    public  $curSrvTime;  // <-- Write to DOM
 
     /**
      * return the user authentication status
@@ -31,17 +34,19 @@ class Auth {
     public static function requireLogin($page_name = "na", $page_id = 0) {
 
         $curTime = Time();
-        $_SESSION['setTimeOutIntSecs'] = Auth::$sesstion_timeout_int_sec;
+        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timeout_int_sec;
         
-        if ($curTime >= $_SESSION['targetTimeOutIntSecs']) {
+        if ($curTime >= $_SESSION['targetSrvTimeOutIntSecs']) {
             Auth::logout();
         } else {
-            $_SESSION['curTimeIntSecs'] = $curTime;
-            $_SESSION['targetTimeOutIntSecs'] = $curTime + $_SESSION['setTimeOutIntSecs'];
+            $_SESSION['curSrvTimeIntSecs'] = $curTime;
+            $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];
+            $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs'];
         }
 
         if (!static::isLoggedIn()) {
             if ($page_name != "na") {
+                //If have tar get page. Will send target page name and page id too
                 Url::redirect('/login.php?page_name=' . $page_name . '&page_id=' . $page_id);
             } else {
                 Url::redirect('/login.php');
@@ -70,10 +75,14 @@ class Auth {
         $_SESSION['usergroup'] = $ugroup;
         $_SESSION['skey'] = self::randomString();
 
-        $_SESSION['setTimeOutIntSecs'] = Auth::$sesstion_timeout_int_sec;
+        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timeout_int_sec; // time limit setting at server side
         $curTime = Time();
-        $_SESSION['curTimeIntSecs'] = $curTime;
-        $_SESSION['targetTimeOutIntSecs'] = $curTime + $_SESSION['setTimeOutIntSecs'];
+        $_SESSION['curSrvTimeIntSecs'] = $curTime;
+        $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];
+        $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs'];
+        
+        date_default_timezone_set('Asia/Bangkok');
+        $curSrvTime = date_default_timezone_get().date('m/d/Y h:i:s a', time());
 
         
         $_SESSION['is_logged_in'] = true;

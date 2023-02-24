@@ -72,16 +72,25 @@ $isCurUserHospitalCust = $u_cur_group_id->id == 5100;
 
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
 $isCurrentPathoIsOwnerThisCase = false;
-if (isset($patient[0]['ppathologist_id'])) {
-    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
+//if (isset($patient[0]['ppathologist_id'])) {
+//    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
+//}
+if(isset($job5s[0]['user_id'])){
+    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $job5s[0]['user_id'];
 }
+
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าคนคอนเฟรฺมผลคนที่สอง หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
 $isCurrentPathoIsSecondOwneThisCaseLastest = false;
-if(isset($presultupdates)){
-    foreach ($presultupdates as $presultupdate) {
-        $isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $presultupdate['pathologist2_id'];
-    }
+//if(isset($presultupdates)){
+//    foreach ($presultupdates as $presultupdate) {
+//        $isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $presultupdate['pathologist2_id'];
+//    }
+//}
+
+if(isset($job6s[0]['user_id'])){
+        $isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $job5s[0]['user_id'];
 }
+
 // หมอปัจจุบัน อยู่ในโรงพยาบาลที่สังกัดหรือไม่
 //$isUnderCurHospital = false;
 if (isset($patient[0]['phospital_id'])) {

@@ -1,15 +1,15 @@
 
 //Update table of speciment in main page
-function refreshSpecimenList1(isAlert) {
+function refreshSpecimenList2(isAlert) {
     //alert("start ajax");
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     //alert(cur_patient_id);
     $.ajax({
-        url: "/ajax_patient_specimen_list1/getBillingSpecimenList1.php?id=%s",
+        url: "/ajax_slide2__special/getBillingSpecimenList2.php?id=%s",
         data: {id: cur_patient_id},
         success: function (data) {
             //alert(data);
-            repaintspecimentable1(data);
+            repaintspecimentable2(data);
             if (isAlert) {
                 alert("refresh done");
             }
@@ -19,14 +19,14 @@ function refreshSpecimenList1(isAlert) {
 }
 
 //update drop down list of specimen
-function updateSelectionSpeceman1(isalert) {
-    var hospital_id = $('#phospital_select_for_price1 option').filter(':selected').val();
-//    alert("hospital_id"+hospital_id);
+function updateSelectionSpeceman2(isalert) {
+    var hospital_id = $('#phospital_select_for_price2 option').filter(':selected').val();
+    //alert(hospital_id);
     $.ajax({
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_patient_specimen_list1/getSpecimenList1.php',
+        url: '/ajax_slide2__special/getSpecimenList2.php',
         data: {
             'hospital_id': hospital_id
         },
@@ -35,12 +35,11 @@ function updateSelectionSpeceman1(isalert) {
                 alert(data);
             }
             var datajson = JSON.parse(data);
-
             if (datajson == "" || datajson == null) {
-                $('#pspecimen_for_select1 option1').remove();
-                $('#pspecimen_for_select1').append('<option >No Data for this hospital</option>');
-                $('#pspecimen_for_select1').prop('disabled', true);
-                $('#add_spcimen_list1').prop('disabled', true);
+                $('#pspecimen_for_select2 option').remove();
+                $('#pspecimen_for_select2').append('<option >No Data for this hospital</option>');
+                $('#pspecimen_for_select2').prop('disabled', true);
+                $('#add_spcimen_list2').prop('disabled', true);
                 if (isalert) {
                     
                     alert('No Data for this Hospital , Please select other hospital');
@@ -48,14 +47,14 @@ function updateSelectionSpeceman1(isalert) {
             } else {
                 
                 //alert('Success' + datajson);
-                $('#pspecimen_for_select1').prop('disabled', false);
-                $('#pspecimen_for_select1 option').remove();
+                $('#pspecimen_for_select2').prop('disabled', false);
+                $('#pspecimen_for_select2 option').remove();
                 for (var i in datajson)
                 {
                     if (i == 0) {
-                        $('#pspecimen_for_select1').append('<option value="' + datajson[i].id + '" >กรุณาเลือก</option>');
+                        $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" >กรุณาเลือก</option>');
                     } else {
-                        $('#pspecimen_for_select1').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
+                        $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
                     }
                 }
 //                if (isalert) {
@@ -67,14 +66,15 @@ function updateSelectionSpeceman1(isalert) {
 }
 
 
-function repaintspecimentable1(data) {
+function repaintspecimentable2(data) {
     if (data[0] != "[") {
         alert(data);
     }
     var datajson = JSON.parse(data);
-
+    if((typeof datajson) != 'object'){alert(data);}
     // clear all data in table befor show new retrived record
-    $('#spcimen_list_table1 tbody tr').remove();
+    $('#spcimen_list_table2 tbody tr').remove();
+    $('#spcimen_list2 span').remove();
     // Show new retrived record
     for (var i in datajson)
     {
@@ -87,7 +87,7 @@ function repaintspecimentable1(data) {
 //                    <td ><?= $billing['cost'] ?></td>
 //                    <td ><?= $billing['comment'] ?></td>
 //                    <td >
-//                        <a  billid="<?= $billing['id'] ?>" onclick="delbill1(<?= $billing['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
+//                        <a  billid="<?= $billing['id'] ?>" onclick="delbill2(<?= $billing['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
 //                    </td>
 //                </tr>
         
@@ -98,23 +98,26 @@ function repaintspecimentable1(data) {
                 '<td>' + datajson[i].description + '</td>'+
                 '<td>' + datajson[i].cost + '</td>'+
                 '<td>' + datajson[i].comment + '</td>'+
-                '<td>' + '<a  billid="'+datajson[i].id+'" onclick="delbill1('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
+                '<td>' + '<a  billid="'+datajson[i].id+'" onclick="delbill2('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
                 '</tr>';
         
-        $('#spcimen_list_table1 tbody').append(str);
+        $('#spcimen_list_table2 tbody').append(str);
+        
+        var str2 = '<span class="badge rounded-pill bg-primary" id="">('+datajson[i].code_description+')'+datajson[i].description+'</span> ';
+        $('#spcimen_list2').append(str2);
     }
 
 }
 
 
 
-$("#refresh_spcimen_list1").on("click", function () {
-    refreshSpecimenList1(true);
+$("#refresh_spcimen_list2").on("click", function () {
+    refreshSpecimenList2(true);
 });
 
 
 //On button click add new specimen bill
-$("#add_spcimen_list1").on("click", function () {
+$("#add_spcimen_list2").on("click", function () {
     //alert("start ajax");
     var printdbg = true;
 
@@ -128,22 +131,22 @@ $("#add_spcimen_list1").on("click", function () {
 
 
 
-    var e = document.getElementById("phospital_select_for_price1");
+    var e = document.getElementById("phospital_select_for_price2");
     var phospital_id = e.value;
     var phospital_text = e.options[e.selectedIndex].text;
 
-    var e = document.getElementById("pspecimen_for_select1");
+    var e = document.getElementById("pspecimen_for_select2");
     var specimen_id = e.value;
     var specimen_text_selected = e.options[e.selectedIndex].text;
 
-    var specimen_text = document.getElementById("specimen_for_specimen1").value;
-    var specimen_num = document.getElementById("specimen_num1").value;
+    var specimen_text = document.getElementById("specimen_for_specimen2").value;
+    var specimen_num = document.getElementById("specimen_num2").value;
 
-    var price_for_specimen = document.getElementById("price_for_specimen1").value;
+    var price_for_specimen = document.getElementById("price_for_specimen2").value;
     if (price_for_specimen == "") {
         price_for_specimen = "0";
     }
-    var comment_for_specimen = document.getElementById("comment_for_specimen1").value;
+    var comment_for_specimen = document.getElementById("comment_for_specimen2").value;
 
     if (printdbg) {
         console.log("==============");
@@ -172,7 +175,7 @@ $("#add_spcimen_list1").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_patient_specimen_list1/createBillingSpecimen1.php',
+        url: '/ajax_slide2__special/createBillingSpecimen2.php',
         data: {
             'patient_id': cur_patient_id,
             'cur_pnum': cur_pnum,
@@ -187,7 +190,7 @@ $("#add_spcimen_list1").on("click", function () {
             'date_1000': date_1000
         },
         success: function (data) {
-            repaintspecimentable1(data);
+            repaintspecimentable2(data);
         },
         error: function (jqxhr, status, exception) {
             alert('Exception:', exception);
@@ -200,7 +203,7 @@ $("#add_spcimen_list1").on("click", function () {
 
 
 //on click button delete for seleced specimen list bill in main page
-function delbill1(billid,patientid) {
+function delbill2(billid,patientid) {
     
     if( confirm("delete bill "+billid)){
        
@@ -208,7 +211,7 @@ function delbill1(billid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_patient_specimen_list1/delBill1.php',
+        url: '/ajax_slide2__special/delBill2.php',
         data: {
             'bill_id': billid,
             'patient_id': patientid,
@@ -216,7 +219,7 @@ function delbill1(billid,patientid) {
         },
         success: function (data) {
            
-            repaintspecimentable1(data);
+            repaintspecimentable2(data);
         
             alert('Success');
         },
@@ -234,24 +237,24 @@ function delbill1(billid,patientid) {
 
 
 //on select hospital change 
-$('#phospital_select_for_price1').on('change', function () {
+$('#phospital_select_for_price2').on('change', function () {
     //update drop down list of specimen
-    updateSelectionSpeceman1(true);
+    updateSelectionSpeceman2(true);
 });
 
 //on select specimen change
-$('#pspecimen_for_select1').on('change', function () {
+$('#pspecimen_for_select2').on('change', function () {
     //alert( "Get from ID: "+this.value );
-    if( ($('#pspecimen_for_select1 option').filter(':selected').attr('value')) == '0' ){
-        $('#add_spcimen_list1').prop('disabled', true);
+    if( ($('#pspecimen_for_select2 option').filter(':selected').attr('value')) == '0' ){
+        $('#add_spcimen_list2').prop('disabled', true);
     }else{
-        $('#add_spcimen_list1').prop('disabled', false);
+        $('#add_spcimen_list2').prop('disabled', false);
     }
     
-    $('#specimen_num1').val($('#pspecimen_for_select1 option').filter(':selected').attr('specimen_num'));
-    $('#specimen_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('specimen'));
-    $('#price_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('price'));
-    $('#comment_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('comment'));
+    $('#specimen_num2').val($('#pspecimen_for_select2 option').filter(':selected').attr('specimen_num'));
+    $('#specimen_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('specimen'));
+    $('#price_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('price'));
+    $('#comment_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('comment'));
 
 });
 
@@ -259,18 +262,14 @@ $('#pspecimen_for_select1').on('change', function () {
 
 
 $(document).ready(function () {
-    
-//    var fileName = location.href.split("/").slice(-1); 
-//    fileName = fileName.split("?").slice(1);
-//    
-//    alert(fileName);
-    updateSelectionSpeceman1(false);
+    updateSelectionSpeceman2(false);
+    refreshSpecimenList2(false);
 
 });
 
 
 
-$("#btntest1").on("click", function () {
+$("#btntest2").on("click", function () {
     //alert("start ajax");
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     var date_1000 = $(".cur_date_1000").attr('tabindex');
@@ -286,8 +285,8 @@ $("#btntest1").on("click", function () {
     }
     var comment_for_specimen = document.getElementById("comment_for_specimen").value;
 
-    //phospital_select_for_price1
-    var e = document.getElementById("phospital_select_for_price1");
+    //phospital_select_for_price2
+    var e = document.getElementById("phospital_select_for_price2");
     var hospital_id = e.value;
     var hospital_text = e.options[e.selectedIndex].text;
 

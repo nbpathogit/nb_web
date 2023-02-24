@@ -11,7 +11,7 @@ function refreshTblJob2(isAlert) {
             //alert(data);
             repaintTbljob2(data);
             if (isAlert) {
-                alert("refresh done");
+                alert("refresh done 2");
             }
         }
     });
@@ -28,6 +28,7 @@ function repaintTbljob2(data) {
 
     // clear all data in table befor show new retrived record
     $('#table_body_job2 tbody tr').remove();
+    $('#owner_job2 span').remove();
     // Show new retrived record
     for (var i in datajson)
     {
@@ -59,6 +60,9 @@ function repaintTbljob2(data) {
                 '</tr>';
         
         $('#table_body_job2 tbody').append(str);
+        
+        var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';
+        $('#owner_job2').append(str2);
     }
 
 }
@@ -163,6 +167,7 @@ $("#add_job_list2").on("click", function () {
 $(document).ready(function () {
 
     //updateJob2(false);
+    refreshTblJob2(false);
     
 
 });

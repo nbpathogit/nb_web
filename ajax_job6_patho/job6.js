@@ -1,18 +1,18 @@
 
-//Update table of job4 in main page
-function refreshTblJob4(isAlert) {
+//Update table of job6 in main page
+function refreshTblJob6(isAlert) {
     //alert("start ajax");
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
-        url: "/ajax_job4_prep_sp_slide/getJob4.php",
+        url: "/ajax_job6_patho/getJob6.php",
         data: {cur_patient_id: cur_patient_id},
         success: function (data) {
             //alert(data);
-            repaintTbljob4(data);
+            repaintTbljob6(data);
             if (isAlert) {
-                alert("refresh done 4");
+                alert("refresh done 6");
             }
         }
     });
@@ -20,7 +20,7 @@ function refreshTblJob4(isAlert) {
 }
 
 
-function repaintTbljob4(data) {
+function repaintTbljob6(data) {
     if (data[0] != "[") {
         alert(data);
         console.log(data);
@@ -28,8 +28,9 @@ function repaintTbljob4(data) {
     var datajson = JSON.parse(data);
 
     // clear all data in table befor show new retrived record
-    $('#table_body_job4 tbody tr').remove();
-    $('#owner_job4 span').remove();
+    $('#table_body_job6 tbody tr').remove();
+    $('#owner_job6 span').remove();
+    $('#owner_job6a span').remove();
     // Show new retrived record
     for (var i in datajson)
     {
@@ -43,7 +44,7 @@ function repaintTbljob4(data) {
 //                    <td ><?= $joblist['comment'] ?></td>
 //                    <td ><?= is_null($joblist['finish_date'])?"Not Specific":$joblist['finish_date'] ?></td>
 //                    <td >
-//                        <a  billid="<?= $joblist['id'] ?>" onclick="delbill4(<?= $joblist['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
+//                        <a  billid="<?= $joblist['id'] ?>" onclick="delbill6(<?= $joblist['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
 //                    </td>
 //                </tr>
         
@@ -57,19 +58,20 @@ function repaintTbljob4(data) {
                 '<td>' + datajson[i].comment + '</td>'+
                 '<td>' + datajson[i].insert_time + '</td>'+
                 '<td>'  + finishdate + '</td>'+
-                '<td>' + '<a  jobid="'+datajson[i].id+'" onclick="deljob4('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
+                '<td>' + '<a  jobid="'+datajson[i].id+'" onclick="deljob6('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
                 '</tr>';
         
-        $('#table_body_job4 tbody').append(str);
+        $('#table_body_job6 tbody').append(str);
         
-                var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';
-        $('#owner_job4').append(str2);
+        var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';
+        $('#owner_job6').append(str2);
+        $('#owner_job6a').append(str2);
     }
 
 }
 
 //on click button delete for seleced specimen list bill in main page
-function deljob4(jobid,patientid) {
+function deljob6(jobid,patientid) {
     
     if( confirm("Please confirm delete job di = "+jobid+" ?")){
        
@@ -77,7 +79,7 @@ function deljob4(jobid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job4_prep_sp_slide/delJob4.php',
+        url: '/ajax_job6_patho/delJob6.php',
         data: {
             'job_id': jobid,
             'patient_id': patientid,
@@ -85,7 +87,7 @@ function deljob4(jobid,patientid) {
         },
         success: function (data) {
            
-            repaintTbljob4(data);
+            repaintTbljob6(data);
         
             alert('Success');
         },
@@ -102,29 +104,29 @@ function deljob4(jobid,patientid) {
 }
 
 
-$("#refresh_job4").on("click", function () {
-    refreshTblJob4(true);
+$("#refresh_job6").on("click", function () {
+    refreshTblJob6(true);
 });
 
-//#add_modal_job4
+//#add_modal_job6
 
 //On button click add new specimen bill
-$("#add_job_list4").on("click", function () {
+$("#add_job_list6").on("click", function () {
     //alert("start ajax");
     var printdbg = true;
 
-    var value = $('#select_job4 option').filter(':selected').attr('value');
-    var job_role_id = $('#select_job4 option').filter(':selected').attr('job_role_id');
-    var patient_id = $('#select_job4 option').filter(':selected').attr('patient_id');
-    var patient_number = $('#select_job4 option').filter(':selected').attr('patient_number');
-    var user_id = $('#select_job4 option').filter(':selected').attr('user_id');
-    var pre_name = $('#select_job4 option').filter(':selected').attr('pre_name');
-    var name = $('#select_job4 option').filter(':selected').attr('name');
-    var lastname = $('#select_job4 option').filter(':selected').attr('lastname');
-    var jobname = $('#select_job4 option').filter(':selected').attr('jobname');
-    var pay = $('#select_job4 option').filter(':selected').attr('pay');
-    var cost_count_per_day = $('#select_job4 option').filter(':selected').attr('cost_count_per_day');
-    var comment = $('#select_job4 option').filter(':selected').attr('comment');
+    var value = $('#select_job6 option').filter(':selected').attr('value');
+    var job_role_id = $('#select_job6 option').filter(':selected').attr('job_role_id');
+    var patient_id = $('#select_job6 option').filter(':selected').attr('patient_id');
+    var patient_number = $('#select_job6 option').filter(':selected').attr('patient_number');
+    var user_id = $('#select_job6 option').filter(':selected').attr('user_id');
+    var pre_name = $('#select_job6 option').filter(':selected').attr('pre_name');
+    var name = $('#select_job6 option').filter(':selected').attr('name');
+    var lastname = $('#select_job6 option').filter(':selected').attr('lastname');
+    var jobname = $('#select_job6 option').filter(':selected').attr('jobname');
+    var pay = $('#select_job6 option').filter(':selected').attr('pay');
+    var cost_count_per_day = $('#select_job6 option').filter(':selected').attr('cost_count_per_day');
+    var comment = $('#select_job6 option').filter(':selected').attr('comment');
     
 
     if (value == "0" || value == 0) {
@@ -136,7 +138,7 @@ $("#add_job_list4").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job4_prep_sp_slide/createJobList4.php',
+        url: '/ajax_job6_patho/createJobList6.php',
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,
@@ -153,7 +155,7 @@ $("#add_job_list4").on("click", function () {
         },
         success: function (data) {
             console.log(data);
-            repaintTbljob4(data);
+            repaintTbljob6(data);
         },
         error: function (jqxhr, status, exception) {
             alert('Exception:', exception);
@@ -167,8 +169,8 @@ $("#add_job_list4").on("click", function () {
 
 $(document).ready(function () {
 
-    //updateJob4(false);
-    refreshTblJob4(false);
+    //updateJob6(false);
+    refreshTblJob6(false);
     
 
 });

@@ -1,9 +1,14 @@
+<!--job3-->
 <?php
 //กำหนด คนเตรียมสไล์ด์
 $isBorder = false;
 
 ?>
-<hr id="p_slide_prep_id_hr">
+
+
+<?php if ($hide) : ?>
+
+
 
 <div class="row <?= $isBorder ? "border" : "" ?>">
 
@@ -30,7 +35,7 @@ $isBorder = false;
 
 </div>
 
-
+<?php endif; ?>
 
 
 
@@ -40,15 +45,49 @@ $isBorder = false;
 
 
 <!--Table Modal Job3-->
-<hr style=" border: 3px solid black;">
-<div class="row <?= $isBorder ? "border" : "" ?>"></div>
-<h5>
+<hr>
+
+<!--<h5>
     <span align="center">
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job3"> เพิ่มพนักงานเตรียมใสลด์ </button>
     <button id="refresh_job3" class="btn btn-primary" >Refresh</button>
     </span>
     <span align="center"><b>(พนักงานเตรียมใสลด์)</b></span>
-</h5>
+</h5>-->
+
+<p align="left">
+    
+    <b>พนักงานเตรียมใสลด์:</b>
+    <span id="owner_job3" style="font-size:20px">
+        <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
+        <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
+        <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
+    </span>  
+
+    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#add_modal_job3"><i class="fa-sharp fa-solid fa-plus"></i> Add</a>
+    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job3"><i class="fa-solid fa-rotate-right"></i> refresh </a>
+    <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job3"><i class="fa-solid fa-table"></i> detail </a>
+    
+
+</p>
+    
+    
+    
+    
+    
+    
+    <?php if ($show) : ?>
+<!-- Modal -->
+<div class="modal fade" id="owner_tbl_job3" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">เลือกพนักงานช่วยตัดเนื้อ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+<?php endif; ?>
+
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
 
@@ -91,6 +130,15 @@ $isBorder = false;
 <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
 
 
+                <?php if ($show) : ?>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+    </div>
+</div>
+</div>
+<?php endif; ?>
 
 
 <!-- Modal -->

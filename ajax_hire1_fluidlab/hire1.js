@@ -29,6 +29,7 @@ function repaintTblhire1(data) {
 
     // clear all data in table befor show new retrived record
     $('#table_body_hire1 tbody tr').remove();
+    $('#list_hire1 span').remove();
     // Show new retrived record
     for (var i in datajson)
     {
@@ -56,6 +57,9 @@ function repaintTblhire1(data) {
                 '</tr>';
         
         $('#table_body_hire1 tbody').append(str);
+        
+        var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].name+'</span> ';
+        $('#list_hire1').append(str2);
     }
 
 }
@@ -151,7 +155,7 @@ $("#add_list_hire1").on("click", function () {
 
 $(document).ready(function () {
 
-    //updateHire1(false);
+    refreshTblHire1(false);
     
 
 });
