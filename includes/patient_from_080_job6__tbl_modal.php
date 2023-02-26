@@ -1,4 +1,4 @@
-
+            
 <?php if ($show) : ?>
 <!-- Modal -->
 <div class="modal fade" id="owner_tbl_job6" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
 <?php endif; ?>
-
+                
 
 
 <div class=" <?= $isBorder ? "border" : "" ?>">
@@ -19,7 +19,7 @@
         <thead>
             <tr>
                 <th >Id</th>
-                <th >เลือกแพทย์ผู้คอนเฟริ์มผล</th>
+                <th >แพทย์ผู้คอนเฟริ์มผล</th>
                 <th >Patient Number</th>
                 <th >Job Name</th>
                 <th >Cost</th>
@@ -53,7 +53,9 @@
 
 
 
-                <?php if ($show) : ?>
+
+               
+                                <?php if ($show) : ?>
         </div>
         <div class="modal-footer">
 
@@ -61,4 +63,6 @@
     </div>
 </div>
 </div>
-<?php endif; ?>
+<?php endif; ?>    
+                    
+             

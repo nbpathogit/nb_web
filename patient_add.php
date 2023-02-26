@@ -191,6 +191,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         if ($patient->create($conn)) {
+            
+            $cur_patient_id = $patient->id;
+            $typelists = ReportType::getAllbyGroup1($conn);
+            
+            foreach($typelists as $typelist){
+                $resultreport = Presultupdate::getInitObj();
+                $resultreport->group_type = $typelist['group_type'];
+                $resultreport->patient_id = $cur_patient_id;
+                $resultreport->result_type = $typelist['name'];
+                $resultreport->result_type_id = $typelist['id'];
+                $resultreport->create($conn);
+                
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             Url::redirect("/patient_edit.php?id=$patient->id");
         } else {
             echo '<script>alert("Add user fail. Please verify again")</script>';

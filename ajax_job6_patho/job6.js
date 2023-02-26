@@ -31,6 +31,7 @@ function repaintTbljob6(data) {
     $('#table_body_job6 tbody tr').remove();
     $('#owner_job6 span').remove();
     $('#owner_job6a span').remove();
+    $('#owner_job6b span').remove();
     // Show new retrived record
     for (var i in datajson)
     {
@@ -66,6 +67,7 @@ function repaintTbljob6(data) {
         var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';
         $('#owner_job6').append(str2);
         $('#owner_job6a').append(str2);
+        $('#owner_job6b').append(str2);
     }
 
 }
@@ -88,7 +90,9 @@ function deljob6(jobid,patientid) {
         success: function (data) {
            
             repaintTbljob6(data);
-        
+            $("#btn2review13000").hide();
+            $("#add_job6").show();
+
             alert('Success');
         },
         error: function (jqxhr, status, exception) {
@@ -156,6 +160,9 @@ $("#add_job_list6").on("click", function () {
         success: function (data) {
             console.log(data);
             repaintTbljob6(data);
+            //$("#btn2review13000").hide();
+            $("#btn2review13000").show();
+            $("#add_job6").hide();
         },
         error: function (jqxhr, status, exception) {
             alert('Exception:', exception);

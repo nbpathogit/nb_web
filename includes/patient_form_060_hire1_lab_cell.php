@@ -59,9 +59,9 @@ $isBorder = false;
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
     </span>  
 
-    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#add_modal_hire1"><i class="fa-sharp fa-solid fa-plus"></i> Add</a>
-    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_hire1"><i class="fa-solid fa-rotate-right"></i> refresh </a>
-    <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#lab_tbl_hire1"><i class="fa-solid fa-table"></i> detail </a>
+    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#add_modal_hire1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_hire1" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
+    <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#lab_tbl_hire1" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
 
 </p>
 

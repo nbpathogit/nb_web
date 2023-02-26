@@ -80,15 +80,20 @@ if(isset($job5s[0]['user_id'])){
 }
 
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าคนคอนเฟรฺมผลคนที่สอง หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
-$isCurrentPathoIsSecondOwneThisCaseLastest = false;
+$isCurrentPathoIsSecondOwneThisCase = false;
 //if(isset($presultupdates)){
 //    foreach ($presultupdates as $presultupdate) {
 //        $isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $presultupdate['pathologist2_id'];
 //    }
 //}
 
+
+
 if(isset($job6s[0]['user_id'])){
-        $isCurrentPathoIsSecondOwneThisCaseLastest = $_SESSION['user']->id == $job5s[0]['user_id'];
+   $isCurrentPathoIsSecondOwneThisCase = $_SESSION['user']->id == $job5s[0]['user_id'];
+   $isSecondPathoDefined = true;
+}else{
+   $isSecondPathoDefined = false;
 }
 
 // หมอปัจจุบัน อยู่ในโรงพยาบาลที่สังกัดหรือไม่

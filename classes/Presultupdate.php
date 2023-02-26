@@ -18,16 +18,35 @@ class Presultupdate {
 
 
     public $id;
+    public $group_type;     // 1 for mandatory require 2 for added later
     public $patient_id;
-    public $result_type;
+    public $result_type;    // EX Provisional Diagnosis, Pathological Diagnosis
+    public $result_type_id; //  ID Link to DB   table "report_type"
     public $result_message;
     public $pathologist_id; 
     public $pathologist2_id;
     public $release_time;
 
+    public static function getInitObj() {
+        $resultupdate = new Presultupdate();
+
+        $resultupdate->id = NULL; //       
+        $resultupdate->group_type = 0;     // 1 for mandatory require 2 for added later        
+        $resultupdate->patient_id = 0; //        		
+        $resultupdate->result_type = ""; //          	
+        $resultupdate->result_type_id = 0; //        		
+        $resultupdate->result_message = ""; //         		
+        $resultupdate->pathologist_id = 0; //         		
+        $resultupdate->pathologist2_id = 0; //        	
+        $resultupdate->release_time = NULL; //       
+
+        return $resultupdate;
+    }
+    
+    
     public static function getAll($conn, $patient_id = 0) {
-        $sql = "SELECT * 
-                FROM presultupdate ";
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
 
         if ($patient_id != 0) {
             $sql = $sql . " WHERE patient_id = " . $patient_id;
@@ -38,7 +57,20 @@ class Presultupdate {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
-        public static function getAllDesc($conn, $patient_id = 0) {
+        public static function getByID($conn, $id = 0) {
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
+
+        if ($id != 0) {
+            $sql = $sql . " WHERE id = " . $id;
+        }
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAllDesc($conn, $patient_id = 0) {
         $sql = "SELECT * 
                 FROM presultupdate ";
 
@@ -55,16 +87,17 @@ class Presultupdate {
 
     public function create($conn) {
 
-        $sql = "INSERT INTO `presultupdate` (`id`, `patient_id`, `result_type`, `result_message`, `pathologist_id`, `pathologist2_id` , `release_time`) "
-                . "VALUES                   (NULL, :patient_id  ,:result_type  , ''             , :pathologist_id , 0             , NULL)";
+        $sql = "INSERT INTO `presultupdate` (`id`,   `group_type`   ,   `patient_id`   , `result_type`, `result_type_id`  , `result_message`, `pathologist_id`, `pathologist2_id` , `release_time`) "
+                . "VALUES                   (NULL,   :group_type    ,   :patient_id    , :result_type , :result_type_id   , ''              , 0               , 0             , NULL)";
 
         $stmt = $conn->prepare($sql);
 
         //var_dump($this->name);
 
+        $stmt->bindValue(':group_type', $this->group_type, PDO::PARAM_INT);
         $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
         $stmt->bindValue(':result_type', $this->result_type, PDO::PARAM_STR);
-        $stmt->bindValue(':pathologist_id', $this->pathologist_id, PDO::PARAM_INT);
+        $stmt->bindValue(':result_type_id', $this->result_type_id, PDO::PARAM_INT);
 
 
         //var_dump($stmt);
@@ -80,11 +113,11 @@ class Presultupdate {
 
     public static function updateResult($conn, $id, $pathologist_id, $pathologist2_id, $result_message) {
 
-        $sql = "UPDATE presultupdate
-                SET result_message = :result_message,
-                pathologist_id = :pathologist_id,
-                pathologist2_id = :pathologist2_id
-                WHERE id = :id";
+        $sql = "UPDATE presultupdate".
+                " SET result_message = :result_message,".
+                " pathologist_id = :pathologist_id,".
+                " pathologist2_id = :pathologist2_id".
+                " WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
@@ -108,11 +141,11 @@ class Presultupdate {
         return $stmt->execute();
     }
     
-        public static function setPatho2ID($conn, $id, $pathologist2_id)
+    public static function setPatho2ID($conn, $id, $pathologist2_id)
     {
-        $sql = "UPDATE presultupdate
-                SET pathologist2_id = :pathologist2_id
-                WHERE id = :id";
+        $sql = "UPDATE presultupdate".
+                " SET pathologist2_id = :pathologist2_id".
+                " WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
@@ -120,6 +153,31 @@ class Presultupdate {
         $stmt->bindValue(':pathologist2_id', $pathologist2_id, PDO::PARAM_INT);
 
         return $stmt->execute();
+    }
+    
+    public static function setTxtResult($conn, $id, $result_message)
+    {
+        $sql = "UPDATE presultupdate".
+                " SET result_message = :result_message".
+                " WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':result_message', $result_message, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    
+    public static function getTxtResult($conn, $id)
+    {
+        $sql = "SELECT result_message ".
+                " FROM presultupdate".
+                " WHERE id = " . $id;
+
+                $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

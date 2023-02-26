@@ -1,5 +1,5 @@
 
-<?php $hidden_data2dom = true; ?>
+<?php $hidden_data2dom = false; ?>
 <!--Write Data to DOM pass value to java script-->
 <?php if (isset($curstatus[0]['id'])): ?>
     <li class="cur_status" tabindex="<?= $curstatus[0]['id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >cur_status::$curstatus[0]['id']::<?= $curstatus[0]['id'] ?> </li>
@@ -7,10 +7,15 @@
 <?php endif; ?>
     
 <?php if (isset($isCurrentPathoIsOwnerThisCase)): ?>
-    <li class="isCurrentPathoIsOwnerThisCase" tabindex="<?= $isCurrentPathoIsOwnerThisCase?"1":"0"; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsOwnerThisCase::<?= $isCurrentPathoIsOwnerThisCase?"1":"0"; ?> </li>
-    <li class="isCurrentPathoIsSecondOwneThisCaseLastest" tabindex="<?= $isCurrentPathoIsSecondOwneThisCaseLastest?"1":"0"; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsSecondOwneThisCaseLastest::<?= $isCurrentPathoIsSecondOwneThisCaseLastest?"1":"0"; ?> </li>
+    <li class="isCurrentPathoIsOwnerThisCase" tabindex="<?= $isCurrentPathoIsOwnerThisCase?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsOwnerThisCase::<?= $isCurrentPathoIsOwnerThisCase?"1":"0"; ?> </li>
+    <li class="isCurrentPathoIsSecondOwneThisCaseLastest" tabindex="<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsSecondOwneThisCaseLastest::<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?> </li>
 <?php endif; ?>
     
+<?php if (isset($isSecondPathoDefined)): ?>
+<!--$isSecondPathoDefined-->
+    <li class="isSecondPathoDefined" tabindex="<?= $isSecondPathoDefined?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >$isSecondPathoDefined::<?= $isSecondPathoDefined?"true":"false"; ?> </li>
+<?php endif; ?>
+        
 <?php //List of index result ?>
 <ul class="uresultinxlist" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
