@@ -381,6 +381,31 @@ function addAction2Flow() {
             return;
         }
 
+
+        //set second_patho_review = 0
+        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+        $.ajax({
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: '/ajax_job6_patho/set_second_patho_review.php',
+            data: {
+                'patient_id': cur_patient_id,
+                'second_patho_review': 0,
+            },
+            success: function (data) {
+                console.log(data);
+                alert(data);
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+
+
+
+
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
@@ -408,18 +433,19 @@ function addAction2Flow() {
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
+        
+        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
 
         // Stop move to 13000 when not select Second Patho
-        var isset_second_patho = '0';
-        $('.uresultSecondPatho li').each(function (index) {
-            isset_second_patho = $(this).attr('tabindex');
-        });
-//         console.log("isset_second_patho : " + isset_second_patho);
-//          return;
-        if (isset_second_patho == '0') {
-            alert("<b>กรุณาเลือกแพทย์ผู้ช่วยรีวิวก่อน!</b>");
-            return;
-        }
+//        var isset_second_patho = '0';
+//        $('.uresultSecondPatho li').each(function (index) {
+//            isset_second_patho = $(this).attr('tabindex');
+//        });
+//
+//        if (isset_second_patho == '0') {
+//            alert("<b>กรุณาเลือกแพทย์ผู้ช่วยรีวิวก่อน!</b>");
+//            return;
+//        }
 
         // only owner can do this        
         //console.log("isCurrentPathoIsOwnerThisCase :" + isCurrentPathoIsOwnerThisCase);return;
@@ -428,7 +454,25 @@ function addAction2Flow() {
             return;
         }
 
+        //set second_patho_review = 1
+        $.ajax({
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: '/ajax_job6_patho/set_second_patho_review.php',
+            data: {
+                'patient_id': cur_patient_id,
+                'second_patho_review': 1,
+            },
+            success: function (data) {
+                console.log(data);
+                alert(data);
 
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
 
         var frm = $("<form>");
         frm.attr('method', 'post');
@@ -438,6 +482,11 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
+        
+        
+        
+        
+        
     });
 
 
@@ -498,6 +547,28 @@ function addAction2Flow() {
             reported_as = 'ออกผลแล้ว';
         }
 
+
+        //set second_patho_review = 2
+        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+        $.ajax({
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: '/ajax_job6_patho/set_second_patho_review.php',
+            data: {
+                'patient_id': cur_patient_id,
+                'second_patho_review': 2,
+            },
+            success: function (data) {
+                console.log(data);
+                alert(data);
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+        
 
         var frm = $("<form>");
         frm.attr('method', 'post');

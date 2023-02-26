@@ -13,7 +13,7 @@ function save_txt_rs(rs_id){
     //Save to data base
      $.ajax({
         type: 'POST',
-        url: "/ajax_diax_result/save_result_message.php",
+        url: "/ajax_patient_diax_result/save_result_message.php",
         data: {
             'rs_id': rs_id,
             'result_message': result_message,
@@ -34,7 +34,7 @@ function save_txt_rs(rs_id){
     //Read back to data base
     $.ajax({
         type: 'POST',
-        url: "/ajax_diax_result/get_result_message.php",
+        url: "/ajax_patient_diax_result/get_result_message.php",
         data: {
             'rs_id': rs_id,
         },
@@ -105,7 +105,7 @@ $("#add_u_result").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_diax_result/new_result.php',
+        url: '/ajax_patient_diax_result/new_result.php',
         data: {
             'cur_patient_id': patient_id, //=========================================================================
             'group_type': group_type,     //1 for mandatory require 2 for added later	

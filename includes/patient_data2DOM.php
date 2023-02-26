@@ -1,5 +1,5 @@
 
-<?php $hidden_data2dom = true; ?>
+<?php $hidden_data2dom = false; ?>
 <!--Write Data to DOM pass value to java script-->
 <?php if (isset($curstatus[0]['id'])): ?>
     <li class="cur_status" tabindex="<?= $curstatus[0]['id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >cur_status::$curstatus[0]['id']::<?= $curstatus[0]['id'] ?> </li>

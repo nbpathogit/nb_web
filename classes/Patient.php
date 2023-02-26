@@ -893,4 +893,18 @@ class Patient
         return $stmt->execute();
     }
     
+    //setSecondPathoReview($conn, $_POST['patient_id'], $_POST['state']);
+    public static function setSecondPathoReview($conn, $id, $second_patho_review)
+    {
+        $sql = "UPDATE patient
+                SET second_patho_review = :second_patho_review
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':second_patho_review', $second_patho_review, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }

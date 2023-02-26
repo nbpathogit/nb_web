@@ -90,7 +90,9 @@ function deljob6(jobid,patientid) {
         success: function (data) {
            
             repaintTbljob6(data);
-            $("#btn2review13000").hide();
+//            $("#btn2review13000").hide();
+            $("#btn2review13000").prop('disabled', true);
+//            .prop('disabled', true);
             $("#add_job6").show();
 
             alert('Success');
@@ -161,7 +163,8 @@ $("#add_job_list6").on("click", function () {
             console.log(data);
             repaintTbljob6(data);
             //$("#btn2review13000").hide();
-            $("#btn2review13000").show();
+//            $("#btn2review13000").show();
+            $("#btn2review13000").prop('disabled', false);
             $("#add_job6").hide();
         },
         error: function (jqxhr, status, exception) {
