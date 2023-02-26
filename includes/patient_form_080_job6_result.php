@@ -4,7 +4,7 @@ $isSetShowaddResultButton = true;
 ?>
 
 
-
+<span id="result_list_display">
 <?php if (isset($presultupdates)) : //start if (isset($presultupdates)): ?>
     <?php foreach ($presultupdates as $key => $presultupdate) : ?>
 
@@ -20,35 +20,20 @@ $isSetShowaddResultButton = true;
     $is_show_template_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
     ?>
     <div class="mb-3">
-        <span id="result_list_display">
         <label for="result_message"><b><?= $presultupdate['result_type'] ?></b></label>   <?= $isCurResultReleased ?  "ออกผลแล้วเมื่อ[".$presultupdate['release_time']."] ไม่สามารถแก้ไขได้" : "ยังไม่ออกผล"  ?>
         <a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_<?= $presultupdate['id']?>" onclick="edit_txt_rs(<?= $presultupdate['id']?>);" title="Edit" <?= ($is_show_edit_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
         <a class="btn btn-outline-primary btn-sm me-1 " id="save_result_<?= $presultupdate['id']?>" onclick="save_txt_rs(<?= $presultupdate['id']?>);" title="Save"<?= ($is_show_save_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
         <a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id']?>" onclick="alert('Under construction. \nThe feature will avalable soon.');" title="Template" <?= ($is_show_template_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>
         <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
-        </span>
     </div>
 
     <?php endforeach; ?>
 <?php endif;  ?>
+</span>
 
-<hr>
-<!--<form id="add_u_result" name="" method="post">-->
-    <div class="row <?= $isBorder ? "border" : "" ?>">
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-            <label for="result_type" class="">เลือกชนิดของการรายงานผล</label>
-            <select name="result_type" class="form-select" id="result_type">
-                <option value="0">ยังไม่ได้เลือก</option>
-                <?php foreach($rsResultType2s as $rsResultType2): ?>
-                <option value="<?=$rsResultType2['name'];?>" group_type="<?=$rsResultType2['group_type'];?>" type_id="<?=$rsResultType2['id'];?>" patient_id="<?= $patient[0]['id']; ?>"><?=$rsResultType2['name'];?></option>
-                <?php endforeach; ?>
 
-            </select>
-        </div>
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-            <button name="add_u_result" id="add_u_result" type="submit" class="btn btn-primary">&nbsp;ADD&nbsp;&nbsp;</button>
-        </div>
-    </div>
+
+
 
 <!--</form>-->
 
@@ -85,8 +70,8 @@ $isSetShowaddResultButton = true;
 
 
 
-
-    
+    <button class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isCurrentPathoIsOwnerThisCase)? '':'style="display: none;"'; ?> title="เพิ่มส่วนของการรีพอร์ท">&nbsp;&nbsp;Add Report Section.&nbsp;&nbsp;</button>
+    <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_form_080_job6__select_rs_modal.php';      ?>
     
     
 <hr>
