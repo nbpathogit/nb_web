@@ -954,19 +954,19 @@ if (isset($curstatus[0]['next3'])) {
             </form>
             <?php endif; ?>
             
-            <?php require 'includes/patient_form_015_slide1_add_specimen.php'; ?>
-            <?php require 'includes/patient_form_030_job1_prepare_specimen.php'; ?>
-            <?php require 'includes/patient_form_035_job2_prepare_specimen.php'; ?>
-            
-            <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
-            
-            <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
-            
-            <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
-            
-            <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
-            
             <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?>
+            <?php require 'includes/patient_form_015_slide1_add_specimen.php'; ?>
+
+            
+
+            
+            
+            
+
+            
+
+            
+
             
         </div>
     </div>
@@ -977,7 +977,8 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            
+            <?php require 'includes/patient_form_030_job1_prepare_specimen.php'; ?>
+            <?php require 'includes/patient_form_035_job2_prepare_specimen.php'; ?>
         </div>
     </div>
 
@@ -985,7 +986,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;"><?= ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            
+            <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
         </div>
     </div>
 
@@ -993,7 +994,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-
+            <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
         </div>
     </div>
 
@@ -1002,6 +1003,10 @@ if (isset($curstatus[0]['next3'])) {
     <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
         <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+        <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
+        <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
+        
+        <hr>
         <form id="slide_prep" name="" method="post">
 
             <?php if ($isEditModePageOn) : ?>
@@ -1023,7 +1028,7 @@ if (isset($curstatus[0]['next3'])) {
     </div>
 </div>
 
-    
+    <?php if ($hide) : //========================================================================?>
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
@@ -1044,7 +1049,7 @@ if (isset($curstatus[0]['next3'])) {
         </div>
         </div>
     </div>
-    
+    <?php endif; //==============================================================================?>
     
     
     
@@ -1103,8 +1108,10 @@ if (isset($curstatus[0]['next3'])) {
                 <?php if ($curstatusid != "12000" && !$isEditModePageOn) : ?>
                     <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isCurrentPathoIsOwnerThisCase ? "" : "disabled"; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
                 <?php endif; ?>
-
             </h4>
+            
+            
+                
             <?php if ($isUpdateResultAval) : ?>
                 <!--hr noshade="noshade" width="" size="8"-->
                 <?php require 'includes/patient_form_080_job6_result.php'; ?>
@@ -1136,7 +1143,10 @@ if (isset($curstatus[0]['next3'])) {
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
+
     
+<script src="/js/patient_status_control.js?v0x"></script>
+
 <script src="/ajax_slide1_specimen/specimenlist1.js?v3"></script>
 <script src="/ajax_slide2__special/specialslide2.js?v3"></script>
 

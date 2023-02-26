@@ -2,7 +2,11 @@
 $isBorder = false;
 $isSetShowaddResultButton = true;
 ?>
-
+<?php if ($isCurrentPathoIsOwnerThisCase) : ?>
+    <p align="center" > คุณคือผู้ออกผลของผู้ป่วยท่านนี้  </p>
+<?php else : ?>
+    <p align="center" style="color: firebrick">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
+<?php endif; ?>
 
 <span id="result_list_display">
 <?php if (isset($presultupdates)) : //start if (isset($presultupdates)): ?>
@@ -23,7 +27,7 @@ $isSetShowaddResultButton = true;
         <label for="result_message"><b><?= $presultupdate['result_type'] ?></b></label>   <?= $isCurResultReleased ?  "ออกผลแล้วเมื่อ[".$presultupdate['release_time']."] ไม่สามารถแก้ไขได้" : "ยังไม่ออกผล"  ?>
         <a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_<?= $presultupdate['id']?>" onclick="edit_txt_rs(<?= $presultupdate['id']?>);" title="Edit" <?= ($is_show_edit_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
         <a class="btn btn-outline-primary btn-sm me-1 " id="save_result_<?= $presultupdate['id']?>" onclick="save_txt_rs(<?= $presultupdate['id']?>);" title="Save"<?= ($is_show_save_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
-        <a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id']?>" onclick="alert('Under construction. \nThe feature will avalable soon.');" title="Template" <?= ($is_show_template_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>
+        <!--<a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id']?>" onclick="alert('Under construction. \nThe feature will avalable soon.');" title="Template" <?= ($is_show_template_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>-->
         <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
     </div>
 
@@ -46,13 +50,19 @@ $isSetShowaddResultButton = true;
          </span>  
      </div>
      <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-         <b>พยาธิแพทย์คอนเฟิร์มผล:</b>
-         <span id="owner_job6a" style="font-size:20px">
-             <span class="badge rounded-pill bg-primary" id="">Data not update</span>
-         </span>  
-         <a class="btn btn-outline-primary btn-sm me-1 " id="add_job6" <?= ($isSecondPathoDefined)? 'style="display: none;"':''; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
-         <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job6" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
-         <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
+        <b>พยาธิแพทย์คอนเฟิร์มผล:</b>
+        <span id="owner_job6a" style="font-size:20px">
+            <span class="badge rounded-pill bg-primary" id="">Data not update</span>
+        </span>  
+        <?php
+          
+            $is_show_add_btn = $isCurrentPathoIsOwnerThisCase;
+            $is_show_refresh_btn = $isCurrentPathoIsOwnerThisCase;
+            $is_show_detail_btn = $isCurrentPathoIsOwnerThisCase;
+        ?>
+         <a class="btn btn-outline-primary btn-sm me-1 " id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+         <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
+         <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="View/Detail" ><i class="fa-solid fa-table"></i></a>
          <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_from_080_job6__tbl_modal.php';      ?>
          <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_from_080_job6__select_modal.php';      ?>
      </div>
@@ -80,21 +90,44 @@ $isSetShowaddResultButton = true;
     <button name="discard_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>
     <button name="edit_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
       <?php
-        $isShowSendToReviewbtn = $isCurrentPathoIsOwnerThisCase // First patho is ownder this patient id (Cur_user == First patho)
-            && $isSecondPathoDefined //If Second Patho is select 
-            && $curstatus[0]['id'] == 12000; //and Status == 12000
+        $isShowSendToReviewbtn = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
+            && $isSecondPathoDefined                             //If Second Patho is select 
+            && $curstatus[0]['id'] == 12000;                     //and Status == 12000
         ?>
-    <button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'style="display: none;"'; ?>  class="btn btn-primary">&nbsp;&nbsp;Send to Second Pathologist Review&nbsp;&nbsp;</button>
+    <button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'disabled'; ?>  class="btn btn-primary">&nbsp;&nbsp;Send to Second Pathologist Review&nbsp;&nbsp;</button>
     <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary">&nbsp;&nbsp;ออกผล&nbsp;&nbsp;</button>
       
 </p>
 
+
+
+
+
+
+
+
+
+
 <?php if ($curstatusid == "13000") :  ?><?php endif; ?>
 <hr>
-<h4 align="center"><b>แพทย์คนที่สองรีวิว</b><span style="color:orange;"><-ขั้นตอนปัจจุบัน</h4>
-<p align="center"><span id="owner_job6b" style="font-size:20px"><span class="badge rounded-pill bg-primary" id="">Data not update</span></span> คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม </p>
-<p align="center"><button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
-    <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
+<h4 align="center"><b>แพทย์คนที่สองรีวิว</b><?php if($curstatusid == "13000"): ?><span style="color:orange;"><-ขั้นตอนปัจจุบัน< /span><?php endif; ?></h4>
+<p align="center"><span id="owner_job6b" style="font-size:20px"><span class="badge rounded-pill bg-primary" id="">Data not update</span></span> </p>
+     
+<?php if ($isCurrentPathoIsSecondOwneThisCase) : ?>
+    <p align="center" > คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม  </p>
+<?php else : ?>
+    <p align="center" style="color: firebrick">คุณไม่ไช่แพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้</p>
+<?php endif; ?>
+    
+<?php
+
+    $is_enable_reject_btn = $isCurrentPathoIsSecondOwneThisCase && $curstatus[0]['id'] == 13000 && $patient[0]['second_patho_review'] == 1; 
+    $is_enable_approve_btn = $isCurrentPathoIsSecondOwneThisCase && $curstatus[0]['id'] == 13000&& $patient[0]['second_patho_review'] == 1; 
+
+?>
+<p align="center">
+    <button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary" <?= ($is_enable_reject_btn)? '':'disabled'; ?> >&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
+    <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary" <?= ($is_enable_approve_btn)? '':'disabled'; ?>>&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
 </p>
 
     
@@ -266,7 +299,7 @@ $isSetShowaddResultButton = true;
                             <?php //ส่วนของแพทย์คนที่สอง รีวิว ?>
                             <?php if ($curstatusid == "13000") :  ?>
                                 <hr noshade="noshade" width="" size="4">
-                                <h4 align="center"><b>แพทย์คนที่สองรีวิว</b><span style="color:orange;"><-ขั้นตอนปัจจุบัน< /span></h4>
+                                <h4 align="center"><b>แพทย์คนที่สองรีวิว</b><?php if(false): ?><span style="color:orange;"><-ขั้นตอนปัจจุบัน< /span><?php endif; ?></h4>
                             <?php endif; ?>
 
                             <?php
@@ -277,7 +310,7 @@ $isSetShowaddResultButton = true;
                             ?>
                                 <p align="center">คุณ <?= $pathoOwner2NameObj->name_e . " " . $pathoOwner2NameObj->lastname_e . " "; ?> </p>
                                 <p align="center">คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม </p>
-                                <p align="center"><button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary">&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
+                                <p align="center"><button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary"  >&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
                                     <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary">&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
                                 </p>
 
