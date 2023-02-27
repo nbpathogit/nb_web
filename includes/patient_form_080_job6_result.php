@@ -63,8 +63,12 @@ $isSetShowaddResultButton = true;
          <a class="btn btn-outline-primary btn-sm me-1 " id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
          <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
          <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="View/Detail" ><i class="fa-solid fa-table"></i></a>
-         <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_from_080_job6__tbl_modal.php';      ?>
-         <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_from_080_job6__select_modal.php';      ?>
+
+         <?php //var_dump(Url::currentURL()); ?>
+         <?php //var_dump($_SERVER['DOCUMENT_ROOT']); ?>
+         
+         <?php require 'patient_from_080_job6__tbl_modal.php';      ?>
+         <?php require 'patient_from_080_job6__select_modal.php';      ?>
      </div>
 
 
@@ -104,7 +108,7 @@ $isSetShowaddResultButton = true;
       
 </p>
 
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_form_080_job6__select_rs_modal.php'; ?>
+    <?php require 'patient_form_080_job6__select_rs_modal.php'; ?>
 
 
 
@@ -250,8 +254,8 @@ $isSetShowaddResultButton = true;
                     <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job6" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
                     <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
 
-                    <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_from_080_job6__tbl_modal.php';      ?>
-                    <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_from_080_job6__select_modal.php';      ?>
+                    <?php require 'patient_from_080_job6__tbl_modal.php';      ?>
+                    <?php require 'patient_from_080_job6__select_modal.php';      ?>
 
 
                 </div>
