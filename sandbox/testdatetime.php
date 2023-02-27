@@ -24,8 +24,15 @@ echo '<br>';
 echo '<br>';
 echo '<br>';
 echo '<br>';
-        date_default_timezone_set('Asia/Bangkok');
-echo         date('m/d/Y h:i:s a', time()).' ('.date_default_timezone_get().')';
+
+
+date_default_timezone_set('Asia/Bangkok');
+echo         date('m/d/Y h:i:s a', time()).'    ('.date_default_timezone_get().')';
+
+
+
+$release_time = date('Y-m-d H:i:s');
+var_dump($release_time);
 
 
 

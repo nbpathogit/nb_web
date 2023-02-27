@@ -1,6 +1,6 @@
 
 
-<?php $hidden_data2dom = false; ?>
+<?php $hidden_data2dom = true; ?>
 <span id="data2DOM">
 <!--Write Data to DOM pass value to java script-->
 <?php if (isset($curstatus[0]['id'])): ?>

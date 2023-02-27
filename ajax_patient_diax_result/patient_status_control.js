@@ -526,6 +526,7 @@ function addAction2Flow() {
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
         var isCurrentPathoIsSecondOwneThisCaseLastest = $(".isCurrentPathoIsSecondOwneThisCaseLastest").attr('tabindex');
+        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
 
         var uresultTypeNameLastest = '';
 
@@ -581,8 +582,42 @@ function addAction2Flow() {
 //        }
 
 
+
+
+
+        //set release date for all null result
+        
+        $.ajax({
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: '/ajax_patient_diax_result/setReleaseTimeIfNull.php',
+            data: {
+                'patient_id': cur_patient_id,
+            },
+            success: function (data) {
+                console.log(data);
+                alert(data);
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+        
+
+
+
+
+
+
+
+
+
+
+
+
         //set second_patho_review = 2
-        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
         $.ajax({
             type: 'POST',
             // make sure you respect the same origin policy with this url:

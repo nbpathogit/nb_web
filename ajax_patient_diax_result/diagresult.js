@@ -97,7 +97,7 @@ $("#add_u_result").on("click", function () {
     
     // Write data2DOM
     var str = ''+
-    '<ul class="uresultReleaseType2" style="">'+
+    '<ul class="uresultReleaseType2" style="display: none;">'+
     '        <li tabindex="'+release_type+'">uresult::prsu["release_type"]::'+release_type+'</li>'+
     '</ul>';
     

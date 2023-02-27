@@ -181,5 +181,21 @@ class Presultupdate {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+    public static function setReleaseTimeIfNull($conn, $patient_id, $release_time)
+    {
+        $sql = "UPDATE presultupdate " .
+                " SET release_time = :release_time ".
+                " WHERE patient_id = :patient_id and `release_time` IS NULL;";
+
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':release_time', $release_time, PDO::PARAM_STR);
+
+        return $stmt->execute();
+
+    }
 
 }
