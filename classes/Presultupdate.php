@@ -26,6 +26,7 @@ class Presultupdate {
     public $pathologist_id; 
     public $pathologist2_id;
     public $release_time;
+    public $release_type;
 
 
     public static function getInitObj() {
@@ -40,6 +41,7 @@ class Presultupdate {
         $resultupdate->pathologist_id = 0; //         		
         $resultupdate->pathologist2_id = 0; //        	
         $resultupdate->release_time = NULL; //       
+        $resultupdate->release_type = ""; //       
 
         return $resultupdate;
     }

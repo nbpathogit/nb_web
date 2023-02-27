@@ -201,6 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $resultreport->patient_id = $cur_patient_id;
                 $resultreport->result_type = $typelist['name'];
                 $resultreport->result_type_id = $typelist['id'];
+                $resultreport->release_type = $typelist['release_type'];
                 $resultreport->create($conn);
                 
             }

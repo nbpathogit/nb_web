@@ -78,6 +78,15 @@ $isSetShowaddResultButton = true;
         <input name="date_14000" type="text" class="form-control border" id="date_14000" placeholder="This Field will Auto Generate" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
 
     </div>
+    
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+        <!--<div class="col">-->
+            <?php $isEnable_critical_report = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
+            <input class="form-check-input border-danger" type="checkbox" value="1" id="critical_report" name="critical_report" <?= ($isEnable_critical_report) ? '' : 'disabled'; ?>   <?= $patient[0]['iscritical'] ? "checked" :"" ?>>
+            <label class="form-check-label text-danger" for="critical_report" ><B> Critical Report </B></label>
+        <!--</div>-->
+    </div>
+
 
  </div>
 
@@ -108,7 +117,7 @@ $isSetShowaddResultButton = true;
       
 </p>
 
-    <?php require 'patient_form_080_job6__select_rs_modal.php'; ?>
+<?php require 'patient_form_080_job6__select_rs_modal.php'; ?>
 
 
 
@@ -146,15 +155,7 @@ $isSetShowaddResultButton = true;
 
 
 
-<hr>
-<div align="center">
-    <!--<div class="row <?= $isBorder ? "border" : "" ?>">-->
-        <!--<div class="col">-->
-            <input class="form-check-input border-danger" type="checkbox" value="1" id="critical_report" name="critical_report"   <?= $patient[0]['iscritical'] ? "checked" :"" ?>>
-            <label class="form-check-label text-danger" for="critical_report" ><B> Critical Report </B></label>
-        <!--</div>-->
-    <!--</div>-->
-</div>
+
           
 
 
