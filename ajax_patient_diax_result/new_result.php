@@ -13,6 +13,7 @@ $resultreport->group_type = $_POST['group_type'];
 $resultreport->patient_id = $_POST['cur_patient_id'];
 $resultreport->result_type = $_POST['result_type'];
 $resultreport->result_type_id = $_POST['result_type_id'];
+$resultreport->release_type = $_POST['release_type'];
 $a = $resultreport->create($conn);
 if($a){
     //success

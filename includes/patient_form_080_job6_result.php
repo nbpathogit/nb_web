@@ -77,29 +77,34 @@ $isSetShowaddResultButton = true;
 
  </div>
 
-
-
-
-    <button class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isCurrentPathoIsOwnerThisCase)? '':'style="display: none;"'; ?> title="เพิ่มส่วนของการรีพอร์ท">&nbsp;&nbsp;Add Report Section.&nbsp;&nbsp;</button>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_form_080_job6__select_rs_modal.php';      ?>
-    
-    
-<hr>
 <p align="center">
-    <button name="save_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>
-    <button name="discard_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>
-    <button name="edit_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+<?php $isShow_btnmove12000 = $curstatusid != "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
+<button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isShow_btnmove12000 ? '' : 'disabled'; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
+<?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
+<button class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มส่วนของการรีพอร์ท">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
+
+    
+
+
+    
+
+
+    <!--<button name="save_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>-->
+    <!--<button name="discard_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>-->
+    <!--<button name="edit_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>-->
       <?php
         $isShowSendToReviewbtn = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
             && $isSecondPathoDefined                             //If Second Patho is select 
             && $curstatus[0]['id'] == 12000;                     //and Status == 12000
+        $isShow_btn_release = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
+            && $curstatus[0]['id'] == 12000;                     //and Status == 12000
         ?>
-    <button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'disabled'; ?>  class="btn btn-primary">&nbsp;&nbsp;Send to Second Pathologist Review&nbsp;&nbsp;</button>
-    <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary">&nbsp;&nbsp;ออกผล&nbsp;&nbsp;</button>
+    <button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'disabled'; ?>  class="btn btn-primary">&nbsp;&nbsp;Request Second Pathologist Review&nbsp;&nbsp;</button>
+    <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary" <?= ($isShow_btn_release)? '':'disabled'; ?> >&nbsp;&nbsp;Release Report&nbsp;&nbsp;</button>
       
 </p>
 
-
+    <?php require $_SERVER['DOCUMENT_ROOT'] . '\includes\patient_form_080_job6__select_rs_modal.php'; ?>
 
 
 
@@ -110,7 +115,7 @@ $isSetShowaddResultButton = true;
 
 <?php if ($curstatusid == "13000") :  ?><?php endif; ?>
 <hr>
-<h4 align="center"><b>แพทย์คนที่สองรีวิว</b><?php if($curstatusid == "13000"): ?><span style="color:orange;"><-ขั้นตอนปัจจุบัน< /span><?php endif; ?></h4>
+<h4 id="confirm_result_section" align="center"><b>แพทย์คนที่สองรีวิว</b><?php if($curstatusid == "13000"): ?><span style="color:orange;"><-ขั้นตอนปัจจุบัน<?php endif; ?></h4>
 <p align="center"><span id="owner_job6b" style="font-size:20px"><span class="badge rounded-pill bg-primary" id="">Data not update</span></span> </p>
      
 <?php if ($isCurrentPathoIsSecondOwneThisCase) : ?>

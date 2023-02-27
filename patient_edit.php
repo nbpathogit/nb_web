@@ -15,6 +15,7 @@ Auth::requireLogin("patient_edit.php", $_GET['id']);
   10000  lab_fluid_section_section
   11000  interim_result_section
   12000  diag_result_section
+  13000  confirm_result_section
 
  */
 
@@ -88,8 +89,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $presultupdate->result_type = $_POST['result_type'];
         $presultupdate->pathologist_id = $_POST['pathologist_id'];
 
-        Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
-        Patient::setisautoeditmode($conn, $_GET['id'], "uresultLastSection");
+        //Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
+        //Patient::setisautoeditmode($conn, $_GET['id'], "uresultLastSection");
 
         //                var_dump($_POST);
         //                die();
@@ -104,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['save_u_result'])) {
         // var_dump($_POST);
         // exit;
-        Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
+        //Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
         if (Presultupdate::updateResult($conn, $_POST['id'], $_POST['pathologist_id'], $_POST['pathologist2_id'], $_POST['result_message'])) {
             if (isset($_POST['critical_report'])) { // check critical report
                 if (Patient::addCriticalReport($conn, $_GET['id'], 1)) {
@@ -127,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['discard_u_result'])) {
         //var_dump($_POST);
-        Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
+        //Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
         Url::redirect("/patient_edit.php?id=" . $_GET['id']);
     }
 
@@ -712,7 +713,7 @@ if (isset($_POST['edit_interim_result'])) {
 }
 if (isset($_POST['edit_u_result']) || $patient[0]['isautoeditmode'] == "uresultLastSection") {
 
-    $patient[0]['pautoscroll'] = "uresultLastSection";
+    //$patient[0]['pautoscroll'] = "uresultLastSection";
     // true = Disable Edit page, false canEditPage
     $isEditModePageOn = true;      //flase = view mode, true = editing mode
     $isEditModePageForPatientInfoDataOn = false;  //flase = view mode, true = editing mode
@@ -738,7 +739,7 @@ if (isset($_POST['edit_sp_prep_slide']) || $patient[0]['isautoeditmode'] == "sli
 }
 
 if ($isCurrentPathoIsSecondOwneThisCase && $curstatusid == "13000") {
-    $patient[0]['pautoscroll'] = "uresultLastSection";
+    //$patient[0]['pautoscroll'] = "uresultLastSection";
 }
 
 if (isset($_GET['focus'])) {
@@ -1105,9 +1106,7 @@ if (isset($curstatus[0]['next3'])) {
     <div id="diag_result_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
             <h4 align="center"><b>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
-                <?php if ($curstatusid != "12000" && !$isEditModePageOn) : ?>
-                    <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isCurrentPathoIsOwnerThisCase ? "" : "disabled"; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
-                <?php endif; ?>
+                
             </h4>
             
             
@@ -1158,8 +1157,8 @@ if (isset($curstatus[0]['next3'])) {
 
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
-<script src="/ajax_patient_diax_result/diagresult.js?v2x"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v0xx"></script>
+<script src="/ajax_patient_diax_result/diagresult.js?v2xxxx"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v0xxxxxxxx"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

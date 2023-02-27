@@ -21,7 +21,7 @@
             <select name="result_type" class="form-select" id="result_type">
                 <option value="0">ยังไม่ได้เลือก</option>
                 <?php foreach($rsResultType2s as $rsResultType2): ?>
-                <option value="<?=$rsResultType2['name'];?>" group_type="<?=$rsResultType2['group_type'];?>" type_id="<?=$rsResultType2['id'];?>" patient_id="<?= $patient[0]['id']; ?>"><?=$rsResultType2['name'];?></option>
+                <option value="<?=$rsResultType2['name'];?>" group_type="<?=$rsResultType2['group_type'];?>" type_id="<?=$rsResultType2['id'];?>" patient_id="<?= $patient[0]['id']; ?>" release_type="<?=$rsResultType2['release_type'];?>"  ><?=$rsResultType2['name'];?></option>
                 <?php endforeach; ?>
 
             </select>

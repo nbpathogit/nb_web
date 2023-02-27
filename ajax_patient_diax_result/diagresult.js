@@ -93,6 +93,17 @@ $("#add_u_result").on("click", function () {
     var patient_id = $('#result_type option').filter(':selected').attr('patient_id');
 //    alert("patient_id:: "+patient_id);
  
+    var release_type = $('#result_type option').filter(':selected').attr('release_type');
+    
+    // Write data2DOM
+    var str = ''+
+    '<ul class="uresultReleaseType2" style="">'+
+    '        <li tabindex="'+release_type+'">uresult::prsu["release_type"]::'+release_type+'</li>'+
+    '</ul>';
+    
+    $("#data2DOM").append(str);
+
+    
     if (value == '0') {
         alert("Please select the choices.");
         return;
@@ -111,6 +122,7 @@ $("#add_u_result").on("click", function () {
             'group_type': group_type,     //1 for mandatory require 2 for added later	
             'result_type_id': type_id,    //ID link to DB Table report_type
             'result_type': value,         //EX Pathological Diagnosis
+            'release_type': release_type,         //EX Pathological Diagnosis
 
         },
         success: function (data) {

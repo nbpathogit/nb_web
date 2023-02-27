@@ -27,6 +27,7 @@ class Presultupdate {
     public $pathologist2_id;
     public $release_time;
 
+
     public static function getInitObj() {
         $resultupdate = new Presultupdate();
 
@@ -87,8 +88,8 @@ class Presultupdate {
 
     public function create($conn) {
 
-        $sql = "INSERT INTO `presultupdate` (`id`,   `group_type`   ,   `patient_id`   , `result_type`, `result_type_id`  , `result_message`, `pathologist_id`, `pathologist2_id` , `release_time`) "
-                . "VALUES                   (NULL,   :group_type    ,   :patient_id    , :result_type , :result_type_id   , ''              , 0               , 0             , NULL)";
+        $sql = "INSERT INTO `presultupdate` (`id`,   `group_type`   ,   `patient_id`   , `result_type`, `result_type_id`  , `result_message`, `pathologist_id`, `pathologist2_id` , `release_time`, `release_type`) "
+                . "VALUES                   (NULL,   :group_type    ,   :patient_id    , :result_type , :result_type_id   , ''              , 0               , 0                 ,  NULL         , :release_type)";
 
         $stmt = $conn->prepare($sql);
 
@@ -98,6 +99,7 @@ class Presultupdate {
         $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
         $stmt->bindValue(':result_type', $this->result_type, PDO::PARAM_STR);
         $stmt->bindValue(':result_type_id', $this->result_type_id, PDO::PARAM_INT);
+        $stmt->bindValue(':release_type', $this->release_type, PDO::PARAM_STR);
 
 
         //var_dump($stmt);

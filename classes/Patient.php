@@ -64,6 +64,8 @@ class Patient
     public $pautoscroll;
 
     public $p_sp_patho_comment;
+    public $second_patho_review;
+    public $request_sp_slide;
 
     /**
      * Validation errors

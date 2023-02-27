@@ -388,7 +388,7 @@ function addAction2Flow() {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_job6_patho/set_second_patho_review.php',
+            url: '/ajax_patient_diax_result/set_second_patho_review.php',
             data: {
                 'patient_id': cur_patient_id,
                 'second_patho_review': 0,
@@ -402,6 +402,28 @@ function addAction2Flow() {
                 alert('Exception:', exception);
             }
         });
+
+
+//        //set autoscroll to confirm_result_section
+//        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+//        $.ajax({
+//            type: 'POST',
+//            // make sure you respect the same origin policy with this url:
+//            // http://en.wikipedia.org/wiki/Same_origin_policy
+//            url: '/ajax_patient_diax_result/set_autoscroll.php',
+//            data: {
+//                'patient_id': cur_patient_id,
+//                'pautoscroll': 'confirm_result_section',
+//            },
+//            success: function (data) {
+//                console.log(data);
+//                alert(data);
+//
+//            },
+//            error: function (jqxhr, status, exception) {
+//                alert('Exception:', exception);
+//            }
+//        });
 
 
 
@@ -459,7 +481,7 @@ function addAction2Flow() {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_job6_patho/set_second_patho_review.php',
+            url: '/ajax_patient_diax_result/set_second_patho_review.php',
             data: {
                 'patient_id': cur_patient_id,
                 'second_patho_review': 1,
@@ -479,6 +501,7 @@ function addAction2Flow() {
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="13000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "confirm_result_section" + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
@@ -505,10 +528,20 @@ function addAction2Flow() {
         var isCurrentPathoIsSecondOwneThisCaseLastest = $(".isCurrentPathoIsSecondOwneThisCaseLastest").attr('tabindex');
 
         var uresultTypeNameLastest = '';
+
         $('.uresultTypeName li').each(function (index) {
             uresultTypeNameLastest = $(this).attr('tabindex');
         });
-
+        
+        //uresultReleaseType
+        var reported_as = 'ยังไม่ออกผล';
+        $('.uresultReleaseType li').each(function (index) {
+            reported_as = $(this).attr('tabindex');
+        });
+        $('.uresultReleaseType2 li').each(function (index) {
+            reported_as = $(this).attr('tabindex');
+        });
+        
         var isset_second_patho = '0';
         $('.uresultSecondPatho li').each(function (index) {
             isset_second_patho = $(this).attr('tabindex');
@@ -538,14 +571,14 @@ function addAction2Flow() {
 
 //        console.log("uresultTypeNameLastest ::--" + uresultTypeNameLastest +"--");
 //        return;
-        var reported_as = 'ยังไม่ออกผล';
-        if (uresultTypeNameLastest == 'Preliminary') {
-            reported_as = 'ออกผลเบื้องต้น';
-        }
-
-        if (uresultTypeNameLastest == 'Pathological Diagnosis' || uresultTypeNameLastest == 'Addendum' || uresultTypeNameLastest == 'Revised') {
-            reported_as = 'ออกผลแล้ว';
-        }
+        
+//        if (uresultTypeNameLastest == 'Preliminary') {
+//            reported_as = 'ออกผลเบื้องต้น';
+//        }
+//
+//        if (uresultTypeNameLastest == 'Pathological Diagnosis' || uresultTypeNameLastest == 'Addendum' || uresultTypeNameLastest == 'Revised') {
+//            reported_as = 'ออกผลแล้ว';
+//        }
 
 
         //set second_patho_review = 2
@@ -554,7 +587,7 @@ function addAction2Flow() {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_job6_patho/set_second_patho_review.php',
+            url: '/ajax_patient_diax_result/set_second_patho_review.php',
             data: {
                 'patient_id': cur_patient_id,
                 'second_patho_review': 2,
