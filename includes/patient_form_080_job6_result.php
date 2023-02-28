@@ -85,7 +85,9 @@ $isSetShowaddResultButton = true;
             <input class="form-check-input border-danger" type="checkbox" value="1" id="critical_report" name="critical_report" <?= ($isEnable_critical_report) ? '' : 'disabled'; ?>   <?= $patient[0]['iscritical'] ? "checked" :"" ?>>
             <label class="form-check-label text-danger" for="critical_report" ><B> Critical Report </B></label>
         <!--</div>-->
+
     </div>
+    <!--<button name="testbtn" id="testbtn" type="" class="btn btn-primary" >&nbsp;&nbsp;Test Button&nbsp;&nbsp;</button>-->
 
 
  </div>
@@ -102,19 +104,23 @@ $isSetShowaddResultButton = true;
     
 
 
-    <!--<button name="save_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>-->
-    <!--<button name="discard_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>-->
-    <!--<button name="edit_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>-->
-      <?php
-        $isShowSendToReviewbtn = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
-            && $isSecondPathoDefined                             //If Second Patho is select 
-            && $curstatus[0]['id'] == 12000;                     //and Status == 12000
-        $isShow_btn_release = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
-            && $curstatus[0]['id'] == 12000;                     //and Status == 12000
-        ?>
-    <button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'disabled'; ?>  class="btn btn-primary">&nbsp;&nbsp;Request Second Pathologist Review&nbsp;&nbsp;</button>
-    <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary" <?= ($isShow_btn_release)? '':'disabled'; ?> >&nbsp;&nbsp;Release Report&nbsp;&nbsp;</button>
+<!--<button name="save_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>-->
+<!--<button name="discard_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>-->
+<!--<button name="edit_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>-->
+  <?php
+    $isShowSendToReviewbtn = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
+        && $isSecondPathoDefined                             //If Second Patho is select 
+        && $curstatus[0]['id'] == 12000;                     //and Status == 12000
+    $isShow_btn_release = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
+        && $curstatus[0]['id'] == 12000
+        && $isLastReleaseGroup2DateNull == NULL;                     //and Status == 12000
+    ?>
+<button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'disabled'; ?>  class="btn btn-primary">&nbsp;&nbsp;Request Second Pathologist Review&nbsp;&nbsp;</button>
+<button name="btn_release" id="btn_release" type="submit" class="btn btn-primary" <?= ($isShow_btn_release)? '':'disabled'; ?> >&nbsp;&nbsp;Release Report&nbsp;&nbsp;</button>
       
+<?php if (!($isEditModePageOn || $isEditModePageForFinResultDataOn)) : ?>
+            <p align="center"><a class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">PreView PDF</a> </p>
+<?php endif; ?>
 </p>
 
 <?php require 'patient_form_080_job6__select_rs_modal.php'; ?>
@@ -149,6 +155,8 @@ $isSetShowaddResultButton = true;
 </p>
 
     
+
+
     
     
     

@@ -11,32 +11,33 @@ function save_txt_rs(rs_id){
     //alert($(txt_rs_id).val());
     
     //Save to data base
-     $.ajax({
-        type: 'POST',
-        url: "/ajax_patient_diax_result/save_result_message.php",
-        data: {
-            'rs_id': rs_id,
-            'result_message': result_message,
-        },
-        success: function (data) {
-            if (data != 1) {
-                alert("Save Error:: " + data);
-                return;
-            } else {
-                //alert("Save Success:: " + data);
-            }
-            
-
-        }
-    });
+//     $.ajax({
+//        type: 'POST',
+//        url: "/ajax_patient_diax_result/save_result_message.php",
+//        data: {
+//            'rs_id': rs_id,
+//            'result_message': result_message,
+//        },
+//        success: function (data) {
+//            if (data != 1) {
+//                alert("Save Error:: " + data);
+//                return;
+//            } else {
+//                //alert("Save Success:: " + data);
+//            }
+//            
+//
+//        }
+//    });
     
     
     //Read back to data base
     $.ajax({
         type: 'POST',
-        url: "/ajax_patient_diax_result/get_result_message.php",
+        url: "/ajax_patient_diax_result/save_get_result_message.php",
         data: {
             'rs_id': rs_id,
+            'result_message': result_message,
         },
         success: function (data) {
             //alert(data);
@@ -95,13 +96,9 @@ $("#add_u_result").on("click", function () {
  
     var release_type = $('#result_type option').filter(':selected').attr('release_type');
     
-    // Write data2DOM
-    var str = ''+
-    '<ul class="uresultReleaseType2" style="display: none;">'+
-    '        <li tabindex="'+release_type+'">uresult::prsu["release_type"]::'+release_type+'</li>'+
-    '</ul>';
+
     
-    $("#data2DOM").append(str);
+
 
     
     if (value == '0') {
@@ -111,6 +108,18 @@ $("#add_u_result").on("click", function () {
 //    $resultreport->patient_id = $_POST['cur_patient_id'];
 //                $resultreport->result_type = $_POST['result_type'];
 //                $resultreport->result_type_id = $_POST['result_type_id'];
+    // Write data2DOM
+    var str = ''+
+    '<ul class="uresultReleaseType2" style="display: none;">'+
+    '        <li tabindex="'+release_type+'">uresult::prsu["release_type"]::'+release_type+'</li>'+
+    '</ul>';
+    $("#data2DOM").append(str);
+    
+    
+    
+    //btn_release
+    $("#btn_release").prop('disabled', false);
+
 
     $.ajax({
         type: 'POST',
@@ -145,7 +154,52 @@ $("#add_u_result").on("click", function () {
 });
 
 
+//critical_report     
+$("#critical_report").on("click", function (e) {
+    //e.preventDefault();
 
+    if ($("#critical_report").prop("checked"))
+    {
+        alert('checked');
+        // set critical flag true here
+        //$patient[0]['iscritical'] = true;
+        set_criticalreport('1');
+    } else
+    {
+        alert('Un checked');
+        // set critical flag false here
+        //$patient[0]['iscritical'] = false;
+        set_criticalreport('0');
+    }
+
+});
+
+//Save text result by id
+function set_criticalreport(flag){
+    
+    var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+    //Read back to data base
+    $.ajax({
+        type: 'POST',
+        url: "/ajax_patient_diax_result/set_is_critical.php",
+        data: {
+            'patient_id': cur_patient_id,
+            'critical_report': flag,
+
+        },
+        success: function (data) {
+            //alert(data);
+            if (data[0] != "1") {
+                alert(data);
+            }else{
+                //Result ok , do not alert.
+                //alert("read back ok:: " + data);
+            }
+        }
+    });
+    alert("finish.");
+    
+}
 
 
 $(document).ready(function () {

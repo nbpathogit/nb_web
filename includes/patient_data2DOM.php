@@ -30,7 +30,20 @@
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
         <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist::prsu['release_time']::<?= $prsu['release_time'] ?></li>
     <?php endforeach; ?> 
-</ul>
+</ul> 
+    
+    
+<?php $isLastReleaseGroup2DateNull = "blank"; ?>
+<ul class="uresultReleaseSetlistGroup2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdate2s as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist::prsu['release_time']::<?= $prsu['release_time'] ?></li>
+        <?php $isLastReleaseGroup2DateNull = $prsu['release_time']; ?>
+    <?php endforeach; ?> 
+</ul> 
+
+<?php //$isLastReleaseGroup2DateNull  ?>   
+<li class="isLastReleaseDateNull" tabindex="<?= $isLastReleaseGroup2DateNull; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  > $isLastReleaseGroup2DateNull::<?= $isLastReleaseGroup2DateNull; ?> </li>
+<?php //var_dump($isLastReleaseGroup2DateNull); ?>
 
 <?php //List of release_type ยังไม่ออกผล/ออกผลแล้ว/ออกผลเบื้องต้น ?>
 <ul class="uresultReleaseType" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >

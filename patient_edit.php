@@ -622,6 +622,7 @@ $rsResultType2s = ReportType::getAllbyGroup2($conn);
 //die();
 //Get one by id
 $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
+$presultupdate2s = Presultupdate::getAllofGroup2($conn, $_GET['id']);
 
 $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
@@ -1133,13 +1134,7 @@ if (isset($curstatus[0]['next3'])) {
     </div>
 <?php endif; ?>
 
-<?php if (!($isEditModePageOn || $isEditModePageForFinResultDataOn)) : ?>
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
-            <p align="center"><a class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank">PreView PDF</a> </p>
-        </div>
-    </div>
-<?php endif; ?>
+
 
 <?php require 'includes/footer.php'; ?>
 
@@ -1157,8 +1152,8 @@ if (isset($curstatus[0]['next3'])) {
 
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
-<script src="/ajax_patient_diax_result/diagresult.js?v3"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v1"></script>
+<script src="/ajax_patient_diax_result/diagresult.js?v5"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v2"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

@@ -597,7 +597,7 @@ function addAction2Flow() {
             },
             success: function (data) {
                 console.log(data);
-                alert(data);
+                //alert(data);
 
             },
             error: function (jqxhr, status, exception) {
@@ -629,7 +629,7 @@ function addAction2Flow() {
             },
             success: function (data) {
                 console.log(data);
-                alert(data);
+                //alert(data);
 
             },
             error: function (jqxhr, status, exception) {
