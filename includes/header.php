@@ -91,9 +91,10 @@
                         <a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>
                         <a id="fluid" href="labfluid.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>แลปเซลล์วิทยา</a>
                         <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้าง label</a>
-                        <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a>
+                        <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
+                        <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Job</a>
                         <a href="billing.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Billing</a>
-                        <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
+                        <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                         <div class="nav-item dropdown">
                             <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>เกี่ยวกับ</a>
                             <div class="dropdown-menu bg-transparent border-0">

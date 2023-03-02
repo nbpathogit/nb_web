@@ -11,7 +11,8 @@
  *
  * @author 2444536
  */
-class Job {
+class Job
+{
 
     //put your code here
     public $id;  //int(11) Primary	
@@ -28,7 +29,8 @@ class Job {
     public $comment;  //   varchar(50)	
     public $finish_date;  //  datetime	
 
-    public static function getInitObj() {
+    public static function getInitObj()
+    {
         $job = new Job();
 
         $job->id = null;
@@ -47,10 +49,11 @@ class Job {
         return $job;
     }
 
-    public function create($conn) {
+    public function create($conn)
+    {
 
         $sql = "INSERT INTO `job` (`id`, `job_role_id`, `patient_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
-                . "VALUES         (NULL, :job_role_id,  :patient_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
+            . "VALUES         (NULL, :job_role_id,  :patient_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
 
         $stmt = $conn->prepare($sql);
 
@@ -66,7 +69,7 @@ class Job {
         $stmt->bindValue(':pay', $this->pay);
         $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
         $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
-//        $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
+        //        $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
 
 
         //var_dump($stmt);
@@ -79,7 +82,8 @@ class Job {
         }
     }
 
-    public static function getAll($conn, $patient_id = 0, $job_role_id = 0) {
+    public static function getAll($conn, $patient_id = 0, $job_role_id = 0)
+    {
         $sql = "SELECT * FROM `job` ";
 
         $sql = $sql . " WHERE 1=1 ";
@@ -88,18 +92,19 @@ class Job {
         if ($patient_id != 0) {
             $sql = $sql . " and patient_id = " . $patient_id;
         }
-        if ($type != 0) {
+        if ($job_role_id != 0) {
             $sql = $sql . " and job_role_id = " . $job_role_id;
         }
         $sql = $sql . " ORDER BY id";
 
         $results = $conn->query($sql);
 
-        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+        return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
     //คนตัดเนื้อ
-    public static function getCrossSection($conn, $patient_id = 0) {
+    public static function getCrossSection($conn, $patient_id = 0)
+    {
         $sql = "SELECT * FROM `job` ";
 
         $sql = $sql . " WHERE 1=1 ";
@@ -116,9 +121,10 @@ class Job {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-        //คนช่วยตัดเนื้อ
-    public static function getAssisCrossSection($conn, $patient_id = 0) {
+
+    //คนช่วยตัดเนื้อ
+    public static function getAssisCrossSection($conn, $patient_id = 0)
+    {
         $sql = "SELECT * FROM `job` ";
 
         $sql = $sql . " WHERE 1=1 ";
@@ -135,9 +141,10 @@ class Job {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-            //คนช่วยตัดเนื้อ
-    public static function getByPatientJobRole($conn, $patient_id = 0,$jobrole_id=0) {
+
+    //คนช่วยตัดเนื้อ
+    public static function getByPatientJobRole($conn, $patient_id = 0, $jobrole_id = 0)
+    {
         $sql = "SELECT * FROM `job` ";
 
         $sql = $sql . " WHERE 1=1 ";
@@ -154,10 +161,10 @@ class Job {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public static function delete($conn,$id)
+
+    public static function delete($conn, $id)
     {
-        
+
         $sql = "DELETE FROM `job` WHERE `job`.`id` = :id";
 
         $stmt = $conn->prepare($sql);
@@ -166,5 +173,4 @@ class Job {
 
         return $stmt->execute();
     }
-
 }
