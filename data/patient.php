@@ -39,7 +39,6 @@ if ($auth) {
             $dateTime = new DateTime("-1 Years");
         else if ($_REQUEST['range'] == '2y')
             $dateTime = new DateTime("-2 Years");
-        else $dateTime = new DateTime("-10 Years");
 
         $range = $dateTime->format('Y-m-d');
     }

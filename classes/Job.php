@@ -82,7 +82,7 @@ class Job
         }
     }
 
-    public static function getAll($conn, $patient_id = 0, $job_role_id = 0)
+    public static function getAll($conn, $patient_id = 0, $job_role_id = 0, $start = '0')
     {
         $sql = "SELECT * FROM `job` ";
 
@@ -94,6 +94,9 @@ class Job
         }
         if ($job_role_id != 0) {
             $sql = $sql . " and job_role_id = " . $job_role_id;
+        }
+        if ($start != '0') {
+            $sql .= " and date(insert_time) >= '{$start}'";
         }
         $sql = $sql . " ORDER BY id";
 

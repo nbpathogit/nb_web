@@ -20,7 +20,7 @@ require 'includes/header.php'; ?>
 
 
             <div class="d-flex align-items-center justify-content-between">
-                <a href="#" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-download me-2"></i>Export</a>
+                <a href="#" id="csvdownload" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-download me-2"></i>Export</a>
             </div>
 
     </div>
@@ -61,41 +61,58 @@ require 'includes/header.php'; ?>
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // delete
-        $("a.delete").on("click", function(e) {
-
-            e.preventDefault();
-
-            if (confirm("Are you sure?")) {
-
-                var frm = $("<form>");
-                frm.attr('method', 'post');
-                frm.attr('action', $(this).attr('href'));
-                frm.appendTo("body");
-                frm.submit();
-            }
-        });
+        var rawdata;
 
         // table data
         var table = $('#job_table').DataTable({
-            "ajax": "data/job.php?skey=<?= $_SESSION["skey"]; ?>",
+            "ajax": "data/job.php?skey=<?= $_SESSION["skey"]; ?>&range=1m",
             responsive: true,
-            columnDefs: [
-                // {
-                //     "render": function(data, type, row) {
-                //         var renderdata = '<a href="job_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="job_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a>';
-                // <?php //if ($isCurUserAdmin) : 
-                    ?>
-                //             renderdata += '<a href="job_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
-                //         <?php //endif; 
-                            ?>
-                //         return renderdata;
-                //     },
-                //     "targets": -1
-                // },
-                {
+            dom: 'lBrtip',
+            buttons: [{
+                extend: 'collection',
+                text: 'ระยะเวลาย้อนหลัง',
+                autoClose: true,
+                buttons: [{
+                        text: '1 เดือนล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=<?= $_SESSION['skey']; ?>&range=1m").load();
+                        }
+                    },
+                    {
+                        text: '3 เดือนล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=<?= $_SESSION['skey']; ?>&range=3m").load();
+                        }
+                    },
+                    {
+                        text: '6 เดือนล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=<?= $_SESSION['skey']; ?>&range=6m").load();
+                        }
+                    },
+                    {
+                        text: '1 ปีล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=<?= $_SESSION['skey']; ?>&range=1y").load();
+                        }
+                    },
+                    {
+                        text: '2 ปีล่าสุด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=<?= $_SESSION['skey']; ?>&range=2y").load();
+                        }
+                    },
+                    {
+                        text: 'ทั้งหมด',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=<?= $_SESSION['skey']; ?>").load();
+                        }
+                    }
+                ]
+            }, ],
+            columnDefs: [{
                     "render": function(data, type, row) {
-                        return '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '">' + row[3] + '</a><br><b>Name: </b>' + row[5] + " " + row[6] + " " + row[7] + "<br>" + "<b>Job: </b>" + row[8];
+                        return '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '" target=”_blank”>' + row[3] + '</a><br><b>Name: </b>' + row[5] + " " + row[6] + " " + row[7] + "<br>" + "<b>Job: </b>" + row[8];
                     },
                     "targets": 3
                 },
@@ -108,36 +125,51 @@ require 'includes/header.php'; ?>
                 {
                     "render": function(data, type, row) {
                         let html = "<b>#:</b>" + row[0];
-                        html += "<br><b>job role id:</b> " + row[1];
-                        html += "<br><b>patient id:</b> " + row[2];
-                        html += "<br><b>patient number:</b> " + row[3];
-                        html += "<br><b>user id:</b> " + row[4];
-                        html += "<br><b>pay:</b> " + row[9];
-                        html += "<br><b>cost count per day:</b> " + row[10];
+                        html += "<br><b>Job role id:</b> " + row[1];
+                        html += "<br><b>Patient id:</b> " + row[2];
+                        html += "<br><b>User id:</b> " + row[4];
+                        html += "<br><b>Pay:</b> " + row[9];
+                        html += "<br><b>Cost count per day:</b> " + row[10];
+                        html += "<br><b>Comment:</b> " + row[11];
                         return html;
                     },
                     "targets": 11
                 },
                 {
                     visible: false,
-                    targets: [0, 1, 2, 4, 5, 6, 7,8, 9, 10, 13]
+                    targets: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 13]
                 },
             ],
         });
 
-        // delete job
-        $('#job_table tbody').on('click', 'a.delete', function(e) {
-            var data = table.row($(this).parents('tr')).data();
-
-            e.preventDefault();
-            if (confirm("Are you sure?")) {
-                var frm = $("<form>");
-                frm.attr('method', 'post');
-                frm.attr('action', "job_del.php?id=" + data[0]);
-                frm.appendTo("body");
-                frm.submit();
-            }
+        table.on('draw', function() {
+            // console.log(table.rows().data());
+            rawdata = table.rows().data();
+            // console.log(rawdata.length);
         });
+
+        $("#csvdownload").click(function() {
+            var data = [
+                ["id", "job_role_id", "patient_id", "patient_number", "user_id", "pre_name", "name", "lastname", "jobname", "pay", "cost_count_per_day", "comment", "finish_date", "insert_time"]
+            ];
+
+            // console.log(label_history.length);return;
+
+            for (var count = 0; count < rawdata.length; count++) {
+                data.push(rawdata[count]);
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8," +
+                data.map(e => e.join(",")).join("\n");
+
+            var encodedUri = encodeURIComponent("\uFEFF" + csvContent);
+            var link = document.createElement("a");
+            link.setAttribute('href', 'data:text/csv; charset=utf-8,' + encodedUri);
+            link.setAttribute("download", "jobdata_" + rawdata[rawdata.length-1][13] + "_to_" + rawdata[0][13] + ".csv");
+            document.body.appendChild(link);
+            link.click();
+        });
+
 
         //set active tab
         $("#job_tab").addClass("active");

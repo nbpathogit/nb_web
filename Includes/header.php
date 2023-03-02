@@ -92,7 +92,7 @@
                         <a id="fluid" href="labfluid.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>แลปเซลล์วิทยา</a>
                         <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้าง label</a>
                         <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
-                        <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Job</a>
+                        <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>Job</a>
                         <a href="billing.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Billing</a>
                         <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                         <div class="nav-item dropdown">
