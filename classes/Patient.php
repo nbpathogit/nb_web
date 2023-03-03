@@ -561,6 +561,7 @@ class Patient
                     pclinician_id=:pclinician_id,
                     pspecimen_id=:pspecimen_id,
                     priority_id=:priority_id,
+                    status_id=:status_id,
                     isautoeditmode=:isautoeditmode,
                     pautoscroll=:pautoscroll
 
@@ -583,6 +584,7 @@ class Patient
         $stmt->bindValue(':pclinician_id', $this->pclinician_id, PDO::PARAM_INT);
         $stmt->bindValue(':pspecimen_id', $this->pspecimen_id, PDO::PARAM_INT);
         $stmt->bindValue(':priority_id', $this->priority_id, PDO::PARAM_INT);
+        $stmt->bindValue(':status_id', $this->status_id, PDO::PARAM_INT);
         $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
         $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
 

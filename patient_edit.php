@@ -229,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $patient = null;
         }
-        //var_dump($_POST);
+//        var_dump($_POST); die();
 
         isset($_POST['pnum']) ? $patient->pnum = $_POST['pnum'] : null;
         isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : null;
