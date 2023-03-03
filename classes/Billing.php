@@ -33,7 +33,7 @@ class Billing {
 
     //put your code here
 
-    public static function getAll($conn, $patient_id = 0,$type = 0) {
+    public static function getAll($conn, $patient_id = 0,$type = 0, $start = '0') {
         $sql = "SELECT *
                 FROM billing ";
         
@@ -45,6 +45,9 @@ class Billing {
         }
         if ($type != 0) {
             $sql = $sql . " and slide_type = " . $type;
+        }
+        if ($start != '0') {
+            $sql .= " and date(import_date) >= '{$start}'";
         }
         $sql = $sql . " ORDER BY id";
 
