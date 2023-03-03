@@ -147,9 +147,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         isset($_POST['pnum']) ? $patient->pnum = $_POST['pnum'] : null;
         isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : null;
+        isset($_POST['ppre_name']) ? $patient->ppre_name = $_POST['ppre_name'] : $patient->ppre_name = $patientini[0]['ppre_name'];
         isset($_POST['pname']) ? $patient->pname = $_POST['pname'] : null;
-        isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : null;
         isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : null;
+        isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : null;
         isset($_POST['pedge']) ? $patient->pedge = $_POST['pedge'] : null;
         isset($_POST['date_1000']) ? $patient->date_1000 = $_POST['date_1000'] : null;
         //        isset($_POST['date_12_13_000']) ? $patient->date_12_13_000 = $_POST['date_12_13_000'] : null;
@@ -232,6 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         isset($_POST['pnum']) ? $patient->pnum = $_POST['pnum'] : null;
         isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : null;
+        isset($_POST['ppre_name']) ? $patient->ppre_name = $_POST['ppre_name'] : null;
         isset($_POST['pname']) ? $patient->pname = $_POST['pname'] : null;
         isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : null;
         isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : null;
@@ -293,6 +295,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         isset($_POST['pnum']) ? $patient->pnum = $_POST['pnum'] : null;
         isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : null;
+        isset($_POST['ppre_name']) ? $patient->ppre_name = $_POST['ppre_name'] : null;
         isset($_POST['pname']) ? $patient->pname = $_POST['pname'] : null;
         isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : null;
         isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : null;
@@ -923,7 +926,7 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>วางแผนงานวินิจฉัย โดยสถาบันเอ็นบี</b><span style="color:orange;"><?= ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
+            <h4 align="center"><b>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</b><span style="color:orange;"><?= ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
                 <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
                     <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
                 <?php endif; ?>

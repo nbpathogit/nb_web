@@ -258,8 +258,8 @@ class Patient
     {
 
 
-        $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
-            . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum,   :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
+        $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
+            . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
 
 
 
@@ -276,9 +276,10 @@ class Patient
         $stmt->bindValue(':sn_run', $this->sn_run, PDO::PARAM_INT);
 
         $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
+        $stmt->bindValue(':ppre_name', $this->ppre_name, PDO::PARAM_STR);
         $stmt->bindValue(':pname', $this->pname, PDO::PARAM_STR);
-        $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
         $stmt->bindValue(':plastname', $this->plastname, PDO::PARAM_STR);
+        $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
         $stmt->bindValue(':pedge', $this->pedge, PDO::PARAM_STR);
 
         //        $stmt->bindValue(':date_1000', $this->date_1000, PDO::PARAM_STR);
@@ -344,6 +345,7 @@ class Patient
                 "sn_run" => 0,
                 "pnum" => "",
                 "plabnum" => "",
+                "ppre_name" => "",
                 "pname" => "",
                 "pgender" => "",
                 "plastname" => "",
@@ -441,6 +443,7 @@ class Patient
         $sql = "UPDATE `patient` 
                  SET pnum=:pnum,
                     plabnum=:plabnum,
+                    ppre_name=:ppre_name,
                     pname=:pname,
                     pgender=:pgender,
                     plastname=:plastname,
@@ -483,6 +486,7 @@ class Patient
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
         $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
+        $stmt->bindValue(':ppre_name', $this->ppre_name, PDO::PARAM_STR);
         $stmt->bindValue(':pname', $this->pname, PDO::PARAM_STR);
         $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
         $stmt->bindValue(':plastname', $this->plastname, PDO::PARAM_STR);
@@ -547,6 +551,7 @@ class Patient
         $sql = "UPDATE `patient` 
                  SET pnum=:pnum,
                     plabnum=:plabnum,
+                    ppre_name=:ppre_name,
                     pname=:pname,
                     pgender=:pgender,
                     plastname=:plastname,
@@ -568,6 +573,7 @@ class Patient
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
         $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
+        $stmt->bindValue(':ppre_name', $this->ppre_name, PDO::PARAM_STR);
         $stmt->bindValue(':pname', $this->pname, PDO::PARAM_STR);
         $stmt->bindValue(':pgender', $this->pgender, PDO::PARAM_STR);
         $stmt->bindValue(':plastname', $this->plastname, PDO::PARAM_STR);

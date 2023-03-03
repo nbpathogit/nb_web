@@ -88,6 +88,11 @@ if ($debug) {
 
 
         <div class="row <?= $isBorder ? "border" : "" ?>">
+            
+            <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+                <label for="ppre_name" class="">คำนำหน้าชื่อ</label>
+                <input name="ppre_name" type="text" class="form-control border" id="ppre_name" placeholder=""  value="<?= $patient[0]['ppre_name']; ?>">
+            </div>
 
             <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
                 <label for="pname" class="">ชื่อผู้ป่วย</label>

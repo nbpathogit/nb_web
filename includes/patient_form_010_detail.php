@@ -49,17 +49,11 @@ $curStatusAuthEdit = (
 
 
 
+
+    
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="pgender" class="">เพศ</label>
-        <div class="col">
-            <select name="pgender" class="form-select" id="pgender" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>>
-                <option value="กรุณาเลือก">กรุณาเลือก</option>
-                <option value="ชาย" <?= ($patient[0]['pgender'] === "ชาย") ? "selected" : ""; ?> >ชาย</option> <!-- To be remove later when all database convert to Male/Female -->
-                <option value="หญิง" <?= ($patient[0]['pgender'] === "หญิง") ? "selected" : ""; ?> >หญิง</option> <!-- To be remove later when all database convert to Male/Female -->
-                <option value="Male" <?= ($patient[0]['pgender'] === "Male") ? "selected" : ""; ?> >Male</option>
-                <option value="Female" <?= ($patient[0]['pgender'] === "Female") ? "selected" : ""; ?> >Female</option>
-            </select>
-        </div>
+        <label for="ppre_name" class="">คำนำหน้าชื่อ</label>
+        <input name="ppre_name" type="text" class="form-control border" id="ppre_name" placeholder="" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  value="<?= $patient[0]['ppre_name']; ?>">
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
@@ -74,7 +68,18 @@ $curStatusAuthEdit = (
         </div>
     </div>
 
-
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label for="pgender" class="">เพศ</label>
+        <div class="col">
+            <select name="pgender" class="form-select" id="pgender" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>>
+                <option value="กรุณาเลือก">กรุณาเลือก</option>
+                <option value="Male" <?= ($patient[0]['pgender'] === "ชาย") ? "selected" : ""; ?> >Male</option> <!-- To be remove later when all database convert to Male/Female -->
+                <option value="Female" <?= ($patient[0]['pgender'] === "หญิง") ? "selected" : ""; ?> >Female</option> <!-- To be remove later when all database convert to Male/Female -->
+                <option value="Male" <?= ($patient[0]['pgender'] === "Male") ? "selected" : ""; ?> >Male</option>
+                <option value="Female" <?= ($patient[0]['pgender'] === "Female") ? "selected" : ""; ?> >Female</option>
+            </select>
+        </div>
+    </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pedge" class="">อายุ(ปี)</label>

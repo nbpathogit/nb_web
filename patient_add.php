@@ -143,9 +143,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $patient->pnum = $patientNumber; // SN
 //    die();
         isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : $patient->plabnum = $patientini[0]['plabnum'];
+        isset($_POST['ppre_name']) ? $patient->ppre_name = $_POST['ppre_name'] : $patient->ppre_name = $patientini[0]['ppre_name'];
         isset($_POST['pname']) ? $patient->pname = $_POST['pname'] : $patient->pname = $patientini[0]['pname'];
-        isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : $patient->pgender = $patientini[0]['pgender'];
         isset($_POST['plastname']) ? $patient->plastname = $_POST['plastname'] : $patient->plastname = $patientini[0]['plastname'];
+        isset($_POST['pgender']) ? $patient->pgender = $_POST['pgender'] : $patient->pgender = $patientini[0]['pgender'];
         isset($_POST['pedge']) ? $patient->pedge = $_POST['pedge'] : $patient->pedge = $patientini[0]['pedge'];
         isset($_POST['date_1000']) ? $patient->date_1000 = $_POST['date_1000'] : $patient->date_1000 = $patientini[0]['date_1000'];
 
@@ -223,21 +224,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = $e->getMessage();
     }
 }
+
+
+
+
+
+
 //Get Specific Row from Table
 $patient = Patient::getInit();
 $snPrefixs = SnPrefix::getAll($conn);
 //var_dump($SnPrefix);die();
 //$status_cur = Status::getAll($conn, $patient[0]['status_id']);
 //$patientLists = Patient::getAll($conn);
+//
 //Get List of Table
-$hospitals = Hospital::getAll($conn);
-$specimens = Specimen::getAll($conn);
-$clinicians = User::getAllbyClinicians($conn);
-$userPathos = User::getAllbyPathologis($conn);
-$userTechnic = User::getAllbyTeachien($conn);
-$prioritys = Priority::getAll($conn);
-$statusLists = Status::getAll($conn);
-$labFluids = LabFluid::getAll($conn);
+//$hospitals = Hospital::getAll($conn);
+//$specimens = Specimen::getAll($conn);
+//$clinicians = User::getAllbyClinicians($conn);
+//$userPathos = User::getAllbyPathologis($conn);
+//$userTechnic = User::getAllbyTeachien($conn);
+//$prioritys = Priority::getAll($conn);
+//$statusLists = Status::getAll($conn);
+//$labFluids = LabFluid::getAll($conn);
 
 
 
