@@ -136,7 +136,7 @@ require 'user_auth.php';
                     searchPanes: {
                         show: true
                     },
-                    targets: [4, 5, 6, 7, 8]
+                    targets: [4, 5, 6, 7, 8, 9, 10]
                 },
                 {
                     searchPanes: {
@@ -146,9 +146,20 @@ require 'user_auth.php';
                 },
                 {
                     "render": function(data, type, row) {
-                        var renderdata = '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i></a><a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i></a>';
+                        var renderdata = '';
+
+                        <?php if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') : ?>
+                            if (row[9] == "ยังไม่ออกผล") {
+                                renderdata += '<p class="btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
+                            } else {
+                                renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
+                            }
+                        <?php else : ?>
+                            renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
+                        <?php endif; ?>
+
                         <?php if ($isCurUserAdmin) : ?>
-                            renderdata += '<a href="patient_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                            renderdata += '<a href="patient_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
                         <?php endif; ?>
 
                         return renderdata;
@@ -157,9 +168,77 @@ require 'user_auth.php';
                 },
                 {
                     "render": function(data, type, row) {
-                        return '<a href="patient_edit.php?id=' + row[0] + '">' + data + '</a>';
+                        var renderdata = '';
+
+                        <?php if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') : ?>
+                            if (row[9] == "ยังไม่ออกผล") {
+                                renderdata += '<p class="btn btn-secondary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i>PDF</p>';
+                            } else {
+                                renderdata += '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                            }
+                        <?php else : ?>
+                            renderdata += '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                        <?php endif; ?>
+
+                        return renderdata;
+                    },
+                    "targets": 11
+                },
+                {
+                    "render": function(data, type, row) {
+
+
+                        <?php if (($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100')) : ?>
+                            if (row[9] == "ยังไม่ออกผล") {
+                                var data = '<div><h5>' + data;
+                            } else {
+                                var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '" target="_blank">' + data + '</a>';
+                            }
+                        <?php else : ?>
+                            var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '" target="_blank">' + data + '</a>';
+                        <?php endif; ?>
+
+
+                        if (row[10] == "ด่วน") {
+                            data += ' <span class="badge bg-danger">' + row[10] + '</span>';
+                        }
+                        data += '</h5></div>';
+
+                        if (row[8] == "รับเข้า" || row[8] == "วางแผนงาน") {
+                            data += '<span class="badge bg-dark">' + row[8] + '</span>';
+                        } else if (row[8] == "วินิจฉัย(อ่านไสลด์)") {
+                            data += '<span class="badge bg-secondary">' + row[8] + '</span>';
+                        } else if (row[8] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[8] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
+                            data += '<span class="badge bg-info text-dark">' + row[8] + '</span>';
+                        } else if (row[8] == "เสร็จสิ้น") {
+                            data += '<span class="badge bg-success">' + row[8] + '</span>';
+                        } else {
+                            data += '<span class="badge bg-secondary">' + row[8] + '</span>';
+                        }
+                        return data;
                     },
                     "targets": 1
+                },
+                {
+                    "render": function(data, type, row) {
+                        if (row[9] == "ยังไม่ออกผล") {
+                            data = '<h5><span class="badge bg-secondary">' + row[9] + '</span></h5>';
+                        } else if (row[9] == "ออกผลเบื้องต้น") {
+                            data = '<h5><span class="badge bg-info text-dark">' + row[9] + '</span></h5>';
+                        } else if (row[9] == "ออกผลแล้ว") {
+                            data = '<h5><span class="badge bg-success">' + row[9] + '</span></h5>';
+                        } else {
+                            data = '<h5><span class="badge bg-secondary">' + row[9] + '</span></h5>';
+                        }
+                        return data;
+                    },
+                    "targets": 9
+                },
+                {
+                    "render": function(data, type, row) {
+                        return row[2] + '<br>' + row[3];
+                    },
+                    "targets": 2
                 },
                 {
                     responsivePriority: 1,
@@ -176,6 +255,10 @@ require 'user_auth.php';
                 {
                     responsivePriority: 10001,
                     targets: 0
+                },
+                {
+                    visible: false,
+                    targets: [0, 3, 8, 10]
                 },
             ],
             "initComplete": colorAdd,
