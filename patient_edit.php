@@ -984,7 +984,7 @@ if (isset($curstatus[0]['next3'])) {
     <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+            <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ""; // ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
             <?php require 'includes/patient_form_030_job1_prepare_specimen.php'; ?>
             <?php require 'includes/patient_form_035_job2_prepare_specimen.php'; ?>
         </div>
@@ -993,7 +993,7 @@ if (isset($curstatus[0]['next3'])) {
     <div id="slide_prep_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>เตรียมสไลด์</b><span style="color:orange;"><?= ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+            <h4 align="center"><b>เตรียมสไลด์(จุลพยาธิวิทยา)</b><span style="color:orange;"><?= "";// ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
             <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
         </div>
     </div>
@@ -1001,7 +1001,7 @@ if (isset($curstatus[0]['next3'])) {
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>แลปเซลล์วิทยา</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+            <h4 align="center"><b>จ้างทำแลปเซลล์วิทยา</b><span style="color:orange;"><?=  "";// ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
             <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
         </div>
     </div>
@@ -1010,13 +1010,17 @@ if (isset($curstatus[0]['next3'])) {
 <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
     <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
         <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
         <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
         
         <hr>
         <form id="slide_prep" name="" method="post">
 
+        <div align=""  class="mb-3">
+        <label for="p_sp_patho_comment">Comment</label><br>
+        <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+        </div>
             <?php if ($isEditModePageOn) : ?>
                 <?php if ($isEditModePageForSpSlidePrepDataOn) : ?>
                     <button name="save_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
