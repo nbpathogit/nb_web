@@ -926,10 +926,13 @@ if (isset($curstatus[0]['next3'])) {
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</b><span style="color:orange;"><?= ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
+            <h4 align="center"><b>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</b><span style="color:orange;"> <?= "";// ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
+                <?php if ($hide) : ?>
                 <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
                     <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
                 <?php endif; ?>
+                <?php endif; ?>
+                    
             </h4>
             
             <?php if (false) : ?>
