@@ -147,6 +147,7 @@ require 'includes/header.php'; ?>
                         html += "<br><b>Specimen id:</b> " + row[1];
                         html += "<br><b>Slide type:</b> " + row[6];
                         html += "<br><b>Code description:</b> " + row[7];
+                        html += "<br><b>Cost:</b> " + row[15];
                         html += "<br><b>Comment:</b> " + row[16];
                         return html;
                     },

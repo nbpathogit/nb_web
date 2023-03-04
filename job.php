@@ -112,7 +112,9 @@ require 'includes/header.php'; ?>
             }, ],
             columnDefs: [{
                     "render": function(data, type, row) {
-                        return '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '" target=”_blank”>' + row[3] + '</a><br><b>Name: </b>' + row[5] + " " + row[6] + " " + row[7] + "<br>" + "<b>Job: </b>" + row[8];
+                        html = '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '" target="_blank">' + row[3] + '</a><br><b>Name: </b>' + row[5] + " " + row[6] + " " + row[7] + "<br>" + "<b>Job: </b>" + row[8];
+                        html += '<br><a href="job_edit.php?id=' + row[0] + '" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
+                        return html
                     },
                     "targets": 3
                 },
@@ -165,7 +167,7 @@ require 'includes/header.php'; ?>
             var encodedUri = encodeURIComponent("\uFEFF" + csvContent);
             var link = document.createElement("a");
             link.setAttribute('href', 'data:text/csv; charset=utf-8,' + encodedUri);
-            link.setAttribute("download", "jobdata_" + rawdata[rawdata.length-1][13] + "_to_" + rawdata[0][13] + ".csv");
+            link.setAttribute("download", "jobdata_" + rawdata[rawdata.length - 1][13] + "_to_" + rawdata[0][13] + ".csv");
             document.body.appendChild(link);
             link.click();
         });

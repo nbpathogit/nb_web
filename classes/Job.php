@@ -105,6 +105,17 @@ class Job
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getByID($conn, $id = 0)
+    {
+        $sql = "SELECT * FROM `job` ";
+
+        $sql = $sql . " WHERE id=$id;";
+        
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     //คนตัดเนื้อ
     public static function getCrossSection($conn, $patient_id = 0)
     {
@@ -173,6 +184,25 @@ class Job
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function update($conn)
+    {
+
+        $sql = "UPDATE job
+                    SET jobname = :jobname,
+                        pay =:pay,
+                        cost_count_per_day =:cost_count_per_day
+                    WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':jobname', $this->jobname, PDO::PARAM_STR);
+        $stmt->bindValue(':pay', $this->pay, PDO::PARAM_STR);
+        $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
