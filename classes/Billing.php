@@ -130,4 +130,32 @@ class Billing {
         return $stmt->execute();
     }
 
+    public function update($conn)
+    {
+
+        $sql = "UPDATE billing
+                    SET cost = :cost,
+                        description =:description,
+                    WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':description', $this->description, PDO::PARAM_STR);
+        $stmt->bindValue(':cost', $this->cost, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public static function getByID($conn, $id = 0)
+    {
+        $sql = "SELECT * FROM `billing` ";
+
+        $sql = $sql . " WHERE id=$id;";
+        
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

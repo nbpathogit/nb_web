@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h4>แก้ไข Job</h4>
 
         <form class="row g-2" method="post">
-            <input type="hidden" id="id" name="custId" value="<?= $job['id'] ?>">
+            <input type="hidden" id="id" name="custId" value="<?= $job[0]['id'] ?>">
             <div class="col-xl-4 col-md-12">
                 <label class="form-label" for="jobname">Job name</label>
                 <input class="form-control" type="text" id="jobname" name="jobname" value="<?= htmlspecialchars($job[0]["jobname"]); ?>">

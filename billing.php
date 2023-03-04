@@ -115,7 +115,9 @@ require 'includes/header.php'; ?>
             }, ],
             columnDefs: [{
                     "render": function(data, type, row) {
-                        return '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '" target=”_blank”>' + row[3] + '</a><br><b>Name: </b>' + row[4] + " " + row[5] + "<br><b>Description: </b><mute>" + row[8] + "</mute>";
+                        let html = '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '" target=”_blank”>' + row[3] + '</a><br><b>Name: </b>' + row[4] + " " + row[5] + "<br><b>Description: </b><mute>" + row[8] + "</mute>";
+                        html += '<br><a href="billing_edit.php?id=' + row[0] + '" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
+                        return html;
                     },
                     "targets": 3
                 },

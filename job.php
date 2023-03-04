@@ -112,7 +112,7 @@ require 'includes/header.php'; ?>
             }, ],
             columnDefs: [{
                     "render": function(data, type, row) {
-                        html = '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '" target="_blank">' + row[3] + '</a><br><b>Name: </b>' + row[5] + " " + row[6] + " " + row[7] + "<br>" + "<b>Job: </b>" + row[8];
+                        let html = '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '" target="_blank">' + row[3] + '</a><br><b>Name: </b>' + row[5] + " " + row[6] + " " + row[7] + "<br>" + "<b>Job: </b>" + row[8];
                         html += '<br><a href="job_edit.php?id=' + row[0] + '" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
                         return html
                     },
