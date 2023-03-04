@@ -1,3 +1,6 @@
+var is_diag_editeing_mode = false;
+
+
 //Save text result by id
 function save_txt_rs(rs_id){
 
@@ -60,7 +63,8 @@ function save_txt_rs(rs_id){
     
     
     $(txt_rs_id).prop('readonly', true);
-    alert("finish.");
+    //alert("finish.");
+    is_diag_editeing_mode = false;
     
 }
 
@@ -76,7 +80,7 @@ function edit_txt_rs(rs_id){
     var txt_rs_id = "#txt_rs_"+rs_id;
     $(txt_rs_id).prop('readonly', false);
 
-    
+    is_diag_editeing_mode = true;
 }
 
 
@@ -109,6 +113,7 @@ $("#add_u_result").on("click", function () {
 //                $resultreport->result_type = $_POST['result_type'];
 //                $resultreport->result_type_id = $_POST['result_type_id'];
     // Write data2DOM
+    // as the lastest result is here
     var str = ''+
     '<ul class="uresultReleaseType2" style="display: none;">'+
     '        <li tabindex="'+release_type+'">uresult::prsu["release_type"]::'+release_type+'</li>'+
@@ -286,7 +291,7 @@ function append2page(data) {
 //        $('#owner_job6').append(str2);
 //        $('#owner_job6a').append(str2);
 //        $('#owner_job6b').append(str2);
-        alert("done");
+        //alert("done");
     }
 
 }

@@ -29,7 +29,7 @@
         <!--</div>-->
         <!--<div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">-->
         <div>
-            <button name="add_u_result" id="add_u_result" type="submit" class="btn btn-primary">&nbsp;ADD&nbsp;&nbsp;</button>
+            <button name="add_u_result" id="add_u_result" type="submit" class="btn btn-primary" data-bs-dismiss="modal">&nbsp;ADD&nbsp;&nbsp;</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
         <!--</div>-->

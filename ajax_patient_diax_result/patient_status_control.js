@@ -1,3 +1,5 @@
+/* global is_diag_editeing_mode */
+
 function showFollowStatus(status) {
     if (status == 'lump') {
 
@@ -522,6 +524,13 @@ function addAction2Flow() {
     });
     $("#move20000,#btnagreeto20000,#btn_release").on("click", function (e) {
         e.preventDefault();
+        
+        if (is_diag_editeing_mode) {
+            alert("Result data need to save first!");
+            return;
+        }
+
+        
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
@@ -658,6 +667,7 @@ function addAction2Flow() {
             frm.append('<input type="hidden" name="uresultTypeName" value="' + $(this).attr('tabindex') + '" /> ');
         });
         frm.append('<input type="hidden" name="reported_as" value="' + reported_as + '" /> ');
+        frm.append('<input type="hidden" name="pautoscroll" value="finish_section" /> ');
         frm.appendTo("body");
         frm.submit();
     });
