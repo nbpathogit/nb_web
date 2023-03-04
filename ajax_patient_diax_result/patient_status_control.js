@@ -552,6 +552,8 @@ function addAction2Flow() {
             reported_as = $(this).attr('tabindex');
         });
         
+        //alert("reported_as"+reported_as);
+        
         var isset_second_patho = '0';
         $('.uresultSecondPatho li').each(function (index) {
             isset_second_patho = $(this).attr('tabindex');
@@ -625,27 +627,27 @@ function addAction2Flow() {
 
 
 
+        if (cur_status == "13000") {
+            //set second_patho_review = 2
+            $.ajax({
+                type: 'POST',
+                // make sure you respect the same origin policy with this url:
+                // http://en.wikipedia.org/wiki/Same_origin_policy
+                url: '/ajax_patient_diax_result/set_second_patho_review.php',
+                data: {
+                    'patient_id': cur_patient_id,
+                    'second_patho_review': 2,
+                },
+                success: function (data) {
+                    console.log(data);
+                    //alert(data);
 
-        //set second_patho_review = 2
-        $.ajax({
-            type: 'POST',
-            // make sure you respect the same origin policy with this url:
-            // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_patient_diax_result/set_second_patho_review.php',
-            data: {
-                'patient_id': cur_patient_id,
-                'second_patho_review': 2,
-            },
-            success: function (data) {
-                console.log(data);
-                //alert(data);
-
-            },
-            error: function (jqxhr, status, exception) {
-                alert('Exception:', exception);
-            }
-        });
-        
+                },
+                error: function (jqxhr, status, exception) {
+                    alert('Exception:', exception);
+                }
+            });
+        }
 
         var frm = $("<form>");
         frm.attr('method', 'post');

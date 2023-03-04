@@ -14,22 +14,8 @@
 </style>
 
 
-
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
-    <span><b>Specimen:</b></span><br>
-    <p_rs_specimen>
+    <b><result_type>:</b><br>
+    <result_message>
+        <span style="font-size: 12pt;"><b><confirm_message></b></span>
 </div>
-<div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
-    <span><b>Clinical Dianosis:</b></span><br>
-    <p_rs_clinical_diag>
-</div>
-<div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
-    <span><b>Gross Description:</b></span><br>
-    <p_rs_gross_desc>
-</div>
-<div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
-    <span><b>Microscopic Description:</b></span><br>
-    <p_rs_microscopic_desc>
-</div>
-
-
