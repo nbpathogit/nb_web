@@ -114,14 +114,17 @@ $("#add_u_result").on("click", function () {
 //                $resultreport->result_type_id = $_POST['result_type_id'];
     // Write data2DOM
     // as the lastest result is here
-    var str = ''+
-    '<ul class="uresultReleaseType2" style="display: none;">'+
-    '        <li tabindex="'+release_type+'">uresult::prsu["release_type"]::'+release_type+'</li>'+
-    '</ul>';
-    $("#data2DOM").append(str);
+    //<?php //List of release_type ยังไม่ออกผล/ออกผลแล้ว/ออกผลเบื้องต้น ?>
+//    var str = ''+
+//    '<ul class="uresultReleaseType2" style="display: none;">'+
+//    '        <li tabindex="'+release_type+'">uresult::prsu["release_type"]::'+release_type+'</li>'+
+//    '</ul>';
+//    $("#data2DOM").append(str);
     
+    var str = '<li tabindex="'+release_type+'">uresultReleaseType::prsu["release_type"]::'+release_type+'</li>';
+    $(".uresultReleaseType2").append(str);
     
-    
+
     //btn_release
     $("#btn_release").prop('disabled', false);
 
@@ -156,6 +159,8 @@ $("#add_u_result").on("click", function () {
 
     });
     
+    
+    
 });
 
 
@@ -165,16 +170,18 @@ $("#critical_report").on("click", function (e) {
 
     if ($("#critical_report").prop("checked"))
     {
-        alert('checked');
+        
         // set critical flag true here
         //$patient[0]['iscritical'] = true;
         set_criticalreport('1');
+        alert('checked');
     } else
     {
-        alert('Un checked');
+        
         // set critical flag false here
         //$patient[0]['iscritical'] = false;
         set_criticalreport('0');
+        alert('Un checked');
     }
 
 });
@@ -202,7 +209,7 @@ function set_criticalreport(flag){
             }
         }
     });
-    alert("finish.");
+    //alert("finish.");
     
 }
 
@@ -285,6 +292,10 @@ function append2page(data) {
         $('#result_list_display').append(str);
       
         
+        
+        
+          var str = '<li tabindex="'+datajson[i].id+'">uresultinxlist::prsu["id"]::'+datajson[i].id+'</li>';
+          $(".uresultinxlist2").append(str);
 //        $('#table_body_job6 tbody').append(str);
         
 //        var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';

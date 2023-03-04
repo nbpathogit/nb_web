@@ -73,6 +73,51 @@ class Presultupdate {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public static function getAllofGroup1Asc($conn, $patient_id = 0) {
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
+
+        if ($patient_id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
+        }
+        //group_type
+        $sql = $sql . " AND group_type = 1 ";
+        $sql = $sql . " ORDER BY id ASC";
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAllofGroup1Desc($conn, $patient_id = 0) {
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
+
+        if ($patient_id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
+        }
+        //group_type
+        $sql = $sql . " AND group_type = 1 ";
+        $sql = $sql . " ORDER BY id DESC";
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAllofGroup2Desc($conn, $patient_id = 0) {
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
+
+        if ($patient_id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
+        }
+        //group_type
+        $sql = $sql . " AND group_type = 2 ";
+        $sql = $sql . " ORDER BY id DESC";
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
         
     public static function getAllofGroup2($conn, $patient_id = 0) {
         $sql = "SELECT * ".
@@ -87,6 +132,7 @@ class Presultupdate {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     
     public static function getByID($conn, $id = 0) {
         $sql = "SELECT * ".

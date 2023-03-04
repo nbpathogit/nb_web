@@ -29,8 +29,10 @@ function repaintTbljob5(data) {
 
     // clear all data in table befor show new retrived record
     $('#table_body_job5 tbody tr').remove();
-    $('#owner_job5 span').remove();
-    $('#owner_job5a span').remove();
+//    $('#owner_job5 span').remove();
+//    $('#owner_job5a span').remove();
+    $('.owner_job5').remove();
+    
     // Show new retrived record
     for (var i in datajson)
     {
@@ -64,8 +66,9 @@ function repaintTbljob5(data) {
         $('#table_body_job5 tbody').append(str);
         
         var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';
-        $('#owner_job5').append(str2);
-        $('#owner_job5a').append(str2);
+//        $('#owner_job5').append(str2);
+//        $('#owner_job5a').append(str2);
+        $('.owner_job5').append(str2);
     }
 
 }

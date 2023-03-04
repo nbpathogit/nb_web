@@ -56,7 +56,7 @@ $isBorder = false;
 <p align="left">
     
     <b>แพทย์ผู้ออกผล:</b>
-    <span id="owner_job5" style="font-size:20px">
+    <span id="owner_job5" class="owner_job5" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>

@@ -6,8 +6,10 @@ Auth::requireLogin();
 <?php
 $conn = require 'includes/db.php';
 
-// true = Disable Edit page, false canEditPage
-$isEditModePageOn = false;
+$isPreviewMode = false;
+if(isset($_GET['preview'])){
+$isPreviewMode = true;
+}
 
 // show/hide table for see layout
 if(isset($_GET['layout'])){
@@ -59,7 +61,8 @@ if (!$patient) {
 //var_dump($userPathos);
 //die();
 //Get one by id
-    $presultupdates = Presultupdate::getAllDesc($conn, $_GET['id']);
+    $presultupdate1s = Presultupdate::getAllofGroup1Asc($conn, $_GET['id']);
+    $presultupdate2s = Presultupdate::getAllofGroup2Desc($conn, $_GET['id']);
 //var_dump($patient[0]['pclinician_id']);
 
     $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
@@ -267,10 +270,56 @@ if (!$patient) {
     $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
     $mpdf->SetHTMLFooter($footer);
 
-    if (isset($presultupdates)) {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    if (isset($presultupdate2s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
-        foreach ($presultupdates as $prsu) {
+        foreach ($presultupdate2s as $prsu) {
             $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_2.php');
+            if ($hideTable) {
+                $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
+            }
+            $u_result2 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2);
+            $u_result2 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2);
+            $result_message = htmlspecialchars($prsu['result_message']);
+            $result_message = str_replace("\n", "<br>", $result_message);
+            $result_message = str_replace(" ", "&nbsp;", $result_message);
+            $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result2);
+//            if ($prsu['pathologist2_id'] != 0) {
+            if (true) {
+                $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
+                $secondPatho = User::getByID($conn, $prsu['pathologist2_id']);
+                $confirm_msg = $confirm_msg . "(" . $secondPatho->name_e . " " . $secondPatho->lastname_e . ")";
+//            var_dump($confirm_msg);
+//            die();
+                $u_result2 = str_replace("<confirm_message>", $confirm_msg, $u_result2);
+            } else {
+                $u_result2 = str_replace("<confirm_message>", "", $u_result2);
+            }
+
+            $mpdf->WriteHTML($u_result2);
+        }
+    } else {
+        
+    }
+
+
+    
+    
+    
+    
+    
+    if (isset($presultupdate1s)) {
+//    <?php foreach ($presultupdates as $presultupdate): 
+        foreach ($presultupdate1s as $prsu) {
+            $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
             if ($hideTable) {
                 $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
             }
@@ -296,32 +345,36 @@ if (!$patient) {
     } else {
         
     }
+    
+    
+    
+    
+    
+    
 
-
-
-    $u_result1 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
-    if ($hideTable) {
-        $u_result1 = str_replace("border: 1px solid green;", "", $u_result1);
-    }
-
-    $p_rs_specimen = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_specimen']));
-    $p_rs_specimen = str_replace(" ", "&nbsp;", $p_rs_specimen);
-    $u_result1 = str_replace("<p_rs_specimen>", $p_rs_specimen, $u_result1);
-
-    $p_rs_gross_desc = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_gross_desc']));
-    $p_rs_gross_desc = str_replace(" ", "&nbsp;", $p_rs_gross_desc);
-    $u_result1 = str_replace("<p_rs_gross_desc>", $p_rs_gross_desc, $u_result1);
-
-    $p_rs_microscopic_desc = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_microscopic_desc']));
-    $p_rs_microscopic_desc = str_replace(" ", "&nbsp;", $p_rs_microscopic_desc);
-    $u_result1 = str_replace("<p_rs_microscopic_desc>", $p_rs_microscopic_desc, $u_result1);
-
-    $p_rs_clinical_diag = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_clinical_diag']));
-    $p_rs_clinical_diag = str_replace(" ", "&nbsp;", $p_rs_clinical_diag);
-    $u_result1 = str_replace("<p_rs_clinical_diag>", $p_rs_clinical_diag, $u_result1);
-
-
-    $mpdf->WriteHTML($u_result1);
+//    $u_result1 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
+//    if ($hideTable) {
+//        $u_result1 = str_replace("border: 1px solid green;", "", $u_result1);
+//    }
+//
+//    $p_rs_specimen = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_specimen']));
+//    $p_rs_specimen = str_replace(" ", "&nbsp;", $p_rs_specimen);
+//    $u_result1 = str_replace("<p_rs_specimen>", $p_rs_specimen, $u_result1);
+//
+//    $p_rs_gross_desc = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_gross_desc']));
+//    $p_rs_gross_desc = str_replace(" ", "&nbsp;", $p_rs_gross_desc);
+//    $u_result1 = str_replace("<p_rs_gross_desc>", $p_rs_gross_desc, $u_result1);
+//
+//    $p_rs_microscopic_desc = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_microscopic_desc']));
+//    $p_rs_microscopic_desc = str_replace(" ", "&nbsp;", $p_rs_microscopic_desc);
+//    $u_result1 = str_replace("<p_rs_microscopic_desc>", $p_rs_microscopic_desc, $u_result1);
+//
+//    $p_rs_clinical_diag = str_replace("\n", "<br>", htmlspecialchars($patient[0]['p_rs_clinical_diag']));
+//    $p_rs_clinical_diag = str_replace(" ", "&nbsp;", $p_rs_clinical_diag);
+//    $u_result1 = str_replace("<p_rs_clinical_diag>", $p_rs_clinical_diag, $u_result1);
+//
+//
+//    $mpdf->WriteHTML($u_result1);
 
 
     $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');

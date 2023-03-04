@@ -19,3 +19,4 @@
     <result_message>
         <span style="font-size: 12pt;"><b><confirm_message></b></span>
 </div>
+<br>
