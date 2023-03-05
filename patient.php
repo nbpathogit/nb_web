@@ -57,8 +57,12 @@ require 'user_auth.php';
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-var skey ="<?= $_SESSION['skey']; ?>";
-var ugroup_id = <?= $_SESSION['user']->ugroup_id?>;
-var isCurUserAdmin = <?= $isCurUserAdmin?>;
+    var skey = "<?= $_SESSION['skey']; ?>";
+    var ugroup_id = <?= $_SESSION['user']->ugroup_id ?>;
+    <?php if (isset($isCurUserAdmin)) : ?>
+        var isCurUserAdmin = 1;
+    <?php else : ?>
+        var isCurUserAdmin = 0;
+    <?php endif; ?>
 </script>
 <script type="text/javascript" src="js/patient.js"></script>
