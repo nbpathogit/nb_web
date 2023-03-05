@@ -3,7 +3,7 @@ $isBorder = false;
 $isSetShowaddResultButton = true;
 ?>
 <?php if ($isCurrentPathoIsOwnerThisCase) : ?>
-    <p align="center" > คุณคือผู้ออกผลของผู้ป่วยท่านนี้  </p>
+    <p align="center" > <span id="owner_job5a" class="owner_job5" style="font-size:20px"><span class="badge rounded-pill bg-secondary" id="">NA</span> </span> คุณคือผู้ออกผลของผู้ป่วยท่านนี้  </p>
 <?php else : ?>
     <p align="center" style="color: firebrick">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
 <?php endif; ?>
@@ -23,7 +23,7 @@ $isSetShowaddResultButton = true;
         $is_show_save_btn = false;
         $is_show_template_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
         ?>
-        <hr>
+        <hr style="height:1px;border-width:0;color:black;background-color:black;">
         <div class="row <?= $isBorder ? "border" : "" ?>">
 
             <div class="col-6 <?= $isBorder ? "border" : "" ?>">
@@ -34,30 +34,30 @@ $isSetShowaddResultButton = true;
             </div>
 
             <?php // if last result id ?>
-            <?php if(!$isCurResultReleased && true): ?>
+            <?php if( $presultupdate['group_type']== 2 ): ?>
             <div class="col-6 <?= $isBorder ? "border" : "" ?>">
                 <b>พยาธิแพทย์คอนเฟิร์มผล:</b>
                 <span id="owner_job6_<?= $presultupdate['id']?>" class="owner_job6_<?= $presultupdate['id']?>" style="font-size:20px">
                     <span class="badge rounded-pill bg-primary" id="">Data not update</span>
-                </span>  
-                <?php
+                </span> 
+                <?php if(!$isCurResultReleased && true): ?>
+                    <?php
 
-                    $is_show_add_btn = $isCurrentPathoIsOwnerThisCase;
-                    $is_show_refresh_btn = $isCurrentPathoIsOwnerThisCase;
-                    $is_show_detail_btn = $isCurrentPathoIsOwnerThisCase;
-                ?>
-                <a class="btn btn-outline-primary btn-sm me-1 " onclick="add_job6(<?= $presultupdate['id']?>)" id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
-                 <a class="btn btn-outline-primary btn-sm me-1 " onclick="refresh_job6(<?= $patient[0]['id']?>,<?= $presultupdate['id']?>)"  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
-                 <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="View/Detail" ><i class="fa-solid fa-table"></i></a>
+                        $is_show_add_btn = $isCurrentPathoIsOwnerThisCase;
+                        $is_show_refresh_btn = $isCurrentPathoIsOwnerThisCase;
+                        $is_show_detail_btn = $isCurrentPathoIsOwnerThisCase;
+                    ?>
+                    <a class="btn btn-outline-primary btn-sm me-1 " onclick="add_job6(<?= $presultupdate['id']?>)" id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+                     <a class="btn btn-outline-primary btn-sm me-1 " onclick="refresh_job6(<?= $patient[0]['id']?>,<?= $presultupdate['id']?>)"  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
+                     <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="View/Detail" ><i class="fa-solid fa-table"></i></a>
 
-                 <?php //var_dump(Url::currentURL()); ?>
-                 <?php //var_dump($_SERVER['DOCUMENT_ROOT']); ?>
+                     <?php //var_dump(Url::currentURL()); ?>
+                     <?php //var_dump($_SERVER['DOCUMENT_ROOT']); ?>
 
-                 <?php require 'patient_from_080_job6__tbl_modal.php';      ?>
-                 <?php require 'patient_from_080_job6__select_modal.php';      ?>
-
+                     <?php require 'patient_from_080_job6__tbl_modal.php';      ?>
+                     <?php require 'patient_from_080_job6__select_modal.php';      ?>
+                 <?php endif;?>
             </div>
-
             <?php endif; ?>
 
             <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
@@ -65,6 +65,7 @@ $isSetShowaddResultButton = true;
         </div>
 
         <?php // Second patho review section ?>
+        
         <?php if(!$isCurResultReleased && true): ?>
 
             <?php if ($curstatusid == "13000") :  ?><?php endif; ?>
@@ -140,7 +141,7 @@ $isSetShowaddResultButton = true;
 <?php $isShow_btnmove12000 = $curstatusid != "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
 <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isShow_btnmove12000 ? '' : 'disabled'; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
 <?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
-<button class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มส่วนของการรีพอร์ท">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
+<button class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มกล่องข้อความรายงานผลใหม่">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
 
     
 
@@ -153,7 +154,8 @@ $isSetShowaddResultButton = true;
 <!--<button name="edit_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>-->
   <?php
     $isShowSendToReviewbtn = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
-        && $isSecondPathoDefined                             //If Second Patho is select 
+        && $isLastReleaseGroup2SecondPathoAval                         //If Second Patho is select in last release group
+        && $isLastedResultReleaseDateNULL                  //If Last report message block still not released
         && $curstatus[0]['id'] == 12000;                     //and Status == 12000
     $isShow_btn_release = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
         && $curstatus[0]['id'] == 12000
