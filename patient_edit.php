@@ -1158,14 +1158,14 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_job3_prep_slide/job3.js?v2"></script>
 <script src="/ajax_job4_prep_sp_slide/job4.js?v2"></script>
 <script src="/ajax_job5_patho/job5.js?v2"></script>
-<script src="/ajax_job6_patho/job6.js?v3xxxxxxxxxxxxxxxxx"></script>
+<script src="/ajax_job6_patho/job6.js?v4"></script>
 
-<script src="/ajax_read_dom/readdom.js?v0xx"></script>
+<script src="/ajax_read_dom/readdom.js?v1"></script>
 
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
-<script src="/ajax_patient_diax_result/diagresult.js?v6xxxxxxxxxxxxxxx"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v3xxxxxxxxxx"></script>
+<script src="/ajax_patient_diax_result/diagresult.js?v7"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v4"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

@@ -535,10 +535,10 @@ function addAction2Flow() {
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
         var isCurrentPathoIsSecondOwneThisCaseLastest = $(".isCurrentPathoIsSecondOwneThisCaseLastest").attr('tabindex');
-        var cur_patient_id = cur_patient_id();
+        var cur_patient_id = get_cur_patient_id();
 
         //Uresult index id lastest
-        var uresultid = read_lastest_uresultid();
+        var uresultid = get_lastest_uresultid();
 
 
         //Pathological Diagnosis,Provisional Diagnosis, Specimen , Clinical Diagnosis , Gross Description , Microscopic Description
