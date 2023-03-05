@@ -244,8 +244,10 @@ if (!$patient) {
         ],
             ]
     );
-
+    
+    $mpdf->SetDisplayMode('fullwidth');
     $mpdf->shrink_tables_to_fit = 1;
+    
 
     $header = file_get_contents('pdf_result/patient_format_header_pdf.php');
     if ($hideTable) {
@@ -379,7 +381,7 @@ if (!$patient) {
 
     $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');
     $signature = $signature.file_get_contents('pdf_result/patient_format_signature_pdf_1.php');
-    if($patient[0][iscritical] == 1){
+    if($patient[0]['iscritical'] == 1){
          $signature = $signature.file_get_contents('pdf_result/patient_format_signature_pdf_2.php');
     }
     $signature = $signature.file_get_contents('pdf_result/patient_format_signature_pdf_3.php');
@@ -390,6 +392,7 @@ if (!$patient) {
     $mpdf->WriteHTML($signature);
 
 //die();
+    
     $mpdf->Output();
     ?>
 

@@ -235,7 +235,7 @@ function add_job_list6(result_id){
         },
         success: function (data) {
             console.log(data);
-            alert(data);
+            //alert(data);
             repaintTbljob6(data,result_id);
             //$("#btn2review13000").hide();
 //            $("#btn2review13000").show();

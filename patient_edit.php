@@ -698,10 +698,10 @@ foreach($presultupdate2s as $prsu){
     $isLastReleaseGroup2SecondPathoAval = isset($job[0]['name'])? TRUE : FALSE;
     
     
-    echo "result_id=";    var_dump($result_id); echo "<br>";
-    echo "patient_id=";   var_dump($patient_id); echo "<br>";
-    echo "job=";          var_dump($job); echo "<br>";
-    echo "isLastReleaseGroup2SecondPathoAval=";          var_dump($isLastReleaseGroup2SecondPathoAval); echo "<br>";echo "<br>";
+//    echo "result_id=";    var_dump($result_id); echo "<br>";
+//    echo "patient_id=";   var_dump($patient_id); echo "<br>";
+//    echo "job=";          var_dump($job); echo "<br>";
+//    echo "isLastReleaseGroup2SecondPathoAval=";          var_dump($isLastReleaseGroup2SecondPathoAval); echo "<br>";echo "<br>";
 
 }
 //die();
@@ -1200,7 +1200,7 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_job3_prep_slide/job3.js?v2"></script>
 <script src="/ajax_job4_prep_sp_slide/job4.js?v2"></script>
 <script src="/ajax_job5_patho/job5.js?v3"></script>
-<script src="/ajax_job6_patho/job6.js?v5"></script>
+<script src="/ajax_job6_patho/job6.js?v5x"></script>
 
 <script src="/ajax_read_dom/readdom.js?v1"></script>
 

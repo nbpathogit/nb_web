@@ -66,7 +66,7 @@ $isSetShowaddResultButton = true;
 
         <?php // Second patho review section ?>
         
-        <?php if(!$isCurResultReleased && true): ?>
+        <?php if(!$isCurResultReleased && $presultupdate['group_type']== 2): ?>
 
             <?php if ($curstatusid == "13000") :  ?><?php endif; ?>
             <hr>
