@@ -31,7 +31,7 @@ function repaintTbljob5(data) {
     $('#table_body_job5 tbody tr').remove();
 //    $('#owner_job5 span').remove();
 //    $('#owner_job5a span').remove();
-    $('.owner_job5').remove();
+    $('.owner_job5 span').remove();
     
     // Show new retrived record
     for (var i in datajson)

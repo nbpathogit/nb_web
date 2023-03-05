@@ -18,12 +18,35 @@
     <li class="isSecondPathoDefined" tabindex="<?= $isSecondPathoDefined?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >$isSecondPathoDefined::<?= $isSecondPathoDefined?"true":"false"; ?> </li>
 <?php endif; ?>
         
-<?php //List of index result ?>
+<?php //List of index result (all) ?>
 <ul class="uresultinxlist" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
-    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+    <?php foreach ($presultupdates as $prsu): // record uresultid to DOM f?>
         <li tabindex="<?= $prsu['id'] ?>">uresultinxlist::prsu['id']::<?= $prsu['id'] ?></li>
     <?php endforeach; ?> 
 </ul>
+  
+    
+<!--$presultupdate1s-->
+<?php //List of index result (group1) ?>
+<ul class="uresultinxlist1" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdate1s as $prsu1): // record uresultid to DOM ?>
+        <li tabindex="<?= $prsu1['id'] ?>">uresultinxlist1::prsu1['id']::<?= $prsu1['id'] ?></li>
+    <?php endforeach; ?> 
+</ul>     
+
+    
+<!--$presultupdate2s-->
+<?php //List of index result (group2) ?>
+<ul class="uresultinxlist2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdate2s as $prsu2): // record uresultid to DOM ?>
+        <li tabindex="<?= $prsu2['id'] ?>">uresultinxlist2::prsu2['id']::<?= $prsu2['id'] ?></li>
+    <?php endforeach; ?> 
+</ul> 
+
+<?php //isLastReleaseGroup2SecondPathoAval?>   
+<li class="isLastReleaseGroup2SecondPathoAval" tabindex="<?= $isLastReleaseGroup2SecondPathoAval; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$isLastReleaseGroup2SecondPathoAval::<?= $isLastReleaseGroup2SecondPathoAval; ?> </li>
+
+    
     
 <?php //List of index result ?>
 <ul class="uresultinxlist2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
@@ -31,8 +54,10 @@
 </ul>
 
 <?php //List of time result ?>
+<?php $isLastedResultReleaseDateNULL = FALSE; ?>
 <ul class="uresultReleaseSetlist" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+         <?php $isLastedResultReleaseDateNULL = isset($prsu['release_time']) ? FALSE : TRUE ; ?>
         <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist::prsu['release_time']::<?= $prsu['release_time'] ?></li>
     <?php endforeach; ?> 
 </ul> 
@@ -41,7 +66,7 @@
 <?php $isLastReleaseGroup2DateNull = "blank"; ?>
 <ul class="uresultReleaseSetlistGroup2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdate2s as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist::prsu['release_time']::<?= $prsu['release_time'] ?></li>
+        <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist2::prsu['release_time']::<?= $prsu['release_time'] ?></li>
         <?php $isLastReleaseGroup2DateNull = $prsu['release_time']; ?>
     <?php endforeach; ?> 
 </ul> 
@@ -126,6 +151,7 @@
 
 <?php //    $patient[0]['pclinician_id']?>   
 <li class="cur_pclinician_id" tabindex="<?= $patient[0]['pclinician_id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pclinician_id']::<?= $patient[0]['pclinician_id'] ?> </li>
+
 
 
 

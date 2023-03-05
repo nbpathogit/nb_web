@@ -3,14 +3,13 @@
 //refreshTblJob6(true,patient_id,result_id);
 function refreshTblJob6(isAlert,patient_id,result_id) {
     //alert("start ajax");
-    var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+  
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
         url: "/ajax_job6_patho/getJob6.php",
         data: {
-            
-            cur_patient_id: cur_patient_id,
+         
             patient_id: patient_id,
             result_id: result_id,
         
@@ -24,6 +23,57 @@ function refreshTblJob6(isAlert,patient_id,result_id) {
         }
     });
 
+}
+
+
+function updateSecondPathoEditPage(isAlert,patient_id) {
+    $('.uresultinxlist2 li').each(function (index) {
+        var result_id2 = $(this).attr('tabindex');
+        //alert("result_id2 = "+result_id2);
+        
+        var isDataAval = true;
+        $.ajax({
+            type: 'POST',
+            url: "/ajax_job6_patho/getJob6.php",
+            data: {
+
+                patient_id: patient_id,
+                result_id: result_id2,
+
+            },
+            success: function (data) {
+                console.log(data);
+                //alert(result_id2+"data \n"+data);
+              
+                if (data[0] == "[" && data[1] == "]" ) {
+                    isDataAval = false;
+                    //alert(result_id2+"data is equal t [] \n"+data);
+                    //console.log(data);
+                }
+                
+                if (data[0] != "[") {
+                    alert(" Please capture this message to admin web. result_id2="+result_id2+"data[0] != '[' \n"+data);
+                    console.log(data);
+                }
+                var datajson = JSON.parse(data);
+                var owner_job6_id = ".owner_job6_"+result_id2;
+                //alert("owner_job6_id = "+owner_job6_id);
+                $(owner_job6_id+' span').remove();
+                if(isDataAval){
+                    for (var i in datajson){
+                        var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';
+                        //alert("str2="+str2);
+                        $(owner_job6_id).append(str2);
+                    }
+                }else{
+                    //Nodata
+                    var str2 = '<span class="badge rounded-pill bg-secondary" id="">'+ 'NA' +'</span> ';
+                    //alert("str2="+str2);
+                    $(owner_job6_id).append(str2);
+                }
+            }
+        });
+    });
 }
 
 
@@ -212,6 +262,7 @@ $(document).ready(function () {
 //    alert("patient_id"+patient_id);
 //    alert("result_id"+result_id);
     
-    refreshTblJob6(false,patient_id,result_id);
+    updateSecondPathoEditPage(false,patient_id);// loop update second patho for all in list.
+    refreshTblJob6(false,patient_id,result_id);// update on last one
 
 });

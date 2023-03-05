@@ -550,9 +550,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Get Specific Row from Table
+$patient_id = 0;
 if (isset($_GET['id'])) {
     $patient = Patient::getAll($conn, $_GET['id']);
+    $patient_id =  $_GET['id'];
     if ($is_vardump) {
         var_dump($patient);
     }
@@ -625,7 +648,10 @@ $rsResultType2s = ReportType::getAllbyGroup2($conn);
 //die();
 //Get one by id
 $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
+$presultupdate1s = Presultupdate::getAllofGroup1($conn, $_GET['id']);
 $presultupdate2s = Presultupdate::getAllofGroup2($conn, $_GET['id']);
+
+
 
 $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
@@ -664,6 +690,22 @@ if (isset($patient[0]['date_first_report'])) {
 } else {
     $isset_date_first_report = 0;
 }
+
+$isLastReleaseGroup2SecondPathoAval = FALSE;
+foreach($presultupdate2s as $prsu){
+    $result_id = $prsu['id'];
+    $job = Job::getByPatientJobRoleUResult($conn, $patient_id, 6, $result_id);
+    $isLastReleaseGroup2SecondPathoAval = isset($job[0]['name'])? TRUE : FALSE;
+    
+    
+    echo "result_id=";    var_dump($result_id); echo "<br>";
+    echo "patient_id=";   var_dump($patient_id); echo "<br>";
+    echo "job=";          var_dump($job); echo "<br>";
+    echo "isLastReleaseGroup2SecondPathoAval=";          var_dump($isLastReleaseGroup2SecondPathoAval); echo "<br>";echo "<br>";
+
+}
+//die();
+
 
 //เช็คและเตรียมตัวแปรสถานะปัจจุบัน
 require 'includes/status_cur.php';
@@ -1157,8 +1199,8 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_job2_assis_cross/job2.js?v2"></script>
 <script src="/ajax_job3_prep_slide/job3.js?v2"></script>
 <script src="/ajax_job4_prep_sp_slide/job4.js?v2"></script>
-<script src="/ajax_job5_patho/job5.js?v2"></script>
-<script src="/ajax_job6_patho/job6.js?v4"></script>
+<script src="/ajax_job5_patho/job5.js?v3"></script>
+<script src="/ajax_job6_patho/job6.js?v5"></script>
 
 <script src="/ajax_read_dom/readdom.js?v1"></script>
 
