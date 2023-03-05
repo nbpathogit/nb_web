@@ -1,6 +1,6 @@
 
 
-<?php $hidden_data2dom = false; ?>
+<?php $hidden_data2dom = true; ?>
 <span id="data2DOM">
 <!--Write Data to DOM pass value to java script-->
 <?php if (isset($curstatus[0]['id'])): ?>
@@ -21,7 +21,7 @@
 <?php //List of index result ?>
 <ul class="uresultinxlist" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex=" <?= $prsu['id'] ?>">uresultinxlist::prsu['id']::<?= $prsu['id'] ?></li>
+        <li tabindex="<?= $prsu['id'] ?>">uresultinxlist::prsu['id']::<?= $prsu['id'] ?></li>
     <?php endforeach; ?> 
 </ul>
     
@@ -53,7 +53,7 @@
 <?php //List of release_type ยังไม่ออกผล/ออกผลแล้ว/ออกผลเบื้องต้น ?>
 <ul class="uresultReleaseType" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdates as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
-        <li tabindex="<?= $prsu['release_type'] ?>">uresultReleaseType::prsu['result_type']::<?= $prsu['release_type'] ?></li>
+        <li tabindex="<?= $prsu['release_type'] ?>">uresultReleaseType::prsu['release_type']::<?= $prsu['release_type'] ?></li>
     <?php endforeach; ?> 
 </ul>
 <ul class="uresultReleaseType2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >

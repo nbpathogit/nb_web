@@ -33,7 +33,7 @@
                 </div>   
                 <div>
                     <br>
-                    <button type="button" id="add_job_list6" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                    <button type="button" id="add_job_list6" onclick="add_job_list6(<?= $presultupdate['id'] ?>)" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>

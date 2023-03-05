@@ -13,6 +13,7 @@ $job = Job::getInitObj();
 //$job->id = null;
 $job->job_role_id = (int) $_POST['job_role_id'];
 $job->patient_id = (int) $_POST['patient_id'];
+$job->result_id = (int) $_POST['result_id'];
 $job->patient_number = $_POST['patient_number'];
 $job->user_id = (int) $_POST['user_id'];
 $job->pre_name = $_POST['pre_name'];
@@ -25,10 +26,10 @@ $job->comment = $_POST['comment'];
 $job->finish_date = null;
 
 
-$job->create($conn);
+$result_id = $job->create($conn);
 
 
-$jobs = Job::getByPatientJobRole($conn, (int) $_POST['patient_id'],6);
+$jobs = Job::getByPatientJobRoleUResult($conn, (int) $_POST['patient_id'],6,(int) $_POST['result_id']);
 
 echo json_encode($jobs);
 

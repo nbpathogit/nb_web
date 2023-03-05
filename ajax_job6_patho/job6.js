@@ -1,16 +1,23 @@
 
 //Update table of job6 in main page
-function refreshTblJob6(isAlert) {
+//refreshTblJob6(true,patient_id,result_id);
+function refreshTblJob6(isAlert,patient_id,result_id) {
     //alert("start ajax");
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
         url: "/ajax_job6_patho/getJob6.php",
-        data: {cur_patient_id: cur_patient_id},
+        data: {
+            
+            cur_patient_id: cur_patient_id,
+            patient_id: patient_id,
+            result_id: result_id,
+        
+        },
         success: function (data) {
-            //alert(data);
-            repaintTbljob6(data);
+//            alert(data);
+            repaintTbljob6(data,result_id);
             if (isAlert) {
                 alert("refresh done 6");
             }
@@ -20,19 +27,21 @@ function refreshTblJob6(isAlert) {
 }
 
 
-function repaintTbljob6(data) {
-    if (data[0] != "[") {
+function repaintTbljob6(data,result_id) {
+    if (data[0] != "[" || data == "[]") {
         alert(data);
         console.log(data);
     }
     var datajson = JSON.parse(data);
-
+    var owner_job6_id = ".owner_job6_"+result_id;
+    //alert(owner_job6_id);
     // clear all data in table befor show new retrived record
     $('#table_body_job6 tbody tr').remove();
 //    $('#owner_job6 span').remove();
 //    $('#owner_job6a span').remove();
 //    $('#owner_job6b span').remove();
-    $('.owner_job6 span').remove();
+    $(owner_job6_id+' span').remove();
+//    $('.owner_job6b span').remove();
     // Show new retrived record
     for (var i in datajson)
     {
@@ -60,7 +69,7 @@ function repaintTbljob6(data) {
                 '<td>' + datajson[i].comment + '</td>'+
                 '<td>' + datajson[i].insert_time + '</td>'+
                 '<td>'  + finishdate + '</td>'+
-                '<td>' + '<a  jobid="'+datajson[i].id+'" onclick="deljob6('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
+                '<td>' + '<a  jobid="'+datajson[i].id+'" onclick="deljob6('+datajson[i].id+','+datajson[i].patient_id+','+result_id +');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
                 '</tr>';
         
         $('#table_body_job6 tbody').append(str);
@@ -69,41 +78,47 @@ function repaintTbljob6(data) {
 //        $('#owner_job6').append(str2);
 //        $('#owner_job6a').append(str2);
 //        $('#owner_job6b').append(str2);
-        $('.owner_job6').append(str2);
+//        alert("str2="+str2);
+        
+        $(owner_job6_id).append(str2);
+//        $('.owner_job6b').append(str2);
     }
 
 }
 
 //on click button delete for seleced specimen list bill in main page
-function deljob6(jobid,patientid) {
+function deljob6(jobid,patient_id,result_id) {
     
-    if( confirm("Please confirm delete job di = "+jobid+" ?")){
+    if( confirm("Please confirm delete job id = "+jobid+" ?")){
+        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+        //Uresult index id lastest
        
         $.ajax({
-        type: 'POST',
-        // make sure you respect the same origin policy with this url:
-        // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job6_patho/delJob6.php',
-        data: {
-            'job_id': jobid,
-            'patient_id': patientid,
-            
-        },
-        success: function (data) {
-           
-            repaintTbljob6(data);
-//            $("#btn2review13000").hide();
-            $("#btn2review13000").prop('disabled', true);
-//            .prop('disabled', true);
-            $("#add_job6").show();
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: '/ajax_job6_patho/delJob6.php',
+            data: {
+                'job_id': jobid,
+                'patient_id': patient_id,
+                'result_id': result_id,
 
-            alert('Success');
-        },
-        error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
-        }
+            },
+            success: function (data) {
 
-    });
+                repaintTbljob6(data,result_id);
+    //            $("#btn2review13000").hide();
+                $("#btn2review13000").prop('disabled', true);
+    //            .prop('disabled', true);
+                $("#add_job6").show();
+
+                alert('Success');
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+
+        });
         
     }else{
        
@@ -112,17 +127,23 @@ function deljob6(jobid,patientid) {
 }
 
 
-$("#refresh_job6").on("click", function () {
-    refreshTblJob6(true);
-});
+
+//refresh_job6(<?= $patients[0]['id']?>,<?= $presultupdate['id']?>)
+function refresh_job6(patient_id,result_id){
+    refreshTblJob6(true,patient_id,result_id);
+}
+
+//});
 
 //#add_modal_job6
 
 //On button click add new specimen bill
-$("#add_job_list6").on("click", function () {
+//$("#add_job_list6").on("click", function () {
+    
+function add_job_list6(result_id){
     //alert("start ajax");
     var printdbg = true;
-
+    
     var value = $('#select_job6 option').filter(':selected').attr('value');
     var job_role_id = $('#select_job6 option').filter(':selected').attr('job_role_id');
     var patient_id = $('#select_job6 option').filter(':selected').attr('patient_id');
@@ -150,7 +171,7 @@ $("#add_job_list6").on("click", function () {
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,
-            'result_id': lasted_result_id,
+            'result_id': result_id,
             'patient_number': patient_number,
             'user_id': user_id,
             'pre_name': pre_name,
@@ -164,10 +185,11 @@ $("#add_job_list6").on("click", function () {
         },
         success: function (data) {
             console.log(data);
-            repaintTbljob6(data);
+            alert(data);
+            repaintTbljob6(data,result_id);
             //$("#btn2review13000").hide();
 //            $("#btn2review13000").show();
-            $("#btn2review13000").prop('disabled', false);
+            $("#btn2review13000").prop('disabled', false);//enable
             $("#add_job6").hide();
         },
         error: function (jqxhr, status, exception) {
@@ -176,14 +198,20 @@ $("#add_job_list6").on("click", function () {
     });
 
     alert('Finish Added.');
-});
+}
+//});
 
 
 
 $(document).ready(function () {
 
     //updateJob6(false);
-    refreshTblJob6(false);
+    //refreshTblJob6(false);
+    var patient_id = get_cur_patient_id();
+    var result_id = get_lastest_uresultid();
+//    alert("patient_id"+patient_id);
+//    alert("result_id"+result_id);
     
+    refreshTblJob6(false,patient_id,result_id);
 
 });

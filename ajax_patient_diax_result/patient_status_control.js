@@ -535,15 +535,22 @@ function addAction2Flow() {
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
         var isCurrentPathoIsSecondOwneThisCaseLastest = $(".isCurrentPathoIsSecondOwneThisCaseLastest").attr('tabindex');
-        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+        var cur_patient_id = cur_patient_id();
 
+        //Uresult index id lastest
+        var uresultid = read_lastest_uresultid();
+
+
+        //Pathological Diagnosis,Provisional Diagnosis, Specimen , Clinical Diagnosis , Gross Description , Microscopic Description
         var uresultTypeNameLastest = '';
-
         $('.uresultTypeName li').each(function (index) {
             uresultTypeNameLastest = $(this).attr('tabindex');
         });
+        $('.uresultTypeName2 li').each(function (index) {
+            uresultTypeNameLastest = $(this).attr('tabindex');
+        });
         
-        //uresultReleaseType
+        //uresultReleaseType  //List of release_type ยังไม่ออกผล/ออกผลแล้ว/ออกผลเบื้องต้น
         var reported_as = 'ยังไม่ออกผล';
         $('.uresultReleaseType li').each(function (index) {
             reported_as = $(this).attr('tabindex');
@@ -552,7 +559,7 @@ function addAction2Flow() {
             reported_as = $(this).attr('tabindex');
         });
         
-        //alert("reported_as"+reported_as);
+        
         
         var isset_second_patho = '0';
         $('.uresultSecondPatho li').each(function (index) {

@@ -12,39 +12,87 @@ $isSetShowaddResultButton = true;
 <?php if (isset($presultupdates)) : //start if (isset($presultupdates)): ?>
     <?php foreach ($presultupdates as $key => $presultupdate) : ?>
 
-    <?php
-    $isCurResultReleased = false;
-    if($presultupdate['release_time']==NULL){
+        <?php
         $isCurResultReleased = false;
-    }else{
-        $isCurResultReleased = true;
-    }
-    $is_show_edit_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
-    $is_show_save_btn = false;
-    $is_show_template_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
-    ?>
-    <hr>
-    <div class="row <?= $isBorder ? "border" : "" ?>">
+        if($presultupdate['release_time']==NULL){
+            $isCurResultReleased = false;
+        }else{
+            $isCurResultReleased = true;
+        }
+        $is_show_edit_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
+        $is_show_save_btn = false;
+        $is_show_template_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
+        ?>
+        <hr>
+        <div class="row <?= $isBorder ? "border" : "" ?>">
 
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="result_message"><b><?= $presultupdate['result_type'] ?></b></label>   <?= $isCurResultReleased ?  "ออกผลแล้วเมื่อ[".$presultupdate['release_time']."] ไม่สามารถแก้ไขได้" : "ยังไม่ออกผล"  ?>
-        <a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_<?= $presultupdate['id']?>" onclick="edit_txt_rs(<?= $presultupdate['id']?>);" title="Edit" <?= ($is_show_edit_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
-        <a class="btn btn-outline-primary btn-sm me-1 " id="save_result_<?= $presultupdate['id']?>" onclick="save_txt_rs(<?= $presultupdate['id']?>);" title="Save"<?= ($is_show_save_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
-        <!--<a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id']?>" onclick="alert('Under construction. \nThe feature will avalable soon.');" title="Template" <?= ($is_show_template_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>-->
+            <div class="col-6 <?= $isBorder ? "border" : "" ?>">
+                <label for="result_message"><b><?= $presultupdate['result_type'] ?></b></label>   <?= $isCurResultReleased ? "ออกผลแล้วเมื่อ[" . $presultupdate['release_time'] . "] ไม่สามารถแก้ไขได้" : "ยังไม่ออกผล" ?>
+                <a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_<?= $presultupdate['id'] ?>" onclick="edit_txt_rs(<?= $presultupdate['id'] ?>);" title="Edit" <?= ($is_show_edit_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
+                <a class="btn btn-outline-primary btn-sm me-1 " id="save_result_<?= $presultupdate['id'] ?>" onclick="save_txt_rs(<?= $presultupdate['id'] ?>);" title="Save"<?= ($is_show_save_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
+                <!--<a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id'] ?>" onclick="alert('Under construction. \nThe feature will avalable soon.');" title="Template" <?= ($is_show_template_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>-->
+            </div>
+
+            <?php // if last result id ?>
+            <?php if(!$isCurResultReleased && true): ?>
+            <div class="col-6 <?= $isBorder ? "border" : "" ?>">
+                <b>พยาธิแพทย์คอนเฟิร์มผล:</b>
+                <span id="owner_job6_<?= $presultupdate['id']?>" class="owner_job6_<?= $presultupdate['id']?>" style="font-size:20px">
+                    <span class="badge rounded-pill bg-primary" id="">Data not update</span>
+                </span>  
+                <?php
+
+                    $is_show_add_btn = $isCurrentPathoIsOwnerThisCase;
+                    $is_show_refresh_btn = $isCurrentPathoIsOwnerThisCase;
+                    $is_show_detail_btn = $isCurrentPathoIsOwnerThisCase;
+                ?>
+                <a class="btn btn-outline-primary btn-sm me-1 " onclick="add_job6(<?= $presultupdate['id']?>)" id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+                 <a class="btn btn-outline-primary btn-sm me-1 " onclick="refresh_job6(<?= $patient[0]['id']?>,<?= $presultupdate['id']?>)"  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
+                 <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="View/Detail" ><i class="fa-solid fa-table"></i></a>
+
+                 <?php //var_dump(Url::currentURL()); ?>
+                 <?php //var_dump($_SERVER['DOCUMENT_ROOT']); ?>
+
+                 <?php require 'patient_from_080_job6__tbl_modal.php';      ?>
+                 <?php require 'patient_from_080_job6__select_modal.php';      ?>
+
+            </div>
+
+            <?php endif; ?>
+
+            <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
+
         </div>
-        
-        <?php // if last result id ?>
+
+        <?php // Second patho review section ?>
         <?php if(!$isCurResultReleased && true): ?>
-                   lastest one
-                   <span id="owner_job6b" class="owner_job6"  style="font-size:20px"><span class="badge rounded-pill bg-primary" id="">แพทย์ผู้คอนเฟิร์มผล</span></span>
+
+            <?php if ($curstatusid == "13000") :  ?><?php endif; ?>
+            <hr>
+            <h4 id="confirm_result_section" align="center"><b>แพทย์คนที่สองรีวิว</b><?php if($curstatusid == "13000"): ?><span style="color:orange;"><-ขั้นตอนปัจจุบัน<?php endif; ?></h4>
+            <p align="center">
+                <span id="owner_job6_<?= $presultupdate['id']?>" class="owner_job6_<?= $presultupdate['id']?>" style="font-size:20px">
+                <span class="badge rounded-pill bg-primary" id="">Data not update</span>
+                </span>  
+            </p>
+
+            <?php if ($isCurrentPathoIsSecondOwneThisCase) : ?>
+                <p align="center" > คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม  </p>
+            <?php else : ?>
+                <p align="center" style="color: firebrick">คุณไม่ไช่แพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้</p>
+            <?php endif; ?>
+
+            <?php
+
+                $is_enable_reject_btn = $isCurrentPathoIsSecondOwneThisCase && $curstatus[0]['id'] == 13000 && $patient[0]['second_patho_review'] == 1; 
+                $is_enable_approve_btn = $isCurrentPathoIsSecondOwneThisCase && $curstatus[0]['id'] == 13000&& $patient[0]['second_patho_review'] == 1; 
+
+            ?>
+            <p align="center">
+                <button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary" <?= ($is_enable_reject_btn)? '':'disabled'; ?> >&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
+                <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary" <?= ($is_enable_approve_btn)? '':'disabled'; ?>>&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
+            </p>            
         <?php endif; ?>
-        
-        <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
-        
-    </div>
-
-
-    
     
     <?php endforeach; ?>
 <?php endif;  ?>
@@ -66,30 +114,7 @@ $isSetShowaddResultButton = true;
      </div>
 
     
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <b>พยาธิแพทย์คอนเฟิร์มผล:</b>
-        <span id="owner_job6a" class="owner_job6" style="font-size:20px">
-            <span class="badge rounded-pill bg-primary" id="">Data not update</span>
-        </span>  
-        <?php
 
-            $is_show_add_btn = $isCurrentPathoIsOwnerThisCase;
-            $is_show_refresh_btn = $isCurrentPathoIsOwnerThisCase;
-            $is_show_detail_btn = $isCurrentPathoIsOwnerThisCase;
-        ?>
-         <a class="btn btn-outline-primary btn-sm me-1 " id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
-         <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
-         <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="View/Detail" ><i class="fa-solid fa-table"></i></a>
-
-         <?php //var_dump(Url::currentURL()); ?>
-         <?php //var_dump($_SERVER['DOCUMENT_ROOT']); ?>
-
-         <?php require 'patient_from_080_job6__tbl_modal.php';      ?>
-         <?php require 'patient_from_080_job6__select_modal.php';      ?>
-
-
-
-    </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
@@ -150,27 +175,5 @@ $isSetShowaddResultButton = true;
 
 
 
-
-<?php if ($curstatusid == "13000") :  ?><?php endif; ?>
-<hr>
-<h4 id="confirm_result_section" align="center"><b>แพทย์คนที่สองรีวิว</b><?php if($curstatusid == "13000"): ?><span style="color:orange;"><-ขั้นตอนปัจจุบัน<?php endif; ?></h4>
-<p align="center"><span id="owner_job6b" class="owner_job6"  style="font-size:20px"><span class="badge rounded-pill bg-primary" id="">Data not update</span></span> </p>
-     
-<?php if ($isCurrentPathoIsSecondOwneThisCase) : ?>
-    <p align="center" > คุณคือแพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้ กรุณาคลิกเลือกปุ่มคอนเฟิร์ม  </p>
-<?php else : ?>
-    <p align="center" style="color: firebrick">คุณไม่ไช่แพทย์คนที่สองช่วยดับเบิ้ลคอนเฟิร์มผลของผู้ป่วยท่านนี้</p>
-<?php endif; ?>
-    
-<?php
-
-    $is_enable_reject_btn = $isCurrentPathoIsSecondOwneThisCase && $curstatus[0]['id'] == 13000 && $patient[0]['second_patho_review'] == 1; 
-    $is_enable_approve_btn = $isCurrentPathoIsSecondOwneThisCase && $curstatus[0]['id'] == 13000&& $patient[0]['second_patho_review'] == 1; 
-
-?>
-<p align="center">
-    <button name="btnrejto12000" id="btnrejto12000" type="" class="btn btn-primary" <?= ($is_enable_reject_btn)? '':'disabled'; ?> >&nbsp;&nbsp;Reject to originator&nbsp;&nbsp;</button>
-    <button name="btnagreeto20000" id="btnagreeto20000" type="" class="btn btn-primary" <?= ($is_enable_approve_btn)? '':'disabled'; ?>>&nbsp;&nbsp;Agree with result and release report&nbsp;&nbsp;</button>
-</p>
 
     

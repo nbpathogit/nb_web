@@ -9,7 +9,8 @@ require '../user_auth.php';
 
 Job::delete($conn,$_POST['job_id']);
 
-$jobs = Job::getByPatientJobRole($conn, (int) $_POST['patient_id'],6);
+//$jobs = Job::getByPatientJobRole($conn, (int) $_POST['patient_id'],6);
+$jobs = Job::getByPatientJobRoleUResult($conn, (int) $_POST['patient_id'],6,(int) $_POST['result_id']);
 echo json_encode($jobs);
 ?>
 

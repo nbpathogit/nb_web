@@ -18,6 +18,7 @@ class Job
     public $id;  //int(11) Primary	
     public $job_role_id;  //int(11)			
     public $patient_id;  // int(11)		
+    public $result_id;  // int(11)		
     public $patient_number; //  varchar(10)	
     public $user_id;  //   int(11)		
     public $pre_name;  //     varchar(20)
@@ -36,6 +37,7 @@ class Job
         $job->id = null;
         $job->job_role_id = 0;
         $job->patient_id = 0;
+        $job->result_id = 0;
         $job->patient_number = "";
         $job->user_id = 0;
         $job->pre_name = "";
@@ -52,14 +54,15 @@ class Job
     public function create($conn)
     {
 
-        $sql = "INSERT INTO `job` (`id`, `job_role_id`, `patient_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
-            . "VALUES         (NULL, :job_role_id,  :patient_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
+        $sql = "INSERT INTO `job` (`id`, `job_role_id`, `patient_id`, `result_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
+            . "VALUES             (NULL, :job_role_id,  :patient_id,  :result_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
 
         $stmt = $conn->prepare($sql);
 
         // $stmt = $bindValue(':id Primary'        ,$this->id Primary        ,PDO::PARAM_STR);                
         $stmt->bindValue(':job_role_id', $this->job_role_id, PDO::PARAM_INT);
         $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':result_id', $this->result_id, PDO::PARAM_INT);
         $stmt->bindValue(':patient_number', $this->patient_number, PDO::PARAM_STR);
         $stmt->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);
         $stmt->bindValue(':pre_name', $this->pre_name, PDO::PARAM_STR);
@@ -76,7 +79,7 @@ class Job
 
         if ($stmt->execute()) {
             $this->id = $conn->lastInsertId();
-            return true;
+            return $this->id;
         } else {
             return false;
         }
@@ -156,7 +159,7 @@ class Job
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //คนช่วยตัดเนื้อ
+    //
     public static function getByPatientJobRole($conn, $patient_id = 0, $jobrole_id = 0)
     {
         $sql = "SELECT * FROM `job` ";
@@ -168,6 +171,25 @@ class Job
             $sql = $sql . " and patient_id = " . $patient_id;
         }
         $sql = $sql . " and job_role_id = " . $jobrole_id;
+
+        $sql = $sql . " ORDER BY id DESC";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+     public static function getByPatientJobRoleUResult($conn, $patient_id = 0, $jobrole_id = 0, $result_id = 0)
+    {
+        $sql = "SELECT * FROM `job` ";
+
+        $sql = $sql . " WHERE  ";
+
+        $sql = $sql . "  patient_id = " . $patient_id;
+        
+        $sql = $sql . " and job_role_id = " . $jobrole_id;
+        
+        $sql = $sql . " and result_id = " . $result_id;
 
         $sql = $sql . " ORDER BY id DESC";
 
