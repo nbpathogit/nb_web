@@ -115,7 +115,7 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start sticky-top-->
-                <nav class="navbar navbar-expand bg-light navbar-light  px-3 py-2 mb-2">
+                <nav class="navbar navbar-expand bg-light navbar-light  sticky-top  px-3 py-2 mb-2">
                     <a href="patient.php" class="navbar-brand d-flex d-lg-none me-4">
                         <h2 class="text-primary mb-0">NB</h2>
                     </a>
