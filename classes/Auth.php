@@ -9,7 +9,7 @@ class Auth {
     
     // time limit setting at server side
     // public static $sesstion_timeout_int_sec = 15; //60second = 1 min.; <-- Write to DOM
-    public static $sesstion_timeout_int_sec = 1200; //1200second = 20 min.; <-- Write to DOM
+    public static $sesstion_timelimit_int_sec = 1200; //1200second = 20 min.; <-- Write to DOM
     public  $curSrvTimeIntSecs;  // <-- Write to DOM
     public  $curSrvTime;  // <-- Write to DOM
 
@@ -34,7 +34,7 @@ class Auth {
     public static function requireLogin($page_name = "na", $page_id = 0) {
 
         $curTime = Time();
-        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timeout_int_sec;
+        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec;
         
         if ($curTime >= $_SESSION['targetSrvTimeOutIntSecs']) {
             Auth::logout();
@@ -75,13 +75,16 @@ class Auth {
         $_SESSION['usergroup'] = $ugroup;
         $_SESSION['skey'] = self::randomString();
 
-        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timeout_int_sec; // time limit setting at server side
+        
+        date_default_timezone_set('Asia/Bangkok');
+        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec; // time limit setting at server side 20
         $curTime = Time();
         $_SESSION['curSrvTimeIntSecs'] = $curTime;
         $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];
-        $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs'];
+        $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs']; //current time + 20 min
+        $_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs']; //20 min
         
-        date_default_timezone_set('Asia/Bangkok');
+
         $curSrvTime = date_default_timezone_get().date('m/d/Y h:i:s a', time());
 
         
@@ -89,6 +92,14 @@ class Auth {
 //                var_dump($user);
 //                var_dump($ugroup);
 //                die();
+    }
+    
+    public static function getSrvTimeRemain() {
+        date_default_timezone_set('Asia/Bangkok');
+        $curTime = Time();
+        $_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs']-$curTime;
+        return $_SESSION['targetSrvTimeRemainIntSecs'];
+//        return Auth::$sesstion_timelimit_int_sec;
     }
     
         /**

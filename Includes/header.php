@@ -212,6 +212,6 @@
                         <div class="row bg-light rounded align-items-center justify-content-center mx-0"> -->
                 
      <?php $hidden_data2dom = true; ?> 
-     <li class="sesstion_timeout_int_sec" tabindex="<?= Auth::$sesstion_timeout_int_sec ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >Auth::$sesstion_timeout_int_sec :: <?= Auth::$sesstion_timeout_int_sec ?> </li>
+     <li class="sesstion_timelimit_int_sec" tabindex="<?= Auth::$sesstion_timelimit_int_sec ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >Auth::$sesstion_timelimit_int_sec :: <?= Auth::$sesstion_timelimit_int_sec ?> </li>
      
      <?php // var_dump($_SESSION); ?>

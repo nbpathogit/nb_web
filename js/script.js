@@ -66,21 +66,21 @@ $(document).ready(function () {
 
 
 
-
+    // show message iniValue to page
     document.getElementById("sessioncountdown").value = "iniValue";
 
+    // get sesstion time limit from Server that write to DOM
+    var sesstion_timelimit_int_sec = $(".sesstion_timelimit_int_sec").attr('tabindex');
 
-    var sesstion_timeout_int_sec = $(".sesstion_timeout_int_sec").attr('tabindex');
+    console.log("sesstion_timelimit_int_sec " + sesstion_timelimit_int_sec);
 
-    console.log("sesstion_timeout_int_sec " + sesstion_timeout_int_sec);
-
-    var setTimeOutIntSecs = parseInt(sesstion_timeout_int_sec);
-    var runningWebDownTimeIntSecs = 0;
+    setTimeOutLimitIntSecs = parseInt(sesstion_timelimit_int_sec);
+    runningWebDownTimeIntSecs = 0;
 
     const date = new Date();
-    var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
-    var targetTimeOutIntSecs = Math.floor(curWebTimeIntSecs + setTimeOutIntSecs);
-    runningWebDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curWebTimeIntSecs);
+    curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
+    targetWebTimeOutIntSecs = Math.floor(curWebTimeIntSecs + setTimeOutLimitIntSecs);
+    runningWebDownTimeIntSecs = Math.floor(targetWebTimeOutIntSecs - curWebTimeIntSecs);
     showTimeRuning(runningWebDownTimeIntSecs);
     console.log("curWebTimeIntSecs:" + curWebTimeIntSecs);
     console.log("runningWebDownTimeIntSecs:" + runningWebDownTimeIntSecs);
@@ -89,56 +89,107 @@ $(document).ready(function () {
     setTimeout(decrement, 1000);
 
 
-    function decrement() {
-
-        const date = new Date();
-        var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
-
-        runningWebDownTimeIntSecs = Math.floor(targetTimeOutIntSecs - curWebTimeIntSecs);
-
-
-
-        console.log("curWebTimeIntSecs:" + curWebTimeIntSecs);
-        console.log("curWebTimeIntSecs:" + date);
-
-        console.log("runningWebDownTimeIntSecs:" + runningWebDownTimeIntSecs);
-        console.log("runningWebDownTimeIntSecs:" + convertTimeSec2HHMMSS(runningWebDownTimeIntSecs));
-        console.log("----");
-
-        showTimeRuning(runningWebDownTimeIntSecs);
-
-        if (runningWebDownTimeIntSecs > -1) {
-            setTimeout(decrement, 1000);
-        } else {
-            //Auto Logout
-            $(window).attr('location', '/logout.php');
-        }
-    }
-
-    function showTimeRuning(runningWebDownTimeIntSecs) {
-
-        document.getElementById("sessioncountdown").innerHTML = convertTimeSec2HHMMSS(runningWebDownTimeIntSecs);
-
-    }
-
-    function convertTimeSec2HHMMSS(runningWebDownTimeIntSecs) {
-
-        var displayedSecs = runningWebDownTimeIntSecs % 60;
-        var displayedMin = Math.floor(runningWebDownTimeIntSecs / 60) % 60;
-        var displayedHrs = Math.floor(runningWebDownTimeIntSecs / 60 / 60);
-
-        if (displayedMin <= 9)
-            displayedMin = "0" + displayedMin;
-        if (displayedSecs <= 9)
-            displayedSecs = "0" + displayedSecs;
-
-        return displayedHrs + ":" + displayedMin + ":" + displayedSecs;
-
-    }
-
 });
 
 
+    var setTimeOutLimitIntSecs; 
+    var runningWebDownTimeIntSecs; 
+
+
+    var curWebTimeIntSecs;
+    var targetWebTimeOutIntSecs;
+
+function decrement() {
+
+    const date = new Date();
+    var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
+
+    runningWebDownTimeIntSecs = Math.floor(targetWebTimeOutIntSecs - curWebTimeIntSecs);
+
+    var servtimeRemainIntSecs = getSrvTimeRemain();// get time remain from server
+    //alert(servtimeRemain);
+
+    console.log("servtimeRemainIntSecs:" + servtimeRemainIntSecs);
+    console.log("servtimeRemainIntSecs:" + convertTimeSec2HHMMSS(servtimeRemainIntSecs));
+
+
+//        console.log("curWebTimeIntSecs:" + curWebTimeIntSecs);
+//        console.log("curWebTimeIntSecs:" + date);
+
+    console.log("runningWebDownTimeIntSecs:" + runningWebDownTimeIntSecs);
+    console.log("runningWebDownTimeIntSecs:" + convertTimeSec2HHMMSS(runningWebDownTimeIntSecs));
+
+    if (true) {
+        //assigned server to local.
+        runningWebDownTimeIntSecs = servtimeRemainIntSecs;
+    }
+    console.log("----");
+
+    //Show time in web page
+    showTimeRuning(runningWebDownTimeIntSecs);
+
+    if (runningWebDownTimeIntSecs > -1) {
+        setTimeout(decrement, 1000);
+    } else {
+        //Auto Logout if time remain is minus
+        $(window).attr('location', '/logout.php');
+    }
+}
+
+
+
+function showTimeRuning(runningWebDownTimeIntSecs) {
+
+    document.getElementById("sessioncountdown").innerHTML = convertTimeSec2HHMMSS(runningWebDownTimeIntSecs);
+
+
+}
+
+function getSrvTimeRemain() {
+    var SrvTimeRemain;
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        'dataType': 'html',
+        url: "/ajax_timeout/getSrvTimeRemain.php",
+        data: {
+            patient_id: 1,
+        },
+        success: function (data) {
+
+            SrvTimeRemain = data;
+        }
+    });
+    return SrvTimeRemain;
+}
+
+
+
+
+
+
+
+var displayedHrsInt;
+var displayedMinInt;
+var displayedSecsInt;
+function convertTimeSec2HHMMSS(runningWebDownTimeIntSecs) {
+
+    var displayedSecs = runningWebDownTimeIntSecs % 60;
+    var displayedMin = Math.floor(runningWebDownTimeIntSecs / 60) % 60;
+    var displayedHrs = Math.floor(runningWebDownTimeIntSecs / 60 / 60);
+    displayedSecsInt = parseInt(displayedSecs);
+    displayedMinInt = parseInt(displayedMin);
+    displayedHrsInt = parseInt(displayedHrs);
+
+    if (displayedMin <= 9)
+        displayedMin = "0" + displayedMin;
+    if (displayedSecs <= 9)
+        displayedSecs = "0" + displayedSecs;
+
+    return displayedHrs + ":" + displayedMin + ":" + displayedSecs;
+
+}
 
 
 
