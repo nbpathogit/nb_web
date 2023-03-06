@@ -92,37 +92,66 @@ $(document).ready(function () {
 });
 
 
-    var setTimeOutLimitIntSecs; 
-    var runningWebDownTimeIntSecs; 
 
 
-    var curWebTimeIntSecs;
-    var targetWebTimeOutIntSecs;
+var servtimeRemainIntSecs;
+
+var setTimeOutLimitIntSecs; 
+var runningWebDownTimeIntSecs; 
+
+var curWebTimeIntSecs;
+var targetWebTimeOutIntSecs;
 
 function decrement() {
+
+
+    console.log("===========================================");
+    
+    //update time remain from server every 5 min
+    if (
+         (displayedHrsInt == 0 && displayedMinInt == 15 && displayedSecsInt == 0)
+         ||
+         (displayedHrsInt == 0 && displayedMinInt == 10 && displayedSecsInt == 0)
+         ||
+         (displayedHrsInt == 0 && displayedMinInt == 5 && displayedSecsInt == 0)
+         ||
+         (displayedHrsInt == 0 && displayedMinInt == 1 && displayedSecsInt == 0)  
+         ||
+         (displayedHrsInt == 0 && displayedMinInt == 0 && displayedSecsInt <= 2)
+            ) {
+        
+        servtimeRemainIntSecs = parseInt(getSrvTimeRemain());// get time remain from server
+        //
+        //
+        //assigned server to local.
+        //runningWebDownTimeIntSecs = servtimeRemainIntSecs;
+        const date = new Date();
+        var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
+
+        targetWebTimeOutIntSecs = Math.floor(parseInt(curWebTimeIntSecs) + parseInt(servtimeRemainIntSecs));
+        console.log("-----------------------");
+        console.log("curWebTimeIntSecs "+curWebTimeIntSecs);
+        console.log("targetWebTimeOutIntSecs "+targetWebTimeOutIntSecs);
+        console.log("servtimeRemainIntSecs "+servtimeRemainIntSecs);
+        console.log("-----------------------");
+
+    }
 
     const date = new Date();
     var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
 
-    runningWebDownTimeIntSecs = Math.floor(targetWebTimeOutIntSecs - curWebTimeIntSecs);
+    runningWebDownTimeIntSecs = Math.floor(parseInt(targetWebTimeOutIntSecs) - parseInt(curWebTimeIntSecs));
 
-    var servtimeRemainIntSecs = getSrvTimeRemain();// get time remain from server
-    //alert(servtimeRemain);
-
+    console.log("----");
     console.log("servtimeRemainIntSecs:" + servtimeRemainIntSecs);
     console.log("servtimeRemainIntSecs:" + convertTimeSec2HHMMSS(servtimeRemainIntSecs));
 
-
-//        console.log("curWebTimeIntSecs:" + curWebTimeIntSecs);
-//        console.log("curWebTimeIntSecs:" + date);
+    console.log("----");
 
     console.log("runningWebDownTimeIntSecs:" + runningWebDownTimeIntSecs);
     console.log("runningWebDownTimeIntSecs:" + convertTimeSec2HHMMSS(runningWebDownTimeIntSecs));
 
-    if (true) {
-        //assigned server to local.
-        runningWebDownTimeIntSecs = servtimeRemainIntSecs;
-    }
+    console.log("----");
     console.log("----");
 
     //Show time in web page
