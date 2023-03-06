@@ -11,6 +11,11 @@ if(isset($_GET['preview'])){
 $isPreviewMode = true;
 }
 
+$patient_id = 0;
+if(isset($_GET['id'])){
+$patient_id = $_GET['id'];
+}
+
 // show/hide table for see layout
 if(isset($_GET['layout'])){
     $hideTable = false;
@@ -284,6 +289,16 @@ if (!$patient) {
     if (isset($presultupdate2s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
         foreach ($presultupdate2s as $prsu) {
+            
+            
+            
+            $result_id = $prsu['id'];
+            $job = Job::getByPatientJobRoleUResult($conn, $patient_id, 6, $result_id);
+            $isGroup2SecondPathoAval = isset($job[0]['name'])? TRUE : FALSE;
+            
+            
+            
+            
             $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_2.php');
             if ($hideTable) {
                 $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
@@ -295,7 +310,7 @@ if (!$patient) {
             $result_message = str_replace(" ", "&nbsp;", $result_message);
             $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result2);
 //            if ($prsu['pathologist2_id'] != 0) {
-            if (true) {
+            if ($isGroup2SecondPathoAval) {
                 $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
                 $secondPatho = User::getByID($conn, $prsu['pathologist2_id']);
                 $confirm_msg = $confirm_msg . "(" . $secondPatho->name_e . " " . $secondPatho->lastname_e . ")";
