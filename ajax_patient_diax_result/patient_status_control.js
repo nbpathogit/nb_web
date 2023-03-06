@@ -364,7 +364,7 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
 
-        frm.append('<input type="hidden" name="pautoscroll" value="' + "diag_result_section" + '" /> ');
+        frm.append('<input type="hidden" name="pautoscroll" value="' + "confirm_result_section_bottom" + '" /> ');
         frm.append('<input type="hidden" name="isautoeditmode" value="' + "NA" + '" /> ');
 
 

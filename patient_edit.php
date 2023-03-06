@@ -714,6 +714,10 @@ require 'includes/status_cur.php';
 require 'user_auth.php';
 
 //Move to edit mode
+if(isset($_GET['pautoscroll'])){
+    $patient[0]['pautoscroll'] = $_GET['pautoscroll'];
+}
+
 if (isset($_POST['edit_result'])) {
     // true = Disable Edit page, false canEditPage
     $isEditModePageOn = true;
@@ -1206,8 +1210,8 @@ if (isset($curstatus[0]['next3'])) {
 
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
-<script src="/ajax_patient_diax_result/diagresult.js?v7"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v4"></script>
+<script src="/ajax_patient_diax_result/diagresult.js?v8"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v5"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

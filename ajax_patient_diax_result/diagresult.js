@@ -267,6 +267,7 @@ function append2page(data) {
         <a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_<?= $presultupdate['id']?>" onclick="edit_txt_rs(<?= $presultupdate['id']?>);" title="Edit" <?= ($is_show_edit_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
         <a class="btn btn-outline-primary btn-sm me-1 " id="save_result_<?= $presultupdate['id']?>" onclick="save_txt_rs(<?= $presultupdate['id']?>);" title="Save"<?= ($is_show_save_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
         <a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id']?>" onclick="alert('Under construction. \nThe feature will avalable soon.');" title="Template" <?= ($is_show_template_btn)? '':'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>
+        
         <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
         </span>
 
@@ -278,15 +279,22 @@ function append2page(data) {
         }else{
             messageRelease = "ออกผลแล้วเมื่อ["+datajson[i].release_time+"] ไม่สามารถแก้ไขได้";
         }
-        
+        var cur_patient_id = get_cur_patient_id();
         var str =''+
-        '<div class="mb-3">'+
-            '<label for="result_message"><b>'+datajson[i].result_type+'</b></label> '+messageRelease+
-            '<a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_'+datajson[i].id+'" onclick="edit_txt_rs('+datajson[i].id+');" title="Edit"  ><i class="fa-solid fa-marker"></i>Edit</a>'+
-            '<a class="btn btn-outline-primary btn-sm me-1 " id="save_result_'+datajson[i].id+'" onclick="save_txt_rs('+datajson[i].id+');" title="Save" style="display: none;" ><i class="fa-solid fa-floppy-disk"></i>Save</a>'+
+        '<hr style="height:1px;border-width:0;color:black;background-color:black;">'+
+        '<div class="row">'+
+            '<div class="col-6">'+
+                '<label for="result_message"><b>'+datajson[i].result_type+'</b></label> '+messageRelease+
+                '<a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_'+datajson[i].id+'" onclick="edit_txt_rs('+datajson[i].id+');" title="Edit"  ><i class="fa-solid fa-marker"></i>Edit</a>'+
+                '<a class="btn btn-outline-primary btn-sm me-1 " id="save_result_'+datajson[i].id+'" onclick="save_txt_rs('+datajson[i].id+');" title="Save" style="display: none;" ><i class="fa-solid fa-floppy-disk"></i>Save</a>'+
+            '</div>'+
+            '<div class="col-6">'+
+                '<b>พยาธิแพทย์คอนเฟิร์มผล:</b><a href="patient_edit.php?id='+cur_patient_id+'&pautoscroll=confirm_result_section_bottom" class="btn btn-outline-primary btn-sm me-1 " ><i class="fa-solid "></i>Reload Page</a>'+
+            '</div>'+
+
             '<textarea name="txt_rs_'+datajson[i].id+'" cols="100" rows="5" class="form-control" id="txt_rs_'+datajson[i].id+'" readonly >'+datajson[i].result_message+'</textarea>'+
+
         '</div>';
-        
         
         
         $('#result_list_display').append(str);

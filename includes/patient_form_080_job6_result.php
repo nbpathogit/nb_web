@@ -104,7 +104,7 @@ $isSetShowaddResultButton = true;
 
 
 <!--</form>-->
-
+<span id="confirm_result_section_bottom"></span>
 <hr>
 <div class="row <?= $isBorder ? "border" : "" ?>">
      <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
@@ -117,12 +117,7 @@ $isSetShowaddResultButton = true;
     
 
 
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
-        <label for="date_14000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
-        <input name="date_14000" type="text" class="form-control border" id="date_14000" placeholder="This Field will Auto Generate" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
-
-    </div>
     
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <!--<div class="col">-->
@@ -140,7 +135,8 @@ $isSetShowaddResultButton = true;
 <p align="center">
 <?php $isShow_btnmove12000 = $curstatusid != "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
 <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isShow_btnmove12000 ? '' : 'disabled'; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
-<?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
+
+    <?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase && !$isLastReleaseGroup2DateNull; ?> 
 <button class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มกล่องข้อความรายงานผลใหม่">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
 
     
@@ -158,8 +154,8 @@ $isSetShowaddResultButton = true;
         && $isLastedResultReleaseDateNULL                  //If Last report message block still not released
         && $curstatus[0]['id'] == 12000;                     //and Status == 12000
     $isShow_btn_release = $isCurrentPathoIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
-        && $curstatus[0]['id'] == 12000
-        && $isLastReleaseGroup2DateNull == NULL;                     //and Status == 12000
+        && $curstatus[0]['id'] == 12000                         //and Status == 12000
+        && $isLastReleaseGroup2DateNull;                     
     ?>
 <button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'disabled'; ?>  class="btn btn-primary">&nbsp;&nbsp;Request Second Pathologist Review&nbsp;&nbsp;</button>
 <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary" <?= ($isShow_btn_release)? '':'disabled'; ?> >&nbsp;&nbsp;Release Report&nbsp;&nbsp;</button>

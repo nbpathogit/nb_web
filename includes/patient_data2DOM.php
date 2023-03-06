@@ -63,11 +63,11 @@
 </ul> 
     
     
-<?php $isLastReleaseGroup2DateNull = "blank"; ?>
+<?php $isLastReleaseGroup2DateNull = true; ?>
 <ul class="uresultReleaseSetlistGroup2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdate2s as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
         <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist2::prsu['release_time']::<?= $prsu['release_time'] ?></li>
-        <?php $isLastReleaseGroup2DateNull = $prsu['release_time']; ?>
+        <?php $isLastReleaseGroup2DateNull = ($prsu['release_time']==NULL)?TRUE:FALSE; ?>
     <?php endforeach; ?> 
 </ul> 
 

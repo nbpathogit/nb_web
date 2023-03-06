@@ -106,7 +106,7 @@ $curStatusAuthEdit = (
 
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="pclinician_id" class="">แพทย์ผู้ส่ง(Tobe remove)</label>
+        <label for="pclinician_id" class="">แพทย์ผู้ส่ง</label>
 
         <select name="pclinician_id" id="pclinician_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
             <!--<option value="กรุณาเลือก" selected>กรุณาเลือก</option>-->
@@ -148,6 +148,13 @@ $curStatusAuthEdit = (
                 <option value="<?= $specimen['id']; ?>" <?= $patient[0]['pspecimen_id'] == $specimen['id'] ? "selected" : ""; ?>   ><?= htmlspecialchars($specimen['specimen']); ?></option>
             <?php endforeach; ?>
         </select>
+    </div>
+    
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+
+        <label for="date_14000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
+        <input name="date_14000" type="text" class="form-control border" id="date_14000" placeholder="This Field will Auto Generate" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
+
     </div>
 
 </div>
