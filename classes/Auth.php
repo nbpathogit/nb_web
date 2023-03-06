@@ -53,7 +53,7 @@ class Auth {
             }
         }
 
-        session_regenerate_id(true);
+        session_regenerate_id(false);
     }
 
     /**
@@ -66,7 +66,7 @@ class Auth {
         $userid = $user->id;
         $ugroup = Ugroup::getByID($conn, $user->ugroup_id);
 
-        session_regenerate_id(true);
+        session_regenerate_id(false);
 
         
         $_SESSION['username'] = $username;
