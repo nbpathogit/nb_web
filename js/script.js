@@ -39,13 +39,23 @@ $(document).ready(function () {
         $("#old_password").prop("disabled", false);
         $("#password").prop("disabled", false);
         $("#set_password_confirm").prop("disabled", false);
+        $("#save_userpass").prop("disabled", false);
     } else {
         // Disable #x
         $("#username").prop("disabled", true);
         $("#old_password").prop("disabled", true);
         $("#password").prop("disabled", true);
         $("#set_password_confirm").prop("disabled", true);
+        $("#save_userpass").prop("disabled", true);
     }
+    
+    //Check box enable user detail is checked
+    if ($('#userdetail_enable').is(':checked')) {
+        $(".userdetail_input").prop("disabled", false);
+    } else {
+        $(".userdetail_input").prop("disabled", true);
+    }
+
 
     //Check box id umobile_enable is checked
     if ($('#umobile_enable').is(':checked')) {
@@ -328,12 +338,23 @@ $('#username_enable').change(function () {
         $("#old_password").prop("disabled", false);
         $("#password").prop("disabled", false);
         $("#set_password_confirm").prop("disabled", false);
+        $("#save_userpass").prop("disabled", false);
     } else {
         // Disable #x
         $("#username").prop("disabled", true);
         $("#old_password").prop("disabled", true);
         $("#password").prop("disabled", true);
         $("#set_password_confirm").prop("disabled", true);
+        $("#save_userpass").prop("disabled", true);
+    }
+});
+
+//Check box enable user detail is checked
+$('#userdetail_enable').change(function () {
+    if (this.checked) {
+        $(".userdetail_input").prop("disabled", false);
+    } else {
+        $(".userdetail_input").prop("disabled", true);
     }
 });
 

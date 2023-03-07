@@ -329,6 +329,21 @@ class User
 
         return $stmt->execute();
     }
+    
+        public function updateUserPass($conn)
+    {
+        // need update
+        $sql = "UPDATE user
+                SET username=:username, password=:password
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
+        $stmt->bindValue(':password', $this->password, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 
     public function delete($conn)
     {
@@ -354,5 +369,12 @@ class User
         $stmt->bindValue(':signature_file', $this->signature_file, $this->signature_file == null ? PDO::PARAM_NULL : PDO::PARAM_STR);
 
         return $stmt->execute();
+    }
+    
+    public static function isPasswordCorrect($conn, $username,$password)
+    {
+        $user = User::getByUserName($conn, $username);
+
+        return true;
     }
 }
