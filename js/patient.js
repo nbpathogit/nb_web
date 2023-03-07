@@ -96,15 +96,15 @@ $(document).ready(function () {
                     if (row[9] == "ยังไม่ออกผล") {
                         renderdata += '<p class="btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
                     } else {
-                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
+                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
                     }
                 }
                 else
-                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
+                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit" target="_blank"><i class="fa-solid fa-marker"></i> Edit</a>';
 
 
                 if (isCurUserAdmin) {
-                    renderdata += '<a href="patient_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
+                    renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
                 }
 
                 return renderdata;
@@ -138,11 +138,11 @@ $(document).ready(function () {
                     if (row[9] == "ยังไม่ออกผล") {
                         var data = '<div><h5>' + data;
                     } else {
-                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '" target="_blank">' + data + '</a>';
+                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" target="_blank">' + data + '</a>';
                     }
                 }
                 else {
-                    var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '" target="_blank">' + data + '</a>';
+                    var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" target="_blank">' + data + '</a>';
                 }
 
 
