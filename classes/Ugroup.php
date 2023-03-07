@@ -37,7 +37,7 @@ class Ugroup {
     
     //get only customer group id 5000 ro 5100
     public static function getCust($conn) {
-        $sql = "SELECT * FROM user_groups WHERE id=5000 or id=5100;";
+        $sql = "SELECT * FROM user_groups WHERE id = 0 or id=5000 or id=5100;";
 
         $results = $conn->query($sql);
 

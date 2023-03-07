@@ -225,7 +225,33 @@ class User
             ]
         ];
     }
+    
+    public static function getInitObj() {
+        $user = new User();
+           
+        $user->pre_name = "";
+        $user->name = "";
+        $user->lastname = "";
+        $user->pre_name_e = "";
+        $user->name_e = "";
+        $user->lastname_e = "";
+        $user->short_name = "";
+        $user->educational_bf = "";
+        $user->role = "";
+        $user->udetail = "";
+        $user->umobile = "";
+        $user->uemail = "";
+        $user->username = NULL;
+        $user->password = "";
+        $user->ugroup_id = 0;
+        $user->uhospital_id = 0;
+        $user->signature_file = "";
+        $user->profile_file = "";
+        $user->errors = NULL;
 
+
+        return $user;
+    }
 
     /**
      * Insert a new user

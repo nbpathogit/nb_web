@@ -305,7 +305,7 @@ if (isset($_GET['signature'])) {
 
 
 
-            <?php require 'includes_user/user_form.php'; ?>
+            <?php require 'includes_user/user_form_detail.php'; ?>
 
 
 

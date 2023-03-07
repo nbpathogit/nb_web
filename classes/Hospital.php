@@ -49,6 +49,20 @@ class Hospital
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+    public static function getAllbyNonUserId($conn)
+    {
+        $sql = "SELECT *".
+                " FROM hospital" .
+                " WHERE ".
+               " user_id = 0".
+                " ORDER BY id";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function create($conn)
     {
@@ -153,4 +167,16 @@ class Hospital
 
         return $stmt->execute();
     }
+    
+    public static function setUserID($conn,$uhospital_id_user_add,$user_id_user_add){
+        $sql = "UPDATE `hospital` SET `user_id` = :user_id WHERE `hospital`.`id` = :id";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id_user_add, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $uhospital_id_user_add, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    
 }

@@ -52,6 +52,8 @@
 <script src="/js/jquery.datetimepicker.full.min.js"></script>
 <script src="/js/script.js?v13xx"></script>
 
+<script src="/ajax_user/user.js?v0xxxx"></script>
+
 
 
 
