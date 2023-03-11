@@ -67,5 +67,11 @@ class Util {
         date_default_timezone_set('Asia/Bangkok');
         return date('y');
     }
+    
+    public static function alert($message) {
+        echo '<script type="text/javascript">';
+        echo ' alert("'.$message.'")';  //not showing an alert box.
+        echo '</script>';
+    }
 
 }
