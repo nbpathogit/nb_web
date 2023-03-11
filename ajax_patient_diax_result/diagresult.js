@@ -218,6 +218,9 @@ $(document).ready(function () {
 
     //updateJob6(false);
 //    refreshTblJob6(false);
+$('#top_free_text').append($('#item_name_a').text());
+//alert($('#item_name_a').text());
+
     
 
 });

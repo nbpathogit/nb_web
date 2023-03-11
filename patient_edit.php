@@ -1210,7 +1210,7 @@ if (isset($curstatus[0]['next3'])) {
 
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
-<script src="/ajax_patient_diax_result/diagresult.js?v8"></script>
+<script src="/ajax_patient_diax_result/diagresult.js?v9"></script>
 <script src="/ajax_patient_diax_result/patient_status_control.js?v5"></script>
 
 <script type="text/javascript">

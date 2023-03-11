@@ -32,14 +32,14 @@ $disableMoveButton = true;
 
 <?php require 'includes/patient_data2DOM.php';?>
 
-    <h4 align="center"><b>
+<h4 align="center"><span id="item_name_a"><b>
             คนไข้เลขที่: <span style="color:orange;text-decoration: underline;"><?=$patient[0]['pnum'];?></span> &nbsp; 
             ขั้นตอน: <span style="<?= $curstatus['0']["des"] == "เสร็จสิ้น" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?= $curstatus['0']["des"] ?> </span> &nbsp;
             การออกผล: <span style="<?= $patient[0]['reported_as'] == "ออกผลแล้ว" ? "color:green;text-decoration: underline;" : "color:orange;text-decoration: underline;";?>"><?=$patient[0]['reported_as'];?></span>
-        </b></h4>
+        </b></span></h4>
 <span align="left">
     <?php if (!$disableMoveButton) : ?> 
-        <form  id="" name="" method="post"> 
+        <form  id="" name="" method="post">
             ขั้นตอนปัจจุบัน : 
             <button name="" class="btn btn-warning" disabled><b> <?= $curstatus['0']["des"] ?> </b> </button>
 
