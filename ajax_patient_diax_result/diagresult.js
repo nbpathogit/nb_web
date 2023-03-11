@@ -307,13 +307,11 @@ function append2page(data) {
         
           var str = '<li tabindex="'+datajson[i].id+'">uresultinxlist::prsu["id"]::'+datajson[i].id+'</li>';
           $(".uresultinxlist2").append(str);
-//        $('#table_body_job6 tbody').append(str);
-        
-//        var str2 = '<span class="badge rounded-pill bg-primary" id="">'+ datajson[i].pre_name +' '+ datajson[i].name+' '+ datajson[i].lastname +'</span> ';
-//        $('#owner_job6').append(str2);
-//        $('#owner_job6a').append(str2);
-//        $('#owner_job6b').append(str2);
-        //alert("done");
+
+
+        // Write second patho user_id to DOM
+        var str = '<li tabindex="'+datajson[i].pathologist2_id+'">uresultSecondPatho2::prsu["pathologist2_id"]::'+datajson[i].pathologist2_id+'</li>';
+        $(".uresultSecondPatho2").append(str);
     }
 
 }

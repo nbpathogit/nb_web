@@ -477,6 +477,17 @@ function addAction2Flow() {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }
+        if (isCurrentPathoIsOwnerThisCase == '0') {
+            alert("You not have authorize to do this ! Only owner can proceed");
+            return;
+        }
+        
+        var lastest_secondP_userid = get_lastest_SecondPatho_userid_in_uresult();
+        var lastest_result_id = get_lastest_uresultid();
+        var lastest_job6_id = get_lastest_job6_id();
+        
+//        alert("lastest_secondP_userid = "+lastest_secondP_userid+" and lastest_result_id= "+lastest_result_id+" lastest_job6_id="+lastest_job6_id);
+//        return;
 
         //set second_patho_review = 1
         $.ajax({
@@ -487,6 +498,9 @@ function addAction2Flow() {
             data: {
                 'patient_id': cur_patient_id,
                 'second_patho_review': 1,
+                'result_id': lastest_result_id,
+                'user_id': lastest_secondP_userid,
+                'job6_id': lastest_job6_id,
             },
             success: function (data) {
                 console.log(data);
@@ -507,11 +521,7 @@ function addAction2Flow() {
         frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
         frm.appendTo("body");
         frm.submit();
-        
-        
-        
-        
-        
+
     });
 
 
@@ -561,17 +571,16 @@ function addAction2Flow() {
         
         
         
-        var isset_second_patho = '0';
-        $('.uresultSecondPatho li').each(function (index) {
-            isset_second_patho = $(this).attr('tabindex');
-        });
+     
+        
+        var lastest_SecondPatho_userid = get_lastest_SecondPatho_userid_in_uresult();
 
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }
 
-        if (cur_status == '12000' && isset_second_patho != '0') {
+        if (cur_status == '12000' && lastest_SecondPatho_userid != '0') {
             alert("Second patho need to be agree first!");
             return;
         }
@@ -631,7 +640,10 @@ function addAction2Flow() {
 
 
 
-
+        var lastest_secondP_userid = get_lastest_SecondPatho_userid_in_uresult();
+        var lastest_result_id = get_lastest_uresultid();
+        var lastest_job6_id = get_lastest_job6_id();
+        
 
 
         if (cur_status == "13000") {
@@ -644,6 +656,9 @@ function addAction2Flow() {
                 data: {
                     'patient_id': cur_patient_id,
                     'second_patho_review': 2,
+                    'result_id': lastest_result_id,
+                    'user_id': lastest_secondP_userid,
+                    'job6_id': lastest_job6_id,
                 },
                 success: function (data) {
                     console.log(data);

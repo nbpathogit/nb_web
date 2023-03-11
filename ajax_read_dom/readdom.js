@@ -17,4 +17,30 @@ function get_cur_patient_id(){
 }
 
 
+function get_lastest_SecondPatho_userid_in_uresult(){
+    //Second user id lastest in u_result
+    var userid = '0';
+    $('.uresultSecondPatho li').each(function (index) {
+        userid = $(this).attr('tabindex');
+    });
+    $('.uresultSecondPatho2 li').each(function (index) {
+        userid = $(this).attr('tabindex');
+    });
+    return userid;
+    
+}
+
+
+function get_lastest_job6_id(){
+    //Second user id lastest in u_result
+    var id = '0';
+    $('.job6_id li').each(function (index) {
+        id = $(this).attr('tabindex');
+    });
+    $('.job6_id2 li').each(function (index) {
+        id = $(this).attr('tabindex');
+    });
+    return id;
+    
+}
 

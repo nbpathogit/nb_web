@@ -27,6 +27,8 @@ class Presultupdate {
     public $pathologist2_id;
     public $release_time;
     public $release_type;
+    public $second_patho_review;    
+    public $create_date;
 
 
     public static function getInitObj() {
@@ -206,6 +208,21 @@ class Presultupdate {
 
         return $stmt->execute();
     }
+    
+    
+    public static function updateSecondPatho($conn, $id, $pathologist2_id) {
+
+        $sql = "UPDATE presultupdate".
+                " SET pathologist2_id = :pathologist2_id".
+                " WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pathologist2_id', $pathologist2_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 
     public static function updateReleaseTime($conn, $id) {
 
@@ -272,6 +289,20 @@ class Presultupdate {
 
         return $stmt->execute();
 
+    }
+    
+    public static function setSecondPathoReview($conn, $id, $second_patho_review)
+    {
+        $sql = "UPDATE presultupdate ".
+                " SET second_patho_review = :second_patho_review".
+                " WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':second_patho_review', $second_patho_review, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
 }

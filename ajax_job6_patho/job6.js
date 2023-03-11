@@ -132,6 +132,10 @@ function repaintTbljob6(data,result_id) {
         
         $(owner_job6_id).append(str2);
 //        $('.owner_job6b').append(str2);
+
+        // Write second patho user_id to DOM
+        var str = '<li tabindex="'+datajson[i].id+'">job6s::job6["id"]::'+datajson[i].id+'</li>';
+        $(".job6_id2").append(str);
     }
 
 }
@@ -212,6 +216,12 @@ function add_job_list6(result_id){
         alert("No data select");
         return null;
     }
+    
+    // Write second patho user_id to DOM
+    var str = '<li tabindex="'+user_id+'">uresultSecondPatho2::prsu["pathologist2_id"]::'+user_id+'</li>';
+    $(".uresultSecondPatho2").append(str);
+    
+
 
     $.ajax({
         type: 'POST',
@@ -237,8 +247,9 @@ function add_job_list6(result_id){
             console.log(data);
             //alert(data);
             repaintTbljob6(data,result_id);
-            //$("#btn2review13000").hide();
-//            $("#btn2review13000").show();
+
+
+
             $("#btn2review13000").prop('disabled', false);//enable
             $("#add_job6").hide();
         },

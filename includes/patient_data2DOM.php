@@ -1,6 +1,8 @@
 
 
 <?php $hidden_data2dom = true; ?>
+
+
 <span id="data2DOM">
 <!--Write Data to DOM pass value to java script-->
 <?php if (isset($curstatus[0]['id'])): ?>
@@ -8,15 +10,7 @@
     <li class="isset_date_first_report" tabindex="<?= $isset_date_first_report ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isset_date_first_report::$isset_date_first_report::<?= $isset_date_first_report ?> </li>
 <?php endif; ?>
     
-<?php if (isset($isCurrentPathoIsOwnerThisCase)): ?>
-    <li class="isCurrentPathoIsOwnerThisCase" tabindex="<?= $isCurrentPathoIsOwnerThisCase?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsOwnerThisCase::<?= $isCurrentPathoIsOwnerThisCase?"1":"0"; ?> </li>
-    <li class="isCurrentPathoIsSecondOwneThisCaseLastest" tabindex="<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsSecondOwneThisCaseLastest::<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?> </li>
-<?php endif; ?>
-    
-<?php if (isset($isSecondPathoDefined)): ?>
-<!--$isSecondPathoDefined-->
-    <li class="isSecondPathoDefined" tabindex="<?= $isSecondPathoDefined?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >$isSecondPathoDefined::<?= $isSecondPathoDefined?"true":"false"; ?> </li>
-<?php endif; ?>
+
         
 <?php //List of index result (all) ?>
 <ul class="uresultinxlist" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
@@ -36,12 +30,28 @@
 
     
 <!--$presultupdate2s-->
-<?php //List of index result (group2) ?>
+<?php //List of index result (group2) 
+$isCurrentPathoIsSecondOwneThisCase = false;?>
 <ul class="uresultinxlist2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
     <?php foreach ($presultupdate2s as $prsu2): // record uresultid to DOM ?>
         <li tabindex="<?= $prsu2['id'] ?>">uresultinxlist2::prsu2['id']::<?= $prsu2['id'] ?></li>
+        <?php $isCurrentPathoIsSecondOwneThisCase = $_SESSION['user']->id == $prsu2['pathologist2_id']; ?>
     <?php endforeach; ?> 
 </ul> 
+
+<?php if (isset($isCurrentPathoIsOwnerThisCase)): ?>
+    <li class="isCurrentPathoIsOwnerThisCase" tabindex="<?= $isCurrentPathoIsOwnerThisCase?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsOwnerThisCase::<?= $isCurrentPathoIsOwnerThisCase?"1":"0"; ?> </li>
+   <?php endif; ?>
+    
+<?php if (isset($isCurrentPathoIsSecondOwneThisCase)): ?>
+      <li class="isCurrentPathoIsSecondOwneThisCaseLastest" tabindex="<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsSecondOwneThisCaseLastest::<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?> </li>
+<?php endif; ?>
+    
+<?php if (isset($isSecondPathoDefined)): ?>
+<!--$isSecondPathoDefined-->
+    <li class="isSecondPathoDefined" tabindex="<?= $isSecondPathoDefined?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >$isSecondPathoDefined::<?= $isSecondPathoDefined?"true":"false"; ?> </li>
+<?php endif; ?>
+
 
 <?php //isLastReleaseGroup2SecondPathoAval?>   
 <li class="isLastReleaseGroup2SecondPathoAval" tabindex="<?= $isLastReleaseGroup2SecondPathoAval; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$isLastReleaseGroup2SecondPathoAval::<?= $isLastReleaseGroup2SecondPathoAval; ?> </li>
@@ -102,6 +112,13 @@
         <li tabindex="<?= ($prsu['pathologist2_id']) ?>">uresultSecondPatho::prsu['pathologist2_id']::<?= $prsu['pathologist2_id'] ?></li>
     <?php endforeach; ?> 
 </ul>
+
+<ul class="uresultSecondPatho2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
+
+</ul>
+
+<!--<ul class="uresultReleaseType2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >-->
+<!--</ul>--> 
     
 <?php //List of lastest reported_as result ?>
 <ul class="reported_as" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
@@ -153,7 +170,16 @@
 <li class="cur_pclinician_id" tabindex="<?= $patient[0]['pclinician_id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pclinician_id']::<?= $patient[0]['pclinician_id'] ?> </li>
 
 
+<?php ///$job6s]?>  
+<?php //List of second patho ?>
+<ul class="job6_id" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
+    <?php foreach ($job6s as $job6): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex="<?= ($job6['id']) ?>">job6s::job6['id']::<?= $job6['id'] ?></li>
+    <?php endforeach; ?> 
+</ul>
 
+<ul class="job6_id2" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
 
+</ul>
 
 </span>

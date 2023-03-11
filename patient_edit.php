@@ -788,9 +788,9 @@ if (isset($_POST['edit_sp_prep_slide']) || $patient[0]['isautoeditmode'] == "sli
     $isEditModePageForSpSlidePrepDataOn = true;        //flase = view mode, true = editing mode
 }
 
-if ($isCurrentPathoIsSecondOwneThisCase && $curstatusid == "13000") {
-    //$patient[0]['pautoscroll'] = "uresultLastSection";
-}
+//if ($isCurrentPathoIsSecondOwneThisCase && $curstatusid == "13000") {
+//    //$patient[0]['pautoscroll'] = "uresultLastSection";
+//}
 
 if (isset($_GET['focus'])) {
     $patient[0]['pautoscroll'] = $_GET['focus'];
@@ -1204,14 +1204,14 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_job3_prep_slide/job3.js?v2"></script>
 <script src="/ajax_job4_prep_sp_slide/job4.js?v2"></script>
 <script src="/ajax_job5_patho/job5.js?v3"></script>
-<script src="/ajax_job6_patho/job6.js?v5x"></script>
+<script src="/ajax_job6_patho/job6.js?v6"></script>
 
-<script src="/ajax_read_dom/readdom.js?v1"></script>
+<script src="/ajax_read_dom/readdom.js?v2"></script>
 
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
-<script src="/ajax_patient_diax_result/diagresult.js?v9x"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v5"></script>
+<script src="/ajax_patient_diax_result/diagresult.js?v10"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v6"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

@@ -917,4 +917,20 @@ class Patient
 
         return $stmt->execute();
     }
+    
+    public static function set_request_sp_slide($conn, $id, $request_sp_slide)
+    {
+        $sql = "UPDATE patient
+                SET request_sp_slide = :request_sp_slide
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':request_sp_slide', $request_sp_slide, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    
 }

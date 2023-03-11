@@ -25,10 +25,13 @@ $job->cost_count_per_day = (int) $_POST['cost_count_per_day'];
 $job->comment = $_POST['comment'];
 $job->finish_date = null;
 
-
+//Create new Job to Job table
 $result_id = $job->create($conn);
 
+// add user id of Second patho to PResult
+Presultupdate::updateSecondPatho($conn, (int) $_POST['result_id'], (int) $_POST['user_id']);
 
+// return the Jow as Array
 $jobs = Job::getByPatientJobRoleUResult($conn, (int) $_POST['patient_id'],6,(int) $_POST['result_id']);
 
 echo json_encode($jobs);

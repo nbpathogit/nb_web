@@ -29,6 +29,8 @@ class Job
     public $cost_count_per_day;
     public $comment;  //   varchar(50)	
     public $finish_date;  //  datetime	
+    public $second_patho_review;  //  
+    public $request_sp_slide;  //  	
 
     public static function getInitObj()
     {
@@ -228,4 +230,47 @@ class Job
 
         return $stmt->execute();
     }
+    
+    public static function setSecondPathoReview($conn, $id, $second_patho_review)
+    {
+        $sql = "UPDATE job
+                SET second_patho_review = :second_patho_review
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':second_patho_review', $second_patho_review, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    public static function set_request_sp_slide($conn, $id, $request_sp_slide)
+    {
+        $sql = "UPDATE job
+                SET request_sp_slide = :request_sp_slide
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':request_sp_slide', $request_sp_slide, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    public static function setUresultID($conn, $id, $result_id)
+    {
+        $sql = "UPDATE job
+                SET result_id = :result_id
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':result_id', $result_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
 }
