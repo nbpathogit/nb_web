@@ -137,12 +137,8 @@ $isSetShowaddResultButton = true;
 <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isShow_btnmove12000 ? '' : 'disabled'; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
 
     <?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase && !$isLastReleaseGroup2DateNull; ?> 
-<button class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มกล่องข้อความรายงานผลใหม่">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
+<button class="btn btn-primary" id="add_new_report_section_btn"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มกล่องข้อความรายงานผลใหม่">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
 
-    
-
-
-    
 
 
 <!--<button name="save_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>-->

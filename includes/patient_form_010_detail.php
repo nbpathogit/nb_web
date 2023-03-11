@@ -152,8 +152,8 @@ $curStatusAuthEdit = (
     
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
-        <label for="date_14000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
-        <input name="date_14000" type="text" class="form-control border" id="date_14000" placeholder="This Field will Auto Generate" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $presultupdate['release_time']; ?>">
+        <label for="date_20000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
+        <input name="date_20000" type="text" class="form-control border" id="date_20000" placeholder="This Field will Auto Generate" <?= $isEditModePageForFinResultDataOn && ($isCurrentPathoIsOwnerThisCase || $isCurUserAdmin) && FALSE ? "" : " disabled readonly " ?> value="<?= $patient[0]['date_20000']; ?>">
 
     </div>
 

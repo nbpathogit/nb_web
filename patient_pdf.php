@@ -277,7 +277,7 @@ if (isset($presultupdate2s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
     
     foreach ($presultupdate2s as $prsu) {
-        $isFinished = $prsu[''] != NULL;
+        $isFinished = $prsu['release_time'] != NULL;
         if ($isFinished || $isPreviewMode) {
 
 

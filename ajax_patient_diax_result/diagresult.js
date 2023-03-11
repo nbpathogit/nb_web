@@ -159,7 +159,7 @@ $("#add_u_result").on("click", function () {
 
     });
     
-    
+    $('#add_new_report_section_btn').prop("disabled", true);
     
 });
 
