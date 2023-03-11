@@ -20,6 +20,12 @@ $(document).ready(function () {
                 }
             }
         }
+
+        if (ugroup_id == '5000' || ugroup_id == '5100') {
+            table.column(12).visible( false );
+        }
+
+
     }
 
 
