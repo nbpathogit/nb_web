@@ -1057,6 +1057,7 @@ if (isset($curstatus[0]['next3'])) {
     <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
         <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
+        <h3 align="center" ><?= $patient[0]['request_sp_slide'] > 0 ? "สังย้อมพิเศษแล้ว":""; ?></h3>
         <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
         <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
         
@@ -1074,8 +1075,8 @@ if (isset($curstatus[0]['next3'])) {
                 <?php endif; ?>
             <?php else : ?>
                 <?php if (!$isEditModePageForSpSlidePrepDataOn) : ?>
-                    <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (($curstatusid >= 8000) || $isCurrentPathoIsOwnerThisCase ) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>
-                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= (($curstatusid != 8000) || $isCurrentPathoIsOwnerThisCase) ? "" : "disabled"; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
+                    <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= ( !$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>
+                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -1211,7 +1212,7 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
 <script src="/ajax_patient_diax_result/diagresult.js?v10"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v6"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxx"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

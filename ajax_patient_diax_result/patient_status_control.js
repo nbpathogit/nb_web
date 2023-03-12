@@ -280,19 +280,69 @@ function addAction2Flow() {
             alert("You not have authorize to do this ! Only owner can proceed");
             return;
         }
+        
+        
+        
+        
+        
+        
+        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+        var lastest_secondP_userid = get_lastest_SecondPatho_userid_in_uresult();
+        var lastest_result_id = get_lastest_uresultid();
+        var lastest_job6_id = get_lastest_job6_id();
+        
+//        alert("lastest_secondP_userid = "+lastest_secondP_userid+" and lastest_result_id= "+lastest_result_id+" lastest_job6_id="+lastest_job6_id);
+//        return;
 
-        var frm = $("<form>");
-        frm.attr('method', 'post');
-        frm.attr('');
-        frm.append('<input type="hidden" name="status" value="8000" /> ');
-        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
-        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
-        $('.p_slide_prep_sp_id li').each(function (index) {
-            frm.append('<input type="hidden" name="p_slide_prep_sp_id" value="' + $(this).attr('tabindex') + '" /> ');
+        //set second_patho_review = 1
+        $.ajax({
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: '/ajax_job4_prep_sp_slide/set_request_sp_slide.php',
+            data: {
+                'patient_id': cur_patient_id,
+                'request_sp_slide': 1,
+//                'result_id': lastest_result_id,
+//                'user_id': lastest_secondP_userid,   //Allow to add user later
+//                'job6_id': lastest_job6_id,            //Allow to add job later
+            },
+            success: function (data) {
+                console.log(data);
+                alert(data);
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
         });
 
-        frm.appendTo("body");
-        frm.submit();
+        
+        
+        
+        $('.sp_slide_req_btn').attr({"aria-disabled":"true"});
+//        $('.sp_slide_req_btn').prop({"class":"disable"});
+        $('.sp_slide_req_btn').addClass('disabled');
+        
+        $('#btnmove8000').prop('disabled',true);
+        
+        alert('done');
+        
+
+
+//        var frm = $("<form>");
+//        frm.attr('method', 'post');
+//        frm.attr('');
+//        frm.append('<input type="hidden" name="status" value="8000" /> ');
+//        frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
+//        frm.append('<input type="hidden" name="isset_date_first_report" value="' + isset_date_first_report + '" /> ');
+//        $('.p_slide_prep_sp_id li').each(function (index) {
+//            frm.append('<input type="hidden" name="p_slide_prep_sp_id" value="' + $(this).attr('tabindex') + '" /> ');
+//        });
+//
+//        frm.appendTo("body");
+//        frm.submit();
+        
     });
 
 
