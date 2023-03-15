@@ -128,9 +128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $("input").change(function () {
             window.addEventListener("beforeunload", onNosave);
         });
-
+        
+        //add
+        $("#add").click(function () {
+            window.removeEventListener("beforeunload", onNosave);
+        });
+        
         $("#save").click(function () {
             window.removeEventListener("beforeunload", onNosave);
-        })
+        });
     });
 </script>
