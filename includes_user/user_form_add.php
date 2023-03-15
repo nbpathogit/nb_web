@@ -52,6 +52,19 @@
                 </div>
             </div>
 
+            <div class="row pt-3 mb-3 g-5 align-items-center">
+                <div class="col-auto">
+                    <label for="username">ชื่อเข้าใช้</label>
+                    <input class="form-control" name="username" type="text" id="username_add" size="20" maxlength="10" value="">
+                    <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 6-10 ตัวอักษร</span>
+                </div>
+                <div class="col-auto">
+                    <label for="password">รหัสผ่าน</label>
+                    <input class="form-control" name="password" type="text" id="password_add" size="20" maxlength="10">
+                    <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 5 ตัวอักษรขึ้นไป</span>
+                </div>
+            </div>   
+
             <div><button id="add" name="add" class="btn btn-primary  ">Add</button></div>
         </form>
     </div>

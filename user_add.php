@@ -34,6 +34,7 @@ $is_signature_file = false;  // have signature file
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //array(8) { ["ugroup_id_user_add"]=> string(4) "5000" ["uhospital_id_user_add"]=> string(2) "18" ["pre_name"]=> string(9) "นาง" ["name"]=> string(4) "ssss" ["lastname"]=> string(3) "sss" ["username"]=> string(5) "aaaaa" ["password"]=> string(5) "aaaaa" ["add"]=> string(0) "" }
 //     var_dump($_POST);
 //     die();
 
@@ -44,6 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $user_new->ugroup_id = $_POST['ugroup_id_user_add'];
     $user_new->uhospital_id = $_POST['uhospital_id_user_add'];
+    
+    $user_new->username = $_POST['username'];
+    $user_new->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     try {
         if ($user_new->create($conn)) {
