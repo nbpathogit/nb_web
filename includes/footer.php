@@ -60,3 +60,15 @@
 </body>
 
 </html>
+
+<?php if (($isCurUserClinicianCust || $isCurUserHospitalCust)) : //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้   
+?>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#patienttab_8000').remove();
+            $('#patientconfirmtab').remove();
+        });
+    </script>
+
+<?php endif; ?>

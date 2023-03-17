@@ -4,7 +4,7 @@ require '../includes/init.php';
 
 $auth = false;
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    if (!empty($_SERVER['HTTP_REFERER']) && ((strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient.php"))  || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_monitor_8000.php")))) {
+    if (!empty($_SERVER['HTTP_REFERER']) && ((strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient.php"))  || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_monitor_8000.php"))   || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_confirm.php")))) {
 
         // >>>> Security check
         if (empty($_SESSION['skey']) || empty($_REQUEST['skey']) || ($_SESSION['skey'] != $_REQUEST['skey'])) {
@@ -47,6 +47,8 @@ if ($auth) {
         $patientLists = Patient::getAllJoinID8000($conn, 0, $range);
     } else if ($isCurUserClinicianCust || $isCurUserHospitalCust) {  // get patient with reported
         $patientLists = Patient::getAllJoinWithReported($conn, 0, $range);
+    } else if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_confirm.php")) {
+        $patientLists = Patient::getAllConfirm($conn, 0, $range);
     } else {                                                        // get all patient
         $patientLists = Patient::getAllJoin($conn, 0, $range);
     }

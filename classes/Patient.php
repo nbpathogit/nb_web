@@ -222,6 +222,37 @@ class Patient
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+    public static function getAllConfirm($conn, $id = 0, $start = '0')
+    {
+        $sql = "SELECT * ,p.id as pid
+                FROM patient as p
+                JOIN user as u
+                JOIN hospital as h
+                JOIN priority as pri
+                JOIN status as s
+                WHERE p.ppathologist_id = u.id
+                and p.phospital_id = h.id
+                and p.priority_id = pri.id
+                and p.status_id = s.id
+                and p.second_patho_review > 0";
+
+
+        if ($id != 0) {
+            $sql = $sql . " and p.id = " . $id;
+        }
+
+        if ($start != '0') {
+            $sql .= " and date(p.date_1000) >= '{$start}'";
+        }
+
+        $sql .= " ORDER BY  p.id DESC;";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /**
      * Get the article record based on the ID
      *

@@ -3,7 +3,7 @@
 require 'includes/init.php';
 $conn = require 'includes/db.php';
 Auth::requireLogin();
-
+require 'user_auth.php';
 //var_dump($_POST);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -174,3 +174,9 @@ if (!$labelPrints) {
 
 </div>
 <?php require 'includes/footer.php'; ?>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#generate_label").addClass("active");
+    });
+</script>
