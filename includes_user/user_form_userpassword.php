@@ -43,7 +43,7 @@
                 <?php endif; ?>
             </div>
 
-            <div><button id="save_userpass" name="save_userpass" class="btn btn-primary">Save</button></div>
+            <div><button id="save_userpass" type="submit" name="save_userpass" class="btn btn-primary">Save</button></div>
         </form>
     </div>
 </div>

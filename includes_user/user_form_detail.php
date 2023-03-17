@@ -141,7 +141,7 @@
 
 
 
-            <div><button id="save" name="save" class="btn btn-primary  userdetail_input">Save</button></div>
+            <div><button type="submit"  id="save" name="save" class="btn btn-primary  userdetail_input">Save</button></div>
         </form>
     </div>
 </div>

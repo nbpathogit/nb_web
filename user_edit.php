@@ -12,7 +12,7 @@ $isCurrentuserOwner = $_GET['id'] == $_SESSION['userid'];
 $canCurUserChangeUGroup = $isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff;
 
 // Ownder and Group can change password
-$canChangePassword = $isCurrentuserOwner || $isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff ;
+$canChangePassword = $isCurrentuserOwner || $isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff;
 
 // Who can change password
 $canResetPassword = $isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff;
@@ -34,13 +34,13 @@ if (isset($_GET['id'])) {
 
 $user_edit = new User();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     var_dump($_POST);
-//     die();
-//     
-        // flag var
-        $user_updated = false;  //update user success
-        $passchg = false;       // password has change
-        $is_signature_file = false;  // have signature file
+    //     var_dump($_POST);
+    //     die();
+    //     
+    // flag var
+    $user_updated = false;  //update user success
+    $passchg = false;       // password has change
+    $is_signature_file = false;  // have signature file
     //Save user detail btn pressed
     if (isset($_POST['save'])) {
         $url = "";
@@ -173,64 +173,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Save user password btn
     if (isset($_POST['save_userpass'])) {
-        try{
+        try {
             $isAllowToSetPassWord = false;
-            if(isset($_POST['old_password'])){
-                $isAllowToSetPassWord = User::authenticate($conn,$_POST['username'],$_POST['old_password']);
-                if(!$isAllowToSetPassWord){
+            if (isset($_POST['old_password'])) {
+                $isAllowToSetPassWord = User::authenticate($conn, $_POST['username'], $_POST['old_password']);
+                if (!$isAllowToSetPassWord) {
                     throw new Exception('Your fill in old password in-correct.');
                 }
-            }else{
+            } else {
                 //first time set password
                 $isAllowToSetPassWord = TRUE;
             }
-                if($isAllowToSetPassWord){
+            if ($isAllowToSetPassWord) {
 
-                    $user_edit->id = $_GET['id'];
-                    $user_edit->username = $_POST['username'];
-                    // if have old password field correct and new pass correct -> save hash new password
-                    if ($canChangePassword) {
-                        $user_edit->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                        try {
-                            if ($user_edit->updateUserPass($conn)) {
-                                $user_updated = true;
-                                $url = "/user_detail.php?id=$user_edit->id&result=1";
-                                if ($passchg === true)
-                                    $url = $url . "&psch=1";
-                                Url::redirect("/user_edit.php?id=" . $_GET['id'] . "&psch=1" );
-                            } else {
-                                throw new Exception('Edit user fail. Please verify again.');
-                            }
-                        } catch (Exception $e) {
-                            throw $e;
+                $user_edit->id = $_GET['id'];
+                $user_edit->username = $_POST['username'];
+                // if have old password field correct and new pass correct -> save hash new password
+                if ($canChangePassword) {
+                    $user_edit->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    try {
+                        if ($user_edit->updateUserPass($conn)) {
+                            $user_updated = true;
+                            $url = "/user_detail.php?id=$user_edit->id&result=1";
+                            if ($passchg === true)
+                                $url = $url . "&psch=1";
+                            Url::redirect("/user_edit.php?id=" . $_GET['id'] . "&psch=1");
+                        } else {
+                            throw new Exception('Edit user fail. Please verify again.');
                         }
-                        $passchg = true;
+                    } catch (Exception $e) {
+                        throw $e;
                     }
-                    // use old pass with no rehash
-                    else {
-                        $passchg = false;
-                        throw new Exception('You dont have authorize to change password.');
-                    }
-                } else {
-                    $passchg = false;
-                    throw new Exception('Your fill in old password in-correct.');
+                    $passchg = true;
                 }
-            
-            } catch (Exception $e) {
-                $user_edit->errors[] = $e->getMessage();
+                // use old pass with no rehash
+                else {
+                    $passchg = false;
+                    throw new Exception('You dont have authorize to change password.');
+                }
+            } else {
+                $passchg = false;
+                throw new Exception('Your fill in old password in-correct.');
             }
-//        $user_edit->ugroup_id = $_POST['ugroup_id'];
-//        $user_edit->uhospital_id = $_POST['uhospital_id'];
-//        $user_edit->udetail = $_POST['udetail'];
- 
-    }// End of  isset($_POST['save_userpass'])
+        } catch (Exception $e) {
+            $user_edit->errors[] = $e->getMessage();
+        }
+        //        $user_edit->ugroup_id = $_POST['ugroup_id'];
+        //        $user_edit->uhospital_id = $_POST['uhospital_id'];
+        //        $user_edit->udetail = $_POST['udetail'];
+
+    } // End of  isset($_POST['save_userpass'])
 }
 ?>
 
 <?php require 'includes/header.php'; ?>
 
 
-<?php //Page authorize   ?>
+<?php //Page authorize   
+?>
 <?php
 if (($isCurUserClinicianCust || $isCurUserHospitalCust) && $_SESSION['user']->id != $_GET['id']) { //  เจ้าหน้าที่รับผล(ลูกค้า) เข้าดูไม่ได้ + ดูได้เฉพาะของตัวเอง
     require 'blockopen.php';
@@ -243,15 +243,15 @@ if (($isCurUserClinicianCust || $isCurUserHospitalCust) && $_SESSION['user']->id
 ?>
 
 <?php if (!empty($user_edit->errors)) : ?>
-<div id="slide_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <div class="alert alert-warning" role="alert">
-            <?php foreach ($user_edit->errors as $error) : ?>
-                <li><?= $error ?></li>
-            <?php endforeach; ?>
+    <div id="slide_prep_section" class="container-fluid pt-4 px-4">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <div class="alert alert-warning" role="alert">
+                <?php foreach ($user_edit->errors as $error) : ?>
+                    <li><?= $error ?></li>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
-</div>
 <?php endif; ?>
 
 
@@ -260,7 +260,7 @@ if (($isCurUserClinicianCust || $isCurUserHospitalCust) && $_SESSION['user']->id
 
 <?php if (isset($_GET['result'])) {
     if ($_GET['result'] == 1) :
-        ?>
+?>
         <div class="alert alert-success" role="alert">
             USER Added/Edit Successful
         </div>
@@ -269,7 +269,7 @@ if (($isCurUserClinicianCust || $isCurUserHospitalCust) && $_SESSION['user']->id
 }
 if (isset($_GET['psch'])) {
     if ($_GET['psch'] == 1) :
-        ?>
+    ?>
         <div class="alert alert-success" role="alert">
             Edit new password Successful
         </div>
@@ -279,15 +279,15 @@ if (isset($_GET['psch'])) {
 
 if (isset($_GET['signature'])) {
     if ($_GET['signature'] == 1) :
-        ?>
+    ?>
         <div class="alert alert-success" role="alert">
             Signature update Successful
         </div>
     <?php else : ?>
         <div class="alert alert-warning" role="alert">
-        <?= $_GET['signature']; ?>
+            <?= $_GET['signature']; ?>
         </div>
-    <?php
+<?php
     endif;
 }
 ?>
@@ -305,18 +305,18 @@ if (isset($_GET['signature'])) {
 
 
 
-            <?php require 'includes_user/user_form_detail.php'; ?>
+<?php require 'includes_user/user_form_detail.php'; ?>
 
 
 
 
-            <?php require 'includes_user/user_form_userpassword.php'; ?>
+<?php require 'includes_user/user_form_userpassword.php'; ?>
 
 
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
 
 
 
@@ -329,15 +329,15 @@ if (isset($_GET['signature'])) {
             e.returnValue = '';
         }
 
-        $("input").change(function () {
+        $("input").change(function() {
             window.addEventListener("beforeunload", onNosave);
         });
 
-        $("#save").click(function () {
+        $(":submit").click(function() {
             window.removeEventListener("beforeunload", onNosave);
         });
 
-        $("#signature-delete").on("click", function (e) {
+        $("#signature-delete").on("click", function(e) {
 
             e.preventDefault();
             if (confirm("Are you sure?")) {
