@@ -204,8 +204,7 @@ class Patient
                 and p.phospital_id = h.id
                 and p.priority_id = pri.id
                 and p.request_sp_slide > 0
-                and p.status_id = s.id
-                and p.status_id = 8000";
+                and p.status_id = s.id";
 
         if ($id != 0) {
             $sql = $sql . " and p.id = " . $id;
