@@ -3,7 +3,7 @@
     .result{
         /*font-family: "sarabun";*/
         font-family: angsana;
-        font-size: 18pt;
+        font-size: 22pt;
         /*color: #000000;*/
         line-height: 19pt
             /*font-weight: bold;*/
