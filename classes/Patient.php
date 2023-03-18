@@ -984,5 +984,33 @@ class Patient
         return $stmt->execute();
     }
     
+    public static function set_update_released_time($conn, $id, $date_20000)
+    {
+        $sql = "UPDATE patient
+                SET date_20000 = :date_20000
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':date_20000', $date_20000, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    
+    public static function set_update_first_released_time_if_null($conn, $id, $date_first_report)
+    {
+        $sql = "UPDATE patient
+                SET date_first_report = :date_first_report
+                WHERE id = :id and `date_first_report` IS NULL";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':date_first_report', $date_first_report, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    
     
 }

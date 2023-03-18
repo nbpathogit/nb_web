@@ -278,6 +278,11 @@ class Presultupdate {
     
     public static function setReleaseTimeIfNull($conn, $patient_id, $release_time)
     {
+        
+        
+        
+        
+        
         $sql = "UPDATE presultupdate " .
                 " SET release_time = :release_time ".
                 " WHERE patient_id = :patient_id and `release_time` IS NULL;";
