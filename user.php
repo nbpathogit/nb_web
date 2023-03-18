@@ -127,7 +127,7 @@ require 'user_auth.php';
                 {
                     "render": function(data, type, row) {
                         // return data + ' (' + row[3] + ')';
-                        data = row[2] + ' ' + row[3] + ' ' + row[4] + '<br>' + row[5] + row[6] + row[7];
+                        data = row[2] + ' ' + row[3] + ' ' + row[4] + '<br>' + row[5] + ' ' + row[6] + ' ' + row[7];
                         if (row[8] != null) {
                             data += "<br>" + row[8];
                         }
