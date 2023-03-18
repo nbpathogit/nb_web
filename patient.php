@@ -40,7 +40,7 @@ require 'user_auth.php';
                     <th>พยาธิแพทย์</th>
                     <th>วันที่รับ</th>
                     <th>วันที่รายงาน</th>
-                    <th>สถานะ</th>
+                    <th>สถานะอื่นๆ</th>
                     <th>การออกผล</th>
                     <th>ความสำคัญ</th>
                     <th>PDF</th>
@@ -65,4 +65,4 @@ require 'user_auth.php';
         var isCurUserAdmin = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="js/patient.js?v=1"></script>
+<script type="text/javascript" src="js/patient.js?v=2"></script>

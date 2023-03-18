@@ -43,7 +43,7 @@ if ($auth) {
         $range = $dateTime->format('Y-m-d');
     }
 
-    if (isset($_REQUEST['psid']) && $_REQUEST['psid'] == 8000) {   // get patient statas id = 8000
+    if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_monitor_8000.php")) {   // get patient statas id = 8000
         $patientLists = Patient::getAllJoinID8000($conn, 0, $range);
     } else if ($isCurUserClinicianCust || $isCurUserHospitalCust) {  // get patient with reported
         $patientLists = Patient::getAllJoinWithReported($conn, 0, $range);
@@ -59,10 +59,10 @@ if ($auth) {
 
             if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') {
                 if ($_SESSION['user']->uhospital_id == $patient['phospital_id']) {
-                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "", ""];
+                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide']];
                 }
             } else {
-                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "", ""];
+                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide']];
             }
         }
 

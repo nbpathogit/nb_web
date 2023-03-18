@@ -195,24 +195,13 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                data = '<small>รอคอนเฟิร์ม:</small>';
-                if (row[11] == "0") {
-                    data += '-';
-                } else if (row[11] == "1") {
-                    data += '<span class="badge bg-warning text-dark">ร้องขอ</span>';
-                } else if (row[11] == "2") {
-                    data += '<span class="badge bg-success">เสร็จสิ้น</span>';
-                } 
-
-                data += '<br><small>ย้อมพิเศษ:</small>';
                 if (row[12] == "0") {
-                    data += '-';
+                    data = '';
                 } else if (row[12] == "1") {
-                    data += '<span class="badge bg-warning text-dark">ร้องขอ</span>';
+                    data = '<h5><span class="badge bg-warning text-dark">ร้องขอ</span></h5>';
                 } else if (row[12] == "2") {
-                    data += '<span class="badge bg-success">เสร็จสิ้น</span>';
+                    data = '<h5><span class="badge bg-success">เสร็จสิ้น</span></h5>';
                 } 
-
                 return data;
             },
             "targets": 8
@@ -260,7 +249,7 @@ $(document).ready(function () {
     });
 
     // set active tab
-    $("#patienttab").addClass("active");
+    $("#patienttab_8000").addClass("active");
 
 
 });
