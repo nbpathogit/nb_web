@@ -1064,96 +1064,28 @@ if (isset($curstatus[0]['next3'])) {
         <hr>
         <form id="slide_prep" name="" method="post">
 
-        <div align=""  class="mb-3">
-        <label for="p_sp_patho_comment">Comment</label><br>
-        <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " disabled readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
-        </div>
-            <?php if ($isEditModePageOn) : ?>
-                <?php if ($isEditModePageForSpSlidePrepDataOn) : ?>
-                    <button name="save_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                    <button name="discard_sp_prep_slide" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                <?php endif; ?>
-            <?php else : ?>
-                <?php if (!$isEditModePageForSpSlidePrepDataOn) : ?>
-                    <button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= ( !$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>
+            <div align=""  class="mb-3">
+                    <label for="p_sp_patho_comment">Comment</label><br>
+
+                    <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+                    <a class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
+                    <a class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
+
+            </div>
+
+                    <!--<button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= ( !$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>-->
                     <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
-                <?php endif; ?>
-            <?php endif; ?>
 
-
-           
         </form>
        
     </div>
 </div>
 
-    <?php if ($hide) : //========================================================================?>
-    <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
-        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>แพทย์ผู้ออกผล</b><span style="color:orange;"><?= ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-                            
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="ppathologist_id" class="col-form-label">พยาธิแพทย์ผู้ออกผล</label>
-        <select name="ppathologist_id" id="ppathologist_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit) && ($curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
-            <!--<option value="">กรุณาเลือก</option>-->
-            <?php foreach ($userPathos as $user): ?>
-                <?php //Target Format : <option value="37">นายแพทย์สุชาติ</option>   ?>
-                <option value="<?= htmlspecialchars($user['uid']); ?>" <?= $patient[0]['ppathologist_id'] == htmlspecialchars($user['uid']) ? "selected" : ""; ?> > 
-                <?= $user['name'] . ' ' . $user['lastname'] ?><?php if ($user['uid'] != 0  && $isCurUserAdmin): ?> <?= ' (' . $user['username'] . '::' . $user['ugroup'] . ')'; ?><?php endif; ?>
-                </option>
-            <?php endforeach; ?>                                     
-        </select> 
 
-        </div>
-        </div>
-    </div>
-    <?php endif; //==============================================================================?>
-    
-    
-    
-    
-    
-    
     
     
     
 
-<?php if ($hide) : //========================================================================?>
-    <div id="interim_result_section" class="container-fluid pt-4 px-4">
-        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
-            <!-- hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>ข้อมูลสิ่งส่งตรวจ</b></h4>
-
-            <?php if ($isCurrentPathoIsOwnerThisCase) : ?>
-                <p align="center">คุณคือผู้ออกผลของผู้ป่วยท่านนี้ <?= $pathoOwnerNameObj->name_e . " " . $pathoOwnerNameObj->lastname_e; ?> </p>
-            <?php else : ?>
-                <p align="center">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
-            <?php endif; ?>
-
-            <form id="patient_interim_result" name="" method="post">
-                <?php if ($isEditModePageOn) : ?>
-                    <?php if ($isEditModePageForIniResultDataOn) : ?>
-                        <p align="left"><button name="save_interim_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                            <button name="discard_interim_result" type="submit" class="btn btn-primary">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                        </p>
-                    <?php endif; ?>
-                <?php else : ?>
-                    <?php if (!$isEditModePageForIniResultDataOn) : ?>
-                        <p align="left"><button name="edit_interim_result" type="submit" class="btn btn-primary" <?= $isCurrentPathoIsOwnerThisCase && $isReleased ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
-                    <?php endif; ?>
-                <?php endif; ?>
-                <?php require 'includes/patient_form_070_interim_result.php'; ?>
-            </form>
-        </div>
-    </div>
-<?php endif; //==============================================================================?>
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1203,7 +1135,7 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_job1_crossection/job1.js?v2"></script>
 <script src="/ajax_job2_assis_cross/job2.js?v2"></script>
 <script src="/ajax_job3_prep_slide/job3.js?v2"></script>
-<script src="/ajax_job4_prep_sp_slide/job4.js?v2"></script>
+<script src="/ajax_job4_prep_sp_slide/job4.js?v2xxxxxxxx"></script>
 <script src="/ajax_job5_patho/job5.js?v3"></script>
 <script src="/ajax_job6_patho/job6.js?v6"></script>
 

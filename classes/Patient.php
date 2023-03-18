@@ -921,6 +921,27 @@ class Patient
         return $stmt->execute();
     }
     
+    public static function setSpComment($conn, $id, $p_sp_patho_comment)
+    {
+        $sql = "UPDATE patient".
+                " SET p_sp_patho_comment = '".$p_sp_patho_comment."' ".
+                " WHERE id = ".$id;
+
+        $results = $conn->query($sql);
+        
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getSpComment($conn, $id)
+    {
+        $sql = "SELECT p_sp_patho_comment FROM patient WHERE id = $id";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function setPathoID($conn, $id, $ppathologist_id)
     {
         $sql = "UPDATE patient

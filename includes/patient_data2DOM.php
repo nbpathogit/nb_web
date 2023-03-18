@@ -142,7 +142,7 @@ $isCurrentPathoIsSecondOwneThisCase = false;?>
 <li class="cur_speciment_type" tabindex="<?= $patient[0]['p_speciment_type'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['p_speciment_type']::<?= $patient[0]['p_speciment_type'] ?> </li>
 
 <?php //    $patient[0]['id']?>   
-<li class="cur_patient_id" tabindex="<?= $patient[0]['id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['id']::<?= $patient[0]['id'] ?> </li>
+<li class="cur_patient_id" tabindex="<?= $patient[0]['id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  > class="cur_patient_id" $patient[0]['id']::<?= $patient[0]['id'] ?> </li>
 
 <?php //    $patient[0]['pnum']?>   
 <li class="cur_pnum" tabindex="<?= $patient[0]['pnum'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$patient[0]['pnum']::<?= $patient[0]['pnum'] ?> </li>
