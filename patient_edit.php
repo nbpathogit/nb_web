@@ -28,8 +28,6 @@ if ($debug) {
     $is_vardump = false;
 }
 
-$hide = false;
-$show = true;
 
 $isAddPage = false; // if add page then diable edit almost of all.
 // true = Disable Edit page, false canEditPage

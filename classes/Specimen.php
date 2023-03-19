@@ -16,8 +16,13 @@ class Specimen
 
     public $id;
     public $speciment_num;
+    public $jobtype;
+    
     public $specimen;
+    public $hospital_id;
     public $price;
+    public $comment;
+    public $create_date;
 
     public static function getAll($conn,$id= -1)
     {
