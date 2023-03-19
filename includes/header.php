@@ -95,6 +95,7 @@
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
                     <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>Job</a>
                     <a id="billing_tab" href="billing.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Billing</a>
+                    <a id="price_tab" href="nb_price.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Price Table</a>
                     <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                     <div class="nav-item dropdown">
                         <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>เกี่ยวกับ</a>
