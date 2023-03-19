@@ -88,14 +88,87 @@ $("#nb_price_type").on("change", function () {
 
 
 
+});
 
 
 
+$("#nb_price_add_btn").on("click", function (e) {
+//    alert($("#nb_price_add_txt_area").val());
+    let txt = $("#nb_price_add_txt_area").val();
+    txt = txt.trim();
+    let lines = txt.split('\n');
+    let data = [];
+    let jobtype =  $('#nb_price_type option').filter(':selected').attr('value');
+    var hospital_id = $('#nb_price_hospital_select option').filter(':selected').attr('value');
+    var add_user_id = get_cur_user_id();
+    var edit_user_id = 0;
+    
+    for (var i = 0; i < lines.length; i++) {
+        //code here using lines[i] which will give you each line
+
+        let line_cur = lines[i];
+        let line = line_cur.split('\t');
+        //number   speciment_num  specimen    unit_count   price  comment  | jobtype  hospital_id create_date add_user_id edit_user_id
+        //ลำดับ	   code	          รายการ	      หน่วยนับ	   ราคา    comment  | 
+
+            let str = "{" +
+                    " \"number\": \""+line[0]+"\"," +
+                    " \"speciment_num\": \""+line[1]+"\"," +
+                    " \"specimen\": \""+line[2]+"\"," +
+                    " \"unit_count\": \""+line[3]+"\"," +
+                    " \"price\": \""+line[4]+"\"," +
+                    " \"comment\": \""+line[5]+"\"," +
+                    " \"jobtype\": \""+jobtype+"\"," +
+                    " \"hospital_id\": \""+hospital_id+"\"," +
+                    " \"add_user_id\": \""+add_user_id+"\"," +
+                    " \"edit_user_id\": \""+edit_user_id+"\"" +
+                    
+                    "}";
+            JSON.parse(str);
+            data.push((str));
+            console.log(str);
+
+    }
+    
+    console.log(data);
+    
+    //C:\anuchit2\nb_web\ajax_nb_price\addMultRecordiSpecimen.php
+    $.ajax({
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: '/ajax_nb_price/addMultRecordiSpecimen.php',
+        data: {
+
+            'data': data,
 
 
-
-
-
-
-
+        },
+        success: function (data) {
+            console.log(data);
+            alert(data);
+            return;
+            
+            if (data[0] != "[") {
+                alert(data);
+                console.log(data);
+                return;
+            }
+            var datajson = JSON.parse(data);
+            if(datajson.length == 0){
+                alert("No record for this hospital");
+                return;
+            }
+            
+            
+            $('#nb_price_tbl tbody tr').remove();
+            
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+    
+    
+    
 });

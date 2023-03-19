@@ -24,7 +24,10 @@ if ($hide) {
 
 
 
+<?php require 'user_auth.php'; ?>
+<?php require 'includes/patient_data2DOM.php'; ?>
 <?php require 'includes/header.php'; ?>
+
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-info rounded align-items-center justify-content-center p-3 mx-1">
@@ -48,7 +51,6 @@ if ($hide) {
                     <option value="2"  >ย้อมพิเศษ</option>
                 </select>          
             </div>
-
         </div>
 
     </div>
@@ -63,7 +65,7 @@ if ($hide) {
 
 
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            <h1>Table of price by hospital</h1>
+            <h1>Table of price by hospital from system</h1>
             <style>
                 table,
                 th,
@@ -116,7 +118,18 @@ if ($hide) {
 </div>
 
 
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-info rounded align-items-center justify-content-center p-3 mx-1">
+        <div class="col-auto">
+            <button name="nb_price_add_btn" id="nb_price_add_btn"  type="" class="btn btn-primary">&nbsp;&nbsp;Add&nbsp;&nbsp;</button>
+        </div>
+        <label for="result_message"><b>Paste data from excel</b></label>
+        <p>ลำดับ->code->รายการ->หน่วยนับ->ราคา->comment</p>
+        <textarea name="nb_price_add_txt_area" cols="100" rows="5" class="form-control" id="nb_price_add_txt_area" ></textarea>
+    </div>
+</div>
+
 
 <?php require 'includes/footer.php'; ?>
 
-<script src="/ajax_nb_price/nb_price.js?v0xxxxxxxxxxxx"></script>
+<script src="/ajax_nb_price/nb_price.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>

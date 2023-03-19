@@ -11,6 +11,10 @@ function get_lastest_uresultid() {
     return uresultid;
 }
 
+function get_cur_user_id(){
+    return $(".cur_user_id").attr('tabindex');
+}
+
 
 function get_cur_patient_id(){
     return $(".cur_patient_id").attr('tabindex');

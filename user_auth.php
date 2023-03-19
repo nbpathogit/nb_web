@@ -79,6 +79,8 @@ if(isset($job5s[0]['user_id'])){
     $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $job5s[0]['user_id'];
 }
 
+$cur_user_id = $_SESSION['user']->id;
+
 
 
 // หมอปัจจุบัน อยู่ในโรงพยาบาลที่สังกัดหรือไม่

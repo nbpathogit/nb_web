@@ -73,5 +73,11 @@ class Util {
         echo ' alert("'.$message.'")';  //not showing an alert box.
         echo '</script>';
     }
+    
+    public static function get_curreint_thai_date_time() {
+
+        date_default_timezone_set('Asia/Bangkok');
+        return date('Y-m-d H:i:s');
+    }
 
 }

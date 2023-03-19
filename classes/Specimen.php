@@ -103,6 +103,19 @@ class Specimen
             return false;
         }
     }
+    
+    public function createBySQL($conn,$sql)
+    {
+
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt->execute()) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public static function getTotal($conn)
     {
