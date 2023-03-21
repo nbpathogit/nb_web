@@ -1052,7 +1052,7 @@ if (isset($curstatus[0]['next3'])) {
 
 
 <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+    <div class="nb_bg_set bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
         <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
         <h3 align="center" ><?= $patient[0]['request_sp_slide'] > 0 ? "สังย้อมพิเศษแล้ว":""; ?></h3>
