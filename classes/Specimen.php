@@ -70,6 +70,25 @@ class Specimen
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
+        public static function delSpecimenByHospitalID($conn,$hospital_id,$type=0)
+    {
+        $sql = "DELETE FROM `specimen_list`";
+
+        $sql = $sql." WHERE hospital_id = :hospital_id ";
+        if($type !=0){
+            $sql = $sql." and jobtype = :type ";
+        }
+        $sql = $sql." ORDER BY id;";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
+        $stmt->bindValue(':type', $type, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function getSpecialSlide($conn)
     {
         $sql = "SELECT *

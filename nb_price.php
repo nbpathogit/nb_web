@@ -135,4 +135,4 @@ if ($hide) {
 
 <?php require 'includes/footer.php'; ?>
 
-<script src="/ajax_nb_price/nb_price.js?v1"></script>
+<script src="/ajax_nb_price/nb_price.js?v1xx"></script>
