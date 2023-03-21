@@ -1,5 +1,10 @@
 
-
+ $.fn.removeClassStartingWith = function (filter) {
+    $(this).removeClass(function (index, className) {
+        return (className.match(new RegExp("\\S*" + filter + "\\S*", 'g')) || []).join(' ')
+    });
+    return this;
+};
 
 
 $(document).ready(function () {
@@ -16,6 +21,29 @@ $(document).ready(function () {
 //    $('#date_1000').datepicker('setDate', myDate);
 
 
+
+
+//$('#MyElement').addClass('MyClass');
+//
+//$('#MyElement').removeClass('MyClass');
+//
+//if ( $('#MyElement').hasClass('MyClass') )
+
+//.bg-primary
+//.bg-secondary
+//.bg-success
+//.bg-danger
+//.bg-warning
+//.bg-info
+//.bg-light
+//.bg-dark
+//.bg-body
+//.bg-white
+//.bg-transparent
+
+//bg-
+    $(".nb_bg_set").removeClassStartingWith('bg-');
+    $('.nb_bg_set').addClass('bg-blue-a');
 
 //Set default for add_patent.php
     //Disable
