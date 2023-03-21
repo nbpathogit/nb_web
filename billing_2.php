@@ -36,28 +36,22 @@ require 'includes/header.php'; ?>
                     <th scope="col">#</th>
                     <th scope="col">specimen id</th>
                     <th scope="col">patient id</th>
-                    <th scope="col">เลขที่</th>
-                    <th scope="col">ชื่อ</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">name</th>
                     <th scope="col">lastname</th>
                     <th scope="col">slide type</th>
                     <th scope="col">code description</th>
                     <th scope="col">description</th>
-                    <th scope="col">วันที่รับ</th>
+                    <th scope="col">import date</th>
                     <th scope="col">Date</th>
                     <th scope="col">Hospital</th>
-                    <th scope="col">เลขที่</th>
-                    <th scope="col">แพทย์ผู้ส่งตรวจ</th>
+                    <th scope="col">hn</th>
+                    <th scope="col">Doctor</th>
                     <th scope="col">pathologist</th>
-                    <th scope="col">ค่าตรวจ</th>
+                    <th scope="col">cost</th>
                     <th scope="col">Others</th>
                 </tr>
             </thead>
-            <tfoot>
-            <tr>
-                <th colspan="16" style="text-align:right">Total:</th>
-                <th style="text-align:right"></th>
-            </tr>
-        </tfoot>
         </table>
 
     <?php endif; ?>
@@ -68,6 +62,6 @@ require 'includes/header.php'; ?>
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
-    var skey = "<?= $_SESSION["skey"] ?>";
+       var skey = "<?= $_SESSION["skey"] ?>";
 </script>
-<script src="js/billing.js"></script>
+<script src="js/billing_2.js"></script>
