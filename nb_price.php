@@ -59,13 +59,15 @@ if ($hide) {
 
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-info rounded align-items-center justify-content-center p-3 mx-1">
-
-
+    <div class="row bg-info rounded align-items-center justify-content-left p-3 mx-1">
+        <h1>Price of type <span class="nb_price_type_txt"></span> of hospital <span class="nb_price_hospital_txt"></span> in system</h1>
+        <div class="col-auto" >
+            <button name="nb_price_del_btn" id="nb_price_del_btn"  type="" class="btn btn-primary" >&nbsp;&nbsp;delete&nbsp;&nbsp;</button>
+        </div>
 
 
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            <h1>Table of price by hospital from system</h1>
+
             <style>
                 table,
                 th,
@@ -119,9 +121,10 @@ if ($hide) {
 
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-info rounded align-items-center justify-content-center p-3 mx-1">
-        <div class="col-auto">
-            <button name="nb_price_add_btn" id="nb_price_add_btn"  type="" class="btn btn-primary">&nbsp;&nbsp;Add&nbsp;&nbsp;</button>
+    <div class="row bg-info rounded align-items-left justify-content-left p-3 mx-1">
+        <h1>Add price of type <span class="nb_price_type_txt"></span> to hospital<span class="nb_price_hospital_txt"></span> to system.</h1>
+        <div class="col-auto" >
+            <button name="nb_price_add_btn" id="nb_price_add_btn"  type="" class="btn btn-primary" >&nbsp;&nbsp;Add&nbsp;&nbsp;</button>
         </div>
         <label for="result_message"><b>Paste data from excel</b></label>
         <p>ลำดับ->code->รายการ->หน่วยนับ->ราคา->comment</p>
@@ -132,4 +135,4 @@ if ($hide) {
 
 <?php require 'includes/footer.php'; ?>
 
-<script src="/ajax_nb_price/nb_price.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script src="/ajax_nb_price/nb_price.js?v1"></script>

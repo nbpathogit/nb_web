@@ -1,4 +1,12 @@
 $("#nb_price_hospital_select").on("change", function () {
+    
+    $('#nb_price_add_btn').prop('disabled', true);
+    $('#nb_price_del_btn').prop('disabled', true);
+    $('#nb_price_add_txt_area').prop('disabled', true);
+
+    $(".nb_price_hospital_txt").text('');
+    $(".nb_price_type_txt").text('');
+
     $('#nb_price_tbl tbody tr').remove();
     $("#nb_price_type option").filter(function () {
         //may want to use $.trim in here
@@ -15,10 +23,21 @@ $("#nb_price_type").on("change", function () {
     var hospital_id = $('#nb_price_hospital_select option').filter(':selected').attr('value');
     if (type_id == 0) {
         $('#nb_price_tbl tbody tr').remove();
+        $('#nb_price_add_btn').prop('disabled',true);
+        $('#nb_price_del_btn').prop('disabled',true);
+        $('#nb_price_add_txt_area').prop('disabled',true);
+        
+        $(".nb_price_hospital_txt").text('');
+        $(".nb_price_type_txt").text('');
         return;
     }
+    
+    $('#nb_price_add_btn').prop('disabled',false);
+    $('#nb_price_del_btn').prop('disabled',false);
+    $('#nb_price_add_txt_area').prop('disabled',false);
 
-
+    $(".nb_price_hospital_txt").text('('+$("#nb_price_hospital_select option").filter(':selected').text()+ ')' );
+    $(".nb_price_type_txt").text('('+$("#nb_price_type option").filter(':selected').text()+')');
 //    alert(type_id + '  ' + hospital_id);
 
 
@@ -41,6 +60,7 @@ $("#nb_price_type").on("change", function () {
             }
             var datajson = JSON.parse(data);
             if(datajson.length == 0){
+                $('#nb_price_del_btn').prop('disabled', true);
                 alert("No record for this hospital");
                 return;
             }
@@ -90,6 +110,13 @@ $("#nb_price_type").on("change", function () {
 
 });
 
+$("#nb_price_del_btn").on("click", function (e) {
+    if(!confirm("Are you sure to delete?")){
+        return ;
+    }
+    
+    alert("deleted");
+});
 
 
 $("#nb_price_add_btn").on("click", function (e) {
@@ -156,6 +183,7 @@ $("#nb_price_add_btn").on("click", function (e) {
             }
             var datajson = JSON.parse(data);
             if(datajson.length == 0){
+                $('#nb_price_del_btn').prop('disabled', true);
                 alert("No record for this hospital");
                 return;
             }
@@ -171,4 +199,14 @@ $("#nb_price_add_btn").on("click", function (e) {
     
     
     
+});
+
+
+$(document).ready(function () {
+
+    $('#nb_price_add_btn').prop('disabled', true);
+    $('#nb_price_del_btn').prop('disabled', true);
+    $('#nb_price_add_txt_area').prop('disabled', true);
+
+
 });
