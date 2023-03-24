@@ -30,7 +30,7 @@ $disableMoveButton = true;
 </ul>
 
 
-<?php require 'includes/patient_data2DOM.php';?>
+
 
 <h4 align="center"><span id="item_name_a"><b>
             คนไข้เลขที่: <span style="color:orange;text-decoration: underline;"><?=$patient[0]['pnum'];?></span> &nbsp; 
@@ -73,7 +73,7 @@ $disableMoveButton = true;
 </span>
 
 
-<?php if (!$isEditModePageOn) : ?>
+<?php if (!$isEditModePageOn && $hide) : ?>
     <hr>
     <h6 align="center"><b>ไดอแกรม แสดงสถานะงาน</b></h4>
 
