@@ -170,6 +170,10 @@ $("#nb_price_add_btn").on("click", function (e) {
 //    alert($("#nb_price_add_txt_area").val());
     let txt = $("#nb_price_add_txt_area").val();
     txt = txt.trim();
+    txt = txt.replaceAll("\"", "");
+    
+    console.log("txt:: " + txt);
+    
     let lines = txt.split('\n');
     let data = [];
     let jobtype =  $('#nb_price_type option').filter(':selected').attr('value');
@@ -182,6 +186,7 @@ $("#nb_price_add_btn").on("click", function (e) {
 
         let line_cur = lines[i];
         let line = line_cur.split('\t');
+        if(line[0].localeCompare("") == 0) continue;
         //number   speciment_num  specimen    unit_count   price  comment  | jobtype  hospital_id create_date add_user_id edit_user_id
         //ลำดับ	   code	          รายการ	      หน่วยนับ	   ราคา    comment  | 
 
@@ -198,9 +203,16 @@ $("#nb_price_add_btn").on("click", function (e) {
                     " \"edit_user_id\": \""+edit_user_id+"\"" +
                     
                     "}";
-            JSON.parse(str);
-            data.push((str));
             console.log(str);
+            try{
+                
+                JSON.parse(str);
+            }catch (e){
+               
+                alert(e + str);
+            }
+            data.push((str));
+            
 
     }
     
@@ -220,24 +232,26 @@ $("#nb_price_add_btn").on("click", function (e) {
         },
         success: function (data) {
             console.log(data);
-            alert(data);
-            return;
+            //alert(data);
+            //return;
             
             if (data[0] != "[") {
-                alert(data);
+                alert("Error::"+data);
                 console.log(data);
                 return;
             }
             var datajson = JSON.parse(data);
             if(datajson.length == 0){
                 $('#nb_price_del_btn').prop('disabled', true);
-                alert("No record for this hospital");
+                alert("No record added");
                 return;
             }
+            drawPriceTable(datajson);
+            $("#nb_price_add_txt_area").val("");
+            alert("Record added");
             
             
-            $('#nb_price_tbl tbody tr').remove();
-            
+
         },
         error: function (jqxhr, status, exception) {
             alert('Exception:', exception);
