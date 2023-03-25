@@ -71,4 +71,4 @@ require 'includes/header.php'; ?>
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
 </script>
-<script src="js/billing.js?v0"></script>
+<script src="js/billing.js?v2"></script>

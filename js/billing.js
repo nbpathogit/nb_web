@@ -91,7 +91,7 @@ $(document).ready(function () {
         },
         {
             visible: false,
-            targets: [1, 2, 4, 5 ,10 ,14]
+            targets: [1, 2, 5 ,10 ,14]
         },
         {
             searchPanes: {

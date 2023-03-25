@@ -62,11 +62,12 @@ class Billing {
                 " billing as b ".
                 " JOIN hospital as h".
                 " JOIN service_type as s".
-                " WHERE h.id = b.hospital_id and b.slide_type = s.id";
+                " JOIN patient as p".
+                " WHERE h.id = b.hospital_id and b.slide_type = s.id and b.patient_id = p.id ";
                 if ($start != '0') {
                   $sql .= " and date(b.import_date) >= '{$start}'";
                 }
-                $sql = $sql . " ORDER by h.id ;";
+                $sql = $sql . " ORDER by b.id ;";
 
         $results = $conn->query($sql);
 
