@@ -103,6 +103,7 @@ $("#nb_price_type").on("change", function () {
             var datajson = JSON.parse(data);
             if(datajson.length == 0){
                 $('#nb_price_del_btn').prop('disabled', true);
+                $('#nb_price_tbl tbody tr').remove();
                 alert("No record for this hospital");
                 return;
             }
@@ -243,6 +244,7 @@ $("#nb_price_add_btn").on("click", function (e) {
             var datajson = JSON.parse(data);
             if(datajson.length == 0){
                 $('#nb_price_del_btn').prop('disabled', true);
+                $('#nb_price_tbl tbody tr').remove();
                 alert("No record added");
                 return;
             }
