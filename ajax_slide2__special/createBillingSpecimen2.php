@@ -24,6 +24,7 @@ $conn = require '../includes/db.php';
     $billing->description = $_POST['specimen_text'];
     $billing->import_date = $_POST['date_1000'];
     $billing->hospital = $_POST['phospital_text'];
+    $billing->hospital_id = $_POST['hospital_id'];
     $billing->hn = $_POST['cur_phospital_num'];
     
     $billing->send_doctor = $_POST['pclinician_text'];

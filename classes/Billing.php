@@ -25,6 +25,7 @@ class Billing {
     public $import_date; //date			
     public $report_date; //varchar(16)	
     public $hospital;    //varchar(32)	
+    public $hospital_id;    //varchar(32)	
     public $hn;          //varchar(32)	
     public $send_doctor; //varchar(32)	
     public $pathologist; //varchar(32)	
@@ -59,8 +60,8 @@ class Billing {
     public function create($conn) {
 
         //$specimen_id
-        $sql = "INSERT INTO `billing` (`id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, `hospital`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
-        . "VALUES                     (NULL, :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, :hospital,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
+        $sql = "INSERT INTO `billing` (`id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, `hospital`, `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
+        . "VALUES                     (NULL, :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, :hospital,  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
 
 
         $stmt = $conn->prepare($sql);
@@ -77,6 +78,7 @@ class Billing {
     $stmt->bindValue(':import_date',$this->import_date ,PDO::PARAM_STR);      //date			
     $stmt->bindValue(':report_date',$this->report_date ,PDO::PARAM_STR);      //varchar(16)	
     $stmt->bindValue(':hospital'   ,$this->hospital    ,PDO::PARAM_STR);      //varchar(32)	
+    $stmt->bindValue(':hospital_id'   ,$this->hospital_id    ,PDO::PARAM_INT);      //varchar(32)	
     $stmt->bindValue(':hn'         ,$this->hn          ,PDO::PARAM_STR);      //varchar(32)	
     $stmt->bindValue(':send_doctor',$this->send_doctor ,PDO::PARAM_STR);      //varchar(32)	
     $stmt->bindValue(':pathologist',$this->pathologist ,PDO::PARAM_STR);      //varchar(32)	
@@ -108,6 +110,7 @@ class Billing {
         $billing->import_date ="0000-00-00 00:00:00";      //datetime			
         $billing->report_date =null;      //datetime	
         $billing->hospital    ="";      //varchar(32)	
+        $billing->hospital_id =0;      //varchar(32)	
         $billing->hn          ="";      //varchar(32)	
         $billing->send_doctor ="";      //varchar(32)	
         $billing->pathologist ="";      //varchar(32)	

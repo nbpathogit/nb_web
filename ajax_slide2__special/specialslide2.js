@@ -147,6 +147,7 @@ $("#add_spcimen_list2").on("click", function () {
         price_for_specimen = "0";
     }
     var comment_for_specimen = document.getElementById("comment_for_specimen2").value;
+    var hospital_id = get_cur_hospital_id();
 
     if (printdbg) {
         console.log("==============");
@@ -185,6 +186,7 @@ $("#add_spcimen_list2").on("click", function () {
             'price_for_specimen': price_for_specimen,
             'comment_for_specimen': comment_for_specimen,
             'phospital_text': phospital_text,
+            'hospital_id': hospital_id,
             'cur_phospital_num': cur_phospital_num,
             'pclinician_text': pclinician_text,
             'date_1000': date_1000

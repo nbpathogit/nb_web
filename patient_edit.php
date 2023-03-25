@@ -1127,8 +1127,8 @@ if (isset($curstatus[0]['next3'])) {
 
     
 
-<script src="/ajax_slide1_specimen/specimenlist1.js?v3"></script>
-<script src="/ajax_slide2__special/specialslide2.js?v3"></script>
+<script src="/ajax_slide1_specimen/specimenlist1.js?v3x"></script>
+<script src="/ajax_slide2__special/specialslide2.js?v3x"></script>
 
 <script src="/ajax_job1_crossection/job1.js?v2"></script>
 <script src="/ajax_job2_assis_cross/job2.js?v2"></script>

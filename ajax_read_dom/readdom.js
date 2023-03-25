@@ -20,6 +20,11 @@ function get_cur_patient_id(){
     return $(".cur_patient_id").attr('tabindex');
 }
 
+function get_cur_hospital_id(){
+    return $(".cur_phospital_id").attr('tabindex');
+}
+
+
 
 function get_lastest_SecondPatho_userid_in_uresult(){
     //Second user id lastest in u_result
