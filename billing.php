@@ -40,7 +40,7 @@ require 'includes/header.php'; ?>
                     <th scope="col">เลขที่โรงพยาบาล</th> <!--3-->
                     <th scope="col">ชื่อ</th> <!--4-->
                     <th scope="col">lastname</th> <!--5-->
-                    <th scope="col">slide type</th> <!--6-->
+                    <th scope="col">ชนิดค่าบริการ</th> <!--6-->
                     <th scope="col">code</th> <!--7-->
                     <th scope="col">description</th> <!--8-->
                     <th scope="col">วันที่รับ</th> <!--9-->

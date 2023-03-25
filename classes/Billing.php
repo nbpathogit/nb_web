@@ -61,7 +61,8 @@ class Billing {
         $sql = "SELECT *, h.id as hid, b.id as bid FROM".
                 " billing as b ".
                 " JOIN hospital as h".
-                " WHERE h.id = b.hospital_id";
+                " JOIN service_type as s".
+                " WHERE h.id = b.hospital_id and b.slide_type = s.id";
                 if ($start != '0') {
                   $sql .= " and date(b.import_date) >= '{$start}'";
                 }

@@ -49,7 +49,7 @@ if ($auth) {
     $data = [];
     foreach ($bills as $bill) {
         if ($bill['bid'])
-            $data[] = [$bill['bid'], $bill['specimen_id'], $bill['patient_id'], $bill['number'], $bill['name'], $bill['lastname'], $bill['slide_type'], $bill['code_description'], $bill['description'], $bill['import_date'], $bill['report_date'], $bill['hospital'], $bill['hn'], $bill['send_doctor'], $bill['pathologist'], $bill['cost'], $bill['comment']];
+            $data[] = [$bill['bid'], $bill['specimen_id'], $bill['patient_id'], $bill['number'], $bill['name'], $bill['lastname'], $bill['service_type'], $bill['code_description'], $bill['description'], $bill['import_date'], $bill['report_date'], $bill['hospital'], $bill['hn'], $bill['send_doctor'], $bill['pathologist'], $bill['cost'], $bill['comment']];
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
