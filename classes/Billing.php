@@ -56,6 +56,21 @@ class Billing {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public static function getAllforBillPage($conn, $start = '0') {
+        $sql = "SELECT *, h.id as hid, b.id as bid FROM".
+                " billing as b ".
+                " JOIN hospital as h".
+                " WHERE h.id = b.hospital_id";
+                if ($start != '0') {
+                  $sql .= " and date(b.import_date) >= '{$start}'";
+                }
+                $sql = $sql . " ORDER by h.id ;";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function create($conn) {
 

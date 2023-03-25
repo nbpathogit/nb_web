@@ -33,23 +33,24 @@ require 'includes/header.php'; ?>
         <table class="table table-hover table-striped" id="billing_table" style="width:100%">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">specimen id</th>
-                    <th scope="col">patient id</th>
-                    <th scope="col">เลขที่</th>
-                    <th scope="col">ชื่อ</th>
-                    <th scope="col">lastname</th>
-                    <th scope="col">slide type</th>
-                    <th scope="col">code description</th>
-                    <th scope="col">description</th>
-                    <th scope="col">วันที่รับ</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Hospital</th>
-                    <th scope="col">เลขที่</th>
-                    <th scope="col">แพทย์ผู้ส่งตรวจ</th>
-                    <th scope="col">pathologist</th>
-                    <th scope="col">ค่าตรวจ</th>
-                    <th scope="col">Others</th>
+                    
+                    <th scope="col">#</th> <!--0-->
+                    <th scope="col">specimen id</th> <!--1-->
+                    <th scope="col">patient id</th><!--2-->
+                    <th scope="col">เลขที่โรงพยาบาล</th> <!--3-->
+                    <th scope="col">ชื่อ</th> <!--4-->
+                    <th scope="col">lastname</th> <!--5-->
+                    <th scope="col">slide type</th> <!--6-->
+                    <th scope="col">code</th> <!--7-->
+                    <th scope="col">description</th> <!--8-->
+                    <th scope="col">วันที่รับ</th> <!--9-->
+                    <th scope="col">วันที่เสร็จ</th> <!--10-->
+                    <th scope="col">โรงพยาบาล</th> <!--11-->
+                    <th scope="col">เลขที่โรงพยาบาล</th> <!--12-->
+                    <th scope="col">แพทย์ผู้ส่งตรวจ</th> <!--13-->
+                    <th scope="col">pathologist</th> <!--14-->
+                    <th scope="col">ค่าตรวจ</th> <!--15-->
+                    <th scope="col">Others</th> <!--16-->
                 </tr>
             </thead>
             <tfoot>
@@ -70,4 +71,4 @@ require 'includes/header.php'; ?>
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
 </script>
-<script src="js/billing.js"></script>
+<script src="js/billing.js?v0"></script>

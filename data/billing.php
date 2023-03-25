@@ -43,12 +43,13 @@ if ($auth) {
     }
 
 
-    $bills = Billing::getAll($conn, 0, 0, $range);
+    $bills = Billing::getAllforBillPage($conn, $range);
+    //var_dump($bills);
 
     $data = [];
     foreach ($bills as $bill) {
-        if ($bill['id'])
-            $data[] = [$bill['id'], $bill['specimen_id'], $bill['patient_id'], $bill['number'], $bill['name'], $bill['lastname'], $bill['slide_type'], $bill['code_description'], $bill['description'], $bill['import_date'], $bill['report_date'], $bill['hospital'], $bill['hn'], $bill['send_doctor'], $bill['pathologist'], $bill['cost'], $bill['comment']];
+        if ($bill['bid'])
+            $data[] = [$bill['bid'], $bill['specimen_id'], $bill['patient_id'], $bill['number'], $bill['name'], $bill['lastname'], $bill['slide_type'], $bill['code_description'], $bill['description'], $bill['import_date'], $bill['report_date'], $bill['hospital'], $bill['hn'], $bill['send_doctor'], $bill['pathologist'], $bill['cost'], $bill['comment']];
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);

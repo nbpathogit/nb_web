@@ -91,7 +91,7 @@ $(document).ready(function () {
         },
         {
             visible: false,
-            targets: [0, 1, 2, 5, 6, 7, 8, 10, 11, 14, 16]
+            targets: [1, 2, 4, 5 ,10 ,14]
         },
         {
             searchPanes: {
@@ -113,7 +113,7 @@ $(document).ready(function () {
 
     $("#csvdownload").click(function () {
         var data = [
-            ['id', 'specimen_id', 'patient_id', 'number', 'name', 'lastname', 'slide_type', 'code_description', 'description', 'import_date', 'report_date', 'hospital', 'hn', 'send_doctor', 'pathologist', 'cost', 'comment']
+            ['bid', 'specimen_id', 'patient_id', 'number', 'name', 'lastname', 'slide_type', 'code_description', 'description', 'import_date', 'report_date', 'hospital', 'hn', 'send_doctor', 'pathologist', 'cost', 'comment']
         ];
 
         // console.log(label_history.length);return;
