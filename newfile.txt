@@ -1,0 +1,170 @@
+debug: PDF generated in 0.021157 seconds
+debug: Compiled in 0.074270 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 14 kB
+debug: 1 fonts used
+debug: PDF generated in 0.019035 seconds
+debug: Compiled in 0.073769 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 14 kB
+debug: 1 fonts used
+debug: PDF generated in 0.179354 seconds
+debug: Compiled in 0.238895 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 28 kB
+debug: 2 fonts used
+debug: PDF generated in 0.027243 seconds
+debug: Compiled in 0.086300 seconds
+debug: Peak Memory usage 20.00 MB
+debug: PDF file size 28 kB
+debug: 2 fonts used
+debug: PDF generated in 0.427078 seconds
+debug: Compiled in 0.803763 seconds
+debug: Peak Memory usage 12.00 MB
+debug: PDF file size 28 kB
+debug: 2 fonts used
+debug: PDF generated in 0.009828 seconds
+debug: Compiled in 0.065192 seconds
+debug: Peak Memory usage 6.00 MB
+debug: PDF file size 14 kB
+debug: 1 fonts used
+debug: PDF generated in 0.009044 seconds
+debug: Compiled in 0.064107 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 14 kB
+debug: 1 fonts used
+debug: PDF generated in 0.052220 seconds
+debug: Compiled in 0.101379 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 14 kB
+debug: 1 fonts used
+debug: PDF generated in 0.011742 seconds
+debug: Compiled in 0.062128 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 14 kB
+debug: 1 fonts used
+debug: PDF generated in 0.009328 seconds
+debug: Compiled in 0.047963 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 14 kB
+debug: 1 fonts used
+debug: PDF generated in 0.454333 seconds
+debug: Compiled in 0.762857 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 28 kB
+debug: 2 fonts used
+debug: PDF generated in 0.025049 seconds
+debug: Compiled in 0.085927 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 28 kB
+debug: 2 fonts used
+debug: PDF generated in 0.027953 seconds
+debug: Compiled in 0.076675 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.034400 seconds
+debug: Compiled in 0.080458 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.027247 seconds
+debug: Compiled in 0.065382 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.361666 seconds
+debug: Compiled in 0.650599 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.037431 seconds
+debug: Compiled in 0.088654 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.036968 seconds
+debug: Compiled in 0.078841 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 14 kB
+debug: 2 fonts used
+debug: PDF generated in 0.029164 seconds
+debug: Compiled in 0.078447 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 14 kB
+debug: 2 fonts used
+debug: PDF generated in 0.074748 seconds
+debug: Compiled in 0.134568 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.336084 seconds
+debug: Compiled in 0.595985 seconds
+debug: Peak Memory usage 20.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.123171 seconds
+debug: Compiled in 0.173031 seconds
+debug: Peak Memory usage 12.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.052533 seconds
+debug: Compiled in 0.095071 seconds
+debug: Peak Memory usage 8.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.395499 seconds
+debug: Compiled in 0.682480 seconds
+debug: Peak Memory usage 6.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.053368 seconds
+debug: Compiled in 0.096020 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 15 kB
+debug: 2 fonts used
+debug: PDF generated in 0.060665 seconds
+debug: Compiled in 0.165081 seconds
+debug: Peak Memory usage 4.00 MB
+debug: PDF file size 28 kB
+debug: 2 fonts used
+debug: PDF generated in 0.723507 seconds
+debug: Compiled in 1.106411 seconds
+debug: Peak Memory usage 2.00 MB
+debug: PDF file size 47 kB
+debug: 2 fonts used
+debug: PDF generated in 0.074777 seconds
+debug: Compiled in 0.141404 seconds
+debug: Peak Memory usage 18.00 MB
+debug: PDF file size 47 kB
+debug: 2 fonts used
+debug: PDF generated in 0.249782 seconds
+debug: Compiled in 0.334059 seconds
+debug: Peak Memory usage 10.00 MB
+debug: PDF file size 89 kB
+debug: 2 fonts used
+debug: PDF generated in 0.676846 seconds
+debug: Compiled in 0.902352 seconds
+debug: Peak Memory usage 12.00 MB
+debug: PDF file size 64 kB
+debug: 2 fonts used
+debug: PDF generated in 0.121320 seconds
+debug: Compiled in 0.166960 seconds
+debug: Peak Memory usage 14.00 MB
+debug: PDF file size 129 kB
+debug: 2 fonts used
+debug: PDF generated in 0.085675 seconds
+debug: Compiled in 0.096900 seconds
+debug: Peak Memory usage 8.00 MB
+debug: PDF file size 129 kB
+debug: 2 fonts used
+debug: PDF generated in 0.084303 seconds
+debug: Compiled in 0.099499 seconds
+debug: Peak Memory usage 6.00 MB
+debug: PDF file size 129 kB
+debug: 2 fonts used
+debug: PDF generated in 0.092796 seconds
+debug: Compiled in 0.107085 seconds
+debug: Peak Memory usage 12.00 MB
+debug: PDF file size 129 kB
+debug: 2 fonts used

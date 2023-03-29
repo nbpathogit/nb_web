@@ -1,29 +1,19 @@
-<!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+
 require 'includes/init.php';
+require_once __DIR__ . '/vendor/autoload.php';
+$conn = require 'includes/db.php';
 Auth::requireLogin();
+require 'user_auth.php';
+
+$costs = Billing::getCostGroupbyServiceTyoebyHospitalbyDateRange($conn, $_POST['hospital_id'], $_POST['startdate'], $_POST['enddate']);
+$billings = Billing::getBillbyHospitalbyDateRange($conn, $_POST['hospital_id'], $_POST['startdate'], $_POST['enddate']);
 ?>
 
-<?php require 'user_auth.php'; ?>
-<?php //require 'includes/header.php';   ?>
 
 <?php
 
-if (!Auth::isLoggedIn()) {
-    Util::alert(" You are not login.");
-    die();
-} elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital) {
-    Util::alert("You have no authorize to view other hospital group.");
-} else {
-    //Allow to do next 
-}
-
-
-require 'user_auth.php';
 
 class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 
@@ -75,18 +65,6 @@ $fontDirs = $defaultConfig['fontDir'];
 $defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
 $fontData = $defaultFontConfig['fontdata'];
 
-//$mpdf = new \Mpdf\Mpdf([
-//    'fontDir' => array_merge($fontDirs, [
-//        __DIR__ . '/fonts',
-//    ]),
-//    'fontdata' => $fontData + [
-//            'sarabun' => [
-//                'R' => 'THSarabunNew.ttf',
-//                'I' => 'THSarabunNew Italic.ttf',
-//                'B' =>  'THSarabunNew Bold.ttf',
-//            ]
-//        ],
-//]);
 
 $mpdf = new \Mpdf\Mpdf(
         [
@@ -95,7 +73,7 @@ $mpdf = new \Mpdf\Mpdf(
     'orientation' => 0,
     'margin_left' => 15,
     'margin_right' => 15,
-    'margin_top' => 65,
+    'margin_top' => 15,
     'margin_bottom' => 15,
     'margin_header' => 10,
     'margin_footer' => 4,
@@ -126,12 +104,87 @@ $mpdf = new \Mpdf\Mpdf(
         ]
 );
 
-$mpdf->SetDisplayMode('fullwidth');
-$mpdf->shrink_tables_to_fit = 1;
 
-$mpdf->SetHTMLHeader("Header");
-$mpdf->WriteHTML("Data");
-$mpdf->SetHTMLFooter("footer");
 
-$mpdf->Output();
+
+//$mpdf->setLogger(new class extends \Psr\Log\AbstractLogger {
+//    public function log($level, $message, array $context = [])
+//    {
+//        $myLog = $level . ': ' . $message . "\n";
+//        $myfile = fopen("newfile.txt", "a") or die("Unable to open file!");
+//        fwrite($myfile, $myLog);
+//        fclose($myfile);
+//    }
+//});
+
+//$mpdf->SetDisplayMode('fullwidth');
+//$mpdf->shrink_tables_to_fit = 1;
+//$mpdf->table_error_report = TRUE;
+
+$str1 = file_get_contents('billinngpdftemplate.php');
+
+
+ $str_head = '<tr>'.    
+         '<th>#</th>' .
+            '<th >เลขที่งาน</th>' .
+            '<th >ผู้ป่วย</th>' .
+
+            '<th >code</th>' .
+            '<th >description</th>' .
+            '<th >วันที่รับ</th>' .
+
+            '<th >เลขที่โรงพยาบาล</th>' .
+            '<th >แพทย์ผู้ส่งตรวจ</th>' .
+            '<th >ค่าตรวจ</th>' .
+           
+         '</tr>';
+ //            '<th >โรงพยาบาล</th>' .
+ //                        '<th >ชนิดค่าบริการ</th>' .
+//echo $str1;
+
+$str1 = str_replace("<header_message>", $str_head, $str1);
+
+$str_body="";
+foreach ($billings as $index => $bill){
+    
+    $str_body = $str_body  .'<tr>
+                <td>' . $index . '</td>
+                <td>' . $bill['number'] . '</td>
+                <td>' . $bill['ppre_name'] . ' ' . $bill['name'] . ' ' . $bill['lastname'] . '</td>
+
+                <td>' . $bill['code_description'] . '</td>
+                <td>' . $bill['description'] . '</td>
+                <td>' . substr($bill['import_date'],0,10) . '</td>
+                
+                <td>' . $bill['phospital_num'] . '</td>
+                <td>' . $bill['send_doctor'] . '</td>
+                <td>' . $bill['cost'] . '</td>
+
+                </tr>';
+    //<td>' . $bill['hospital'] . '</td>
+//                    <td>' . $bill['service_type'] . '</td>
+    
+}
+
+$str1 = str_replace("<body_message>", $str_body, $str1);
+
+try {
+    
+    
+
+    $mpdf->WriteHTML($str1);
+
+
+    $mpdf->Output();
+    
+} catch (\Mpdf\MpdfException $e) { // Note: safer fully qualified exception name used for catch
+    // Process the exception, log, print etc.
+    echo $e->getMessage();
+}
+
+
+
+
+
+
 ?>

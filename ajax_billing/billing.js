@@ -1,3 +1,22 @@
+//btn_export_bill_pdf
+$("#btn_export_bill_pdf").on("click", function (e) {
+    var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
+    var startdate = $("#startdate_billing").val();
+    var enddate = $("#enddate_billing").val();
+    
+    var frm = $("<form>");
+    frm.attr('method', 'post');
+    frm.attr('target', '_blank');
+    frm.attr('action', "billing_pdf_show.php");
+    frm.attr('');
+    frm.append('<input type="hidden" name="hospital_id" value="' + hospital_id + '" /> ');
+    frm.append('<input type="hidden" name="startdate" value="' + startdate + '" /> ');
+    frm.append('<input type="hidden" name="enddate" value="' + enddate + '" /> ');
+    frm.appendTo("body");
+    frm.submit();
+
+
+});
 
 $("#btn_get_bill_by_range").on("click", function (e) {
     var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
