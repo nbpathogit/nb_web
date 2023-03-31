@@ -7,6 +7,13 @@ $conn = require 'includes/db.php';
 Auth::requireLogin();
 require 'user_auth.php';
 
+// show/hide table for see layout
+if (isset($_POST['layout'])) {
+    $hideTable = false;
+} else {
+    $hideTable = true;
+}
+
 $costs = Billing::getCostGroupbyServiceTyoebyHospitalbyDateRange($conn, $_POST['hospital_id'], $_POST['startdate'], $_POST['enddate']);
 $billings = Billing::getBillbyHospitalbyDateRange($conn, $_POST['hospital_id'], $_POST['startdate'], $_POST['enddate']);
 ?>
@@ -71,10 +78,10 @@ $mpdf = new \Mpdf\Mpdf(
     'mode' => 'utf-8',
     'format' => 'A4' . ('orientation' == 'L' ? '-L' : ''),
     'orientation' => 0,
-    'margin_left' => 15,
-    'margin_right' => 15,
-    'margin_top' => 15,
-    'margin_bottom' => 15,
+    'margin_left' => 25,
+    'margin_right' => 25,
+    'margin_top' => 25,
+    'margin_bottom' => 25,
     'margin_header' => 10,
     'margin_footer' => 4,
     'useFixedNormalLineHeight' => true,
@@ -105,27 +112,60 @@ $mpdf = new \Mpdf\Mpdf(
 );
 
 
+$str1 = file_get_contents('pdf_invoice/billingletter1.php');
+if ($hideTable) {
+    $str1 = str_replace("border: 1px solid green;", "", $str1);
+}
 
 
-//$mpdf->setLogger(new class extends \Psr\Log\AbstractLogger {
-//    public function log($level, $message, array $context = [])
-//    {
-//        $myLog = $level . ': ' . $message . "\n";
-//        $myfile = fopen("newfile.txt", "a") or die("Unable to open file!");
-//        fwrite($myfile, $myLog);
-//        fclose($myfile);
-//    }
-//});
 
-//$mpdf->SetDisplayMode('fullwidth');
-//$mpdf->shrink_tables_to_fit = 1;
+
+
+
+
+
+
+$mpdf->WriteHTML($str1);
+
+
+
+
+$mpdf->AddPage();
+
+//ต้นฉบับ
+$str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
+
+if ($hideTable) {
+    $str1 = str_replace("border: 1px solid green;", "", $str1);
+}
+$mpdf->WriteHTML($str1);
+
+
+
+//สำเนา
+$mpdf->AddPage();
+$mpdf->WriteHTML($str1);
+
+
+
+//$mpdf->AddPage();
+//void AddPage ( [ string $orientation [, string $type [, string $resetpagenum [, string $pagenumstyle [, string $suppress [, float $margin-left [, float $margin-right [, float $$margin-top [, float $$margin-bottom [, float $$margin-header [, float $margin-footer [, string $odd-header-name [, string $even-header-name [, string $$odd-footer-name [, string $$even-footer-name [, mixed $$odd-header-value [, mixed $even-header-value [, mixed $odd-footer-value [, mixed $$even-footer-value [, string $pageselector [, mixed $sheet-size ]]]]]]]]]]]]]]]]]]]]]);
+$mpdf->AddPage('','','','','',15,15,17,17,0,0);
+
+//'margin_left' => 25,
+//    'margin_right' => 25,
+//    'margin_top' => 25,
+//    'margin_bottom' => 25,
+//$mpdf->SetMargins($left, $right, $top);
+$mpdf->SetMargins(17, 17, 17);
+$mpdf->shrink_tables_to_fit = 1;
 //$mpdf->table_error_report = TRUE;
 
-$str1 = file_get_contents('billinngpdftemplate.php');
+$str1 = file_get_contents('pdf_invoice/billinngpdftemplate.php');
 
 
  $str_head = '<tr>'.    
-         '<th>#</th>' .
+         '<th >#</th>' .
             '<th >เลขที่งาน</th>' .
             '<th >ผู้ป่วย</th>' .
 
@@ -170,11 +210,11 @@ $str1 = str_replace("<body_message>", $str_body, $str1);
 
 try {
     
-    
+
 
     $mpdf->WriteHTML($str1);
 
-
+    $mpdf->SetDisplayMode('fullwidth','single');  
     $mpdf->Output();
     
 } catch (\Mpdf\MpdfException $e) { // Note: safer fully qualified exception name used for catch

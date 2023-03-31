@@ -35,9 +35,16 @@
     .font4{
         font-size: 4pt;
     }
-
+/*    @page *{
+        margin-top: 2.54cm;
+        margin-bottom: 2.54cm;
+        margin-left: 3.175cm;
+        margin-right: 3.175cm;
+    }*/
 </style>
 
+<p style="text-align:center;font-size: 14pt;">สรุปการส่งตรวจทางพยาธิวิทยา (พยาธิวิทยากายวิภาค) โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
+ประจำเดือน ธันวาคม 2565 (วันที่ 1-6 ธันวำคม 2565)</p>
 
 <table width="100%" >
     <thead>

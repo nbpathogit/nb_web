@@ -59,9 +59,12 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <b> To End Date:</b> <input type="text" name="enddate_billing" id="enddate_billing" class="form-control" >
     </div>
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+    
+    <div class=" <?= $isBorder ? "border" : "" ?>">
+        <br>
         <button name="btn_get_bill_by_range" id="btn_get_bill_by_range" type="submit" class="btn btn-primary">&nbsp;&nbsp;preview bill by date range&nbsp;&nbsp;</button>
-        <button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;export pdf&nbsp;&nbsp;</button>
+        <button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp;show pdf with layout&nbsp;&nbsp;</button>
+        <button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;generate pdf&nbsp;&nbsp;</button>
     </div>
 </div>
 <?php require 'includes/closecontainer.php'; ?>
@@ -129,4 +132,4 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v0xxxxxxxxxxxxxxx"></script>
+<script src="/ajax_billing/billing.js?v0xxxxxxxxxxxxxxxx"></script>
