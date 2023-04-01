@@ -59,7 +59,7 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <b> To End Date:</b> <input type="text" name="enddate_billing" id="enddate_billing" class="form-control" >
     </div>
-    
+
     <div class=" <?= $isBorder ? "border" : "" ?>">
         <br>
         <button name="btn_get_bill_by_range" id="btn_get_bill_by_range" type="submit" class="btn btn-primary">&nbsp;&nbsp;preview bill by date range&nbsp;&nbsp;</button>
@@ -68,6 +68,53 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
     </div>
 </div>
 <?php require 'includes/closecontainer.php'; ?>
+
+
+
+
+
+
+
+<?php require 'includes/opencontainer.php'; ?>
+<?php
+$str1 = file_get_contents('pdf_invoice/billingletter1.php');
+if (true) {
+    $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
+}
+
+echo $str1;
+?>
+<?php require 'includes/closecontainer.php'; ?>
+
+
+
+
+<?php require 'includes/opencontainer.php'; ?>
+<?php
+$str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
+if (true) {
+    $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
+}
+
+echo $str1;
+?>
+<?php require 'includes/closecontainer.php'; ?>
+
+
+
+<?php require 'includes/opencontainer.php'; ?>
+<?php
+$str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
+if (true) {
+    $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
+}
+
+echo $str1;
+?>
+<?php require 'includes/closecontainer.php'; ?>
+
+
+
 
 <?php require 'includes/opencontainer.php'; ?>
 
