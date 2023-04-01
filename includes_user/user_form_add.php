@@ -37,9 +37,7 @@
                     <label for="pre_name" class="form-label">คำนำหน้าชื่อ</label><!--span> *</span-->
                     <input name="pre_name" type="text" list="pre_name_list" class="form-control " id="pre_name"  value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
                     <datalist id="pre_name_list">
-                        <option>นาย</option>
-                        <option>นาง</option>
-                        <option>นางสาว</option>
+                        <?php                            require 'includes/prenameOption.php'; ?>
                     </datalist>
                 </div>
                 <div class="col-5 col-md-4">

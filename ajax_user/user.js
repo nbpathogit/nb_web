@@ -5,7 +5,7 @@
 $('#ugroup_id_user_add').on('change', function () {
     //update drop down list of specimen
     var ugroup_id = $('#ugroup_id_user_add option').filter(':selected').attr('value');
-    alert(ugroup_id);
+//    alert(ugroup_id);
     if(ugroup_id=="5100"){
         $.ajax({
             type: 'POST',
