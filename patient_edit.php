@@ -1055,12 +1055,26 @@ if (isset($curstatus[0]['next3'])) {
     <div class="nb_bg_set bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
         <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-        <h3 align="center" ><?= $patient[0]['request_sp_slide'] > 0 ? "สังย้อมพิเศษแล้ว":""; ?></h3>
+        <span id="sp_status_message">
+            <?php
+            
+            if($patient[0]['request_sp_slide'] == 1){
+                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>';
+            }elseif ($patient[0]['request_sp_slide'] == 2) {
+                echo '<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นย้อมพิเศษ</h3>';
+            }else{
+                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;"></h3>';
+            }
+        ?>
+        </span>
+
+        
+        <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
         <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
         <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
         
         <hr>
-        <form id="slide_prep" name="" method="post">
+        <!--<form id="slide_prep" name="" method="post">-->
 
             <div align=""  class="mb-3">
                     <label for="p_sp_patho_comment">Comment</label><br>
@@ -1073,8 +1087,9 @@ if (isset($curstatus[0]['next3'])) {
 
                     <!--<button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= ( !$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>-->
                     <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
+                    <button name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
 
-        </form>
+        <!--</form>-->
        
     </div>
 </div>
@@ -1142,7 +1157,7 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
 
 <script src="/ajax_patient_diax_result/diagresult.js?v10"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxx"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

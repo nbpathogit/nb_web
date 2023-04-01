@@ -46,6 +46,7 @@ $curStatusAuthEdit = (
     <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal1"> Add Specimen </button>-->
     <!--<button id="refresh_spcimen_list1" class="btn btn-primary" >Refresh</button>-->
     <?php $is_SP = $patient[0]['request_sp_slide'] > 0;  ?>
+    <?php $cur_request_sp_slide_status = $patient[0]['request_sp_slide'];  ?>
     <a class="btn btn-outline-primary btn-sm me-1 sp_slide_req_btn <?= $is_SP ? 'disabled':'';?>"  aria-disabled="true"  data-bs-toggle="modal"  data-bs-target="#addSpecimenModal2" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 sp_slide_req_btn <?= $is_SP ? 'disabled':'';?>"  id="refresh_spcimen_list2" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 sp_slide_req_btn <?= $is_SP ? 'disabled':'';?>"  data-bs-toggle="modal"  data-bs-target="#spcimen_tbl_list2" title="View/Detail" ><i class="fa-solid fa-table"></i></a>

@@ -309,7 +309,7 @@ function addAction2Flow() {
             },
             success: function (data) {
                 console.log(data);
-                alert(data);
+//                alert(data);
 
             },
             error: function (jqxhr, status, exception) {
@@ -325,6 +325,12 @@ function addAction2Flow() {
         $('.sp_slide_req_btn').addClass('disabled');
         
         $('#btnmove8000').prop('disabled',true);
+        
+        
+        $('#btnfinish8000').prop('disabled',false);
+        
+        $("#sp_status_message h3").remove();
+        $("#sp_status_message").append('<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>');
         
         alert('done');
         
@@ -853,6 +859,38 @@ $(document).ready(function () {
     }
 
 });
+
+$("#btnfinish8000").on("click", function (e) {
+        e.preventDefault();
+        var cur_patient_id = get_cur_patient_id();
+        $.ajax({
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: '/ajax_job4_prep_sp_slide/set_request_sp_slide.php',
+            data: {
+                'patient_id': cur_patient_id,
+                'request_sp_slide': 2,
+//                'result_id': lastest_result_id,
+//                'user_id': lastest_secondP_userid,   //Allow to add user later
+//                'job6_id': lastest_job6_id,            //Allow to add job later
+            },
+            success: function (data) {
+                console.log(data);
+//                alert(data);
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+        $("#sp_status_message h3").remove();
+        $("#sp_status_message").append('<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นย้อมพิเศษ</h3>');
+        $("#btnfinish8000").prop('disabled',true);
+        alert('done');
+        
+
+    });
 
 
 //validat form for patient_edit.php
