@@ -77,9 +77,9 @@ invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_in
 invoice_sub_number : <input name="bill_invoice_sub_number" id="bill_invoice_sub_number" size="100" placeholder="ใส่เล่มที่ใบแจ้งหนี้"><br>
 
 
-Today date(Thai format) : <input name="bill_todaydate" id="bill_todaydate" size="100"><br>
-start date(Thai format) : <input name="bill_startdate" id="bill_startdate" size="100"><br>
-end date(Thai format) : <input name="bill_enddate" id="bill_enddate" size="100"><br>
+Today date(Thai format) : <input name="bill_todaydate_thai" id="bill_todaydate_thai" size="100"><br>
+start date(Thai format) : <input name="bill_startdate_thai" id="bill_startdate_thai" size="100"><br>
+end date(Thai format) : <input name="bill_enddate_thai" id="bill_enddate_thai" size="100"><br>
 label hospital name : <input name="bill_hospitalname" id="bill_hospitalname" size="100"><br>
 label hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxid" size="100"><br>
 label hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
@@ -155,7 +155,7 @@ echo $str1;
 </style>
 <span id="billing_table_span">
     <p style="text-align:center;font-size: 14pt;">สรุปการส่งตรวจทางพยาธิวิทยา (พยาธิวิทยากายวิภาค) โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
-        ตั้งแต่วันที่ <span id="bill_startdate">X</span> ถึง <span id="bill_enddate">X</span></p>
+        ตั้งแต่วันที่ <span id="bill_startdate_thai">X</span> ถึง <span id="bill_enddate_thai">X</span></p>
     <table class="" id="billing_table" style="width:100%">
         <thead>
             <tr>
@@ -206,4 +206,4 @@ echo $str1;
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v1xxxx"></script>
+<script src="/ajax_billing/billing.js?v1xxxxx"></script>

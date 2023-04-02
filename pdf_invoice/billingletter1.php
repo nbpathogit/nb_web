@@ -54,7 +54,7 @@
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="50%" style="border: 1px solid green;"></td>
-        <td style="border: 1px solid green;"><span class="bill_todaydate">X</span></td>
+        <td style="border: 1px solid green;"><span class="bill_todaydate_thai">X</span></td>
     </tr>
 </table>
 
@@ -63,7 +63,7 @@
 <p class="df" >
     เรื่อง ขอแจ้งค่าบริการ (ใบแจ้งหนี้ เลขที่ <span class="bill_invoice_sub_number">X</span>/<span class="bill_hospital_invoice_number">X</span>)<br>
     เรียน ผู้อำนวยการ<span class="bill_hospitalname">X</span><br>
-  สิ่งที่ส่งมาด้วย รายการตรวจวันที่ <span class="bill_startdate">X</span> ถึง <span class="bill_enddate">X</span></p>
+  สิ่งที่ส่งมาด้วย รายการตรวจวันที่ <span class="bill_startdate_thai">X</span> ถึง <span class="bill_enddate_thai">X</span></p>
 <p class="df">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จากท่านในการส่งตรวจวิเคราะห์และ
 วินิจฉัยโรคทางห้องปฏิบัติการพยาธิวิทยากายวิภาค ทางห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. ขอแจ้งค่าบริการ
 ตามที่ทางท่านได้ส่งตรวจ ดังรายการที่แนบมานี้</p>

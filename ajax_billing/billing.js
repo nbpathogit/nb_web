@@ -163,16 +163,16 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
     let date = new Date();
     let result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
-    $('#bill_todaydate').val(result);
+    $('#bill_todaydate_thai').val(result);
 //    console.log(result);
 
     date = new Date(startdate.substr(0, 4), startdate.substr(5, 2), startdate.substr(8, 2));
     result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
-    $('#bill_startdate').val(result);
+    $('#bill_startdate_thai').val(result);
 
     date = new Date(enddate.substr(0, 4), enddate.substr(5, 2), enddate.substr(8, 2));
     result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
-    $('#bill_enddate').val(result);
+    $('#bill_enddate_thai').val(result);
 
     $('#bill_hospitalname').val(hospital_name);
     $('#bill_hospital_taxid').val(hospital[0].tax_id);
@@ -212,9 +212,9 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
 $("#btn_bill_preview_web").on("click", function (e) {
     
-    $('.bill_todaydate').text($('#bill_todaydate').val());
-    $('.bill_startdate').text($('#bill_startdate').val());
-    $('.bill_enddate').text($('#bill_enddate').val());
+    $('.bill_todaydate_thai').text($('#bill_todaydate_thai').val());
+    $('.bill_startdate_thai').text($('#bill_startdate_thai').val());
+    $('.bill_enddate_thai').text($('#bill_enddate_thai').val());
     $('.bill_hospitalname').text($('#bill_hospitalname').val());
     $('.bill_hospital_taxid').text($('#bill_hospital_taxid').val());
     $('.bill_hospital_address').text($('#bill_hospital_address').val());
