@@ -210,6 +210,26 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 });
 
 
+$("#btn_bill_preview_web").on("click", function (e) {
+    
+    $('.bill_todaydate').text($('#bill_todaydate').val());
+    $('.bill_startdate').text($('#bill_startdate').val());
+    $('.bill_enddate').text($('#bill_enddate').val());
+    $('.bill_hospitalname').text($('#bill_hospitalname').val());
+    $('.bill_hospital_taxid').text($('#bill_hospital_taxid').val());
+    $('.bill_hospital_address').text($('#bill_hospital_address').val());
+    $('.bill_invoice_sub_number').text($('#bill_invoice_sub_number').val());
+    $('.bill_hospital_invoice_number').text($('#bill_hospital_invoice_number').val());
+    $('.bill_hospital_net_price').text($('#bill_hospital_net_price').val());
+    $('.bill_hospital_net_price_spell').text($('#bill_hospital_net_price_spell').val());
+    $('.bill_count_all_list').text($('#bill_count_all_list').val());
+    $('.bill_manager').text($('#bill_manager').val());
+    alert('done');
+    
+    
+    
+});
+
 function drawbillingTable(datajson) {
 
     $('#billing_table_span table thead tr').remove();
@@ -298,6 +318,8 @@ function drawbillingTable(datajson) {
     }
 
 }
+
+//btn_bill_preview_web
 
 $(document).ready(function () {
 

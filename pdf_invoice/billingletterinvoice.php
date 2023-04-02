@@ -70,7 +70,7 @@
 <p class="df">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จากท่านในการส่งตรวจวิเคราะห์และวินิจฉัยโรคทางห้องปฏิบัติการพยาธิวิทยากายวิภาค ในนาม ศูนย์พยาธิวิทยา เอ็น.บี. ทั้งนี้ทางห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ขอแจ้งค่าบริการที่ทางท่านได้ส่งตรวจดังนี้</p>
 
 
-<p class="df"><b>ตั้งแต่วันที่ <span id="bill_startdate">X</span> ถึง <span id="bill_enddate">X</span></b></p>
+<p class="df"><b>ตั้งแต่วันที่ <span class="bill_startdate">X</span> ถึง <span class="bill_enddate">X</span></b></p>
 
     <table width="100%" style="border: 1px solid black;">
         <tr>

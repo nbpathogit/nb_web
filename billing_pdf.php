@@ -73,6 +73,9 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
 
 
 <?php require 'includes/opencontainer.php'; ?>
+invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_invoice_number" size="100" placeholder="ใส่เลขที่ใบแจ้งหนี้"><br>
+invoice_sub_number : <input name="bill_invoice_sub_number" id="bill_invoice_sub_number" size="100" placeholder="ใส่เล่มที่ใบแจ้งหนี้"><br>
+
 
 Today date(Thai format) : <input name="bill_todaydate" id="bill_todaydate" size="100"><br>
 start date(Thai format) : <input name="bill_startdate" id="bill_startdate" size="100"><br>
@@ -81,8 +84,6 @@ label hospital name : <input name="bill_hospitalname" id="bill_hospitalname" siz
 label hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxid" size="100"><br>
 label hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
 
-invoice_sub_number : <input name="bill_invoice_sub_number" id="bill_invoice_sub_number" size="100"><br>
-invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_invoice_number" size="100"><br>
 
 Net Price : <input name="bill_hospital_net_price" id="bill_hospital_net_price" size="100"><br>
 Net Price spell : <input name="bill_hospital_net_price_spell" id="bill_hospital_net_price_spell" size="100"><br>
@@ -205,4 +206,4 @@ echo $str1;
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v1"></script>
+<script src="/ajax_billing/billing.js?v1xxxx"></script>
