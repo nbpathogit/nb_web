@@ -123,7 +123,7 @@
         <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start sticky-top-->
-            <nav class="navbar navbar-expand bg-light navbar-light  sticky-top  px-3 py-2 mb-2">
+            <nav id="nb_navbar_top" class="navbar navbar-expand bg-light navbar-light  sticky-top  px-3 py-2 mb-2">
 
 
                 <a href="patient.php" class="navbar-brand d-flex d-lg-none me-4">

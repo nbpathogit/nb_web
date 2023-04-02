@@ -40,6 +40,8 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
 ?>
 <?php require 'includes/header.php'; ?>
 
+<h1 align="center">สร้างใบแจ้งหนี้</h1>
+
 <?php require 'includes/opencontainer.php'; ?>
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
@@ -63,15 +65,37 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
     <div class=" <?= $isBorder ? "border" : "" ?>">
         <br>
         <button name="btn_get_bill_by_range" id="btn_get_bill_by_range" type="submit" class="btn btn-primary">&nbsp;&nbsp;preview bill by date range&nbsp;&nbsp;</button>
-        <button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp;show pdf with layout&nbsp;&nbsp;</button>
-        <button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;generate pdf&nbsp;&nbsp;</button>
+
     </div>
 </div>
 <?php require 'includes/closecontainer.php'; ?>
 
 
 
+<?php require 'includes/opencontainer.php'; ?>
 
+Today date(Thai format) : <input name="bill_todaydate" id="bill_todaydate" size="100"><br>
+start date(Thai format) : <input name="bill_startdate" id="bill_startdate" size="100"><br>
+end date(Thai format) : <input name="bill_enddate" id="bill_enddate" size="100"><br>
+label hospital name : <input name="bill_hospitalname" id="bill_hospitalname" size="100"><br>
+label hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxid" size="100"><br>
+label hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
+
+invoice_sub_number : <input name="bill_invoice_sub_number" id="bill_invoice_sub_number" size="100"><br>
+invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_invoice_number" size="100"><br>
+
+Net Price : <input name="bill_hospital_net_price" id="bill_hospital_net_price" size="100"><br>
+Net Price spell : <input name="bill_hospital_net_price_spell" id="bill_hospital_net_price_spell" size="100"><br>
+Net item list count : <input name="bill_count_all_list" id="bill_count_all_list" size="100"><br>
+
+
+Name of manager : <input name="bill_manager" id="bill_manager" size="100"><br>
+<br>
+<button name="btn_bill_preview_web" id="btn_bill_preview_web" type="submit" class="btn btn-primary">&nbsp;&nbsp;Preview on web page.&nbsp;&nbsp;</button>
+<button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp;show pdf with layout&nbsp;&nbsp;</button>
+<button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;generate pdf&nbsp;&nbsp;</button>
+
+<?php require 'includes/closecontainer.php'; ?>
 
 
 
@@ -129,6 +153,8 @@ echo $str1;
     }
 </style>
 <span id="billing_table_span">
+    <p style="text-align:center;font-size: 14pt;">สรุปการส่งตรวจทางพยาธิวิทยา (พยาธิวิทยากายวิภาค) โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
+        ตั้งแต่วันที่ <span id="bill_startdate">X</span> ถึง <span id="bill_enddate">X</span></p>
     <table class="" id="billing_table" style="width:100%">
         <thead>
             <tr>
@@ -179,4 +205,4 @@ echo $str1;
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v0xxxxxxxxxxxxxxxx"></script>
+<script src="/ajax_billing/billing.js?v1"></script>

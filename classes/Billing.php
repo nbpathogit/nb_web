@@ -74,7 +74,7 @@ class Billing {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
-        public static function getBillbyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
+    public static function getBillbyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
         $sql = "SELECT *, h.id as hid, b.id as bid, p.id as pid FROM".
                 " billing as b ".
                 " JOIN hospital as h".
@@ -92,6 +92,27 @@ class Billing {
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getBillbyHospitalbyDateRangeSumPrice($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
+        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount FROM".
+                " billing as b ".
+                " JOIN hospital as h".
+                " JOIN service_type as s".
+                " JOIN patient as p".
+                " WHERE  b.hospital_id = $hospital_id and b.hospital_id = h.id  and b.slide_type = s.id and b.patient_id = p.id ";
+                
+                $sql .= " and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' ";
+                
+                $sql = $sql . " ORDER by b.id ";
+                if($limit != 0){
+                    $sql = $sql . " LIMIT $limit ";
+                }
+//                return $sql;
+
+        $results = $conn->query($sql);
+
+        return  $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
     //SELECT *, h.id as hid, b.id as bid, p.id as pid, SUM(b.cost) as cost_sum , count(b.cost) as cost_count FROM billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = 0 and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by b.id;
@@ -118,24 +139,24 @@ class Billing {
 
         $stmt = $conn->prepare($sql);
 
-    $stmt->bindValue(':specimen_id',$this->specimen_id ,PDO::PARAM_INT);      //int(11)		
-    $stmt->bindValue(':patient_id' ,$this->patient_id  ,PDO::PARAM_INT);      //int(11)		
-    $stmt->bindValue(':number'     ,$this->number      ,PDO::PARAM_STR);      //varchar(32)	patient pnum
-    $stmt->bindValue(':name'       ,$this->name        ,PDO::PARAM_STR);      //varchar(32)	
-    $stmt->bindValue(':lastname'   ,$this->lastname    ,PDO::PARAM_STR);      //varchar(32)	
-    $stmt->bindValue(':slide_type' ,$this->slide_type  ,PDO::PARAM_STR);      //tinyint(4)	
-    $stmt->bindValue(':code_description' ,$this->code_description  ,PDO::PARAM_STR);      
-    
-    $stmt->bindValue(':description',$this->description ,PDO::PARAM_STR);      //text	        
-    $stmt->bindValue(':import_date',$this->import_date ,PDO::PARAM_STR);      //date			
-    $stmt->bindValue(':report_date',$this->report_date ,PDO::PARAM_STR);      //varchar(16)	
-    $stmt->bindValue(':hospital'   ,$this->hospital    ,PDO::PARAM_STR);      //varchar(32)	
-    $stmt->bindValue(':hospital_id'   ,$this->hospital_id    ,PDO::PARAM_INT);      //varchar(32)	
-    $stmt->bindValue(':hn'         ,$this->hn          ,PDO::PARAM_STR);      //varchar(32)	
-    $stmt->bindValue(':send_doctor',$this->send_doctor ,PDO::PARAM_STR);      //varchar(32)	
-    $stmt->bindValue(':pathologist',$this->pathologist ,PDO::PARAM_STR);      //varchar(32)	
-    $stmt->bindValue(':cost'       ,$this->cost        ,PDO::PARAM_STR);      //int(11)		
-    $stmt->bindValue(':comment'    ,$this->comment     ,PDO::PARAM_STR);      //text	
+        $stmt->bindValue(':specimen_id',$this->specimen_id ,PDO::PARAM_INT);      //int(11)		
+        $stmt->bindValue(':patient_id' ,$this->patient_id  ,PDO::PARAM_INT);      //int(11)		
+        $stmt->bindValue(':number'     ,$this->number      ,PDO::PARAM_STR);      //varchar(32)	patient pnum
+        $stmt->bindValue(':name'       ,$this->name        ,PDO::PARAM_STR);      //varchar(32)	
+        $stmt->bindValue(':lastname'   ,$this->lastname    ,PDO::PARAM_STR);      //varchar(32)	
+        $stmt->bindValue(':slide_type' ,$this->slide_type  ,PDO::PARAM_STR);      //tinyint(4)	
+        $stmt->bindValue(':code_description' ,$this->code_description  ,PDO::PARAM_STR);      
+
+        $stmt->bindValue(':description',$this->description ,PDO::PARAM_STR);      //text	        
+        $stmt->bindValue(':import_date',$this->import_date ,PDO::PARAM_STR);      //date			
+        $stmt->bindValue(':report_date',$this->report_date ,PDO::PARAM_STR);      //varchar(16)	
+        $stmt->bindValue(':hospital'   ,$this->hospital    ,PDO::PARAM_STR);      //varchar(32)	
+        $stmt->bindValue(':hospital_id'   ,$this->hospital_id    ,PDO::PARAM_INT);      //varchar(32)	
+        $stmt->bindValue(':hn'         ,$this->hn          ,PDO::PARAM_STR);      //varchar(32)	
+        $stmt->bindValue(':send_doctor',$this->send_doctor ,PDO::PARAM_STR);      //varchar(32)	
+        $stmt->bindValue(':pathologist',$this->pathologist ,PDO::PARAM_STR);      //varchar(32)	
+        $stmt->bindValue(':cost'       ,$this->cost        ,PDO::PARAM_STR);      //int(11)		
+        $stmt->bindValue(':comment'    ,$this->comment     ,PDO::PARAM_STR);      //text	
 
         //var_dump($stmt);
 

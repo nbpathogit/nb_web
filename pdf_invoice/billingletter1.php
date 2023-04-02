@@ -54,24 +54,24 @@
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="50%" style="border: 1px solid green;"></td>
-        <td style="border: 1px solid green;">1 กุมภาพันธ์ 2566</td>
+        <td style="border: 1px solid green;"><span class="bill_todaydate">X</span></td>
     </tr>
 </table>
 
 
 <br>
 <p class="df" >
-  เรื่อง ขอแจ้งค่าบริการ (ใบแจ้งหนี้ เลขที่ 65/157)<br>
-  เรียน ผู้อานวยการโรงพยาบาลพิจิตร<br>
-  สิ่งที่ส่งมาด้วย รายการตรวจวันที่ 1-6 ธันวาคม 2565</p>
-<p class="df">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จำกท่านในการส่งตรวจวิเคราะห์และ
+    เรื่อง ขอแจ้งค่าบริการ (ใบแจ้งหนี้ เลขที่ <span class="bill_invoice_sub_number">X</span>/<span class="bill_hospital_invoice_number">X</span>)<br>
+    เรียน ผู้อำนวยการ<span class="bill_hospitalname">X</span><br>
+  สิ่งที่ส่งมาด้วย รายการตรวจวันที่ <span id="bill_startdate">X</span> ถึง <span id="bill_enddate">X</span></p>
+<p class="df">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จากท่านในการส่งตรวจวิเคราะห์และ
 วินิจฉัยโรคทางห้องปฏิบัติการพยาธิวิทยากายวิภาค ทางห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. ขอแจ้งค่าบริการ
 ตามที่ทางท่านได้ส่งตรวจ ดังรายการที่แนบมานี้</p>
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="6%" style="border: 1px solid green;"></td>
-        <td width="60%" style="border: 1px solid green;text-align:left;">ค่าตรวจชิ้นเนื้อศัลย์พยาธิ 23 ราย </td>
-        <td  style="border: 1px solid green;text-align:right;">41,400 บาท</td>
+        <td width="60%" style="border: 1px solid green;text-align:left;">ค่าตรวจชิ้นเนื้อศัลย์พยาธิ <span class="billing_count_all_list">X</span> รายการ </td>
+        <td  style="border: 1px solid green;text-align:right;"><span class="bill_hospital_net_price">X</span> บาท</td>
         <td width="6%" style="border: 1px solid green;"></td>
     </tr>
 </table>
@@ -79,8 +79,8 @@
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="12%" style="border: 1px solid green;"></td>
-        <td width="60%" style="border: 1px solid green;text-align:left;"><b>รวมเป็นเงินทั้งสิ้น สี่หมื่นหนึ่งพันสี่ร้อยบำทถ้วน</b></td>
-        <td  style="border: 1px solid green;text-align:right;"><b>41,400 บาท</b></td>
+        <td width="60%" style="border: 1px solid green;text-align:left;"><b>รวมเป็นเงินทั้งสิ้น <span class="bill_hospital_net_price_spell">X</span></b></td>
+        <td  style="border: 1px solid green;text-align:right;"><b><span class="bill_hospital_net_price">X</span> บาท</b></td>
         <td width="6%" style="border: 1px solid green;"></td>
     </tr>
 </table>
@@ -91,8 +91,8 @@
         <td width="6%" style="border: 1px solid green;"></td>
         <td width="60%" style="border: 1px solid green;text-align:left;">
             โปรดชาระเงินโดย<br>
-            1. เช็คขีดคร่อมสั่งจ่ายในนาม "ห้ำงหุ้นส่วนจำกัด ศูนย์พยำธิวิทยำ เอ็น.บี." และ ส่งมาที่ ตู้ ปณ. 105 ปณจ. พิษณุโลก อำเภอเมือง จังหวัดพิษณุโลก หรือ<br>
-     2. โอนเข้าบัญชีเดินสะพัดธนาคารไทยพาณิชย์ จำกัด (มหาชน) สาขา เทสโก้ โลตัส ท่าทอง(พิษณุโลก) บัญชีเลขที่ 4680937273 ชื่อบัญชี "ห้ำงหุ้นส่วนจำกัด ศูนย์พยำธิวิทยำ เอ็น.บี."<br> 
+            1. เช็คขีดคร่อมสั่งจ่ายในนาม "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี." และ ส่งมาที่ ตู้ ปณ. 105 ปณจ. พิษณุโลก อำเภอเมือง จังหวัดพิษณุโลก หรือ<br>
+     2. โอนเข้าบัญชีเดินสะพัดธนาคารไทยพาณิชย์ จำกัด (มหาชน) สาขา เทสโก้ โลตัส ท่าทอง(พิษณุโลก) บัญชีเลขที่ 4680937273 ชื่อบัญชี "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี."<br> 
             "เลขประจำตัวผู้เสียภาษี 0653562002089 ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.<br>
             18/54 ถ.สนามบิน ต.ในเมือง อ.เมือง จ.พิษณุโลก 65000"
         </td>
@@ -104,5 +104,5 @@
 <p class="df" style="text-align:center;">ขอแสดงความนับถือ</p>
 <br><br>
 
-<p class="df" style="text-align:center;">(นายบุญชู ชุมทอง)</p>
+<p class="df" style="text-align:center;">(<span class="bill_manager">X</span>)</p>
 <p class="df" style="text-align:center;">ผู้จัดการห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.</p>

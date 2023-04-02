@@ -3,7 +3,7 @@ $("#btn_export_bill_pdf").on("click", function (e) {
     var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
     var startdate = $("#startdate_billing").val();
     var enddate = $("#enddate_billing").val();
-    
+
     var frm = $("<form>");
     frm.attr('method', 'post');
     frm.attr('target', '_blank');
@@ -23,7 +23,7 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
     var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
     var startdate = $("#startdate_billing").val();
     var enddate = $("#enddate_billing").val();
-    
+
     var frm = $("<form>");
     frm.attr('method', 'post');
     frm.attr('target', '_blank');
@@ -42,14 +42,15 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
 
 $("#btn_get_bill_by_range").on("click", function (e) {
     var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
+    var hospital_name = $("#phospital_id_bill option").filter(":selected").text();
     var startdate = $("#startdate_billing").val();
     var enddate = $("#enddate_billing").val();
-//    alert(hospital_id + " " + startdate + " " + enddate);
+//    alert(startdate.substr(0, 4) + " " + startdate.substr(5, 2) + " " + startdate.substr(8, 2));
 
     $.ajax({
+        'async': false,
         type: 'POST',
-        // make sure you respect the same origin policy with this url:
-        // http://en.wikipedia.org/wiki/Same_origin_policy
+        'global': false,
         url: '/ajax_billing/getBillingGroupbyServiceType.php',
         data: {
             'hospital_id': hospital_id,
@@ -68,8 +69,35 @@ $("#btn_get_bill_by_range").on("click", function (e) {
                 alert("No record found");
                 return;
             }
-            
-
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+    
+    let net_price = null;
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: '/ajax_billing/getBillingGroupbyServiceTypeSumPrice.php',
+        data: {
+            'hospital_id': hospital_id,
+            'startdate': startdate,
+            'enddate': enddate,
+        },
+        success: function (data) {
+            if (data[0] != "[") {
+                alert(data);
+                console.log(data);
+                return;
+            }
+            let datajson = JSON.parse(data);
+            if (datajson.length == 0) {
+                alert("No record found");
+                return;
+            }
+            net_price = datajson;
         },
         error: function (jqxhr, status, exception) {
             alert('Exception:', exception);
@@ -78,15 +106,14 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
 
     $.ajax({
+        'async': false,
         type: 'POST',
-        // make sure you respect the same origin policy with this url:
-        // http://en.wikipedia.org/wiki/Same_origin_policy
+        'global': false,
         url: '/ajax_billing/getBilling.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
             'enddate': enddate,
-
         },
         success: function (data) {
             if (data[0] != "[") {
@@ -100,12 +127,86 @@ $("#btn_get_bill_by_range").on("click", function (e) {
                 return;
             }
             drawbillingTable(datajson);
-
         },
         error: function (jqxhr, status, exception) {
             alert('Exception:', exception);
         }
     });
+    
+//    C:\anuchit2\nb_web\ajax_billing\getHospital.php
+    let hospital = null;
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: '/ajax_billing/getHospital.php',
+        data: {
+            'hospital_id': hospital_id,
+        },
+        success: function (data) {
+            if (data[0] != "[") {
+                alert(data);
+                console.log(data);
+                return;
+            }
+            var datajson = JSON.parse(data);
+            if (datajson.length == 0) {
+                alert("No hospital record found");
+                return;
+            }
+            hospital = datajson;
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+
+    let date = new Date();
+    let result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
+    $('#bill_todaydate').val(result);
+//    console.log(result);
+
+    date = new Date(startdate.substr(0, 4), startdate.substr(5, 2), startdate.substr(8, 2));
+    result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
+    $('#bill_startdate').val(result);
+
+    date = new Date(enddate.substr(0, 4), enddate.substr(5, 2), enddate.substr(8, 2));
+    result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
+    $('#bill_enddate').val(result);
+
+    $('#bill_hospitalname').val(hospital_name);
+    $('#bill_hospital_taxid').val(hospital[0].tax_id);
+    $('#bill_hospital_address').val(hospital[0].address);
+    $('#bill_hospital_net_price').val(net_price[0].bcost);
+    let cost = $('#bill_hospital_net_price').val();
+    
+    let bill_hospital_net_price_spell = "";
+        $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: '/ajax_billing/getCostSpelling.php',
+        data: {
+            'cost': cost,
+        },
+        success: function (data) {
+            bill_hospital_net_price_spell = data;
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+            return;
+        }
+    });
+    
+    $('#bill_hospital_net_price_spell').val(bill_hospital_net_price_spell);
+    
+    $('#bill_count_all_list').val(net_price[0].bcount);
+    
+    $('#bill_manager').val("นาย อนุสรณ์ ชุมทอง");
+
+    console.log("end");
+    alert("done");
+
 });
 
 
@@ -198,3 +299,10 @@ function drawbillingTable(datajson) {
 
 }
 
+$(document).ready(function () {
+
+    $('#nb_navbar_top').removeClass( "sticky-top" );
+
+    
+
+});

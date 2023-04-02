@@ -33,13 +33,13 @@ class Hospital
      *
      *@return array An associative array of all the article records
      */
-    public static function getAll($conn, $id = 0)
+    public static function getAll($conn, $id = -1)
     {
         $sql = "SELECT *
                 FROM hospital
                 ";
         
-        if ($id != 0) {
+        if ($id != -1) {
              $sql = $sql . " WHERE ";
             $sql = $sql . " id = " . $id;
         }
