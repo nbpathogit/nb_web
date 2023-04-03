@@ -84,6 +84,10 @@ label hospital name : <input name="bill_hospitalname" id="bill_hospitalname" siz
 label hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxid" size="100"><br>
 label hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
 
+<span id="bill_hospital_by_service_price">
+    
+    
+</span>
 
 Net Price : <input name="bill_hospital_net_price" id="bill_hospital_net_price" size="100"><br>
 Net Price spell : <input name="bill_hospital_net_price_spell" id="bill_hospital_net_price_spell" size="100"><br>
@@ -91,6 +95,7 @@ Net item list count : <input name="bill_count_all_list" id="bill_count_all_list"
 
 
 Name of manager : <input name="bill_manager" id="bill_manager" size="100"><br>
+
 <br>
 <button name="btn_bill_preview_web" id="btn_bill_preview_web" type="submit" class="btn btn-primary">&nbsp;&nbsp;Preview on web page.&nbsp;&nbsp;</button>
 <button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp;show pdf with layout&nbsp;&nbsp;</button>
@@ -206,4 +211,4 @@ echo $str1;
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v1xxxปxx"></script>
+<script src="/ajax_billing/billing.js?v1xxxxxxxปxxx"></script>

@@ -115,12 +115,12 @@ class Billing {
         return  $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    //SELECT *, h.id as hid, b.id as bid, p.id as pid, SUM(b.cost) as cost_sum , count(b.cost) as cost_count FROM billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = 0 and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by b.id;
+    //SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = 0 and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by s.id;
     //   service_type    cost_sum  cost_count
     //   ตรวจธรรมดา       10400     26
     //   ตรวจพิเศษ         800       2
     public static function getCostGroupbyServiceTyoebyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-        $sql = "SELECT *, h.id as hid, b.id as bid, p.id as pid, SUM(b.cost) as cost_sum , count(b.cost) as cost_count FROM billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by b.id;";
+        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
                 if($limit != 0){
                     $sql = $sql . " LIMIT $limit ";
                 }
@@ -129,7 +129,7 @@ class Billing {
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function create($conn) {
 
         //$specimen_id

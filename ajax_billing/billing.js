@@ -103,7 +103,48 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             alert('Exception:', exception);
         }
     });
+    
+    let net_byservice_price = null;
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: '/ajax_billing/getCostGroupbyServiceTyoebyHospitalbyDateRange.php',
+        data: {
+            'hospital_id': hospital_id,
+            'startdate': startdate,
+            'enddate': enddate,
+        },
+        success: function (data) {
+            console.log(data);
+            alert(data);
+            if (data[0] != "[") {
+                alert(data);
+                console.log(data);
+                return;
+            }
+            let datajson = JSON.parse(data);
+            if (datajson.length == 0) {
+                alert("No record found");
+                return;
+            }
+            net_byservice_price = datajson;
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+    
+    let strs = "";
+    strs = strs + "<table>";
+    strs = strs + '<tr><th>'+'ลำดับ'+'</th><th>'+'รายการ'+'</th><th>'+'จำนวน'+'</th><th>'+'ราคา'+'</th></tr>';
+    for (var i in net_byservice_price)
+    {
+        strs = strs + '<tr><td>'+net_byservice_price[i].sid+'</td><td>'+net_byservice_price[i].service_type+'</td><td>'+net_byservice_price[i].bcost_count+'</td><td>'+net_byservice_price[i].bcost_sum+'</td></tr>';
 
+    }
+    strs = strs + "</table>";
+    $('#bill_hospital_by_service_price').append(strs);
 
     $.ajax({
         'async': false,
