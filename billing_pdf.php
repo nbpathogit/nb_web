@@ -206,4 +206,4 @@ echo $str1;
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v1xxxxx"></script>
+<script src="/ajax_billing/billing.js?v1xxxปxx"></script>

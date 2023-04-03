@@ -51,7 +51,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getBillingGroupbyServiceType.php',
+        url: '/ajax_billing/getBillbyHospitalbyDateRange.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -80,7 +80,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getBillingGroupbyServiceTypeSumPrice.php',
+        url: '/ajax_billing/getBillbyHospitalbyDateRangeSumPrice.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
