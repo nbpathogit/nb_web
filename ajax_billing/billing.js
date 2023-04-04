@@ -1,38 +1,45 @@
 //btn_export_bill_pdf
 $("#btn_export_bill_pdf").on("click", function (e) {
-    var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
-    var startdate = $("#startdate_billing").val();
-    var enddate = $("#enddate_billing").val();
+    let page1 = $('#bill_page1').html();
+    let page2 = $('#bill_page2').html();
+    let page3 = $('#bill_page3').html();
 
+    $('#tempform form').remove();
     var frm = $("<form>");
     frm.attr('method', 'post');
     frm.attr('target', '_blank');
     frm.attr('action', "billing_pdf_show.php");
     frm.attr('');
-    frm.append('<input type="hidden" name="hospital_id" value="' + hospital_id + '" /> ');
-    frm.append('<input type="hidden" name="startdate" value="' + startdate + '" /> ');
-    frm.append('<input type="hidden" name="enddate" value="' + enddate + '" /> ');
+
+    frm.append('<input type="hidden" name="layout" value="' + '' + '" /> ');
+    frm.append('<textarea  type="hidden" name="page1">' + page1 + '</textarea> ');
+    frm.append('<textarea  type="hidden" name="page2">' + page2 + '</textarea> ');
+    frm.append('<textarea  type="hidden" name="page3">' + page3 + '</textarea> ');
     frm.appendTo("body");
     frm.submit();
+
+
 
 
 });
 
 //btn_export_bill_pdf
 $("#btn_export_bill_pdf_layout").on("click", function (e) {
-    var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
-    var startdate = $("#startdate_billing").val();
-    var enddate = $("#enddate_billing").val();
+    let page1 = $('#bill_page1').html();
+    let page2 = $('#bill_page2').html();
+    let page3 = $('#bill_page3').html();
 
+    $('#tempform form').remove();
     var frm = $("<form>");
     frm.attr('method', 'post');
     frm.attr('target', '_blank');
     frm.attr('action', "billing_pdf_show.php");
     frm.attr('');
-    frm.append('<input type="hidden" name="hospital_id" value="' + hospital_id + '" /> ');
-    frm.append('<input type="hidden" name="startdate" value="' + startdate + '" /> ');
-    frm.append('<input type="hidden" name="enddate" value="' + enddate + '" /> ');
-    frm.append('<input type="hidden" name="layout" value="' + enddate + '" /> ');
+
+    frm.append('<input type="hidden" name="layout" value="' + '' + '" /> ');
+    frm.append('<textarea  type="hidden" name="page1">' + page1 + '</textarea> ');
+    frm.append('<textarea  type="hidden" name="page2">' + page2 + '</textarea> ');
+    frm.append('<textarea  type="hidden" name="page3">' + page3 + '</textarea> ');
     frm.appendTo("body");
     frm.submit();
 
@@ -74,7 +81,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             alert('Exception:', exception);
         }
     });
-    
+
     let net_price = null;
     $.ajax({
         'async': false,
@@ -103,7 +110,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             alert('Exception:', exception);
         }
     });
-    
+
     let net_byservice_price = null;
     $.ajax({
         'async': false,
@@ -116,8 +123,8 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             'enddate': enddate,
         },
         success: function (data) {
-            console.log(data);
-            alert(data);
+//            console.log(data);
+//            alert(data);
             if (data[0] != "[") {
                 alert(data);
                 console.log(data);
@@ -134,16 +141,26 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             alert('Exception:', exception);
         }
     });
-    
+
     let strs = "";
     strs = strs + "<table>";
-    strs = strs + '<tr><th>'+'ลำดับ'+'</th><th>'+'รายการ'+'</th><th>'+'จำนวน'+'</th><th>'+'ราคา'+'</th></tr>';
-    for (var i in net_byservice_price)
+    strs = strs + "<thead>";
+    strs = strs + '<tr><th>' + 'sid' + '</th><th>' + 'service_type' + '</th><th>' + 'bcost_count' + '</th><th>' + 'bcost_sum' + '</th></tr>';
+    strs = strs + "</thead>";
+    strs = strs + "<tbody>";
+    for (let i in net_byservice_price)
     {
-        strs = strs + '<tr><td>'+net_byservice_price[i].sid+'</td><td>'+net_byservice_price[i].service_type+'</td><td>'+net_byservice_price[i].bcost_count+'</td><td>'+net_byservice_price[i].bcost_sum+'</td></tr>';
+        strs = strs + '<tr>\n\
+<td><input type="text" value="' + net_byservice_price[i].sid + '"></td>\n\
+<td><input type="text" value="' + net_byservice_price[i].service_type + '"></td>\n\
+<td><input type="text" value="' + net_byservice_price[i].bcost_count + '"></td>\n\
+<td><input type="text" value="' + net_byservice_price[i].bcost_sum + '"></td>\n\
+</tr>';
 
     }
+    strs = strs + "</tbody>";
     strs = strs + "</table>";
+    $('#bill_hospital_by_service_price table').remove();
     $('#bill_hospital_by_service_price').append(strs);
 
     $.ajax({
@@ -173,7 +190,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             alert('Exception:', exception);
         }
     });
-    
+
 //    C:\anuchit2\nb_web\ajax_billing\getHospital.php
     let hospital = null;
     $.ajax({
@@ -220,9 +237,9 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     $('#bill_hospital_address').val(hospital[0].address);
     $('#bill_hospital_net_price').val(net_price[0].bcost);
     let cost = $('#bill_hospital_net_price').val();
-    
+
     let bill_hospital_net_price_spell = "";
-        $.ajax({
+    $.ajax({
         'async': false,
         type: 'POST',
         'global': false,
@@ -238,11 +255,11 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             return;
         }
     });
-    
+
     $('#bill_hospital_net_price_spell').val(bill_hospital_net_price_spell);
-    
+
     $('#bill_count_all_list').val(net_price[0].bcount);
-    
+
     $('#bill_manager').val("นาย อนุสรณ์ ชุมทอง");
 
     console.log("end");
@@ -252,7 +269,98 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
 
 $("#btn_bill_preview_web").on("click", function (e) {
+
+
+
+
+    var pricebyservice = [];
+    var headers = [];
+    $('#bill_hospital_by_service_price table thead th').each(function (index, item) {
+        headers[index] = $(item).html();
+    });
+    $('#bill_hospital_by_service_price table tbody tr').has('td').each(function () {
+        var arrayItem = {};
+        $('td input', $(this)).each(function (index, item) {
+            arrayItem[headers[index]] = $(item).val();
+        });
+        pricebyservice.push(arrayItem);
+    });
+
+    let str1 = '';
+    str1 = str1 +  '<table width="100%" style="border: 1px solid green;">';
+    for (let i in pricebyservice)
+    {
+        console.log(pricebyservice[i]);
+
+        str1 = str1 +
+
+                '    <tr>' +
+                '        <td width="6%" style="border: 1px solid green;"></td>' +
+                '        <td width="60%" style="border: 1px solid green;text-align:left;">' + pricebyservice[i].service_type + ' <span class="billing_count_all_list">' + pricebyservice[i].bcost_count + '</span> รายการ </td>' +
+                '        <td  style="border: 1px solid green;text-align:right;"><span class="">' + pricebyservice[i].bcost_sum + '</span> บาท</td>' +
+                '        <td width="6%" style="border: 1px solid green;"></td>' +
+                '    </tr>' ;
+                
+
+    }
     
+    str1 = str1 +'</table>';
+    
+
+    $('#bill_by_service_tbl1 table').remove();
+    $('#bill_by_service_tbl1').append(str1);
+
+
+    let str2 = '';
+    str2 = str2 + '<table width="100%" style="border: 1px solid black;">' +
+            '    <tr>' +
+            '        <th width="10%" style="border: 1px solid black;text-align:center;"><b>ลำดับ</b></td>' +
+            '        <th width="10%" style="border: 1px solid black;text-align:left;"><b>รายการบริการตรวจทำงพยาธิวิทยา</b></td>' +
+            '        <th width="10%" style="border: 1px solid black;text-align:center;"><b>จำนวน(รายการ)</b></td>' +
+            '        <th width="%" style="border: 1px solid black;text-align:right;"><b>จำนวนเงิน</b></td>' +
+            '     </tr>';
+    for (let i in pricebyservice)
+    {
+        console.log(pricebyservice[i]);
+        str2 = str2 +
+                '    <tr>' +
+                '        <td  style="border: 1px solid black;text-align:center;"><b>' + pricebyservice[i].sid + '</b></td>' +
+                '        <td  style="border: 1px solid black;text-align:left;"><b>' + pricebyservice[i].service_type + '</b></td>' +
+                '        <td  style="border: 1px solid black;text-align:center;"><b>' + pricebyservice[i].bcost_count + '</b></td>' +
+                '        <td  style="border: 1px solid black;text-align:right;"><b>' + pricebyservice[i].bcost_sum + '</b></td>' +
+                '    </tr>';
+
+    }
+
+    str2 = str2 +
+            '    <tr>' +
+            '        <td  style="border: 1px solid black;"><b>&nbsp;</b></td>' +
+            '        <td  style="border: 1px solid black;"><b></b></td>' +
+            '        <td  style="border: 1px solid black;"><b></b></td>' +
+            '        <td  style="border: 1px solid black;"><b></b></td>' +
+            '    </tr>' +
+            '    <tr>' +
+            '        <td colspan="2"  style="border: 1px solid black;text-align:left;"><b>(ตัวอักษร) <span class="bill_hospital_net_price_spell" style="color:red">X</span></b></td>' +
+            '        <td colspan="2"  style="border: 1px solid black;text-align:right;"><b>รวมสุทธิ <span class="bill_hospital_net_price" style="color:red">X</span></b></td>' +
+            '    </tr>' +
+            '    ' +
+            '    <tr>  ' +
+            '        <td colspan="4"  style="border: 1px solid black;text-align:center;"><b>โดยมีรายละเอียดดังรายการตรวจที่แนบมาด้วย</b></td>' +
+            '    </tr>' +
+            '</table>';
+
+
+
+    $('.bill_by_service_tbl2 table').remove();
+    $('.bill_by_service_tbl2').append(str2);
+
+
+
+
+
+
+
+
     $('.bill_todaydate_thai').text($('#bill_todaydate_thai').val());
     $('.bill_startdate_thai').text($('#bill_startdate_thai').val());
     $('.bill_enddate_thai').text($('#bill_enddate_thai').val());
@@ -265,10 +373,13 @@ $("#btn_bill_preview_web").on("click", function (e) {
     $('.bill_hospital_net_price_spell').text($('#bill_hospital_net_price_spell').val());
     $('.bill_count_all_list').text($('#bill_count_all_list').val());
     $('.bill_manager').text($('#bill_manager').val());
+
+
+
     alert('done');
-    
-    
-    
+
+
+
 });
 
 function drawbillingTable(datajson) {
@@ -364,8 +475,8 @@ function drawbillingTable(datajson) {
 
 $(document).ready(function () {
 
-    $('#nb_navbar_top').removeClass( "sticky-top" );
+    $('#nb_navbar_top').removeClass("sticky-top");
 
-    
+
 
 });

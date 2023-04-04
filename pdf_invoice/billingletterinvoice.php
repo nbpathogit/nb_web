@@ -34,15 +34,15 @@
     <table width="100%" style="border: 1px solid green;">
         <tr>
             <td width="80%" style="border: 1px solid green;"><b>ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.</b></td>
-            <td style="border: 1px solid green;text-align:right;"><i><span style="">ต้นฉบับ</span></i></td>
+            <td style="border: 1px solid green;text-align:right;"><i><span style="color:red">ต้นฉบับ_สำเนา</span></i></td>
         </tr>
         <tr>
             <td width="80%" style="border: 1px solid green;">18/54 ถ.สนามบิน ต.ในเมือง อ.เมือง จ.พิษณุโลก 65000 โทรศัพท์ 06 4354 5283</td>
-            <td style="border: 1px solid green;"><b>เลขที่</b> <span class="bill_invoice_sub_number">X</span>/<span class="bill_hospital_invoice_number">X</span></td>
+            <td style="border: 1px solid green;"><b>เลขที่</b> <span class="bill_invoice_sub_number" style="color:red">X</span>/<span class="bill_hospital_invoice_number" style="color:red">X</span></td>
         </tr>
         <tr>  
             <td width="80%" style="border: 1px solid green;"><b>เลขประจำตัวผู้เสียภาษี 0653562002089</b></td>
-            <td style="border: 1px solid green;"><b><span class="bill_todaydate_thai">X</span></b></td>
+            <td style="border: 1px solid green;"><b><span class="bill_todaydate_thai" style="color:red">X</span></b></td>
         </tr>
     </table>
 
@@ -51,12 +51,12 @@
     <table width="100%" style="border: 1px solid green;">
         <tr>
             <td width="10%" style="border: 1px solid green;"><b>ชื่อลูกค้า</b></td>
-            <td width="40%" style="border: 1px solid green;"><span class="bill_hospitalname">X</span></td>
-            <td style="border: 1px solid green;"><b>เลขประจำตัวผู้เสียภาษี</b> <span class="bill_hospital_taxid">X</span> </td>
+            <td width="40%" style="border: 1px solid green;"><span class="bill_hospitalname" style="color:red">X</span></td>
+            <td style="border: 1px solid green;"><b>เลขประจำตัวผู้เสียภาษี</b> <span class="bill_hospital_taxid" style="color:red">X</span> </td>
         </tr>
         <tr>
             <td width="10%" style="border: 1px solid green;"><b>ที่อยู่</b></td>
-            <td  colspan="2" style="border: 1px solid green;"><span class="bill_hospital_address">X</span></td>
+            <td  colspan="2" style="border: 1px solid green;"><span class="bill_hospital_address" style="color:red">X</span></td>
         
         </tr>
     </table>
@@ -66,12 +66,12 @@
 
 
 
-<p class="df"><b>เรียน ผู้อำนวยการ<span class="bill_hospitalname">X</span></b></p>
+<p class="df"><b>เรียน ผู้อำนวยการ<span class="bill_hospitalname" style="color:red">X</span></b></p>
 <p class="df">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จากท่านในการส่งตรวจวิเคราะห์และวินิจฉัยโรคทางห้องปฏิบัติการพยาธิวิทยากายวิภาค ในนาม ศูนย์พยาธิวิทยา เอ็น.บี. ทั้งนี้ทางห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ขอแจ้งค่าบริการที่ทางท่านได้ส่งตรวจดังนี้</p>
 
 
-<p class="df"><b>ตั้งแต่วันที่ <span class="bill_startdate_thai">X</span> ถึง <span class="bill_enddate_thai">X</span></b></p>
-
+<p class="df"><b>ตั้งแต่วันที่ <span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span></b></p>
+<span class="bill_by_service_tbl2">
     <table width="100%" style="border: 1px solid black;">
         <tr>
             <th width="10%" style="border: 1px solid black;text-align:center;"><b>ลำดับ</b></td>
@@ -98,15 +98,15 @@
             <td  style="border: 1px solid black;"><b></b></td>
         </tr>
         <tr>  
-            <td colspan="2"  style="border: 1px solid black;text-align:left;"><b>(ตัวอักษร) <span class="bill_hospital_net_price_spell">X</span></b></td>
-            <td colspan="2"  style="border: 1px solid black;text-align:right;"><b>รวมสุทธิ <span class="bill_hospital_net_price">X</span></b></td>
+            <td colspan="2"  style="border: 1px solid black;text-align:left;"><b>(ตัวอักษร) <span class="bill_hospital_net_price_spell" style="color:red">X</span></b></td>
+            <td colspan="2"  style="border: 1px solid black;text-align:right;"><b>รวมสุทธิ <span class="bill_hospital_net_price" style="color:red">X</span></b></td>
         </tr>
         
         <tr>  
             <td colspan="4"  style="border: 1px solid black;text-align:center;"><b>โดยมีรายละเอียดดังรายการตรวจที่แนบมาด้วย</b></td>
         </tr>
     </table>
-
+</span>
 
 <p class="df"><b>หมายเหตุ</b> โปรดชาระเงินโดย<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. เช็คขีดคร่อมสั่งจ่ายในนาม "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. " หรือ<br>
@@ -116,6 +116,6 @@
 <p class="df" style="text-align:center;">ขอแสดงความนับถือ</p>
 <br><br>
 
-<p class="df" style="text-align:center;">(<span class="bill_manager">X</span>)</p>
+<p class="df" style="text-align:center;">(<span class="bill_manager" style="color:red">X</span>)</p>
 <p class="df" style="text-align:center;">ผู้จัดการห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี.</p>
 

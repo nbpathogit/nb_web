@@ -14,8 +14,6 @@ if (isset($_POST['layout'])) {
     $hideTable = true;
 }
 
-$costs = Billing::getCostGroupbyServiceTyoebyHospitalbyDateRange($conn, $_POST['hospital_id'], $_POST['startdate'], $_POST['enddate']);
-$billings = Billing::getBillbyHospitalbyDateRange($conn, $_POST['hospital_id'], $_POST['startdate'], $_POST['enddate']);
 ?>
 
 
@@ -121,16 +119,22 @@ if ($hideTable) {
 
 
 
+//echo $_POST['page1'];
+//var_dump($_POST['page1']);
 
-
-
-
-$mpdf->WriteHTML($str1);
-
-
+$mpdf->WriteHTML($_POST['page1']);
 
 
 $mpdf->AddPage();
+$mpdf->WriteHTML($_POST['page2']);
+
+$mpdf->AddPage();
+$mpdf->WriteHTML($_POST['page3']);
+$mpdf->Output();
+
+die();
+
+
 
 //ต้นฉบับ
 $str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');

@@ -84,10 +84,29 @@ label hospital name : <input name="bill_hospitalname" id="bill_hospitalname" siz
 label hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxid" size="100"><br>
 label hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
 
+<!--<span id="bill_hospital_by_service_price">-->
+    
+    
+<!--</span>-->
+
+
 <span id="bill_hospital_by_service_price">
-    
-    
-</span>
+
+
+<table><thead><tr><th>sid</th><th>service_type</th><th>bcost_count</th><th>bcost_sum</th></tr></thead><tbody><tr>
+<td><input type="text" value="1"></td>
+<td><input type="text" value="ตรวจชิ้นเนื้อศัลย์พยาธิ"></td>
+<td><input type="text" value="29"></td>
+<td><input type="text" value="11600"></td>
+</tr><tr>
+<td><input type="text" value="2"></td>
+<td><input type="text" value="ตรวจพิเศษ"></td>
+<td><input type="text" value="2"></td>
+<td><input type="text" value="800"></td>
+</tr></tbody></table></span>
+
+
+
 
 Net Price : <input name="bill_hospital_net_price" id="bill_hospital_net_price" size="100"><br>
 Net Price spell : <input name="bill_hospital_net_price_spell" id="bill_hospital_net_price_spell" size="100"><br>
@@ -111,8 +130,9 @@ $str1 = file_get_contents('pdf_invoice/billingletter1.php');
 if (true) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
-
+echo '<span id="bill_page1">';
 echo $str1;
+echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
 
@@ -125,8 +145,11 @@ $str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
 if (true) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
+$str1 = str_replace("ต้นฉบับ_สำเนา", "ต้นฉบับ", $str1);
 
+echo '<span id="bill_page2">';
 echo $str1;
+echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
 
@@ -138,10 +161,15 @@ $str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
 if (true) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
+$str1 = str_replace("ต้นฉบับ_สำเนา", "สำเนา", $str1);
 
+echo '<span id="bill_page3">';
 echo $str1;
+echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
+
+
 
 
 
@@ -200,6 +228,7 @@ echo $str1;
 </span>
 
 <?php require 'includes/closecontainer.php'; ?>
+<span id="tempform"></span>
 
 <?php require 'includes/footer.php'; ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -211,4 +240,4 @@ echo $str1;
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v1xxxxxxxปxxx"></script>
+<script src="/ajax_billing/billing.js?v2"></script>
