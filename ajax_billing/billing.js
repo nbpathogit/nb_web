@@ -3,6 +3,7 @@ $("#btn_export_bill_pdf").on("click", function (e) {
     let page1 = $('#bill_page1').html();
     let page2 = $('#bill_page2').html();
     let page3 = $('#bill_page3').html();
+    let page4 = $('#bill_page4').html();
 
     $('#tempform form').remove();
     var frm = $("<form>");
@@ -11,11 +12,12 @@ $("#btn_export_bill_pdf").on("click", function (e) {
     frm.attr('action', "billing_pdf_show.php");
     frm.attr('');
 
-    frm.append('<input type="hidden" name="layout" value="' + '' + '" /> ');
-    frm.append('<textarea  type="hidden" name="page1">' + page1 + '</textarea> ');
-    frm.append('<textarea  type="hidden" name="page2">' + page2 + '</textarea> ');
-    frm.append('<textarea  type="hidden" name="page3">' + page3 + '</textarea> ');
-    frm.appendTo("body");
+
+    frm.append('<textarea hidden  name="page1">' + page1 + '</textarea> ');
+    frm.append('<textarea hidden  name="page2">' + page2 + '</textarea> ');
+    frm.append('<textarea hidden  name="page3">' + page3 + '</textarea> ');
+    frm.append('<textarea hidden  name="page4">' + page4 + '</textarea> ');
+    frm.appendTo($('#tempform'));
     frm.submit();
 
 
@@ -28,6 +30,7 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
     let page1 = $('#bill_page1').html();
     let page2 = $('#bill_page2').html();
     let page3 = $('#bill_page3').html();
+    let page4 = $('#bill_page4').html();
 
     $('#tempform form').remove();
     var frm = $("<form>");
@@ -37,16 +40,17 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
     frm.attr('');
 
     frm.append('<input type="hidden" name="layout" value="' + '' + '" /> ');
-    frm.append('<textarea  type="hidden" name="page1">' + page1 + '</textarea> ');
-    frm.append('<textarea  type="hidden" name="page2">' + page2 + '</textarea> ');
-    frm.append('<textarea  type="hidden" name="page3">' + page3 + '</textarea> ');
+    frm.append('<textarea hidden name="page1">' + page1 + '</textarea> ');
+    frm.append('<textarea hidden name="page2">' + page2 + '</textarea> ');
+    frm.append('<textarea hidden name="page3">' + page3 + '</textarea> ');
+    frm.append('<textarea hidden name="page4">' + page4 + '</textarea> ');
     frm.appendTo("body");
     frm.submit();
 
 
 });
 
-
+//Get paramiter from database to DOM
 $("#btn_get_bill_by_range").on("click", function (e) {
     var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
     var hospital_name = $("#phospital_id_bill option").filter(":selected").text();
@@ -145,16 +149,16 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     let strs = "";
     strs = strs + "<table>";
     strs = strs + "<thead>";
-    strs = strs + '<tr><th>' + 'sid' + '</th><th>' + 'service_type' + '</th><th>' + 'bcost_count' + '</th><th>' + 'bcost_sum' + '</th></tr>';
+    strs = strs + '<tr><th style="font-size: 14pt;">' + 'sid' + '</th><th style="font-size: 14pt;">' + 'service_type' + '</th><th style="font-size: 14pt;">' + 'bcost_count' + '</th><th style="font-size: 14pt;">' + 'bcost_sum' + '</th></tr>';
     strs = strs + "</thead>";
     strs = strs + "<tbody>";
     for (let i in net_byservice_price)
     {
         strs = strs + '<tr>\n\
-<td><input type="text" value="' + net_byservice_price[i].sid + '"></td>\n\
-<td><input type="text" value="' + net_byservice_price[i].service_type + '"></td>\n\
-<td><input type="text" value="' + net_byservice_price[i].bcost_count + '"></td>\n\
-<td><input type="text" value="' + net_byservice_price[i].bcost_sum + '"></td>\n\
+<td><input type="text" style="font-size: 14pt;" value="' + net_byservice_price[i].sid + '"></td>\n\
+<td><input type="text" style="font-size: 14pt;"  value="' + net_byservice_price[i].service_type + '"></td>\n\
+<td><input type="text" style="font-size: 14pt;"  value="' + net_byservice_price[i].bcost_count + '"></td>\n\
+<td><input type="text" style="font-size: 14pt;"  value="' + net_byservice_price[i].bcost_sum + '"></td>\n\
 </tr>';
 
     }
@@ -184,6 +188,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
                 alert("No record found");
                 return;
             }
+            drawbill_list_all_page(datajson);
             drawbillingTable(datajson);
         },
         error: function (jqxhr, status, exception) {
@@ -272,7 +277,7 @@ $("#btn_bill_preview_web").on("click", function (e) {
 
 
 
-
+    //Read data from table to array
     var pricebyservice = [];
     var headers = [];
     $('#bill_hospital_by_service_price table thead th').each(function (index, item) {
@@ -286,31 +291,33 @@ $("#btn_bill_preview_web").on("click", function (e) {
         pricebyservice.push(arrayItem);
     });
 
+
+    //Wtite Array to page1
     let str1 = '';
-    str1 = str1 +  '<table width="100%" style="border: 1px solid green;">';
+    str1 = str1 + '<table width="100%" style="border: 1px solid green;">';
     for (let i in pricebyservice)
     {
         console.log(pricebyservice[i]);
 
         str1 = str1 +
-
                 '    <tr>' +
                 '        <td width="6%" style="border: 1px solid green;"></td>' +
                 '        <td width="60%" style="border: 1px solid green;text-align:left;">' + pricebyservice[i].service_type + ' <span class="billing_count_all_list">' + pricebyservice[i].bcost_count + '</span> รายการ </td>' +
                 '        <td  style="border: 1px solid green;text-align:right;"><span class="">' + pricebyservice[i].bcost_sum + '</span> บาท</td>' +
                 '        <td width="6%" style="border: 1px solid green;"></td>' +
-                '    </tr>' ;
-                
+                '    </tr>';
+
 
     }
-    
-    str1 = str1 +'</table>';
-    
+
+    str1 = str1 + '</table>';
+
 
     $('#bill_by_service_tbl1 table').remove();
     $('#bill_by_service_tbl1').append(str1);
 
 
+    //Write array to page2,page3
     let str2 = '';
     str2 = str2 + '<table width="100%" style="border: 1px solid black;">' +
             '    <tr>' +
@@ -356,6 +363,29 @@ $("#btn_bill_preview_web").on("click", function (e) {
 
 
 
+//Write array to page4 at end of table
+    let str4_f = '';
+
+    for (let i in pricebyservice)
+    {
+        console.log(pricebyservice[i]);
+        str4_f = str4_f +
+                '            <tr>                                 ' +
+                '                <td  colspan="8"  style="font-weight: bold;text-align:right;">' + pricebyservice[i].service_type + ' จำนวน ' + pricebyservice[i].bcost_count + ' รายการ</td>   ' +
+                '                <td > <span class="" style=" font-weight: bold;color:red">' + pricebyservice[i].bcost_sum + '</span> </td>                      ' +
+                '            </tr>                                ';
+
+    }
+    str4_f = str4_f +
+            '            <tr>                                 ' +
+            '                <td  colspan="8" style="font-weight: bold;text-align:right;"> รวมทั้งสิ้น </td>   ' +
+            '                <td > <span class="bill_hospital_net_price" style=" font-weight: bold;color:red">X</span> </td>                      ' +
+            '            </tr>                                ';
+
+
+
+    $('#price_by_service_footer tr').remove();
+    $('#price_by_service_footer').append(str4_f);
 
 
 
@@ -382,11 +412,74 @@ $("#btn_bill_preview_web").on("click", function (e) {
 
 });
 
+
+
+
+function drawbill_list_all_page(datajson) {
+
+    $('#bill_list_all table').remove();
+
+    let str = "";
+
+    str = str +
+            '<table width="100%" >            ' +
+            '    <thead>                      ' +
+            '        <tr>                     ' +
+            '            <th >#</th>          ' +
+            '            <th >เลขที่งาน</th>      ' +
+            '            <th >ผู้ป่วย</th>        ' +
+            '            <th >code</th>       ' +
+            '            <th >description</th>' +
+            '            <th >วันที่รับ</th>       ' +
+            '            <th >เลขที่โรงพยาบาล</th> ' +
+            '            <th >แพทย์ผู้ส่งตรวจ</th>  ' +
+            '            <th >ค่าตรวจ</th>       ' +
+            '        </tr>                    ' +
+            '    </thead>                     ' +
+            '    <tbody>                      ';
+
+    for (var i in datajson)
+    {
+        str = str +
+                '        <tr>                                                                                      ' +
+                '            <td>' + i + '</td>                                                               ' +
+                '            <td>' + datajson[i].number + '</td>                                                      ' +
+                '            <td>' + datajson[i].ppre_name + ' ' + datajson[i].name + ' ' + datajson[i].lastname + '</td>   ' +
+                '            <td>' + datajson[i].code_description + '</td>                                            ' +
+                '            <td>' + datajson[i].description + '</td>                                                 ' +
+                '            <td>' + datajson[i].import_date + '</td>                                    ' +
+                '            <td>' + datajson[i].phospital_num + '</td>                                               ' +
+                '            <td>' + datajson[i].send_doctor + '</td>                                                 ' +
+                '            <td>' + datajson[i].cost + '</td>                                                        ' +
+                '        </tr>                                                                                     ';
+
+
+    }
+    
+    str = str +
+            '    </tbody>                                     ' +
+            '    <tfoot id="price_by_service_footer">                                      ' +
+            '    </tfoot>                                     ' +
+            '</table>                                         ';
+
+
+    console.log(str);
+    $('#bill_list_all').append(str);
+
+}
+
+
+
+
+
+
 function drawbillingTable(datajson) {
 
     $('#billing_table_span table thead tr').remove();
     $('#billing_table_span table tbody tr').remove();
 
+
+//==== Draw most of data ======
     let str = '<tr>' +
             '<th scope="col">#</th>' +
             '<th scope="col">เลขที่งาน</th>        ' +
@@ -447,7 +540,7 @@ function drawbillingTable(datajson) {
          
          
          */
-        //repaintTblhire1(data);
+
 
 
         let str = '<tr>' +
@@ -471,7 +564,6 @@ function drawbillingTable(datajson) {
 
 }
 
-//btn_bill_preview_web
 
 $(document).ready(function () {
 

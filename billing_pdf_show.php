@@ -9,9 +9,9 @@ require 'user_auth.php';
 
 // show/hide table for see layout
 if (isset($_POST['layout'])) {
-    $hideTable = false;
+    $hideLayout = false;
 } else {
-    $hideTable = true;
+    $hideLayout = true;
 }
 
 ?>
@@ -111,7 +111,7 @@ $mpdf = new \Mpdf\Mpdf(
 
 
 $str1 = file_get_contents('pdf_invoice/billingletter1.php');
-if ($hideTable) {
+if ($hideLayout) {
     $str1 = str_replace("border: 1px solid green;", "", $str1);
 }
 
@@ -121,15 +121,40 @@ if ($hideTable) {
 
 //echo $_POST['page1'];
 //var_dump($_POST['page1']);
-
-$mpdf->WriteHTML($_POST['page1']);
+$page1 = $_POST['page1'];
+if ($hideLayout) {
+    $page1 = str_replace("border: 1px solid green;", "", $page1);
+    $page1 = str_replace('color:red', "", $page1);
+}
+$mpdf->WriteHTML($page1);
 
 
 $mpdf->AddPage();
-$mpdf->WriteHTML($_POST['page2']);
+$page2 = $_POST['page2'];
+if ($hideLayout) {
+    $page2 = str_replace("border: 1px solid green;", "", $page2);
+    $page2 = str_replace('color:red', "", $page2);
+}
+$mpdf->WriteHTML($page2);
 
 $mpdf->AddPage();
-$mpdf->WriteHTML($_POST['page3']);
+$page3 = $_POST['page3'];
+if ($hideLayout) {
+    $page3 = str_replace("border: 1px solid green;", "", $page3);
+    $page3 = str_replace('color:red', "", $page3);
+}
+$mpdf->WriteHTML($page3);
+
+
+$mpdf->AddPage('','','','','',15,15,17,17,0,0);
+$page4 = $_POST['page4'];
+if ($hideLayout) {
+    $page4 = str_replace("border: 1px solid green;", "", $page4);
+    $page4 = str_replace('color:red', "", $page4);
+}
+$mpdf->WriteHTML($page4);
+
+
 $mpdf->Output();
 
 die();
@@ -139,7 +164,7 @@ die();
 //ต้นฉบับ
 $str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
 
-if ($hideTable) {
+if ($hideLayout) {
     $str1 = str_replace("border: 1px solid green;", "", $str1);
 }
 $mpdf->WriteHTML($str1);

@@ -73,8 +73,8 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
 
 
 <?php require 'includes/opencontainer.php'; ?>
-invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_invoice_number" size="100" placeholder="ใส่เลขที่ใบแจ้งหนี้"><br>
 invoice_sub_number : <input name="bill_invoice_sub_number" id="bill_invoice_sub_number" size="100" placeholder="ใส่เล่มที่ใบแจ้งหนี้"><br>
+invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_invoice_number" size="100" placeholder="ใส่เลขที่ใบแจ้งหนี้"><br>
 
 
 Today date(Thai format) : <input name="bill_todaydate_thai" id="bill_todaydate_thai" size="100"><br>
@@ -85,25 +85,29 @@ label hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxi
 label hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
 
 <!--<span id="bill_hospital_by_service_price">-->
-    
-    
+
+
 <!--</span>-->
 
 
 <span id="bill_hospital_by_service_price">
-
-
-<table><thead><tr><th>sid</th><th>service_type</th><th>bcost_count</th><th>bcost_sum</th></tr></thead><tbody><tr>
-<td><input type="text" value="1"></td>
-<td><input type="text" value="ตรวจชิ้นเนื้อศัลย์พยาธิ"></td>
-<td><input type="text" value="29"></td>
-<td><input type="text" value="11600"></td>
-</tr><tr>
-<td><input type="text" value="2"></td>
-<td><input type="text" value="ตรวจพิเศษ"></td>
-<td><input type="text" value="2"></td>
-<td><input type="text" value="800"></td>
-</tr></tbody></table></span>
+<!--    <table
+        ><thead>
+            <tr><th>sid</th><th>service_type</th><th>bcost_count</th><th>bcost_sum</th></tr></thead><tbody><tr>
+                <td><input type="text" value="1"></td>
+                <td><input type="text" value="ตรวจชิ้นเนื้อศัลย์พยาธิ"></td>
+                <td><input type="text" value="29"></td>
+                <td><input type="text" value="11600"></td>
+            </tr>
+            <tr>
+                <td><input type="text" value="2"></td>
+                <td><input type="text" value="ตรวจพิเศษ"></td>
+                <td><input type="text" value="2"></td>
+                <td><input type="text" value="800"></td>
+            </tr>
+        </tbody>
+    </table>-->
+</span>
 
 
 
@@ -117,8 +121,8 @@ Name of manager : <input name="bill_manager" id="bill_manager" size="100"><br>
 
 <br>
 <button name="btn_bill_preview_web" id="btn_bill_preview_web" type="submit" class="btn btn-primary">&nbsp;&nbsp;Preview on web page.&nbsp;&nbsp;</button>
-<button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp;show pdf with layout&nbsp;&nbsp;</button>
-<button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;generate pdf&nbsp;&nbsp;</button>
+<button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp;preview pdf with layout&nbsp;&nbsp;</button>
+<button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;Generate official pdf&nbsp;&nbsp;</button>
 
 <?php require 'includes/closecontainer.php'; ?>
 
@@ -130,6 +134,7 @@ $str1 = file_get_contents('pdf_invoice/billingletter1.php');
 if (true) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
+echo '<h1 align="center">Page 1</h1><hr>';
 echo '<span id="bill_page1">';
 echo $str1;
 echo '</span>';
@@ -142,11 +147,11 @@ echo '</span>';
 <?php require 'includes/opencontainer.php'; ?>
 <?php
 $str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
-if (true) {
+if (false) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
 $str1 = str_replace("ต้นฉบับ_สำเนา", "ต้นฉบับ", $str1);
-
+echo '<h1 align="center">Page 2</h1><hr>';
 echo '<span id="bill_page2">';
 echo $str1;
 echo '</span>';
@@ -158,11 +163,11 @@ echo '</span>';
 <?php require 'includes/opencontainer.php'; ?>
 <?php
 $str1 = file_get_contents('pdf_invoice/billingletterinvoice.php');
-if (true) {
+if (false) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
 $str1 = str_replace("ต้นฉบับ_สำเนา", "สำเนา", $str1);
-
+echo '<h1 align="center">Page 3</h1><hr>';
 echo '<span id="bill_page3">';
 echo $str1;
 echo '</span>';
@@ -171,6 +176,16 @@ echo '</span>';
 
 
 
+<?php require 'includes/opencontainer.php'; ?>
+<?php
+$str1 = file_get_contents('pdf_invoice/billinngListAll.php');
+
+echo '<h1 align="center">Page 4</h1><hr>';
+echo '<span id="bill_page4">';
+echo $str1;
+echo '</span>';
+?>
+<?php require 'includes/closecontainer.php'; ?>
 
 
 
@@ -187,8 +202,8 @@ echo '</span>';
     }
 </style>
 <span id="billing_table_span">
-    <p style="text-align:center;font-size: 14pt;">สรุปการส่งตรวจทางพยาธิวิทยา (พยาธิวิทยากายวิภาค) โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
-        ตั้งแต่วันที่ <span id="bill_startdate_thai">X</span> ถึง <span id="bill_enddate_thai">X</span></p>
+    <p style="text-align:center;font-size: 14pt;">ตารางรายการอ้างอิง<br>
+        ตั้งแต่วันที่ <span class="bill_startdate_thai">X</span> ถึง <span class="bill_enddate_thai">X</span></p>
     <table class="" id="billing_table" style="width:100%">
         <thead>
             <tr>
@@ -240,4 +255,4 @@ echo '</span>';
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v2"></script>
+<script src="/ajax_billing/billing.js?v2xxปxxxxxxxxxxxxx"></script>

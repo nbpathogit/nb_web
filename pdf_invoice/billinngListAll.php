@@ -35,43 +35,21 @@
     .font4{
         font-size: 4pt;
     }
-/*    @page *{
-        margin-top: 2.54cm;
-        margin-bottom: 2.54cm;
-        margin-left: 3.175cm;
-        margin-right: 3.175cm;
-    }*/
+    /*    @page *{
+            margin-top: 2.54cm;
+            margin-bottom: 2.54cm;
+            margin-left: 3.175cm;
+            margin-right: 3.175cm;
+        }*/
 </style>
 
 <p style="text-align:center;font-size: 14pt;">สรุปการส่งตรวจทางพยาธิวิทยา (พยาธิวิทยากายวิภาค) โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
-ประจำเดือน ธันวาคม 2565 (วันที่ 1-6 ธันวำคม 2565)</p>
+    ระหว่างวันที่ (<span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span>)</p>
 
-<table width="100%" >
-    <thead>
-        
-            <header_message>
-<!--        <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>
-            <th width="1%" >ac</th>-->
+<span id="bill_list_all">
+    <table width="100%" >
 
-        
-    </thead>
-    <tbody>
-        <body_message>
-    </tbody>
-    <tfoot>
-        <tr>
-            <td  colspan="8" >&nbsp; </td>
-            <td > </td>
-        </tr>
-    </tfoot>
-</table> 
+    </table> 
 
 
+</span>
