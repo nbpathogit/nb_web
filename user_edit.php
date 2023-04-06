@@ -7,6 +7,7 @@ Auth::requireLogin("user_edit.php", $_GET['id']);
 $conn = require 'includes/db.php';
 require 'user_auth.php';
 
+
 $isCurrentuserOwner = $_GET['id'] == $_SESSION['userid'];
 
 $canCurUserChangeUGroup = $isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff;
@@ -228,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php require 'includes/header.php'; ?>
 
-
+<?php require 'includes/data2DOM.php'; ?>
 <?php //Page authorize   
 ?>
 <?php
@@ -306,6 +307,8 @@ if (isset($_GET['signature'])) {
 
 
 <?php require 'includes_user/user_form_detail.php'; ?>
+
+<?php require 'includes_user/user_form_ajax.php'; ?>
 
 
 

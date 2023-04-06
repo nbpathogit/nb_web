@@ -4,6 +4,7 @@
 
 $u_cur_group_id = Auth::getUserGroup();
 $cur_user = Auth::getUser();
+
 //user group id
 // 1000 ผู้ดูแลระบบ
 // 2000 พยาธิ์แพทย์

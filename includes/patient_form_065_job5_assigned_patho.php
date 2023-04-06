@@ -150,6 +150,7 @@ $isBorder = false;
                     <select name="select_job5" id="select_job5" class="form-select"  >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userPathos as $user): ?>
+                            <?php if($user['user_status'] == 1): ?>
                             <option value="<?= ($user['uid']); //user id     ?>"  
                                     job_role_id="5"
                                     patient_id="<?= $patient[0]['id']; //patient id     ?>"
@@ -164,6 +165,7 @@ $isBorder = false;
                                     comment=""
                                     >  <?= $user['pre_name'] . ' ' . $user['name'] . ' ' . $user['lastname'] ?>
                             </option>
+                            <?php endif; ?>
                         <?php endforeach; ?>                                     
                     </select> 
                 </div>   

@@ -115,6 +115,7 @@ $isBorder = false;
                     <select name="p_cross_section_id_job2" id="p_cross_section_id_job2" class="form-select"  >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userTechnic as $user): ?>
+                            <?php if($user['user_status'] == 1): ?>
                             <option value="<?= ($user['uid']); //user id     ?>"  
                                     job_role_id="2"
                                     patient_id="<?= $patient[0]['id']; //patient id     ?>"
@@ -129,6 +130,7 @@ $isBorder = false;
                                     comment=""
                                     >  <?= $user['pre_name'] . ' ' . $user['name'] . ' ' . $user['lastname'] ?>
                             </option>
+                            <?php endif; ?>
                         <?php endforeach; ?>                                     
                     </select> 
                 </div>   

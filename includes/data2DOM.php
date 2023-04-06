@@ -235,4 +235,11 @@ $isCurrentPathoIsSecondOwneThisCase = false;?>
 
 </ul>
 
+
+<?php // user id use in useredit.php ?>   
+<?php if (isset( $user[0]['uid']   )): ?>
+<li class="user_id_for_edit" tabindex="<?= $user[0]['uid'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >class::user_id_for_edit::$user[0]['uid']::<?= $user[0]['uid'] ?> </li>
+<?php endif; ?>
+
+
 </span>

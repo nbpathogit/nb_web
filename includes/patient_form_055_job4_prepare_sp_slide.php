@@ -109,6 +109,7 @@
                     <select name="p_slide_prep_id_job4" id="select_job4" class="form-select"  >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userTechnic as $user): ?>
+                            <?php if($user['user_status'] == 1): ?>
                             <option value="<?= ($user['uid']); //user id     ?>"  
                                     job_role_id="4"
                                     patient_id="<?= $patient[0]['id']; //patient id     ?>"
@@ -123,6 +124,7 @@
                                     comment=""
                                     >  <?= $user['pre_name'] . ' ' . $user['name'] . ' ' . $user['lastname'] ?>
                             </option>
+                            <?php endif; ?>
                         <?php endforeach; ?>                                     
                     </select> 
                 </div>   

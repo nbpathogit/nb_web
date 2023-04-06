@@ -133,8 +133,8 @@ class Billing {
     public function create($conn) {
 
         //$specimen_id
-        $sql = "INSERT INTO `billing` (`id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, `hospital`, `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
-        . "VALUES                     (NULL, :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, :hospital,  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
+        $sql = "INSERT INTO `billing` (`id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
+        . "VALUES                     (NULL, :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
 
 
         $stmt = $conn->prepare($sql);
@@ -150,7 +150,7 @@ class Billing {
         $stmt->bindValue(':description',$this->description ,PDO::PARAM_STR);      //text	        
         $stmt->bindValue(':import_date',$this->import_date ,PDO::PARAM_STR);      //date			
         $stmt->bindValue(':report_date',$this->report_date ,PDO::PARAM_STR);      //varchar(16)	
-        $stmt->bindValue(':hospital'   ,$this->hospital    ,PDO::PARAM_STR);      //varchar(32)	
+//        $stmt->bindValue(':hospital'   ,$this->hospital    ,PDO::PARAM_STR);      //varchar(32)	
         $stmt->bindValue(':hospital_id'   ,$this->hospital_id    ,PDO::PARAM_INT);      //varchar(32)	
         $stmt->bindValue(':hn'         ,$this->hn          ,PDO::PARAM_STR);      //varchar(32)	
         $stmt->bindValue(':send_doctor',$this->send_doctor ,PDO::PARAM_STR);      //varchar(32)	

@@ -11,18 +11,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    die();
 
     $conn = require 'includes/db.php';
-
-    if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
-        Auth::login($conn, $_POST['username']);
-        if (isset($_POST['page_name']) && $_POST['page_name'] != "" ) {
-            Url::redirect('/' . $_POST['page_name'] . '?id=' . $_POST['page_id']);
+    if (User::isUserNameActive($conn, $_POST['username'])) {
+        if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
+            Auth::login($conn, $_POST['username']);
+            if (isset($_POST['page_name']) && $_POST['page_name'] != "") {
+                Url::redirect('/' . $_POST['page_name'] . '?id=' . $_POST['page_id']);
+            } else {
+                Url::redirect('/patient.php');
+            }
         } else {
-            Url::redirect('/patient.php');
+            $error = "Passward is incorrect,Please try again";
+            $_GET['page_name'] = $_POST['page_name'];
+            $_GET['page_id'] = $_POST['page_id'];
         }
     } else {
-        $error = "login incorrect,Please try again";
-        $_GET['page_name'] = $_POST['page_name'];
-        $_GET['page_id'] = $_POST['page_id'];
+        $error = "The user is in active";
     }
 }
 ?>
@@ -80,10 +83,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                                 <!-- <h3>เข้าสู่ระบบ</h3> -->
                             </div>
-<?php if (!empty($error)) : ?>
+                            <?php if (!empty($error)) : ?>
                                 <div class="alert alert-danger" role="alert">
                                     <p><?= $error ?></p>
-                                </div><?php endif; ?>
+                                </div>
+                            <?php endif; ?>
 
                             <form method="post">
                                 <div class="form-floating mb-3">

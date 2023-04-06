@@ -60,6 +60,25 @@ class User
             return password_verify($password, $user->password);
         }
     }
+    
+    public static function isUserNameActive($conn, $username)
+    {
+
+        $sql = "SELECT *
+                FROM user
+                WHERE username= :username";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+        $stmt->execute();
+
+        if ($user = $stmt->fetch()) {
+            return $user->user_status == 1;
+        }
+    }
 
     public static function getAll($conn, $id = 0)
     {
@@ -373,14 +392,16 @@ class User
 
     public function delete($conn)
     {
-        $sql = "DELETE FROM user
-                WHERE id = :id";
-
-        $stmt = $conn->prepare($sql);
-
-        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
-
-        return $stmt->execute();
+//        $sql = "DELETE FROM user
+//                WHERE id = :id";
+//
+//        $stmt = $conn->prepare($sql);
+//
+//        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+//
+//        return $stmt->execute();
+        
+        return false; //not allow to delete user, Let put to in-active instead
     }
 
     public function setSignatureFile($conn)
@@ -402,5 +423,12 @@ class User
         $user = User::getByUserName($conn, $username);
 
         return true;
+    }
+    
+    public static function setUserStatus($conn, $id, $status)
+    {
+        $sql = "UPDATE `user` SET `user_status` = $status WHERE `user`.`id` = $id"; 
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute();
     }
 }

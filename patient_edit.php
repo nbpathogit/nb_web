@@ -911,7 +911,7 @@ if (isset($curstatus[0]['next3'])) {
             </div>
         </div>
     </div>
-    <?php require 'includes/patient_data2DOM.php';?>
+    <?php require 'includes/data2DOM.php';?>
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
             <!--hr noshade="noshade" width="" size="8"-->

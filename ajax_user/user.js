@@ -109,3 +109,34 @@ $('#ugroup_id_user_add').on('change', function () {
     }
     
 });
+
+
+$("#save_user_status").on("click", function () {
+    
+    
+    let status = $('#user_status option').filter(':selected').attr('value');
+    let user_id = get_user_id_for_edit();
+    
+//    alert(" "+status+" "+user_id);
+    
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: '/ajax_user/setUserStatus.php',
+        data: {
+            'user_id': user_id,
+            'status': status,
+
+
+        },
+        success: function (data) {
+            alert('done');
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+    
+    
+});

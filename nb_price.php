@@ -25,7 +25,7 @@ if ($hide) {
 
 
 <?php require 'user_auth.php'; ?>
-<?php require 'includes/patient_data2DOM.php'; ?>
+<?php require 'includes/data2DOM.php'; ?>
 <?php require 'includes/header.php'; ?>
 
 
