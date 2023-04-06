@@ -63,7 +63,7 @@
 
         <!-- Sidebar Start -->
         <div class="sidebar pe-2 pb-3">
-            <nav class="navbar bg-light navbar-light">
+            <nav class="navbar bg-blue-a navbar-light">
                 <a href="patient.php" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Patho</h3>
                 </a>
@@ -84,24 +84,30 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed"></i>ข้อมูลผู้รักษา</a>
-                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>งานเตรียมสไลด์พิเศษ</a>
-                    <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>รายการร่วมยืนยันผล</a>
+                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>งานร้องขอไลด์พิเศษ</a>
+                    <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>งานร้องขอแพทย์ร่วมยืนยันผล</a>
+                    <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>รายการงาน</a>
                     <!-- <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a> -->
-                    <a id="user" class="nav-item nav-link" href="user.php"><i class="fa-solid fa-user-doctor"></i>ผู้ใช้งานระบบ</a>
-                    <a class="nav-item nav-link" id="hospital" href="hospital.php"><i class="fa-solid fa-hospital-user"></i>ข้อมูลโรงพยาบาล</a>
-                    <a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>
-                    <a id="fluid" href="labfluid.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>แลปเซลล์วิทยา</a>
-                    <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้าง label</a>
+                    <!--<a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>-->
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
-                    <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>Job</a>
                     <div class="nav-item dropdown">
-                        <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>Billing</a>
+                        <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a id="billing_tab" href="billing.php" class="nav-item nav-link"></i>Billing Table</a>
-                            <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link"></i>Billing PDF</a>
+                            <a id="user" class="nav-item nav-link" href="user.php">ผู้ใช้งานระบบ</a>
+                            <a class="nav-item nav-link" id="hospital" href="hospital.php">โรงพยาบาล</a>
+                            <a id="fluid" href="labfluid.php" class="nav-item nav-link">แลปเซลล์วิทยา</a>
+                            <a id="price_tab" href="nb_price.php" class="nav-item nav-link">รายการค่าบริการ</a>
                         </div>
                     </div>
-                    <a id="price_tab" href="nb_price.php" class="nav-item nav-link"><i class="fa-solid fa-file-invoice"></i>Price Table</a>
+                    
+                    <div class="nav-item dropdown">
+                        <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
+                            <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูและจัดการรายการในใบแจ้งหนี้</a>
+                        </div>
+                    </div>
+                    <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติ๊กเกอร์แปะสใลด์</a>
                     <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                     <div class="nav-item dropdown">
                         <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>เกี่ยวกับ</a>
@@ -123,7 +129,7 @@
         <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start sticky-top-->
-            <nav id="nb_navbar_top" class="navbar navbar-expand bg-light navbar-light  sticky-top  px-3 py-2 mb-2">
+            <nav id="nb_navbar_top" class="navbar navbar-expand bg-nb bg-blue-a navbar-light  sticky-top  px-3 py-2 mb-2">
 
 
                 <a href="patient.php" class="navbar-brand d-flex d-lg-none me-4">
@@ -144,7 +150,7 @@
                                 <i class="fa fa-envelope me-lg-2"></i>
                                 <span class="d-none d-lg-inline-flex">Message</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <div class="dropdown-menu dropdown-menu-end bg-nb bg-blue-a border-0 rounded-0 rounded-bottom m-0">
                                 <a href="#" class="dropdown-item">
                                     <div class="d-flex align-items-center">
                                         <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
@@ -183,7 +189,7 @@
                                 <i class="fa fa-bell me-lg-2"></i>
                                 <span class="d-none d-lg-inline-flex">Notificatin</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <div class="dropdown-menu dropdown-menu-end bg-nb bg-blue-a border-0 rounded-0 rounded-bottom m-0">
                                 <a href="#" class="dropdown-item">
                                     <h6 class="fw-normal mb-0">Profile updated</h6>
                                     <small>15 minutes ago</small>
@@ -207,7 +213,7 @@
                             <i class="fa-solid fa-hospital fa-lg"></i>
                             <span class="d-none d-lg-inline-flex"><?= $_SESSION['username'] ?></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <div class="dropdown-menu dropdown-menu-end bg-nb bg-blue-a border-0 rounded-0 rounded-bottom m-0">
                             <a href="user_edit.php?id=<?= $_SESSION['user']->id ?>" class="dropdown-item">My Profile</a>
                             <!--   <a href="#" class="dropdown-item">Settings</a> -->
                             <a href="logout.php" class="dropdown-item">Log Out</a>
@@ -217,7 +223,7 @@
             </nav>
             <!-- Navbar End -->
             <!-- <div class="container-fluid pt-4 px-4">
-                        <div class="row bg-light rounded align-items-center justify-content-center mx-0"> -->
+                        <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center mx-0"> -->
 
             <?php $hidden_data2dom = true; ?>
             <li class="sesstion_timelimit_int_sec" tabindex="<?= Auth::$sesstion_timelimit_int_sec ?>" style="<?= $hidden_data2dom ? "display: none;" : "" ?>">Auth::$sesstion_timelimit_int_sec :: <?= Auth::$sesstion_timelimit_int_sec ?> </li>
