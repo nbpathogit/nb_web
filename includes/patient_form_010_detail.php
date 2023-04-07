@@ -95,16 +95,7 @@ $curStatusAuthEdit = (
         <input name="phospital_num" type="text" class="form-control" id=""  placeholder="" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['phospital_num']; ?>" >
     </div>
 
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="phospital_id" class="">โรงพยาบาล</label>
-        <select name="phospital_id" id="phospital_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage &&  ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
-            <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
-            <?php foreach ($hospitals as $hospital): ?>
-                <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
-                <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= htmlspecialchars($hospital['hospital']); ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+
 
 
 
@@ -120,6 +111,17 @@ $curStatusAuthEdit = (
                 </option>
             <?php endforeach; ?>
         </select>                                    
+    </div>
+    
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label for="phospital_id" class="">โรงพยาบาล</label>
+        <select name="phospital_id" id="phospital_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage &&  ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
+            <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
+            <?php foreach ($hospitals as $hospital): ?>
+                <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
+                <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= htmlspecialchars($hospital['hospital']); ?></option>
+            <?php endforeach; ?>
+        </select>
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">

@@ -225,11 +225,11 @@ class Presultupdate {
     }
 
     public static function updateReleaseTime($conn, $id) {
-
+        $curDateTime = Util::get_curreint_thai_date_time();
         $sql = "UPDATE presultupdate
-                SET release_time = NOW()
+                SET release_time = '$curDateTime'
                     WHERE id = :id";
-        
+
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
