@@ -15,6 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hospital->hospital = $_POST['hospital_name'];
     $hospital->address = $_POST['hospital_address'];
     $hospital->hdetail = $_POST['hospital_detail'];
+    
+    $hospital->tax_id = $_POST['tax_id'];
+    $hospital->create_by = $_POST['create_by'];
 
     if ($hospital->create($conn)) {
 

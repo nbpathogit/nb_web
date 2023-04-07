@@ -17,6 +17,11 @@ class Hospital
     // public $name;
     public $address;
     public $hdetail;
+    
+    public $tax_id;
+    public $create_date;
+    public $create_by;
+    
 
 
     /**
@@ -67,8 +72,9 @@ class Hospital
     public function create($conn)
     {
 
-        $sql = "INSERT INTO hospital (hospital,address,hdetail)
-                VALUES ( :hospital,:address,:hdetail)";
+        $curDateTime = Util::get_curreint_thai_date_time();
+        $sql = "INSERT INTO hospital (hospital,  address,     hdetail,   tax_id,   create_date,       create_by)
+                VALUES             ( :hospital,  :address,    :hdetail,  :tax_id,  :create_date,     :create_by)";
 
         $stmt = $conn->prepare($sql);
 
@@ -81,6 +87,10 @@ class Hospital
         }
 
         $stmt->bindValue(':hdetail', $this->hdetail, PDO::PARAM_STR);
+        
+        $stmt->bindValue(':tax_id', $this->tax_id, PDO::PARAM_STR);
+        $stmt->bindValue(':create_date', $curDateTime, PDO::PARAM_STR);
+        $stmt->bindValue(':create_by', $this->create_by, PDO::PARAM_STR);
 
         //var_dump($stmt);
 
@@ -138,6 +148,7 @@ class Hospital
                 SET hospital = :hospital,
                     address = :address,
                     hdetail = :hdetail
+                    tax_id = :tax_id
                 WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
@@ -150,6 +161,8 @@ class Hospital
         } else {
             $stmt->bindValue(':address', $this->address, PDO::PARAM_STR);
         }
+        
+        $stmt->bindValue(':tax_id', $this->tax_id, PDO::PARAM_STR);
 
         $stmt->bindValue(':hdetail', $this->hdetail, PDO::PARAM_STR);
 
