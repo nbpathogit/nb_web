@@ -457,3 +457,30 @@ $("#add_u_result").validate({
 
 });
 
+
+$("#formAddPatient").validate({
+    rules: {
+        prenum: {
+            required: true,
+            minlength: 2,
+        },
+        yearnum: {
+            required: true,
+            digits: true,
+            minlength: 2,
+        },
+        runnum: {
+            required: true,
+            digits: true,
+            minlength: 5
+        },
+        plastname: {
+            required: true,
+        },
+        pname: {
+            required: true,
+        },
+
+    }
+
+});

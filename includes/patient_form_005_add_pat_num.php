@@ -34,7 +34,7 @@ if ($debug) {
 
         <div class=" <?= $isBorder ? "border" : "" ?>">
             <input type="radio" id="autogen" name="is_autogen" value="yes" checked>
-            <label for="autogen"><b>auto generate.</b></label>
+            <label for="autogen"><b>Auto generate number.(โปรแกรมสร้างตัวเลขให้)</b></label>
         </div><br>
 
         <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
@@ -57,28 +57,28 @@ if ($debug) {
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <div class=" <?= $isBorder ? "border" : "" ?>">
             <input type="radio" id="manualgen" name="is_autogen" value="no" >
-            <label for="manualgen"><b>Manual input.</b></label>
+            <label for="manualgen"><b>Manual input number.(ใส่ตัวเลขด้วยตัวเอง)</b></label>
         </div><br>
 
 
         <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-            <label for="prenum" align="right" class="">อักษรย่อชนิดส่งตรวจ(สองตัว)</label>
-            <input name="prenum" type="text" id="prenum" list="prenumlist" class="form-control"  placeholder="EX: SN"    value=""  maxlength="2" size="4">
+            <label for="prenum" align="right" class="">ใส่อักษรย่อชนิดส่งตรวจ(สองตัว)</label>
+            <input name="prenum" type="text" id="prenum" list="prenumlist" class="form-control" maxlength="2" placeholder="เช่น: SN"    value=""  maxlength="2" size="4">
             <datalist id="prenumlist">
                 <option>SN</option>
                 <option>CN</option>
             </datalist>
         </div>
         <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-            <label for="yearnum" align="right" class="">เลขปี(สองหลัก)</label>
-            <input name="yearnum" type="text" id="yearnum" list="yearnumlist" class="form-control"  placeholder="EX: 23"    value="" maxlength="2" size="4">
+            <label for="yearnum" align="right" class="">ใส่เลขปี(สองหลัก)</label>
+            <input name="yearnum" type="text" id="yearnum" list="yearnumlist" class="form-control" maxlength="2"  placeholder="เช่น: 23"    value="" maxlength="2" size="4">
             <datalist id="yearnumlist">
                 <option>23</option>
             </datalist>
         </div>
         <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-            <label for="runnum" align="right" class="">เลขรัน(ห้าหลักขึ้นไป)</label>
-            <input name="runnum" type="text" id="runnum" class="form-control"  placeholder="EX: 00001"    value="">
+            <label for="runnum" align="right" class="">ใส่เลขรันนิ่งนัมเบอร์(จำนวนห้าหลัก)</label>
+            <input name="runnum" type="text" id="runnum" class="form-control" maxlength="5"  placeholder="เช่น: 00001"    value="">
         </div>
         <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>"></div>
 
