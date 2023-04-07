@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $user_new->username = $_POST['username'];
     $user_new->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $user_new->create_by = $_POST['create_by'];
 
     try {
         if ($user_new->create($conn)) {

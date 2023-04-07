@@ -37,7 +37,7 @@
                     <label for="pre_name" class="form-label">คำนำหน้าชื่อ</label><!--span> *</span-->
                     <input name="pre_name" type="text" list="pre_name_list" class="form-control " id="pre_name"  value="<?= (isset($user[0]['pre_name']) ? $user[0]['pre_name'] : ''); ?>">
                     <datalist id="pre_name_list">
-                        <?php                            require 'includes/prenameOption.php'; ?>
+                        <?php   require 'includes/prenameOption.php'; ?>
                     </datalist>
                 </div>
                 <div class="col-5 col-md-4">
@@ -61,9 +61,11 @@
                     <input class="form-control" name="password" type="text" id="password_add" size="20" maxlength="10">
                     <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 5 ตัวอักษรขึ้นไป</span>
                 </div>
-            </div>   
+            </div>
 
             <div><button id="add" name="add" class="btn btn-primary  ">Add</button></div>
+            
+            <input type="hidden" name="create_by" value="<?= $cur_user->name .' '.$cur_user->lastname ?>">
         </form>
     </div>
 </div>

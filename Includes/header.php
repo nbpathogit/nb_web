@@ -93,6 +93,8 @@
                     <div class="nav-item dropdown">
                         <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
                         <div class="dropdown-menu bg-transparent border-0">
+                            <a id="user" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
+                            <a class="nav-item nav-link" id="hospital" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
                             <a id="user" class="nav-item nav-link" href="user.php">ผู้ใช้งานระบบ</a>
                             <a class="nav-item nav-link" id="hospital" href="hospital.php">โรงพยาบาล</a>
                             <a id="fluid" href="labfluid.php" class="nav-item nav-link">แลปเซลล์วิทยา</a>

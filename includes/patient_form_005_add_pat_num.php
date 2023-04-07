@@ -92,6 +92,9 @@ if ($debug) {
             <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
                 <label for="ppre_name" class="">คำนำหน้าชื่อ</label>
                 <input name="ppre_name" type="text" class="form-control border" id="ppre_name" placeholder=""  value="<?= $patient[0]['ppre_name']; ?>">
+                <datalist id="pre_name_list">
+                    <?php require 'includes/prenameOption.php'; ?>
+                </datalist>
             </div>
 
             <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">

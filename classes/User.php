@@ -32,6 +32,8 @@ class User
     public $signature_file;
     public $profile_file;
     public $errors = [];
+    public $create_date;
+    public $create_by;
 
     /**
      * Authenticate a user by username and password
@@ -267,6 +269,8 @@ class User
         $user->signature_file = "";
         $user->profile_file = "";
         $user->errors = NULL;
+        $user->create_date = "";
+        $user->create_by = "";
 
 
         return $user;
@@ -281,10 +285,12 @@ class User
      */
     public function create($conn)
     {
+        
+        $curDateTime = Util::get_curreint_thai_date_time();
         // INSERT INTO user (id, name, lastname, username, password, ugroup_id, uhospital_id) VALUES (NULL, 'อนุชิกก', 'ยุงทอม', 'aaaa', 'aaaa', '4', '2');
 
-        $sql = "INSERT INTO user ( pre_name, name, lastname, pre_name_e, name_e, lastname_e, short_name, educational_bf, role, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id)
-            VALUES (:pre_name, :name, :lastname, :pre_name_e, :name_e, :lastname_e, :short_name, :educational_bf, :role, :udetail, :umobile, :uemail, :username, :password, :ugroupid, :uhospitalid)";
+        $sql = "INSERT INTO user ( pre_name, name, lastname, pre_name_e, name_e, lastname_e, short_name, educational_bf, role, udetail, umobile, uemail, username, password, ugroup_id, uhospital_id, create_date,   create_by )
+            VALUES (:pre_name, :name, :lastname, :pre_name_e, :name_e, :lastname_e, :short_name, :educational_bf, :role, :udetail, :umobile, :uemail, :username, :password, :ugroupid, :uhospitalid, :create_date,  :create_by)";
 
         $stmt = $conn->prepare($sql);
 
@@ -306,6 +312,8 @@ class User
         $stmt->bindValue(':password', $this->password, PDO::PARAM_STR);
         $stmt->bindValue(':ugroupid', $this->ugroup_id, PDO::PARAM_INT);
         $stmt->bindValue(':uhospitalid', $this->uhospital_id, PDO::PARAM_INT);
+        $stmt->bindValue(':create_date', $curDateTime, PDO::PARAM_STR);
+        $stmt->bindValue(':create_by', $this->create_by, PDO::PARAM_STR);
 
         //var_dump($stmt);
 
