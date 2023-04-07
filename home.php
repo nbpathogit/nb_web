@@ -16,14 +16,14 @@ require "includes/header.php"; ?>
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-12">
-            <div class="bg-light rounded d-flex align-items-center justify-content-start p-4">
+            <div class="bg-nb bg-blue-a rounded d-flex align-items-center justify-content-start p-4">
                 <i class="fa-solid fa-database fa-lg me-2"></i>
                 <h4 class="text-start">ข้อมูลจากฐานระบบ</h4>
             </div>
         </div>
         <?php foreach ($stats as $stat) :  ?>
             <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-nb bg-blue-a rounded d-flex align-items-center justify-content-between p-4">
                     <i class="fa fa-chart-line fa-3x text-primary"></i>
                     <div class="ms-3 text-end">
                         <p class="mb-2"><?= $stat["table_name"] ?></p>

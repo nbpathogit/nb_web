@@ -24,7 +24,7 @@ require 'user_auth.php';
     <?php require 'blockclose.php';?>
 <?php else : ?>
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
 
 
@@ -36,7 +36,7 @@ require 'user_auth.php';
 </div>
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
             <table class="table table-hover table-striped text-center" id="fluid_table" style="width:100%">
                 <thead>

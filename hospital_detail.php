@@ -33,7 +33,7 @@ if (isset($_GET['id'])) {
     <?php require 'blockclose.php';?>
 <?php else : ?>
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
         <div class="d-flex align-items-center justify-content-start">
             <a href="/hospital.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-hospital-user me-2"></i>โรงพยาบาลทั้งหมด</a>
@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
 </div>
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
         <?php if ($hospital) : ?>
 

@@ -14,7 +14,7 @@ require 'includes/init.php';
 </header>
 
 <!-- Features icons -->
-<section class="features-icons bg-light text-center">
+<section class="features-icons bg-nb bg-blue-a text-center">
     <div class="container">
         <div class="row">
             <div class="col-lg-4">

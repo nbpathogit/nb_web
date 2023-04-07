@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require 'includes/header.php'; ?>
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
         <div class="d-flex align-items-center justify-content-between">
             <a href="/job.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-table-list me-2"></i>Job ทั้งหมด</a>
         </div>
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
         <h4>แก้ไข Job</h4>
 

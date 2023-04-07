@@ -29,7 +29,7 @@ if ($debug) {
 
     <br>
 
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
 
 
         <div class=" <?= $isBorder ? "border" : "" ?>">
@@ -54,7 +54,7 @@ if ($debug) {
 
 
 
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <div class=" <?= $isBorder ? "border" : "" ?>">
             <input type="radio" id="manualgen" name="is_autogen" value="no" >
             <label for="manualgen"><b>Manual input.</b></label>
@@ -84,7 +84,7 @@ if ($debug) {
 
     </div>
     <br>
-    <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
 
 
         <div class="row <?= $isBorder ? "border" : "" ?>">

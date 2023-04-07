@@ -245,7 +245,7 @@ if (($isCurUserClinicianCust || $isCurUserHospitalCust) && $_SESSION['user']->id
 
 <?php if (!empty($user_edit->errors)) : ?>
     <div id="slide_prep_section" class="container-fluid pt-4 px-4">
-        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <div class="alert alert-warning" role="alert">
                 <?php foreach ($user_edit->errors as $error) : ?>
                     <li><?= $error ?></li>

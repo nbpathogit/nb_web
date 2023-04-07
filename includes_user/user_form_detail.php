@@ -1,5 +1,5 @@
 <div id="slide_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <div><b>แก้ไขผู้ใช้งานระบบ</b></div>
         
 

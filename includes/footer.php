@@ -2,7 +2,7 @@
 </div> -->
 <!-- Footer Start -->
 <div class="container-fluid mt-4 pt-3 px-4">
-    <div class="bg-light rounded-top p-4">
+    <div class="bg-nb bg-blue-a rounded-top p-4">
         <div class="row">
             <div class="col-12 col-sm-6 text-center text-sm-start">
                 &copy; <a href="/">NB Patho</a>, All Right Reserved.

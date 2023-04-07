@@ -60,7 +60,7 @@ $conn = require 'includes/db.php';
 <?php else : ?>
 
     <div class="container-fluid pt-4 px-4">
-        <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+        <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
             <?php if (!Auth::isLoggedIn()) : ?>
                 You are not login.
@@ -72,7 +72,7 @@ $conn = require 'includes/db.php';
             </div>
         </div>
         <div class="container-fluid pt-4 px-4">
-            <div class="row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+            <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
                 <h4>แก้ไขสถานพยาบาล</h4>
                 <?php require 'includes/hospital_form.php'; ?>

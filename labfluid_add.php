@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php require 'includes/header.php'; ?>
 <div class = "container-fluid pt-4 px-4">
-    <div class = "row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class = "row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
 
         <div class = "d-flex align-items-center justify-content-between">
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <div class = "container-fluid pt-4 px-4">
-    <div class = "row bg-light rounded align-items-center justify-content-center p-3 mx-1">
+    <div class = "row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
         <h4>เพิ่ม Fluid</h4>
 
         <form class = "row g-2" method = "post">
