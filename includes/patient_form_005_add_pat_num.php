@@ -117,7 +117,7 @@ if ($debug) {
             <br>
             <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูลใหม่ลงในระบบ</button>
         </p>
-
+        <input type="hidden" name="create_by" value="<?= $cur_user->name . ' ' . $cur_user->lastname ?>">
 
 
     </div>

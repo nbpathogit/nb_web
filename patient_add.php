@@ -187,7 +187,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST['p_slide_lab_price']) ? $patient->p_slide_lab_price = $_POST['p_slide_lab_price'] : $patient->p_slide_lab_price = $patientini[0]['p_slide_lab_price'];
         $patient->isautoeditmode = "patient_detail_section"; //save and auto move to edit next section
         $patient->pautoscroll = "patient_detail_section"; //set auto scroll
-
+        
+        $patient->create_by = $_POST['create_by']; //set auto scroll
 
 
 

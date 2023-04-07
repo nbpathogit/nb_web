@@ -72,6 +72,8 @@ class Patient
      * @var array
      */
     public $errors = [];
+    public $create_date;
+    public $create_by;
 
     public static function getTotal($conn, $user_group = "*")
     {
@@ -288,10 +290,12 @@ class Patient
     public function create($conn)
     {
 
+        $curDateTime = Util::get_curreint_thai_date_time();
+//        $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
+//            . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
 
-        $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`) "
-            . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll);";
-
+        $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`,   create_date,       create_by)"
+            . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,        NOW(),   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll,   :create_date,     :create_by)";
 
 
 
@@ -353,6 +357,9 @@ class Patient
 
         $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
         $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
+        
+        $stmt->bindValue(':create_date', $curDateTime, PDO::PARAM_STR);
+        $stmt->bindValue(':create_by', $this->create_by, PDO::PARAM_STR);
 
         //var_dump($stmt);
 
@@ -414,7 +421,11 @@ class Patient
                 "p_slide_lab_price" => 0,
                 "reported_as" => "",
                 "isautoeditmode" => "patient_detail_section",
-                "pautoscroll" => "patient_detail_section"
+                "pautoscroll" => "patient_detail_section",
+                
+                "create_date" => "",
+                "create_by" => ""
+                
             ]
         ];
     }
