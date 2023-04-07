@@ -142,6 +142,7 @@ $curStatusAuthEdit = (
         </select>     
     </div>
     
+    <?php if($hide): ?>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pspecimen_id" class="" >สิ่งส่งตรวจ(To be remove)</label>
         <select name="pspecimen_id" id="pspecimen_id" class="form-select" disabled readonly >
@@ -152,7 +153,7 @@ $curStatusAuthEdit = (
             <?php endforeach; ?>
         </select>
     </div>
-    
+    <?php    endif;?>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
 
         <label for="date_20000" class="form-label">รายงานผลแล้วเมื่อวันที่</label>
