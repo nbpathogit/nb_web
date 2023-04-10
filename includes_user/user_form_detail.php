@@ -88,6 +88,7 @@
                     <select class="form-select  userdetail_input" name="ugroup_id" <?= $canCurUserChangeUGroup ? "" : "disabled"; ?> >
                         <!--<option value="#">กรุณาเลือก</option>-->
                         <?php foreach ($ugroups as $ugroup) : ?>
+                        <?php //echo $user[0]['ugroup_id'] . $ugroup['id']; ?>
                             <?php if ($canCurUserChangeUGroup): ?>
                                 <option value="<?= htmlspecialchars($ugroup['id']); ?>" <?= (isset($user[0]['ugroup_id']) ? (($user[0]['ugroup_id'] == $ugroup['id']) ? "selected" : "") : ""); ?>><?= htmlspecialchars($ugroup['ugroup']); ?></option>
                             <?php else : ?>

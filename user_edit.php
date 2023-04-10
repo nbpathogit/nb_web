@@ -45,7 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Save user detail btn pressed
     if (isset($_POST['save'])) {
         $url = "";
-
+//        var_dump($_POST);
+//        die();
+//        
 
 
         $user_edit->id = $_GET['id'];
@@ -58,6 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_edit->short_name = $_POST['short_name'];
         $user_edit->educational_bf = $_POST['educational_bf'];
         $user_edit->role = $_POST['role'];
+        $user_edit->ugroup_id = $_POST['ugroup_id'];
+        $user_edit->uhospital_id = $_POST['uhospital_id'];
         if (isset($_POST["umobile_enable"])) { //IF checkbox umobile_enable checked
             $user_edit->umobile = $_POST['umobile'];
         } else {
@@ -76,14 +80,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
 
-
-
-
-
-
-
-
-
+        try {
+            if ($user_edit->updateUserProfile($conn)) {
+                $user_updated = true;
+                $url = "/user_detail.php?id=$user_edit->id&result=1";
+                if ($passchg === true)
+                    $url = $url . "&psch=1";
+                Url::redirect("/user_edit.php?id=" . $_GET['id'] . "&psch=1");
+            } else {
+                throw new Exception('Edit user fail. Please verify again.');
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
 
 
 
