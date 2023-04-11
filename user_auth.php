@@ -64,6 +64,9 @@ $isCurUserLabOfficerNB = $u_cur_group_id->id == 2200;
 // ผู้ใช้ปัจจุบันเป็น เจ้าหน้าที่ธุรการ หรือไม่
 $isCurUserAdminStaff = $u_cur_group_id->id == 2500;
 
+//
+$isCurUserGeneralNB = $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500;
+
 // แพทย์ผู้ส่ง
 $isCurUserClinicianCust = $u_cur_group_id->id == 5000;
 // โรงพยาบาลผู้ส่ง

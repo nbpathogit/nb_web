@@ -6,7 +6,7 @@
         <div class="row pt-3 mb-3 g-5 align-items-center">
             <div class="col-6 col-md-4">
                 
-                <?php  $can_edit_user_status =  $isCurUserAdmin; ?>
+                <?php  $can_edit_user_status =  $isCurUserAdmin || ($isCurUserGeneralNB && $is_targetUserCus); ?>
                 <label for="user_status">สถานะผู้ใช้งาน</label><span style="color:red"> </span>
                 <select name="user_status" id="user_status" class="form-select" <?= $can_edit_user_status ? "" : " disabled readonly " ?>>
 

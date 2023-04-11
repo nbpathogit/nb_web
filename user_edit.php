@@ -29,6 +29,8 @@ if (isset($_GET['id'])) {
     if (!$user) {
         die("user not found");
     }
+    $is_targetUserNB = $user[0]['ugroup_id'] == 2000 || $user[0]['ugroup_id'] == 2100 || $user[0]['ugroup_id'] == 2200 || $user[0]['ugroup_id'] == 2500;
+    $is_targetUserCus = $user[0]['ugroup_id'] == 5000 || $user[0]['ugroup_id'] == 5100;
 } else {
     die("id not supplied, user not found");
 }
