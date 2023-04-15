@@ -25,7 +25,7 @@ if ($auth) {
 
 
 
-    $tps = TemplateReport::getTemplateByUser($conn);
+    $tps = TemplateReport::getTemplateByUser($conn,$_GET['user_id']);
 
     $data = [];
     foreach ($tps as $tp) {

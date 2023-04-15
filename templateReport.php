@@ -45,5 +45,6 @@ require 'includes/header.php'; ?>
 
 <script type="text/javascript">
        var skey = "<?= $_SESSION["skey"] ?>";
+       var user_id = <?= Auth::getUserId()?>;
 </script>
-<script src="js/template_report.js?v0xxปปxxx"></script>
+<script src="js/template_report.js?v0xxxปปxxx"></script>

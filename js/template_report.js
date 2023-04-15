@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     // table data
     var table = $('#template_report_table').DataTable({
-        "ajax": "data/template_report_ajax.php?skey=" + skey + "&range=1m",
+        "ajax": "data/template_report_ajax.php?skey=" + skey + "&range=1m"+"&user_id="+user_id,
         responsive: true,
         dom: 'lBrtip',
 
@@ -51,7 +51,7 @@ $(document).ready(function () {
             },
              {
                 "render": function (data, type, row) {
-                    let html = '<b>Edit</b>';
+                    let html = '<a href="templateReport_edit.php?id='+row[0]+'" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
                     return html
                 },
                 "targets": 5
