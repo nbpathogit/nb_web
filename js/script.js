@@ -414,6 +414,10 @@ $.validator.addMethod("selectd", function (value, element) {
     return (value != 0);
 }, "Must be selected.");
 
+$.validator.addMethod("txtarearequired", function (value, element) {
+    return (value.length != 0);
+}, "Data require to fill in.");
+
 
 
 $("#adduser , #chg_passwrd ,#edituser").validate({
@@ -445,6 +449,24 @@ $("#adduser , #chg_passwrd ,#edituser").validate({
 
 });
 
+$("#addtemplate").validate({
+    rules: {
+
+        rname_selected: {
+            selectd: true
+        },
+
+        tname: {
+            required: true
+        },
+
+        tdescription: {
+            required: true
+        }
+
+    }
+
+});
 
 
 $("#add_u_result").validate({

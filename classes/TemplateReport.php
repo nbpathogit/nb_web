@@ -45,6 +45,24 @@ class TemplateReport
         return $stmt->execute();
     }
     
+      public static function createbyArray($conn,$tps)
+    {
+        // need update
+        $sql = "INSERT INTO `template_report` (`id`, `user_id`, `reporttype_id`, `name`, `description`) "
+                . "VALUES (NULL, :user_id, :reporttype_id, :name, :description)";
+
+        $stmt = $conn->prepare($sql);
+
+        
+        $stmt->bindValue(':user_id', $tps[0]['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':reporttype_id', $tps[0]['reporttype_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':name', $tps[0]['name'], PDO::PARAM_STR);
+        $stmt->bindValue(':description', $tps[0]['description'], PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $conn->lastInsertId();
+    }
+    
     public static function updatebyArray($conn,$tps)
     {
         // need update
