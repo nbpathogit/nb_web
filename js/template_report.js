@@ -14,7 +14,17 @@ $(document).ready(function () {
         // index name   | tid    |    rid    uid  | uname   ulastname | rname        | tname       | tdescription   |    -
         // Incex number | 0      |    1      2    | 3       4         |  5           |  6          | 7	            |     -
 
-        columnDefs: [{
+        searchPanes: {
+            initCollapsed: true,
+        },
+        columnDefs: [
+            {
+                searchPanes: {
+                    show: true
+                },
+                targets: [2,3]
+            },     
+            {
                 "render": function (data, type, row) {
                     let html = row[0];
                     return html
@@ -57,6 +67,10 @@ $(document).ready(function () {
                 "targets": 5
             },
             {
+                responsivePriority: 1,
+                targets: 1
+            },
+            {
                 visible: false,
                 targets: []
             },
@@ -65,7 +79,7 @@ $(document).ready(function () {
 
     table.on('draw', function () {
         // console.log(table.rows().data());
-        rawdata = table.rows().data();
+//        rawdata = table.rows().data();
         // console.log(rawdata.length);
     });
 
