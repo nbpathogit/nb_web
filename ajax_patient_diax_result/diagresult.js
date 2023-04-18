@@ -1,4 +1,4 @@
-
+var is_diag_editeing_mode = false;
 
 
 //Save text result by id
@@ -64,7 +64,7 @@ function save_txt_rs(rs_id){
     
     $(txt_rs_id).prop('readonly', true);
     //alert("finish.");
-
+    is_diag_editeing_mode = false;
     
 }
 
@@ -80,7 +80,7 @@ function edit_txt_rs(rs_id){
     var txt_rs_id = "#txt_rs_"+rs_id;
     $(txt_rs_id).prop('readonly', false);
 
-
+    is_diag_editeing_mode = true;
 }
 
 
@@ -283,6 +283,8 @@ function append2page(data) {
             messageRelease = "ออกผลแล้วเมื่อ["+datajson[i].release_time+"] ไม่สามารถแก้ไขได้";
         }
         var cur_patient_id = get_cur_patient_id();
+        var cur_user_id = get_cur_user_id();
+        
         var str =''+
         '<hr style="height:1px;border-width:0;color:black;background-color:black;">'+
         '<div class="row">'+
@@ -290,6 +292,7 @@ function append2page(data) {
                 '<label for="result_message"><b>'+datajson[i].result_type+'</b></label> '+messageRelease+
                 '<a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_'+datajson[i].id+'" onclick="edit_txt_rs('+datajson[i].id+');" title="Edit"  ><i class="fa-solid fa-marker"></i>Edit</a>'+
                 '<a class="btn btn-outline-primary btn-sm me-1 " id="save_result_'+datajson[i].id+'" onclick="save_txt_rs('+datajson[i].id+');" title="Save" style="display: none;" ><i class="fa-solid fa-floppy-disk"></i>Save</a>'+
+                '<a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_'+datajson[i].id+'" onclick="add_tp_2_txt_rs('+datajson[i].id+','+datajson[i].result_type_id+','+cur_user_id+');" title="Template"><i class="fa-solid fa-marker"></i>Template</a>'+
             '</div>'+
             '<div class="col-6">'+
                 '<b>พยาธิแพทย์คอนเฟิร์มผล:</b><a href="patient_edit.php?id='+cur_patient_id+'&pautoscroll=confirm_result_section_bottom" class="btn btn-outline-primary btn-sm me-1 " ><i class="fa-solid "></i>Reload Page</a>'+
