@@ -30,7 +30,7 @@ $isSetShowaddResultButton = true;
                 <label for="result_message"><b><?= $presultupdate['result_type'] ?></b></label>   <?= $isCurResultReleased ? "ออกผลแล้วเมื่อ[" . $presultupdate['release_time'] . "] ไม่สามารถแก้ไขได้" : "ยังไม่ออกผล" ?>
                 <a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_<?= $presultupdate['id'] ?>" onclick="edit_txt_rs(<?= $presultupdate['id'] ?>);" title="Edit" <?= ($is_show_edit_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
                 <a class="btn btn-outline-primary btn-sm me-1 " id="save_result_<?= $presultupdate['id'] ?>" onclick="save_txt_rs(<?= $presultupdate['id'] ?>);" title="Save"<?= ($is_show_save_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
-                <!--<a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id'] ?>" onclick="alert('Under construction. \nThe feature will avalable soon.');" title="Template" <?= ($is_show_template_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>-->
+                <a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id'] ?>" onclick="add_tp_2_txt_rs(<?= $presultupdate['id'] ?>,<?= $presultupdate['result_type_id'] ?>,<?= Auth::getUserId(); ?>);" title="Template" <?= ($is_show_template_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>
             </div>
 
             <?php // if last result id ?>
@@ -56,6 +56,7 @@ $isSetShowaddResultButton = true;
 
                      <?php require 'patient_from_080_job6__tbl_modal.php';      ?>
                      <?php require 'patient_from_080_job6__select_modal.php';      ?>
+                     
                  <?php endif;?>
             </div>
             <?php endif; ?>
@@ -162,7 +163,7 @@ $isSetShowaddResultButton = true;
 </p>
 
 <?php require 'patient_form_080_job6__select_rs_modal.php'; ?>
-
+<?php require 'patient_from_080_job6_template_select_modal.php';      ?>
 
 
 

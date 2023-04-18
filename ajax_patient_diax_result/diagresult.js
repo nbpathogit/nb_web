@@ -1,4 +1,4 @@
-var is_diag_editeing_mode = false;
+
 
 
 //Save text result by id
@@ -64,7 +64,7 @@ function save_txt_rs(rs_id){
     
     $(txt_rs_id).prop('readonly', true);
     //alert("finish.");
-    is_diag_editeing_mode = false;
+
     
 }
 
@@ -80,7 +80,7 @@ function edit_txt_rs(rs_id){
     var txt_rs_id = "#txt_rs_"+rs_id;
     $(txt_rs_id).prop('readonly', false);
 
-    is_diag_editeing_mode = true;
+
 }
 
 
