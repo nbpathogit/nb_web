@@ -81,10 +81,46 @@ $('#modal_tprs_select').on('change', function () {
 
     var template_id = $('#modal_tprs_select option').filter(':selected').val();
 
-//    alert(template_id);
 
-    $("#modal_txt_tps").val(template_id);
+
+
+    let datajson = null;
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: '/ajax_template_rs/getTemplateByID.php',
+        data: {
+            'id': template_id,
+    
+        },
+        success: function (data) {
+            console.log(data);
+            if (data[0] != "[") {
+                alert(data);
+                console.log(data);
+                return;
+            }
+            datajson = JSON.parse(data);
+            if (datajson.length == 0) {
+                alert("No record found");
+                return;
+            }
+
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+
+
+
+
+//    alert(template_id);
+    $("#modal_txt_tps").val(datajson[0].tdescription);
 //    document.getElementById("modal_txt_tps").value = template_id;
+
+
 
     if (template_id == 0) {
         $("#add_txt_rs").prop("disabled", true);
@@ -99,5 +135,5 @@ function add_selected_tp_2_txt_rs() {
     let txt_rs_name = "#txt_rs_" + selected_presultupdate_id;
     let txt_rs_id = $("#modal_txt_tps").val();
     $(txt_rs_name).val(txt_rs_id);
-    alert("add " + txt_rs_id + " to " + txt_rs_name);
+    //alert("add " + txt_rs_id + " to " + txt_rs_name);
 }
