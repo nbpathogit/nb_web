@@ -72,6 +72,8 @@ $isCurUserClinicianCust = $u_cur_group_id->id == 5000;
 // โรงพยาบาลผู้ส่ง
 $isCurUserHospitalCust = $u_cur_group_id->id == 5100;
 
+$isCurUserCust = $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
+
 
 
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้

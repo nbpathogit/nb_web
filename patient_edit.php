@@ -89,7 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //Patient::setAutoScroll($conn, $_GET['id'], "uresultLastSection");
         //Patient::setisautoeditmode($conn, $_GET['id'], "uresultLastSection");
-
         //                var_dump($_POST);
         //                die();
 
@@ -573,7 +572,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $patient_id = 0;
 if (isset($_GET['id'])) {
     $patient = Patient::getAll($conn, $_GET['id']);
-    $patient_id =  $_GET['id'];
+    $patient_id = $_GET['id'];
     if ($is_vardump) {
         var_dump($patient);
     }
@@ -655,24 +654,21 @@ $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
 $pathoOwnerNameObj = User::getByID($conn, $patient[0]['ppathologist_id']);
 
-$billings = Billing::getAll($conn, $_GET['id'],1);
-$billing2s = Billing::getAll($conn, $_GET['id'],2);
+$billings = Billing::getAll($conn, $_GET['id'], 1);
+$billing2s = Billing::getAll($conn, $_GET['id'], 2);
 
 $job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
 $job_assis_crosss = Job::getAssisCrossSection($conn, $patient[0]['id']);
-$job3s = Job::getByPatientJobRole($conn, $patient[0]['id'],3);
-$job4s = Job::getByPatientJobRole($conn, $patient[0]['id'],4);
-$job5s = Job::getByPatientJobRole($conn, $patient[0]['id'],5);// Patho1
-$job6s = Job::getByPatientJobRole($conn, $patient[0]['id'],6);// Second Patho1
+$job3s = Job::getByPatientJobRole($conn, $patient[0]['id'], 3);
+$job4s = Job::getByPatientJobRole($conn, $patient[0]['id'], 4);
+$job5s = Job::getByPatientJobRole($conn, $patient[0]['id'], 5); // Patho1
+$job6s = Job::getByPatientJobRole($conn, $patient[0]['id'], 6); // Second Patho1
 
 $outsideContracts = OutsideContract::getAll($conn);
 $hires = HireList::getAll($conn, $patient[0]['id']);
 
 //var_dump($billings);die();
-
 //$patho2OwnerName = User::getName($conn, $patient[0]['ppathologist_id']);
-
-
 //Prepare Status/step
 $curstatusid = $patient[0]['status_id'];
 $curstatus = Status::getAll($conn, $patient[0]['status_id']);
@@ -690,21 +686,18 @@ if (isset($patient[0]['date_first_report'])) {
 }
 
 $isLastReleaseGroup2SecondPathoAval = FALSE;
-foreach($presultupdate2s as $prsu){
+foreach ($presultupdate2s as $prsu) {
     $result_id = $prsu['id'];
     $job = Job::getByPatientJobRoleUResult($conn, $patient_id, 6, $result_id);
-    $isLastReleaseGroup2SecondPathoAval = isset($job[0]['name'])? TRUE : FALSE;
-    
-    
+    $isLastReleaseGroup2SecondPathoAval = isset($job[0]['name']) ? TRUE : FALSE;
+
+
 //    echo "result_id=";    var_dump($result_id); echo "<br>";
 //    echo "patient_id=";   var_dump($patient_id); echo "<br>";
 //    echo "job=";          var_dump($job); echo "<br>";
 //    echo "isLastReleaseGroup2SecondPathoAval=";          var_dump($isLastReleaseGroup2SecondPathoAval); echo "<br>";echo "<br>";
-
 }
 //die();
-
-
 //เช็คและเตรียมตัวแปรสถานะปัจจุบัน
 require 'includes/status_cur.php';
 
@@ -712,7 +705,7 @@ require 'includes/status_cur.php';
 require 'user_auth.php';
 
 //Move to edit mode
-if(isset($_GET['pautoscroll'])){
+if (isset($_GET['pautoscroll'])) {
     $patient[0]['pautoscroll'] = $_GET['pautoscroll'];
 }
 
@@ -879,7 +872,6 @@ if (isset($curstatus[0]['next3'])) {
 //var_dump($patient);
 //var_dump($statusLists);
 //var_dump($canEditModePage);
-
 ?>
 
 
@@ -889,97 +881,102 @@ if (isset($curstatus[0]['next3'])) {
     <?php require 'blockopen.php'; ?>
     You are not login.
     <?php require 'blockclose.php'; ?>
+    <?php require 'includes/footer.php'; ?>
+    <?php die(); ?>
 <?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital) : ?>
     <?php require 'blockopen.php'; ?>
     You have no authorize to view other hospital group.
     <?php require 'blockclose.php'; ?>
+    <?php require 'includes/footer.php'; ?>
+    <?php die(); ?>
 <?php else : ?>
+<?php endif; ?>
 
 <?php if (!empty($errors)) : ?>
     <br>
     <div class="alert alert-warning" role="alert">
-    <?php foreach ($errors as $error) : ?>
-        <li><?= $error ?></li>
-    <?php endforeach; ?>
+        <?php foreach ($errors as $error) : ?>
+            <li><?= $error ?></li>
+        <?php endforeach; ?>
     </div>
 <?php endif; ?>
 
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
-            <div class="d-flex align-items-center justify-content-between">
-                <a href="/patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>
-            </div>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>
         </div>
     </div>
-    <?php require 'includes/data2DOM.php';?>
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
-            <!--hr noshade="noshade" width="" size="8"-->
-            <?php require 'includes/patient_status.php'; ?>
-        </div>
+</div>
+<?php require 'includes/data2DOM.php'; ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <!--hr noshade="noshade" width="" size="8"-->
+        <?php require 'includes/patient_status.php'; ?>
     </div>
+</div>
 
 
-    <?php $isEnableEditButton = ($isCurUserAdmin || (($isCurStatus_1000 || $isCurStatus_2000) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase)) || (($isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000) && ($isCurrentPathoIsOwnerThisCase))); ?>
-    <div id="patient_detail_section" class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+<?php $isEnableEditButton = ($isCurUserAdmin || (($isCurStatus_1000 || $isCurStatus_2000) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase)) || (($isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000) && ($isCurrentPathoIsOwnerThisCase))); ?>
+<div id="patient_detail_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
 
-            <!--hr noshade="noshade" width="" size="8"-->
-            <h4 align="center"><b>รับเข้า/ใส่ข้อมูลผู้ป่วย</b> <span style="color:orange;"><?= ($curstatusid == "1000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
+        <!--hr noshade="noshade" width="" size="8"-->
+        <h4 align="center"><b>รับเข้า/ใส่ข้อมูลผู้ป่วย</b> <span style="color:orange;"><?= ($curstatusid == "1000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
 
-                <?php if ($curstatusid == "1000" && !$isEditModePageOn) : ?>
-                    <button name="btnmove2000" id="btnmove2000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
+            <?php if ($curstatusid == "1000" && !$isEditModePageOn) : ?>
+                <button name="btnmove2000" id="btnmove2000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
+            <?php endif; ?>
+        </h4>
+
+        <form id="patient_detail" name="" method="post">
+            <?php if ($isEditModePageOn) : ?>
+                <?php if ($isEditModePageForPatientInfoDataOn) : ?>
+                    <?php if ($curstatusid == "1000") : ?> <button name="save_patient_detail_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp; <?php endif; ?>
+                    <button name="save_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>&focus=patient_detail_section">Discard</a>
                 <?php endif; ?>
-            </h4>
-
-            <form id="patient_detail" name="" method="post">
-                <?php if ($isEditModePageOn) : ?>
-                    <?php if ($isEditModePageForPatientInfoDataOn) : ?>
-                        <?php if ($curstatusid == "1000") : ?> <button name="save_patient_detail_next" type="submit" class="btn btn-primary">&nbsp;&nbsp;Finish/Next&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp; <?php endif; ?>
-                        <button name="save_patient_detail" type="submit" class="btn btn-primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
-                        <a class="btn btn-primary" href="patient_edit.php?id=<?= $patient[0]['id']; ?>&focus=patient_detail_section">Discard</a>
-                    <?php endif; ?>
-                <?php else : ?>
-                    <?php if (!$isEditModePageForPatientInfoDataOn) : ?>
-                        <button name="edit_patient_detail" type="submit" class="btn btn-primary" <?= (($curstatusid >= 1000)) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
-                    <?php endif; ?>
+            <?php else : ?>
+                <?php if (!$isEditModePageForPatientInfoDataOn) : ?>
+                    <button name="edit_patient_detail" type="submit" class="btn btn-primary" <?= (($curstatusid >= 1000)) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
                 <?php endif; ?>
-                <?php require 'includes/patient_form_010_detail.php'; ?>
-            </form>
+            <?php endif; ?>
+            <?php require 'includes/patient_form_010_detail.php'; ?>
+        </form>
 
-        </div>
     </div>
-    
-    <div id="patient_detail_section" class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+</div>
 
-            
+<div id="patient_detail_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
 
-        </div>
+
+
     </div>
+</div>
 
-    <?php
-    $userAuthEdit = ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff
+<?php
+$userAuthEdit = ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff
         //|| $isCurUserClinicianCust 
         //|| $isCurUserHospitalCust
-    );
-    $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000
-    );
-    ?>
-    <div id="patient_plan_section" class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            
-            <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</b><span style="color:orange;"> <?= "";// ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
-                <?php if ($hide) : ?>
+        );
+$curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000
+        );
+?>
+<div id="patient_plan_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+
+        <!--hr noshade="noshade" width="" size="8" -->
+        <h4 align="center"><b>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</b><span style="color:orange;"> <?= ""; // ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""  ?></span>
+            <?php if ($hide) : ?>
                 <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
                     <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
                 <?php endif; ?>
-                <?php endif; ?>
-                    
-            </h4>
-            
-            <?php if (false) : ?>
+            <?php endif; ?>
+
+        </h4>
+
+        <?php if (false) : ?>
             <form id="patient_plan" name="" method="post">
                 <?php if ($isEditModePageOn) : ?>
                     <?php if ($isEditModePageForPlaningDataOn) : ?>
@@ -995,133 +992,123 @@ if (isset($curstatus[0]['next3'])) {
                         <p align="left"><button name="edit_patient_plan" type="submit" class="btn btn-primary" disabled <?= ($curstatusid >= 2000) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button></p>
                     <?php endif; ?>
                 <?php endif; ?>
-                        
-                
 
                 <?php //require 'includes/patient_form_020_specimen_type.php'; ?>
-                
-                
 
                 <?php //require 'includes/patient_form_065_assigned_patho.php'; ?>
             </form>
-            <?php endif; ?>
-            
-            <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?>
-            <?php require 'includes/patient_form_015_slide1_add_specimen.php'; ?>
+        <?php endif; ?>
 
-            
+        <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?>
+        <?php require 'includes/patient_form_015_slide1_add_specimen.php'; ?>
 
-            
-            
-            
-
-            
-
-            
-
-            
-        </div>
-    </div>
-
-
-
-    <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ""; // ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            <?php require 'includes/patient_form_030_job1_prepare_specimen.php'; ?>
-            <?php require 'includes/patient_form_035_job2_prepare_specimen.php'; ?>
-        </div>
-    </div>
-
-    <div id="slide_prep_section" class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>เตรียมสไลด์(จุลพยาธิวิทยา)</b><span style="color:orange;"><?= "";// ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
-        </div>
-    </div>
-
-    <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
-        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>จ้างทำแลปเซลล์วิทยา</b><span style="color:orange;"><?=  "";// ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-            <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
-        </div>
-    </div>
-
-
-<div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span></h4>
-        <span id="sp_status_message">
-            <?php
-            
-            if($patient[0]['request_sp_slide'] == 1){
-                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>';
-            }elseif ($patient[0]['request_sp_slide'] == 2) {
-                echo '<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นย้อมพิเศษ</h3>';
-            }else{
-                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;"></h3>';
-            }
-        ?>
-        </span>
-
-        
-        <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
-        <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
-        <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
-        
-        <hr>
-        <!--<form id="slide_prep" name="" method="post">-->
-
-            <div align=""  class="mb-3">
-                    <label for="p_sp_patho_comment">Comment</label><br>
-
-                    <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
-                    <a class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
-                    <a class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
-
-            </div>
-
-                    <!--<button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= ( !$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>-->
-                    <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
-                    <button name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
-
-        <!--</form>-->
-       
     </div>
 </div>
 
 
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-
-    <div id="diag_result_section" class="container-fluid pt-4 px-4">
-        <div class="bg-nb bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
-            <h4 align="center"><b>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
-                
-            </h4>
-            
-            
-                
-            <?php if ($isUpdateResultAval) : ?>
-                <!--hr noshade="noshade" width="" size="8"-->
-                <?php require 'includes/patient_form_080_job6_result.php'; ?>
-            <?php endif; ?>
+<?php if (!$isCurUserCust): ?>
+    <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
+        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ""; // ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
+            <?php require 'includes/patient_form_030_job1_prepare_specimen.php'; ?>
+            <?php require 'includes/patient_form_035_job2_prepare_specimen.php'; ?>
         </div>
     </div>
-
 <?php endif; ?>
+
+<?php if (!$isCurUserCust): ?>
+    <div id="slide_prep_section" class="container-fluid pt-4 px-4">
+        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>เตรียมสไลด์(จุลพยาธิวิทยา)</b><span style="color:orange;"><?= ""; // ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
+            <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (!$isCurUserCust): ?>
+    <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
+        <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>จ้างทำแลปเซลล์วิทยา</b><span style="color:orange;"><?= ""; // ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
+            <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (!$isCurUserCust): ?>
+
+    <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
+        <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
+            <span id="sp_status_message">
+                <?php
+                if ($patient[0]['request_sp_slide'] == 1) {
+                    echo '<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>';
+                } elseif ($patient[0]['request_sp_slide'] == 2) {
+                    echo '<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นย้อมพิเศษ</h3>';
+                } else {
+                    echo '<h3 align="center" style="color: #ff8000;font-weight: bold;"></h3>';
+                }
+                ?>
+            </span>
+
+
+            <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
+            <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
+            <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
+
+            <hr>
+            <!--<form id="slide_prep" name="" method="post">-->
+
+            <div align=""  class="mb-3">
+                <label for="p_sp_patho_comment">Comment</label><br>
+
+                <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+                <a class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
+                <a class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
+
+            </div>
+
+                                <!--<button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (!$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>-->
+            <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
+            <button name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
+
+            <!--</form>-->
+
+        </div>
+    </div>
+<?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="diag_result_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <h4 align="center"><b>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
+
+        </h4>
+
+
+
+        <?php if ($isUpdateResultAval) : ?>
+            <!--hr noshade="noshade" width="" size="8"-->
+            <?php require 'includes/patient_form_080_job6_result.php'; ?>
+        <?php endif; ?>
+    </div>
+</div>
+
+
 
 
 
@@ -1140,7 +1127,7 @@ if (isset($curstatus[0]['next3'])) {
 
 <?php require 'includes/footer.php'; ?>
 
-    
+
 
 <script src="/ajax_slide1_specimen/specimenlist1.js?v3x"></script>
 <script src="/ajax_slide2__special/specialslide2.js?v3x"></script>
@@ -1161,23 +1148,23 @@ if (isset($curstatus[0]['next3'])) {
 <script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        //set active tab
-        $("#patienttab").addClass("active");
+                        $(document).ready(function () {
+                            //set active tab
+                            $("#patienttab").addClass("active");
 
-        // prevent from unsave
-        function onNosave(e) {
-            e.preventDefault();
-            e.returnValue = '';
-        }
+                            // prevent from unsave
+                            function onNosave(e) {
+                                e.preventDefault();
+                                e.returnValue = '';
+                            }
 
-        $("input").change(function() {
-            window.addEventListener("beforeunload", onNosave);
-        });
+                            $("input").change(function () {
+                                window.addEventListener("beforeunload", onNosave);
+                            });
 
-        $(":submit").click(function() {
-            window.removeEventListener("beforeunload", onNosave);
-        })
+                            $(":submit").click(function () {
+                                window.removeEventListener("beforeunload", onNosave);
+                            })
 
-    });
+                        });
 </script>
