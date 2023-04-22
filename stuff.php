@@ -2,6 +2,7 @@
 
 require 'includes/init.php';
 ?>
+<?php require 'user_auth.php'; ?>
 <?php require 'includes/header.php'; ?>
 
 <div class="row g-3 mx-3">

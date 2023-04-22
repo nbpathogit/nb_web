@@ -3,9 +3,10 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 
-require 'includes/header.php';
+
 ?>
 <?php require 'user_auth.php'; ?>
+<?php require 'includes/header.php'; ?>
 <?php if (!Auth::isLoggedIn()) : ?>
     You are not login.<br>
     คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน

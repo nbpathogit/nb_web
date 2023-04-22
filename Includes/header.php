@@ -73,6 +73,9 @@
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
+                        <?php if(isset($_SESSION['adminusername'])){
+                            echo '<h6 style="color:red;" class="mb-0"><b>Admin:'. $_SESSION['adminusername'] .'</b></h6>';
+                        }  ?>
                         <h6 class="mb-0"><?= $_SESSION['username'] ?></h6>
                         <span><?= isset($_SESSION['usergroup']->ugroup) ? $_SESSION['usergroup']->ugroup : "" ?></span>
                     </div>
@@ -102,6 +105,15 @@
                             <a id="price_tab" href="nb_price.php" class="nav-item nav-link">รายการค่าบริการ</a>
                         </div>
                     </div>
+                    
+                    <?php if($isCurUserAdmin): ?>
+                    <div class="nav-item dropdown">
+                        <a href="about.php" id="admin_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แอดมินเมนู</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a id="user_sim_admin_tab" href="user_sim_admin.php" class="nav-item nav-link">จำลองผู้ใช้</a>
+                        </div>
+                    </div>
+                    <?php  endif; ?>
                     
                     <div class="nav-item dropdown">
                         <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>

@@ -94,6 +94,28 @@ class Auth {
 //                die();
     }
     
+    /**
+     * Log in using the session
+     *
+     * @return void
+     */
+    public static function adminSimulatelogin($conn, $userid) {
+        $user = User::getByID($conn, $userid);
+        $userid = $user->id;
+        $ugroup = Ugroup::getByID($conn, $user->ugroup_id);
+
+        //session_regenerate_id(false);
+
+        $_SESSION['adminusername'] = $_SESSION['username'];
+        
+        $_SESSION['username'] = $user->username;
+        $_SESSION['user'] = $user;
+        $_SESSION['userid'] = $userid;
+        $_SESSION['usergroup'] = $ugroup;
+
+
+    }
+    
     public static function getSrvTimeRemain() {
         date_default_timezone_set('Asia/Bangkok');
         $curTime = Time();

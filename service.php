@@ -2,6 +2,7 @@
 
 require 'includes/init.php';
 ?>
+<?php require 'user_auth.php'; ?>
 <?php require 'includes/header.php'; ?>
 <h3>บริการของเรา</h3>
 <ul>
