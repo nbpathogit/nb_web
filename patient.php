@@ -59,7 +59,7 @@ require 'user_auth.php';
 <script type="text/javascript">
     var skey = "<?= $_SESSION['skey']; ?>";
     var ugroup_id = <?= $_SESSION['user']->ugroup_id ?>;
-    <?php if (isset($isCurUserAdmin)) : ?>
+    <?php if ($isCurUserAdmin) : ?>
         var isCurUserAdmin = 1;
     <?php else : ?>
         var isCurUserAdmin = 0;

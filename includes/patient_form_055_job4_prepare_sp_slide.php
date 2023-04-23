@@ -19,11 +19,11 @@
         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
         <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
     </span>  
-
+    <?php if (!$isCurUserCust): ?>
     <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#add_modal_job4" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job4" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job4" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
-    
+    <?php endif; ?>
 
 </p>
     

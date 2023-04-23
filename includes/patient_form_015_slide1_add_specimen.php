@@ -10,10 +10,11 @@
     </span>  
     <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal1"> Add Specimen </button>-->
     <!--<button id="refresh_spcimen_list1" class="btn btn-primary" >Refresh</button>-->
+    <?php if (!$isCurUserCust): ?>
     <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#addSpecimenModal1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_spcimen_list1" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#spcimen_tbl_list1" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
-    
+    <?php endif; ?>
     
 </p>
 

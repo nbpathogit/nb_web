@@ -925,7 +925,9 @@ if (isset($curstatus[0]['next3'])) {
         <h4 align="center"><b>รับเข้า/ใส่ข้อมูลผู้ป่วย</b> <span style="color:orange;"><?= ($curstatusid == "1000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
 
             <?php if ($curstatusid == "1000" && !$isEditModePageOn) : ?>
+                <?php if (!$isCurUserCust): ?>
                 <button name="btnmove2000" id="btnmove2000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
+                <?php endif; ?>
             <?php endif; ?>
         </h4>
 
@@ -938,7 +940,9 @@ if (isset($curstatus[0]['next3'])) {
                 <?php endif; ?>
             <?php else : ?>
                 <?php if (!$isEditModePageForPatientInfoDataOn) : ?>
+                    <?php if (!$isCurUserCust): ?>
                     <button name="edit_patient_detail" type="submit" class="btn btn-primary" <?= (($curstatusid >= 1000)) ? "" : "disabled"; ?>>&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
             <?php require 'includes/patient_form_010_detail.php'; ?>
@@ -1067,15 +1071,16 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
             <label for="p_sp_patho_comment">Comment</label><br>
 
             <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+            <?php if (!$isCurUserCust): ?>
             <a class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
             <a class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
-
+            <?php endif; ?>
         </div>
 
-                                <!--<button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (!$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>-->
+         <?php if (!$isCurUserCust): ?>
         <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
         <button name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
-
+        <?php endif; ?>
         <!--</form>-->
 
     </div>
