@@ -52,7 +52,7 @@
 
             <div class="row pt-3 mb-3 g-5 align-items-center">
                 <div class="col-auto">
-                    <label for="username">ชื่อเข้าใช้</label>
+                    <label for="username">ชื่อเข้าใช้(ห้ามมีเว้นวรรค์)</label>
                     <input class="form-control" name="username" type="text" id="username_add" size="20" maxlength="10" value="">
                     <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 6-10 ตัวอักษร</span>
                 </div>
