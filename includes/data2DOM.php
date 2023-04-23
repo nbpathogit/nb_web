@@ -241,5 +241,10 @@ $isCurrentPathoIsSecondOwneThisCase = false;?>
 <li class="user_id_for_edit" tabindex="<?= $user[0]['uid'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >class::user_id_for_edit::$user[0]['uid']::<?= $user[0]['uid'] ?> </li>
 <?php endif; ?>
 
+<?php // user id use in useredit.php ?>   
+<?php if (isset( $isCurUserCust   )): ?>
+<li class="isCurUserCust" tabindex="<?= $isCurUserCust ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  > isCurUserCust::<?= $isCurUserCust; ?> </li>
+<?php endif; ?>
+
 
 </span>

@@ -142,7 +142,8 @@ $(document).ready(function () {
 
                 if ((ugroup_id == '5000' || ugroup_id == '5100')) {
                     if (row[9] == "ยังไม่ออกผล") {
-                        var data = '<div><h5>' + data;
+                        //var data = '<div><h5>' + data;
+                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '">' + data + '</a>';
                     } else {
                         var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '">' + data + '</a>';
                     }

@@ -16,10 +16,6 @@ Auth::requireLogin();
 if (!Auth::isLoggedIn()) {
     Util::alert(" You are not login.");
     die();
-} elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital) {
-    Util::alert("You have no authorize to view other hospital group.");
-} else {
-    //Allow to do next 
 }
 
 
@@ -53,6 +49,12 @@ if (isset($_GET['id'])) {
 } else {
     $patient = null;
     Util::alert('no data');
+    die();
+}
+
+require 'user_auth.php';
+if (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital) {
+    Util::alert("You have no authorize to view other hospital group.");
     die();
 }
 

@@ -93,5 +93,5 @@ $cur_user_id = $_SESSION['user']->id;
 // หมอปัจจุบัน อยู่ในโรงพยาบาลที่สังกัดหรือไม่
 //$isUnderCurHospital = false;
 if (isset($patient[0]['phospital_id'])) {
-    $isUnderCurHospital = $cur_user->uhospital_id == $patient[0]['phospital_id']; // Is current user under current current hospital
+    $isUnderCurHospital = $_SESSION['user']->uhospital_id == $patient[0]['phospital_id']; // Is current user under current current hospital
 }

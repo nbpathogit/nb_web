@@ -123,8 +123,10 @@ $isSetShowaddResultButton = true;
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <!--<div class="col">-->
             <?php $isEnable_critical_report = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
+            <?php if(!$isCurUserCust):  ?>
             <input class="form-check-input border-danger" type="checkbox" value="1" id="critical_report" name="critical_report" <?= ($isEnable_critical_report) ? '' : 'disabled'; ?>   <?= $patient[0]['iscritical'] ? "checked" :"" ?>>
             <label class="form-check-label text-danger" for="critical_report" ><B> Critical Report </B></label>
+            <?php endif; ?>
         <!--</div>-->
 
     </div>
@@ -134,10 +136,13 @@ $isSetShowaddResultButton = true;
  </div>
 
 <p align="center">
+<?php if(!$isCurUserCust):  ?>
+
+
 <?php $isShow_btnmove12000 = $curstatusid != "12000" && $isCurrentPathoIsOwnerThisCase; ?> 
 <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isShow_btnmove12000 ? '' : 'disabled'; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
 
-    <?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase && !$isLastReleaseGroup2DateNull; ?> 
+<?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentPathoIsOwnerThisCase && !$isLastReleaseGroup2DateNull; ?> 
 <button class="btn btn-primary" id="add_new_report_section_btn"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มกล่องข้อความรายงานผลใหม่">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
 
 
@@ -156,10 +161,15 @@ $isSetShowaddResultButton = true;
     ?>
 <button name="btn2review13000" id="btn2review13000"  <?= ($isShowSendToReviewbtn)? '':'disabled'; ?>  class="btn btn-primary">&nbsp;&nbsp;Request Second Pathologist Review&nbsp;&nbsp;</button>
 <button name="btn_release" id="btn_release" type="submit" class="btn btn-primary" <?= ($isShow_btn_release)? '':'disabled'; ?> >&nbsp;&nbsp;Release Report&nbsp;&nbsp;</button>
-      
+<?php endif; ?>  
+
 <?php if (!($isEditModePageOn || $isEditModePageForFinResultDataOn)) : ?>
-            <p align="center"><a class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>&preview" target="_blank">PreView PDF</a> </p>
+<?php if(!$isCurUserCust):  ?>
+            <p align="center"><a class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>&preview" target="_blank"  >PreView PDF</a> </p>
 <?php endif; ?>
+            
+<?php endif; ?>
+            <p align="center"><a class="btn btn-primary" href="patient_pdf.php?id=<?= $patient[0]['id']; ?>" target="_blank"  >View PDF</a> </p>
 </p>
 
 <?php require 'patient_form_080_job6__select_rs_modal.php'; ?>

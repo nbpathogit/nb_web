@@ -65,4 +65,4 @@ require 'user_auth.php';
         var isCurUserAdmin = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="js/patient.js?v=2"></script>
+<script type="text/javascript" src="js/patient.js?v=2xx"></script>

@@ -56,3 +56,8 @@ function get_lastest_job6_id(){
 function get_user_id_for_edit(){
     return $(".user_id_for_edit").attr('tabindex');
 }
+
+function get_isCurUserCust(){
+    return $(".isCurUserCust").attr('tabindex');
+}
+

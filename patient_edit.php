@@ -967,7 +967,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
 
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</b><span style="color:orange;"> <?= ""; // ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""  ?></span>
+        <h4 align="center"><b>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</b><span style="color:orange;"> <?= ""; // ($curstatusid == "2000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span>
             <?php if ($hide) : ?>
                 <?php if ($curstatusid == "2000" && !$isEditModePageOn) : ?>
                     <button name="btnmove3000_10000" id="btnmove3000_10000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
@@ -1010,7 +1010,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
         <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ""; // ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
+            <h4 align="center"><b>เตรียมชิ้นเนื้อ</b><span style="color:orange;"><?= ""; // ($curstatusid == "3000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
             <?php require 'includes/patient_form_030_job1_prepare_specimen.php'; ?>
             <?php require 'includes/patient_form_035_job2_prepare_specimen.php'; ?>
         </div>
@@ -1021,7 +1021,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     <div id="slide_prep_section" class="container-fluid pt-4 px-4">
         <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>เตรียมสไลด์(จุลพยาธิวิทยา)</b><span style="color:orange;"><?= ""; // ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
+            <h4 align="center"><b>เตรียมสไลด์(จุลพยาธิวิทยา)</b><span style="color:orange;"><?= ""; // ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
             <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
         </div>
     </div>
@@ -1031,56 +1031,56 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>จ้างทำแลปเซลล์วิทยา</b><span style="color:orange;"><?= ""; // ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
+            <h4 align="center"><b>จ้างทำแลปเซลล์วิทยา</b><span style="color:orange;"><?= ""; // ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
             <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
         </div>
     </div>
 <?php endif; ?>
 
-<?php if (!$isCurUserCust): ?>
-
-    <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
-        <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-            <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""   ?></span></h4>
-            <span id="sp_status_message">
-                <?php
-                if ($patient[0]['request_sp_slide'] == 1) {
-                    echo '<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>';
-                } elseif ($patient[0]['request_sp_slide'] == 2) {
-                    echo '<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นย้อมพิเศษ</h3>';
-                } else {
-                    echo '<h3 align="center" style="color: #ff8000;font-weight: bold;"></h3>';
-                }
-                ?>
-            </span>
 
 
-            <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
-            <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
-            <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
+<div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <!--hr noshade="noshade" width="" size="8" -->
+        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
+        <span id="sp_status_message">
+            <?php
+            if ($patient[0]['request_sp_slide'] == 1) {
+                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>';
+            } elseif ($patient[0]['request_sp_slide'] == 2) {
+                echo '<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นย้อมพิเศษ</h3>';
+            } else {
+                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;"></h3>';
+            }
+            ?>
+        </span>
 
-            <hr>
-            <!--<form id="slide_prep" name="" method="post">-->
 
-            <div align=""  class="mb-3">
-                <label for="p_sp_patho_comment">Comment</label><br>
+        <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
+        <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
+        <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
 
-                <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
-                <a class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
-                <a class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
+        <hr>
+        <!--<form id="slide_prep" name="" method="post">-->
 
-            </div>
+        <div align=""  class="mb-3">
+            <label for="p_sp_patho_comment">Comment</label><br>
 
-                                <!--<button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (!$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>-->
-            <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
-            <button name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
-
-            <!--</form>-->
+            <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+            <a class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
+            <a class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
 
         </div>
+
+                                <!--<button name="edit_sp_prep_slide" type="submit" class="btn btn-primary" <?= (!$isCurrentPathoIsOwnerThisCase ) ? "disabled" : ""; ?>>&nbsp;&nbsp;Edit Comment&nbsp;&nbsp;</button>-->
+        <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
+        <button name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
+
+        <!--</form>-->
+
     </div>
-<?php endif; ?>
+</div>
+
 
 
 
@@ -1130,7 +1130,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 <script src="/ajax_slide1_specimen/specimenlist1.js?v3x"></script>
-<script src="/ajax_slide2__special/specialslide2.js?v3x"></script>
+<script src="/ajax_slide2__special/specialslide2.js?v3xxx"></script>
 
 <script src="/ajax_job1_crossection/job1.js?v2"></script>
 <script src="/ajax_job2_assis_cross/job2.js?v2"></script>
@@ -1148,23 +1148,23 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
-                        $(document).ready(function () {
-                            //set active tab
-                            $("#patienttab").addClass("active");
+                    $(document).ready(function () {
+                        //set active tab
+                        $("#patienttab").addClass("active");
 
-                            // prevent from unsave
-                            function onNosave(e) {
-                                e.preventDefault();
-                                e.returnValue = '';
-                            }
+                        // prevent from unsave
+                        function onNosave(e) {
+                            e.preventDefault();
+                            e.returnValue = '';
+                        }
 
-                            $("input").change(function () {
-                                window.addEventListener("beforeunload", onNosave);
-                            });
-
-                            $(":submit").click(function () {
-                                window.removeEventListener("beforeunload", onNosave);
-                            })
-
+                        $("input").change(function () {
+                            window.addEventListener("beforeunload", onNosave);
                         });
+
+                        $(":submit").click(function () {
+                            window.removeEventListener("beforeunload", onNosave);
+                        })
+
+                    });
 </script>

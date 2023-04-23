@@ -53,7 +53,7 @@
 <script src="/js/script.js?v13xxxxxxxxxxxxx"></script>
 
 <script src="/ajax_user/user.js?v0xxxxxxxxxxx"></script>
-<script src="/ajax_read_dom/readdom.js?v2xxxxxxx"></script>
+<script src="/ajax_read_dom/readdom.js?v2xxxxxxxx"></script>
 
 
 

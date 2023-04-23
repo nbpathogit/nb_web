@@ -264,9 +264,9 @@ $('#pspecimen_for_select2').on('change', function () {
 
 
 $(document).ready(function () {
-    updateSelectionSpeceman2(false);
-    refreshSpecimenList2(false);
-
+        updateSelectionSpeceman2(false);
+        refreshSpecimenList2(false);
+    
 });
 
 
