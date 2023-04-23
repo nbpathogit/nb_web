@@ -65,6 +65,7 @@ $isCurUserLabOfficerNB = $u_cur_group_id->id == 2200;
 $isCurUserAdminStaff = $u_cur_group_id->id == 2500;
 
 //
+$isCurUserNB = $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500;
 $isCurUserGeneralNB = $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500;
 
 // แพทย์ผู้ส่ง
