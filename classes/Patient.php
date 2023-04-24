@@ -121,7 +121,7 @@ class Patient
                 FROM patient ";
 
         if ($id != 0) {
-            $sql = $sql . " WHERE id = " . $id . "and movetotrash = 0";
+            $sql = $sql . " WHERE id = " . $id . " and movetotrash = 0";
         }else{
             $sql = $sql . " WHERE movetotrash = 0";
         }

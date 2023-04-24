@@ -4,6 +4,19 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 require 'user_auth.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['trash_id'])) {
+        if (User::movetotrash($conn, $_POST['trash_id'])) {
+//        if (User::setUserStatus($conn, $_POST['trash_id'])) {
+            Url::redirect('/user.php');
+        } else {
+            Url::redirect('/user.php');
+        }
+    }
+}
+
+
 //$users = User::getAll($conn);
 
 // $ugroups = Ugroup::getAll($conn);
@@ -107,10 +120,12 @@ require 'user_auth.php';
                 {
                     "render": function(data, type, row) {
 
-                        var renderdata = '<a href="user_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="user_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i></a>';
-
+                        var renderdata = '<a href="user_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="user_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i> Edit</a>';
+                        
+                        renderdata += '<a href="user_trash.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm trash"><i class="fa-solid fa-trash-can"></i> Trash</a>';
+                        
                         <?php if ($isCurUserAdmin) : ?>
-                            renderdata += '<a href="user_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i></a>';
+                            renderdata += '<a href="user_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i>Delete</a>';
                         <?php endif; ?>
 
                         return renderdata;
@@ -183,7 +198,7 @@ require 'user_auth.php';
             var data = table.row($(this).parents('tr')).data();
 
             e.preventDefault();
-            if (confirm("Are you sure?")) {
+            if (confirm("Item will permanent delete. Are you sure?")) {
                 var frm = $("<form>");
                 frm.attr('method', 'post');
                 frm.attr('action', "user_del.php?id=" + data[0]);
@@ -191,6 +206,33 @@ require 'user_auth.php';
                 frm.submit();
             }
         });
+        
+        
+        // trash patient
+        $('#user_table tbody').on('click', 'a.trash', function (e) {
+        var data = table.row($(this).parents('tr')).data();
+
+        e.preventDefault();
+        if (confirm("Item will move to trash. Are you sure?")) {
+            let frm = $("<form>");
+
+            frm.attr('method', 'post');
+            frm.attr('action', "user.php");
+
+            $('<input>', {
+                type: 'hidden',
+                id: 'foo',
+                name: 'trash_id',
+                value:  data[0]
+            }).appendTo(frm);
+
+            frm.appendTo("body");
+            frm.submit();
+            
+
+        }
+        
+    });
 
 
         // set active tab

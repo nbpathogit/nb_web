@@ -261,7 +261,7 @@ $(document).ready(function () {
         }
     });
     
-    // trash user
+    // trash patient
     $('#patient_table tbody').on('click', 'a.trash', function (e) {
         var data = table.row($(this).parents('tr')).data();
 

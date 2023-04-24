@@ -95,6 +95,7 @@ class User
         if ($id != 0) {
             $sql = $sql . " and U.id = " . $id;
         }
+        $sql = $sql . " and U.movetotrash = 0 ";
 
         $sql = $sql . " ORDER BY U.id";
 
@@ -117,6 +118,7 @@ class User
         if ($id != 0) {
             $sql = $sql . " and U.id = " . $id;
         }
+        $sql = $sql . " and U.movetotrash = 0 ";
 
         $sql = $sql . " ORDER BY U.id";
 
@@ -139,6 +141,7 @@ class User
                 or U.ugroup_id = 2100
                 or U.ugroup_id = 2200
                 or U.id = 0 )
+                and U.movetotrash = 0 
                 ORDER BY U.id ASC";
 
 
@@ -157,7 +160,8 @@ class User
                 and U.uhospital_id  = H.id
                 and 
                 (U.ugroup_id = 5000 
-                or U.id = 0 )";
+                or U.id = 0 )
+                and U.movetotrash = 0";
 
 
         $results = $conn->query($sql);
@@ -459,6 +463,13 @@ class User
         $user = User::getByUserName($conn, $username);
 
         return true;
+    }
+    
+    public static function movetotrash($conn, $id)
+    {
+        $sql = "UPDATE `user` SET `movetotrash` = 1 WHERE `user`.`id` = $id"; 
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute();
     }
     
     public static function setUserStatus($conn, $id, $status)
