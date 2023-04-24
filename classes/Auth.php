@@ -89,6 +89,16 @@ class Auth {
 
         
         $_SESSION['is_logged_in'] = true;
+        
+        
+        
+        
+        
+//        Log::setuser($conn,  $_SESSION['username'], $user->name .' '. $user->lastname);
+        $_SESSION['log_username'] = $_SESSION['username'];
+        $_SESSION['log_name'] = $user->name .' '. $user->lastname;
+        $thai_date = Util::get_curreint_thai_date_time();
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "login", "login", $thai_date);
 //                var_dump($user);
 //                var_dump($ugroup);
 //                die();
@@ -130,6 +140,11 @@ class Auth {
      * @return void
      */
     public static function logout() {
+        $conn = require 'includes/db.php';
+        
+        $thai_date = Util::get_curreint_thai_date_time();
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "logout", "logout", $thai_date);
+        
         $_SESSION = [];
         // If it's desired to kill the session, also delete the session cookie.
         // Note: This will destroy the session, and not just the session data!
