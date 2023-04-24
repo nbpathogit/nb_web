@@ -6,6 +6,15 @@ Auth::requireLogin();
 
 require 'user_auth.php';
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['trash_id'])) {
+        if (Patient::movetotrash($conn, $_POST['trash_id'])) {
+            Url::redirect('/patient.php');
+        } else {
+            Url::redirect('/patient.php');
+        }
+    }
+}
 ?>
 
 <?php require 'includes/header.php'; ?>
@@ -65,4 +74,4 @@ require 'user_auth.php';
         var isCurUserAdmin = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="js/patient.js?v=2xx"></script>
+<script type="text/javascript" src="js/patient.js?v=2xxxxx"></script>

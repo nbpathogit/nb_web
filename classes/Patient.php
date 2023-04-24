@@ -121,7 +121,9 @@ class Patient
                 FROM patient ";
 
         if ($id != 0) {
-            $sql = $sql . " WHERE id = " . $id;
+            $sql = $sql . " WHERE id = " . $id . "and movetotrash = 0";
+        }else{
+            $sql = $sql . " WHERE movetotrash = 0";
         }
 
         $results = $conn->query($sql);
@@ -157,7 +159,8 @@ class Patient
         if ($start != '0') {
             $sql .= " and date(p.date_1000) >= '{$start}'";
         }
-
+        
+        $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
 
         $results = $conn->query($sql);
@@ -186,7 +189,7 @@ class Patient
         if ($start != '0') {
             $sql .= " and date(p.date_1000) >= '{$start}'";
         }
-
+        $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
 
         $results = $conn->query($sql);
@@ -215,7 +218,7 @@ class Patient
         if ($start != '0') {
             $sql .= " and date(p.date_1000) >= '{$start}'";
         }
-
+        $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
 
         $results = $conn->query($sql);
@@ -246,7 +249,8 @@ class Patient
         if ($start != '0') {
             $sql .= " and date(p.date_1000) >= '{$start}'";
         }
-
+        
+        $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
 
         $results = $conn->query($sql);
@@ -883,6 +887,21 @@ class Patient
 
         return $stmt->execute();
     }
+
+    
+    public static function movetotrash($conn, $id)
+    {
+        $sql = "UPDATE patient
+                SET movetotrash = 1
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+ 
+        return $stmt->execute();
+    }
+
 
 
     //    ++Example table input

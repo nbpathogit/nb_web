@@ -105,16 +105,17 @@ $(document).ready(function () {
                         renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
                     }
                 }
-                else
-                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
-
-
-                if (isCurUserAdmin) {
-                    renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
-                }
-
-                return renderdata;
-            },
+                    else {
+                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                        renderdata += '<a href="patient_trash.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm trash"><i class="fa-solid fa-trash-can"></i> Trash</a>';
+                     
+                        if (isCurUserAdmin) {
+                            renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
+                        }
+                        
+                    }
+                    return renderdata;
+                },
             "targets": -1
         },
         {
@@ -251,13 +252,39 @@ $(document).ready(function () {
         var data = table.row($(this).parents('tr')).data();
 
         e.preventDefault();
-        if (confirm("Are you sure?")) {
+        if (confirm("Item will permanent delete. Are you sure?")) {
             var frm = $("<form>");
             frm.attr('method', 'post');
             frm.attr('action', "patient_del.php?id=" + data[0]);
             frm.appendTo("body");
             frm.submit();
         }
+    });
+    
+    // trash user
+    $('#patient_table tbody').on('click', 'a.trash', function (e) {
+        var data = table.row($(this).parents('tr')).data();
+
+        e.preventDefault();
+        if (confirm("Item will move to trash. Are you sure?")) {
+            let frm = $("<form>");
+
+            frm.attr('method', 'post');
+            frm.attr('action', "patient.php");
+
+            $('<input>', {
+                type: 'hidden',
+                id: 'foo',
+                name: 'trash_id',
+                value: data[0]
+            }).appendTo(frm);
+
+            frm.appendTo("body");
+            frm.submit();
+            
+
+        }
+        
     });
 
     // set active tab
