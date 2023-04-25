@@ -1134,7 +1134,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 
-<script src="/ajax_slide1_specimen/specimenlist1.js?v3x"></script>
+<script src="/ajax_slide1_specimen/specimenlist1.js?v3xปปปxxxxxx"></script>
 <script src="/ajax_slide2__special/specialslide2.js?v3xxx"></script>
 
 <script src="/ajax_job1_crossection/job1.js?v2"></script>

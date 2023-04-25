@@ -37,7 +37,7 @@ function updateSelectionSpeceman1(isalert) {
             var datajson = JSON.parse(data);
 
             if (datajson == "" || datajson == null) {
-                $('#pspecimen_for_select1 option1').remove();
+                $('#pspecimen_for_select1 option').remove();
                 $('#pspecimen_for_select1').append('<option >No Data for this hospital</option>');
                 $('#pspecimen_for_select1').prop('disabled', true);
                 $('#add_spcimen_list1').prop('disabled', true);
@@ -241,8 +241,41 @@ function delbill1(billid,patientid) {
 
 //on select hospital change 
 $('#phospital_select_for_price1').on('change', function () {
-    //update drop down list of specimen
-    updateSelectionSpeceman1(true);
+    var hospital_id = $('#phospital_select_for_price1 option').filter(':selected').val();
+    if (hospital_id == -1) {
+        $("#specimen_num1").val('');
+        $("#specimen_for_specimen1").val('');
+        $("#price_for_specimen1").val('');
+        $("#comment_for_specimen1").val('=ใส่ข้อมูลเอง=');
+        $('#add_spcimen_list1').prop('disabled', false);
+
+        $("#specimen_num1").prop('readonly', false);
+        $("#specimen_for_specimen1").prop('readonly', false);
+        $("#price_for_specimen1").prop('readonly', false);
+        $("#comment_for_specimen1").prop('readonly', true);
+
+
+        $('#pspecimen_for_select1 option').remove();
+        $('#pspecimen_for_select1').append('<option ></option>');
+        $('#pspecimen_for_select1').prop('disabled', true);
+
+    } else {
+
+        $("#specimen_num1").val('');
+        $("#specimen_for_specimen1").val('');
+        $("#price_for_specimen1").val('');
+        $("#comment_for_specimen1").val('');
+        $('#add_spcimen_list1').prop('disabled', true);
+        
+        $("#specimen_num1").prop('readonly', true);
+        $("#specimen_for_specimen1").prop('readonly', true);
+        $("#price_for_specimen1").prop('readonly', true);
+        $("#comment_for_specimen1").prop('readonly', true);
+        
+                //update drop down list of specimen
+        updateSelectionSpeceman1(true);
+
+    }
 });
 
 //on select specimen change

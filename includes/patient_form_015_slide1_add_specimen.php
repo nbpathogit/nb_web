@@ -105,7 +105,7 @@
                 <div class=" <?= $isBorder ? "border" : "" ?>">
                     <label for="phospital_select_for_price1" class="">เลือกโรงพยาบาล</label>
                     <select name="phospital_select_for_price1" id="phospital_select_for_price1" class="form-select" <?= ( true ) ? "" : " disabled readonly " ?> >
-                        <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
+                        <option value="-1">ใส่ข้อมูลเอง</option>
                         <?php foreach ($hospitals as $hospital): ?>
                             <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
                             <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= ($hospital['id'] == 0) ? "โรงพยาบาลราคามาตรฐาน" : $hospital['hospital']; ?></option>
