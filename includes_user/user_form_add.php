@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-auto">
                     <label for="password">รหัสผ่าน</label>
-                    <input class="form-control" name="password" type="text" id="password_add" size="20" maxlength="10">
+                    <input class="form-control" name="password" type="text" id="password_add" size="20" maxlength="10" value="changeme">
                     <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 5 ตัวอักษรขึ้นไป</span>
                 </div>
             </div>
