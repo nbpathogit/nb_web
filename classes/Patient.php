@@ -904,6 +904,17 @@ class Patient
         return $stmt->execute();
     }
 
+    public static function delete2($conn,$id)
+    {
+        $sql = "DELETE FROM patient
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 
 
     //    ++Example table input

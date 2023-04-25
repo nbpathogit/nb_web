@@ -252,10 +252,19 @@ $(document).ready(function () {
         var data = table.row($(this).parents('tr')).data();
 
         e.preventDefault();
-        if (confirm("Item will permanent delete. Are you sure?")) {
-            var frm = $("<form>");
+        if (confirm("Item will move to trash. Are you sure?")) {
+            let frm = $("<form>");
+
             frm.attr('method', 'post');
-            frm.attr('action', "patient_del.php?id=" + data[0]);
+            frm.attr('action', "patient.php");
+
+            $('<input>', {
+                type: 'hidden',
+                id: 'foo',
+                name: 'delete_id',
+                value: data[0]
+            }).appendTo(frm);
+
             frm.appendTo("body");
             frm.submit();
         }

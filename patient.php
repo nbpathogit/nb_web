@@ -14,6 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Url::redirect('/patient.php');
         }
     }
+    if (isset($_POST['delete_id'])) {
+        if (Patient::delete2($conn, $_POST['delete_id'])) {
+            Url::redirect('/patient.php');
+        } else {
+            Url::redirect('/patient.php');
+        }
+    }
 }
 ?>
 
@@ -74,4 +81,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var isCurUserAdmin = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="js/patient.js?v=2xxxxx"></script>
+<script type="text/javascript" src="js/patient.js?v=2xxxxxx"></script>
