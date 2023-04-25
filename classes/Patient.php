@@ -891,6 +891,8 @@ class Patient
     
     public static function movetotrash($conn, $id)
     {
+        $thai_date = Util::get_curreint_thai_date_time();
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::movetotrash::id", $id, $thai_date);
         $sql = "UPDATE patient
                 SET movetotrash = 1
                 WHERE id = :id";
