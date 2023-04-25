@@ -11,75 +11,75 @@
     <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal1"> Add Specimen </button>-->
     <!--<button id="refresh_spcimen_list1" class="btn btn-primary" >Refresh</button>-->
     <?php if (!$isCurUserCust): ?>
-    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#addSpecimenModal1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
-    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_spcimen_list1" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
-    <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#spcimen_tbl_list1" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
+        <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#addSpecimenModal1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+        <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_spcimen_list1" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
+        <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#spcimen_tbl_list1" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
     <?php endif; ?>
-    
+
 </p>
 
 <?php $dbgshowTable1 = false; ?>
 <?php if (!($dbgshowTable1)) : ?>
-<!-- Modal -->
-<div class="modal fade" id="spcimen_tbl_list1" tabindex="-1" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">เลือกสิ่งส่งตรวจ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Modal -->
+    <div class="modal fade" id="spcimen_tbl_list1" tabindex="-1" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">เลือกสิ่งส่งตรวจ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <?php endif; ?>
+
+
+                <div class=" <?= $isBorder ? "border" : "" ?>">
+
+                    <table class="table table-bordered border-dark" id="spcimen_list_table1">
+                        <thead>
+                            <tr>
+                                <th >Id</th>
+                                <th >Patient Number</th>
+                                <th >Code Name</th>
+                                <th >Description</th>
+                                <th >Price</th>
+                                <th >Remark/comment</th>
+                                <th >Manage</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="spcimen_list_table_body1">
+                            <?php foreach ($billings as $billing): ?>
+                                <tr>
+                                    <td ><?= $billing['id'] ?></td>
+                                    <td ><?= $billing['number'] ?></td>
+                                    <td ><?= $billing['code_description'] ?></td>
+                                    <td ><?= $billing['description'] ?></td>
+                                    <td ><?= $billing['cost'] ?></td>
+                                    <td ><?= $billing['comment'] ?></td>
+                                    <td >
+                                        <a  billid="<?= $billing['id'] ?>" onclick="delbill1(<?= $billing['id'] . ',' . $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+                <button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
+
+
+
+
+
+
+                <?php if (!($dbgshowTable1)) : ?>
+                </div>
+                <div class="modal-footer">
+
+                </div>
             </div>
-            <div class="modal-body">
-<?php endif; ?>
-
-
-<div class=" <?= $isBorder ? "border" : "" ?>">
-
-    <table class="table table-bordered border-dark" id="spcimen_list_table1">
-        <thead>
-            <tr>
-                <th >Id</th>
-                <th >Patient Number</th>
-                <th >Code Name</th>
-                <th >Description</th>
-                <th >Price</th>
-                <th >Remark/comment</th>
-                <th >Manage</th>
-                
-            </tr>
-        </thead>
-        <tbody id="spcimen_list_table_body1">
-            <?php foreach ($billings as $billing): ?>
-                <tr>
-                    <td ><?= $billing['id'] ?></td>
-                    <td ><?= $billing['number'] ?></td>
-                    <td ><?= $billing['code_description'] ?></td>
-                    <td ><?= $billing['description'] ?></td>
-                    <td ><?= $billing['cost'] ?></td>
-                    <td ><?= $billing['comment'] ?></td>
-                    <td >
-                        <a  billid="<?= $billing['id'] ?>" onclick="delbill1(<?= $billing['id'] .','. $patient[0]['id'] ?>);" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-</div>
-<button id="btntest" class="btn btn-primary" <?= true ? "hidden" : "" ?> >test</button>
-
-
-
-
-
-
-<?php if (!($dbgshowTable1)) : ?>
-        </div>
-        <div class="modal-footer">
-
         </div>
     </div>
-</div>
-</div>
 <?php endif; ?>
 
 
@@ -137,7 +137,7 @@
 
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
                     <label for="price_for_specimen1" class="form-label">ราคาค่าตรวจ(บาท)</label>
-                    <input name="price_for_specimen1" id="price_for_specimen1" type="text" class="form-control"    value=""   readonly
+                    <input name="price_for_specimen1" id="price_for_specimen1" type="text" class="form-control"    value=""   readonly>
                 </div>
 
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> " >
@@ -165,7 +165,7 @@
         </div>
     </div>
 </div>
-</div>
+
 
 <script>
 
