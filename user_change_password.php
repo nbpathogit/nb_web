@@ -24,6 +24,19 @@ if (isset($_POST['save_userpass'])) {
             throw new Exception('Password Missmatch.');
         }
 
+        if (isset($_POST['old_password'])) {
+            if (User::authenticate($conn, $_POST['username'], $_POST['old_password'])) {
+                // Current password
+            } else {
+                ?>
+                <script type="text/javascript">
+                    alert('ใส่รหัสผ่านปัจจุบันผิด กรุณาลองอีกครั้ง');
+                </script>
+                <?php
+                throw new Exception('ใส่รหัสผ่านปัจจุบันผิด กรุณาลองอีกครั้ง');
+            }
+        }
+
         $user_edit = new User();
         $user_edit->id = Auth::getUserId();
         $user_edit->username = $_POST['username'];
@@ -130,17 +143,18 @@ $user = User::getAll($conn, Auth::getUserId());
                                         <!--</div>-->
                                     </div>
 
-                                        <?php if (!$isCurrentPassChangeMe) : ?>
+                                    <?php if (!$isCurrentPassChangeMe) : ?>
                                         <div class="col-auto">
-                                            <label for="old_password">รหัสผ่านเก่า</label>
+                                            <label for="old_password">รหัสผ่านเปัจจุบัน</label>
                                             <input class="form-control" name="old_password" type="password" id="old_password" size="30" maxlength="10">
                                             <!--<span class="form-text"></span>-->
                                         </div>
-                                        <?php else: ?>
+                                        <hr>
+                                    <?php else: ?>
                                         <div class="col-auto">
                                             <span style="color:red;"><b>กรุณาตั้งรหัสผ่านใหม่</b></span>
                                         </div>
-                                        <?php endif; ?>
+                                    <?php endif; ?>
 
                                     <div class="col-auto">
                                         <label for="password"><?= (isset($user[0]['password']) ? "ตั้งรหัสผ่านใหม่" : "รหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
@@ -187,7 +201,7 @@ $user = User::getAll($conn, Auth::getUserId());
                 required: true
             },
 
-            password: {
+            old_password: {
                 minlength: 5,
                 required: true
             },

@@ -79,9 +79,14 @@ $(document).ready(function () {
     
     //Check box enable user detail is checked
     if ($('#userdetail_enable').is(':checked')) {
+        
         $(".userdetail_input").prop("disabled", false);
+        if(!get_isCurUserCust()){
+             $(".userdetail_input2").prop("disabled", false);
+        }
     } else {
         $(".userdetail_input").prop("disabled", true);
+        $(".userdetail_input2").prop("disabled", true);
     }
 
 
@@ -381,8 +386,12 @@ $('#username_enable').change(function () {
 $('#userdetail_enable').change(function () {
     if (this.checked) {
         $(".userdetail_input").prop("disabled", false);
+        if(!get_isCurUserCust()){
+             $(".userdetail_input2").prop("disabled", false);
+        }
     } else {
         $(".userdetail_input").prop("disabled", true);
+        $(".userdetail_input2").prop("disabled", true);
     }
 });
 

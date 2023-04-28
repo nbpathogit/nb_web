@@ -85,7 +85,7 @@
             <div class="row mb-3">
                 <div class="col-6 col-md-4">
                     <label for="ugroup_id">กลุ่มผู้ใช้งาน</label><span style="color:red"> *</span>
-                    <select class="form-select  userdetail_input" name="ugroup_id" <?= $canCurUserChangeUGroup ? "" : "disabled"; ?> >
+                    <select class="form-select  userdetail_input2" name="ugroup_id" <?= $canCurUserChangeUGroup ? "" : "disabled"; ?> >
                         <!--<option value="#">กรุณาเลือก</option>-->
                         <?php foreach ($ugroups as $ugroup) : ?>
                         <?php //echo $user[0]['ugroup_id'] . $ugroup['id']; ?>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="uhospital_id">สถานที่ทำงาน</label><span style="color:red"> *</span>
-                    <select name="uhospital_id" class="form-select  userdetail_input" <?= $isEditModePageForInitialDataOn || $canEditPatientInfo ? " disabled readonly " : "" ?>>
+                    <select name="uhospital_id" class="form-select  userdetail_input2" <?= $isEditModePageForInitialDataOn || $canEditPatientInfo ? " disabled readonly " : "" ?>>
                         <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
                         <?php foreach ($hospitals as $hospital) : ?>
                             <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> 

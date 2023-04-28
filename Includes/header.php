@@ -232,6 +232,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-nb bg-blue-a border-0 rounded-0 rounded-bottom m-0">
                             <a href="user_edit.php?id=<?= $_SESSION['user']->id ?>" class="dropdown-item">My Profile</a>
+                            <a href="user_change_password.php" class="dropdown-item">Change Password.</a>
                             <!--   <a href="#" class="dropdown-item">Settings</a> -->
                             <a href="logout.php" class="dropdown-item">Log Out</a>
                         </div>
