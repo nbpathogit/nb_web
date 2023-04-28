@@ -24,6 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<?php if (isset($_GET['msg'])): ?>
+
+    <script type="text/javascript">
+        alert("Update user/password success");
+    </script>
+
+<?php endif; ?>
+
+
 <?php require 'includes/header.php'; ?>
 
 <div class="container-fluid pt-4 px-4">

@@ -14,6 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (User::isUserNameActive($conn, $_POST['username'])) {
         if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
             Auth::login($conn, $_POST['username']);
+            if (User::authenticate($conn, $_POST['username'], "changeme")){
+                Url::redirect('/user_change_password.php');
+            }
             if (isset($_POST['page_name']) && $_POST['page_name'] != "") {
                 Url::redirect('/' . $_POST['page_name'] . '?id=' . $_POST['page_id']);
             } else {
@@ -25,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_GET['page_id'] = $_POST['page_id'];
         }
     } else {
-        $error = "The user is in active";
+        $error = "Not found username or username is in active";
     }
 }
 ?>

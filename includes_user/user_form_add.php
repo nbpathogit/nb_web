@@ -58,8 +58,8 @@
                 </div>
                 <div class="col-auto">
                     <label for="password">รหัสผ่าน</label>
-                    <input class="form-control" name="password" type="text" id="password_add" size="20" maxlength="10" value="changeme">
-                    <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 5 ตัวอักษรขึ้นไป</span>
+                    <input class="form-control" name="password" type="text" id="password_add" size="20" maxlength="10" readonly value="changeme">
+                    <span class="form-text">*เมื่อล็อกอินครั้งแรก ด้วยพาสเวร์ด changeme ผู้ใช้จะถูกบังคับให้ตั้งพาสเวิร์ดของตัวเองใหม่ทันที</span>
                 </div>
             </div>
 

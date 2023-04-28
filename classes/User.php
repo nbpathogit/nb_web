@@ -63,6 +63,26 @@ class User
         }
     }
     
+    public static function isPasswordWasReset($conn, $username, $password)
+    {
+
+        $sql = "SELECT *
+                FROM user
+                WHERE username= :username";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+        $stmt->execute();
+
+        if ($user = $stmt->fetch()) {
+            //function password_verify(string $password, string $hash): bool {}
+            return password_verify("", $user->password);
+        }
+    }
+    
     public static function isUserNameActive($conn, $username)
     {
 
