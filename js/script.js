@@ -13,6 +13,8 @@ $(document).ready(function () {
 
     $("#lodingstatus").remove();
     $("#mainpage").show();
+    
+
 
 //    $('#date_1000').datepicker().datepicker('setDate', 'today');
 
@@ -81,7 +83,7 @@ $(document).ready(function () {
     if ($('#userdetail_enable').is(':checked')) {
         
         $(".userdetail_input").prop("disabled", false);
-        if(!get_isCurUserCust()){
+        if(!get_isCurUserCust()){ // Customer cannot change the user group and hospital
              $(".userdetail_input2").prop("disabled", false);
         }
     } else {
@@ -130,6 +132,10 @@ $(document).ready(function () {
     console.log("----");
 
     setTimeout(decrement, 1000);
+    
+    if (   typeof carry_msg !== 'undefined') {
+        alert(carry_msg);
+    }
 
 
 });
@@ -386,7 +392,7 @@ $('#username_enable').change(function () {
 $('#userdetail_enable').change(function () {
     if (this.checked) {
         $(".userdetail_input").prop("disabled", false);
-        if(!get_isCurUserCust()){
+        if(!get_isCurUserCust()){// Customer cannot change the user group and hospital
              $(".userdetail_input2").prop("disabled", false);
         }
     } else {

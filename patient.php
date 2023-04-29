@@ -25,13 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <?php if (isset($_GET['msg'])): ?>
-
     <script type="text/javascript">
-        alert("Update user/password success");
+        var carry_msg = "<?= $_GET['msg'] ?>";
     </script>
-
 <?php endif; ?>
-
 
 <?php require 'includes/header.php'; ?>
 
@@ -91,3 +88,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 </script>
 <script type="text/javascript" src="js/patient.js?v=2xxxxxx"></script>
+

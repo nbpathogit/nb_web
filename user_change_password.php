@@ -46,10 +46,7 @@ if (isset($_POST['save_userpass'])) {
 
 
         if ($user_edit->updateUserPass($conn)) {
-            ?>
-
-            <?php
-            Url::redirect("/patient.php?msg=Update user/password success");
+            Url::redirect("/patient.php?msg=Update user/password successfull.");
         } else {
             ?>
             <script type="text/javascript">

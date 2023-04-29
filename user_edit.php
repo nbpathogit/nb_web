@@ -269,26 +269,16 @@ if (($isCurUserClinicianCust || $isCurUserHospitalCust) && $_SESSION['user']->id
 
 
 
-
-<?php if (isset($_GET['result'])) {
-    if ($_GET['result'] == 1) :
-?>
-        <div class="alert alert-success" role="alert">
-            USER Added/Edit Successful
-        </div>
-    <?php
-    endif;
-}
-if (isset($_GET['psch'])) {
-    if ($_GET['psch'] == 1) :
+<?php
+if (isset($_GET['msg'])) {
     ?>
-        <div class="alert alert-success" role="alert">
-            Edit new password Successful
-        </div>
+    <div class="alert alert-success" role="alert">
+        <?= $_GET['msg']; ?>
+    </div>
     <?php
-    endif;
-}
+}?>
 
+<?php
 if (isset($_GET['signature'])) {
     if ($_GET['signature'] == 1) :
     ?>
