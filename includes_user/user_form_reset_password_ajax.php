@@ -16,7 +16,24 @@
                 <span class="form-text">*เมื่อล็อกอินครั้งแรก ด้วยพาสเวร์ด changeme ผู้ใช้จะถูกบังคับให้ตั้งพาสเวิร์ดของตัวเองใหม่ทันที</span>
             </div>
         </div>
-        <div><button id="reset_password_btn" name="reset_password_btn" class="btn btn-primary  ">Reset Password</button></div>
+        <?php
+        $canClickReset = FALSE;
+        if ($isCurUserAdmin) {
+            //Admin can reset password for every one
+            $canClickReset = TRUE;
+        } elseif ($isCurUserGeneralNB && ($user[0]['ugroup_id'] == 5000 || $user[0]['ugroup_id'] == 5100)) {
+            //non Admin cna reset password only customer
+            $canClickReset = TRUE;
+        } else {
+            //
+            $canClickReset = FALSE;
+        }
+        if(!$canClickReset){
+            echo '<span style="color:red;">You have no authorize to reset password for this user.</span>';
+        }
+        ?>
+
+        <div><button id="reset_password_btn" name="reset_password_btn" class="btn btn-primary  " <?= $canClickReset?'':'disabled'; ?> >Reset Password</button></div>
 
     </div>
 </div>
