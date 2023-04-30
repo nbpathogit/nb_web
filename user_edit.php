@@ -312,6 +312,9 @@ if (isset($_GET['signature'])) {
 <?php require 'includes_user/user_form_ajax.php'; ?>
 
 
+<?php require 'includes_user/user_form_reset_password_ajax.php'; ?>
+
+
 
 
 <?php // require 'includes_user/user_form_userpassword.php'; ?>

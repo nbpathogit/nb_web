@@ -59,6 +59,7 @@ class User
         $stmt->execute();
 
         if ($user = $stmt->fetch()) {
+            //function password_verify(string $password, string $hash): bool {}
             return password_verify($password, $user->password);
         }
     }
@@ -498,4 +499,13 @@ class User
         $stmt = $conn->prepare($sql);
         return $stmt->execute();
     }
+    
+    public static function setUsernamePassword($conn, $id, $username, $password)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE `user` SET `username` = '$username', `password` = '$password' WHERE `user`.`id` = $id"; 
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute();
+    }
+    
 }

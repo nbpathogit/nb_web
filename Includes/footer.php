@@ -52,7 +52,7 @@
 <script src="/js/jquery.datetimepicker.full.min.js"></script>
 <script src="/js/script.js?v13xxxxxxxxxcxxxxxxxxxxxxxxx"></script>
 
-<script src="/ajax_user/user.js?v0xxxxxxxxxxx"></script>
+<script src="/ajax_user/user.js?v0xxxxxxxxxxxxxxxxx"></script>
 <script src="/ajax_read_dom/readdom.js?v2xxxxxxxx"></script>
 
 

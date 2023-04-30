@@ -140,3 +140,34 @@ $("#save_user_status").on("click", function () {
     
     
 });
+
+
+$("#reset_password_btn").on("click", function () {
+//    let status = $('#user_status option').filter(':selected').attr('value');
+    let user_id = get_user_id_for_edit();
+    let username_rst = $('#username_rst').val();
+    let password_rst = $('#password_rst').val();
+    
+//    alert(user_id + " " + username_rst + " " + password_rst);
+    if (confirm("Do you want to reset password for user '"+username_rst+"' ?.")) {
+
+        $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            url: '/ajax_user/setUserNameandPassword.php',
+            data: {
+                'user_id': user_id,
+                'username': username_rst,
+                'password': password_rst,
+            },
+            success: function (data) {
+                alert('Reset success. \nPlese let user login again with password "changeme"');
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+    }
+    
+});

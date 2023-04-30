@@ -14,7 +14,7 @@ require 'user_auth.php';
 $canCurUserChangeUGroup = TRUE;
 
 if($isCurUserAdmin){
-   $ugroups = Ugroup::getAll($conn); 
+   $ugroups = Ugroup::getAll($conn);
 }else{
    $ugroups = Ugroup::getCust($conn);
 }
