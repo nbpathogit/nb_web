@@ -2,13 +2,15 @@
 require 'includes/init.php';
 
 $conn = require 'includes/db.php';
+Auth::requireLogin();
+require 'user_auth.php';
 
 require 'includes/header.php'; ?>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
-        <?php require 'user_auth.php'; ?>
+
         <?php if (!Auth::isLoggedIn()) : ?>
             You are not login.<br>
             คุณไม่ได้ล็อกอิน กรุณาล็อกอินก่อนเข้าใช้งาน
