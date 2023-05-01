@@ -86,6 +86,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php else : ?>
         var isCurUserAdmin = 0;
     <?php endif; ?>
+        
+    <?php if ($isCurUserCust) : ?>
+        var isCurUserCust = 1;
+    <?php else : ?>
+        var isCurUserCust = 0;
+    <?php endif; ?>
 </script>
-<script type="text/javascript" src="js/patient.js?v=2xxxxxx"></script>
+<script type="text/javascript" src="js/patient.js?v=2xxxxxxx"></script>
 

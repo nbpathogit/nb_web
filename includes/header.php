@@ -98,7 +98,7 @@
                     
                     
                     <?php if($isCurUserNB): ?>
-                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>งานร้องขอไลด์พิเศษ</a>
+                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>งานร้องขอสไลด์พิเศษ</a>
                     <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>งานร้องขอแพทย์ร่วมยืนยันผล</a>
                     <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>รายการงาน</a>
                     <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>

@@ -28,6 +28,19 @@ $(document).ready(function () {
 
     }
 
+    let hidecolumn;
+    if(isCurUserCust){
+        hidecolumn =         {
+            visible: false,
+            targets: [0, 3, 8, 10]
+        };
+    }else{
+        hidecolumn =         {
+            visible: false,
+            targets: [0, 3,  10]
+        };
+    }
+    
 
     // datatable
     var table = $('#patient_table').DataTable({
@@ -235,10 +248,7 @@ $(document).ready(function () {
             responsivePriority: 10001,
             targets: 0
         },
-        {
-            visible: false,
-            targets: [0, 3,  10]
-        },
+        hidecolumn,
         ],
         "initComplete": colorAdd,
     });
