@@ -6,7 +6,7 @@ $(document).ready(function () {
     var table = $('#template_report_table').DataTable({
         "ajax": "data/template_report_ajax.php?skey=" + skey + "&range=1m"+"&user_id="+user_id,
         responsive: true,
-        dom: 'lBrtip',
+        dom: 'PlfBrtip',
 
 
         // target       | 0      |                |     1             |     2        |      3      |    4           |     5
