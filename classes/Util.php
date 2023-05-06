@@ -9,7 +9,7 @@ class Util {
 
     public static function Convert($amount_number) {
         //str_replace(find,replace,string,count)
-        $amount_number = str_replace(",","",$amount_number);
+        $amount_number = str_replace(",", "", $amount_number);
         $amount_number = number_format($amount_number, 2, ".", "");
         $pt = strpos($amount_number, ".");
         $number = $fraction = "";
@@ -140,6 +140,15 @@ class Util {
 
         date_default_timezone_set('Asia/Bangkok');
         return date('Y-m-d H:i:s');
+    }
+
+    public static function get_diff_time_in_days($enddate, $startdate) {
+
+        $starttimestamp = strtotime($startdate);
+        $endtimestamp = strtotime($enddate);
+        $difference = abs($endtimestamp - $starttimestamp) / 3600 / 24;
+
+        return round($difference, 2);
     }
 
 }

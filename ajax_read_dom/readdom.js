@@ -50,7 +50,7 @@ function get_lastest_job6_id(){
         id = $(this).attr('tabindex');
     });
     return id;
-    
+
 }
 
 function get_user_id_for_edit(){
@@ -61,3 +61,6 @@ function get_isCurUserCust(){
     return $(".isCurUserCust").attr('tabindex');
 }
 
+function get_cur_date_1000(){
+    return $(".cur_date_1000").attr('tabindex');
+}
