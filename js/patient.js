@@ -22,25 +22,25 @@ $(document).ready(function () {
         }
 
         if (ugroup_id == '5000' || ugroup_id == '5100') {
-            table.column(12).visible( false );
+            table.column(13).visible(false);
         }
 
 
     }
 
     let hidecolumn;
-    if(isCurUserCust){
-        hidecolumn =         {
+    if (isCurUserCust) {
+        hidecolumn = {
             visible: false,
-            targets: [0, 3, 8, 10]
+            targets: [0, 3, 9, 11]
         };
-    }else{
-        hidecolumn =         {
+    } else {
+        hidecolumn = {
             visible: false,
-            targets: [0, 3,  10]
+            targets: [0, 3, 11]
         };
     }
-    
+
 
     // datatable
     var table = $('#patient_table').DataTable({
@@ -99,7 +99,7 @@ $(document).ready(function () {
             searchPanes: {
                 show: true
             },
-            targets: [4, 5, 6, 7, 8, 9, 10]
+            targets: [4, 5, 6, 7, 11, 9, 10]
         },
         {
             searchPanes: {
@@ -118,17 +118,17 @@ $(document).ready(function () {
                         renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
                     }
                 }
-                    else {
-                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
-                        renderdata += '<a href="patient_trash.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm trash"><i class="fa-solid fa-trash-can"></i> Trash</a>';
-                     
-                        if (isCurUserAdmin) {
-                            renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
-                        }
-                        
+                else {
+                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                    renderdata += '<a href="patient_trash.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm trash"><i class="fa-solid fa-trash-can"></i> Trash</a>';
+
+                    if (isCurUserAdmin) {
+                        renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
                     }
-                    return renderdata;
-                },
+
+                }
+                return renderdata;
+            },
             "targets": -1
         },
         {
@@ -148,12 +148,10 @@ $(document).ready(function () {
 
                 return renderdata;
             },
-            "targets": 11
+            "targets": 12
         },
         {
             "render": function (data, type, row) {
-
-
                 if ((ugroup_id == '5000' || ugroup_id == '5100')) {
                     if (row[9] == "ยังไม่ออกผล") {
                         //var data = '<div><h5>' + data;
@@ -200,7 +198,7 @@ $(document).ready(function () {
                 }
                 return data;
             },
-            "targets": 9
+            "targets": 10
         },
         {
             "render": function (data, type, row) {
@@ -210,27 +208,28 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                data = '<small>รอคอนเฟิร์ม:</small>';
-                if (row[11] == "0") {
-                    data += '-';
-                } else if (row[11] == "1") {
-                    data += '<span class="badge bg-warning text-dark">ร้องขอ</span>';
+                return row[13];
+            },
+            "targets": 8
+        },
+        {
+            "render": function (data, type, row) {
+                data = '';
+                if (row[11] == "1") {
+                    data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
                 } else if (row[11] == "2") {
-                    data += '<span class="badge bg-success">เสร็จสิ้น</span>';
-                } 
+                    data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-success">เสร็จสิ้น</span><br>';
+                }
 
-                data += '<br><small>ย้อมพิเศษ:</small>';
-                if (row[12] == "0") {
-                    data += '-';
-                } else if (row[12] == "1") {
-                    data += '<span class="badge bg-warning text-dark">ร้องขอ</span>';
+                if (row[12] == "1") {
+                    data += '<small>ย้อมพิเศษ:</small><span class="badge bg-warning text-dark">ร้องขอ</span>';
                 } else if (row[12] == "2") {
-                    data += '<span class="badge bg-success">เสร็จสิ้น</span>';
-                } 
+                    data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
+                }
 
                 return data;
             },
-            "targets": 8
+            "targets": 9
         },
         {
             responsivePriority: 1,
@@ -248,7 +247,7 @@ $(document).ready(function () {
             responsivePriority: 10001,
             targets: 0
         },
-        hidecolumn,
+            hidecolumn,
         ],
         "initComplete": colorAdd,
     });
@@ -279,7 +278,7 @@ $(document).ready(function () {
             frm.submit();
         }
     });
-    
+
     // trash patient
     $('#patient_table tbody').on('click', 'a.trash', function (e) {
         var data = table.row($(this).parents('tr')).data();
@@ -300,10 +299,10 @@ $(document).ready(function () {
 
             frm.appendTo("body");
             frm.submit();
-            
+
 
         }
-        
+
     });
 
     // set active tab

@@ -59,20 +59,12 @@ if ($auth) {
 
             if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') {
                 if ($_SESSION['user']->uhospital_id == $patient['phospital_id']) {
-                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide']];
+                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time']];
                 }
             } else {
-                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide']];
+                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time']];
             }
         }
-
-        // if ($_REQUEST['range'] == "1m")
-        //         $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], "30", $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
-        //     else if ($_REQUEST['range'] == "3m")
-        //         $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], "90", $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
-        //     else if ($_REQUEST['range'] == "1y")
-        //         $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], "360", $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], "",];
-
     }
 
 

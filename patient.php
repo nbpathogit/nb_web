@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <th>พยาธิแพทย์</th>
                     <th>วันที่รับ</th>
                     <th>วันที่รายงาน</th>
+                    <th>tr_time</th><!-- 8 -->
                     <th>สถานะอื่นๆ</th>
                     <th>การออกผล</th>
                     <th>ความสำคัญ</th>
