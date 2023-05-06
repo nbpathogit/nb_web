@@ -1150,7 +1150,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxx"></script>
 <script src="/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxx"></script>
+<script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
                     $(document).ready(function () {

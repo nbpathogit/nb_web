@@ -5,8 +5,7 @@
  *
  * A piece of writing for publication
  */
-class Patient
-{
+class Patient {
 
     /**
      * Uniqure identifier
@@ -62,7 +61,6 @@ class Patient
     public $reported_as;
     public $isautoeditmode;
     public $pautoscroll;
-
     public $p_sp_patho_comment;
     public $second_patho_review;
     public $request_sp_slide;
@@ -75,13 +73,11 @@ class Patient
     public $create_date;
     public $create_by;
 
-    public static function getTotal($conn, $user_group = "*")
-    {
+    public static function getTotal($conn, $user_group = "*") {
         return $conn->query("SELECT COUNT(*) FROM patient")->fetchColumn();
     }
 
-    public static function getPage($conn, $limit, $offset)
-    {
+    public static function getPage($conn, $limit, $offset) {
 
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
@@ -115,14 +111,13 @@ class Patient
      *
      * @return array An associative array of all the article records
      */
-    public static function getAll($conn, $id = 0)
-    {
+    public static function getAll($conn, $id = 0) {
         $sql = "SELECT * 
                 FROM patient ";
 
         if ($id != 0) {
             $sql = $sql . " WHERE id = " . $id . " and movetotrash = 0";
-        }else{
+        } else {
             $sql = $sql . " WHERE movetotrash = 0";
         }
 
@@ -138,8 +133,7 @@ class Patient
      *
      * @return array An associative array of all the article records
      */
-    public static function getAllJoin($conn, $id = 0, $start = '0')
-    {
+    public static function getAllJoin($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -159,7 +153,7 @@ class Patient
         if ($start != '0') {
             $sql .= " and date(p.date_1000) >= '{$start}'";
         }
-        
+
         $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
 
@@ -168,8 +162,7 @@ class Patient
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllJoinWithReported($conn, $id = 0, $start = '0')
-    {
+    public static function getAllJoinWithReported($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -197,8 +190,7 @@ class Patient
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllJoinID8000($conn, $id = 0, $start = '0')
-    {
+    public static function getAllJoinID8000($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -226,9 +218,7 @@ class Patient
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public static function getAllConfirm($conn, $id = 0, $start = '0')
-    {
+    public static function getAllConfirm($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
                 JOIN user as u
@@ -249,7 +239,7 @@ class Patient
         if ($start != '0') {
             $sql .= " and date(p.date_1000) >= '{$start}'";
         }
-        
+
         $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
 
@@ -267,8 +257,7 @@ class Patient
      *
      * @return An object of this class, or null if not found
      */
-    public static function getByID($conn, $id, $columns = '*')
-    {
+    public static function getByID($conn, $id, $columns = '*') {
         $sql = "SELECT $columns
                 FROM patient
                 WHERE id= :id";
@@ -291,13 +280,12 @@ class Patient
      *
      * @return boolean True if the insert was successful, false otherwise
      */
-    public function create($conn)
-    {
+    public function create($conn) {
 
         $curDateTime = Util::get_curreint_thai_date_time();
 
         $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`,   create_date,       create_by)"
-            . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,  :date_1000,   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll,   :create_date,     :create_by)";
+                . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,  :date_1000,   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll,   :create_date,     :create_by)";
 
 
 
@@ -359,7 +347,7 @@ class Patient
 
         $stmt->bindValue(':isautoeditmode', $this->isautoeditmode, PDO::PARAM_STR);
         $stmt->bindValue(':pautoscroll', $this->pautoscroll, PDO::PARAM_STR);
-        
+
         $stmt->bindValue(':create_date', $curDateTime, PDO::PARAM_STR);
         $stmt->bindValue(':date_1000', $curDateTime, PDO::PARAM_STR);
         $stmt->bindValue(':create_by', $this->create_by, PDO::PARAM_STR);
@@ -377,8 +365,7 @@ class Patient
         }
     }
 
-    public static function getInit()
-    {
+    public static function getInit() {
         return [
             [
                 "id" => "",
@@ -425,16 +412,13 @@ class Patient
                 "reported_as" => "",
                 "isautoeditmode" => "patient_detail_section",
                 "pautoscroll" => "patient_detail_section",
-                
                 "create_date" => "",
                 "create_by" => ""
-                
             ]
         ];
     }
 
-    public static function updateStatus($conn, $id, $status_id)
-    {
+    public static function updateStatus($conn, $id, $status_id) {
         $sql = "UPDATE patient
                 SET status_id = :status_id
                 WHERE id = :id";
@@ -447,8 +431,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id, $next_status_id, $isset_date_first_report)
-    {
+    public static function updateStatusWithMoveDATE($conn, $id, $cur_status_id, $next_status_id, $isset_date_first_report) {
         $curDateTime = Util::get_curreint_thai_date_time();
         $sql = "UPDATE patient
                 SET status_id = :status_id";
@@ -471,8 +454,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public function update($conn, $id)
-    {
+    public function update($conn, $id) {
 
         //                            date_1000=:date_1000,
         //                    
@@ -578,8 +560,7 @@ class Patient
         }
     }
 
-    public function updatePatientDetail($conn, $id)
-    {
+    public function updatePatientDetail($conn, $id) {
         /* array(12) { 
          * ["pnum"]=> string(8) "sc657766" 
          * ["plabnum"]=> string(2) "cc" 
@@ -644,8 +625,7 @@ class Patient
         }
     }
 
-    public function updatePatientPlan($conn, $id)
-    {
+    public function updatePatientPlan($conn, $id) {
 
 
         $sql = "UPDATE `patient` 
@@ -690,9 +670,7 @@ class Patient
         }
     }
 
-
-    public function updateSpcialSlide($conn, $id)
-    {
+    public function updateSpcialSlide($conn, $id) {
 
         $sql = "UPDATE `patient` 
                  SET p_slide_prep_sp_id=:p_slide_prep_sp_id,
@@ -728,11 +706,7 @@ class Patient
         }
     }
 
-
-
-
-    public function updateInterimResult($conn, $id)
-    {
+    public function updateInterimResult($conn, $id) {
         /* array(5) { 
          * ["p_rs_specimen"]=> string(3) "aaa" 
          * ["p_rs_clinical_diag"]=> string(3) "bbb" 
@@ -772,8 +746,7 @@ class Patient
         }
     }
 
-    public static function updateReportTypeName($conn, $id, $resultname = "")
-    {
+    public static function updateReportTypeName($conn, $id, $resultname = "") {
 
         $sql = "UPDATE patient
                 SET reported_name = :resultname
@@ -786,8 +759,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public static function updateReportAs($conn, $id, $resultname = "")
-    {
+    public static function updateReportAs($conn, $id, $resultname = "") {
 
         $sql = "UPDATE patient
                 SET reported_as = :resultname
@@ -800,8 +772,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public function delete($conn)
-    {
+    public function delete($conn) {
         $sql = "DELETE FROM patient
                 WHERE id = :id";
 
@@ -812,10 +783,7 @@ class Patient
         return $stmt->execute();
     }
 
-
-
-    public static function setAutoScroll($conn, $id, $pautoscroll)
-    {
+    public static function setAutoScroll($conn, $id, $pautoscroll) {
         $sql = "UPDATE `patient` 
                  SET 
                  pautoscroll=:pautoscroll
@@ -837,8 +805,7 @@ class Patient
         }
     }
 
-    public static function clearAutoScroll($conn, $id)
-    {
+    public static function clearAutoScroll($conn, $id) {
         $sql = "UPDATE patient
                 SET pautoscroll = :pautoscroll
                 WHERE id = :id";
@@ -851,8 +818,7 @@ class Patient
         return $stmt->execute();
     }
 
-    public static function setisautoeditmode($conn, $id, $isautoeditmode)
-    {
+    public static function setisautoeditmode($conn, $id, $isautoeditmode) {
         $sql = "UPDATE `patient` 
                  SET 
                  isautoeditmode=:isautoeditmode
@@ -874,8 +840,7 @@ class Patient
         }
     }
 
-    public static function clearisautoeditmode($conn, $id)
-    {
+    public static function clearisautoeditmode($conn, $id) {
         $sql = "UPDATE patient
                 SET isautoeditmode = :isautoeditmode
                 WHERE id = :id";
@@ -888,9 +853,7 @@ class Patient
         return $stmt->execute();
     }
 
-    
-    public static function movetotrash($conn, $id)
-    {
+    public static function movetotrash($conn, $id) {
         $thai_date = Util::get_curreint_thai_date_time();
         Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::movetotrash(id)", $id, $thai_date);
         $sql = "UPDATE patient
@@ -900,12 +863,11 @@ class Patient
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
- 
+
         return $stmt->execute();
     }
 
-    public static function delete2($conn,$id)
-    {
+    public static function delete2($conn, $id) {
         $thai_date = Util::get_curreint_thai_date_time();
         Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::delete2(id)", $id, $thai_date);
         $sql = "DELETE FROM patient
@@ -918,7 +880,6 @@ class Patient
         return $stmt->execute();
     }
 
-
     //    ++Example table input
     //    call  get_max_sn_run_by_year($conn,22");
     //    
@@ -926,8 +887,7 @@ class Patient
     //    |sn_year |max_sn_run
     //    |22      |2
     //
-    public static function get_max_sn_run_by_year($conn, $sn_year, $sn_type)
-    {
+    public static function get_max_sn_run_by_year($conn, $sn_year, $sn_type) {
         $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p WHERE sn_year = :sn_year and sn_type = :sn_type GROUP BY `sn_year` ORDER BY `sn_year`;";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
@@ -943,8 +903,7 @@ class Patient
     //echo $count_sn_year[0]['count'];
     //echo '<br>';
     //die();
-    public static function  get_count_sn_year($conn, $sn_year)
-    {
+    public static function get_count_sn_year($conn, $sn_year) {
         $sql = "SELECT COUNT(*) as count FROM patient WHERE `sn_year` = :sn_year";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
@@ -952,8 +911,7 @@ class Patient
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function addCriticalReport($conn, $id, $critical_report)
-    {
+    public static function addCriticalReport($conn, $id, $critical_report) {
         $sql = "UPDATE patient
                 SET iscritical = :iscritical
                 WHERE id = :id";
@@ -964,30 +922,27 @@ class Patient
 
         return $stmt->execute();
     }
-    
-    public static function setSpComment($conn, $id, $p_sp_patho_comment)
-    {
-        $sql = "UPDATE patient".
-                " SET p_sp_patho_comment = '".$p_sp_patho_comment."' ".
-                " WHERE id = ".$id;
+
+    public static function setSpComment($conn, $id, $p_sp_patho_comment) {
+        $sql = "UPDATE patient" .
+                " SET p_sp_patho_comment = '" . $p_sp_patho_comment . "' " .
+                " WHERE id = " . $id;
 
         $results = $conn->query($sql);
-        
+
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public static function getSpComment($conn, $id)
-    {
+
+    public static function getSpComment($conn, $id) {
         $sql = "SELECT p_sp_patho_comment FROM patient WHERE id = $id";
 
         $results = $conn->query($sql);
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public static function setPathoID($conn, $id, $ppathologist_id)
-    {
+
+    public static function setPathoID($conn, $id, $ppathologist_id) {
         $sql = "UPDATE patient
                 SET ppathologist_id = :ppathologist_id
                 WHERE id = :id";
@@ -999,10 +954,9 @@ class Patient
 
         return $stmt->execute();
     }
-    
+
     //setSecondPathoReview($conn, $_POST['patient_id'], $_POST['state']);
-    public static function setSecondPathoReview($conn, $id, $second_patho_review)
-    {
+    public static function setSecondPathoReview($conn, $id, $second_patho_review) {
         $sql = "UPDATE patient
                 SET second_patho_review = :second_patho_review
                 WHERE id = :id";
@@ -1014,9 +968,8 @@ class Patient
 
         return $stmt->execute();
     }
-    
-    public static function set_request_sp_slide($conn, $id, $request_sp_slide)
-    {
+
+    public static function set_request_sp_slide($conn, $id, $request_sp_slide) {
         $sql = "UPDATE patient
                 SET request_sp_slide = :request_sp_slide
                 WHERE id = :id";
@@ -1028,9 +981,8 @@ class Patient
 
         return $stmt->execute();
     }
-    
-    public static function set_update_released_time($conn, $id, $date_20000)
-    {
+
+    public static function set_update_released_time($conn, $id, $date_20000) {
         $sql = "UPDATE patient
                 SET date_20000 = :date_20000
                 WHERE id = :id";
@@ -1042,20 +994,29 @@ class Patient
 
         return $stmt->execute();
     }
-    
-    public static function set_update_first_released_time_if_null($conn, $id, $date_first_report)
-    {
-        $sql = "UPDATE patient
-                SET date_first_report = :date_first_report
-                WHERE id = :id and `date_first_report` IS NULL";
+
+    public static function set_update_first_released_time_if_null($conn, $id, $date_first_report, $importdate) {
+ 
+        $tr_time = Util::get_diff_time_in_days($date_first_report, $importdate);
+        //return $tr_time;
+        
+        
+        $thai_date = Util::get_curreint_thai_date_time();
+        
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::set_update_first_released_time_if_null(conn,id,date_first_report,importdate)",$date_first_report." ".$importdate." ".$tr_time, $thai_date);
+        
+        $sql = "UPDATE patient " .
+                " SET date_first_report = :date_first_report , tr_time = $tr_time " .
+                " WHERE id = :id and `date_first_report` IS NULL";
 
         $stmt = $conn->prepare($sql);
 
+
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+//        $stmt->bindValue(':tr_time', $tr_time, PDO::PARAM_STR);
         $stmt->bindValue(':date_first_report', $date_first_report, PDO::PARAM_STR);
 
         return $stmt->execute();
     }
-    
-    
+
 }
