@@ -6,18 +6,19 @@
  * Login and logout
  */
 class Auth {
-    
+
     // time limit setting at server side
     // public static $sesstion_timeout_int_sec = 15; //60second = 1 min.; <-- Write to DOM
     public static $sesstion_timelimit_int_sec = 1200; //1200second = 20 min.; <-- Write to DOM
-    public  $curSrvTimeIntSecs;  // <-- Write to DOM
-    public  $curSrvTime;  // <-- Write to DOM
+    public $curSrvTimeIntSecs;  // <-- Write to DOM
+    public $curSrvTime;  // <-- Write to DOM
 
     /**
      * return the user authentication status
      *
      * @return boolean True if a user is logged in, false otherwies
      */
+
     public static function isLoggedIn() {
         return isset($_SESSION['is_logged_in']) &&
                 $_SESSION['is_logged_in'] &&
@@ -33,16 +34,6 @@ class Auth {
      */
     public static function requireLogin($page_name = "na", $page_id = 0) {
 
-        $curTime = Time();
-        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec;
-        
-        if ($curTime >= $_SESSION['targetSrvTimeOutIntSecs']) {
-            Auth::logout();
-        } else {
-            $_SESSION['curSrvTimeIntSecs'] = $curTime;
-            $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];
-            $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs'];
-        }
 
         if (!static::isLoggedIn()) {
             if ($page_name != "na") {
@@ -52,6 +43,19 @@ class Auth {
                 Url::redirect('/login.php');
             }
         }
+
+        $curTime = Time();
+        $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec;
+
+        if ($curTime >= $_SESSION['targetSrvTimeOutIntSecs']) {
+            Auth::logout();
+        } else {
+            $_SESSION['curSrvTimeIntSecs'] = $curTime;
+            $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];
+            $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs'];
+        }
+
+
 
         session_regenerate_id(false);
     }
@@ -68,14 +72,14 @@ class Auth {
 
         session_regenerate_id(false);
 
-        
+
         $_SESSION['username'] = $username;
         $_SESSION['user'] = $user;
         $_SESSION['userid'] = $userid;
         $_SESSION['usergroup'] = $ugroup;
         $_SESSION['skey'] = self::randomString();
 
-        
+
         date_default_timezone_set('Asia/Bangkok');
         $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec; // time limit setting at server side 20
         $curTime = Time();
@@ -83,27 +87,27 @@ class Auth {
         $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];
         $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs']; //current time + 20 min
         $_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs']; //20 min
-        
 
-        $curSrvTime = date_default_timezone_get().date('m/d/Y h:i:s a', time());
 
-        
+        $curSrvTime = date_default_timezone_get() . date('m/d/Y h:i:s a', time());
+
+
         $_SESSION['is_logged_in'] = true;
-        
-        
-        
-        
-        
+
+
+
+
+
 //        Log::setuser($conn,  $_SESSION['username'], $user->name .' '. $user->lastname);
         $_SESSION['log_username'] = $_SESSION['username'];
-        $_SESSION['log_name'] = $user->name .' '. $user->lastname;
+        $_SESSION['log_name'] = $user->name . ' ' . $user->lastname;
         $thai_date = Util::get_curreint_thai_date_time();
         Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "login", "login", $thai_date);
 //                var_dump($user);
 //                var_dump($ugroup);
 //                die();
     }
-    
+
     /**
      * Log in using the session
      *
@@ -117,34 +121,32 @@ class Auth {
         //session_regenerate_id(false);
 
         $_SESSION['adminusername'] = $_SESSION['username'];
-        
+
         $_SESSION['username'] = $user->username;
         $_SESSION['user'] = $user;
         $_SESSION['userid'] = $userid;
         $_SESSION['usergroup'] = $ugroup;
-
-
     }
-    
+
     public static function getSrvTimeRemain() {
         date_default_timezone_set('Asia/Bangkok');
         $curTime = Time();
-        $_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs']-$curTime;
+        $_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs'] - $curTime;
         return $_SESSION['targetSrvTimeRemainIntSecs'];
 //        return Auth::$sesstion_timelimit_int_sec;
     }
-    
-        /**
+
+    /**
      * Log out using the session
      *
      * @return void
      */
     public static function logout() {
         $conn = require 'includes/db.php';
-        
+
         $thai_date = Util::get_curreint_thai_date_time();
         Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "logout", "logout", $thai_date);
-        
+
         $_SESSION = [];
         // If it's desired to kill the session, also delete the session cookie.
         // Note: This will destroy the session, and not just the session data!
@@ -189,8 +191,6 @@ class Auth {
             return null;
         }
     }
-
-
 
     public static function canViewPatientResult() {
 
