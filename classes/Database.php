@@ -41,6 +41,11 @@ class Database
             $db_name = "u189879599_nb";
             $db_user = "u189879599_nb";
             $db_pass = "tO22dE^4&$";
+        }else{
+            $db_host = "localhost";
+            $db_name = "u189879599_nb";
+            $db_user = "u189879599_nb";
+            $db_pass = "tO22dE^4&$";
         }
 
         $dsn = 'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8';
