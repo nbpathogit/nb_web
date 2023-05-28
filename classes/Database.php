@@ -41,11 +41,14 @@ class Database
             $db_name = "u189879599_nb";
             $db_user = "u189879599_nb";
             $db_pass = "tO22dE^4&$";
-        }else{
+        }
+        
+        //
+        if ($_SERVER['HTTP_HOST'] == "nbpathology.com") {
             $db_host = "localhost";
-            $db_name = "u189879599_nb";
-            $db_user = "u189879599_nb";
-            $db_pass = "tO22dE^4&$";
+            $db_name = "nbpa_data";
+            $db_user = "nbpa_nbpatho";
+            $db_pass = "@6i3#xdyJusmDfBJ";
         }
 
         $dsn = 'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8';
