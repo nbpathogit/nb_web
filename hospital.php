@@ -4,6 +4,7 @@ require 'includes/init.php';
 //Auth::requireLogin();
 
 $conn = require 'includes/db.php';
+require 'user_auth.php';
 
 // $paginator = new Paginator(  isset($_GET['page'])?$_GET['page']:1 ,20,Hospital::getTotal($conn));
 // $hospitals = Hospital::getPage($conn,$paginator->limit,$paginator->offset);
