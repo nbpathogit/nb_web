@@ -50,6 +50,14 @@ class Database
             $db_user = "nbpa_nbpatho";
             $db_pass = "@6i3#xdyJusmDfBJ";
         }
+        
+                //
+        if ($_SERVER['HTTP_HOST'] == "www.nbpathology.com") {
+            $db_host = "localhost";
+            $db_name = "nbpa_data";
+            $db_user = "nbpa_nbpatho";
+            $db_pass = "@6i3#xdyJusmDfBJ";
+        }
 
         $dsn = 'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8';
 
