@@ -7,3 +7,6 @@ $endtimestamp = strtotime($enddate);
 $difference = abs($endtimestamp - $starttimestamp) / 3600 / 24;
 
 echo round($difference, 2);
+echo "<br>";
+echo '$_SERVER[HTTP_HOST] ="'.$_SERVER['HTTP_HOST'].'"';
+    
