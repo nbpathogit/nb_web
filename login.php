@@ -1,6 +1,13 @@
 <?php
 require 'includes/init.php';
 
+$subfolder = str_replace("/","",$_SERVER['PHP_SELF']);
+$subfolder = str_replace("login.php","",$subfolder);
+
+//echo "<br>";
+//echo "---------------------------------------------------<br>";
+//echo "subfolder =".$subfolder;
+
 if (Auth::isLoggedIn()) {
     Url::redirect("/patient.php");
 }
@@ -13,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = require 'includes/db.php';
     if (User::isUserNameActive($conn, $_POST['username'])) {
         if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
-            Auth::login($conn, $_POST['username']);
+            Auth::login($conn, $_POST['username'],$_POST['subfolder']);
             if (User::authenticate($conn, $_POST['username'], "changeme")){
                 Url::redirect('/user_change_password.php');
             }
@@ -26,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Passward is incorrect,Please try again";
             $_GET['page_name'] = $_POST['page_name'];
             $_GET['page_id'] = $_POST['page_id'];
+            $_GET['subfolder'] = $_POST['subfolder'];
         }
     } else {
         $error = "Not found username or username is in active";
@@ -108,6 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <a href="">Forgot Password</a> -->
                                 </div>
+                                <input type="hidden" id="subfolder" name="subfolder" value="<?= $subfolder; ?>">
                                 <input type="hidden" id="page_name" name="page_name" value="<?= isset($_GET['page_name'])?  $_GET['page_name']:"";   ?>">
                                 <input type="hidden" id="page_id" name="page_id" value="<?= isset($_GET['page_id'])?  $_GET['page_id']:""; ?>">
                                 <button type="submit" class="btn btn-primary py-3 w-100 mb-4">เข้าสู่ระบบ</button>

@@ -61,4 +61,4 @@ $conn = require 'includes/db.php';
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
 </script>
-<script src="js/job.js"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/job.js"></script>

@@ -210,7 +210,7 @@ function decrement() {
         setTimeout(decrement, 1000);
     } else {
         //Auto Logout if time remain is minus
-        $(window).attr('location', '/logout.php');
+        $(window).attr('location', 'logout.php');
     }
 }
 

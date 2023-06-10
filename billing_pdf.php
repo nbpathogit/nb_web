@@ -255,4 +255,4 @@ echo '</span>';
         $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
-<script src="/ajax_billing/billing.js?v2xxปxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_billing/billing.js?v2xxปxxxxxxxxxxxxx"></script>

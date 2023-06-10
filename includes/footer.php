@@ -44,16 +44,16 @@
 <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
 <!-- Template Javascript -->
-<script src="js/main.js"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/main.js"></script>
 
 <!-- from old header -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js">
 </script>
-<script src="/js/jquery.datetimepicker.full.min.js"></script>
-<script src="/js/script.js?v13xxxxxxxxxcxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/jquery.datetimepicker.full.min.js"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/script.js?v13xxxxxxxxxcxxxxxxxxxxxxxxxx"></script>
 
-<script src="/ajax_user/user.js?v0xxxxxxxxxxxxxxxxx"></script>
-<script src="/ajax_read_dom/readdom.js?v2xxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_read_dom/readdom.js?v2xxxxxxxxx"></script>
 
 
 

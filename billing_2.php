@@ -64,4 +64,4 @@ require 'includes/header.php'; ?>
 <script type="text/javascript">
        var skey = "<?= $_SESSION["skey"] ?>";
 </script>
-<script src="js/billing_2.js"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/billing_2.js"></script>

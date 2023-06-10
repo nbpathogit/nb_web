@@ -59,4 +59,4 @@ $conn = require 'includes/db.php';
     var skey = "<?= $_SESSION["skey"] ?>";
     var user_id = <?= Auth::getUserId() ?>;
 </script>
-<script src="js/template_report.js?v0xxxxxxxปxxปxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/template_report.js?v0xxxxxxxปxxปxxx"></script>

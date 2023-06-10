@@ -70,4 +70,4 @@ require 'user_auth.php';
         var isCurUserAdmin = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="js/patient_confirm.js?v=2"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient_confirm.js?v=2"></script>

@@ -4,20 +4,20 @@ require '../includes/init.php';
 
 $auth = false;
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    if (!empty($_SERVER['HTTP_REFERER']) && ((strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient.php"))  || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_monitor_8000.php"))   || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_confirm.php")))) {
+    if (!empty($_SERVER['HTTP_REFERER']) && ((strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1()."/patient.php"))  || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1(). "/patient_monitor_8000.php"))   || (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1(). "/patient_confirm.php")))) {
 
         // >>>> Security check
         if (empty($_SESSION['skey']) || empty($_REQUEST['skey']) || ($_SESSION['skey'] != $_REQUEST['skey'])) {
-            Auth::block();
+            Auth::block("HTTP/1.1 403 Forbidden A");
         } else {
             // echo "AJAX request";
             $auth = true;
         }
     } else {
-        Auth::block();
+         Auth::block("HTTP/1.1 403 Forbidden B");
     }
 } else {
-    Auth::block();
+     Auth::block("HTTP/1.1 403 Forbidden C");
 }
 
 if ($auth) {

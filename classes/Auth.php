@@ -65,7 +65,7 @@ class Auth {
      *
      * @return void
      */
-    public static function login($conn, $username) {
+    public static function login($conn, $username, $subfolder) {
         $user = User::getByUserName($conn, $username);
         $userid = $user->id;
         $ugroup = Ugroup::getByID($conn, $user->ugroup_id);
@@ -77,6 +77,7 @@ class Auth {
         $_SESSION['user'] = $user;
         $_SESSION['userid'] = $userid;
         $_SESSION['usergroup'] = $ugroup;
+        $_SESSION['subfolder'] = $subfolder;
         $_SESSION['skey'] = self::randomString();
 
 
@@ -258,8 +259,8 @@ class Auth {
         }
     }
 
-    public static function block() {
-        header("HTTP/1.1 403 Forbidden");
+    public static function block($str = "HTTP/1.1 403 Forbidden") {
+        header($str);
         exit;
     }
 
