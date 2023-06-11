@@ -122,6 +122,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <button type="submit" class="btn btn-primary py-3 w-100 mb-4">เข้าสู่ระบบ</button>
                                 <!-- <p class="text-center mb-0">Don't have an Account? <a href="">Sign Up</a></p> -->
                             </form>
+
+                            <span style="color:blue">
+                                <b>
+                                สามารถร้องเรียนหรือสอบถามได้ที่ <br>
+                                Email: nbpathologyplk@gmail.com <br>
+                                หรือโทรศัพท์ 064-3545-283
+                                </b>
+                            </span>
+
                         </div>
                     </div>
                 </div>
