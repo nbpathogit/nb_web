@@ -9,7 +9,7 @@ require 'includes/init.php';
     <li>การตรวจชิ้นเนื้อศัลย์พยาธิ</li>
     <ul>
         <li>การตรวจชิ้นเนื้อ (Surgical pathology)</li>
-        <li>การตรวจชันสูตรพิเศษ Histochemistry และ Immunohistochemistry (โดยเครื่องตรวจอิมมูโนฮีสโตเคมี แบบอัตโนมัติ – Ventana BenchMark XT)</li>
+        <li>การตรวจชันสูตรพิเศษ Histochemistry และ Immunohistochemistry </li>
         <li>การตรวจด้วยเทคนิคพิเศษอื่น ๆ ที่ไม่ได้ดำเนินการภายในคลินิกเวชกรรมเฉพาะทางนี้ ได้แก่ PCR, Cytogenetic, Liquid based pap smear และ HPV DNA testing เป็นต้น จะถูกดำเนินการส่งตรวจต่อในสถาบันที่รับตรวจ</li>
     </ul>
 
