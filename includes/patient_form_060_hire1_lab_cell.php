@@ -45,14 +45,14 @@ $isBorder = false;
 
 <!--<h5>
     <span align="center">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_hire1"> เพิ่มผู้รับงานแลปเซลล์วิทยา </button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_hire1"> เพิ่มพนักงานเตรียมสไลด์เซลล์วิทยา </button>
     <button id="refresh_hire1" class="btn btn-primary" >Refresh</button>
     </span>
-    <span align="center"><b>(ผู้รับงานแลปเซลล์วิทยา)</b></span>
+    <span align="center"><b>(พนักงานเตรียมสไลด์เซลล์วิทยา)</b></span>
 </h5>-->
 <p align="left">
     
-    <b>ผู้รับงานแลปเซลล์วิทยา:</b>
+    <b>พนักงานเตรียมสไลด์เซลล์วิทยา:</b>
     <span id="list_hire1" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
@@ -77,7 +77,7 @@ $isBorder = false;
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">ผู้รับงานแลปเซลล์วิทยา</h5>
+                <h5 class="modal-title" id="exampleModalLabel1">พนักงานเตรียมสไลด์เซลล์วิทยา</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -139,13 +139,13 @@ $isBorder = false;
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="">เลือกผู้รับงานแลปเซลล์วิทยา</h5>
+                <h5 class="modal-title" id="">เลือกพนักงานเตรียมสไลด์เซลล์วิทยา</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <?php //$userTechnic ?>
                 <div class="<?= $isBorder ? "border" : "" ?> ">
-                    <label for="select_hire1"  class="form-label">เลือกผู้รับงานแลปเซลล์วิทยา</label>
+                    <label for="select_hire1"  class="form-label">เลือกพนักงานเตรียมสไลด์เซลล์วิทยา</label>
                     <select name="select_hire1" id="select_hire1" class="form-select"  >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($outsideContracts as $outside): ?>
