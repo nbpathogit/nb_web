@@ -61,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_edit->lastname_e = $_POST['lastname_e'];
         $user_edit->short_name = $_POST['short_name'];
         $user_edit->educational_bf = $_POST['educational_bf'];
+        $user_edit->udetail = $_POST['udetail'];
         $user_edit->role = $_POST['role'];
         $user_edit->ugroup_id = $_POST['ugroup_id'];
         $user_edit->uhospital_id = $_POST['uhospital_id'];
