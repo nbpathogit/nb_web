@@ -5,7 +5,7 @@ function refreshSpecimenList2(isAlert) {
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     //alert(cur_patient_id);
     $.ajax({
-        url: "/ajax_slide2__special/getBillingSpecimenList2.php?id=%s",
+        url: "ajax_slide2__special/getBillingSpecimenList2.php?id=%s",
         data: {id: cur_patient_id},
         success: function (data) {
             //alert(data);
@@ -26,7 +26,7 @@ function updateSelectionSpeceman2(isalert) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_slide2__special/getSpecimenList2.php',
+        url: 'ajax_slide2__special/getSpecimenList2.php',
         data: {
             'hospital_id': hospital_id
         },
@@ -176,7 +176,7 @@ $("#add_spcimen_list2").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_slide2__special/createBillingSpecimen2.php',
+        url: 'ajax_slide2__special/createBillingSpecimen2.php',
         data: {
             'patient_id': cur_patient_id,
             'cur_pnum': cur_pnum,
@@ -213,7 +213,7 @@ function delbill2(billid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_slide2__special/delBill2.php',
+        url: 'ajax_slide2__special/delBill2.php',
         data: {
             'bill_id': billid,
             'patient_id': patientid,

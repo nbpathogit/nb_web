@@ -6,7 +6,7 @@ function refreshTblHire1(isAlert) {
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
-        url: "/ajax_hire1_fluidlab/getHire1.php",
+        url: "ajax_hire1_fluidlab/getHire1.php",
         data: {patient_id: patient_id},
         success: function (data) {
             //alert(data);
@@ -73,7 +73,7 @@ function delhire1(jobid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_hire1_fluidlab/delHire1.php',
+        url: 'ajax_hire1_fluidlab/delHire1.php',
         data: {
             'job_id': jobid,
             'patient_id': patientid,
@@ -128,7 +128,7 @@ $("#add_list_hire1").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_hire1_fluidlab/createHireList1.php',
+        url: 'ajax_hire1_fluidlab/createHireList1.php',
         data: {
             'outside_id': value,
             'name': name,

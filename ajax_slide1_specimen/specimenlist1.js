@@ -1,11 +1,11 @@
-
+//var subFolder1 = "";
 //Update table of speciment in main page
 function refreshSpecimenList1(isAlert) {
     //alert("start ajax");
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     //alert(cur_patient_id);
     $.ajax({
-        url: "/ajax_slide1_specimen/getBillingSpecimenList1.php?id=%s",
+        url: "ajax_slide1_specimen/getBillingSpecimenList1.php?id=%s",
         data: {id: cur_patient_id},
         success: function (data) {
             //alert(data);
@@ -26,7 +26,7 @@ function updateSelectionSpeceman1(isalert) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_slide1_specimen/getSpecimenList1.php',
+        url: 'ajax_slide1_specimen/getSpecimenList1.php',
         data: {
             'hospital_id': hospital_id
         },
@@ -177,7 +177,7 @@ $("#add_spcimen_list1").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_slide1_specimen/createBillingSpecimen1.php',
+        url: 'ajax_slide1_specimen/createBillingSpecimen1.php',
         data: {
             'patient_id': cur_patient_id,
             'cur_pnum': cur_pnum,
@@ -214,7 +214,7 @@ function delbill1(billid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_slide1_specimen/delBill1.php',
+        url: 'ajax_slide1_specimen/delBill1.php',
         data: {
             'bill_id': billid,
             'patient_id': patientid,

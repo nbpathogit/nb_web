@@ -6,7 +6,7 @@ function refreshTblJob3(isAlert) {
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
-        url: "/ajax_job3_prep_slide/getJob3.php",
+        url: "ajax_job3_prep_slide/getJob3.php",
         data: {cur_patient_id: cur_patient_id},
         success: function (data) {
             //alert(data);
@@ -77,7 +77,7 @@ function deljob3(jobid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job3_prep_slide/delJob3.php',
+        url: 'ajax_job3_prep_slide/delJob3.php',
         data: {
             'job_id': jobid,
             'patient_id': patientid,
@@ -136,7 +136,7 @@ $("#add_job_list3").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job3_prep_slide/createJobList3.php',
+        url: 'ajax_job3_prep_slide/createJobList3.php',
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,

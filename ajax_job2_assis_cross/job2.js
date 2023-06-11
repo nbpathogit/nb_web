@@ -5,7 +5,7 @@ function refreshTblJob2(isAlert) {
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     //alert(cur_patient_id);
     $.ajax({
-        url: "/ajax_job2_assis_cross/getJob2AssisCrossSection.php?cur_patient_id=%s",
+        url: "ajax_job2_assis_cross/getJob2AssisCrossSection.php?cur_patient_id=%s",
         data: {cur_patient_id: cur_patient_id},
         success: function (data) {
             //alert(data);
@@ -76,7 +76,7 @@ function deljob2(jobid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job2_assis_cross/delJob2.php',
+        url: 'ajax_job2_assis_cross/delJob2.php',
         data: {
             'job_id': jobid,
             'patient_id': patientid,
@@ -135,7 +135,7 @@ $("#add_job_list2").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job2_assis_cross/createJobList2.php',
+        url: 'ajax_job2_assis_cross/createJobList2.php',
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,

@@ -4,6 +4,11 @@ require 'includes/init.php';
 $subfolder = str_replace("/","",$_SERVER['PHP_SELF']);
 $subfolder = str_replace("login.php","",$subfolder);
 
+
+//replace file name it self.
+$pieces = explode("/", $_SERVER['PHP_SELF']);
+$subfolder = str_replace($pieces[sizeof($pieces)-1],"",$subfolder);
+
 //echo "<br>";
 //echo "---------------------------------------------------<br>";
 //echo "subfolder =".$subfolder;

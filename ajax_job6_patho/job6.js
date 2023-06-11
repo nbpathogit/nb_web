@@ -7,7 +7,7 @@ function refreshTblJob6(isAlert,patient_id,result_id) {
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
-        url: "/ajax_job6_patho/getJob6.php",
+        url: "ajax_job6_patho/getJob6.php",
         data: {
          
             patient_id: patient_id,
@@ -34,7 +34,7 @@ function updateSecondPathoEditPage(isAlert,patient_id) {
         var isDataAval = true;
         $.ajax({
             type: 'POST',
-            url: "/ajax_job6_patho/getJob6.php",
+            url: "ajax_job6_patho/getJob6.php",
             data: {
 
                 patient_id: patient_id,
@@ -151,7 +151,7 @@ function deljob6(jobid,patient_id,result_id) {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_job6_patho/delJob6.php',
+            url: 'ajax_job6_patho/delJob6.php',
             data: {
                 'job_id': jobid,
                 'patient_id': patient_id,
@@ -227,7 +227,7 @@ function add_job_list6(result_id){
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job6_patho/createJobList6.php',
+        url: 'ajax_job6_patho/createJobList6.php',
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,

@@ -6,7 +6,7 @@ function refreshTblJob4(isAlert) {
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
-        url: "/ajax_job4_prep_sp_slide/getJob4.php",
+        url: "ajax_job4_prep_sp_slide/getJob4.php",
         data: {cur_patient_id: cur_patient_id},
         success: function (data) {
             //alert(data);
@@ -77,7 +77,7 @@ function deljob4(jobid, patientid) {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_job4_prep_sp_slide/delJob4.php',
+            url: 'ajax_job4_prep_sp_slide/delJob4.php',
             data: {
                 'job_id': jobid,
                 'patient_id': patientid,
@@ -136,7 +136,7 @@ $("#add_job_list4").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job4_prep_sp_slide/createJobList4.php',
+        url: 'ajax_job4_prep_sp_slide/createJobList4.php',
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,
@@ -177,7 +177,7 @@ function save_sp_patho_comment() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax_job4_prep_sp_slide/set_sp_comment.php',
+        url: 'ajax_job4_prep_sp_slide/set_sp_comment.php',
         data: {
             'patient_id': patient_id,
             'p_sp_patho_comment': p_sp_patho_comment,

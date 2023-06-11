@@ -50,10 +50,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js">
 </script>
 <script src="<?= Url::getSubFolder1() ?>/js/jquery.datetimepicker.full.min.js"></script>
-<script src="<?= Url::getSubFolder1() ?>/js/script.js?v13xxxxxxxxxcxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/script.js?v13xxxxxxxxxcxxxxxxxxxxxxxxxxx"></script>
 
-<script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_read_dom/readdom.js?v2xxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_read_dom/readdom.js?v2xxxxxxxxxx"></script>
 
 
 
@@ -66,10 +66,15 @@
 ?>
 
     <script type="text/javascript">
+   
         $(document).ready(function() {
             $('#patienttab_8000').remove();
             $('#patientconfirmtab').remove();
         });
+        
+        
+        
+        
     </script>
 
 <?php endif; ?>

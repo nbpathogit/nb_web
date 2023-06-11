@@ -25,7 +25,7 @@ function add_tp_2_txt_rs(rs_id, rpt_id, user_id) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_template_rs/getTemplateNameListByUserByType.php',
+        url: 'ajax_template_rs/getTemplateNameListByUserByType.php',
         data: {
             'user_id': user_id,
             'type_id': rpt_id,
@@ -89,7 +89,7 @@ $('#modal_tprs_select').on('change', function () {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_template_rs/getTemplateByID.php',
+        url: 'ajax_template_rs/getTemplateByID.php',
         data: {
             'id': template_id,
     

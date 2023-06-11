@@ -5,7 +5,7 @@ function refreshTblJob1(isAlert) {
     var cur_patient_id = $(".cur_patient_id").attr('tabindex');
     //alert(cur_patient_id);
     $.ajax({
-        url: "/ajax_job1_crossection/getJob1CrossSection.php?cur_patient_id=%s",
+        url: "ajax_job1_crossection/getJob1CrossSection.php?cur_patient_id=%s",
         data: {cur_patient_id: cur_patient_id},
         success: function (data) {
             //alert(data);
@@ -76,7 +76,7 @@ function deljob1(jobid,patientid) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job1_crossection/delJob1.php',
+        url: 'ajax_job1_crossection/delJob1.php',
         data: {
             'job_id': jobid,
             'patient_id': patientid,
@@ -135,7 +135,7 @@ $("#add_job_list1").on("click", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_job1_crossection/createJobList1.php',
+        url: 'ajax_job1_crossection/createJobList1.php',
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,

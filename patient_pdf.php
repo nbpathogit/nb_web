@@ -273,7 +273,8 @@ $mpdf->SetHTMLFooter($footer);
 
 
 
-
+$signedpatho = "";
+$i = 0;
 
 if (isset($presultupdate2s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
@@ -314,6 +315,20 @@ if (isset($presultupdate2s)) {
             }
 
             $mpdf->WriteHTML($u_result2);
+            if($i==0){
+                //
+                $i = $i +1;
+                $jobPatho = Job::getAll($conn, $patient[0]['id'] , 5);
+                $pathoUserID = $jobPatho[0]['user_id'];
+                $pathoUser = User::getByID($conn, $pathoUserID);
+                $signedpatho = $pathoUser->name_e ." ". $pathoUser->lastname_e." ".$pathoUser->educational_bf;
+                if($isFinished){
+                    $release_time = $prsu['release_time'];
+                }else{
+                    $release_time = "[Time Release]";
+                }
+            }
+            
         }
     }
 } else {
@@ -364,6 +379,12 @@ if ($patient[0]['iscritical'] == 1) {
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_2.php');
 }
 $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_3.php');
+
+$signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf.php');
+
+$signature = str_replace("<signedpatho>", $signedpatho, $signature);
+$signature = str_replace("<release_time>", $release_time, $signature);
+
 if ($hideTable) {
     $signature = str_replace("border: 1px solid green;", "", $signature);
     $signature = str_replace("border: 1px solid red;", "", $signature);

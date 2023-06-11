@@ -87,7 +87,7 @@ $("#nb_price_type").on("change", function () {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_nb_price/get_specimen.php',
+        url: 'ajax_nb_price/get_specimen.php',
         data: {
 
             'type_id': type_id,
@@ -132,7 +132,7 @@ $("#nb_price_del_btn").on("click", function (e) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_nb_price/delSpecimen.php',
+        url: 'ajax_nb_price/delSpecimen.php',
         data: {
 
             'type_id': type_id,
@@ -224,7 +224,7 @@ $("#nb_price_add_btn").on("click", function (e) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: '/ajax_nb_price/addMultRecordiSpecimen.php',
+        url: 'ajax_nb_price/addMultRecordiSpecimen.php',
         data: {
 
             'data': data,

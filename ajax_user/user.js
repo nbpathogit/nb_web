@@ -11,7 +11,7 @@ $('#ugroup_id_user_add').on('change', function () {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_user/getAllbyNonUserId.php',
+            url: 'ajax_user/getAllbyNonUserId.php',
             data: {
                 'id': 1,
             },
@@ -55,7 +55,7 @@ $('#ugroup_id_user_add').on('change', function () {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_user/getAll.php',
+            url: 'ajax_user/getAll.php',
             data: {
                 'id': 1,
             },
@@ -123,7 +123,7 @@ $("#save_user_status").on("click", function () {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_user/setUserStatus.php',
+        url: 'ajax_user/setUserStatus.php',
         data: {
             'user_id': user_id,
             'status': status,
@@ -155,7 +155,7 @@ $("#reset_password_btn").on("click", function () {
             'async': false,
             type: 'POST',
             'global': false,
-            url: '/ajax_user/setUserNameandPassword.php',
+            url: 'ajax_user/setUserNameandPassword.php',
             data: {
                 'user_id': user_id,
                 'username': username_rst,

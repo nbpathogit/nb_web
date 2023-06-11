@@ -62,7 +62,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getBillbyHospitalbyDateRange.php',
+        url: 'ajax_billing/getBillbyHospitalbyDateRange.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -91,7 +91,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getBillbyHospitalbyDateRangeSumPrice.php',
+        url: 'ajax_billing/getBillbyHospitalbyDateRangeSumPrice.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -120,7 +120,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getCostGroupbyServiceTyoebyHospitalbyDateRange.php',
+        url: 'ajax_billing/getCostGroupbyServiceTyoebyHospitalbyDateRange.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -171,7 +171,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getBilling.php',
+        url: 'ajax_billing/getBilling.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -202,7 +202,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getHospital.php',
+        url: 'ajax_billing/getHospital.php',
         data: {
             'hospital_id': hospital_id,
         },
@@ -248,7 +248,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: '/ajax_billing/getCostSpelling.php',
+        url: 'ajax_billing/getCostSpelling.php',
         data: {
             'cost': cost,
         },

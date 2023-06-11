@@ -299,7 +299,7 @@ function addAction2Flow() {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_job4_prep_sp_slide/set_request_sp_slide.php',
+            url: 'ajax_job4_prep_sp_slide/set_request_sp_slide.php',
             data: {
                 'patient_id': cur_patient_id,
                 'request_sp_slide': 1,
@@ -446,7 +446,7 @@ function addAction2Flow() {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_patient_diax_result/set_second_patho_review.php',
+            url: 'ajax_patient_diax_result/set_second_patho_review.php',
             data: {
                 'patient_id': cur_patient_id,
                 'second_patho_review': 0,
@@ -550,7 +550,7 @@ function addAction2Flow() {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_patient_diax_result/set_second_patho_review.php',
+            url: 'ajax_patient_diax_result/set_second_patho_review.php',
             data: {
                 'patient_id': cur_patient_id,
                 'second_patho_review': 1,
@@ -570,6 +570,7 @@ function addAction2Flow() {
 
         var frm = $("<form>");
         frm.attr('method', 'post');
+        //frm.attr('action', 'patient_edit.php');
         frm.attr('');
         frm.append('<input type="hidden" name="status" value="13000" /> ');
         frm.append('<input type="hidden" name="cur_status" value="' + cur_status + '" /> ');
@@ -676,7 +677,7 @@ function addAction2Flow() {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_patient_diax_result/setReleaseTimeIfNull.php',
+            url: 'ajax_patient_diax_result/setReleaseTimeIfNull.php',
             data: {
                 'patient_id': cur_patient_id,
                 'importdate': importdate,
@@ -691,7 +692,7 @@ function addAction2Flow() {
             }
         });
         
-        return;
+        //return;
 
 
 
@@ -712,7 +713,7 @@ function addAction2Flow() {
                 type: 'POST',
                 // make sure you respect the same origin policy with this url:
                 // http://en.wikipedia.org/wiki/Same_origin_policy
-                url: '/ajax_patient_diax_result/set_second_patho_review.php',
+                url: 'ajax_patient_diax_result/set_second_patho_review.php',
                 data: {
                     'patient_id': cur_patient_id,
                     'second_patho_review': 2,
@@ -871,7 +872,7 @@ $("#btnfinish8000").on("click", function (e) {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: '/ajax_job4_prep_sp_slide/set_request_sp_slide.php',
+            url: 'ajax_job4_prep_sp_slide/set_request_sp_slide.php',
             data: {
                 'patient_id': cur_patient_id,
                 'request_sp_slide': 2,

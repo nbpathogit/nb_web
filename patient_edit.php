@@ -1134,23 +1134,23 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 
-<script src="/ajax_slide1_specimen/specimenlist1.js?v3xปปปxxxxxx"></script>
-<script src="/ajax_slide2__special/specialslide2.js?v3xxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v3xปxปxปxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v3xxxx"></script>
 
-<script src="/ajax_job1_crossection/job1.js?v2"></script>
-<script src="/ajax_job2_assis_cross/job2.js?v2"></script>
-<script src="/ajax_job3_prep_slide/job3.js?v2"></script>
-<script src="/ajax_job4_prep_sp_slide/job4.js?v2xxxxxxxx"></script>
-<script src="/ajax_job5_patho/job5.js?v3"></script>
-<script src="/ajax_job6_patho/job6.js?v6"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job1_crossection/job1.js?v2x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job2_assis_cross/job2.js?v2x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job3_prep_slide/job3.js?v2x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job4_prep_sp_slide/job4.js?v2xxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job5_patho/job5.js?v3x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job6_patho/job6.js?v6x"></script>
 
 
 
-<script src="/ajax_hire1_fluidlab/hire1.js?v2"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_hire1_fluidlab/hire1.js?v2x"></script>
 
-<script src="/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxx"></script>
-<script src="/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
                     $(document).ready(function () {

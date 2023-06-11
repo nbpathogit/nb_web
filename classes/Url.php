@@ -26,6 +26,9 @@ class Url {
             $subfolder = str_replace("Url.php", "", $subfolder);
             $subfolder = str_replace("login.php", "", $subfolder);
             $subfolder = str_replace("logout.php", "", $subfolder);
+            //replace file name it self.
+            $pieces = explode("/", $_SERVER['PHP_SELF']);
+            $subfolder = str_replace($pieces[sizeof($pieces)-1],"",$subfolder);
             return $subfolder;
         }
     }
