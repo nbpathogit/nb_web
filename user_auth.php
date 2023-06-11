@@ -9,7 +9,7 @@ $cur_user = Auth::getUser();
 
 //user group id
 // 1000 ผู้ดูแลระบบ
-// 2000 พยาธิ์แพทย์
+// 2000 พยาธิแพทย์
 // 2100 ผู้ช่วยพยาธิแพทย์
 // 2200 เจ้าหน้าที่แลป
 // 2500 เจ้าหน้าที่ธุรการ
@@ -17,7 +17,7 @@ $cur_user = Auth::getUser();
 // 2700 เจ้าหน้าที่งานคุณภาพ
 // 5000 แพทย์ผู้ส่งตรวจ
 // 5100 เจ้าหน้าที่แลป(ลูกค้า)
-//                                       ผู้ดูแลระบบ                            พยาธิ์แพทย์                ผู้ช่วยพยาธิแพทย์                 เจ้าหน้าที่แลป                  เจ้าหน้าที่ธุรการ                    แพทย์ผู้ส่งตรวจ                   เจ้าหน้าที่แลป(ลูกค้า)
+//                                       ผู้ดูแลระบบ                            พยาธิแพทย์                ผู้ช่วยพยาธิแพทย์                 เจ้าหน้าที่แลป                  เจ้าหน้าที่ธุรการ                    แพทย์ผู้ส่งตรวจ                   เจ้าหน้าที่แลป(ลูกค้า)
 $canViewPatientInfo_a_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
 $canViewPlaning_b_1_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
 $canViewPlaning_b_2_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
@@ -26,7 +26,7 @@ $canViewResult_c_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id
 $canViewResult_d_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
 
 // Editable by user group
-//                                       ผู้ดูแลระบบ                       พยาธิ์แพทย์                    ผู้ช่วยพยาธิแพทย์                 เจ้าหน้าที่แลป                    เจ้าหน้าที่ธุรการ                   แพทย์ผู้ส่งตรวจ                  เจ้าหน้าที่แลป(ลูกค้า)
+//                                       ผู้ดูแลระบบ                       พยาธิแพทย์                    ผู้ช่วยพยาธิแพทย์                 เจ้าหน้าที่แลป                    เจ้าหน้าที่ธุรการ                   แพทย์ผู้ส่งตรวจ                  เจ้าหน้าที่แลป(ลูกค้า)
 
 $canEditPatientInfo_a_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
 $canEditPlaning_b_1_group = false || $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500 || $u_cur_group_id->id == "" || $u_cur_group_id->id == "";
@@ -57,7 +57,7 @@ $isDisableSpecialSlide = false;
 $isUpdateResultAval = true;  //Get from database
 // ผู้ใช้ปัจจุบันเป็น แอดมินหรือไม่
 $isCurUserAdmin = $u_cur_group_id->id == 1000;
-// ผู้ใช้ปัจจุบันเป็น พยาธิ์แพทย์ หรือไม่
+// ผู้ใช้ปัจจุบันเป็น พยาธิแพทย์ หรือไม่
 $isCurUserPatho = $u_cur_group_id->id == 2000;
 // ผู้ใช้ปัจจุบันเป็น ผู้ช่วยพยาธิแพทย์ หรือไม่
 $isCurUserPathoAssis = $u_cur_group_id->id == 2100;

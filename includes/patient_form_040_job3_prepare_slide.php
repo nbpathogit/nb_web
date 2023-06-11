@@ -49,15 +49,15 @@ $isBorder = false;
 
 <!--<h5>
     <span align="center">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job3"> เพิ่มพนักงานเตรียมใสลด์ </button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job3"> เพิ่มพนักงานเตรียมสไลด์ </button>
     <button id="refresh_job3" class="btn btn-primary" >Refresh</button>
     </span>
-    <span align="center"><b>(พนักงานเตรียมใสลด์)</b></span>
+    <span align="center"><b>(พนักงานเตรียมสไลด์)</b></span>
 </h5>-->
 
 <p align="left">
     
-    <b>พนักงานเตรียมใสลด์:</b>
+    <b>พนักงานเตรียมสไลด์:</b>
     <span id="owner_job3" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
@@ -146,13 +146,13 @@ $isBorder = false;
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel3">เลือกพนักงานเตรียมสใลด์</h5>
+                <h5 class="modal-title" id="exampleModalLabel3">เลือกพนักงานเตรียมสไลด์</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <?php //$userTechnic ?>      
                 <div class="<?= $isBorder ? "border" : "" ?> ">
-                    <label for="p_slide_prep_id_job3"  class="form-label">เลือกพนักงานเตรียมสใลด์</label>
+                    <label for="p_slide_prep_id_job3"  class="form-label">เลือกพนักงานเตรียมสไลด์</label>
                     <select name="p_slide_prep_id_job3" id="p_slide_prep_id_job3" class="form-select"  >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userTechnic as $user): ?>

@@ -5,15 +5,15 @@
 <hr>
 <!--<h5>
     <span align="center">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job4"> เพิ่มพนักงานเตรียมสใลด์พิเศษ </button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job4"> เพิ่มพนักงานเตรียมสไลด์พิเศษ </button>
     <button id="refresh_job4" class="btn btn-primary" >Refresh</button>
     </span>
-    <span align="center"><b>(พนักงานเตรียมสใลด์พิเศษ)</b></span>
+    <span align="center"><b>(พนักงานเตรียมสไลด์พิเศษ)</b></span>
 </h5>-->
 
 <p align="left">
     
-    <b>พนักงานเตรียมสใลด์พิเศษ:</b>
+    <b>พนักงานเตรียมสไลด์พิเศษ:</b>
     <span id="owner_job4" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
@@ -34,7 +34,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">พนักงานเตรียมสใลด์พิเศษ</h5>
+                <h5 class="modal-title" id="exampleModalLabel1">พนักงานเตรียมสไลด์พิเศษ</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -99,13 +99,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel4">เลือกพนักงานเตรียมสใลด์พิเศษ</h5>
+                <h5 class="modal-title" id="exampleModalLabel4">เลือกพนักงานเตรียมสไลด์พิเศษ</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <?php //$userTechnic ?>      
                 <div class="<?= $isBorder ? "border" : "" ?> ">
-                    <label for="p_slide_prep_id_job4"  class="form-label">เลือกพนักงานเตรียมสใลด์พิเศษ</label>
+                    <label for="p_slide_prep_id_job4"  class="form-label">เลือกพนักงานเตรียมสไลด์พิเศษ</label>
                     <select name="p_slide_prep_id_job4" id="select_job4" class="form-select"  >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userTechnic as $user): ?>

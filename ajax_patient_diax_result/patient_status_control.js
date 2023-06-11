@@ -272,7 +272,7 @@ function addAction2Flow() {
 //          return;
 
 //        if (isset_sp_slide_assigned == '0') {
-//            alert("กรุณาเลือกคนเตรียมใสล์พิเศษก่อน!");
+//            alert("กรุณาเลือกคนเตรียมสไลด์พิเศษก่อน!");
 //            return;
 //        }
 
