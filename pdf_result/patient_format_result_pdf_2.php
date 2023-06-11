@@ -15,7 +15,7 @@
 
 
 <div class="result" style="width: 100%; box-decoration-break: slice; border: 1px solid green;">
-    <b><result_type>:</b> 
+    <b><result_type>:</b><br>
     <result_message><br>
     <span style="font-size: 12pt;"><b><confirm_message></b></span>
     <span style="font-size: 14pt;">&nbsp; (<result_date>)</span>
