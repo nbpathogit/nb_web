@@ -139,4 +139,7 @@ if ($hide) {
 <script src="<?= Url::getSubFolder1() ?>/ajax_nb_price/nb_price.js?v2x"></script>
 <script>
     $("#manage_table").addClass("active");
+    $("#price_tab").addClass("active");
+    $("#manage_table").addClass("show");
+    $(".manage_table_dropdown").addClass("show");
 </script>

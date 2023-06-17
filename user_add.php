@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script type="text/javascript">
     $(document).ready(function() {
         //set active tab
-        $("#user").addClass("active");
+        $("#user_add").addClass("active");
         $("#manage_table").addClass("active");
         $("#manage_table").addClass("show");
         $(".manage_table_dropdown").addClass("show");

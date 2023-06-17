@@ -108,8 +108,8 @@
                     <div class="nav-item dropdown">
                         <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
                         <div class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
-                            <a id="user" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
-                            <a class="nav-item nav-link" id="hospital" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
+                            <a id="user_add" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
+                            <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
                             <a id="user" class="nav-item nav-link" href="user.php">ดูผู้ใช้งานระบบ</a>
                             <a class="nav-item nav-link" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
                             <a id="fluid" href="labfluid.php" class="nav-item nav-link">ดูแลปเซลล์วิทยา</a>
