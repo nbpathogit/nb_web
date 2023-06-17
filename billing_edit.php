@@ -136,8 +136,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#billingtab").addClass("active");
 
+        $("#billingtab").addClass("active");
+        $("#manage_bill").addClass("active");
+        
         // prevent from unsave
         function onNosave(e) {
             e.preventDefault();

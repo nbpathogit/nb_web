@@ -117,6 +117,6 @@ require 'user_auth.php';
 
         //set active tab
         $("#hospital").addClass("active");
-
+        $("#manage_table").addClass("active");
     });
 </script>

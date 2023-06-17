@@ -8,7 +8,7 @@ require 'user_auth.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['trash_id'])) {
         if (User::movetotrash($conn, $_POST['trash_id'])) {
-//        if (User::setUserStatus($conn, $_POST['trash_id'])) {
+            //        if (User::setUserStatus($conn, $_POST['trash_id'])) {
             Url::redirect('/user.php');
         } else {
             Url::redirect('/user.php');
@@ -121,9 +121,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "render": function(data, type, row) {
 
                         var renderdata = '<a href="user_detail.php?id=' + row[0] + '" class="btn btn-outline-success btn-sm me-1 detail"><i class="fa-solid fa-money-check"></i></a><a href="user_edit.php?id=' + row[0] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker fa-lg"></i> Edit</a>';
-                        
+
                         renderdata += '<a href="user_trash.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm trash"><i class="fa-solid fa-trash-can"></i> Trash</a>';
-                        
+
                         <?php if ($isCurUserAdmin) : ?>
                             renderdata += '<a href="user_del.php?id=' + row[0] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i>Delete</a>';
                         <?php endif; ?>
@@ -206,36 +206,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 frm.submit();
             }
         });
-        
-        
+
+
         // trash patient
-        $('#user_table tbody').on('click', 'a.trash', function (e) {
-        var data = table.row($(this).parents('tr')).data();
+        $('#user_table tbody').on('click', 'a.trash', function(e) {
+            var data = table.row($(this).parents('tr')).data();
 
-        e.preventDefault();
-        if (confirm("Item will move to trash. Are you sure?")) {
-            let frm = $("<form>");
+            e.preventDefault();
+            if (confirm("Item will move to trash. Are you sure?")) {
+                let frm = $("<form>");
 
-            frm.attr('method', 'post');
-            frm.attr('action', "user.php");
+                frm.attr('method', 'post');
+                frm.attr('action', "user.php");
 
-            $('<input>', {
-                type: 'hidden',
-                id: 'foo',
-                name: 'trash_id',
-                value:  data[0]
-            }).appendTo(frm);
+                $('<input>', {
+                    type: 'hidden',
+                    id: 'foo',
+                    name: 'trash_id',
+                    value: data[0]
+                }).appendTo(frm);
 
-            frm.appendTo("body");
-            frm.submit();
-            
+                frm.appendTo("body");
+                frm.submit();
 
-        }
-        
-    });
+
+            }
+
+        });
 
 
         // set active tab
         $("#user").addClass("active");
+        $("#manage_table").addClass("active");
     });
 </script>

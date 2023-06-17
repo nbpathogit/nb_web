@@ -106,7 +106,7 @@
                     <!--<a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>-->
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
                     <div class="nav-item dropdown">
-                        <a href="" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
+                        <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="user" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
                             <a class="nav-item nav-link" id="hospital" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
+                        <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
                             <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูและจัดการรายการในใบแจ้งหนี้</a>
@@ -131,7 +131,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a class="dropdown-item" id="about" href="about.php">เกียวกับเรา</a>
                             <a class="dropdown-item" id="webfeature" href="webfeature.php">เกียวกับเว็บแอฟฟลิเคชั่น</a>
-                            <a class="dropdown-item" id="" href="#">ดาวน์โหลดเอกสาร</a>
+                            <a class="dropdown-item" id="docdownload_tab" href="doc_download.php">ดาวน์โหลดเอกสาร</a>
                             <a class="dropdown-item" id="stuff" href="stuff.php">บุคลากร</a>
                             <a class="dropdown-item" id="service" href="service.php">บริการของเรา</a>
                         </div>

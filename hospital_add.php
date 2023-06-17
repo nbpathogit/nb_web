@@ -65,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $(document).ready(function() {
         //set active tab
         $("#hospital").addClass("active");
+        $("#manage_table").addClass("active");
 
         // prevent from unsave
         function onNosave(e) {

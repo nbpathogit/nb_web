@@ -35,7 +35,7 @@ require 'includes/header.php'; ?>
         <table class="table table-hover table-striped" id="billing_table" style="width:100%">
             <thead>
                 <tr>
-                    
+
                     <th scope="col">#</th> <!--0-->
                     <th scope="col">specimen id</th> <!--1-->
                     <th scope="col">patient id</th><!--2-->
@@ -56,11 +56,11 @@ require 'includes/header.php'; ?>
                 </tr>
             </thead>
             <tfoot>
-            <tr>
-                <th colspan="16" style="text-align:right">Total:</th>
-                <th style="text-align:right"></th>
-            </tr>
-        </tfoot>
+                <tr>
+                    <th colspan="16" style="text-align:right">Total:</th>
+                    <th style="text-align:right"></th>
+                </tr>
+            </tfoot>
         </table>
 
     <?php endif; ?>
@@ -72,5 +72,6 @@ require 'includes/header.php'; ?>
 
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
+    $("#manage_bill").addClass("active");
 </script>
 <script src="<?= Url::getSubFolder1() ?>/js/billing.js?v2"></script>

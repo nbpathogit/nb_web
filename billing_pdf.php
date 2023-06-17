@@ -46,20 +46,21 @@ $billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="phospital_id_bill" class="">โรงพยาบาล</label>
-        <select name="phospital_id_bill" id="phospital_id_bill" class="form-select" >
+        <select name="phospital_id_bill" id="phospital_id_bill" class="form-select">
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
-            <?php foreach ($hospitals as $hospital): ?>
-                <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
-                <option value="<?= htmlspecialchars($hospital['id']); ?>" ><?= htmlspecialchars($hospital['hospital']); ?></option>
+            <?php foreach ($hospitals as $hospital) : ?>
+                <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> 
+                ?>
+                <option value="<?= htmlspecialchars($hospital['id']); ?>"><?= htmlspecialchars($hospital['hospital']); ?></option>
             <?php endforeach; ?>
         </select>
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="phospital_id" class=""><b>Start Date:</b></label>
-        <input type="text" name="startdate_billing" id="startdate_billing" class="form-control"> 
+        <input type="text" name="startdate_billing" id="startdate_billing" class="form-control">
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <b> To End Date:</b> <input type="text" name="enddate_billing" id="enddate_billing" class="form-control" >
+        <b> To End Date:</b> <input type="text" name="enddate_billing" id="enddate_billing" class="form-control">
     </div>
 
     <div class=" <?= $isBorder ? "border" : "" ?>">
@@ -91,7 +92,7 @@ label hospital address : <input name="bill_hospital_address" id="bill_hospital_a
 
 
 <span id="bill_hospital_by_service_price">
-<!--    <table
+    <!--    <table
         ><thead>
             <tr><th>sid</th><th>service_type</th><th>bcost_count</th><th>bcost_sum</th></tr></thead><tbody><tr>
                 <td><input type="text" value="1"></td>
@@ -222,7 +223,7 @@ echo '</span>';
             </tr>
         </thead>
         <tbody>
-<!--            <tr class="">
+            <!--            <tr class="">
                 <td class="">40</td>
                 <td><a href="patient_edit.php?id=">SN2302237</a></td>
                 <td>นาย  น้อย พุ่มไม้ </td>
@@ -250,9 +251,15 @@ echo '</span>';
 <!--<script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
-    $(function () {
-        $("#startdate_billing").datepicker({dateFormat: 'yy-mm-dd'});
-        $("#enddate_billing").datepicker({dateFormat: 'yy-mm-dd'});
+    $("#manage_bill").addClass("active");
+    $("#billing_pdf_tab").addClass("active");
+    $(function() {
+        $("#startdate_billing").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+        $("#enddate_billing").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
     });
 </script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_billing/billing.js?v2xxปxxxxxxxxxxxxx"></script>

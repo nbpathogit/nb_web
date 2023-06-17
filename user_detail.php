@@ -102,13 +102,13 @@ if (isset($_GET['id'])) {
                     <tr>
                         <td>Fullname</td>
                         <td>
-                        <?= $user[0]['pre_name_e'] . " " . $user[0]['name_e'] .  " " . $user[0]['lastname_e']; ?>
+                            <?= $user[0]['pre_name_e'] . " " . $user[0]['name_e'] .  " " . $user[0]['lastname_e']; ?>
                         </td>
                     </tr>
                     <tr>
                         <td>ชื่อย่อ</td>
                         <td>
-                        <?= $user[0]['short_name']; ?>
+                            <?= $user[0]['short_name']; ?>
                         </td>
                     </tr>
                     <tr>
@@ -181,4 +181,5 @@ if (isset($_GET['id'])) {
 <script type="text/javascript">
     // set active tab
     $("#user").addClass("active");
+    $("#manage_table").addClass("active");
 </script>

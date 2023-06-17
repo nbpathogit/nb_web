@@ -35,21 +35,22 @@ if ($hide) {
 
         <div class="row align-items-center">
             <div class="col-auto">
-                <select name="nb_price_hospital_select" id="nb_price_hospital_select" class="form-select" <?= ( true ) ? "" : " disabled readonly " ?> >
+                <select name="nb_price_hospital_select" id="nb_price_hospital_select" class="form-select" <?= (true) ? "" : " disabled readonly " ?>>
                     <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
-                    <?php foreach ($hospitals as $hospital): ?>
-                        <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option>   ?>
-                        <option value="<?= htmlspecialchars($hospital['id']); ?>"  ><?= ($hospital['id'] == 0) ? "ราคามาตรฐาน" : $hospital['hospital']; ?></option>
+                    <?php foreach ($hospitals as $hospital) : ?>
+                        <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option>   
+                        ?>
+                        <option value="<?= htmlspecialchars($hospital['id']); ?>"><?= ($hospital['id'] == 0) ? "ราคามาตรฐาน" : $hospital['hospital']; ?></option>
                     <?php endforeach; ?>
-                </select>          
+                </select>
             </div>
 
             <div class="col-auto">
-                <select name="nb_price_type" id="nb_price_type" class="form-select" <?= ( true ) ? "" : " disabled readonly " ?> >
-                    <option value="0"  >กรุณาเลือกชนิด</option>
-                    <option value="1"  >สิ่งส่งตรวจ</option>
-                    <option value="2"  >ย้อมพิเศษ</option>
-                </select>          
+                <select name="nb_price_type" id="nb_price_type" class="form-select" <?= (true) ? "" : " disabled readonly " ?>>
+                    <option value="0">กรุณาเลือกชนิด</option>
+                    <option value="1">สิ่งส่งตรวจ</option>
+                    <option value="2">ย้อมพิเศษ</option>
+                </select>
             </div>
         </div>
 
@@ -61,8 +62,8 @@ if ($hide) {
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-info rounded align-items-center justify-content-left p-3 mx-1">
         <h1>Price of type <span class="nb_price_type_txt"></span> of hospital <span class="nb_price_hospital_txt"></span> in system</h1>
-        <div class="col-auto" >
-            <button name="nb_price_del_btn" id="nb_price_del_btn"  type="" class="btn btn-primary" >&nbsp;&nbsp;delete&nbsp;&nbsp;</button>
+        <div class="col-auto">
+            <button name="nb_price_del_btn" id="nb_price_del_btn" type="" class="btn btn-primary">&nbsp;&nbsp;delete&nbsp;&nbsp;</button>
         </div>
 
 
@@ -77,7 +78,7 @@ if ($hide) {
                     border-collapse: collapse;
                 }
             </style>
-            <table class="" id="nb_price_tbl"> 
+            <table class="" id="nb_price_tbl">
                 <thead>
                     <tr>
                         <th> row_id </td>
@@ -88,8 +89,8 @@ if ($hide) {
                         <th> price </th>
                         <th> comment </th>
                         <th> create date </th>
-                        <th> add by </th>  
-                        <th> edit by </th>  
+                        <th> add by </th>
+                        <th> edit by </th>
                     </tr>
                 </thead>
                 <tbody id="">
@@ -123,12 +124,12 @@ if ($hide) {
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-info rounded align-items-left justify-content-left p-3 mx-1">
         <h1>Add price of type <span class="nb_price_type_txt"></span> to hospital<span class="nb_price_hospital_txt"></span> to system.</h1>
-        <div class="col-auto" >
-            <button name="nb_price_add_btn" id="nb_price_add_btn"  type="" class="btn btn-primary" >&nbsp;&nbsp;Add&nbsp;&nbsp;</button>
+        <div class="col-auto">
+            <button name="nb_price_add_btn" id="nb_price_add_btn" type="" class="btn btn-primary">&nbsp;&nbsp;Add&nbsp;&nbsp;</button>
         </div>
         <label for="result_message"><b>Paste data from excel</b></label>
         <p>ลำดับ->code->รายการ->หน่วยนับ->ราคา->comment</p>
-        <textarea name="nb_price_add_txt_area" cols="100" rows="5" class="form-control" id="nb_price_add_txt_area" ></textarea>
+        <textarea name="nb_price_add_txt_area" cols="100" rows="5" class="form-control" id="nb_price_add_txt_area"></textarea>
     </div>
 </div>
 
@@ -136,3 +137,6 @@ if ($hide) {
 <?php require 'includes/footer.php'; ?>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_nb_price/nb_price.js?v2x"></script>
+<script>
+    $("#manage_table").addClass("active");
+</script>
