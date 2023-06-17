@@ -98,5 +98,7 @@ require 'user_auth.php';
         // set active tab
         $("#fluid").addClass("active");
         $("#manage_table").addClass("active");
+        $("#manage_table").addClass("show");
+        $(".manage_table_dropdown").addClass("show");
     });
 </script>

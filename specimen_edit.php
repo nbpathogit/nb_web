@@ -86,6 +86,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script type="text/javascript">
     $(document).ready(function() {
         $("#specimentab").addClass("active");
+        $("#manage_table").addClass("active");
+        $("#manage_table").addClass("show");
+        $(".manage_table_dropdown").addClass("show");
 
         // prevent from unsave
         function onNosave(e) {

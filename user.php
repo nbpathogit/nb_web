@@ -229,14 +229,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 frm.appendTo("body");
                 frm.submit();
 
-
             }
-
         });
 
 
         // set active tab
         $("#user").addClass("active");
         $("#manage_table").addClass("active");
+        $("#manage_table").addClass("show");
+        $(".manage_table_dropdown").addClass("show");
     });
 </script>

@@ -104,5 +104,8 @@ $conn = require 'includes/db.php';
 
         // set active tab
         $("#specimentab").addClass("active");
+        $("#manage_table").addClass("active");
+        $("#manage_table").addClass("show");
+        $(".manage_table_dropdown").addClass("show");
     });
 </script>
