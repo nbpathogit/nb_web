@@ -96,6 +96,7 @@ function repaintspecimentable2(data) {
                 '<td>' + datajson[i].number + '</td>'+//Surgical Number
                 '<td>' + datajson[i].code_description + '</td>'+ //ex 33000
                 '<td>' + datajson[i].description + '</td>'+
+                '<td>' + datajson[i].sp_slide_block + '</td>'+
                 '<td>' + datajson[i].cost + '</td>'+
                 '<td>' + datajson[i].comment + '</td>'+
                 '<td>' + '<a  billid="'+datajson[i].id+'" onclick="delbill2('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
@@ -103,7 +104,7 @@ function repaintspecimentable2(data) {
         
         $('#spcimen_list_table2 tbody').append(str);
         
-        var str2 = '<span class="badge rounded-pill bg-primary" id="">('+datajson[i].code_description+')'+datajson[i].description+'</span> ';
+        var str2 = '<span class="badge rounded-pill bg-primary" id="">('+datajson[i].code_description+')('+datajson[i].description+')('+datajson[i].sp_slide_block+')('+datajson[i].cost+')</span> ';
         $('#spcimen_list2').append(str2);
     }
 
@@ -171,14 +172,56 @@ $("#add_spcimen_list2").on("click", function () {
         alert("No data insert");
         return null;
     }
+    
+    
+    
+    var uresultTypeNameLastest = '';
+    $('.uresultTypeName li').each(function (index) {
+        uresultTypeNameLastest = $(this).attr('tabindex');
+    });
+
+
+    //loop insert block name.
+    let SP2_Scope = document.getElementById("SP2_Scope");
+    let input_blox = SP2_Scope.getElementsByTagName("input");
+    let blox_name = [];
+    let blox_count = 0;
+    for (i = 0; i < input_blox.length; i++) {
+        if (input_blox[i].checked) {
+            console.log("Checked");
+            console.log(input_blox[i].getAttribute("va"));
+            blox_name.push(input_blox[i].getAttribute("va"));
+            blox_count = blox_count + 1;
+        } else {
+            console.log("UnChecked");
+            console.log(input_blox[i].getAttribute("va"));
+        }
+    }
+    
+    if(blox_count==0){
+        alert("ยังไม่ได้เลือกชนิดบล็ฮก กรุณาเลือกชนิดบล็อก ก่อน");
+        return null;
+    }
+    
+    for(i = 0; i < blox_name.length ; i++){
+        console.log(blox_name[i]);
+    }
+    
+    console.log("blox_count = "+blox_count)
+
+
+    
+    //return null;
 
     $.ajax({
         type: 'POST',
+        'async': false,
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
         url: 'ajax_slide2__special/createBillingSpecimen2.php',
         data: {
             'patient_id': cur_patient_id,
+            'blox_name':blox_name,
             'cur_pnum': cur_pnum,
             'specimen_id': specimen_id,
             'specimen_num': specimen_num,//specimen code
@@ -192,6 +235,13 @@ $("#add_spcimen_list2").on("click", function () {
             'date_1000': date_1000
         },
         success: function (data) {
+            
+            console.log(data);
+            if (data[0] != "[") {
+                alert(data);
+            }
+            //return null;
+            
             repaintspecimentable2(data);
         },
         error: function (jqxhr, status, exception) {

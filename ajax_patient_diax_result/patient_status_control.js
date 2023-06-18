@@ -286,37 +286,116 @@ function addAction2Flow() {
         
         
         
-        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
-        var lastest_secondP_userid = get_lastest_SecondPatho_userid_in_uresult();
-        var lastest_result_id = get_lastest_uresultid();
-        var lastest_job6_id = get_lastest_job6_id();
+        let cur_patient_id = $(".cur_patient_id").attr('tabindex');
+        let lastest_secondP_userid = get_lastest_SecondPatho_userid_in_uresult();
+        let lastest_result_id = get_lastest_uresultid();
+        let lastest_job6_id = get_lastest_job6_id();
+        let cur_user_id = get_cur_user_id();
+        
+        let comment = $("#p_sp_patho_comment").val();
         
 //        alert("lastest_secondP_userid = "+lastest_secondP_userid+" and lastest_result_id= "+lastest_result_id+" lastest_job6_id="+lastest_job6_id);
 //        return;
 
         //set second_patho_review = 1
+//        $.ajax({
+//            type: 'POST',
+//            // make sure you respect the same origin policy with this url:
+//            // http://en.wikipedia.org/wiki/Same_origin_policy
+//            url: 'ajax_job4_prep_sp_slide/set_request_sp_slide.php',
+//            data: {
+//                'patient_id': cur_patient_id,
+//                'request_sp_slide': 1,
+////                'result_id': lastest_result_id,
+////                'user_id': lastest_secondP_userid,   //Allow to add user later
+////                'job6_id': lastest_job6_id,            //Allow to add job later
+//            },
+//            success: function (data) {
+//                console.log(data);
+////                alert(data);
+//                if (data[0] != "[") {
+//                    alert(data);
+//                }
+//
+//
+//            },
+//            error: function (jqxhr, status, exception) {
+//                alert('Exception:', exception);
+//            }
+//        });
+
+        
+        
+        
+        //====Check Whether Data Ready to Proceed======
+        
+        let spcimen_list2_scope = document.getElementById("spcimen_list2");
+        let taginside = spcimen_list2_scope.getElementsByTagName("span");
+        let spcimen_list2_count = 0;
+        for (i = 0; i < taginside.length; i++) {
+            spcimen_list2_count = spcimen_list2_count + 1;
+            console.log(taginside[i].textContent);
+        }
+        
+        //owner_job4
+        let owner_job4_scope = document.getElementById("owner_job4");
+        let taginside2 = owner_job4_scope.getElementsByTagName("span");
+        let owner_job4_count = 0;
+        for (i = 0; i < taginside2.length; i++) {
+            owner_job4_count = owner_job4_count + 1;
+            console.log(taginside2[i].textContent);
+        }
+        
+        if(spcimen_list2_count == 0){
+            alert('ยังไม่ได้เลือกรายการขอสไลดด์พิเศษ');
+            return null;
+        }
+        if(owner_job4_count == 0){
+            alert('ยังไม่ได้เลือกพนักงานเตรียมสไลด์พิเศษ');
+            return null;
+        }
+        
+
+//        alert("a");
+//        return null;
+
+        
+        
+        
+        //====Create Request ID======
         $.ajax({
             type: 'POST',
-            // make sure you respect the same origin policy with this url:
-            // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: 'ajax_job4_prep_sp_slide/set_request_sp_slide.php',
+            'async': false,
+            url: 'ajax_job4_prep_sp_slide/new_request_sp_slide.php',
             data: {
                 'patient_id': cur_patient_id,
-                'request_sp_slide': 1,
-//                'result_id': lastest_result_id,
-//                'user_id': lastest_secondP_userid,   //Allow to add user later
-//                'job6_id': lastest_job6_id,            //Allow to add job later
+                'cur_user_id':cur_user_id,
+                'comment': comment
             },
             success: function (data) {
-                console.log(data);
-//                alert(data);
 
+                console.log(data);
+                if (data[0] != "[") {
+                    alert(data);
+                }
+                //return null;
+
+                //repaintspecimentable2(data);
             },
             error: function (jqxhr, status, exception) {
                 alert('Exception:', exception);
             }
         });
-
+        
+         refreshTblJob4(false);
+         refreshSpecimenList2(false);
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -331,6 +410,8 @@ function addAction2Flow() {
         
         $("#sp_status_message h3").remove();
         $("#sp_status_message").append('<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>');
+        $("#p_sp_patho_comment").val("");
+        refreshSpSlideRequested(false);
         
         alert('done');
         

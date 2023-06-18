@@ -230,7 +230,7 @@ function getSrvTimeRemain() {
         type: 'POST',
         'global': false,
         'dataType': 'html',
-        url: "/ajax_timeout/getSrvTimeRemain.php",
+        url: "ajax_timeout/getSrvTimeRemain.php",
         data: {
             patient_id: 1,
         },

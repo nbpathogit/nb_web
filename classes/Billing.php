@@ -14,6 +14,11 @@
 class Billing {
     
     public $id;          //int(11)
+    public $req_id;      //Request id
+    
+    public $req_date;      //Request id
+    public $req_finish_date;      //Request id
+    
     public $specimen_id; //int(11) link ot id in specimenList table
     public $patient_id;  //int(11)		
     public $number;      //varchar(32)	
@@ -21,7 +26,18 @@ class Billing {
     public $lastname;    //varchar(32)	
     public $slide_type;  //tinyint(4)
     public $code_description; //Code Name
-    public $description; //text	        
+    public $description; //text	
+    
+    
+    
+    
+    public $nm_slide_count; //text	
+    public $sp_slide_block; //text	
+    public $sp_slide_count; //text	
+    
+    
+    
+    
     public $import_date; //date			
     public $report_date; //varchar(16)	
     public $hospital;    //varchar(32)	
@@ -39,6 +55,29 @@ class Billing {
                 FROM billing ";
         
         $sql = $sql . " WHERE 1=1 ";
+        
+        
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        if ($type != 0) {
+            $sql = $sql . " and slide_type = " . $type;
+        }
+        if ($start != '0') {
+            $sql .= " and date(import_date) >= '{$start}'";
+        }
+        $sql = $sql . " ORDER BY id";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+        public static function getAllUnRequest($conn, $patient_id = 0,$type = 0, $start = '0') {
+        $sql = "SELECT *
+                FROM billing ";
+        
+        $sql = $sql . " WHERE req_id = 0 ";
         
         
         if ($patient_id != 0) {
@@ -133,19 +172,25 @@ class Billing {
     public function create($conn) {
 
         //$specimen_id
-        $sql = "INSERT INTO `billing` (`id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`, `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
-        . "VALUES                     (NULL, :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description , :import_date ,  :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
+        $sql = "INSERT INTO `billing` (`id`, `req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
+        . "VALUES                     (NULL, :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
 
 
         $stmt = $conn->prepare($sql);
 
+        $stmt->bindValue(':req_id',$this->req_id ,PDO::PARAM_INT);      //int(11)
+        
         $stmt->bindValue(':specimen_id',$this->specimen_id ,PDO::PARAM_INT);      //int(11)		
         $stmt->bindValue(':patient_id' ,$this->patient_id  ,PDO::PARAM_INT);      //int(11)		
         $stmt->bindValue(':number'     ,$this->number      ,PDO::PARAM_STR);      //varchar(32)	patient pnum
         $stmt->bindValue(':name'       ,$this->name        ,PDO::PARAM_STR);      //varchar(32)	
         $stmt->bindValue(':lastname'   ,$this->lastname    ,PDO::PARAM_STR);      //varchar(32)	
         $stmt->bindValue(':slide_type' ,$this->slide_type  ,PDO::PARAM_STR);      //tinyint(4)	
-        $stmt->bindValue(':code_description' ,$this->code_description  ,PDO::PARAM_STR);      
+        $stmt->bindValue(':code_description' ,$this->code_description  ,PDO::PARAM_STR);   
+        
+        $stmt->bindValue(':nm_slide_count' ,$this->nm_slide_count ,PDO::PARAM_INT);      //int(11)
+        $stmt->bindValue(':sp_slide_block' ,$this->sp_slide_block ,PDO::PARAM_STR); 
+        $stmt->bindValue(':sp_slide_count' ,$this->sp_slide_count ,PDO::PARAM_INT);      //int(11)
 
         $stmt->bindValue(':description',$this->description ,PDO::PARAM_STR);      //text	        
         $stmt->bindValue(':import_date',$this->import_date ,PDO::PARAM_STR);      //date			
@@ -173,13 +218,20 @@ class Billing {
     {
         $billing = new Billing();
         
-        $billing->patient_id  =0;      //int(11)		
+        $billing->patient_id  =0;      //int(11)	
+        $billing->req_id = 0;          //Request id
         $billing->number      ="";      //varchar(32)	patient pnum
         $billing->name        ="";      //varchar(32)	
         $billing->lastname    ="";      //varchar(32)	
         $billing->slide_type  =0;      //tinyint(4)
         $billing->code_description = "";
-        $billing->description ="";      //text	        
+        $billing->description ="";      //text	
+
+        $billing->nm_slide_count=0; //text	
+        $billing->sp_slide_block=""; //text	
+        $billing->sp_slide_count=0; //text
+
+        
         $billing->import_date ="0000-00-00 00:00:00";      //datetime			
         $billing->report_date =null;      //datetime	
         $billing->hospital    ="";      //varchar(32)	
@@ -233,5 +285,36 @@ class Billing {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+//    public static function setRequestIDifNotSet($conn, $patient_id, $req_id)
+//    {
+//        $sql = "UPDATE `billing` "
+//                . "SET `req_id` = :req_id "
+//                . "WHERE (`patient_id` = :patient_id and `req_id` = 0)";
+//
+//        $stmt = $conn->prepare($sql);
+//
+//        $stmt->bindValue(':req_id', $req_id, PDO::PARAM_INT);
+//        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+//
+//        return $stmt->execute();
+//    }
+    
+    public static function setRequestIDifNotSet_SlideType2($conn, $patient_id, $req_id,$req_date)
+    {
+        $sql = "UPDATE `billing` "
+                . "SET `req_id` = :req_id,  `req_date` = :req_date "
+                . "WHERE (`patient_id` = :patient_id and `req_id` = 0 and slide_type = 2)";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':req_id', $req_id, PDO::PARAM_INT);
+        $stmt->bindValue(':req_date', $req_date, PDO::PARAM_STR);
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
 
 }

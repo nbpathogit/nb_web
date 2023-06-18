@@ -2,7 +2,7 @@
 
 
 <!--Table Modal Job4-->
-<hr>
+<!--<hr>-->
 <!--<h5>
     <span align="center">
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job4"> เพิ่มพนักงานเตรียมสไลด์พิเศษ </button>

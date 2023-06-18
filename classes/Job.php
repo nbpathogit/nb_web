@@ -15,7 +15,8 @@ class Job
 {
 
     //put your code here
-    public $id;  //int(11) Primary	
+    public $id;  //int(11) Primary
+    public $req_id; // int
     public $job_role_id;  //int(11)			
     public $patient_id;  // int(11)		
     public $result_id;  // int(11)		
@@ -166,7 +167,26 @@ class Job
     {
         $sql = "SELECT * FROM `job` ";
 
-        $sql = $sql . " WHERE 1=1 ";
+        $sql = $sql . " WHERE 0 = 0 ";
+
+
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        $sql = $sql . " and job_role_id = " . $jobrole_id;
+
+        $sql = $sql . " ORDER BY id DESC";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getByPatientJobRole_Unassigned($conn, $patient_id = 0, $jobrole_id = 0)
+    {
+        $sql = "SELECT * FROM `job` ";
+
+        $sql = $sql . " WHERE req_id = 0 ";
 
 
         if ($patient_id != 0) {
@@ -269,6 +289,36 @@ class Job
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':result_id', $result_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    public static function setRequestIDifNotSet($conn, $patient_id, $req_id, $job_role_id)
+    {
+        $sql = "UPDATE `job` "
+                . "SET `req_id` = :req_id "
+                . "WHERE (`patient_id` = :patient_id and `req_id` = 0 and job_role_id = :job_role_id)";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':req_id', $req_id, PDO::PARAM_INT);
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':job_role_id', $job_role_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    public static function setRequestIDifNotSetJobRole4($conn, $patient_id, $req_id, $req_date)
+    {
+        $sql = "UPDATE `job` "
+                . "SET `req_id` = :req_id ,  `req_date` = :req_date "
+                . "WHERE (`patient_id` = :patient_id and `req_id` = 0 and job_role_id = 4)";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':req_id', $req_id, PDO::PARAM_INT);
+        $stmt->bindValue(':req_date', $req_date, PDO::PARAM_STR);
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
 
         return $stmt->execute();
     }

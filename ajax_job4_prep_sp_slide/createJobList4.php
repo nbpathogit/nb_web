@@ -27,7 +27,7 @@ $job->finish_date = null;
 
 $job->create($conn);
 
-$jobs = Job::getByPatientJobRole($conn, (int) $_POST['patient_id'],4);
+$jobs = Job::getByPatientJobRole_Unassigned($conn, (int) $_POST['patient_id'],4);
 
 echo json_encode($jobs);
 

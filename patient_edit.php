@@ -660,7 +660,8 @@ $billing2s = Billing::getAll($conn, $_GET['id'], 2);
 $job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
 $job_assis_crosss = Job::getAssisCrossSection($conn, $patient[0]['id']);
 $job3s = Job::getByPatientJobRole($conn, $patient[0]['id'], 3);
-$job4s = Job::getByPatientJobRole($conn, $patient[0]['id'], 4);
+//$job4s = Job::getByPatientJobRole($conn, $patient[0]['id'], 4);
+$job4s = Job::getByPatientJobRole_Unassigned($conn, $patient[0]['id'], 4);
 $job5s = Job::getByPatientJobRole($conn, $patient[0]['id'], 5); // Patho1
 $job6s = Job::getByPatientJobRole($conn, $patient[0]['id'], 6); // Second Patho1
 
@@ -1058,28 +1059,56 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
             }
             ?>
         </span>
+        
+        <span id="sp_slide_requested">
+            <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+                <p align="center"><b>รายการที่ xx ส่งย้อมพิเศษแล้วเมื่อ xx</b>
+                </p>
+                <p align="left">
+                    <b>พนักงานเตรียมสไลด์พิเศษ:</b>
+                    <span id="owner_job4_rq" style="font-size:20px">
+                        <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
+                        <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
+                        <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
+                    </span>
+                </p>
+                <p align="left">
+                    <b>รายการขอสไลดด์พิเศษ:</b>
+                    <span id="spcimen_list2_rq" style="font-size:20px">
+                        <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
+                        <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
+                        <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
+                    </span>  
+                </p>
+            </div>
+        </span>
 
-
+        <hr noshade="noshade" width="" size="6">
+        <!--<hr>-->
+        <h5 align="center"><b>ใส่ข้อมูลเพื่อร้องขอย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
+        
+        <!--<hr noshade="noshade" width="" size="4">-->
+        <hr>
         <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
         <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
         <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
 
-        <hr>
+        <!--<hr>-->
         <!--<form id="slide_prep" name="" method="post">-->
 
         <div align=""  class="mb-3">
             <label for="p_sp_patho_comment">Comment</label><br>
 
-            <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" <?= $isEditModePageOn && $isEditModePageForSpSlidePrepDataOn && ($userAuthEdit && $curStatusAuthEdit) ? "" : " readonly " ?> ><?= htmlspecialchars($patient[0]['p_sp_patho_comment']); ?></textarea>
+            <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment"  ></textarea>
             <?php if (!$isCurUserCust): ?>
-            <a class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
-            <a class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
+            <a hidden class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
+            <a hidden class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
             <?php endif; ?>
         </div>
 
          <?php if (!$isCurUserCust): ?>
         <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ($is_SP || !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
-        <button name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
+        <button hidden="" name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
         <?php endif; ?>
         <!--</form>-->
 
@@ -1134,8 +1163,9 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v3xปxปxปxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v3xxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v3xปxปxปxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v3xxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v1xxxxxxxxxxxxx"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_job1_crossection/job1.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job2_assis_cross/job2.js?v2x"></script>
@@ -1150,7 +1180,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
                     $(document).ready(function () {

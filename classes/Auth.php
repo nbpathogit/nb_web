@@ -49,6 +49,7 @@ class Auth {
 
         if ($curTime >= $_SESSION['targetSrvTimeOutIntSecs']) {
             Auth::logout();
+            Url::redirect('/login.php');
         } else {
             $_SESSION['curSrvTimeIntSecs'] = $curTime;
             $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];

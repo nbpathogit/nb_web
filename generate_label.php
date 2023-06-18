@@ -124,35 +124,32 @@ if (!$labelPrints) {
                 </div>
             </div>
             <label for="" class="form-label">Select type </label>
-            <br>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="A" name="A"><label for="A" class="form-check-label">A</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="B" name="B"><label for="B" class="form-check-label">B</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="C" name="C"><label for="C" class="form-check-label">C</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="D" name="D"><label for="D" class="form-check-label">D</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="E" name="E"><label for="E" class="form-check-label">E</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="F" name="F"><label for="F" class="form-check-label">F</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="G" name="G"><label for="G" class="form-check-label">G</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="H" name="H"><label for="H" class="form-check-label">H</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="I" name="I"><label for="I" class="form-check-label">I</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="J" name="J"><label for="J" class="form-check-label">J</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="K" name="K"><label for="K" class="form-check-label">K</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="L" name="L"><label for="L" class="form-check-label">L</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="M" name="M"><label for="M" class="form-check-label">M</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="N" name="N"><label for="N" class="form-check-label">N</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="O" name="O"><label for="O" class="form-check-label">O</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="P" name="P"><label for="P" class="form-check-label">P</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Q" name="Q"><label for="Q" class="form-check-label">Q</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="R" name="R"><label for="R" class="form-check-label">R</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="S" name="S"><label for="S" class="form-check-label">S</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="T" name="T"><label for="T" class="form-check-label">T</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="U" name="U"><label for="U" class="form-check-label">U</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="V" name="V"><label for="V" class="form-check-label">V</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="W" name="W"><label for="W" class="form-check-label">W</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="X" name="X"><label for="X" class="form-check-label">X</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Y" name="Y"><label for="Y" class="form-check-label">Y</label></div>
-            <div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Z" name="Z"><label for="Z" class="form-check-label">Z</label></div>
-            <br>
-
+                            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="A" name="A">A</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="B" name="B">B</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="C" name="C">C</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="D" name="D">D</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="E" name="E">E</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="F" name="F">F</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="G" name="G">G</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="H" name="H">H</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="I" name="I">I</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="J" name="J">J</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="K" name="K">K</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="L" name="L">L</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="M" name="M">M</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="N" name="N">N</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="O" name="O">O</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="P" name="P">P</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Q" name="Q">Q</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="R" name="R">R</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="S" name="S">S</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="T" name="T">T</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="U" name="U">U</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="V" name="V">V</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="W" name="W">W</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="X" name="X">X</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Y" name="Y">Y</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Z" name="Z">Z</div></label>
             <div class="">
                 <button name="add" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Add to list&nbsp;&nbsp;</button>
             </div>
