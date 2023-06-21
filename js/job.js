@@ -65,11 +65,11 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                let html = "<b>#:</b>" + row[0];
-                html += "<br><b>Job role id:</b> " + row[1];
-                html += "<br><b>Patient id:</b> " + row[2];
-                html += "<br><b>User id:</b> " + row[4];
-                html += "<br><b>Pay:</b> " + row[9];
+                // let html = "<b>#:</b>" + row[0];
+                // html += "<br><b>Job role id:</b> " + row[1];
+                // html += "<br><b>Patient id:</b> " + row[2];
+                // html += "<br><b>User id:</b> " + row[4];
+                let html = "Pay:</b> " + row[9];
                 html += "<br><b>Cost count per day:</b> " + row[10];
                 html += "<br><b>Comment:</b> " + row[11];
                 return html;
