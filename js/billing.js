@@ -6,12 +6,12 @@ $(document).ready(function () {
     var table = $('#billing_table').DataTable({
         footerCallback: function (row, data, start, end, display) {
             var api = this.api();
- 
+
             // Remove the formatting to get integer data for summation
             var intVal = function (i) {
                 return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
             };
- 
+
             // Total over all pages
             total = api
                 .column(15)
@@ -19,7 +19,7 @@ $(document).ready(function () {
                 .reduce(function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0);
- 
+
             // Total over this page
             pageTotal = api
                 .column(15, { page: 'current' })
@@ -27,7 +27,7 @@ $(document).ready(function () {
                 .reduce(function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0);
- 
+
             // Update footer
             $(api.column(15).footer()).html('$' + pageTotal + ' ( $' + total + ' total)');
         },
@@ -91,7 +91,7 @@ $(document).ready(function () {
         },
         {
             visible: false,
-            targets: [1, 2, 5 ,10 ,14]
+            targets: [1, 2, 5, 10, 14]
         },
         {
             searchPanes: {
@@ -102,7 +102,7 @@ $(document).ready(function () {
         searchPanes: {
             initCollapsed: true,
         },
-        
+
     });
 
     table.on('draw', function () {
@@ -122,8 +122,7 @@ $(document).ready(function () {
             data.push(rawdata[count]);
         }
 
-        let csvContent = "data:text/csv;charset=utf-8," +
-            data.map(e => e.join(",")).join("\n");
+        let csvContent = data.map(e => e.join(",")).join("\n");
 
         var encodedUri = encodeURIComponent("\uFEFF" + csvContent);
         var link = document.createElement("a");
