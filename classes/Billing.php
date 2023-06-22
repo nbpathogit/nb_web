@@ -93,7 +93,7 @@ class Billing {
 
         $results = $conn->query($sql);
 
-        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+        return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public static function getAllforBillPage($conn, $start = '0') {
@@ -110,7 +110,25 @@ class Billing {
 
         $results = $conn->query($sql);
 
-        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getAllDateforBillPage($conn, $start = '0',$end = '0') {
+        $sql = "SELECT *, h.id as hid, b.id as bid FROM".
+                " billing as b ".
+                " JOIN hospital as h".
+                " JOIN service_type as s".
+                " JOIN patient as p".
+                " WHERE h.id = b.hospital_id and b.slide_type = s.id and b.patient_id = p.id ";
+                if ($end != '0') {
+                  $sql .= " and date(b.import_date) >= '{$start}'";
+                  $sql .= " and date(b.import_date) <= '{$end}'";
+                }
+                $sql = $sql . " ORDER by b.id ;";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public static function getBillbyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {

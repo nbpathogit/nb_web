@@ -2,6 +2,11 @@ $(document).ready(function () {
 
     var rawdata;
 
+    var start = moment().startOf('month');
+    var end = moment().endOf('month');
+    var startRange = start.format('YYYY-MM-DD');
+    var endRange = end.format('YYYY-MM-DD');
+
     // table data
     var table = $('#billing_table').DataTable({
         footerCallback: function (row, data, start, end, display) {
@@ -29,52 +34,11 @@ $(document).ready(function () {
                 }, 0);
 
             // Update footer
-            $(api.column(15).footer()).html('$' + pageTotal + ' ( $' + total + ' total)');
+            $(api.column(15).footer()).html('รวมหน้านี้ ' + pageTotal + ' บาท \t (รวมทั้งหมด ' + total + ' บาท)');
         },
-        "ajax": "data/billing.php?skey=" + skey + "&range=1m",
+        "ajax": "data/billing.php?skey=" + skey + "&start=" + startRange + "&end=" + endRange,
         responsive: true,
-        dom: 'PlfBrtip',
-        buttons: [{
-            extend: 'collection',
-            text: 'ระยะเวลาย้อนหลัง',
-            autoClose: true,
-            buttons: [{
-                text: '1 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/billing.php?skey=" + skey + "&range=1m").load();
-                }
-            },
-            {
-                text: '3 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/billing.php?skey=" + skey + "&range=3m").load();
-                }
-            },
-            {
-                text: '6 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/billing.php?skey=" + skey + "&range=6m").load();
-                }
-            },
-            {
-                text: '1 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/billing.php?skey=" + skey + "&range=1y").load();
-                }
-            },
-            {
-                text: '2 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/billing.php?skey=" + skey + "&range=2y").load();
-                }
-            },
-            {
-                text: 'ทั้งหมด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/billing.php?skey=" + skey + "").load();
-                }
-            }]
-        },],
+        dom: 'Plfrtip',
         columnDefs: [{
             "render": function (data, type, row) {
                 let html = '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '">' + row[3] + '</a>';
@@ -102,6 +66,7 @@ $(document).ready(function () {
         searchPanes: {
             initCollapsed: true,
         },
+        order: [[0, 'desc']],
 
     });
 
@@ -109,6 +74,7 @@ $(document).ready(function () {
         // console.log(table.rows().data());
         rawdata = table.rows().data();
         // console.log(rawdata);
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     });
 
     $("#csvdownload").click(function () {
@@ -132,6 +98,30 @@ $(document).ready(function () {
         link.click();
     });
 
+    function cbTimerange(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        startRange = start.format('YYYY-MM-DD');
+        endRange = end.format('YYYY-MM-DD');
+        table.ajax.url("data/billing.php?skey=" + skey + "&start=" + startRange + "&end=" + endRange).load();
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+            'Today': [moment().startOf('days'), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+            'Last 3 Month': [moment().subtract(2, 'month').startOf('month'), moment()],
+            'This Years': [moment().startOf('year'), moment()]
+        }
+    }, cbTimerange);
+
+
+    // cbTimerange(start, end);
 
     //set active tab
     $("#billing_tab").addClass("active");

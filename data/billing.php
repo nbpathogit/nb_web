@@ -4,7 +4,7 @@ require '../includes/init.php';
 
 $auth = false;
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    if (!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1(). "/billing")) {
+    if (!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1() . "/billing")) {
 
         // >>>> Security check
         if (empty($_SESSION['skey']) || empty($_REQUEST['skey']) || ($_SESSION['skey'] != $_REQUEST['skey'])) {
@@ -24,7 +24,11 @@ if ($auth) {
     $conn = require '../includes/db.php';
 
     $range = "0";
-    if (isset($_REQUEST['range'])) {
+    if (isset($_REQUEST['end'])) {
+
+        $bills = Billing::getAllDateforBillPage($conn, $_REQUEST['start'], $_REQUEST['end']);
+
+    } else if (isset($_REQUEST['range'])) {
 
         date_default_timezone_set('Asia/Bangkok');
 
@@ -40,18 +44,19 @@ if ($auth) {
             $dateTime = new DateTime("-2 Years");
 
         $range = $dateTime->format('Y-m-d');
+
+        $bills = Billing::getAllforBillPage($conn, $range);
     }
 
 
-    $bills = Billing::getAllforBillPage($conn, $range);
     //var_dump($bills);
 
-    $bill_name="";
+    $bill_name = "";
     $data = [];
     foreach ($bills as $bill) {
         if ($bill['bid'])
-            $bill_name = $bill['ppre_name']." ".$bill['pname']." ".$bill['plastname'];
-            $data[] = [$bill['bid'], $bill['specimen_id'], $bill['patient_id'], $bill['number'], $bill_name, $bill['lastname'], $bill['service_type'], $bill['code_description'], $bill['description'], $bill['import_date'], $bill['report_date'], $bill['hospital'], $bill['hn'], $bill['send_doctor'], $bill['pathologist'], $bill['cost'], $bill['comment']];
+            $bill_name = $bill['ppre_name'] . " " . $bill['pname'] . " " . $bill['plastname'];
+        $data[] = [$bill['bid'], $bill['specimen_id'], $bill['patient_id'], $bill['number'], $bill_name, $bill['lastname'], $bill['service_type'], $bill['code_description'], $bill['description'], $bill['import_date'], $bill['report_date'], $bill['hospital'], $bill['hn'], $bill['send_doctor'], $bill['pathologist'], $bill['cost'], $bill['comment']];
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);

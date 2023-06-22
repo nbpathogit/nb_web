@@ -31,6 +31,10 @@ require 'includes/header.php'; ?>
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
+        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+        </div>
 
         <table class="table table-hover table-striped" id="billing_table" style="width:100%">
             <thead>
@@ -51,7 +55,7 @@ require 'includes/header.php'; ?>
                     <th scope="col">เลขที่โรงพยาบาล</th> <!--12-->
                     <th scope="col">แพทย์ผู้ส่งตรวจ</th> <!--13-->
                     <th scope="col">pathologist</th> <!--14-->
-                    <th scope="col">ค่าตรวจ</th> <!--15-->
+                    <th scope="col">ค่าตรวจ(บาท)</th> <!--15-->
                     <th scope="col">Others</th> <!--16-->
                 </tr>
             </thead>
@@ -70,6 +74,9 @@ require 'includes/header.php'; ?>
 
 <?php require 'includes/footer.php'; ?>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
     $("#manage_bill").addClass("active");
