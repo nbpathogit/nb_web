@@ -15,7 +15,7 @@ require 'user_auth.php';
         <?php else : ?>
 
             <div class="d-flex align-items-center justify-content-between">
-                <a href="patient_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>เพิ่มข้อมูลผู้รักษา</a>
+                <a href="patient_monitor_8000_print_job.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>พิมพ์งานร้องขอสไลด์พิเศษ</a>
             </div>
 
     </div>

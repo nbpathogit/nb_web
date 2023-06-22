@@ -126,6 +126,17 @@ class ReqSpSlideID {
     }
     
     
+        public static function getBillandJobFromDateRange($conn, $startdate, $enddate) {
+
+        $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN billing as b ON r.id = b.req_id "
+                . "WHERE   date(b.req_date) >= '{$startdate}'and date(b.req_date) <= '{$enddate}' ";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
     
 
 }

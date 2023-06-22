@@ -2,7 +2,7 @@
 require 'includes/init.php';
 $conn = require 'includes/db.php';
 Auth::requireLogin();
-
+$isBorder = FALSE;
 $hospitals = Hospital::getAll($conn);
 ?>
 
