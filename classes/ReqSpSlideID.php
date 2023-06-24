@@ -126,7 +126,7 @@ class ReqSpSlideID {
     }
     
     
-        public static function getBillandJobFromDateRange($conn, $startdate, $enddate) {
+    public static function getBillandJobFromDateRange($conn, $startdate, $enddate) {
 
         $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN billing as b ON r.id = b.req_id "
                 . "WHERE   date(b.req_date) >= '{$startdate}'and date(b.req_date) <= '{$enddate}' ";
@@ -134,6 +134,98 @@ class ReqSpSlideID {
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getBillandJobTableWithStart($conn, $start = '0') {
+        
+        
+//        select * 
+//        FROM 
+//            (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
+//                , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lAStname) AS jowowner
+//                ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
+//            FROM (req_id_sp_slide AS r JOIN billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id   
+//            WHERE  date(r.req_date) >= '2023-06-18'
+//            GROUP by rid, b.description
+//            ) AS aa
+//        JOIN 
+//            ( 
+//            SELECT jp.patient_id AS patient_id_key,  CONCAT(jp.name,' ', jp.lAStname) AS pathologist   
+//            FROM job AS jp 
+//            Where jp.job_role_id = 5
+//            ) AS bb
+//
+//        ON aa.patient_id_key=bb.patient_id_key
+        
+        
+//rid|bid|jid|patient_id_key|number   |req_date       |finish_date|comment|jowowner|req_sp_type|bjob|patient_id_key|pathologist|
+//5  |86 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 Bcl-6|Z1,G,Z1|176|อภิชาติ ชุมทอง|
+//5  |91 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 Calcitonin|F|176|อภิชาติ ชุมทอง|
+//5  |83 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 CD117|M,R1,S1|176|อภิชาติ ชุมทอง|
+//5  |89 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 CD1a|G,Z1|176|อภิชาติ ชุมทอง|
+//6  |92 |170|176           |CN2300001|6/18/2023 15:01|NULL       |0|วรินทร เหลืองทอง|33000 CD1a|A|176|อภิชาติ ชุมทอง|
+//8  |94 |171|176           |CN2300001|6/18/2023 20:17|NULL       |fkjdsfjcoweacfaw|พีรยุทธ สิทธิไชยากุล|33000 Caldesmon|C,D|176|อภิชาติ ชุมทอง|
+//9  |96 |172|176           |CN2300001|6/18/2023 20:22|NULL       |xcxcx|จุลินทร สำราญ|33000 Calretinin|A,B|176|อภิชาติ ชุมทอง|
+//10 |98 |173|176           |CN2300001|6/18/2023 20:25|NULL       |ffff|นันท์ สิงห์ปาน|33000 CD1a|A,B|176|อภิชาติ ชุมทอง|
+
+
+
+        $sql = "select * 
+            FROM 
+                (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
+                    , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lastname) AS jowowner
+                    ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
+                FROM (req_id_sp_slide AS r JOIN billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id  "; 
+        if ($start != '0') {
+            $sql = $sql . "WHERE  date(r.req_date) >= '{$start}' ";
+        }
+
+        $sql = $sql . "GROUP by rid, b.description
+                ) AS aa
+            JOIN 
+                ( 
+                SELECT jp.patient_id AS patient_id_key,  CONCAT(jp.name,' ', jp.lastname) AS pathologist   
+                FROM job AS jp 
+                Where jp.job_role_id = 5
+                ) AS bb
+
+            ON aa.patient_id_key=bb.patient_id_key";
+                
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+                
+                
+//array(1) {
+//  [0]=>
+//  array(12) {
+//    ["rid"]=>
+//    string(1) "4"
+//    ["bid"]=>
+//    string(2) "68"
+//    ["jid"]=>
+//    string(3) "163"
+//    ["patient_id_key"]=>
+//    string(3) "176"
+//    ["number"]=>
+//    string(9) "CN2300001"
+//    ["req_date"]=>
+//    string(19) "2023-06-17 13:17:03"
+//    ["finish_date"]=>
+//    NULL
+//    ["comment"]=>
+//    string(1) "0"
+//    ["jowowner"]=>
+//    string(58) "พีรยุทธ สิทธิไชยากุล"
+//    ["req_sp_type"]=>
+//    string(15) "33000 Amyloid A"
+//    ["bjob"]=>
+//    string(17) "A,O,W,C1,G1,T1,Z1"
+//    ["pathologist"]=>
+//    string(40) "อภิชาติ ชุมทอง"
+//  }
+//}
+        
     }
     
     
