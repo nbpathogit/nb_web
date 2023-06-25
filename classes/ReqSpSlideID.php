@@ -228,7 +228,19 @@ class ReqSpSlideID {
         
     }
     
-    
+    public static function setFinishDate($conn, $rid, $finishdate)
+    {
+        $sql = "UPDATE `req_id_sp_slide` "
+                . "SET `finish_date` = :finish_date "
+                . "WHERE id = :req_id";
+
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->bindValue(':req_id', $rid, PDO::PARAM_INT);
+        $stmt->bindValue(':finish_date', $finishdate, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
     
 
 }

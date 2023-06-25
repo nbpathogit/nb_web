@@ -49,7 +49,7 @@ $(document).ready(function () {
             ]
         },],
         "order": [
-            [6, "desc"]
+            [0, "desc"]
         ],
         searchPanes: {
             initCollapsed: true,
@@ -71,10 +71,10 @@ $(document).ready(function () {
                 let renderdata = '';
                 if(row[6]){
                     //If finish date is avalable
-                    renderdata += '<a href="xxxx.php?id=' + row[0] + '" class="btn btn-success btn-sm " disabled><i class="fa-sharp fa-solid fa-check rid'+row[0]+'"></i> FINISHED rid'+ row[0] +' </a>';
+                    renderdata += '<a class="btn btn-success btn-sm  rid'+row[0]+' " disabled><i class="fa-sharp fa-solid fa-check"></i> <span class="btn_msg_'+row[0] +'">FINISHED</span> rid'+ row[0] +' </a>';
                 }else{
                     //If finished date is null
-                    renderdata += '<a href="xxxx.php?id=' + row[0] + '" class="btn btn-warning btn-sm done"><i class="fa-sharp fa-solid fa-check  rid'+row[0]+'"></i> CLOSE rid'+ row[0] +' </a>';
+                    renderdata += '<a onclick="doneTheJobSP('+ row[0] + ')"  class="btn btn-warning btn-sm done  rid'+row[0]+'"><i class="fa-sharp fa-solid fa-check "></i> <span class="btn_msg_'+row[0] +'">CLOSE</span> rid'+ row[0] +' </a>';
                 }
                 return renderdata;
             },
@@ -192,19 +192,8 @@ $(document).ready(function () {
 //            alert("rawdata print");
 //        });
 
-    // delete user
-    $('#request_sp_sl_table tbody').on('click', 'a.done', function (e) {
-        var data = table.row($(this).parents('tr')).data();
 
-        e.preventDefault();
-//        if (confirm("Are you sure?")) {
-//            var frm = $("<form>");
-//            frm.attr('method', 'post');
-//            frm.attr('action', "patient_del.php?id=" + data[0]);
-//            frm.appendTo("body");
-//            frm.submit();
-//        }
-    });
+    
 
     // set active tab
     $("#patienttab_8000").addClass("active");
@@ -214,3 +203,65 @@ $(document).ready(function () {
 //    }, 10000 );
 
 });
+
+function doneTheJobSP(rid){
+    
+
+    let setDate;
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: 'ajax_job4_prep_sp_slide/set_finish_date_sp_slide.php',
+        data: {
+            'rid': rid,
+        },
+        success: function (data) {
+//            alert(data);
+            setDate = data;
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+
+    });
+    
+    
+    let classRIDName = '.rid'+rid;
+    $(classRIDName).addClass( 'disabled' );
+    $(classRIDName).removeClass( "btn-warning" ).addClass( "btn-success" );
+    alert("Done, set finished to " + setDate);
+    
+}
+
+//on click button delete for seleced specimen list bill in main page
+function deljob1x(jobid,patientid) {
+    
+    if( confirm("Please confirm delete job di = "+jobid+" ?")){
+       
+    $.ajax({
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: 'ajax_job1_crossection/delJob1.php',
+        data: {
+            'job_id': jobid,
+            'patient_id': patientid,
+            
+        },
+        success: function (data) {
+           
+            repaintTbljob1(data);
+        
+            alert('Success');
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+
+    });
+        
+    }else{
+       
+    }
+
+}

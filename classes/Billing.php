@@ -334,5 +334,19 @@ class Billing {
         return $stmt->execute();
     }
     
+    public static function setFinishDate($conn, $rid, $finishdate)
+    {
+        
+        $sql = 'UPDATE billing '
+        . ' SET req_finish_date = :req_finish_date '
+        . ' WHERE req_id = :req_id';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':req_id', $rid, PDO::PARAM_INT);
+        $stmt->bindValue(':req_finish_date', $finishdate, PDO::PARAM_STR);
+        return $stmt->execute();
+        
+    }
+    
 
 }
