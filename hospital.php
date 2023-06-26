@@ -29,7 +29,7 @@ require 'user_auth.php';
 
 
             <div class="d-flex align-items-center justify-content-between">
-                <a href="/hospital_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-house-chimney-medical me-2"></i>เพิ่มโรงพยาบาล</a>
+                <a href="hospital_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-house-chimney-medical me-2"></i>เพิ่มโรงพยาบาล</a>
             </div>
 
     </div>
