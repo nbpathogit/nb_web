@@ -52,7 +52,7 @@
 <script src="<?= Url::getSubFolder1() ?>/js/jquery.datetimepicker.full.min.js"></script>
 <script src="<?= Url::getSubFolder1() ?>/js/script.js?v13xxxxxxxxxcxxxxปxxxxxxxxxxxxxxx"></script>
 
-<script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_read_dom/readdom.js?v2xxxxxxxxxx"></script>
 
 
