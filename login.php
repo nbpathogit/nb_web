@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="bg-nb bg-blue-a rounded p-4 p-sm-5 my-4 mx-3">
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <a href="/" class="">
-                                    <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Phatho</h3>
+                                    <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Patho</h3>
                                 </a>
                                 <!-- <h3>เข้าสู่ระบบ</h3> -->
                             </div>
