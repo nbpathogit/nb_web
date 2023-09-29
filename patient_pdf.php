@@ -393,6 +393,13 @@ $mpdf->WriteHTML($signature);
 
 //die();
 
-$mpdf->Output();
+//$mpdf->Output();
+$mpdf->Output($patient[0]['pnum'].'.pdf', 'I');
+
+//'D': download the PDF file
+//'I': serves in-line to the browser
+//'S': returns the PDF document as a string
+//'F': save as file $file_out
+
 ?>
 
