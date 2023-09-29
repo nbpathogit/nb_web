@@ -15,21 +15,35 @@ echo "a<br>";
 $output = null;
 $retval = null;
 if ($os == "WINNT") {
-    $command = 'magick -density 300  a.pdf -density 300 bb.jpg';
+    $command1 = 'magick -density 300  a.pdf -density 300 bb.jpg';
+    $command2 = '7z';
 }
 if ($os == "Linux") {
-    $command = '/usr/local/bin/magick -density 300  a.pdf -density 300 bb.jpg';
+    $command1 = '/usr/local/bin/magick -density 300  a.pdf -density 300 bb.jpg';
+    $command2 = '7z';
 }
 //$command = 'whoami';
-if (exec($command, $output, $retval) == 0) {
-    echo 'execute command "'. $command . '" successful.<br>';
+if (exec($command1, $output, $retval) == 0) {
+    echo 'execute command1 "'. $command1 . '" successful.<br>';
     echo "Returned with status $retval and output:\n<br>";
     print_r($output);
+    echo "<br><br>";
 } else {
-    echo 'execute command "'. $command . '" successful.<br>';
+    echo 'execute command1 "'. $command1 . '" fail.<br>';
     echo "Returned with status $retval and output:\n<br>";
     print_r($output);
+    echo "<br><br>";
 }
 
-
+if (exec($command2, $output, $retval) == 0) {
+    echo 'execute command2 "'. $command2 . '" successful.<br>';
+    echo "Returned with status $retval and output:\n<br>";
+    print_r($output);
+    echo "<br><br>";
+} else {
+    echo 'execute command2 "'. $command2 . '" fail.<br>';
+    echo "Returned with status $retval and output:\n<br>";
+    print_r($output);
+    echo "<br><br>";
+}
 

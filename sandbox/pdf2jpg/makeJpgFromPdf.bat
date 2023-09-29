@@ -1,0 +1,1 @@
+magick -density 300 mpdf_test.pdf -density 300 mpdf_test.jpg
