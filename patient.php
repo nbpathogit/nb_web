@@ -43,12 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="patient_add.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>เพิ่มข้อมูลผู้รักษา</a>
             </div>
 
+
     </div>
 </div>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 addsolidborder">
 
+                    
+        <h1 align="center"><span id="patient_title_message">แสดงจากข้อมูลย้อนหลัง 1 เดือน</span></h1>
+            
 
         <table class="table table-hover" id="patient_table" style="width:100%">
             <!--<table border="1" align="center">-->
@@ -94,5 +98,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var isCurUserCust = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=2xxxxxxxxxxxxxx"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=2xxxxxxxxxปxxxxxxx"></script>
 
