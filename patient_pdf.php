@@ -2,7 +2,6 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <?php
-
 require_once __DIR__ . '/vendor/autoload.php';
 require 'includes/init.php';
 Auth::requireLogin();
@@ -12,14 +11,13 @@ Auth::requireLogin();
 <?php //require 'includes/header.php';   ?>
 
 <?php
-
 if (!Auth::isLoggedIn()) {
     Util::alert(" You are not login.");
     die();
 }
 
-
-
+$skey = $_SESSION['skey'];
+$os = PHP_OS;
 
 $isPreviewMode = FALSE;
 if (isset($_GET['preview'])) {
@@ -30,16 +28,24 @@ if (isset($_GET['preview'])) {
 $patient_id = 0;
 if (isset($_GET['id'])) {
     $patient_id = $_GET['id'];
-}else{
+} else {
     Util::alert("id not avalable");
     die();
 }
- 
+
 // show/hide table for see layout
 if (isset($_GET['layout'])) {
     $hideTable = false;
 } else {
     $hideTable = true;
+}
+
+// Set out put option
+$pdfOutputOption = 'I';
+if (isset($_GET['option'])) {
+    $pdfOutputOption = $_GET['option'];
+} else {
+    $pdfOutputOption = 'I';
 }
 
 //Get Specific Patient Row from Table
@@ -72,7 +78,7 @@ if (!$patient) {
 // die if not relesed yet(date20000 == null)  
 // or Not in preview mode
 //if( ($patient[0]['date_20000'] == NULL) or ($isPreviewMode==1)   ){
-$is_released = ($patient[0]['date_20000'] == NULL)? FALSE : TRUE ;
+$is_released = ($patient[0]['date_20000'] == NULL) ? FALSE : TRUE;
 
 if ($isPreviewMode) {
     // skip check released status
@@ -84,7 +90,7 @@ if ($isPreviewMode) {
         echo $str;
         require 'blockclose.php';
         Util::alert($str);
-    die();
+        die();
     } else {
         
     }
@@ -278,7 +284,7 @@ $i = 0;
 
 if (isset($presultupdate2s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
-    
+
     foreach ($presultupdate2s as $prsu) {
         $isFinished = $prsu['release_time'] != NULL;
         if ($isFinished || $isPreviewMode) {
@@ -315,20 +321,19 @@ if (isset($presultupdate2s)) {
             }
 
             $mpdf->WriteHTML($u_result2);
-            if($i==0){
+            if ($i == 0) {
                 //
-                $i = $i +1;
-                $jobPatho = Job::getAll($conn, $patient[0]['id'] , 5);
+                $i = $i + 1;
+                $jobPatho = Job::getAll($conn, $patient[0]['id'], 5);
                 $pathoUserID = $jobPatho[0]['user_id'];
                 $pathoUser = User::getByID($conn, $pathoUserID);
-                $signedpatho = $pathoUser->name_e ." ". $pathoUser->lastname_e." ".$pathoUser->educational_bf;
-                if($isFinished){
+                $signedpatho = $pathoUser->name_e . " " . $pathoUser->lastname_e . " " . $pathoUser->educational_bf;
+                if ($isFinished) {
                     $release_time = $prsu['release_time'];
-                }else{
+                } else {
                     $release_time = "[Time Release]";
                 }
             }
-            
         }
     }
 } else {
@@ -392,14 +397,75 @@ if ($hideTable) {
 $mpdf->WriteHTML($signature);
 
 //die();
-
 //$mpdf->Output();
-$mpdf->Output($patient[0]['pnum'].'.pdf', 'I');
-
+//$pdfOutputOption
 //'D': download the PDF file
 //'I': serves in-line to the browser
 //'S': returns the PDF document as a string
 //'F': save as file $file_out
+if ($pdfOutputOption == 'F') {
+    //Create new folder after 'customerfile' Append subforlder wiht SergicalNumber_SecurityKey_TimeInSec
+    $targetFolder = './customerfile/' . $patient[0]['pnum'] . '_' . $skey . '_' . Time();
+//    echo $targetFolder . '<br>';
+    if (!mkdir($targetFolder, 0777, true)) {
+        die('Failed to create directories...' . $targetFolder);
+    } else {
+//        echo 'successfull create "' . $targetFolder . '"<br>';
+        $pdffilepath = $targetFolder . '/' . $patient[0]['pnum'] . '.pdf';
+        $jpgfilepath = $targetFolder . '/' . $patient[0]['pnum'] . '.jpg';
+        $zipfilepath = $targetFolder . '/' . $patient[0]['pnum'] . '.zip';
 
+        $inputtargetpdf2zipfile = $targetFolder . '/' . $patient[0]['pnum'] . '*.pdf';
+        $inputtargetjpg2zipfile = $targetFolder . '/' . $patient[0]['pnum'] . '*.jpg';
+
+        $mpdf->Output($pdffilepath, $pdfOutputOption);
+
+        // command1 example:  "magick -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.pdf -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.jpg" 
+        // command2 example:"7z a -tzip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.zip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.pdf ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.jpg"
+        
+        if ($os == "WINNT") {
+            $command1 = 'magick -density 300 ' . $pdffilepath . ' -density 300 ' . $jpgfilepath;
+            $command2 = '7z a -tzip ' . $zipfilepath . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+        }
+        if ($os == "Linux") {
+            $command1 = '/usr/local/bin/magick -density 300 ' . $pdffilepath . ' -density 300 ' . $jpgfilepath;
+            $command2 = '7z a -tzip ' . $zipfilepath . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+        }
+
+
+        echo '<br>';
+        if (exec($command1, $output, $retval) == 0) {
+//            echo 'execute command "' . $command1 . '" successful.<br>';
+//            echo "Returned with status $retval and output:\n<br>";
+//            print_r($output);
+        } else {
+            echo 'execute command "' . $command1 . '" Fail.<br>';
+            echo "Returned with status $retval and output:\n<br>";
+            print_r($output);
+        }
+
+        if (exec($command2, $output, $retval) == 0) {
+//            echo 'execute command "' . $command2 . '" successful.<br>';
+//            echo "Returned with status $retval and output:\n<br>";
+//            print_r($output);
+        } else {
+            echo 'execute command "' . $command2 . '" fail.<br>';
+            echo "Returned with status $retval and output:\n<br><br>";
+            print_r($output);
+        }
+    }
+} else {
+    $mpdf->Output($patient[0]['pnum'] . '.pdf', $pdfOutputOption);
+}
 ?>
-
+<br>
+<p style="text-align:center;">
+<a id="downloadLink" aligned="center" href="<?= $zipfilepath ?>" download >
+    Download PDF/JPG in Zip File Here.
+</a>
+</p>
+<script> 
+    var downloadTimeout = setTimeout(function () {
+        window.location = document.getElementById('downloadLink').href;
+    }, 1000);
+</script>

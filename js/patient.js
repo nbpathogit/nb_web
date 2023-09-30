@@ -137,13 +137,19 @@ $(document).ready(function () {
 
                 if (ugroup_id == '5000' || ugroup_id == '5100') {
                     if (row[9] == "ยังไม่ออกผล") {
+                        //show in-active link for customer.
                         renderdata += '<p class="btn btn-secondary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i>PDF</p>';
                     } else {
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
-                    }
+                        //show active link
+                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
+                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';                    }
                 }
                 else {
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                    //show active link
+                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
                 }
 
                 return renderdata;

@@ -1,0 +1,1 @@
+7z a -tzip .\customerfile\SN2303646_qJoMZfoWMV_1696040221\archive.zip .\customerfile\SN2303646_qJoMZfoWMV_1696040221\*.pdf .\customerfile\SN2303646_qJoMZfoWMV_1696040221\*.jpg
