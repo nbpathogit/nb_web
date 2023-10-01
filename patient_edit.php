@@ -1036,7 +1036,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
-            <h4 align="center"><b>จ้างทำแลปเซลล์วิทยา</b><span style="color:orange;"><?= ""; // ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
+            <h4 align="center"><b>เตรียมสไลด์เซลล์วิทยา</b><span style="color:orange;"><?= ""; // ($curstatusid == "10000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
             <?php require 'includes/patient_form_060_hire1_lab_cell.php'; ?>
         </div>
     </div>
