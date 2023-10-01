@@ -347,7 +347,7 @@ function addAction2Flow() {
         }
         
         if(spcimen_list2_count == 0){
-            alert('ยังไม่ได้เลือกรายการขอสไลดด์พิเศษ');
+            alert('ยังไม่ได้เลือก order ย้อมพิเศษ');
             return null;
         }
         if(owner_job4_count == 0){

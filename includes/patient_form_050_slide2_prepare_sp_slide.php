@@ -37,7 +37,7 @@ $curStatusAuthEdit = (
     <b>(รายการขอสไลดด์พิเศษ)</b>
 </h5>-->
 <p align="left">
-    <b>รายการขอสไลดด์พิเศษ:</b>
+    <b>order ย้อมพิเศษ:</b>
     <span id="spcimen_list2" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>

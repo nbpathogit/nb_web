@@ -57,7 +57,7 @@ function refreshSpSlideRequested(isAlert) {
 //        </span>
 //    </p>
 //    <p align="left">
-//        <b>รายการขอสไลดด์พิเศษ:</b>
+//        <b>order ย้อมพิเศษ:</b>
 //        <span id="spcimen_list2_rq" style="font-size:20px">
 //            <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
 //            <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
@@ -101,7 +101,7 @@ function refreshSpSlideRequested(isAlert) {
         });
         str1 = str1 + '</span></p>';
 
-        str1 = str1 + '<p align="left"><b>รายการขอสไลดด์พิเศษ:</b><span id="" style="font-size:20px">';
+        str1 = str1 + '<p align="left"><b>order ย้อมพิเศษ:</b><span id="" style="font-size:20px">';
         $.ajax({
             type: 'POST',
             'async': false,

@@ -1073,7 +1073,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                     </span>
                 </p>
                 <p align="left">
-                    <b>รายการขอสไลดด์พิเศษ:</b>
+                    <b>order ย้อมพิเศษ:</b>
                     <span id="spcimen_list2_rq" style="font-size:20px">
                         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
                         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
@@ -1165,7 +1165,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v3xปxปxปxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v3xxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v1xxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v1xxxxxxxxxxxxxx"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_job1_crossection/job1.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job2_assis_cross/job2.js?v2x"></script>
@@ -1180,7 +1180,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
                     $(document).ready(function () {
