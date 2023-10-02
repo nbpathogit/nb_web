@@ -13,7 +13,7 @@ $isBorder = false;
 
 <p align="left">
     
-    <b>พนักงานผู้ช่วยตัดเนื้อ:</b>
+    <b>พนักงานผู้ช่วยตัดเนื้อ(คนจด):</b>
     <span id="owner_job2" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
