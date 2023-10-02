@@ -277,11 +277,11 @@ $mpdf->SetHTMLFooter($footer);
 
 
 
-
+//=======Result2 Group=========
 
 $signedpatho = "";
 $i = 0;
-
+$counter_result2 = 0;
 if (isset($presultupdate2s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
 
@@ -336,6 +336,7 @@ if (isset($presultupdate2s)) {
             }
         }
     }
+    $counter_result2++;
 } else {
     
 }
@@ -344,7 +345,7 @@ if (isset($presultupdate2s)) {
 
 
 
-
+//=======Result1 Group=========
 
 if (isset($presultupdate1s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
@@ -403,6 +404,16 @@ $mpdf->WriteHTML($signature);
 //'I': serves in-line to the browser
 //'S': returns the PDF document as a string
 //'F': save as file $file_out
+
+$reportFileName = $patient[0]['pnum'] . '_R' . $counter_result2 . '_' . $patient[0]['phospital_num'];
+if ($isPreviewMode == TRUE) {
+    $reportFileName = 'PREVIEW_' . $reportFileName;
+}
+if ($hideTable == FALSE) {
+    $reportFileName = 'LAYOUTVIEW_' . $reportFileName;
+}
+$reportFileName = str_replace(' ', '-', $reportFileName);
+
 if ($pdfOutputOption == 'F') {
     //Create new folder after 'customerfile' Append subforlder wiht SergicalNumber_SecurityKey_TimeInSec
     $targetFolder = './customerfile/' . $patient[0]['pnum'] . '_' . $skey . '_' . Time();
@@ -411,18 +422,18 @@ if ($pdfOutputOption == 'F') {
         die('Failed to create directories...' . $targetFolder);
     } else {
 //        echo 'successfull create "' . $targetFolder . '"<br>';
-        $pdffilepath = $targetFolder . '/' . $patient[0]['pnum'] . '.pdf';
-        $jpgfilepath = $targetFolder . '/' . $patient[0]['pnum'] . '.jpg';
-        $zipfilepath = $targetFolder . '/' . $patient[0]['pnum'] . '.zip';
+        $pdffilepath = $targetFolder . '/' . $reportFileName . '.pdf';
+        $jpgfilepath = $targetFolder . '/' . $reportFileName . '.jpg';
+        $zipfilepath = $targetFolder . '/' . $reportFileName . '.zip';
 
-        $inputtargetpdf2zipfile = $targetFolder . '/' . $patient[0]['pnum'] . '*.pdf';
-        $inputtargetjpg2zipfile = $targetFolder . '/' . $patient[0]['pnum'] . '*.jpg';
+        $inputtargetpdf2zipfile = $targetFolder . '/' . $reportFileName . '*.pdf';
+        $inputtargetjpg2zipfile = $targetFolder . '/' . $reportFileName . '*.jpg';
 
         $mpdf->Output($pdffilepath, $pdfOutputOption);
 
         // command1 example:  "magick -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.pdf -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.jpg" 
         // command2 example:"7z a -tzip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.zip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.pdf ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.jpg"
-        
+
         if ($os == "WINNT") {
             $command1 = 'magick -density 300 ' . $pdffilepath . ' -density 300 ' . $jpgfilepath;
             $command2 = '7z a -tzip ' . $zipfilepath . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
@@ -455,16 +466,16 @@ if ($pdfOutputOption == 'F') {
         }
     }
 } else {
-    $mpdf->Output($patient[0]['pnum'] . '.pdf', $pdfOutputOption);
+    $mpdf->Output($reportFileName . '.pdf', $pdfOutputOption);
 }
 ?>
 <br>
 <p style="text-align:center;">
-<a id="downloadLink" aligned="center" href="<?= $zipfilepath ?>" download >
-    Download PDF/JPG in Zip File Here.
-</a>
+    <a id="downloadLink" aligned="center" href="<?= $zipfilepath ?>" download >
+        Download PDF/JPG in Zip File Here.
+    </a>
 </p>
-<script> 
+<script>
     var downloadTimeout = setTimeout(function () {
         window.location = document.getElementById('downloadLink').href;
     }, 1000);
