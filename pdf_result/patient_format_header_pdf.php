@@ -1,18 +1,20 @@
-<table width="100%"   style="border: 1px solid green;  border-collapse: collapse;">
-
+<table width="100%"   style="border: 1px solid black;  border-collapse: collapse;">
 
     <tr>
-        <td width="20%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top"><!-- comment -->
+        <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top"><!-- comment -->
+            <span style="font-size:10pt;"><b>18/54 Sanambin Rd. Mueng Phitsanulok 65000</b></span>
+            <span style="font-size:10pt;"><b>Email: nbpathologyplk@gmail.com</b></span>
+            <span style="font-size:10pt;"><b>064-3545-283</b></span>
+
+        </td>
+        <td width="50%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:middle; text-align:center"><!-- comment -->
+            <span style="font-size:20pt;"><b>PATHOLOGY REPORT</b></span><br>
 
 
         </td>
-        <td width="60%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:middle; text-align:center"><!-- comment -->
-            <span style="font-size:20pt;"><b>PATHOLOGY REPORT</b></span>
-
-        </td>
-        <td width="20%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right"><!-- comment -->
+        <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right"><!-- comment -->
             <img src="image\logo2.png" alt="" height="50" style="border: 1px solid red;">
-
+            
         </td><!-- comment -->
     </tr>
 
