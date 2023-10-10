@@ -21,6 +21,7 @@ class Hospital
     public $tax_id;
     public $create_date;
     public $create_by;
+    public $freportfolder;
     
 
 
@@ -190,6 +191,18 @@ class Hospital
 
         return $stmt->execute();
     }
-    
-    
+
+    public static function getReportFolder($conn, $id) {
+        $sql = "SELECT reportfolder
+        FROM hospital
+        WHERE id= $id";
+
+        $results = $conn->query($sql);
+
+         $resultreportfolder = $results->fetchAll(PDO::FETCH_ASSOC);
+         return $resultreportfolder[0]['reportfolder'];
+        
+
+    }
+
 }

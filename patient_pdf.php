@@ -24,34 +24,42 @@ if (isset($_GET['preview'])) {
     $isPreviewMode = TRUE;
 }
 
-
-$patient_id = 0;
-if (isset($_GET['id'])) {
-    $patient_id = $_GET['id'];
-} else {
-    Util::alert("id not avalable");
-    die();
+if (!isset($requestFrom)) {
+    $requestFrom = 'patient_php';
 }
 
+if (!isset($patient_id)) {
+    if (isset($_GET['id'])) {
+        $patient_id = $_GET['id'];
+    } else {
+        Util::alert("id not avalable");
+        die();
+    }
+}
 // show/hide table for see layout
-if (isset($_GET['layout'])) {
-    $hideTable = false;
-} else {
-    $hideTable = true;
+if (!isset($hideTable)) {
+    if (isset($_GET['layout'])) {
+        $hideTable = false;
+    } else {
+        $hideTable = true;
+    }
 }
-
 // Set out put option
-$pdfOutputOption = 'I';
-if (isset($_GET['option'])) {
-    $pdfOutputOption = $_GET['option'];
-} else {
-    $pdfOutputOption = 'I';
+//$pdfOutputOption = 'I';
+if (!isset($pdfOutputOption)) {
+    if (isset($_GET['option'])) {
+        $pdfOutputOption = $_GET['option'];
+    } else {
+        $pdfOutputOption = 'I';
+    }
 }
 
 //Get Specific Patient Row from Table
-$conn = require 'includes/db.php';
-if (isset($_GET['id'])) {
-    $patient = Patient::getAll($conn, $_GET['id']);
+if (!isset($conn)) {
+    $conn = require 'includes/db.php';
+}
+if (isset($patient_id)) {
+    $patient = Patient::getAll($conn, $patient_id);
 } else {
     $patient = null;
     Util::alert('no data');
@@ -65,7 +73,7 @@ if (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital)
 }
 
 if (!$patient) {
-    $str = "No Patient ID " . $_GET['id'] . ".";
+    $str = "No Patient ID " . $patient_id . ".";
 
     require 'blockopen.php';
     echo $str;
@@ -116,8 +124,8 @@ $labFluids = LabFluid::getAll($conn);
 //var_dump($userPathos);
 //die();
 //Get one by id
-$presultupdate1s = Presultupdate::getAllofGroup1Asc($conn, $_GET['id']);
-$presultupdate2s = Presultupdate::getAllofGroup2Desc($conn, $_GET['id']);
+$presultupdate1s = Presultupdate::getAllofGroup1Asc($conn, $patient_id);
+$presultupdate2s = Presultupdate::getAllofGroup2Desc($conn, $patient_id);
 //var_dump($patient[0]['pclinician_id']);
 
 $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
@@ -334,9 +342,9 @@ if (isset($presultupdate2s)) {
                     $release_time = "[Time Release]";
                 }
             }
-        }
-    }
+        }   
     $counter_result2++;
+    }
 } else {
     
 }
@@ -416,35 +424,27 @@ $reportFileName = str_replace(' ', '-', $reportFileName);
 
 if ($pdfOutputOption == 'F') {
     //Create new folder after 'customerfile' Append subforlder wiht SergicalNumber_SecurityKey_TimeInSec
-    $targetFolder = './customerfile/' . $patient[0]['pnum'] . '_' . $skey . '_' . Time();
+
+    $targetFolderRelease1 = './release1';
+    
+
+
+
 //    echo $targetFolder . '<br>';
-    if (!mkdir($targetFolder, 0777, true)) {
-        die('Failed to create directories...' . $targetFolder);
-    } else {
-//        echo 'successfull create "' . $targetFolder . '"<br>';
-        $pdffilepath = $targetFolder . '/' . $reportFileName . '.pdf';
-        $jpgfilepath = $targetFolder . '/' . $reportFileName . '.jpg';
-        $zipfilepath = $targetFolder . '/' . $reportFileName . '.zip';
-
-        $inputtargetpdf2zipfile = $targetFolder . '/' . $reportFileName . '*.pdf';
-        $inputtargetjpg2zipfile = $targetFolder . '/' . $reportFileName . '*.jpg';
-
+    if ($requestFrom == 'patient_edit_php') {
+        $pdffilepath = $targetFolderRelease1 . '/' . $reportFileName . '.pdf';
+        $jpgfilepath = $targetFolderRelease1 . '/' . $reportFileName . '.jpg';
+        $zipfilepath = $targetFolderRelease1 . '/' . $reportFileName . '.zip';
         $mpdf->Output($pdffilepath, $pdfOutputOption);
-
-        // command1 example:  "magick -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.pdf -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.jpg" 
-        // command2 example:"7z a -tzip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.zip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.pdf ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.jpg"
 
         if ($os == "WINNT") {
             $command1 = 'magick -density 300 ' . $pdffilepath . ' -density 300 ' . $jpgfilepath;
-            $command2 = '7z a -tzip ' . $zipfilepath . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+            
+            
         }
         if ($os == "Linux") {
             $command1 = '/usr/local/bin/magick -density 300 ' . $pdffilepath . ' -density 300 ' . $jpgfilepath;
-            $command2 = '7z a -tzip ' . $zipfilepath . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
         }
-
-
-        echo '<br>';
         if (exec($command1, $output, $retval) == 0) {
 //            echo 'execute command "' . $command1 . '" successful.<br>';
 //            echo "Returned with status $retval and output:\n<br>";
@@ -454,27 +454,115 @@ if ($pdfOutputOption == 'F') {
             echo "Returned with status $retval and output:\n<br>";
             print_r($output);
         }
+        
 
-        if (exec($command2, $output, $retval) == 0) {
+        $cusReportFolder = Hospital::getReportFolder($conn, $patient[0]['phospital_id']);
+        if ($cusReportFolder != "") {
+//            echo "customer folder =" . $cusReportFolder;
+            $targetFolderRelease2 = './customerfile2/' . $cusReportFolder;
+//            echo 'targetFolderRelease2=' . $targetFolderRelease2;
+            if (!file_exists($targetFolderRelease2) && !is_dir($targetFolderRelease2)) {
+                mkdir($targetFolderRelease2, 0777, true);
+            }
+            //Copy file from "release1" to customer "customerfile2" folder
+//            cp ./release1/SN2303647_R1*.jpg ./customerfile2/pathokph
+//            cp ./release1/SN2303647_R1*.pdf ./customerfile2/pathokph
+            $cmd_copy_pdf = 'cp '.$targetFolderRelease1 . '/' . $reportFileName . '*.pdf '.$targetFolderRelease2;
+            $cmd_copy_jpg = 'cp '.$targetFolderRelease1 . '/' . $reportFileName . '*.jpg '.$targetFolderRelease2;
+            
+//            echo 'cmd_copy_pdf=' .$cmd_copy_pdf .'<br>';
+//            echo 'cmd_copy_jpg=' .$cmd_copy_jpg .'<br>';
+            
+            if (exec($cmd_copy_pdf, $output, $retval) == 0) {
+//            echo 'execute command "' . $command1 . '" successful.<br>';
+//            echo "Returned with status $retval and output:\n<br>";
+//            print_r($output);
+            } else {
+                echo 'execute command "' . $cmd_copy_pdf . '" Fail.<br>';
+                echo "Returned with status $retval and output:\n<br>";
+                print_r($output);
+            }
+            
+            if (exec($cmd_copy_jpg, $output, $retval) == 0) {
+//            echo 'execute command "' . $command1 . '" successful.<br>';
+//            echo "Returned with status $retval and output:\n<br>";
+//            print_r($output);
+            } else {
+                echo 'execute command "' . $cmd_copy_pdf . '" Fail.<br>';
+                echo "Returned with status $retval and output:\n<br>";
+                print_r($output);
+            }
+
+        }else{
+            echo "no customer folder";
+        }
+        
+    } elseif ($requestFrom == 'patient_php') {
+        $targetFolderForDownload = './customerfile/' . $patient[0]['pnum'] . '_' . $skey . '_' . Time();
+        if (!mkdir($targetFolderForDownload, 0777, true)) {
+            die('Failed to create directories...' . $targetFolderForDownload);
+        } else {
+//        echo 'successfull create "' . $targetFolder . '"<br>';
+            $pdffilepath = $targetFolderForDownload . '/' . $reportFileName . '.pdf';
+            $jpgfilepath = $targetFolderForDownload . '/' . $reportFileName . '.jpg';
+            $zipfilepath = $targetFolderForDownload . '/' . $reportFileName . '.zip';
+
+            $inputtargetpdf2zipfile = $targetFolderForDownload . '/' . $reportFileName . '*.pdf';
+            $inputtargetjpg2zipfile = $targetFolderForDownload . '/' . $reportFileName . '*.jpg';
+
+            $mpdf->Output($pdffilepath, $pdfOutputOption);
+
+            // command1 example:  "magick -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.pdf -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.jpg" 
+            // command2 example:"7z a -tzip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.zip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.pdf ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.jpg"
+
+            if ($os == "WINNT") {
+                $command1 = 'magick -density 300 ' . $pdffilepath . ' -density 300 ' . $jpgfilepath;
+                $command2 = '7z a -tzip ' . $zipfilepath . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+            }
+            if ($os == "Linux") {
+                $command1 = '/usr/local/bin/magick -density 300 ' . $pdffilepath . ' -density 300 ' . $jpgfilepath;
+                $command2 = '7z a -tzip ' . $zipfilepath . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+            }
+
+
+//            echo '<br>';
+            if (exec($command1, $output, $retval) == 0) {
+//            echo 'execute command "' . $command1 . '" successful.<br>';
+//            echo "Returned with status $retval and output:\n<br>";
+//            print_r($output);
+            } else {
+                echo 'execute command "' . $command1 . '" Fail.<br>';
+                echo "Returned with status $retval and output:\n<br>";
+                print_r($output);
+            }
+
+            if (exec($command2, $output, $retval) == 0) {
 //            echo 'execute command "' . $command2 . '" successful.<br>';
 //            echo "Returned with status $retval and output:\n<br>";
 //            print_r($output);
-        } else {
-            echo 'execute command "' . $command2 . '" fail.<br>';
-            echo "Returned with status $retval and output:\n<br><br>";
-            print_r($output);
+            } else {
+                echo 'execute command "' . $command2 . '" fail.<br>';
+                echo "Returned with status $retval and output:\n<br><br>";
+                print_r($output);
+            }
         }
     }
 } else {
     $mpdf->Output($reportFileName . '.pdf', $pdfOutputOption);
 }
 ?>
-<br>
-<p style="text-align:center;">
-    <a id="downloadLink" aligned="center" href="<?= $zipfilepath ?>" download >
-        Download PDF/JPG in Zip File Here.
-    </a>
-</p>
+
+<?php if (!($requestFrom == 'patient_edit_php')): ?>
+    <br>
+    <p style="text-align:center;">
+        <a id="downloadLink" aligned="center" href="<?= $zipfilepath ?>" download >
+            If not download automatically, <br>
+            Please Download PDF/JPG in Zip File Here.
+        </a>
+        <br> You can close this window.
+    </p>
+<?php endif; ?>
+
 <script>
     var downloadTimeout = setTimeout(function () {
         window.location = document.getElementById('downloadLink').href;

@@ -753,7 +753,8 @@ function addAction2Flow() {
         //set release date for all null result
 //        console.log('import date = '+importdate);
 //        return;
-
+//        
+//        Set first Date release field
         $.ajax({
             type: 'POST',
             // make sure you respect the same origin policy with this url:
@@ -787,7 +788,7 @@ function addAction2Flow() {
         var lastest_job6_id = get_lastest_job6_id();
         
 
-
+        // If Second Reviewer, set field second reviewer first
         if (cur_status == "13000") {
             //set second_patho_review = 2
             $.ajax({
@@ -813,6 +814,7 @@ function addAction2Flow() {
             });
         }
 
+        // Prepare the form and then submit on the fly.
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('');
@@ -834,6 +836,7 @@ function addAction2Flow() {
         });
         frm.append('<input type="hidden" name="reported_as" value="' + reported_as + '" /> ');
         frm.append('<input type="hidden" name="pautoscroll" value="finish_section" /> ');
+        frm.append('<input type="hidden" name="auto_release_pdf" value="1" /> ');
         frm.appendTo("body");
         frm.submit();
     });

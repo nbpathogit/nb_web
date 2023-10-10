@@ -60,6 +60,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $isUpdateReleaseTimeError = Presultupdate::updateReleaseTime($conn, $_POST["uresultinxlist"]); //Last index
             $isUpdateTypeNameError = Patient::updateReportTypeName($conn, $_GET['id'], $_POST['uresultTypeName']);
             $isUpdateReportAsError = Patient::updateReportAs($conn, $_GET['id'], $_POST['reported_as']);
+            
+            
+            
+            
+            
             //reported_as
             //}
         }
@@ -71,6 +76,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Patient::setisautoeditmode($conn, $_GET['id'], $_POST['isautoeditmode']);
         }
 
+        
+        //==============================
+        //$patient_id = 178;
+        $pdfOutputOption = 'F';
+        $hideTable = true;
+        $requestFrom = 'patient_edit_php';
+        require 'patient_pdf.php';
+        //================================
+        
+        
+        
         if ($isUpdateStatusError && $isUpdateReleaseTimeError) {
             Url::redirect("/patient_edit.php?id=" . $_GET['id']);
         } else {
