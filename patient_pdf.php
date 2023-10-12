@@ -413,7 +413,7 @@ $mpdf->WriteHTML($signature);
 //'S': returns the PDF document as a string
 //'F': save as file $file_out
 
-$reportFileName = $patient[0]['pnum'] . '_R' . $counter_result2 . '_' . $patient[0]['phospital_num'];
+$reportFileName = $patient[0]['pnum'] . '_R' . $counter_result2 . '_' . $patient[0]['phospital_num'] . '_' . $patient[0]['pname'] . '_' . $patient[0]['plastname'];
 if ($isPreviewMode == TRUE) {
     $reportFileName = 'PREVIEW_' . $reportFileName;
 }
