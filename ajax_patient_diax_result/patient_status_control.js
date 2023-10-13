@@ -766,7 +766,7 @@ function addAction2Flow() {
             },
             success: function (data) {
                 console.log('data='+data);
-                alert('data='+data);
+                //alert('data='+data);
 
             },
             error: function (jqxhr, status, exception) {

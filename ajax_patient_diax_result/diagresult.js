@@ -308,7 +308,7 @@ function append2page(data) {
         
         
         
-          var str = '<li tabindex="'+datajson[i].id+'">uresultinxlist::prsu["id"]::'+datajson[i].id+'</li>';
+          var str = '<li tabindex="'+datajson[i].id+'">uresultinxlist2::prsu["id"]::'+datajson[i].id+'</li>';
           $(".uresultinxlist2").append(str);
 
 
