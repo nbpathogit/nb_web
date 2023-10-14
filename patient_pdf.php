@@ -5,6 +5,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require 'includes/init.php';
 Auth::requireLogin();
+$dbg_print_patient_pdf = FALSE;
 ?>
 
 <?php require 'user_auth.php'; ?>
@@ -18,6 +19,9 @@ if (!Auth::isLoggedIn()) {
 
 $skey = $_SESSION['skey'];
 $os = PHP_OS;
+if($dbg_print_patient_pdf){
+    echo '<br>Server run on OS : '.$os .'<br>';
+}
 
 $isPreviewMode = FALSE;
 if (isset($_GET['preview'])) {
@@ -533,11 +537,15 @@ if ($pdfOutputOption == 'F') {
         }
         
     } elseif ($requestFrom == 'patient_php') { //Generate and zip then download
+        
+        //=================== Create temporary Folder file for store zip file========================================\
         $targetFolderForDownload = './customerfile/' . $patient[0]['pnum'] . '_' . $skey . '_' . Time();
         if (!mkdir($targetFolderForDownload, 0777, true)) {
             die('Failed to create directories...' . $targetFolderForDownload);
         } else {
-//        echo 'successfull create "' . $targetFolder . '"<br>';
+            
+            //===================Prepare Path/File =================================================================
+
             $pdffilepath = $targetFolderForDownload . '/' . $reportFileName . '.pdf';
             $pdffilepathFormat2 = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '.pdf';
             
@@ -547,13 +555,22 @@ if ($pdfOutputOption == 'F') {
             $inputtargetpdf2zipfile = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '*.pdf';
             $inputtargetjpg2zipfile = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '*.jpg';
 
+            //===================Output PDF file====================================================================
             $mpdf->Output($pdffilepath, $pdfOutputOption);
                     
+            //===================Prepare anu run rename : $commandRename ===========================================
             $commandRename = 'mv '.$pdffilepath.' '.$pdffilepathFormat2;
-            //die();
+            
+            if ($dbg_print_patient_pdf) {
+                  echo '<br>Start "exec($commandRename, $output, $retval) : ' . $commandRename . '<br>';
+            }
 
             if (exec($commandRename, $output, $retval) == 0) {
-                if($retval==0){} else {
+                if($retval==0){
+                    if ($dbg_print_patient_pdf) {
+                        echo '<br>Prepare $commandRename : ' . $commandRename . '<br>';
+                    }
+                } else {
                     echo 'execute command "' . $commandRename . '" successful.<br>';
                     echo "Returned with status $retval and output:\n<br>";
                     print_r($output);
@@ -565,6 +582,7 @@ if ($pdfOutputOption == 'F') {
             }
 
             
+            //===================Prepare $command1 $command2 ===========================================
             // command1 example:  "magick -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.pdf -density 300 ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.jpg" 
             // command2 example:"7z a -tzip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646.zip ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.pdf ./customerfile/SN2303646_Rt0FEhUQMI_1696062511/SN2303646*.jpg"
 
@@ -574,37 +592,77 @@ if ($pdfOutputOption == 'F') {
             }
             if ($os == "Linux") {
                 $command1 = '/usr/local/bin/magick -density 300 ' . $pdffilepathFormat2 . ' -density 300 ' . $jpgfilepathFormat2;
-                $command2 = '7z a -tzip ' . $zipfilepathFormat2 . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+                //$command2 = '7z a -tzip ' . $zipfilepathFormat2 . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+                $command2 = 'cd '.$targetFolderForDownload.' && zip  ' . $reportFileNameFormat2 . '.zip *.jpg *.pdf';
             }
+            
+            if ($dbg_print_patient_pdf) {
+                echo '<br>Prepare command1 : '.$command1.'<br>';
+                echo '<br>Prepare command2 : '.$command2.'<br>';       
+            }
+            
+            
 
 
-//            echo '<br>';
+            //===================$command1===========================================
             if (exec($command1, $output, $retval) == 0) {
-                if($retval==0){} else {
-                    echo 'execute command "' . $command1 . '" successful.<br>';
+                if ($retval == 0) {
+                    if ($dbg_print_patient_pdf) {
+                        echo '<br>execute command "' . $command1 . '" successful<br>';
+                        echo "Returned with status $retval and output:\n<br>";
+                        print_r($output);
+                        echo '<br>';
+                    }
+                } else {
+                    echo '<br>execute command "' . $command1 . '" .<br>';
                     echo "Returned with status $retval and output:\n<br>";
                     print_r($output);
+                    echo '<br>';
                 }
             } else {
-                echo 'execute command "' . $command1 . '" Fail.<br>';
+                echo '<br>execute command "' . $command1 . '" Fail.<br>';
                 echo "Returned with status $retval and output:\n<br>";
                 print_r($output);
+                echo '<br>';
             }
 
+            
+            
+            
+            
+            //===================$command2===========================================
+           
+            if ($dbg_print_patient_pdf) {
+                echo '<br>:Start  "exec($command2, $output, $retval)" : ' . $command2 . '<br>';
+            }
             if (exec($command2, $output, $retval) == 0) {
-                if($retval==0){} else {
-                    echo 'execute command "' . $command2 . '" successful.<br>';
+                if ($retval == 0) {
+                    if ($dbg_print_patient_pdf) {
+                        echo '<br>execute command "' . $command2 . '" successful<br>';
+                        echo "Returned with status $retval and output:\n<br>";
+                        print_r($output);
+                        echo '<br>';
+                    }
+                } else {
+                    echo '<br>execute command "' . $command2 . '" .<br>';
                     echo "Returned with status $retval and output:\n<br>";
                     print_r($output);
+                    echo '<br>';
                 }
             } else {
-                echo 'execute command "' . $command2 . '" fail.<br>';
+                echo '<br>execute command "' . $command2 . '" fail.<br>';
                 echo "Returned with status $retval and output:\n<br><br>";
                 print_r($output);
+                echo '<br>';
             }
+
+            //=====================================================================
+            
+            
         }
     }
 } else {
+    //View or download mode
     $mpdf->Output($reportFileName . '.pdf', $pdfOutputOption);
 }
 ?>
