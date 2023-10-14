@@ -550,7 +550,7 @@ if ($pdfOutputOption == 'F') {
             $mpdf->Output($pdffilepath, $pdfOutputOption);
                     
             $commandRename = 'mv '.$pdffilepath.' '.$pdffilepathFormat2;
-            die();
+            //die();
 
             if (exec($commandRename, $output, $retval) == 0) {
                 if($retval==0){} else {
