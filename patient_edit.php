@@ -58,12 +58,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isUpdateStatusError = Patient::updateStatusWithMoveDATE($conn, $_GET['id'], $_POST['cur_status'], $_POST['status'], $_POST['isset_date_first_report']);
         if (($_POST['cur_status'] == 12000 or $_POST['cur_status'] == 13000) && $_POST['status'] == 20000 && isset($_POST["uresultinxlist"])) {      
             //if ($_POST["uresultReleaseSetlist"] == 0) {
-            $isUpdateReleaseTimeError = Presultupdate::updateReleaseTime($conn, $_POST["uresultinxlist"]); //Last index
-            $isUpdateTypeNameError = Patient::updateReportTypeName($conn, $_GET['id'], $_POST['uresultTypeName']);
+//            $isUpdateReleaseTimeError = Presultupdate::updateReleaseTime($conn, $_POST["uresultinxlist"]); //Last index
+//            $isUpdateTypeNameError = Patient::updateReportTypeName($conn, $_GET['id'], $_POST['uresultTypeName']);
+            
+            //================= Need to move to JS ajax later==================================
             $isUpdateReportAsError = Patient::updateReportAs($conn, $_GET['id'], $_POST['reported_as']);
 
 
-            //==============================
+            //=============Generate PDF When released=================
             //$patient_id = 178;
             $pdfOutputOption = 'F';
             $hideTable = true;
@@ -1195,7 +1197,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
                     $(document).ready(function () {

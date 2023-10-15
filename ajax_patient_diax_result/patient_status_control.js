@@ -751,7 +751,9 @@ function addAction2Flow() {
 
         let importdate = get_cur_date_1000();
         //set release date for all null result
+//        console.log('==========================================================================');
 //        console.log('import date = '+importdate);
+//        console.log('==========================================================================');
 //        return;
 //        
 //        Set first Date release field

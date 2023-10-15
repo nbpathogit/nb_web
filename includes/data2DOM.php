@@ -1,6 +1,6 @@
 
 
-<?php $hidden_data2dom = true; ?>
+<?php $hidden_data2dom = TRUE; ?>
 
 
 <span id="data2DOM">
