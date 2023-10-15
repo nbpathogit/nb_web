@@ -2,6 +2,7 @@
 //var_dump($_GET);
 
 require 'includes/init.php';
+$inited = TRUE;
 $conn = require 'includes/db.php';
 Auth::requireLogin("patient_edit.php", $_GET['id']);
 

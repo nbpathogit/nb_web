@@ -3,7 +3,9 @@
 
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
-require 'includes/init.php';
+if (!isset($inited)) {
+    require 'includes/init.php';
+}
 Auth::requireLogin();
 $dbg_print_patient_pdf = FALSE;
 ?>
@@ -433,15 +435,12 @@ $reportFileName = str_replace(' ', '-', $reportFileName);
 $reportFileNameFormat2 = str_replace(' ', '-', $reportFileNameFormat2);
 
 if ($pdfOutputOption == 'F') {
-    //Create new folder after 'customerfile' Append subforlder wiht SergicalNumber_SecurityKey_TimeInSec
-
-    $targetFolderRelease1 = './release1';
     
-
-
-
-//    echo $targetFolder . '<br>';
     if ($requestFrom == 'patient_edit_php') { // Generate and keep on server
+        
+        //=================== Create Variable to keep Folder file for store report file========================================
+        $targetFolderRelease1 = './release1';
+        
         $pdffilepath = $targetFolderRelease1 . '/' . $reportFileName . '.pdf';
         $pdffilepathFormat2 = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
         
@@ -451,91 +450,239 @@ if ($pdfOutputOption == 'F') {
         $jpgfilepathFormat2 = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
         $zipfilepathFormat2 = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.zip';
         
+        
+        if ($dbg_print_patient_pdf) {
+            echo '<br>$reportFileName : ' . $reportFileName ;
+            echo '<br>$reportFileNameFormat2 : ' . $reportFileNameFormat2 ;
+            echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1 ;
+            echo '<br>$pdffilepath : ' . $pdffilepath ;
+            echo '<br>$pdffilepathFormat2 : ' . $pdffilepathFormat2 ;
+            echo '<br>$jpgfilepathFormat2 : ' . $jpgfilepathFormat2 ;
+            echo '<br>$zipfilepathFormat2 : ' . $zipfilepathFormat2 ;
+            echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1 ;
+            echo '<br>';
+        }
+
+
+        if ($dbg_print_patient_pdf) {
+            echo '<br>run:$mpdf->Output($pdffilepath, $pdfOutputOption)';
+            echo '<br>$pdffilepath :'.$pdffilepath.'';
+            echo '<br>$pdfOutputOption :'.$pdfOutputOption.'';
+            echo '<br>';
+        }
         $mpdf->Output($pdffilepath, $pdfOutputOption);
         
-        $commandRename = 'mv '.$pdffilepath.' '.$pdffilepathFormat2;
 
+        
+        //===================Prepare $commandRename ===========================================
+        $commandRename = 'mv ' . $pdffilepath . ' ' . $pdffilepathFormat2;
+        if ($dbg_print_patient_pdf) {
+            echo '<br>Start "exec($commandRename, $output, $retval) : ' . $commandRename . '<br>';
+        }
+        if (exec($commandRename, $output, $retval) == 0) {
+            if($retval==0){
+                if ($dbg_print_patient_pdf) {
+                    echo '<br>execute command "' . $commandRename . '" .<br>';
+                    echo "<br>Returned with status $retval and output:\n<br>";
+                    print_r($output);
+                    echo '<br>';
+                }
+            } else {
+                echo '<br>execute command "' . $commandRename . '" .<br>';
+                echo "<br>Returned with status $retval and output:\n<br>";
+                print_r($output);
+                echo '<br>';
+            }
+        } else {
+            echo '<br>execute command "' . $commandRename . '" .<br>';
+            echo "<br>Returned with status $retval and output:\n<br>";
+            print_r($output);
+            echo '<br>';
+        }
+
+        
+        
+        
+        //===================Prepare $command1 ===========================================
         if ($os == "WINNT") {
             $command1 = 'magick -density 300 ' . $pdffilepathFormat2 . ' -density 300 ' . $jpgfilepathFormat2;  
         }
         if ($os == "Linux") {
             $command1 = '/usr/local/bin/magick -density 300 ' . $pdffilepathFormat2 . ' -density 300 ' . $jpgfilepathFormat2;
         }
-        
-        if (exec($commandRename, $output, $retval) == 0) {
-            if($retval==0){} else {
-                echo 'execute command "' . $commandRename . '" successful.<br>';
-                echo "Returned with status $retval and output:\n<br>";
-                print_r($output);
-            }
-        } else {
-            echo 'execute command "' . $commandRename . '" Fail.<br>';
-            echo "Returned with status $retval and output:\n<br>";
-            print_r($output);
+        if ($dbg_print_patient_pdf) {
+            echo '<br>$command1 :'.$command1.'';
+            echo '<br>exec($command1, $output, $retval)';
+            echo '<br>';
         }
-        
         if (exec($command1, $output, $retval) == 0) {
-            if($retval==0){} else {
-                echo 'execute command "' . $command1 . '" successful.<br>';
+            if ($retval == 0) {
+                if ($dbg_print_patient_pdf) {
+                    echo 'execute command "' . $command1 . '" .<br>';
+                    echo "Returned with status $retval and output:\n<br>";
+                    print_r($output);
+                    echo '<br>';
+                }
+            } else {
+                echo 'execute command "' . $command1 . '" .<br>';
                 echo "Returned with status $retval and output:\n<br>";
                 print_r($output);
+                echo '<br>';
             }
         } else {
-            echo 'execute command "' . $command1 . '" Fail.<br>';
+            echo 'execute command "' . $command1 . '" .<br>';
             echo "Returned with status $retval and output:\n<br>";
             print_r($output);
+            echo '<br>';
         }
         
 
         $cusReportFolder = Hospital::getReportFolder($conn, $patient[0]['phospital_id']);
+        if ($dbg_print_patient_pdf) {
+            echo '<br>$cusReportFolder : "' . $cusReportFolder . '"';
+            echo '<br>';
+        }
         if ($cusReportFolder != "") {
+            if ($dbg_print_patient_pdf) {
+                echo '<br>==Copy report to customer foldera====';
+                echo '<br>';
+            }
 //            echo "customer folder =" . $cusReportFolder;
             $targetFolderRelease2 = './customerfile2/' . $cusReportFolder;
-//            echo 'targetFolderRelease2=' . $targetFolderRelease2;
+            if ($dbg_print_patient_pdf) {
+                echo '<br>Make new Folder if not avalable : "' . $cusReportFolder . '"';
+                echo '<br>';
+            }
             if (!file_exists($targetFolderRelease2) && !is_dir($targetFolderRelease2)) {
                 mkdir($targetFolderRelease2, 0777, true);
             }
-            //Copy file from "release1" to customer "customerfile2" folder
+            
+//============Copy file from "release1" to customer "customerfile2" folder===================================
 //            cp ./release1/SN2303647_R1*.jpg ./customerfile2/pathokph
 //            cp ./release1/SN2303647_R1*.pdf ./customerfile2/pathokph
-            $cmd_copy_pdf = 'cp '.$targetFolderRelease1 . '/' . $reportFileName . '*.pdf '.$targetFolderRelease2;
-            $cmd_copy_jpg = 'cp '.$targetFolderRelease1 . '/' . $reportFileName . '*.jpg '.$targetFolderRelease2;
+//            $cmd_copy_pdf = "cp '".$targetFolderRelease1 . '/' . $reportFileNameFormat2 . ".pdf' ".$targetFolderRelease2;
+//            $cmd_copy_pdf = "cd release1 && cp *.jpg ./../customerfile2/pathokph";
+            //$cmd_copy_jpg = "cp '".$targetFolderRelease1 . '/' . $reportFileNameFormat2 . ".jpg' ".$targetFolderRelease2;
             
-//            echo 'cmd_copy_pdf=' .$cmd_copy_pdf .'<br>';
-//            echo 'cmd_copy_jpg=' .$cmd_copy_jpg .'<br>';
             
-            if (exec($cmd_copy_pdf, $output, $retval) == 0) {
-                if ($retval == 0) {
-                    
-                } else {
-                    echo 'execute command "' . $cmd_copy_pdf . '" successful.<br>';
-                    echo "Returned with status $retval and output:\n<br>";
-                    print_r($output);
-                }
-            } else {
-                echo 'execute command "' . $cmd_copy_pdf . '" Fail.<br>';
-                echo "Returned with status $retval and output:\n<br>";
-                print_r($output);
+            $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
+            $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.pdf';
+            if ($dbg_print_patient_pdf) {
+                echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
+                echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
+                echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                echo '<br>';
             }
+            copy($copy_pdf_from, $copy_pdf_to);
             
-            if (exec($cmd_copy_jpg, $output, $retval) == 0) {
-                if ($retval == 0) {
-                    
-                } else {
-                    echo 'execute command "' . $cmd_copy_jpg . '" successful.<br>';
-                    echo "Returned with status $retval and output:\n<br>";
-                    print_r($output);
+            
+            $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
+            $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.jpg';
+            if (file_exists($copy_pdf_from)) {
+                if ($dbg_print_patient_pdf) {
+                    echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
+                    echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
+                    echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                    echo '<br>';
                 }
+                copy($copy_pdf_from, $copy_pdf_to);
             } else {
-                echo 'execute command "' . $cmd_copy_pdf . '" Fail.<br>';
-                echo "Returned with status $retval and output:\n<br>";
-                print_r($output);
+                if ($dbg_print_patient_pdf) {
+                    echo '=========Skip copy file from "release1" to customer "customerfile2" folder==========';
+                    echo '<br> File Dosnt exist $copy_pdf_from : "' . $copy_pdf_from . '"';
+                    echo '<br>';
+                }
             }
 
-        }else{
-            echo "no customer folder";
+
+            for ($x = 0; $x <= 10; $x++) {
+                echo "The number is: $x <br>";
+                $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
+                $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
+
+                if (file_exists($copy_pdf_from)) {
+                    if ($dbg_print_patient_pdf) {
+                        echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
+                        echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
+                        echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                        echo '<br>';
+                    }
+                    copy($copy_pdf_from, $copy_pdf_to);
+                } else {
+                    if ($dbg_print_patient_pdf) {
+                        echo '=========Skip copy file from "release1" to customer "customerfile2" folder==========';
+                        echo '<br> File Dosnt exist $copy_pdf_from : "' . $copy_pdf_from . '"';
+                        echo '<br>';
+                    }
+                }
+            }
+
+
+//            if ($dbg_print_patient_pdf) {
+//                echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
+//                echo '<br>$cmd_copy_pdf : "' . $cmd_copy_pdf . '"';
+//                echo '<br>$cmd_copy_pdf : "' . $cmd_copy_jpg . '"';
+//                echo '<br>';
+//            }
+            
+            
+            
+//            if (exec($cmd_copy_pdf, $output, $retval) == 0) {
+//                if ($retval == 0) {
+//                    if ($dbg_print_patient_pdf) {
+//                        echo 'execute command "' . $cmd_copy_pdf . '" .<br>';
+//                        echo "Returned with status $retval and output:\n<br>";
+//                        print_r($output);
+//                        echo '<br>';
+//                    }
+//                } else {
+//                    echo 'execute command "' . $cmd_copy_pdf . '" .<br>';
+//                    echo "Returned with status $retval and output:\n<br>";
+//                    print_r($output);
+//                    echo '<br>';
+//                }
+//            } else {
+//                echo 'execute command "' . $cmd_copy_pdf . '" .<br>';
+//                echo "Returned with status $retval and output:\n<br>";
+//                print_r($output);
+//                echo '<br>';
+//            }
+            
+            
+            
+            
+            
+//            if (exec($cmd_copy_jpg, $output, $retval) == 0) {
+//                if ($retval == 0) {
+//                    if ($dbg_print_patient_pdf) {
+//                        echo 'execute command "' . $cmd_copy_jpg . '" .<br>';
+//                        echo "Returned with status $retval and output:\n<br>";
+//                        print_r($output);
+//                        echo '<br>';
+//                    }
+//                } else {
+//                    echo 'execute command "' . $cmd_copy_jpg . '" .<br>';
+//                    echo "Returned with status $retval and output:\n<br>";
+//                    print_r($output);
+//                    echo '<br>';
+//                }
+//            } else {
+//                echo 'execute command "' . $cmd_copy_jpg . '" .<br>';
+//                echo "Returned with status $retval and output:\n<br>";
+//                print_r($output);
+//                echo '<br>';
+//            }
+            
+            
+            
+            
+
+        } else {
+            if ($dbg_print_patient_pdf) {
+                echo '<br>==Dont copy report to customer folder====';
+                echo '<br>';
+            }
         }
-        
     } elseif ($requestFrom == 'patient_php') { //Generate and zip then download
         
         //=================== Create temporary Folder file for store zip file========================================\
