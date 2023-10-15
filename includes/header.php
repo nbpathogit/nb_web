@@ -98,8 +98,8 @@
                     
                     
                     <?php if($isCurUserNB): ?>
-                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>งานร้องขอสไลด์พิเศษ</a>
-                    <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>งานร้องขอแพทย์ร่วมยืนยันผล</a>
+                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ตรวจพิเศษ</a>
+                    <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>Double check by second pathologist</a>
                     <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>รายการงาน</a>
                     <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>
                     <!-- <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a> -->
@@ -123,7 +123,7 @@
                             <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูและจัดการรายการในใบแจ้งหนี้</a>
                         </div>
                     </div>
-                    <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติ๊กเกอร์แปะสไลด์</a>
+                    <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติกเกอร์สไลด์</a>
                     <?php  endif; ?>
                     <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                     <div class="nav-item dropdown">
