@@ -43,15 +43,17 @@ if ($auth) {
         $range = $dateTime->format('Y-m-d');
     }
 
-    if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_monitor_8000.php")) {   // get patient statas id = 8000
-        $patientLists = Patient::getAllJoinID8000($conn, 0, $range);
-    } else if ($isCurUserClinicianCust || $isCurUserHospitalCust) {  // get patient with reported
-        $patientLists = Patient::getAllJoinWithReported($conn, 0, $range);
-    } else if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_confirm.php")) {
-        $patientLists = Patient::getAllConfirm($conn, 0, $range);
-    } else {                                                        // get all patient
-        $patientLists = Patient::getAllJoin($conn, 0, $range);
-    }
+//    if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_monitor_8000.php")) {   // get patient statas id = 8000
+//        $patientLists = Patient::getAllJoinID8000($conn, 0, $range);
+//    } else if ($isCurUserClinicianCust || $isCurUserHospitalCust) {  // get patient with reported
+//        $patientLists = Patient::getAllJoinWithReported($conn, 0, $range);
+//    } else if (strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . "/patient_confirm.php")) {
+//        $patientLists = Patient::getAllConfirm($conn, 0, $range);
+//    } else {                                                        // get all patient
+//        $patientLists = Patient::getAllJoin($conn, 0, $range);
+//    }
+    
+    $patientLists = Patient::getAllJoin($conn, 0, $range);
 
     $data = [];
     foreach ($patientLists as $patient) {
@@ -59,10 +61,10 @@ if ($auth) {
 
             if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') {
                 if ($_SESSION['user']->uhospital_id == $patient['phospital_id']) {
-                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time']];
+                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
                 }
             } else {
-                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time']];
+                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
             }
         }
     }

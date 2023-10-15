@@ -228,6 +228,7 @@ $(document).ready(function () {
         {
             "render": function (data, type, row) {
                 data = '';
+                data += '<small>รับเข้าโดย:</small><span class="badge bg-success">'+row[14]+'</span>';
                 if (row[11] == "1") {
                     data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
                 } else if (row[11] == "2") {
@@ -239,6 +240,11 @@ $(document).ready(function () {
                 } else if (row[12] == "2") {
                     data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
                 }
+
+//                for (i = 0; i < row.length; i++) {
+//                    data += '<small>row[' + i + ']:</small><span class="badge bg-success">' + row[i] + '</span>';
+//                }
+
 
                 return data;
             },

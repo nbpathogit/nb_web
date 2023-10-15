@@ -134,7 +134,7 @@ class Patient {
      * @return array An associative array of all the article records
      */
     public static function getAllJoin($conn, $id = 0, $start = '0') {
-        $sql = "SELECT * ,p.id as pid
+        $sql = "SELECT * ,p.id as pid,p.create_by as pcreate_by
                 FROM patient as p
                 JOIN user as u
                 JOIN hospital as h
