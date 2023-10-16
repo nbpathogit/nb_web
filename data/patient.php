@@ -53,7 +53,12 @@ if ($auth) {
 //        $patientLists = Patient::getAllJoin($conn, 0, $range);
 //    }
     
-    $patientLists = Patient::getAllJoin($conn, 0, $range);
+    if (strpos($_SERVER['HTTP_REFERER'],  "patient_confirm.php")) {
+        $patientLists = Patient::getAllConfirm($conn, 0, $range);
+    } else {                                                        // get all patient
+        $patientLists = Patient::getAllJoin($conn, 0, $range);
+    }
+
 
     $data = [];
     foreach ($patientLists as $patient) {
