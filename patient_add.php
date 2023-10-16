@@ -321,4 +321,37 @@ require 'includes/status_cur.php';
 <script type="text/javascript">
     // set active tab
     $("#patienttab").addClass("active");
+    
+    
+                        $(document).ready(function () {
+                        //set active tab
+                        $("#patienttab").addClass("active");
+                        
+                        function selectElement(id, valueToSelect) {    
+                            let element = document.getElementById(id);
+                            element.value = valueToSelect;
+                        }
+
+                        
+
+                        $("#ppre_name_add").change(function () {
+                            var ppre_name = document.getElementById("ppre_name_add").value;
+
+                            console.log('A====='+ppre_name+'===='+'=======');
+                            
+                            let pre_name_list_add = document.getElementById("pre_name_list_add");
+                            
+                            let optioninside = pre_name_list_add.getElementsByTagName("option");
+                            for (i = 0; i < optioninside.length; i++) {
+                                console.log(optioninside[i].textContent);
+                                console.log(optioninside[i].getAttribute("pgender"));
+                                if(optioninside[i].textContent == ppre_name){
+                                    console.log('B====='+ppre_name+'===='+optioninside[i].getAttribute("pgender")+'=======');
+                                    selectElement('pgender_add', optioninside[i].getAttribute("pgender"));
+                                }
+                            }
+
+                        });
+
+                    });
 </script>

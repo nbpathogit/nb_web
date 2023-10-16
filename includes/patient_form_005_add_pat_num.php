@@ -91,8 +91,8 @@ if ($debug) {
             
             <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
                 <label for="ppre_name" class="">คำนำหน้าชื่อ</label>
-                <input name="ppre_name" type="text" list="pre_name_list" class="form-control border" id="ppre_name" placeholder=""  value="<?= $patient[0]['ppre_name']; ?>">
-                <datalist id="pre_name_list">
+                <input name="ppre_name" type="text" list="pre_name_list_add" class="form-control border" id="ppre_name_add" placeholder=""  value="<?= $patient[0]['ppre_name']; ?>">
+                <datalist id="pre_name_list_add">
                     <?php require 'includes/prenameOption.php'; ?>
                 </datalist>
             </div>
@@ -109,6 +109,16 @@ if ($debug) {
                 </div>
             </div>
 
+            <div class="col-xl-4 col-md-6 ">
+                <label for="pgender" class="">เพศ</label>
+                <div class="col">
+                    <select name="pgender" class="form-select" id="pgender_add">
+                        <option value="กรุณาเลือก">กรุณาเลือก</option>
+                        <option value="Male" >Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
 
         </div>
 
