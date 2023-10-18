@@ -189,6 +189,27 @@ class User
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+        public static function getAllbyCliniciansbyHospitalID($conn,$hospital_id)
+    {
+        $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
+                FROM user U
+                JOIN user_groups G
+                JOIN hospital H
+                WHERE U.ugroup_id  = G.id
+                and U.uhospital_id  = H.id
+                and U.uhospital_id  =  ".$hospital_id. "  
+                and
+                (U.ugroup_id = 5000 
+                or U.id = 0 )
+                and U.movetotrash = 0";
+
+
+        $results = $conn->query($sql);
+
+        return  $results->fetchAll(PDO::FETCH_ASSOC);
+//        return $sql;
+    }
 
     /**
      * Get the article record based on the ID

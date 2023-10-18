@@ -1217,6 +1217,45 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                         $(":submit").click(function () {
                             window.removeEventListener("beforeunload", onNosave);
                         })
+                        
+                        $("#phospital_id").change(function () {
+                            
+                            console.log('\n\n\n===================================================================\n');
+                            console.log('======================hospital_change==============================\n');
+                            console.log('===================================================================\n\n\n');
+                            
+                            let phospital_id = $("#phospital_id  option").filter(':selected').attr('value');
+//
+//                            alert('phospital_id:'+phospital_id);
+                            $.ajax({
+                                url: "ajax_patient/getUserByHospitalID.php?hospital_id=%s",
+                                        
+                                data: {hospital_id: phospital_id},
+                                success: function (data) {
+
+//                                    console.log('data:'+data)
+//                                    alert("data:"+data);
+                                    
+                                    $('#pclinician_id option').remove();
+                                    let datajson = JSON.parse(data);
+                                    if(datajson.length == 0){
+                                        $('#pclinician_id').append('<option value="0" >ยังไม่มีแพทย์สำหรับโรงพยาบาลนี้</option>');
+                                    }
+                                    for (let i in datajson)
+                                    {
+                                        if (i == 0) {
+                                            $('#pclinician_id').append('<option value="' + datajson[i].uid + '" >กรุณาเลือก</option>');
+                                        } else {
+                                            $('#pclinician_id').append('<option value="' + datajson[i].uid + '">' + datajson[i].name + ' ' + datajson[i].lastname + ' (' + datajson[i].pre_name +')</option>');
+                                        }
+                                    }
+                                    
+                                }
+                            });
+                            
+                        });
 
                     });
 </script>
+
+

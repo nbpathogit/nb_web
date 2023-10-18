@@ -76,8 +76,6 @@ $curStatusAuthEdit = (
         <div class="col">
             <select name="pgender" class="form-select" id="pgender" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>>
                 <option value="กรุณาเลือก">กรุณาเลือก</option>
-                <option value="Male" <?= ($patient[0]['pgender'] === "ชาย") ? "selected" : ""; ?> >Male</option> <!-- To be remove later when all database convert to Male/Female -->
-                <option value="Female" <?= ($patient[0]['pgender'] === "หญิง") ? "selected" : ""; ?> >Female</option> <!-- To be remove later when all database convert to Male/Female -->
                 <option value="Male" <?= ($patient[0]['pgender'] === "Male") ? "selected" : ""; ?> >Male</option>
                 <option value="Female" <?= ($patient[0]['pgender'] === "Female") ? "selected" : ""; ?> >Female</option>
             </select>
@@ -96,23 +94,6 @@ $curStatusAuthEdit = (
     </div>
 
 
-
-
-
-    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="pclinician_id" class="">แพทย์ผู้ส่ง</label>
-
-        <select name="pclinician_id" id="pclinician_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
-            <!--<option value="กรุณาเลือก" selected>กรุณาเลือก</option>-->
-            <?php foreach ($clinicians as $user): ?>
-                <?php //Target Format : <option value="495">BOUNTHOME  SAMOUNTRY , MD.</option> ?>
-                <option value="<?= htmlspecialchars($user['uid']); ?>"  <?= $patient[0]['pclinician_id'] == $user['uid'] ? "selected" : ""; ?> >
-                    <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0 && $isCurUserAdmin):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
-                </option>
-            <?php endforeach; ?>
-        </select>                                    
-    </div>
-    
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="phospital_id" class="">โรงพยาบาล</label>
         <select name="phospital_id" id="phospital_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage &&  ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
@@ -123,6 +104,25 @@ $curStatusAuthEdit = (
             <?php endforeach; ?>
         </select>
     </div>
+
+<?php $selectHospitalFirst = TRUE; ?>
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <label for="pclinician_id" class="">แพทย์ผู้ส่ง</label>
+        <select name="pclinician_id" id="pclinician_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
+            <?php if($selectHospitalFirst): ?>
+            <option value="" selected>กรุณาเลือกโรงพยาบาลก่อน</option>
+            <?php endif; ?>
+            <?php foreach ($clinicians as $user): ?>
+                <?php if(!$selectHospitalFirst): ?>
+                <option value="<?= htmlspecialchars($user['uid']); ?>"  <?= $patient[0]['pclinician_id'] == $user['uid'] ? "selected" : ""; ?> >
+                    <?=$user['name'] . ' ' . $user['lastname']?><?php if($user['uid']!=0 && $isCurUserAdmin):?> <?=' (' . $user['username'] . '::' . $user['ugroup'] . ')';  ?><?php endif; ?>
+                </option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </select>                                    
+    </div>
+    
+
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">ความสำคัญ</label>
