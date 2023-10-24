@@ -8,7 +8,7 @@ $conn = require 'includes/db.php';
 
 if (isset($_GET['id'])) {
 
-    $billing = Billing::getByID($conn, $_GET['id']);
+    $billing = ServiceBilling::getByID($conn, $_GET['id']);
     // var_dump($billing);
     // exit;
     if (!$billing) {
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // var_dump($_POST);
     //die();
 
-    $billing = new Billing();
+    $billing = new ServiceBilling();
     $billing->id = $_GET['id'];
     $billing->cost = $_POST['cost'];
     $billing->description = $_POST['description'];
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($billing->update($conn)) {
         Url::redirect("/billing.php");
     } else {
-        echo '<script>alert("Add billing fail. Please verify again")</script>';
+        echo '<script>alert("Add ServiceBilling fail. Please verify again")</script>';
     }
 }
 ?>

@@ -10,7 +10,7 @@ $data = $_POST['data'];
 $cur_thai_time = Util::get_curreint_thai_date_time();
 
 $sql =  "".
-        "INSERT INTO `specimen_list` ".
+        "INSERT INTO `service_price_list` ".
         "(`id`, `number`, `speciment_num`, `jobtype`, `specimen`, `hospital_id`, `unit_count`, `price`, `comment`, `create_date`, `add_user_id`, `edit_user_id`)".
         " VALUES ";
 
@@ -48,8 +48,8 @@ foreach ($data as $key => $d) {
 
 
 
-Specimen::createBySQL($conn, $sql);
+ServicePriceList::createBySQL($conn, $sql);
 
-$specimens = Specimen::getSpecimenByHospitalID($conn, $hospital_id , $type_id);
+$specimens = ServicePriceList::getSpecimenByHospitalID($conn, $hospital_id , $type_id);
 
 echo json_encode($specimens);

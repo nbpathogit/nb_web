@@ -22,7 +22,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_RE
 
 if ($auth) {
     $conn = require '../includes/db.php';
-    $specimens = Specimen::getAll($conn);
+    $specimens = ServicePriceList::getAll($conn);
 
     $data = [];
     foreach ($specimens as $specimen) {

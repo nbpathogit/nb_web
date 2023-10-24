@@ -8,7 +8,7 @@ $conn = require 'includes/db.php';
 
 if (isset($_GET['id'])) {
 
-    $specimen = Specimen::getByID($conn, $_GET['id']);
+    $specimen = ServicePriceList::getByID($conn, $_GET['id']);
 
     if (!$specimen) {
         die("specimen not found");
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // var_dump($_POST);
     //die();
 
-    $specimen = new Specimen();
+    $specimen = new ServicePriceList();
     $specimen->id = $_GET['id'];
     $specimen->specimen = $_POST['specimen'];
     $specimen->speciment_num = $_POST['num'];

@@ -118,8 +118,8 @@ if ($isPreviewMode) {
 //$patientLists = Patient::getAll($conn);
 //Get List of Table
 $hospitals = Hospital::getAll($conn);
-$specimens = Specimen::getAll($conn, 1);
-$specimen2s = Specimen::getAll($conn, 2);
+$specimens = ServicePriceList::getAll($conn, 1);
+$specimen2s = ServicePriceList::getAll($conn, 2);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);

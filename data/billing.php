@@ -26,7 +26,7 @@ if ($auth) {
     $range = "0";
     if (isset($_REQUEST['end'])) {
 
-        $bills = Billing::getAllDateforBillPage($conn, $_REQUEST['start'], $_REQUEST['end']);
+        $bills = ServiceBilling::getAllDateforBillPage($conn, $_REQUEST['start'], $_REQUEST['end']);
 
     } else if (isset($_REQUEST['range'])) {
 
@@ -45,7 +45,7 @@ if ($auth) {
 
         $range = $dateTime->format('Y-m-d');
 
-        $bills = Billing::getAllforBillPage($conn, $range);
+        $bills = ServiceBilling::getAllforBillPage($conn, $range);
     }
 
 

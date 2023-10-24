@@ -10,7 +10,7 @@ $conn = require '../includes/db.php';
 try {
     foreach ($_POST['blox_name'] as $key => $blox_name) {
 
-        $billing = Billing::getInitObj();
+        $billing = ServiceBilling::getInitObj();
         $billing->patient_id = (int) $_POST['patient_id'];
         $billing->number = $_POST['cur_pnum']; //surgical number
         $billing->lastname = ""; //patient surname
@@ -48,7 +48,7 @@ try {
 
 
 
-//$billings = Billing::getAll($conn, $_POST['patient_id'], 2);
-$billings = Billing::getAllUnRequest($conn, $_POST['patient_id'], 2);
+//$billings = ServiceBilling::getAll($conn, $_POST['patient_id'], 2);
+$billings = ServiceBilling::getAllUnRequest($conn, $_POST['patient_id'], 2);
 
 echo json_encode($billings);

@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // var_dump($_POST);
   //die();
 
-  $specimen = new Specimen();
+  $specimen = new ServicePriceList();
   $specimen->speciment_num = $_POST['num'];
   $specimen->specimen = $_POST['specimen'];
   $specimen->price = $_POST['price'];

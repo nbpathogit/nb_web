@@ -34,7 +34,7 @@ $hospitals = Hospital::getAll($conn);
 
 <?php
 $hospitals = Hospital::getAll($conn);
-$billings = Billing::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-03-27", 1);
+$billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01", "2023-03-27", 1);
 //var_dump($billings);
 //die();
 ?>

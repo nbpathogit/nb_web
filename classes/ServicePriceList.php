@@ -11,8 +11,7 @@
  *
  * @author 2444536
  */
-class Specimen
-{
+class ServicePriceList {
 
     public $id;
     public $speciment_num;
@@ -27,7 +26,7 @@ class Specimen
     public static function getAll($conn,$id= -1)
     {
         $sql = "SELECT *
-                FROM specimen_list";
+                FROM service_price_list";
         if ($id != -1) {
             $sql = $sql . " WHERE id = $id";
         }
@@ -42,7 +41,7 @@ class Specimen
     public static function getSpecimen($conn)
     {
         $sql = "SELECT *
-                FROM specimen_list
+                FROM service_price_list
                 WHERE jobtype = 1
                 ORDER BY id;";
 
@@ -54,7 +53,7 @@ class Specimen
     public static function getSpecimenByHospitalID($conn,$hospital_id,$type=0)
     {
         $sql = "SELECT *
-                FROM specimen_list";
+                FROM service_price_list";
         $sql = $sql." WHERE hospital_id = :hospital_id ";
         if($type !=0){
             $sql = $sql." and jobtype = :type ";
@@ -72,7 +71,7 @@ class Specimen
     
         public static function delSpecimenByHospitalID($conn,$hospital_id,$type=0)
     {
-        $sql = "DELETE FROM `specimen_list`";
+        $sql = "DELETE FROM `service_price_list`";
 
         $sql = $sql." WHERE hospital_id = :hospital_id ";
         if($type !=0){
@@ -92,7 +91,7 @@ class Specimen
     public static function getSpecialSlide($conn)
     {
         $sql = "SELECT *
-                FROM specimen_list
+                FROM service_price_list
                 WHERE jobtype = 2
                 ORDER BY id;";
 
@@ -104,7 +103,7 @@ class Specimen
     public function create($conn)
     {
 
-        $sql = "INSERT INTO specimen_list (speciment_num, specimen, price)
+        $sql = "INSERT INTO service_price_list (speciment_num, specimen, price)
                 VALUES (:speciment_num, :specimen, :price)";
 
         $stmt = $conn->prepare($sql);
@@ -138,14 +137,14 @@ class Specimen
 
     public static function getTotal($conn)
     {
-        return $conn->query("SELECT COUNT(*) FROM specimen_list")->fetchColumn();
+        return $conn->query("SELECT COUNT(*) FROM service_price_list")->fetchColumn();
     }
 
     public static function getPage($conn, $limit, $offset)
     {
 
         $sql = "SELECT *
-                FROM specimen_list
+                FROM service_price_list
                 LIMIT :limit
                 OFFSET :offset";
 
@@ -162,7 +161,7 @@ class Specimen
     {
 
         $sql = "SELECT *
-                FROM specimen_list
+                FROM service_price_list
                 WHERE specimen LIKE '%$search%';";
 
         // var_dump($sql);
@@ -178,7 +177,7 @@ class Specimen
     public static function getByID($conn, $id, $columns = '*')
     {
         $sql = "SELECT $columns
-                FROM specimen_list
+                FROM service_price_list
                 WHERE id= :id";
 
         $stmt = $conn->prepare($sql);
@@ -195,7 +194,7 @@ class Specimen
     public function update($conn)
     {
 
-        $sql = "UPDATE specimen_list
+        $sql = "UPDATE service_price_list
                     SET specimen = :specimen,
                         speciment_num =:speciment_num,
                         price =:price
@@ -213,7 +212,7 @@ class Specimen
 
     public function delete($conn)
     {
-        $sql = "DELETE FROM specimen_list
+        $sql = "DELETE FROM service_price_list
                 WHERE id = :id";
 
         $stmt = $conn->prepare($sql);

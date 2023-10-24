@@ -118,7 +118,7 @@ class ReqSpSlideID {
     
     public static function getBillFromReqId($conn, $req_id) {
 
-        $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN billing as b ON r.id = b.req_id WHERE r.id = $req_id";
+        $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN service_billing as b ON r.id = b.req_id WHERE r.id = $req_id";
 
         $results = $conn->query($sql);
 
@@ -128,7 +128,7 @@ class ReqSpSlideID {
     
     public static function getBillandJobFromDateRange($conn, $startdate, $enddate) {
 
-        $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN billing as b ON r.id = b.req_id "
+        $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN service_billing as b ON r.id = b.req_id "
                 . "WHERE   date(b.req_date) >= '{$startdate}'and date(b.req_date) <= '{$enddate}' ";
 
         $results = $conn->query($sql);
@@ -144,7 +144,7 @@ class ReqSpSlideID {
 //            (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
 //                , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lAStname) AS jowowner
 //                ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
-//            FROM (req_id_sp_slide AS r JOIN billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id   
+//            FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id   
 //            WHERE  date(r.req_date) >= '2023-06-18'
 //            GROUP by rid, b.description
 //            ) AS aa
@@ -175,7 +175,7 @@ class ReqSpSlideID {
                 (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
                     , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lastname) AS jowowner
                     ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
-                FROM (req_id_sp_slide AS r JOIN billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id  "; 
+                FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id  "; 
         if ($start != '0') {
             $sql = $sql . "WHERE  date(r.req_date) >= '{$start}' ";
         }

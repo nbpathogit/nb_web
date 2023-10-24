@@ -6,10 +6,10 @@ $conn = require '../includes/db.php';
 //Auth::requireLogin("../patient_edit.php", $_POST['id']);
 
 
-    $specimens = Specimen::getAll($conn, $_POST['specimen_id']);
+    $specimens = ServicePriceList::getAll($conn, $_POST['specimen_id']);
 
 
-    $billing = Billing::getInitObj();
+    $billing = ServiceBilling::getInitObj();
     $billing->patient_id = (int) $_POST['patient_id'];
     $billing->number = $_POST['cur_pnum']; //surgical number
     $billing->lastname = ""; //patient surname
@@ -34,6 +34,6 @@ $conn = require '../includes/db.php';
 
     $billing->create($conn);
     
-    $billings = Billing::getAll($conn, $_POST['patient_id'],1);
+    $billings = ServiceBilling::getAll($conn, $_POST['patient_id'],1);
 
     echo json_encode($billings);

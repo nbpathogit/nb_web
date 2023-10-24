@@ -38,7 +38,7 @@ if (!$patient) {
 
 //Get List of Table
 $hospitals = Hospital::getAll($conn);
-$specimens = Specimen::getAll($conn);
+$specimens = ServicePriceList::getAll($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);

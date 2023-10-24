@@ -19,8 +19,8 @@ $req_id = $req->id;
 
 
 
-//Add request id to billing
-Billing::setRequestIDifNotSet_SlideType2($conn, $_POST['patient_id'], $req_id,$cur_thai_time);
+//Add request id to ServiceBilling
+ServiceBilling::setRequestIDifNotSet_SlideType2($conn, $_POST['patient_id'], $req_id,$cur_thai_time);
 
 //Add request id to
 Job::setRequestIDifNotSetJobRole4($conn, $_POST['patient_id'], $req_id,$cur_thai_time);

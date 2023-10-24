@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of Billing
+ * Description of ServiceBilling
  *
  * @author 2444536
  */
-class Billing {
+class ServiceBilling {
     
     public $id;          //int(11)
     public $req_id;      //Request id
@@ -52,7 +52,7 @@ class Billing {
 
     public static function getAll($conn, $patient_id = 0,$type = 0, $start = '0') {
         $sql = "SELECT *
-                FROM billing ";
+                FROM service_billing ";
         
         $sql = $sql . " WHERE 1=1 ";
         
@@ -75,7 +75,7 @@ class Billing {
     
         public static function getAllUnRequest($conn, $patient_id = 0,$type = 0, $start = '0') {
         $sql = "SELECT *
-                FROM billing ";
+                FROM service_billing ";
         
         $sql = $sql . " WHERE req_id = 0 ";
         
@@ -98,7 +98,7 @@ class Billing {
     
     public static function getAllforBillPage($conn, $start = '0') {
         $sql = "SELECT *, h.id as hid, b.id as bid FROM".
-                " billing as b ".
+                " service_billing as b ".
                 " JOIN hospital as h".
                 " JOIN service_type as s".
                 " JOIN patient as p".
@@ -115,7 +115,7 @@ class Billing {
 
     public static function getAllDateforBillPage($conn, $start = '0',$end = '0') {
         $sql = "SELECT *, h.id as hid, b.id as bid FROM".
-                " billing as b ".
+                " service_billing as b ".
                 " JOIN hospital as h".
                 " JOIN service_type as s".
                 " JOIN patient as p".
@@ -133,7 +133,7 @@ class Billing {
     
     public static function getBillbyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
         $sql = "SELECT *, h.id as hid, b.id as bid, p.id as pid FROM".
-                " billing as b ".
+                " service_billing as b ".
                 " JOIN hospital as h".
                 " JOIN service_type as s".
                 " JOIN patient as p".
@@ -153,7 +153,7 @@ class Billing {
     
     public static function getBillbyHospitalbyDateRangeSumPrice($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
         $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount FROM".
-                " billing as b ".
+                " service_billing as b ".
                 " JOIN hospital as h".
                 " JOIN service_type as s".
                 " JOIN patient as p".
@@ -172,12 +172,12 @@ class Billing {
         return  $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    //SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = 0 and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by s.id;
+    //SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = 0 and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by s.id;
     //   service_type    cost_sum  cost_count
     //   ตรวจธรรมดา       10400     26
     //   ตรวจพิเศษ         800       2
     public static function getCostGroupbyServiceTyoebyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
+        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
                 if($limit != 0){
                     $sql = $sql . " LIMIT $limit ";
                 }
@@ -190,7 +190,7 @@ class Billing {
     public function create($conn) {
 
         //$specimen_id
-        $sql = "INSERT INTO `billing` (`id`, `req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
+        $sql = "INSERT INTO `service_billing` (`id`, `req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
         . "VALUES                     (NULL, :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
 
 
@@ -234,7 +234,7 @@ class Billing {
     
     public static function getInitObj()
     {
-        $billing = new Billing();
+        $billing = new ServiceBilling();
         
         $billing->patient_id  =0;      //int(11)	
         $billing->req_id = 0;          //Request id
@@ -267,7 +267,7 @@ class Billing {
     public static function delete($conn,$id)
     {
         
-        $sql = "DELETE FROM `billing` WHERE `billing`.`id` = :id";
+        $sql = "DELETE FROM `service_billing` WHERE `service_billing`.`id` = :id";
 
         $stmt = $conn->prepare($sql);
 
@@ -279,7 +279,7 @@ class Billing {
     public function update($conn)
     {
 
-        $sql = "UPDATE billing
+        $sql = "UPDATE service_billing
                     SET cost = :cost,
                         description =:description,
                     WHERE id = :id";
@@ -295,7 +295,7 @@ class Billing {
 
     public static function getByID($conn, $id = 0)
     {
-        $sql = "SELECT * FROM `billing` ";
+        $sql = "SELECT * FROM `service_billing` ";
 
         $sql = $sql . " WHERE id=$id;";
         
@@ -307,7 +307,7 @@ class Billing {
     
 //    public static function setRequestIDifNotSet($conn, $patient_id, $req_id)
 //    {
-//        $sql = "UPDATE `billing` "
+//        $sql = "UPDATE `service_billing` "
 //                . "SET `req_id` = :req_id "
 //                . "WHERE (`patient_id` = :patient_id and `req_id` = 0)";
 //
@@ -321,7 +321,7 @@ class Billing {
     
     public static function setRequestIDifNotSet_SlideType2($conn, $patient_id, $req_id,$req_date)
     {
-        $sql = "UPDATE `billing` "
+        $sql = "UPDATE `service_billing` "
                 . "SET `req_id` = :req_id,  `req_date` = :req_date "
                 . "WHERE (`patient_id` = :patient_id and `req_id` = 0 and slide_type = 2)";
 
@@ -337,7 +337,7 @@ class Billing {
     public static function setFinishDate($conn, $rid, $finishdate)
     {
         
-        $sql = 'UPDATE billing '
+        $sql = 'UPDATE service_billing '
         . ' SET req_finish_date = :req_finish_date '
         . ' WHERE req_id = :req_id';
 

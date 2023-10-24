@@ -18,7 +18,7 @@ if (!Auth::isLoggedIn()) {
 $hospitals = Hospital::getAll($conn);
 
 if ($hide) {
-    $nbprices = Specimen::getAll($conn);
+    $nbprices = ServicePriceList::getAll($conn);
 }
 ?>
 

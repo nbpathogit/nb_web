@@ -13,7 +13,7 @@ if (!$isCurUserAdmin){
 
 if (isset($_GET['id'])) {
 
-    $specimen = Specimen::getByID($conn, $_GET['id']);
+    $specimen = ServicePriceList::getByID($conn, $_GET['id']);
 
     if (!$specimen) {
         die("specimen not found");

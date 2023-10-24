@@ -647,7 +647,7 @@ if (!$patient) {
 //$patientLists = Patient::getAll($conn);
 //Get List of Table
 $hospitals = Hospital::getAll($conn);
-$specimens = Specimen::getSpecimen($conn);
+$specimens = ServicePriceList::getSpecimen($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);   //2000 2100 2200
@@ -671,8 +671,8 @@ $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 
 $pathoOwnerNameObj = User::getByID($conn, $patient[0]['ppathologist_id']);
 
-$billings = Billing::getAll($conn, $_GET['id'], 1);
-$billing2s = Billing::getAll($conn, $_GET['id'], 2);
+$billings = ServiceBilling::getAll($conn, $_GET['id'], 1);
+$billing2s = ServiceBilling::getAll($conn, $_GET['id'], 2);
 
 $job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
 $job_assis_crosss = Job::getAssisCrossSection($conn, $patient[0]['id']);

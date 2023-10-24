@@ -7,8 +7,8 @@ require '../includes/init.php';
 $conn = require '../includes/db.php';
 //require '../user_auth.php';
 
-Billing::delete($conn,$_POST['bill_id']);
-$billings = Billing::getAll($conn, $_POST['patient_id'],1);
+ServiceBilling::delete($conn,$_POST['bill_id']);
+$billings = ServiceBilling::getAll($conn, $_POST['patient_id'],1);
 
 echo json_encode($billings);
 
