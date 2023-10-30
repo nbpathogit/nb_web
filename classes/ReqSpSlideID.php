@@ -26,17 +26,29 @@ class ReqSpSlideID {
 
         $sql = "INSERT INTO `req_id_sp_slide` (`id`, `patient_id`, `job_id`, `req_date`, `finish_date`, `create_user_id`, `comment`) "
                 . "VALUES                     (NULL, :patient_id, :job_id, :req_date , NULL, :create_user_id, :comment)";
-
+        
 
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);      //int(11)
-
         $stmt->bindValue(':job_id', $this->job_id, PDO::PARAM_INT);      //int(11)		
         $stmt->bindValue(':req_date', $this->req_date, PDO::PARAM_STR);      //int(11)		
         $stmt->bindValue(':create_user_id', $this->create_user_id, PDO::PARAM_INT);      //varchar(32)	patient pnum
         $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);      //varchar(32)	patient pnum
         //var_dump($stmt);
+        
+        
+//          $sql_dbg = $sql; 
+//          
+//        $sql_dbg=str_replace(':patient_id', $this->patient_id,$sql_dbg);      //int(11)
+//        $sql_dbg=str_replace(':job_id', $this->job_id,$sql_dbg);      //int(11)		
+//        $sql_dbg=str_replace(':req_date', '"'.$this->req_date.'"',$sql_dbg);      //int(11)		
+//        $sql_dbg=str_replace(':create_user_id', $this->create_user_id,$sql_dbg);      //varchar(32)	patient pnum
+//        $sql_dbg=str_replace(':comment', '"'.$this->comment.'"',$sql_dbg);      //varchar(32)	patient pnum
+//        
+//        $myfile = fopen("ReqSpSlideID_create.txt", "w") or die("Unable to open file!");
+//        fwrite($myfile, $sql_dbg);
+//        fclose($myfile);
 
         if ($stmt->execute()) {
             $this->id = $conn->lastInsertId();

@@ -59,8 +59,9 @@ class Job
 
         $sql = "INSERT INTO `job` (`id`, `job_role_id`, `patient_id`, `result_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
             . "VALUES             (NULL, :job_role_id,  :patient_id,  :result_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
-
-        $stmt = $conn->prepare($sql);
+        $sql_dbg = $sql;    
+        
+        
 
         // $stmt = $bindValue(':id Primary'        ,$this->id Primary        ,PDO::PARAM_STR);                
         $stmt->bindValue(':job_role_id', $this->job_role_id, PDO::PARAM_INT);
@@ -72,13 +73,30 @@ class Job
         $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
         $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
         $stmt->bindValue(':jobname', $this->jobname, PDO::PARAM_STR);
-        $stmt->bindValue(':pay', $this->pay);
+        $stmt->bindValue(':pay', $this->pay,PDO::PARAM_STR);
         $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
         $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
         //        $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
 
+//        $stmt = $conn->prepare($sql);
+//        
+//        $sql_dbg=str_replace(':job_role_id', $this->job_role_id, $sql_dbg);
+//        $sql_dbg=str_replace(':patient_id', $this->patient_id, $sql_dbg);
+//        $sql_dbg=str_replace(':result_id', $this->result_id, $sql_dbg);
+//        $sql_dbg=str_replace(':patient_number', '"'.$this->patient_number.'"' , $sql_dbg);
+//        $sql_dbg=str_replace(':user_id', $this->user_id, $sql_dbg);
+//        $sql_dbg=str_replace(':pre_name', '"'.$this->pre_name.'"', $sql_dbg);
+//        $sql_dbg=str_replace(':name', '"'.$this->name.'"', $sql_dbg);
+//        $sql_dbg=str_replace(':lastname', '"'.$this->lastname.'"', $sql_dbg);
+//        $sql_dbg=str_replace(':jobname', '"'.$this->jobname.'"', $sql_dbg);
+//        $sql_dbg=str_replace(':pay', '"'.$this->pay.'"', $sql_dbg);
+//        $sql_dbg=str_replace(':cost_count_per_day', $this->cost_count_per_day, $sql_dbg);
+//        $sql_dbg=str_replace(':comment', '"'.$this->comment.'"', $sql_dbg);
+//        
+//        $myfile = fopen("Job_create.txt", "w") or die("Unable to open file!");
+//        fwrite($myfile, $sql_dbg);
+//        fclose($myfile);
 
-        //var_dump($stmt);
 
         if ($stmt->execute()) {
             $this->id = $conn->lastInsertId();
