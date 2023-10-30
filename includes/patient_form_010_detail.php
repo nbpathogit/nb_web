@@ -105,7 +105,14 @@ $curStatusAuthEdit = (
         </select>
     </div>
 
-<?php $selectHospitalFirst = TRUE; ?>
+<?php 
+if ($patient[0]['phospital_id'] > 0) {
+        $selectHospitalFirst = FALSE;
+    } else {
+        $selectHospitalFirst = TRUE;
+    }
+
+?>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pclinician_id" class="">แพทย์ผู้ส่ง</label>
         <select name="pclinician_id" id="pclinician_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  >
