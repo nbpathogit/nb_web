@@ -16,6 +16,12 @@ class Job
 
     //put your code here
     public $id;  //int(11) Primary
+    
+    
+    public $req_date;
+    public $req_finish_date;
+        //$job->req_id = 0;
+    
     public $req_id; // int
     public $job_role_id;  //int(11)			
     public $patient_id;  // int(11)		
@@ -32,12 +38,17 @@ class Job
     public $finish_date;  //  datetime	
     public $second_patho_review;  //  
     public $request_sp_slide;  //  	
+    public $qty;  //  	
 
     public static function getInitObj()
     {
         $job = new Job();
 
         $job->id = null;
+        
+        $job->req_date = null;
+        $job->req_finish_date = null;
+        $job->req_id = 0;
         $job->job_role_id = 0;
         $job->patient_id = 0;
         $job->result_id = 0;
@@ -51,14 +62,15 @@ class Job
         $job->cost_count_per_day = 0;
         $job->comment = "";
         $job->finish_date = null;
+        $job->qty = 1;
         return $job;
     }
 
     public function create($conn)
     {
 
-        $sql = "INSERT INTO `job` (`id`, `job_role_id`, `patient_id`, `result_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
-            . "VALUES             (NULL, :job_role_id,  :patient_id,  :result_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
+        $sql = "INSERT INTO `job` (`id`,`req_date` ,`job_role_id`, `patient_id`, `result_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
+            . "VALUES             (NULL,:req_date, :job_role_id,  :patient_id,  :result_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
   
         $sql_dbg = $sql; 
         
@@ -82,7 +94,8 @@ class Job
 //        
         
         $stmt = $conn->prepare($sql);
-        // $stmt = $bindValue(':id Primary'        ,$this->id Primary        ,PDO::PARAM_STR);                
+        // $stmt = $bindValue(':id Primary'        ,$this->id Primary        ,PDO::PARAM_STR);      
+        $stmt->bindValue(':req_date', $this->req_date, PDO::PARAM_STR);
         $stmt->bindValue(':job_role_id', $this->job_role_id, PDO::PARAM_INT);
         $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
         $stmt->bindValue(':result_id', $this->result_id, PDO::PARAM_INT);

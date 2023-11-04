@@ -11,6 +11,8 @@ $conn = require '../includes/db.php';
 
 $job = Job::getInitObj();
 //$job->id = null;
+$cur_thai_time = Util::get_curreint_thai_date_time();
+$job->req_date = $cur_thai_time;
 $job->job_role_id = (int) $_POST['job_role_id'];
 $job->patient_id = (int) $_POST['patient_id'];
 $job->result_id = (int) $_POST['result_id'];
