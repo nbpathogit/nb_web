@@ -135,7 +135,7 @@ class Job
         if ($start != '0') {
             $sql .= " and date(insert_time) >= '{$start}'";
         }
-        $sql = $sql . " ORDER BY id";
+        $sql = $sql . " ORDER BY id DESC";
 
         $results = $conn->query($sql);
 

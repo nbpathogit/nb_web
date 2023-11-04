@@ -49,30 +49,31 @@ $(document).ready(function () {
             }
             ]
         },],
-        columnDefs: [{
-            "render": function (data, type, row) {
-                let html = '<b>No.: </b><a href="patient_edit.php?id=' + row[2] + '">' + row[3] + '</a><br><b>Name: </b>' + row[5] + " " + row[6] + " " + row[7] + "<br>" + "<b>Job: </b>" + row[8];
-                html += '<br><a href="job_edit.php?id=' + row[0] + '" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
-                return html
+        columnDefs: [
+                       {
+                "render": function (data, type, row) {
+                    let html = row[0]+'<br><a href="job_edit.php?id=' + row[0] + '" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
+                    return html;
+                },
+                "targets": 0
             },
-            "targets": 3
-        },
-        {
+            {
+                "render": function (data, type, row) {
+                    let html = '<a href="patient_edit.php?id=' + row[2] + '">' + row[3] + '</a>';
+                
+                    return html;
+                },
+                "targets": 3
+            },
+            {
             "render": function (data, type, row) {
-                return "<b>Create: </b>" + row[13] + "<br><b>Finish: </b>" + (row[12] == null ? "-" : row[12]);
+                return  row[12];
             },
             "targets": 12
         },
         {
             "render": function (data, type, row) {
-                // let html = "<b>#:</b>" + row[0];
-                // html += "<br><b>Job role id:</b> " + row[1];
-                // html += "<br><b>Patient id:</b> " + row[2];
-                // html += "<br><b>User id:</b> " + row[4];
-                let html = "Pay:</b> " + row[9];
-                html += "<br><b>Cost count per day:</b> " + row[10];
-                html += "<br><b>Comment:</b> " + row[11];
-                return html;
+                return row[11];
             },
             "targets": 11
         },

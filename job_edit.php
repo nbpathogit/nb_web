@@ -5,6 +5,7 @@ require 'includes/init.php';
 Auth::requireLogin();
 
 $conn = require 'includes/db.php';
+require 'user_auth.php';
 
 if (isset($_GET['id'])) {
 

@@ -29,7 +29,7 @@ $conn = require 'includes/db.php';
     <div class="container-fluid pt-4 px-4">
         <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
-
+<!-- [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date'], $job['insert_time']]; -->
             <table class="table table-hover table-striped" id="job_table" style="width:100%">
                 <thead>
                     <tr>
@@ -44,9 +44,9 @@ $conn = require 'includes/db.php';
                         <th scope="col">jobname</th>
                         <th scope="col">pay</th>
                         <th scope="col">cost count per day</th>
-                        <th scope="col">Detail</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">comment</th>
+                        <th scope="col">finish_date</th>
+                        <th scope="col">insert_time</th>
                     </tr>
                 </thead>
             </table>
@@ -61,4 +61,4 @@ $conn = require 'includes/db.php';
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
 </script>
-<script src="<?= Url::getSubFolder1() ?>/js/job.js?v0"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/job.js?v0xxxx"></script>
