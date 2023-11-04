@@ -59,27 +59,10 @@ class Job
 
         $sql = "INSERT INTO `job` (`id`, `job_role_id`, `patient_id`, `result_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
             . "VALUES             (NULL, :job_role_id,  :patient_id,  :result_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
-        $sql_dbg = $sql;    
-        
+  
+        $sql_dbg = $sql; 
         
 
-        // $stmt = $bindValue(':id Primary'        ,$this->id Primary        ,PDO::PARAM_STR);                
-        $stmt->bindValue(':job_role_id', $this->job_role_id, PDO::PARAM_INT);
-        $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
-        $stmt->bindValue(':result_id', $this->result_id, PDO::PARAM_INT);
-        $stmt->bindValue(':patient_number', $this->patient_number, PDO::PARAM_STR);
-        $stmt->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);
-        $stmt->bindValue(':pre_name', $this->pre_name, PDO::PARAM_STR);
-        $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
-        $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
-        $stmt->bindValue(':jobname', $this->jobname, PDO::PARAM_STR);
-        $stmt->bindValue(':pay', $this->pay,PDO::PARAM_STR);
-        $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
-        $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
-        //        $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
-
-//        $stmt = $conn->prepare($sql);
-//        
 //        $sql_dbg=str_replace(':job_role_id', $this->job_role_id, $sql_dbg);
 //        $sql_dbg=str_replace(':patient_id', $this->patient_id, $sql_dbg);
 //        $sql_dbg=str_replace(':result_id', $this->result_id, $sql_dbg);
@@ -96,6 +79,23 @@ class Job
 //        $myfile = fopen("Job_create.txt", "w") or die("Unable to open file!");
 //        fwrite($myfile, $sql_dbg);
 //        fclose($myfile);
+//        
+        
+        $stmt = $conn->prepare($sql);
+        // $stmt = $bindValue(':id Primary'        ,$this->id Primary        ,PDO::PARAM_STR);                
+        $stmt->bindValue(':job_role_id', $this->job_role_id, PDO::PARAM_INT);
+        $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':result_id', $this->result_id, PDO::PARAM_INT);
+        $stmt->bindValue(':patient_number', $this->patient_number, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':pre_name', $this->pre_name, PDO::PARAM_STR);
+        $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $stmt->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':jobname', $this->jobname, PDO::PARAM_STR);
+        $stmt->bindValue(':pay', $this->pay,PDO::PARAM_STR);
+        $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
+        $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
+        //        $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
 
 
         if ($stmt->execute()) {

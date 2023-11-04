@@ -1,0 +1,1 @@
+INSERT INTO `job` (`id`, `job_role_id`, `patient_id`, `result_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) VALUES             (NULL, 5,  197,  0,  "SN2323113",  20,  "นายแพทย์",  "อภิชาติ",  "ชุมทอง",  "แพทย์ผู้ออกผล",  "0",  0,  "",   NULL)
