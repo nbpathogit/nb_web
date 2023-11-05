@@ -29,24 +29,29 @@ $conn = require 'includes/db.php';
     <div class="container-fluid pt-4 px-4">
         <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
-<!-- [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date'], $job['insert_time']]; -->
-            <table class="table table-hover table-striped" id="job_table" style="width:100%">
+<!--//            $data[] = [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date'], $job['insert_time'], $job['qty'], $job['req_date']];
+//-----     -----------------------0------------------1-----------------2---------------------3--------------------4---------------5----------------6---------------7----------------8--------------9-------------------10---------------------11----------------12--------------------13---------------14-------------15------------>
+
+
+<table class="table table-hover table-striped" id="job_table" style="width:100%">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">job role id</th>
-                        <th scope="col">patient id</th>
-                        <th scope="col">Patient</th>
-                        <th scope="col">user id</th>
-                        <th scope="col">prename</th>
-                        <th scope="col">name</th>
-                        <th scope="col">lastname</th>
-                        <th scope="col">jobname</th>
-                        <th scope="col">pay</th>
-                        <th scope="col">cost count per day</th>
-                        <th scope="col">comment</th>
-                        <th scope="col">finish_date</th>
-                        <th scope="col">insert_time</th>
+                        <th scope="col">#</th>                      <!-- 0 -->
+                        <th scope="col">job role id</th>            <!-- 1 -->
+                        <th scope="col">patient id</th>             <!-- 2 -->
+                        <th scope="col">Patient</th>                <!-- 3 -->
+                        <th scope="col">user id</th>                <!-- 4 -->
+                        <th scope="col">prename</th>                <!-- 5 -->
+                        <th scope="col">name</th>                   <!-- 6 -->
+                        <th scope="col">lastname</th>               <!-- 7 -->
+                        <th scope="col">jobname</th>                <!-- 8 -->
+                        <th scope="col">pay</th>                    <!-- 9 -->
+                        <th scope="col">pay/day</th>                <!-- 10 -->
+                        <th scope="col">comment</th>                <!-- 11 -->
+                        <th scope="col">Request_date</th>           <!-- 12 -->
+                        <th scope="col">finish_date</th>            <!-- 13 -->
+                        <th scope="col">Qty.</th>                   <!-- 14 -->
+                        <th scope="col">insert_time</th>            <!-- 15 -->
                     </tr>
                 </thead>
             </table>
@@ -61,4 +66,4 @@ $conn = require 'includes/db.php';
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
 </script>
-<script src="<?= Url::getSubFolder1() ?>/js/job.js?v0xxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/job.js?v0xxxxxxx"></script>

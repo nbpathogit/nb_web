@@ -133,7 +133,7 @@ class Job
             $sql = $sql . " and job_role_id = " . $job_role_id;
         }
         if ($start != '0') {
-            $sql .= " and date(insert_time) >= '{$start}'";
+            $sql .= " and date(req_date) >= '{$start}'";
         }
         $sql = $sql . " ORDER BY id DESC";
 

@@ -3,8 +3,8 @@
 require '../includes/init.php';
 
 $auth = false;
-if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    if (!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']  . Url::getSubFolder1(). "/job.php")) {
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    if (!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1() . "/job.php")) {
 
         // >>>> Security check
         if (empty($_SESSION['skey']) || empty($_REQUEST['skey']) || ($_SESSION['skey'] != $_REQUEST['skey'])) {
@@ -43,12 +43,13 @@ if ($auth) {
     }
 
 
-    $jobs = Job::getAll($conn,0,0,$range);
+    $jobs = Job::getAll($conn, 0, 0, $range);
 
     $data = [];
     foreach ($jobs as $job) {
         if ($job['id'])
-            $data[] = [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date'], $job['insert_time']];
+            $data[] = [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date'], $job['insert_time'], $job['qty'], $job['req_date']];
+//----------------------------0------------------1-----------------2---------------------3--------------------4---------------5----------------6---------------7----------------8--------------9-------------------10---------------------11----------------12--------------------13---------------14-------------15----------
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);

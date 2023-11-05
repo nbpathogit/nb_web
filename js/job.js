@@ -8,51 +8,53 @@ $(document).ready(function () {
         responsive: true,
         dom: 'lBrtip',
         buttons: [{
-            extend: 'collection',
-            text: 'ระยะเวลาย้อนหลัง',
-            autoClose: true,
-            buttons: [{
-                text: '1 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job.php?skey=" + skey + "&range=1m").load();
-                }
-            },
-            {
-                text: '3 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job.php?skey=" + skey + "&range=3m").load();
-                }
-            },
-            {
-                text: '6 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job.php?skey=" + skey + "&range=6m").load();
-                }
-            },
-            {
-                text: '1 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job.php?skey=" + skey + "&range=1y").load();
-                }
-            },
-            {
-                text: '2 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job.php?skey=" + skey + "&range=2y").load();
-                }
-            },
-            {
-                text: 'ทั้งหมด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job.php?skey=" + skey + "").load();
-                }
-            }
-            ]
-        },],
+                extend: 'collection',
+                text: 'ระยะเวลาย้อนหลัง',
+                autoClose: true,
+                buttons: [{
+                        text: '1 เดือนล่าสุด',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=" + skey + "&range=1m").load();
+                        }
+                    },
+                    {
+                        text: '3 เดือนล่าสุด',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=" + skey + "&range=3m").load();
+                        }
+                    },
+                    {
+                        text: '6 เดือนล่าสุด',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=" + skey + "&range=6m").load();
+                        }
+                    },
+                    {
+                        text: '1 ปีล่าสุด',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=" + skey + "&range=1y").load();
+                        }
+                    },
+                    {
+                        text: '2 ปีล่าสุด',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=" + skey + "&range=2y").load();
+                        }
+                    },
+                    {
+                        text: 'ทั้งหมด',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.url("data/job.php?skey=" + skey + "").load();
+                        }
+                    }
+                ]
+            }, ],
+//            $data[] = [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date'], $job['insert_time'], $job['qty'], $job['req_date']];
+//----------------------------0------------------1-----------------2---------------------3--------------------4---------------5----------------6---------------7----------------8--------------9-------------------10---------------------11----------------12--------------------13---------------14-------------15----------
         columnDefs: [
-                       {
+            {
                 "render": function (data, type, row) {
-                    let html = row[0]+'<br><a href="job_edit.php?id=' + row[0] + '" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
+                    let html = '<a href="job_edit.php?id=' + row[0] + '" class="" target="_blank">'+row[0]+'</a>';
                     return html;
                 },
                 "targets": 0
@@ -60,27 +62,27 @@ $(document).ready(function () {
             {
                 "render": function (data, type, row) {
                     let html = '<a href="patient_edit.php?id=' + row[2] + '">' + row[3] + '</a>';
-                
+
                     return html;
                 },
                 "targets": 3
             },
             {
-            "render": function (data, type, row) {
-                return  row[12];
+                "render": function (data, type, row) {
+                    return row[15];
+                },
+                "targets": 12
             },
-            "targets": 12
-        },
-        {
-            "render": function (data, type, row) {
-                return row[11];
+            {
+                "render": function (data, type, row) {
+                    return row[12];
+                },
+                "targets": 13
             },
-            "targets": 11
-        },
-        {
-            visible: false,
-            targets: []
-        },
+            {
+                visible: false,
+                targets: []
+            },
         ],
     });
 
