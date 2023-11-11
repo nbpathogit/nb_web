@@ -279,7 +279,19 @@
 
 /* Over write DataTable Style sheet*/
 
-div.dtsp-topRow.dtsp-bordered {
+div.dtsp-searchPane div.dtsp-topRow.dtsp-bordered{
+        border: 2px solid #888888;
+}
+
+div.dtsp-searchPane div.dtsp-topRow {
+    border: 1px solid #888888;
+}
+
+div.dtsp-topRow.dtsp-subRowsContainer.dtsp-bordered {
+    border: 2px solid #888888;
+}
+
+div.dtsp-topRow.dtsp-subRowsContainer {
     border: 2px solid #888888;
 }
 
@@ -298,7 +310,7 @@ div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-pan
     min-width: 0;
     display: inline-block;
     margin: 2px;
-    border: 1px solid transparent;
+    border: 2px solid #444444;
     background-color: #b9b8b8f7;
     margin-bottom: 0px;
     opacity: .6;
