@@ -2,9 +2,9 @@
 
     <tr>
         <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top"><!-- comment -->
-            <span style="font-size:10pt;"><b>18/54 Sanambin Rd. Mueng Phitsanulok 65000</b></span>
-            <span style="font-size:10pt;"><b>Email: nbpathologyplk@gmail.com</b></span>
-            <span style="font-size:10pt;"><b>064-3545-283</b></span>
+            <img src="image\logo2.png" alt="" height="50" style="border: 1px solid red;"><br>
+            <span style="font-size:8pt;"><b>18/54 Sanambin Rd. Mueng Phitsanulok 65000</b></span>
+            
 
         </td>
         <td width="50%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:middle; text-align:center"><!-- comment -->
@@ -13,7 +13,8 @@
 
         </td>
         <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right"><!-- comment -->
-            <img src="image\logo2.png" alt="" height="50" style="border: 1px solid red;">
+            <span style="font-size:12pt;"><b>nbpathologyplk@gmail.com</b></span>
+            <span style="font-size:12pt;"><b>064-3545-283</b></span>
             
         </td><!-- comment -->
     </tr>
@@ -56,7 +57,7 @@
             <table width="100%" style=" border: 1px solid green; border-collapse: collapse;">
                 <tr>
                     <td width="40%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Date Received :</b> <date_1000></span></td>
-                    <td width="20%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>เลขที่ AN:</b> <an_name> </span></td>
+                    <td width="20%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>AN:</b> <an_name> </span></td>
                     <td width="40%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Date Report :</b> <date_first_report> </span></td>
                 </tr>
 
