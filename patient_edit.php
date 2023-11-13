@@ -1049,7 +1049,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     </div>
 <?php endif; ?>
 
-<?php if (!$isCurUserCust): ?>
+<?php if (!$isCurUserCust && FALSE): ?>
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
         <div class="bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->

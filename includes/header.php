@@ -107,13 +107,24 @@
                     <!-- <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a> -->
                     <!--<a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>-->
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
+                    
+                    <div class="nav-item dropdown">
+                        <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ลงเวลางานเสร็จสิ้น</a>
+                        <div class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
+                            <a id="" class="nav-item nav-link" href="job1_finish.php">ลงเวลาตัดเนื้อเสร็จ</a>
+                            <a id="" class="nav-item nav-link"  href="job2_finish.php">ลงเวลาผู้ช่วยตัดเนื้อเสร็จ</a>
+                            <a id="" class="nav-item nav-link" href="job3_finish.php">ลงเวลาเตรียมสไลด์เสร็จ</a>
+                        </div>
+                    </div>
+                    
+                    
                     <div class="nav-item dropdown">
                         <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
                         <div class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
                             <a id="user_add" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
-                            <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
                             <a id="user" class="nav-item nav-link" href="user.php">ดูผู้ใช้งานระบบ</a>
                             <a class="nav-item nav-link" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
+                            <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
                             <a id="fluid" href="labfluid.php" class="nav-item nav-link">ดูแลปเซลล์วิทยา</a>
                             <a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
                         </div>

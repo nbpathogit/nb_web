@@ -364,6 +364,11 @@ if (isset($presultupdate2s)) {
 if (isset($presultupdate1s)) {
 //    <?php foreach ($presultupdates as $presultupdate): 
     foreach ($presultupdate1s as $prsu) {
+        //---Dont show Clinical Diagnosis:--
+        if($prsu['result_type_id'] == 2){
+            continue;
+        }
+        
         $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
         if ($hideTable) {
             $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
