@@ -67,4 +67,4 @@ $conn = require 'includes/db.php';
     var skey = "<?= $_SESSION["skey"] ?>";
     var domain = "<?= Url::currentURL() ?>";
 </script>
-<script src="<?= Url::getSubFolder1() ?>/js/job.js?v0xxxxxxปxปxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/job.js?v1"></script>
