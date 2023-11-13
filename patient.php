@@ -86,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script type="text/javascript">
     var skey = "<?= $_SESSION['skey']; ?>";
     var ugroup_id = <?= $_SESSION['user']->ugroup_id ?>;
+    var domain = "<?= Url::currentURL() ?>";
     <?php if ($isCurUserAdmin) : ?>
         var isCurUserAdmin = 1;
     <?php else : ?>
@@ -98,5 +99,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var isCurUserCust = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=2xxxxxxxxxxxxxxxxปxxxxxxxxxxx"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=2xxxxxxxxxxxxxxxxxxปxxxxxxxxxxx"></script>
 
