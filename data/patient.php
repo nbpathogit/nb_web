@@ -65,11 +65,11 @@ if ($auth) {
         if ($patient['pid']) {
 
             if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') {
-                if ($_SESSION['user']->uhospital_id == $patient['phospital_id']) {
+                if ($_SESSION['user']->uhospital_id == $patient['phospital_id']) {// Select only Owner Hospital
                     $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
                 }
             } else {
-                $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
+                    $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
             }
         }
     }

@@ -146,6 +146,7 @@ class Patient {
                 and p.status_id = s.id";
 
 
+
         if ($id != 0) {
             $sql = $sql . " and p.id = " . $id;
         }
@@ -156,6 +157,23 @@ class Patient {
 
         $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
+        
+        
+//        $sql_dbg = $sql;
+//        $myfile = fopen("Patient_getAllJoin.txt", "w") or die("Unable to open file!");
+//        fwrite($myfile, $sql_dbg);
+//        fclose($myfile);
+        
+//        SELECT * ,p.id as pid,p.create_by as pcreate_by
+//                FROM patient as p
+//                JOIN user as u
+//                JOIN hospital as h
+//                JOIN priority as pri
+//                JOIN status as s
+//                WHERE p.ppathologist_id = u.id
+//                and p.phospital_id = h.id
+//                and p.priority_id = pri.id
+//                and p.status_id = s.id and date(p.date_1000) >= '2023-10-17' and p.movetotrash = 0 ORDER BY  p.id DESC;
 
         $results = $conn->query($sql);
 
