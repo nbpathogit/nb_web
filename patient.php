@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 addsolidborder">
 
                     
-        <h1 align="center"><span id="patient_title_message">แสดงจากข้อมูลย้อนหลัง 1 เดือน</span></h1>
+        <h1 align="center"><span id="patient_title_message">กำลังแสดงจากข้อมูลย้อนหลัง 1 เดือน</span></h1>
             
 
         <table class="table table-hover" id="patient_table" style="width:100%">

@@ -1037,4 +1037,47 @@ class Patient {
         return $stmt->execute();
     }
 
+    public static function getAllJob2FinishPhp($conn, $id = 0, $start = '0', $end = '0') {
+
+        $sql = "
+                SELECT 
+                p.id as pid,
+                p.pnum as p_pnum, 
+                p.phospital_num as p_hn, 
+                DATE(p.date_1000) as p_accept,
+                CONCAT(p.ppre_name,  p.pname, ' ', p.plastname) AS p_patient ,
+
+                j.id as j_id , 
+                j.patient_id as j_patient_id, 
+                j.user_id as j_user_id, 
+                j.job_role_id as j_job_role_id, 
+                j.jobname as j_jobname,
+                j.qty as j_qty,
+
+                GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
+                j.finish_date
+
+                        FROM patient as p
+                        LEFT JOIN (select * from job where job.job_role_id=2) as j
+                        ON j.patient_id = p.id ";
+        if ($start != '0') {
+            $sql .= " WHERE p.date_1000 > '{$start}' ";
+        }
+        if ($end != '0') {
+            $sql .= " AND p.date_1000 < '{$end}' ";
+        }
+        $sql .= " GROUP by p.id ";
+        $sql .= " ORDER BY p.id DESC ";
+        
+//        $myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
+//        fwrite($myfile,  $sql);
+//        fclose($myfile);
+        
+
+        $results = $conn->query($sql);
+        $rs = $results->fetchAll(PDO::FETCH_ASSOC);
+        return  $rs;
+    }
+
 }
+
