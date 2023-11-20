@@ -90,7 +90,7 @@ if ($auth) {
             $data[] = [$patient['pid'], $patient['p_pnum'], $patient['p_hn'], $patient['p_accept'], 
                 $patient['p_patient'], $patient['j_id'], $patient['j_patient_id'], $patient['j_user_id'], 
                 $patient['j_job_role_id'], $patient['j_jobname'], $patient['j_owners'],$patient['j_qty'], $patient['finish_date']];
-        
+                
             
         }
     }

@@ -259,6 +259,15 @@ $conn = require 'includes/db.php';
                 return row[2];
             },
             "targets": 2
+        },
+        {
+            "render": function (data, type, row) {
+                let renderdata = '';
+                renderdata += '<a  onclick="finisByPatientId('+user_id+','+job_role_id +','+patient_id+');"  class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Fished My Job</a>';
+
+                return renderdata;
+            },
+            "targets": 12
         }
         ],
         "initComplete": colorAdd,
@@ -322,5 +331,38 @@ $conn = require 'includes/db.php';
 
 
 });
+
+//on click button delete for seleced specimen list bill in main page
+function finisByPatientId(user_id,job_role_id ,patient_id) {
+    
+    if( confirm("Please confirm finish job patient id = "+patient_id+" ?")){
+
+//        $.ajax({
+//            type: 'POST',
+//            // make sure you respect the same origin policy with this url:
+//            // http://en.wikipedia.org/wiki/Same_origin_policy
+//            url: 'ajax_hire1_fluidlab/delHire1.php',
+//            data: {
+//                'job_id': jobid,
+//                'patient_id': patientid,
+//
+//            },
+//            success: function (data) {
+//
+//                repaintTblhire1(data);
+//
+//                alert('Success');
+//            },
+//            error: function (jqxhr, status, exception) {
+//                alert('Exception:', exception);
+//            }
+//        });
+
+    }else{
+       
+    }
+
+}
+
 </script>
 <!--<script src="<?= Url::getSubFolder1() ?>/js/job2_finish.js?v0"></script>-->

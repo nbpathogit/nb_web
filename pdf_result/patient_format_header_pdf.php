@@ -13,8 +13,8 @@
 
         </td>
         <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right"><!-- comment -->
-            <span style="font-size:12pt;"><b>nbpathologyplk@gmail.com</b></span>
-            <span style="font-size:12pt;"><b>064-3545-283</b></span>
+            <span style="font-size:12pt;"><b>Email:nbpathologyplk@gmail.com</b></span>
+            <span style="font-size:12pt;"><b>Tel:064-3545-283</b></span>
             
         </td><!-- comment -->
     </tr>
