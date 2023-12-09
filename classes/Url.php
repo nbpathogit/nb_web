@@ -17,10 +17,12 @@ class Url {
     // config for sub folder
     //private static $subfolder = "dev3";
 
+    // return     subfolder
     public static function getSubFolder() {
         if (isset($_SESSION['subfolder'])) {
             return $_SESSION['subfolder'];
         } else {
+            //get subfolder and keep it in SESSION at the first time log in
             $subfolder = str_replace("/", "", $_SERVER['PHP_SELF']);
             $subfolder = str_replace("\\", "", $subfolder);
             $subfolder = str_replace("Url.php", "", $subfolder);
@@ -33,6 +35,7 @@ class Url {
         }
     }
 
+    // return      /subfolder
     public static function getSubFolder1() {
         if (Url::getSubFolder() != "") {
             return "/" . Url::getSubFolder();
@@ -41,6 +44,7 @@ class Url {
         }
     }
 
+    //return     subfolder/
     public static function getSubFolder2() {
         if (Url::getSubFolder() != "") {
             return Url::getSubFolder() . "/";

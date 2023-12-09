@@ -5,7 +5,22 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 ?>
-<?php require 'user_auth.php'; ?>
+<?php require 'user_auth.php';
+//$u_cur_group_id = Auth::getUserGroup();
+//$cur_user = Auth::getUser();
+$cur_user_id = $cur_user->id;
+?>
+
+
+
+<?php 
+$userTechnic = User::getAllbyTeachien($conn);   //2000 2100 2200 
+$jobRoles = JobRole::getAll($conn);
+$patient[0]['id'] = 0;
+$patient[0]['pnum'] = "TBD";
+
+
+?>
 <?php require 'includes/header.php'; ?>
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
@@ -26,9 +41,36 @@ $conn = require 'includes/db.php';
     <div class="container-fluid pt-4 px-4">
         <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
             
+           <h1 align="center"><span id="">หน้านี้กำลังพัฒนา ยังไม่พร้อมใช้งาน</span></h1>
            <h1 align="center"><span id="">หน้าลงเวลาผู้ช่วยตัดเนื้อ</span></h1>
            <h3 align="center"><span id="title_page_message">กำลังแสดงจากข้อมูลย้อนหลัง 1 เดือน</span></h3>
-
+           <div>
+                <div class="<?= $isBorder ? "border" : "" ?> ">
+                    <label for="p_cross_section_id_job2"  class="form-label">เลือกพนักงานช่วยตัดเนื้อที่ต้องการจะลงเวลา</label>
+                    <select name="p_cross_section_id_job2" id="p_cross_section_id_job2" class="form-select"  >
+                        <!--<option value="">กรุณาเลือก</option>-->
+                        <?php foreach ($userTechnic as $user): ?>
+                            <?php if($user['user_status'] == 1): ?>
+                            <option value="<?= ($user['uid']); //user id     ?>"  
+                                    <?= ( $cur_user_id == $user['uid'])? ' selected ' : '' ; ?>
+                                    job_role_id="2"
+                                    patient_id="<?= $patient[0]['id']; //patient id     ?>"
+                                    patient_number="<?= $patient[0]['pnum']; //Sergical number     ?>"
+                                    user_id="<?= ($user['uid']); //user id     ?>"
+                                    pre_name="<?= ($user['pre_name']); //pre name     ?>"
+                                    name="<?= ($user['name']); //name     ?>"
+                                    lastname="<?= ($user['lastname']); //name     ?>"
+                                    jobname="<?= $jobRoles[1]['name']; //     ?>"
+                                    pay="<?= $jobRoles[1]['cost_per_job']; //     ?>"
+                                    cost_count_per_day="<?= $jobRoles[1]['cost_count_per_day']; //     ?>"
+                                    comment=""
+                                    >  <?= $user['pre_name'] . ' ' . $user['name'] . ' ' . $user['lastname'] ?>
+                            </option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>                                     
+                    </select> 
+                </div>
+            </div>
 
 <table class="table table-hover table-striped" id="job2_finish_table" style="width:100%">
                 <thead>
@@ -46,6 +88,7 @@ $conn = require 'includes/db.php';
                         <th scope="col">10</th>          
                         <th scope="col">11</th>          
                         <th scope="col">12</th> 
+                        <th scope="col">13</th> 
 
                     </tr>
                 </thead>
@@ -60,6 +103,9 @@ $conn = require 'includes/db.php';
 
 <script type="text/javascript">
     var skey = "<?= $_SESSION["skey"] ?>";
+    let cur_user_id = "<?= $_SESSION["userid"] ?>";
+    let job_role_id = 2;
+    
     var domain = "<?= Url::currentURL() ?>";
     
     $(document).ready(function () {
@@ -150,8 +196,10 @@ $conn = require 'includes/db.php';
         { title: 'j_jobname' },
         { title: 'j_owners' },
         { title: 'qty' },
-        { title: 'finish_date' }
+        { title: 'finish_date' },
+        { title: 'Manage' }
         ],
+        
         buttons: [
             {
                 text: 'export excel',
@@ -263,14 +311,16 @@ $conn = require 'includes/db.php';
         {
             "render": function (data, type, row) {
                 let renderdata = '';
-                renderdata += '<a  onclick="finisByPatientId('+user_id+','+job_role_id +','+patient_id+');"  class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Fished My Job</a>';
+                let patient_id = row[0];
+                let hn = row[2];
+                renderdata += '<a  onclick="finishJob2ByPatientId('+patient_id+','+hn+');"  class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Finished Job</a>';
 
                 return renderdata;
             },
-            "targets": 12
+            "targets": 13
         }
         ],
-        "initComplete": colorAdd,
+//        "initComplete": colorAdd,
     });
 
     // add color when reload
@@ -333,30 +383,95 @@ $conn = require 'includes/db.php';
 });
 
 //on click button delete for seleced specimen list bill in main page
-function finisByPatientId(user_id,job_role_id ,patient_id) {
+function finishJob2ByPatientId(patient_id,hn) {
     
-    if( confirm("Please confirm finish job patient id = "+patient_id+" ?")){
+    if( confirm("Please confirm finish job for patient id = "+patient_id+" ?")){
 
-//        $.ajax({
-//            type: 'POST',
-//            // make sure you respect the same origin policy with this url:
-//            // http://en.wikipedia.org/wiki/Same_origin_policy
-//            url: 'ajax_hire1_fluidlab/delHire1.php',
-//            data: {
-//                'job_id': jobid,
-//                'patient_id': patientid,
-//
-//            },
-//            success: function (data) {
-//
-//                repaintTblhire1(data);
-//
-//                alert('Success');
-//            },
-//            error: function (jqxhr, status, exception) {
-//                alert('Exception:', exception);
-//            }
-//        });
+//        alert("cur_user_id="+cur_user_id+"job_role_id="+job_role_id+"patient_id="+patient_id);
+        //SELECT * FROM `job` WHERE `job_role_id` = 2 ORDER BY `id` DESC
+
+
+   
+        
+        
+        //alert("start ajax");
+    
+
+    var value = $('#p_cross_section_id_job2 option').filter(':selected').attr('value');
+    var job_role_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('job_role_id');
+//    var patient_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_id');
+    var patient_id = patient_id;
+//    var patient_number = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_number');
+    var patient_number = hn;
+    if(hn==null){
+        hn='';
+    }
+    var user_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('user_id');
+    var pre_name = $('#p_cross_section_id_job2 option').filter(':selected').attr('pre_name');
+    var name = $('#p_cross_section_id_job2 option').filter(':selected').attr('name');
+    var lastname = $('#p_cross_section_id_job2 option').filter(':selected').attr('lastname');
+    var jobname = $('#p_cross_section_id_job2 option').filter(':selected').attr('jobname');
+    var pay = $('#p_cross_section_id_job2 option').filter(':selected').attr('pay');
+    var cost_count_per_day = $('#p_cross_section_id_job2 option').filter(':selected').attr('cost_count_per_day');
+    var comment = $('#p_cross_section_id_job2 option').filter(':selected').attr('comment');
+    
+    var printdbg = true;
+    if (printdbg) {
+        console.log("==============");
+        console.log("value::" + value);
+        console.log("job_role_id::" + job_role_id);
+        console.log("patient_id::" + patient_id);
+        console.log("patient_number::" + patient_number);
+        console.log("user_id::" + user_id);
+        console.log("pre_name::" + pre_name);
+        console.log("name::" + name);
+        console.log("lastname::" + lastname);
+        console.log("jobname::" + jobname);
+        console.log("pay::" + pay);
+        console.log("cost_count_per_day::" + cost_count_per_day);
+        console.log("comment::" + comment);
+        console.log("==============");
+    }
+    
+
+    if (value == "0" || value == 0) {
+        alert("ยังไม่ได้เลือกคนที่ต้องการจะลงเวลา");
+        return null;
+    }
+
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: 'ajax_job2_finish/job2_finish.php',
+        data: {
+            'job_role_id': job_role_id,
+            'patient_id': patient_id,
+            'patient_number': hn,
+            'user_id': user_id,
+            'pre_name': pre_name,
+            'name': name,
+            'lastname': lastname,
+            'jobname': jobname,
+            'pay': pay,
+            'cost_count_per_day': cost_count_per_day,
+            'comment': comment,
+
+        },
+        success: function (data) {
+            console.log(data);
+//            repaintTbljob2(data);
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+
+    alert('Finish Added.');
+
 
     }else{
        

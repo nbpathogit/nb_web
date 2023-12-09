@@ -108,7 +108,9 @@ class Job
         $stmt->bindValue(':pay', $this->pay,PDO::PARAM_STR);
         $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
         $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
-        //        $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
+        if($this->finish_date != null){
+                $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
+        }
 
 
         if ($stmt->execute()) {
@@ -366,5 +368,30 @@ class Job
         $stmt->bindValue(':finish_date', $finishdate, PDO::PARAM_STR);
         return $stmt->execute();
     }
+    
+    public function job2_finish($conn,$patient_id,$job_role_id)
+    {
+        //SELECT * FROM `job` WHERE `job_role_id` = 2 ORDER BY `id` DESC
+        $cur_time = Util::get_curreint_thai_date_time();
+
+        $sql = "UPDATE job
+                    SET finish_date = $cur_time,
+    user_id
+    pre_name
+    name
+    lastname
+    WHERE patient_id = :patient_id and ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':jobname', $this->jobname, PDO::PARAM_STR);
+        $stmt->bindValue(':pay', $this->pay, PDO::PARAM_STR);
+        $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    
     
 }

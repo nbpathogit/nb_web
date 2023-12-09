@@ -6,6 +6,24 @@
  * @author 
  */
 class Util {
+    
+    public static function writeFile($fileName,$text){
+        if (isset($_SESSION["subfolder"])) {
+//            echo '<br>';
+//            echo '$_SESSION["subfolder"] ::' . $_SESSION['subfolder'];
+//            echo '<br>';
+        } else {
+//            echo 'Need to login first';
+//            die();
+            //If not login, Do nothing.
+            return 1;
+        }
+        $file2write = $_SERVER['DOCUMENT_ROOT'] . Url::getSubFolder1() . "/" . $fileName;
+        //echo 'write file to :: ' . $file2write . '<br>';
+        $myfile = fopen($file2write, "w") or die("Unable to open file!");
+        fwrite($myfile, $text);
+        fclose($myfile);
+    }
 
     public static function Convert($amount_number) {
         //str_replace(find,replace,string,count)
