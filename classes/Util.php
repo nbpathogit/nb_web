@@ -168,5 +168,29 @@ class Util {
 
         return round($difference, 2);
     }
+    
+    public static function space2nbsp(string $strin){
+        $strout = str_replace("                    ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //20
+        $strout = str_replace("                   ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //19
+        $strout = str_replace("                  ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //18
+        $strout = str_replace("                 ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //17
+        $strout = str_replace("                ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //16
+        $strout = str_replace("               ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //15
+        $strout = str_replace("              ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //14
+        $strout = str_replace("             ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //13
+        $strout = str_replace("            ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //12
+        $strout = str_replace("           ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //11
+        $strout = str_replace("          ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strin); //10
+        $strout = str_replace("         ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strout); //9
+        $strout = str_replace("        ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strout); //8
+        $strout = str_replace("       ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strout); //7
+        $strout = str_replace("      ", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $strout); //6
+        $strout = str_replace("     ", " &nbsp;&nbsp;&nbsp;&nbsp;", $strout); //5
+        $strout = str_replace("    ", " &nbsp;&nbsp;&nbsp;", $strout); //4
+        $strout = str_replace("   ", " &nbsp;&nbsp;", $strout); //3
+        $strout = str_replace("  ", " &nbsp;", $strout); //2
+        
+        return $strout;
+    }
 
 }

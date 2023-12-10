@@ -321,6 +321,7 @@ if (isset($presultupdate2s)) {
             $result_message = ($prsu['result_message']);
             $result_message = str_replace("\n", "<br>", $result_message);
 //            $result_message = str_replace(" ", "&nbsp;", $result_message);
+            $result_message = Util::space2nbsp($result_message);
             $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result2);
             //            if ($prsu['pathologist2_id'] != 0) {
             if ($isGroup2SecondPathoAval) {
@@ -333,7 +334,6 @@ if (isset($presultupdate2s)) {
             } else {
                 $u_result2 = str_replace("<confirm_message>", "", $u_result2);
             }
-
             $mpdf->WriteHTML($u_result2);
             if ($i == 0) {
                 //
@@ -379,6 +379,7 @@ if (isset($presultupdate1s)) {
         $result_message = ($prsu['result_message']);
         $result_message = str_replace("\n", "<br>", $result_message);
 //        $result_message = str_replace(" ", "&nbsp;", $result_message);
+        $result_message = Util::space2nbsp($result_message);
         $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result2);
         if ($prsu['pathologist2_id'] != 0) {
             $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
@@ -390,7 +391,7 @@ if (isset($presultupdate1s)) {
         } else {
             $u_result2 = str_replace("<confirm_message>", "", $u_result2);
         }
-
+ 
         $mpdf->WriteHTML($u_result2);
     }
 } else {
@@ -417,6 +418,30 @@ if ($hideTable) {
 $mpdf->WriteHTML($signature);
 
 //die();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
 //$mpdf->Output();
 //$pdfOutputOption
 //'D': download the PDF file
