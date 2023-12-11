@@ -85,7 +85,7 @@ $curStatusAuthEdit = (
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="pedge" class="">อายุ(ปี)</label>
         <div class="col">
-            <input name="pedge" type="text" class="form-control" class="" id="pedge"  placeholder="" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['pedge']; ?>">
+            <input name="pedge" type="text" class="form-control" class="" id="pedge"  placeholder="" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= ($patient[0]['pedge'] < 0)? '':$patient[0]['pedge']; ?>">
         </div>
     </div>
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">

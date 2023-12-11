@@ -395,7 +395,7 @@ class Patient {
                 "pname" => "",
                 "pgender" => "",
                 "plastname" => "",
-                "pedge" => 0,
+                "pedge" => -1,
                 "date_1000" => null,
                 "date_2000" => "",
                 "date_3000" => "",
