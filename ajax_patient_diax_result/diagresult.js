@@ -83,6 +83,55 @@ function edit_txt_rs(rs_id){
     is_diag_editeing_mode = true;
 }
 
+function delete_txt_rs(rs_id){
+
+    if (confirm("Delete this report block?")) {
+        txt = "You pressed OK!";
+            //Read back to data base
+        $.ajax({
+            type: 'POST',
+            url: "ajax_patient_diax_result/delete_result.php",
+            data: {
+                'rs_id': rs_id,
+            },
+            success: function (data) {
+                alert("Delete done.");
+                //alert(data);
+//                if (data[0] != "true") {
+//                   alert("Read back Error:: " + data);
+//                   console.log("Read back Error:: " +data);
+//                   return;
+//                }else{
+//                    //Result ok , do not alert.
+//                    //alert("read back ok:: " + data);
+//
+//                }
+//                var datajson = JSON.parse(data);
+//                for (var i in datajson)
+//                {
+//                    $(txt_rs_id).val(datajson[i].result_message);
+//                }
+            }
+        });
+        
+        
+        // Prepare the form and then submit on the fly.
+        var frm = $("<form>");
+        frm.attr('method', 'post');
+        frm.attr('');
+        frm.append('<input type="hidden" name="refreshpage" value="0" /> ');
+        frm.append('<input type="hidden" name="pautoscroll" value="end_section" /> ');
+        
+        frm.appendTo("body");
+        frm.submit();
+        
+        
+    } else {
+        txt = "You pressed Cancel!";
+    }
+
+}
+
 
 $("#add_u_result").on("click", function () {
     //alert("click add_u_result");
@@ -293,6 +342,7 @@ function append2page(data) {
                 '<a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_'+datajson[i].id+'" onclick="edit_txt_rs('+datajson[i].id+');" title="Edit"  ><i class="fa-solid fa-marker"></i>Edit</a>'+
                 '<a class="btn btn-outline-primary btn-sm me-1 " id="save_result_'+datajson[i].id+'" onclick="save_txt_rs('+datajson[i].id+');" title="Save" style="display: none;" ><i class="fa-solid fa-floppy-disk"></i>Save</a>'+
                 '<a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_'+datajson[i].id+'" onclick="add_tp_2_txt_rs('+datajson[i].id+','+datajson[i].result_type_id+','+cur_user_id+');" title="Template"><i class="fa-solid fa-marker"></i>Template</a>'+
+                '<a class="btn btn-outline-primary btn-sm me-1 " id="delete_result_'+datajson[i].id+'" onclick="delete_txt_rs('+datajson[i].id+');" title="Delete" ><i class="fa-solid fa-marker"></i>Delete</a>'+
             '</div>'+
             '<div class="col-6">'+
                 '<b>พยาธิแพทย์คอนเฟิร์มผล:</b><a href="patient_edit.php?id='+cur_patient_id+'&pautoscroll=confirm_result_section_bottom" class="btn btn-outline-primary btn-sm me-1 " ><i class="fa-solid "></i>Reload Page</a>'+

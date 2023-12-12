@@ -39,12 +39,16 @@ $isEditModePageForIniResultDataOn = false;    //flase = view mode, true = editin
 $isEditModePageForFinResultDataOn = false;    //flase = view mode, true = editing mode
 $isEditModePageForSpSlidePrepDataOn = false;
 
+$pautoscroll_post = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //var_dump($_POST);die();
     //    die();
     //
-
+    if (isset($_POST['refreshpage'])) {
+        $pautoscroll_post = $_POST['pautoscroll'];
+        
+    }
 
     //Request to move status
     if (isset($_POST['status'])) {
@@ -727,6 +731,10 @@ if (isset($_GET['pautoscroll'])) {
     $patient[0]['pautoscroll'] = $_GET['pautoscroll'];
 }
 
+if($pautoscroll_post!=''){
+    $patient[0]['pautoscroll'] = $pautoscroll_post;
+}
+
 if (isset($_POST['edit_result'])) {
     // true = Disable Edit page, false canEditPage
     $isEditModePageOn = true;
@@ -1175,6 +1183,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <?php endif; ?>
 
 
+<span id="end_section">    </span>
 
 <?php require 'includes/footer.php'; ?>
 
@@ -1195,7 +1204,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_hire1_fluidlab/hire1.js?v2x"></script>
 
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 

@@ -309,5 +309,14 @@ class Presultupdate {
 
         return $stmt->execute();
     }
+    
+    public static function deleteById($conn, $id)
+    {
+        $sql = "DELETE FROM `presultupdate` WHERE id = $id";
+
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->execute();
+    }
 
 }

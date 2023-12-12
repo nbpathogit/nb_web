@@ -20,6 +20,7 @@ $isSetShowaddResultButton = true;
             $isCurResultReleased = true;
         }
         $is_show_edit_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
+        $is_show_delete_btn = $is_show_edit_btn && ($presultupdate['group_type']==2);
         $is_show_save_btn = false;
         $is_show_template_btn = !$isCurResultReleased && $isCurrentPathoIsOwnerThisCase;
         ?>
@@ -31,6 +32,8 @@ $isSetShowaddResultButton = true;
                 <a class="btn btn-outline-primary btn-sm me-1 " id="edit_result_<?= $presultupdate['id'] ?>" onclick="edit_txt_rs(<?= $presultupdate['id'] ?>);" title="Edit" <?= ($is_show_edit_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
                 <a class="btn btn-outline-primary btn-sm me-1 " id="save_result_<?= $presultupdate['id'] ?>" onclick="save_txt_rs(<?= $presultupdate['id'] ?>);" title="Save"<?= ($is_show_save_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
                 <a class="btn btn-outline-primary btn-sm me-1 " id="btn_template_<?= $presultupdate['id'] ?>" onclick="add_tp_2_txt_rs(<?= $presultupdate['id'] ?>,<?= $presultupdate['result_type_id'] ?>,<?= Auth::getUserId(); ?>);" title="Template" <?= ($is_show_template_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Template</a>
+                <a class="btn btn-outline-primary btn-sm me-1 " id="delete_result_<?= $presultupdate['id'] ?>" onclick="delete_txt_rs(<?= $presultupdate['id'] ?>);" title="Delete" <?= ($is_show_delete_btn) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Delete</a>
+            
             </div>
 
             <?php // if last result id ?>
