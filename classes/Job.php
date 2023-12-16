@@ -70,7 +70,7 @@ class Job
     {
 
         $sql = "INSERT INTO `job` (`id`,`req_date` ,`job_role_id`, `patient_id`, `result_id`, `patient_number`, `user_id`, `pre_name`, `name`, `lastname`, `jobname`, `pay`, `cost_count_per_day`, `comment`, `finish_date`) "
-            . "VALUES             (NULL,:req_date, :job_role_id,  :patient_id,  :result_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   NULL)";
+             . "VALUES             (NULL,:req_date, :job_role_id,  :patient_id,  :result_id,  :patient_number,  :user_id,  :pre_name,  :name,  :lastname,  :jobname,  :pay,  :cost_count_per_day,  :comment,   :finish_date)";
   
         $sql_dbg = $sql; 
         
@@ -109,7 +109,9 @@ class Job
         $stmt->bindValue(':cost_count_per_day', $this->cost_count_per_day, PDO::PARAM_INT);
         $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
         if($this->finish_date != null){
-                $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
+            $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
+        }else{
+            $stmt->bindValue(':finish_date', 'null', PDO::PARAM_STR);
         }
 
 

@@ -24,7 +24,7 @@ $job->jobname = $_POST['jobname'];
 $job->pay = (float)$_POST['pay'];
 $job->cost_count_per_day = (int) $_POST['cost_count_per_day'];
 $job->comment = $_POST['comment'];
-$job->finish_date = null;
+$job->finish_date = $cur_thai_time;
 
 
 $job->create($conn);
