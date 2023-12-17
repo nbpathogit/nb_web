@@ -9,6 +9,7 @@ require 'includes/init.php';
 
         <a href="file/ใบส่งชิ้นเนื้อศูนย์เอ็นบี.pdf" target="_blank"><h5 class="font-base fs-lg-0 fs-xl-1 my-3"><i class="fa-solid fa-circle-down"></i>ใบส่งชิ้นเนื้อศูนย์เอ็นบี</h5></a>
         <a href="file/ใบส่งตรวจสารน้ำทางเซลล์วิทยา.pdf" target="_blank"><h5 class="font-base fs-lg-0 fs-xl-1 my-3"><i class="fa-solid fa-circle-down"></i>ใบส่งตรวจสารน้ำทางเซลล์วิทยา</h5></a>
+        <a href="file/คู่มือการใช้งานสำหรับลูกค้า_20231217.pdf" target="_blank"><h5 class="font-base fs-lg-0 fs-xl-1 my-3"><i class="fa-solid fa-circle-down"></i>คู่มือการใช้งานสำหรับลูกค้า</h5></a>
 
 
     </div>
