@@ -48,7 +48,7 @@ $(document).ready(function () {
         }
 
         if (ugroup_id == '5000' || ugroup_id == '5100') {
-            table.column(13).visible(false);
+            table.column(14).visible(false);
         }
 
 
@@ -58,12 +58,12 @@ $(document).ready(function () {
     if (isCurUserCust) {
         hidecolumn = {
             visible: false,
-            targets: [0, 3, 9, 11]
+            targets: [ 4, 10, 12]
         };
     } else {
         hidecolumn = {
             visible: false,
-            targets: [0, 3, 11]
+            targets: [ 4, 12]
         };
     }
 
@@ -148,7 +148,7 @@ $(document).ready(function () {
             ]
         },],
         "order": [
-            [6, "desc"]
+            [0, "desc"]
         ],
         searchPanes: {
             initCollapsed: true,
@@ -157,41 +157,42 @@ $(document).ready(function () {
             searchPanes: {
                 show: true
             },
-            targets: [4, 5, 6, 7, 11, 9, 10]
+            targets: [5, 6, 7, 8, 10, 11, 12]
         },
         {
             searchPanes: {
                 show: false
             },
-            targets: [0, 1, 2, 3]
+            targets: [0, 1, 2, 4]
         },
         
 //====Data header offset from display page===================================
-//    <th>#</th>                    <!-- 0 -->
-//    <th>เลขที่ผู้ป่วย</th>             <!-- 1 -->
-//    <th>ชื่อผู้ป่วย</th>               <!-- 2 -->
-//    <th>นามสกุลผู้ป่วย</th>           <!-- 3 --> 
-//    <th>โรงพยาบาล</th>            <!-- 4 -->
-//    <th>พยาธิแพทย์</th>            <!-- 5 -->
-//    <th>วันที่รับ</th>               <!-- 6 -->
-//    <th>วันที่รายงาน</th>            <!-- 7 -->
-//    <th>tr_time</th>              <!-- 8 -->
-//    <th>สถานะอื่นๆ</th>             <!-- 9 -->
-//    <th>การออกผล</th>             <!-- 10 -->
-//    <th>ความสำคัญ</th>             <!-- 11 -->
-//    <th>PDF</th>                  <!-- 12 -->
-//    <th>จัดการ</th>                <!-- 13 -->
+//                    <th>#</th>                    <!-- 0 -->
+//                    <th>เลขที่ผู้ป่วย</th>              <!-- 1 -->
+//                    <th>HN</th>                     <!-- 2 -->
+//                    <th>ชื่อผู้ป่วย</th>                    <!-- 3 --> 
+//                    <th>นามสกุลผู้ป่วย</th>                 <!-- 4 -->
+//                    <th>โรงพยาบาล</th>                  <!-- 5 -->
+//                    <th>พยาธิแพทย์</th>                 <!-- 6 -->
+//                    <th>วันที่รับ</th>                     <!-- 7 -->
+//                    <th>วันที่รายงาน</th>                <!-- 8 -->
+//                    <th>tr_time</th>                <!-- 9 -->
+//                    <th>สถานะอื่นๆ</th>                  <!-- 10 -->
+//                    <th>การออกผล</th>                   <!-- 11 --> 
+//                    <th>ความสำคัญ</th>                <!-- 12 -->
+//                    <th>PDF</th>                    <!-- 13 -->
+//                    <th>จัดการ</th>                    <!-- 14 -->
 //=======================================================================
 //
 //=== Data offset get from data base=============
-//   $data[] = [$patient['pid'], $patient['pnum'], $patient['pname'], $patient['plastname'], $patient['hospital'], 
-//-------------------------0----------------1-----------------2--------------------3---------------------4---------
+//   $data[] = [$patient['pid'], $patient['pnum'], $patient['phospital_num'], $patient['pname'], $patient['plastname'], $patient['hospital'], 
+//-------------------------0----------------1-----------------2-----------------------3---------------------4-------------------5----------
 //
 //$patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des'], $patient['reported_as'],
-//----------5--------------------6-----------------------7--------------------8-------------------9---------
+//----------6-----------------------7--------------------8-------------------9--------------------10--------
 //
 // $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
-//---------------10-----------------------11------------------------------12-----------------------13--------------------14------- 
+//-----------------11------------------------------12-----------------------13--------------------14------------------15-------
 //
 //==============================================           
             
@@ -242,7 +243,7 @@ $(document).ready(function () {
 
                 return renderdata;
             },
-            "targets": 12
+            "targets": 13
         },
         {
             "render": function (data, type, row) {
@@ -259,21 +260,21 @@ $(document).ready(function () {
                 }
 
 
-                if (row[10] == "ด่วน") {
-                    data += ' <span class="badge bg-danger">' + row[10] + '</span>';
+                if (row[11] == "ด่วน") {
+                    data += ' <span class="badge bg-danger">' + row[11] + '</span>';
                 }
                 data += '</h5></div>';
 
-                if (row[8] == "รับเข้า" || row[8] == "วางแผนงาน") {
-                    data += '<span class="badge bg-dark">' + row[8] + '</span>';
-                } else if (row[8] == "วินิจฉัย(อ่านไสลด์)") {
-                    data += '<span class="badge bg-secondary">' + row[8] + '</span>';
-                } else if (row[8] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[8] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
-                    data += '<span class="badge bg-info text-dark">' + row[8] + '</span>';
-                } else if (row[8] == "เสร็จสิ้น") {
-                    data += '<span class="badge bg-success">' + row[8] + '</span>';
+                if (row[9] == "รับเข้า" || row[9] == "วางแผนงาน") {
+                    data += '<span class="badge bg-dark">' + row[9] + '</span>';
+                } else if (row[9] == "วินิจฉัย(อ่านไสลด์)") {
+                    data += '<span class="badge bg-secondary">' + row[9] + '</span>';
+                } else if (row[9] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[9] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
+                    data += '<span class="badge bg-info text-dark">' + row[9] + '</span>';
+                } else if (row[9] == "เสร็จสิ้น") {
+                    data += '<span class="badge bg-success">' + row[9] + '</span>';
                 } else {
-                    data += '<span class="badge bg-secondary">' + row[8] + '</span>';
+                    data += '<span class="badge bg-secondary">' + row[9] + '</span>';
                 }
                 return data;
             },
@@ -281,44 +282,44 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                if (row[9] == "ยังไม่ออกผล") {
-                    data = '<h5><span class="badge bg-secondary">' + row[9] + '</span></h5>';
-                } else if (row[9] == "ออกผลเบื้องต้น") {
-                    data = '<h5><span class="badge bg-info text-dark">' + row[9] + '</span></h5>';
-                } else if (row[9] == "ออกผลแล้ว") {
-                    data = '<h5><span class="badge bg-success">' + row[9] + '</span></h5>';
+                if (row[10] == "ยังไม่ออกผล") {
+                    data = '<h5><span class="badge bg-secondary">' + row[10] + '</span></h5>';
+                } else if (row[10] == "ออกผลเบื้องต้น") {
+                    data = '<h5><span class="badge bg-info text-dark">' + row[10] + '</span></h5>';
+                } else if (row[10] == "ออกผลแล้ว") {
+                    data = '<h5><span class="badge bg-success">' + row[10] + '</span></h5>';
                 } else {
-                    data = '<h5><span class="badge bg-secondary">' + row[9] + '</span></h5>';
+                    data = '<h5><span class="badge bg-secondary">' + row[10] + '</span></h5>';
                 }
                 return data;
             },
-            "targets": 10
+            "targets": 11
         },
         {
             "render": function (data, type, row) {
-                return row[2] + '<br>' + row[3];
+                return row[3] + '<br>' + row[4];
             },
-            "targets": 2
+            "targets": 3
         },
         {
             "render": function (data, type, row) {
-                return row[13];
+                return row[14];
             },
-            "targets": 8
+            "targets": 9
         },
         {
             "render": function (data, type, row) {
                 data = '';
-                data += '<small>รับเข้าโดย:</small><span class="badge bg-success">'+row[14]+'</span>';
-                if (row[11] == "1") {
+                data += '<small>รับเข้าโดย:</small><span class="badge bg-success">'+row[15]+'</span>';
+                if (row[12] == "1") {
                     data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
-                } else if (row[11] == "2") {
+                } else if (row[12] == "2") {
                     data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-success">เสร็จสิ้น</span><br>';
                 }
 
-                if (row[12] == "1") {
+                if (row[13] == "1") {
                     data += '<small>ย้อมพิเศษ:</small><span class="badge bg-warning text-dark">ร้องขอ</span>';
-                } else if (row[12] == "2") {
+                } else if (row[13] == "2") {
                     data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
                 }
 
@@ -329,24 +330,28 @@ $(document).ready(function () {
 
                 return data;
             },
-            "targets": 9
+            "targets": 10
         },
         {
-            responsivePriority: 1,
-            targets: 1
-        },
-        {
-            responsivePriority: 2,
-            targets: 2
-        },
-        {
-            responsivePriority: 3,
-            targets: -1
-        },
-        {
-            responsivePriority: 10001,
+            responsivePriority: 0,
             targets: 0
         },
+//        {
+//            responsivePriority: 1,
+//            targets: 1
+//        },
+//        {
+//            responsivePriority: 2,
+//            targets: 2
+//        },
+//        {
+//            responsivePriority: 3,
+//            targets: -1
+//        },
+//        {
+//            responsivePriority: 10001,
+//            targets: 0
+//        },
             hidecolumn,
         ],
         "initComplete": colorAdd,

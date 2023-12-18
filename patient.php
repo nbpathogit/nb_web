@@ -60,18 +60,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <th>#</th>                    <!-- 0 -->
                     <th>เลขที่ผู้ป่วย</th>              <!-- 1 -->
-                    <th>ชื่อผู้ป่วย</th>                  <!-- 2 -->
-                    <th>นามสกุลผู้ป่วย</th>                <!-- 3 --> 
-                    <th>โรงพยาบาล</th>                 <!-- 4 -->
-                    <th>พยาธิแพทย์</th>                 <!-- 5 -->
-                    <th>วันที่รับ</th>                   <!-- 6 -->
-                    <th>วันที่รายงาน</th>                 <!-- 7 -->
-                    <th>tr_time</th>              <!-- 8 -->
-                    <th>สถานะอื่นๆ</th>                 <!-- 9 -->
-                    <th>การออกผล</th>                 <!-- 10 -->
-                    <th>ความสำคัญ</th>                 <!-- 11 -->
-                    <th>PDF</th>                  <!-- 12 -->
-                    <th>จัดการ</th>                   <!-- 13 -->
+                    <th>HN</th>                     <!-- 2 -->
+                    <th>ชื่อผู้ป่วย</th>                    <!-- 3 --> 
+                    <th>นามสกุลผู้ป่วย</th>                 <!-- 4 -->
+                    <th>โรงพยาบาล</th>                  <!-- 5 -->
+                    <th>พยาธิแพทย์</th>                 <!-- 6 -->
+                    <th>วันที่รับ</th>                     <!-- 7 -->
+                    <th>วันที่รายงาน</th>                <!-- 8 -->
+                    <th>tr_time</th>                <!-- 9 -->
+                    <th>สถานะอื่นๆ</th>                  <!-- 10 -->
+                    <th>การออกผล</th>                   <!-- 11 --> 
+                    <th>ความสำคัญ</th>                <!-- 12 -->
+                    <th>PDF</th>                    <!-- 13 -->
+                    <th>จัดการ</th>                    <!-- 14 -->
                 </tr>
             </thead>
         </table>
@@ -99,5 +100,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var isCurUserCust = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=2xxxxxxxxxxxxxxxxxxปxxxxxxxxxxx"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=2xxxxxxxxxxxxxxxxxxxxxxxปxxxxxxxxxxxx"></script>
 
