@@ -113,11 +113,15 @@ $patient[0]['pnum'] = "TBD";
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+            <label for="qty_modal_job2_finish">Qty:</label>
+            <input type="text" id="qty_modal_job2_finish" name="qty_modal_job2_finish">
+            
+            <a class="btn btn-outline-primary btn-sm me-1 " id="decreaseQty"  title="Decrease"><i class="fa-sharp fa-solid fa-minus"></i></a>
+            <a class="btn btn-outline-primary btn-sm me-1 " id="increaseQty" title="Increase"><i class="fa-sharp fa-solid fa-plus"></i></a>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" id="save_qty_modal_job2_finish" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>
@@ -204,7 +208,7 @@ $patient[0]['pnum'] = "TBD";
 
     // datatable
     var table = $('#job2_finish_table').DataTable({
-        "ajax": "data/job2_finish.php?skey=" + skey + "&range=1m",
+        "ajax": "ajax_job2_finish/job2_finish.php?skey=" + skey + "&range=1m",
         responsive: true,
         dom: 'BPlfrtip',
         
@@ -267,7 +271,7 @@ $patient[0]['pnum'] = "TBD";
             buttons: [{
                 text: '1 เดือนล่าสุด',
                 action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job2_finish.php?skey=" + skey + "&range=1m").load();
+                    dt.ajax.url("ajax_job2_finish/job2_finish.php?skey=" + skey + "&range=1m").load();
                     $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 1 เดือน');
 
                 }
@@ -275,35 +279,35 @@ $patient[0]['pnum'] = "TBD";
             {
                 text: '3 เดือนล่าสุด',
                 action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job2_finish.php?skey=" + skey + "&range=3m").load();
+                    dt.ajax.url("ajax_job2_finish/job2_finish.php?skey=" + skey + "&range=3m").load();
                     $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 3 เดือน');
                 }
             },
             {
                 text: '6 เดือนล่าสุด',
                 action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job2_finish.php?skey=" + skey + "&range=6m").load();
+                    dt.ajax.url("ajax_job2_finish/job2_finish.php?skey=" + skey + "&range=6m").load();
                     $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 6 เดือน');
                 }
             },
             {
                 text: '1 ปีล่าสุด',
                 action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job2_finish.php?skey=" + skey + "&range=1y").load();
+                    dt.ajax.url("ajax_job2_finish/job2_finish.php?skey=" + skey + "&range=1y").load();
                     $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 1 ปี');
                 }
             },
             {
                 text: '2 ปีล่าสุด',
                 action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job2_finish.php?skey=" + skey + "&range=2y").load();
+                    dt.ajax.url("ajax_job2_finish/job2_finish.php?skey=" + skey + "&range=2y").load();
                     $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 2 ปี');
                 }
             },
             {
                 text: 'ทั้งหมด',
                 action: function (e, dt, node, config) {
-                    dt.ajax.url("data/job2_finish.php?skey=" + skey + "").load();
+                    dt.ajax.url("ajax_job2_finish/job2_finish.php?skey=" + skey + "").load();
                     $('#title_page_message').text('กำลังแสดงจากข้อมูลทั้งหมด');
                 }
             }
@@ -337,6 +341,16 @@ $patient[0]['pnum'] = "TBD";
             targets: [5,6,7,8]
         },
          
+        {
+            "render": function (data, type, row) {
+                let renderdata = '';
+                let patient_id = row[0];
+                let sn = row[1];
+                renderdata += '<a href="patient_edit.php?id='+patient_id+'">'+sn+'</a>';
+                return renderdata;
+            },
+            "targets": 1
+        },
 
         {
             "render": function (data, type, row) {
@@ -348,10 +362,12 @@ $patient[0]['pnum'] = "TBD";
             "render": function (data, type, row) {
                 let renderdata = row[11];
                 let patient_id = row[0];
+                let sn = row[1];
                 let hn = row[2];
+                let qty  = row[11];
                 
                 //renderdata += '<a  onclick="opend('+patient_id+','+hn+');"  class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Edit</a>';
-                renderdata += '<a type="button" onclick="setTargetPatient_id('+patient_id+','+hn+');" class="btn btn-outline-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editQtyModal"><i class="fa-solid fa-marker"></i> edit </a>';
+                renderdata += '<a type="button" onclick="setTargetPatient_id('+patient_id+',\''+sn+'\',\''+hn+'\','+qty+');" class="btn btn-outline-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editQtyModal"><i class="fa-solid fa-marker"></i> edit </a>';
                 return renderdata;
             },
             "targets": 11
@@ -360,8 +376,9 @@ $patient[0]['pnum'] = "TBD";
             "render": function (data, type, row) {
                 let renderdata = '';
                 let patient_id = row[0];
+                let patient_number = row[1];
                 let hn = row[2];
-                renderdata += '<a  onclick="finishJob2ByPatientId('+patient_id+','+hn+');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Finished Job</a>';
+                renderdata += '<a  onclick="finishJob2ByPatientId('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Finished Job</a>';
 
                 return renderdata;
             },
@@ -431,7 +448,7 @@ $patient[0]['pnum'] = "TBD";
 });
 
 //on click button delete for seleced specimen list bill in main page
-function finishJob2ByPatientId(patient_id,hn) {
+function finishJob2ByPatientId(patient_id,patient_number,hn) {
     
     if( confirm("Please confirm finish job for patient id = "+patient_id+" ?")){
 
@@ -450,7 +467,7 @@ function finishJob2ByPatientId(patient_id,hn) {
 //    var patient_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_id');
     var patient_id = patient_id;
 //    var patient_number = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_number');
-    var patient_number = hn;
+    var patient_number = patient_number;
     if(hn==null){
         hn='';
     }
@@ -494,11 +511,11 @@ function finishJob2ByPatientId(patient_id,hn) {
         type: 'POST',
         // make sure you respect the same origin policy with this url:
         // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: 'ajax_job2_finish/job2_finish.php',
+        url: 'ajax_job2_finish/job2_finish_btn.php',
         data: {
             'job_role_id': job_role_id,
             'patient_id': patient_id,
-            'patient_number': hn,
+            'patient_number': patient_number,
             'user_id': user_id,
             'pre_name': pre_name,
             'name': name,
@@ -526,6 +543,70 @@ function finishJob2ByPatientId(patient_id,hn) {
     }
 
 }
+
+ var cur_patient_id;
+//on click button delete for seleced specimen list bill in main page
+function setTargetPatient_id(patient_id,sn,hn,qty) {
+    cur_patient_id = patient_id;
+    var cur_sn = sn;
+    var cur_hn = hn;
+    var cur_qty = qty;
+    if(cur_hn==null){
+        cur_hn='';
+    }
+    console.log('cur_patient_id::'+cur_patient_id);
+    
+    $('#qty_modal_job2_finish').val(cur_qty);
+    $('#exampleModalLabel').text(cur_sn);
+}
+
+$('#increaseQty').on("click", function (e) {
+    let newVal = parseInt( $('#qty_modal_job2_finish').val());
+    newVal += 1;
+    $('#qty_modal_job2_finish').val(newVal);
+    
+});
+
+$('#decreaseQty').on("click", function (e) {
+    let newVal = parseInt( $('#qty_modal_job2_finish').val());
+    newVal -= 1;
+    $('#qty_modal_job2_finish').val(newVal);
+    
+});
+
+//save_qty_modal_job2_finish
+$('#save_qty_modal_job2_finish').on("click", function (e) {
+    let job2qty = parseInt( $('#qty_modal_job2_finish').val());
+    
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: 'ajax_job2_finish/job2_finish_qty.php',
+        data: {
+            'patient_id': cur_patient_id,
+            'job2qty': job2qty,
+        },
+        success: function (data) {
+            console.log(data);
+//            repaintTbljob2(data);
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+
+    alert('Finish Added.');
+});
+
+
+
+
+
+
 
 </script>
 <!--<script src="<?= Url::getSubFolder1() ?>/js/job2_finish.js?v0"></script>-->

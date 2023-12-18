@@ -394,6 +394,17 @@ class Job
         return $stmt->execute();
     }
     
-    
+    public static function setJob2Qty($conn, $patient_id, $job2qty) {
+        $sql = "UPDATE `job` 
+                SET `qty` = :job2qty
+                WHERE  patient_id = :patient_id and job_role_id = 2 ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':job2qty', $job2qty, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
     
 }

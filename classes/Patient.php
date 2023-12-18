@@ -1044,6 +1044,7 @@ class Patient {
                 p.id as pid,
                 p.pnum as p_pnum, 
                 p.phospital_num as p_hn, 
+                
                 DATE(p.date_1000) as p_accept,
                 CONCAT(p.ppre_name,  p.pname, ' ', p.plastname) AS p_patient ,
 
@@ -1053,6 +1054,7 @@ class Patient {
                 j.job_role_id as j_job_role_id, 
                 j.jobname as j_jobname,
                 j.qty as j_qty,
+                p.job2qty as p_job2qty,
 
                 GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
                 j.finish_date
@@ -1077,6 +1079,21 @@ class Patient {
         $results = $conn->query($sql);
         $rs = $results->fetchAll(PDO::FETCH_ASSOC);
         return  $rs;
+    }
+    
+    
+    
+    public static function setJob2Qty($conn, $patient_id, $job2qty) {
+        $sql = "UPDATE patient
+                SET job2qty = :job2qty
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':job2qty', $job2qty, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
 }
