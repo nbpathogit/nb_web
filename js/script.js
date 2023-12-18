@@ -445,6 +445,14 @@ $("#adduser , #chg_passwrd ,#edituser").validate({
         uhospital_id: {
             selectd: true
         },
+        
+        ugroup_id_user_add: {
+            selectd: true
+        },
+
+        uhospital_id_user_add: {
+            selectd: true
+        },
 
         username: {
             required: true

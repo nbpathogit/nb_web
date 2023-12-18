@@ -53,12 +53,12 @@
             <div class="row pt-3 mb-3 g-5 align-items-center">
                 <div class="col-auto">
                     <label for="username">ชื่อเข้าใช้(ห้ามมีเว้นวรรค์)</label>
-                    <input class="form-control" name="username" type="text" id="username_add" size="20" maxlength="10" value="">
-                    <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 6-10 ตัวอักษร</span>
+                    <input class="form-control" name="username" type="text" id="username_add" size="50" maxlength="50" value="">
+                    <span class="form-text">*กรุณาเป็นภาษาอังกฤษ 6-50 ตัวอักษร</span>
                 </div>
                 <div class="col-auto">
                     <label for="password">รหัสผ่าน</label>
-                    <input class="form-control" name="password" type="text" id="password_add" size="20" maxlength="10" readonly value="changeme">
+                    <input class="form-control" name="password" type="text" id="password_add" size="50" maxlength="50" readonly value="changeme">
                     <span class="form-text">*เมื่อล็อกอินครั้งแรก ด้วยพาสเวร์ด changeme ผู้ใช้จะถูกบังคับให้ตั้งพาสเวิร์ดของตัวเองใหม่ทันที</span>
                 </div>
             </div>
