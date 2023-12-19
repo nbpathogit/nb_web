@@ -942,7 +942,7 @@ if (isset($curstatus[0]['next3'])) {
     </div>
 </div>
 
-
+<?php //========================================รับเข้า/ใส่ข้อมูลผู้ป่วย========================================================================================================  ?>
 <?php $isEnableEditButton = ($isCurUserAdmin || (($isCurStatus_1000 || $isCurStatus_2000) && ($isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff || $isCurrentPathoIsOwnerThisCase)) || (($isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000) && ($isCurrentPathoIsOwnerThisCase))); ?>
 <div id="patient_detail_section" class="container-fluid pt-4 px-4">
     <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
@@ -976,23 +976,19 @@ if (isset($curstatus[0]['next3'])) {
 
     </div>
 </div>
+    
 
-<div id="patient_detail_section" class="container-fluid pt-4 px-4">
-    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
-
-
-
-    </div>
-</div>
-
+    
 <?php
-$userAuthEdit = ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff
+    $userAuthEdit = ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff
         //|| $isCurUserClinicianCust 
         //|| $isCurUserHospitalCust
         );
 $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_3000 || $isCurStatus_6000 || $isCurStatus_10000 || $isCurStatus_12000 || $isCurStatus_13000 || $isCurStatus_20000
         );
 ?>
+
+<?php //START=================สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ=====================================================================================================?>
 <div id="patient_plan_section" class="container-fluid pt-4 px-4">
     <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
 
@@ -1034,8 +1030,37 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
     </div>
 </div>
+<?php //END=================สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ=====================================================================================================?>
 
 
+<?php //START === PN ================================================================================================================================ ?>
+<?php  if($patient[0]['sn_type']=='PN'): ?>
+
+<div id="patient_detail_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+
+     PN
+
+    </div>
+</div>
+<?php //END === PN ================================================================================================================================ ?>
+    
+<?php //START == NON PN ============================================================================================================================?>
+<?php else: ?>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<?php //เตรียมชิ้นเนื้อ  ?>
 <?php if (!$isCurUserCust): ?>
     <div id="specimen_prep_section" class="container-fluid pt-4 px-4">
         <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
@@ -1046,6 +1071,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
         </div>
     </div>
 <?php endif; ?>
+    
+
 
 <?php if (!$isCurUserCust): ?>
     <div id="slide_prep_section" class="container-fluid pt-4 px-4">
@@ -1056,6 +1083,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
         </div>
     </div>
 <?php endif; ?>
+    
+
 
 <?php if (!$isCurUserCust && FALSE): ?>
     <div id="lab_fluid_section_section" class="container-fluid pt-4 px-4">
@@ -1068,6 +1097,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <?php endif; ?>
 
 
+
+    
 
 <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
     <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
@@ -1146,7 +1177,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 
-
+ 
 
 
 
@@ -1168,7 +1199,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 </div>
 
 
-
+<?php //END == NON PN ============================================================================================================================?>
+<?php endif; ?>  
 
 
 
@@ -1181,6 +1213,25 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
         </div>
     </div>
 <?php endif; ?>
+    
+    
+
+    
+
+<div id="diag_result_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <h4 align="center"><b>PDF</b><span style="color:orange;"></span>
+
+        </h4>
+
+
+
+        <?php if ($isUpdateResultAval) : ?>
+            <!--hr noshade="noshade" width="" size="8"-->
+            <?php require 'includes/patient_form_090_pdf.php'; ?>
+        <?php endif; ?>
+    </div>
+</div>
 
 
 <span id="end_section">    </span>
@@ -1190,7 +1241,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v3xปxปxปxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v3xxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v3xxxxxxxxxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v1xxxxxxxxxxxxxx"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_job1_crossection/job1.js?v2x"></script>
@@ -1209,6 +1260,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
+                    var sn_type = '<?= $patient[0]['sn_type']; ?>';
                     $(document).ready(function () {
                         //set active tab
                         $("#patienttab").addClass("active");

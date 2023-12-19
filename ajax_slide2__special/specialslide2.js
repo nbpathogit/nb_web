@@ -314,8 +314,12 @@ $('#pspecimen_for_select2').on('change', function () {
 
 
 $(document).ready(function () {
+    if(sn_type == 'PN'){
+        
+    }else{
         updateSelectionSpeceman2(false);
         refreshSpecimenList2(false);
+    }
     
 });
 
