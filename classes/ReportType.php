@@ -48,4 +48,15 @@ class ReportType {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public static function getAllbyGroup3($conn){
+        $sql = "SELECT *".
+                " FROM `report_type`".
+                " WHERE group_type = 3 ".
+                " ORDER BY id;";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -1024,8 +1024,10 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                 <?php //require 'includes/patient_form_065_assigned_patho.php'; ?>
             </form>
         <?php endif; ?>
-
-        <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?>
+        <?php  if($patient[0]['sn_type']=='PN'): ?>
+            <?php require 'includes/patient_form_067_job7_assigned_cytologist.php'; ?>
+        <?php endif; ?>
+        <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?>           
         <?php require 'includes/patient_form_015_slide1_add_specimen.php'; ?>
 
     </div>
@@ -1036,13 +1038,21 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <?php //START === PN ================================================================================================================================ ?>
 <?php  if($patient[0]['sn_type']=='PN'): ?>
 
-<div id="patient_detail_section" class="container-fluid pt-4 px-4">
-    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+<div id="diag_result_section" class="container-fluid pt-4 px-4">
+    <div class="bg-nb bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
+        <h4 align="center"><b><span style="color:red">[ส่วนนี้กำลังพัฒนา ยังไม่พร้อมใช้งาน]</span>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
 
-     PN
+        </h4>
 
+
+
+        <?php if ($isUpdateResultAval) : ?>
+            <!--hr noshade="noshade" width="" size="8"-->
+            <?php require 'includes/patient_form_080_job7_result.php'; ?>
+        <?php endif; ?>
     </div>
 </div>
+    
 <?php //END === PN ================================================================================================================================ ?>
     
 <?php //START == NON PN ============================================================================================================================?>
@@ -1228,7 +1238,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
         <?php if ($isUpdateResultAval) : ?>
             <!--hr noshade="noshade" width="" size="8"-->
-            <?php require 'includes/patient_form_090_pdf.php'; ?>
+            <?php require 'includes/patient_form_100_pdf.php'; ?>
         <?php endif; ?>
     </div>
 </div>
