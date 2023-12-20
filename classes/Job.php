@@ -111,7 +111,7 @@ class Job
         if($this->finish_date != null){
             $stmt->bindValue(':finish_date', $this->finish_date, PDO::PARAM_STR);
         }else{
-            $stmt->bindValue(':finish_date', 'null', PDO::PARAM_STR);
+            $stmt->bindValue(':finish_date', NULL, PDO::PARAM_STR);
         }
 
 
