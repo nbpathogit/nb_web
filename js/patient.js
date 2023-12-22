@@ -209,7 +209,7 @@ $(document).ready(function () {
                 }
                 else {
                     renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
-                    renderdata += '<a href="patient_trash.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm trash"><i class="fa-solid fa-trash-can"></i> Trash</a>';
+                    renderdata += '<a onclick="movePatient2Trash('+row[0]+',\''+row[1]+'\');" class="btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
 
                     if (isCurUserAdmin) {
                         renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
@@ -387,6 +387,7 @@ $(document).ready(function () {
     // trash patient
     $('#patient_table tbody').on('click', 'a.trash', function (e) {
         var data = table.row($(this).parents('tr')).data();
+        ///alert(data);
 
         e.preventDefault();
         if (confirm("Item will move to trash. Are you sure?")) {
@@ -409,9 +410,17 @@ $(document).ready(function () {
         }
 
     });
+    
 
     // set active tab
     $("#patienttab").addClass("active");
-
+    
 
 });
+
+function movePatient2Trash(patient_id, patient_num){
+    //e.preventDefault();
+    if (confirm("Item "+patient_num+" will move to trash. Are you sure?")) {
+
+    }
+}
