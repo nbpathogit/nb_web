@@ -202,17 +202,17 @@ $(document).ready(function () {
 
                 if (ugroup_id == '5000' || ugroup_id == '5100') {
                     if (row[9] == "ยังไม่ออกผล") {
-                        renderdata += '<p class="btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
+                        renderdata += '<p class="manage_btn_'+row[0]+' btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
                     } else {
-                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="manage_btn_'+row[0]+' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
                     }
                 }
                 else {
-                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
-                    renderdata += '<a onclick="movePatient2Trash('+row[0]+',\''+row[1]+'\');" class="btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
+                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1] + '" class="manage_btn_'+row[0]+' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                    renderdata += '<a onclick="movePatient2Trash('+row[0]+',\''+row[1]+'\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
 
                     if (isCurUserAdmin) {
-                        renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
+                        renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
                     }
 
                 }
@@ -230,15 +230,15 @@ $(document).ready(function () {
                         renderdata += '<p class="btn btn-secondary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i>PDF</p>';
                     } else {
                         //show active link
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';                    }
+                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="manage_pdf_'+row[0]+' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
+                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="manage_pdf_'+row[0]+' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_'+row[0]+' btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';                    }
                 }
                 else {
                     //show active link
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="manage_pdf_'+row[0]+' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="manage_pdf_'+row[0]+' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_'+row[0]+' btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
                 }
 
                 return renderdata;
@@ -421,6 +421,33 @@ $(document).ready(function () {
 function movePatient2Trash(patient_id, patient_num){
     //e.preventDefault();
     if (confirm("Item "+patient_num+" will move to trash. Are you sure?")) {
+            $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            type: 'POST',
+            url: 'ajax_patient/move2trash.php',
+            data: {
+                'id': patient_id
+            },
+            success: function (data) {
+                console.log(data);
+                if (confirm("Item " + patient_num + " was deleted.\nDo you want to refresh this page to see result?")) {
+                    location.reload();
+                }else{
+                    let tgt_manage_btn = '.manage_btn_'+patient_id;
+                    let tgt_pdf_btn = '.manage_pdf_'+patient_id;
+                    $(tgt_manage_btn).addClass('disabled');
+                    $(tgt_pdf_btn).addClass('disabled');
+                }
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+         
 
     }
+
+    
 }
