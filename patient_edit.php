@@ -655,6 +655,7 @@ $specimens = ServicePriceList::getSpecimen($conn);
 $clinicians = User::getAllbyClinicians($conn);
 $userPathos = User::getAllbyPathologis($conn);
 $userTechnic = User::getAllbyTeachien($conn);   //2000 2100 2200
+$userCytologist = User::getAllbyCytologist($conn);
 $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
 $labFluids = LabFluid::getAll($conn);
@@ -685,6 +686,7 @@ $job3s = Job::getByPatientJobRole($conn, $patient[0]['id'], 3);
 $job4s = Job::getByPatientJobRole_Unassigned($conn, $patient[0]['id'], 4);
 $job5s = Job::getByPatientJobRole($conn, $patient[0]['id'], 5); // Patho1
 $job6s = Job::getByPatientJobRole($conn, $patient[0]['id'], 6); // Second Patho1
+$job7s = Job::getByPatientJobRole($conn, $patient[0]['id'], 7); // Cycologist
 
 $outsideContracts = OutsideContract::getAll($conn);
 $hires = HireList::getAll($conn, $patient[0]['id']);
@@ -1260,6 +1262,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <script src="<?= Url::getSubFolder1() ?>/ajax_job4_prep_sp_slide/job4.js?v2xxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job5_patho/job5.js?v3x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job6_patho/job6.js?v6x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job7_cytologist/job7.js?v0aaaaa"></script>
 
 
 

@@ -170,6 +170,19 @@ class User
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public static function getAllbyCytologist($conn)
+    {
+        $sql = "SELECT * FROM `user`  "
+                . "WHERE (`role_7` = 1 or id = 0) "
+                . " and movetotrash = 0  "
+                . " ORDER BY id ASC";
+
+
+        $results = $conn->query($sql);
+
+        return  $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function getAllbyClinicians($conn)
     {
