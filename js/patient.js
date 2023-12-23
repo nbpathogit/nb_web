@@ -212,7 +212,7 @@ $(document).ready(function () {
                     renderdata += '<a onclick="movePatient2Trash('+row[0]+',\''+row[1]+'\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
 
                     if (isCurUserAdmin) {
-                        renderdata += '<a href="patient_del.php?id=' + row[0] + '&pnum=' + row[1] + '" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>';
+                        renderdata += '<a onclick="deletePatientPermanent(' + row[0] + ',\'' + row[1] + '\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Delete</a>';
                     }
 
                 }
@@ -418,6 +418,8 @@ $(document).ready(function () {
 
 });
 
+
+
 function movePatient2Trash(patient_id, patient_num){
     //e.preventDefault();
     if (confirm("Item "+patient_num+" will move to trash. Are you sure?")) {
@@ -428,7 +430,8 @@ function movePatient2Trash(patient_id, patient_num){
             type: 'POST',
             url: 'ajax_patient/move2trash.php',
             data: {
-                'id': patient_id
+                'id': patient_id,
+                'patient_num': patient_num,
             },
             success: function (data) {
                 console.log(data);
@@ -445,9 +448,48 @@ function movePatient2Trash(patient_id, patient_num){
                 alert('Exception:', exception);
             }
         });
-         
+    }
+}
 
+
+
+
+function deletePatientPermanent(patient_id, patient_num){
+    //e.preventDefault();
+    if (confirm("Item "+patient_num+" will be delete permanent. Are you sure?")) {
+            $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            type: 'POST',
+            url: 'ajax_patient/deletePatient.php',
+            data: {
+                'id': patient_id,
+                'patient_num': patient_num,
+            },
+            success: function (data) {
+                data = data.trim();
+                console.log('"'+data+'"');
+                console.log( typeof data )
+                //The localeCompare() method returns sort order -1, 1, or 0 (for before, after, or equal).
+                if( data.localeCompare("1") != 0 ){ // if execute fail
+                    alert(data);
+                    return false;
+                }
+                
+                if (confirm("Item " + patient_num + " was deleted.\nDo you want to refresh this page to see result?")) {
+                    location.reload();
+                }else{
+                    let tgt_manage_btn = '.manage_btn_'+patient_id;
+                    let tgt_pdf_btn = '.manage_pdf_'+patient_id;
+                    $(tgt_manage_btn).addClass('disabled');
+                    $(tgt_pdf_btn).addClass('disabled');
+                }
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
     }
 
-    
 }

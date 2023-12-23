@@ -871,9 +871,9 @@ class Patient {
         return $stmt->execute();
     }
 
-    public static function movetotrash($conn, $id) {
+    public static function movetotrash($conn, $id, $patient_num) {
         $thai_date = Util::get_curreint_thai_date_time();
-        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::movetotrash(id)", $id, $thai_date);
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::movetotrash(id)", $id.' : '.$patient_num , $thai_date);
         $sql = "UPDATE patient
                 SET movetotrash = 1
                 WHERE id = :id";
@@ -885,19 +885,26 @@ class Patient {
         return $stmt->execute();
     }
 
-    public static function delete2($conn, $id) {
+    public static function delete2($conn, $id, $patient_num) {
         $thai_date = Util::get_curreint_thai_date_time();
-        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::delete2(id)", $id, $thai_date);
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::delete2(conn, id, patient_num)", $id.' : '.$patient_num, $thai_date);
         $sql = "DELETE FROM patient
                 WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        
+        if($stmt->execute()){
+            return 1;
+        }else{
+            return  $stmt->error;
+        }
 
-        return $stmt->execute();
     }
-
+    
+    
+    
     //    ++Example table input
     //    call  get_max_sn_run_by_year($conn,22");
     //    
