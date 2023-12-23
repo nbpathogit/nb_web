@@ -303,9 +303,7 @@ if (isset($_GET['signature'])) {
 
 
 
-
-
-
+<?php require 'includes_user/user_form_role_ajax.php'; ?>
 
 
 <?php require 'includes_user/user_form_detail.php'; ?>
