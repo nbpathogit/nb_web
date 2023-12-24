@@ -48,12 +48,29 @@ $isCurrentPathoIsSecondOwneThisCase = false;?>
 <?php endif; ?>  
 
 
+<?php if (isset( $presultupdate3s   )): ?>
+<!--$presultupdate3s-->
+<?php //List of index result (group3) 
+$isCurrentPathoIsSecondOwneThisCaseForPN = false;?>
+<ul class="uresultinxlist3" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdate3s as $prsu3): // record uresultid to DOM ?>
+        <li tabindex="<?= $prsu3['id'] ?>">uresultinxlist3::prsu3['id']::<?= $prsu3['id'] ?></li>
+        <?php $isCurrentPathoIsSecondOwneThisCaseForPN = $_SESSION['user']->id == $prsu3['pathologist2_id']; ?>
+    <?php endforeach; ?> 
+</ul> 
+<?php endif; ?>  
+
+
 <?php if (isset($isCurrentPathoIsOwnerThisCase)): ?>
     <li class="isCurrentPathoIsOwnerThisCase" tabindex="<?= $isCurrentPathoIsOwnerThisCase?true:false; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsOwnerThisCase::<?= $isCurrentPathoIsOwnerThisCase?"1":"0"; ?> </li>
    <?php endif; ?>
     
 <?php if (isset($isCurrentPathoIsSecondOwneThisCase)): ?>
       <li class="isCurrentPathoIsSecondOwneThisCaseLastest" tabindex="<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsSecondOwneThisCaseLastest::<?= $isCurrentPathoIsSecondOwneThisCase?"1":"0"; ?> </li>
+<?php endif; ?>
+      
+<?php if (isset($isCurrentPathoIsSecondOwneThisCaseForPN)): ?>
+      <li class="isCurrentPathoIsSecondOwneThisCaseLastestForPN" tabindex="<?= $isCurrentPathoIsSecondOwneThisCaseForPN?"1":"0"; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isCurrentPathoIsSecondOwneThisCaseLastestForPN::<?= $isCurrentPathoIsSecondOwneThisCaseForPN ?"1":"0"; ?> </li>
 <?php endif; ?>
     
 <?php if (isset($isSecondPathoDefined)): ?>
@@ -99,6 +116,22 @@ $isCurrentPathoIsSecondOwneThisCase = false;?>
 <?php //$isLastReleaseGroup2DateNull  ?>   
 <li class="isLastReleaseDateNull" tabindex="<?= $isLastReleaseGroup2DateNull; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  > $isLastReleaseGroup2DateNull::<?= $isLastReleaseGroup2DateNull; ?> </li>
 <?php //var_dump($isLastReleaseGroup2DateNull); ?>
+<?php endif; ?> 
+
+<?php if (isset( $presultupdate3s   )): ?> 
+<?php $isLastReleaseGroup3DateNull = false; ?>
+<ul class="uresultReleaseSetlistGroup3" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >
+    <?php foreach ($presultupdate3s as $prsu): // record uresultid to DOM for update released date when move from 14000 to 20000?>
+        <li tabindex="<?= isset($prsu['release_time']) ? 1 : 0 ?>">uresultReleaseSetlist3::prsu['release_time']::<?= $prsu['release_time'] ?></li>
+        <?php $isLastReleaseGroup3DateNull = ($prsu['release_time']==NULL)?TRUE:FALSE; ?>
+    <?php endforeach; ?> 
+</ul> 
+<?php endif; ?>
+
+<?php if (isset( $isLastReleaseGroup3DateNull   )): ?>
+<?php //$isLastReleaseGroup3DateNull  ?>   
+<li class="isLastReleaseDateNull" tabindex="<?= $isLastReleaseGroup3DateNull; ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  > $isLastReleaseGroup3DateNull::<?= $isLastReleaseGroup3DateNull; ?> </li>
+<?php //var_dump($isLastReleaseGroup3DateNull); ?>
 <?php endif; ?> 
 
 <?php if (isset( $presultupdates   )): ?>

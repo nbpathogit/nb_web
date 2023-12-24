@@ -669,6 +669,8 @@ $rsResultType2s = ReportType::getAllbyGroup2($conn);
 $presultupdates = Presultupdate::getAll($conn, $_GET['id']);
 $presultupdate1s = Presultupdate::getAllofGroup1($conn, $_GET['id']);
 $presultupdate2s = Presultupdate::getAllofGroup2($conn, $_GET['id']);
+$presultupdate3s = Presultupdate::getAllofGroup3($conn, $_GET['id']);
+
 
 
 
@@ -714,6 +716,19 @@ foreach ($presultupdate2s as $prsu) {
     $result_id = $prsu['id'];
     $job = Job::getByPatientJobRoleUResult($conn, $patient_id, 6, $result_id);
     $isLastReleaseGroup2SecondPathoAval = isset($job[0]['name']) ? TRUE : FALSE;
+
+
+//    echo "result_id=";    var_dump($result_id); echo "<br>";
+//    echo "patient_id=";   var_dump($patient_id); echo "<br>";
+//    echo "job=";          var_dump($job); echo "<br>";
+//    echo "isLastReleaseGroup2SecondPathoAval=";          var_dump($isLastReleaseGroup2SecondPathoAval); echo "<br>";echo "<br>";
+}
+
+$isLastReleaseGroup3SecondPathoAval = FALSE;
+foreach ($presultupdate3s as $prsu) {
+    $result_id = $prsu['id'];
+    $job = Job::getByPatientJobRoleUResult($conn, $patient_id, 6, $result_id);
+    $isLastReleaseGroup3SecondPathoAval = isset($job[0]['name']) ? TRUE : FALSE;
 
 
 //    echo "result_id=";    var_dump($result_id); echo "<br>";
@@ -1261,8 +1276,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <script src="<?= Url::getSubFolder1() ?>/ajax_job3_prep_slide/job3.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job4_prep_sp_slide/job4.js?v2xxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job5_patho/job5.js?v3x"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_job6_patho/job6.js?v6x"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_job7_cytologist/job7.js?v0aaaaa"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job6_patho/job6.js?v6xxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job7_cytologist/job7.js?v0aaxaaa"></script>
 
 
 
@@ -1270,7 +1285,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
 
 <script type="text/javascript">
                     var sn_type = '<?= $patient[0]['sn_type']; ?>';

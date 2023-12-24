@@ -135,6 +135,33 @@ class Presultupdate {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    public static function getAllofGroup3($conn, $patient_id = 0) {
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
+
+        if ($patient_id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
+        }
+        //group_type
+        $sql = $sql . " AND group_type = 3 ";
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAllofGroup4($conn, $patient_id = 0) {
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
+
+        if ($patient_id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
+        }
+        //group_type
+        $sql = $sql . " AND group_type = 4 ";
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
     
     public static function getByID($conn, $id = 0) {
         $sql = "SELECT * ".

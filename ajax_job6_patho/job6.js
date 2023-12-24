@@ -2,8 +2,9 @@
 //Update table of job6 in main page
 //refreshTblJob6(true,patient_id,result_id);
 function refreshTblJob6(isAlert,patient_id,result_id) {
-    //alert("start ajax");
-  
+//    alert("start ajax");
+//    alert('patient_id;'+patient_id);
+//    alert('result_id;'+result_id);
     //alert(cur_patient_id);
     $.ajax({
         type: 'POST',
@@ -16,10 +17,14 @@ function refreshTblJob6(isAlert,patient_id,result_id) {
         },
         success: function (data) {
 //            alert(data);
+            console.log(data);
             repaintTbljob6(data,result_id);
             if (isAlert) {
                 alert("refresh done 6");
             }
+        },
+        error: function (jqxhr, status, exception) {
+            alert( jqxhr.responseText);
         }
     });
 
@@ -71,6 +76,9 @@ function updateSecondPathoEditPage(isAlert,patient_id) {
                     //alert("str2="+str2);
                     $(owner_job6_id).append(str2);
                 }
+            },
+            error: function (jqxhr, status, exception) {
+                alert( jqxhr.responseText);
             }
         });
     });
@@ -169,7 +177,7 @@ function deljob6(jobid,patient_id,result_id) {
                 alert('Success');
             },
             error: function (jqxhr, status, exception) {
-                alert('Exception:', exception);
+                alert( jqxhr.responseText);
             }
 
         });
@@ -254,7 +262,7 @@ function add_job_list6(result_id){
             $("#add_job6").hide();
         },
         error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
+            alert( jqxhr.responseText);
         }
     });
 

@@ -43,7 +43,7 @@ $isSetShowaddResultButton = true;
                 <span id="owner_job6_<?= $presultupdate['id']?>" class="owner_job6_<?= $presultupdate['id']?>" style="font-size:20px">
                     <span class="badge rounded-pill bg-primary" id="">Data not update</span>
                 </span> 
-                <?php if(!$isCurResultReleased && true): ?>
+                <?php if(!$isCurResultReleased && true): // ================ Checking for the lastest entry ================================================== ?>
                     <?php
 
                         $is_show_add_btn = $isCurrentPathoIsOwnerThisCase;

@@ -9,6 +9,7 @@ $release_time = date('Y-m-d H:i:s');
 //echo 'release_time = '.$release_time.' importdate = '.$_POST['importdate'];
 //die();
 
+//20000
 Patient::set_update_released_time($conn,$_POST['patient_id'], $release_time);
 
 

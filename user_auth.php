@@ -88,6 +88,12 @@ if(isset($job5s[0]['user_id'])){
     $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $job5s[0]['user_id'];
 }
 
+
+$isCurrentCytologistIsOwnerThisCase = false;
+if(isset($job7s[0]['user_id'])){
+    $isCurrentCytologistIsOwnerThisCase = $_SESSION['user']->id == $job7s[0]['user_id'];
+}
+
 $cur_user_id = $_SESSION['user']->id;
 
 

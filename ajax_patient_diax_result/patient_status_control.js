@@ -514,13 +514,17 @@ function addAction2Flow() {
         e.preventDefault();
         var cur_status = $(".cur_status").attr('tabindex');
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
-        var isCurrentPathoIsSecondOwneThisCase = $(".isCurrentPathoIsSecondOwneThisCase").attr('tabindex');
-        if (isCurrentPathoIsSecondOwneThisCase == '0') {
-            alert("You not have authorize to do this ! Only owner can proceed");
-            return;
-        }
+//        var isCurrentPathoIsSecondOwneThisCase = $(".isCurrentPathoIsSecondOwneThisCase").attr('tabindex');
+//        var isCurrentPathoIsSecondOwneThisCaseForPN = $(".isCurrentPathoIsSecondOwneThisCaseForPN").attr('tabindex');
+//        if (isCurrentPathoIsSecondOwneThisCase == '0' || isCurrentPathoIsSecondOwneThisCaseForPN == '0') {
+//            alert("You not have authorize to do this ! Only owner can proceed");
+//            return;
+//        }
 
-
+        var lastest_secondP_userid = get_lastest_SecondPatho_userid_in_uresult();
+        var lastest_result_id = get_lastest_uresultid();
+        var lastest_job6_id = get_lastest_job6_id();
+        
         //set second_patho_review = 0
         var cur_patient_id = $(".cur_patient_id").attr('tabindex');
         $.ajax({
@@ -531,6 +535,13 @@ function addAction2Flow() {
             data: {
                 'patient_id': cur_patient_id,
                 'second_patho_review': 0,
+                
+                
+                                    'patient_id': cur_patient_id,
+                    'second_patho_review': 0,
+                    'result_id': lastest_result_id,
+                    'user_id': lastest_secondP_userid,
+                    'job6_id': lastest_job6_id,
             },
             success: function (data) {
                 console.log(data);
@@ -541,28 +552,6 @@ function addAction2Flow() {
                 alert('Exception:', exception);
             }
         });
-
-
-//        //set autoscroll to confirm_result_section
-//        var cur_patient_id = $(".cur_patient_id").attr('tabindex');
-//        $.ajax({
-//            type: 'POST',
-//            // make sure you respect the same origin policy with this url:
-//            // http://en.wikipedia.org/wiki/Same_origin_policy
-//            url: '/ajax_patient_diax_result/set_autoscroll.php',
-//            data: {
-//                'patient_id': cur_patient_id,
-//                'pautoscroll': 'confirm_result_section',
-//            },
-//            success: function (data) {
-//                console.log(data);
-//                alert(data);
-//
-//            },
-//            error: function (jqxhr, status, exception) {
-//                alert('Exception:', exception);
-//            }
-//        });
 
 
 
@@ -683,6 +672,7 @@ function addAction2Flow() {
         var isset_date_first_report = $(".isset_date_first_report").attr('tabindex');
         var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
         var isCurrentPathoIsSecondOwneThisCaseLastest = $(".isCurrentPathoIsSecondOwneThisCaseLastest").attr('tabindex');
+        var isCurrentPathoIsSecondOwneThisCaseLastestForPN = $(".isCurrentPathoIsSecondOwneThisCaseLastestForPN").attr('tabindex');
         var cur_patient_id = get_cur_patient_id();
 
         //Uresult index id lastest
@@ -723,9 +713,13 @@ function addAction2Flow() {
             return;
         }
 
-        if (cur_status == '13000' && isCurrentPathoIsSecondOwneThisCaseLastest == '0') {
-            alert("Only Second patho of this case can do this!");
-            return;
+        if (cur_status == '13000')
+        {
+            console.log('isCurrentPathoIsSecondOwneThisCaseLastest::'+isCurrentPathoIsSecondOwneThisCaseLastest);
+            if (!(isCurrentPathoIsSecondOwneThisCaseLastest == '1' || isCurrentPathoIsSecondOwneThisCaseLastestForPN == '1')) {
+                alert("Only Second patho of this case can do this!");
+                return;
+            }
         }
 
         if (confirm("คุณกำลังจะออกผลถึงลูกค้า! \nหากออกผลแล้วคุณจะไม่สามารถแก้ไขผลที่ออกไปแล้วได้")) {
@@ -795,8 +789,6 @@ function addAction2Flow() {
             //set second_patho_review = 2
             $.ajax({
                 type: 'POST',
-                // make sure you respect the same origin policy with this url:
-                // http://en.wikipedia.org/wiki/Same_origin_policy
                 url: 'ajax_patient_diax_result/set_second_patho_review.php',
                 data: {
                     'patient_id': cur_patient_id,
