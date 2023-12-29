@@ -212,7 +212,7 @@ $(document).ready(function () {
                     renderdata += '<a onclick="movePatient2Trash('+row[0]+',\''+row[1]+'\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
 
                     if (isCurUserAdmin) {
-                        renderdata += '<a onclick="deletePatientPermanent(' + row[0] + ',\'' + row[1] + '\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Delete</a>';
+                        renderdata += '<a onclick="deletePatientPermanent(' + row[0] + ',\'' + row[1] + '\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> Delete</a>';
                     }
 
                 }
@@ -232,13 +232,15 @@ $(document).ready(function () {
                         //show active link
                         renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="manage_pdf_'+row[0]+' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
                         renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="manage_pdf_'+row[0]+' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_'+row[0]+' btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';                    }
+                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_'+row[0]+' btn btn-outline-dark btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';                    }
                 }
                 else {
                     //show active link
+                    
+                    renderdata += '<a href="patient_pdf_for_note.php?id=' + row[0] + '&option=I" class="manage_pdf_'+row[0]+' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-pen"></i>ใบจด</a>';
                     renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="manage_pdf_'+row[0]+' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
                     renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="manage_pdf_'+row[0]+' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_'+row[0]+' btn btn-outline-secondary btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_'+row[0]+' btn btn-outline-dark btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
                 }
 
                 return renderdata;

@@ -91,6 +91,21 @@ class Presultupdate {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    public static function getAllofGroup3Asc($conn, $patient_id = 0) {
+        $sql = "SELECT * ".
+                " FROM presultupdate ";
+
+        if ($patient_id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $patient_id;
+        }
+        //group_type
+        $sql = $sql . " AND group_type = 3 ";
+        $sql = $sql . " ORDER BY id ASC";
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function getAllofGroup1Desc($conn, $patient_id = 0) {
         $sql = "SELECT * ".
                 " FROM presultupdate ";
