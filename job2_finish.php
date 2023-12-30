@@ -360,11 +360,12 @@ $patient[0]['pnum'] = "TBD";
         },
         {
             "render": function (data, type, row) {
-                let renderdata = row[11];
                 let patient_id = row[0];
                 let sn = row[1];
                 let hn = row[2];
                 let qty  = row[11];
+
+                let renderdata = '<span id="qty_'+patient_id+'" >'+row[11]+'</span>';//<span id="qty_99"></span>
                 
                 //renderdata += '<a  onclick="opend('+patient_id+','+hn+');"  class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Edit</a>';
                 renderdata += '<a type="button" onclick="setTargetPatient_id('+patient_id+',\''+sn+'\',\''+hn+'\','+qty+');" class="btn btn-outline-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editQtyModal"><i class="fa-solid fa-marker"></i> edit </a>';
@@ -598,6 +599,12 @@ $('#save_qty_modal_job2_finish').on("click", function (e) {
             alert('Exception:', exception);
         }
     });
+    
+    //Refresh Qty On Screen
+    let qty_id = 'qty_' + cur_patient_id;
+    let span_id = document.getElementById(qty_id);
+    span_id.innerText = span_id.textContent = job2qty.toString();
+
 
     alert('Finish Added.');
 });
