@@ -875,12 +875,13 @@ class Patient {
         $thai_date = Util::get_curreint_thai_date_time();
         Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Patient::movetotrash(id)", $id.' : '.$patient_num , $thai_date);
         $sql = "UPDATE patient
-                SET movetotrash = 1
+                SET movetotrash = 1 , pnum = :pnum
                 WHERE id = :id";
 
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':pnum',$patient_num .'_'.$thai_date , PDO::PARAM_STR);
 
         return $stmt->execute();
     }
@@ -913,7 +914,7 @@ class Patient {
     //    |22      |2
     //
     public static function get_max_sn_run_by_year($conn, $sn_year, $sn_type) {
-        $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p WHERE sn_year = :sn_year and sn_type = :sn_type GROUP BY `sn_year` ORDER BY `sn_year`;";
+        $sql = "SELECT `sn_year`, MAX(`sn_run`) as max_sn_run FROM `patient` as p WHERE sn_year = :sn_year and sn_type = :sn_type and `movetotrash` = 0 GROUP BY `sn_year` ORDER BY `sn_year`;";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':sn_year', $sn_year, PDO::PARAM_STR);
         $stmt->bindValue(':sn_type', $sn_type, PDO::PARAM_STR);
