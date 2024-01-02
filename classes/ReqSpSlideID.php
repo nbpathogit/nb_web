@@ -187,7 +187,7 @@ class ReqSpSlideID {
                 (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
                     , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lastname) AS jowowner
                     ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
-                FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id  "; 
+                FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id  and r.movetotrash = 0 "; 
         if ($start != '0') {
             $sql = $sql . "WHERE  date(r.req_date) >= '{$start}' ";
         }

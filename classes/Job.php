@@ -127,7 +127,7 @@ class Job
     {
         $sql = "SELECT * FROM `job` ";
 
-        $sql = $sql . " WHERE 1=1 ";
+        $sql = $sql . " WHERE `movetotrash` = 0 ";
 
 
         if ($patient_id != 0) {
