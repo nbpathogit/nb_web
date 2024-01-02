@@ -407,4 +407,19 @@ class Job
         return $stmt->execute();
     }
     
+    public static function movetotrash($conn, $id, $patient_num) {
+        $thai_date = Util::get_curreint_thai_date_time();
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Job::movetotrash(id)", $id.' : '.$patient_num , $thai_date);
+        $sql = "UPDATE job
+                SET movetotrash = 1
+                WHERE patient_id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+//        $stmt->bindValue(':pnum',$patient_num .'_'.$thai_date , PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    
 }
