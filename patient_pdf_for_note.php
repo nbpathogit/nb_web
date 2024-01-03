@@ -255,10 +255,29 @@ if ($hideTable) {
     $header = str_replace("border: 1px solid green;", "", $header);
     $header = str_replace("border: 1px solid red;", "", $header);
 }
-$header = str_replace("<pname>",$patient[0]['ppre_name'] .' '. $patient[0]['pname'], $header);
+
+//Job5
+$signedpatho = "";
+$job5s = Job::getByPatientJobRole($conn, $patient[0]['id'], 5); // Patho1
+
+$preName = "";
+if($patient[0]['ppre_name'] == 'NA'){
+    $preName = "";
+}else{
+    $preName = $patient[0]['ppre_name']." ";
+}
+
+$pgender = "";
+if($patient[0]['pgender'] == 'NA'){
+    $pgender = "";
+}else{
+    $pgender = $patient[0]['pgender']." ";
+}
+
+$header = str_replace("<pname>", $preName . $patient[0]['pname'], $header);
 $header = str_replace("<plastname>", $patient[0]['plastname'], $header);
 $header = str_replace("<surgical_number>", $patient[0]['pnum'], $header);
-$header = str_replace("<pg>", $patient[0]['pgender'], $header);
+$header = str_replace("<pg>", $pgender, $header);
 $header = str_replace("<pedge>", $patient[0]['pedge'], $header);
 $header = str_replace("<plabnum>", $patient[0]['plabnum'], $header);
 $header = str_replace("<phospital_num>", $patient[0]['phospital_num'], $header);
@@ -268,6 +287,8 @@ $header = str_replace("<hospital>", $hospital[0]['hospital'], $header);
 $header = str_replace("<date_1000>", $patient[0]['date_1000'], $header);
 //$header = str_replace("<an_name>"          ,$patient[0][''], $header);
 $header = str_replace("<date_first_report>", $patient[0]['date_20000'], $header);
+
+$header = str_replace("<signedpatho>", $signedpatho, $header);
 
 echo
 $mpdf->SetHTMLHeader($header);

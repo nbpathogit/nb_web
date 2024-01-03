@@ -8,7 +8,7 @@
 
         </td>
         <td width="50%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:middle; text-align:center"><!-- comment -->
-            <span style="font-size:20pt;"><b>ใบจดโน้ต</b></span><br>
+            <span style="font-size:20pt;"><b> Gross Examination Record</b></span><br>
 
 
         </td>
@@ -40,10 +40,19 @@
 
             <table width="100%" style=" border: 1px solid green;    border-collapse: collapse;">
                 <tr>
-                    <td width="15%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Sex :</b> <pg></span></td>
-                    <td width="18%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>HN :</b><phospital_num></span></td>
-                    <td width="38%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Hospital :</b><hospital></span></td>
-                    <td width=""    align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Clinician :</b><pclinician> </span></td>
+                    <td width="15%" align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Sex :</b> <pg></span></td>
+                    <td width="18%" align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>HN :</b><phospital_num></span></td>
+                    <td width="38%" align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Hospital :</b><hospital></span></td>
+                    <td width=""    align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Clinician :</b><pclinician> </span></td>
+                </tr>
+            </table>
+            
+            <table width="100%" style=" border: 1px solid green;    border-collapse: collapse;">
+                <tr>
+                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Pathologist :</b> <signedpatho></span></td>
+                    <td width="18%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b></b></span></td>
+                    <td width="38%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b></b></span></td>
+                    <td width=""    align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b></b></span></td>
                 </tr>
             </table>
 

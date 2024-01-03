@@ -49,13 +49,12 @@ function updateSelectionSpeceman2(isalert) {
                 //alert('Success' + datajson);
                 $('#pspecimen_for_select2').prop('disabled', false);
                 $('#pspecimen_for_select2 option').remove();
+                $('#pspecimen_for_select2').append('<option value="' + '' + '" >กรุณาเลือก</option>');
                 for (var i in datajson)
                 {
-                    if (i == 0) {
-                        $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" >กรุณาเลือก</option>');
-                    } else {
-                        $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
-                    }
+  
+                    $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
+                    
                 }
 //                if (isalert) {
 //                    alert('Please select specimen.');
