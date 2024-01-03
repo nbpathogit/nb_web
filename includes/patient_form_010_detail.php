@@ -76,6 +76,8 @@ $curStatusAuthEdit = (
         <div class="col">
             <select name="pgender" class="form-select" id="pgender" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>>
                 <option value="กรุณาเลือก">กรุณาเลือก</option>
+                
+                <option value="NA" <?= ($patient[0]['pgender'] === "NA") ? "selected" : ""; ?> >NA</option>
                 <option value="Male" <?= ($patient[0]['pgender'] === "Male") ? "selected" : ""; ?> >Male</option>
                 <option value="Female" <?= ($patient[0]['pgender'] === "Female") ? "selected" : ""; ?> >Female</option>
             </select>

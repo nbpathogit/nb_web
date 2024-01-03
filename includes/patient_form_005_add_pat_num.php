@@ -114,6 +114,7 @@ if ($debug) {
                 <div class="col">
                     <select name="pgender" class="form-select" id="pgender_add">
                         <option value="กรุณาเลือก">กรุณาเลือก</option>
+                        <option value="NA" >NA</option>
                         <option value="Male" >Male</option>
                         <option value="Female">Female</option>
                     </select>

@@ -1,3 +1,6 @@
+<option pgender="NA" value="NA"  des="NA" >NA</option>
+<option pgender="Male" value="ด.ช."  des="ด.ช." >ด.ช.</option>
+<option pgender="Female" value="ด.ญ."  des="ด.ญ." >ด.ญ.</option>
 <option pgender="Male" value="นาย"  des="นาย" >นาย</option>
 <option pgender="Female" value="นาง"  des="นาง" >นาง</option>
 <option pgender="Female" value="นางสาว"  des="นางสาว" >นางสาว</option>
