@@ -259,6 +259,7 @@ if ($hideTable) {
 //Job5
 $signedpatho = "";
 $job5s = Job::getByPatientJobRole($conn, $patient[0]['id'], 5); // Patho1
+$signedpatho = $job5s[0]['name'].' '. $job5s[0]['lastname'];
 
 $preName = "";
 if($patient[0]['ppre_name'] == 'NA'){

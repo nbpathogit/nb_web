@@ -203,6 +203,9 @@ class ReqSpSlideID {
 
             ON aa.patient_id_key=bb.patient_id_key";
                 
+//        $sql2 = $sql;
+//        Util::writeFile('dbg.txt', $sql2);
+//        
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
