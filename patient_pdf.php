@@ -127,6 +127,8 @@ $prioritys = Priority::getAll($conn);
 $statusLists = Status::getAll($conn);
 $labFluids = LabFluid::getAll($conn);
 
+
+
 //var_dump($userPathos);
 //die();
 //Get one by id
@@ -310,13 +312,19 @@ $mpdf->SetHTMLHeader($header);
 $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
 $mpdf->SetHTMLFooter($footer);
 
-//==START PN type =====================================================================================================================================
+//==START PN/LN type =====================================================================================================================================
 
-if ($patient[0]['sn_type'] == 'PN') {
+if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 
 
 //=======START Result3 Group=========================================================================================================================================
+    $job7s = Job::getByPatientJobRole($conn, $patient[0]['id'], 7); // Cycologist
 
+    $cytologist = User::getByID($conn, $job7s[0]['user_id']);
+    $signedcytologist = $cytologist->name_e . " " . $cytologist->lastname_e . " " . $cytologist->educational_bf;
+//    var_dump($job7s[0]['user_id']);
+//    die();
+    
     $signedpatho = "";
     $i = 0;
     $counter_result3 = 0;
@@ -330,7 +338,7 @@ if ($patient[0]['sn_type'] == 'PN') {
 
                 $result_id = $prsu['id'];
                 $job = Job::getByPatientJobRoleUResult($conn, $patient_id, 6, $result_id);
-                $isGroup2SecondPathoAval = isset($job[0]['name']) ? TRUE : FALSE;
+                $isGroup3SecondPathoAval = isset($job[0]['name']) ? TRUE : FALSE;
 
 
 
@@ -348,18 +356,19 @@ if ($patient[0]['sn_type'] == 'PN') {
                 $result_message = Util::space2nbsp($result_message);
                 $u_result3 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result3);
                 //            if ($prsu['pathologist2_id'] != 0) {
-                if ($isGroup2SecondPathoAval) {
-                    $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
+                if ($isGroup3SecondPathoAval) {
+                    //$confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
                     $secondPatho = User::getByID($conn, $prsu['pathologist2_id']);
-                    $confirm_msg = $confirm_msg . "(" . $secondPatho->name_e . " " . $secondPatho->lastname_e . ")";
+                    //$confirm_msg = $confirm_msg . "(" . $secondPatho->name_e . " " . $secondPatho->lastname_e . ")";
                     //            var_dump($confirm_msg);
                     //            die();
-                    $u_result3 = str_replace("<confirm_message>", $confirm_msg, $u_result3);
+                    //$u_result3 = str_replace("<confirm_message>", $confirm_msg, $u_result3);
+                    $signedSecondPatho = $secondPatho->name_e . " " . $secondPatho->lastname_e . " " . $secondPatho->educational_bf;
                 } else {
-                    $u_result3 = str_replace("<confirm_message>", "", $u_result3);
+                    //$u_result3 = str_replace("<confirm_message>", "", $u_result3);
                 }
                 $mpdf->WriteHTML($u_result3);
-                if ($count_presultupdate3s == $key) {
+                if ($count_presultupdate3s == $key+1) {
                     //
                     $i = $i + 1;
                     $jobPatho = Job::getAll($conn, $patient[0]['id'], 5);
@@ -387,8 +396,15 @@ if ($patient[0]['sn_type'] == 'PN') {
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_3.php');// Table close with Blank
 
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_cytologist.php');// Digital signed Cytologist
-
-    $signature = str_replace("<signedpatho>", $signedpatho, $signature);
+    $signature = str_replace("<signedcyto>", $signedcytologist, $signature);
+    // If second pathologist confirm
+    if($isGroup3SecondPathoAval){
+        $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_Secondpatho.php');// Digital signed by Second patho
+        $signature = str_replace("<signedpatho>", $signedSecondPatho, $signature);
+    }
+    
+    
+    
     $signature = str_replace("<release_time>", $release_time, $signature);
 
     if ($hideTable) {
@@ -402,9 +418,9 @@ if ($patient[0]['sn_type'] == 'PN') {
     
     
 //=======END Result3 Group========================================================================================================================================
+//==START PN/LN type =====================================================================================================================================
 
-
-//==START NON PN type =====================================================================================================================================
+//==START NON PN/LN type =====================================================================================================================================
 } else {
 
 

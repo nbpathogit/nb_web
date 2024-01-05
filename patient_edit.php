@@ -1041,10 +1041,11 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                 <?php //require 'includes/patient_form_065_assigned_patho.php'; ?>
             </form>
         <?php endif; ?>
-        <?php  if($patient[0]['sn_type']=='PN'): ?>
+        <?php  if($patient[0]['sn_type']=='PN' || $patient[0]['sn_type']=='LN'): ?>
             <?php require 'includes/patient_form_067_job7_assigned_cytologist.php'; ?>
+        <?php else: ?>
+            <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?> 
         <?php endif; ?>
-        <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?>           
         <?php require 'includes/patient_form_015_slide1_add_specimen.php'; ?>
 
     </div>
@@ -1052,12 +1053,12 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <?php //END=================สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ=====================================================================================================?>
 
 
-<?php //START === PN ================================================================================================================================ ?>
+<?php //START === PN/LN ================================================================================================================================ ?>
 <?php  if($patient[0]['sn_type']=='PN'): ?>
 
 <div id="diag_result_section" class="container-fluid pt-4 px-4">
     <div class="bg-nb bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
-        <h4 align="center"><b><span style="color:red">[ส่วนนี้กำลังพัฒนา ยังไม่พร้อมใช้งาน]</span>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
+        <h4 align="center"><b><span style="color:red"></span>วินิจฉัย/ผลการตรวจ</b><span style="color:orange;"><?= ($curstatusid == "12000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : "" ?></span>
 
         </h4>
 
@@ -1070,7 +1071,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     </div>
 </div>
     
-<?php //END === PN ================================================================================================================================ ?>
+<?php //END === PN/LN ================================================================================================================================ ?>
     
 <?php //START == NON PN ============================================================================================================================?>
 <?php else: ?>

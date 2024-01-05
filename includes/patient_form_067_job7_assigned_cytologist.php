@@ -19,7 +19,7 @@ $isBorder = false;
 </h5>-->
 <p align="left">
     
-    <b><span style="color:red">[ส่วนนี้กำลังพัฒนายังไม่พรอ้มใช้งาน]</span>นักเซลวิทยาผู้ออกผล(Cytologist):</b>
+    <b><span style="color:red"></span>นักเซลวิทยาผู้ออกผล(Cytologist):</b>
     <span id="owner_job7" class="owner_job7" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>

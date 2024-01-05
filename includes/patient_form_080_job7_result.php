@@ -3,7 +3,7 @@ $isBorder = false;
 $isSetShowaddResultButton = true;
 ?>
 <?php if ($isCurrentCytologistIsOwnerThisCase) : ?>
-    <p align="center" > <span id="owner_job5a" class="owner_job5" style="font-size:20px"><span class="badge rounded-pill bg-secondary" id="">NA</span> </span> คุณคือผู้ออกผลของผู้ป่วยท่านนี้  </p>
+    <p align="center" > <span id="owner_job7a" class="owner_job7" style="font-size:20px"><span class="badge rounded-pill bg-secondary" id="">NA</span> </span> คุณคือผู้ออกผลของผู้ป่วยท่านนี้  </p>
 <?php else : ?>
     <p align="center" style="color: firebrick">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
 <?php endif; ?>
@@ -114,8 +114,8 @@ $isSetShowaddResultButton = true;
 <hr>
 <div class="row <?= $isBorder ? "border" : "" ?>">
      <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-         <b>แพทย์ผู้ออกผล:</b>
-         <span id="owner_job5a" class="owner_job5" style="font-size:20px">
+         <b>นักเซลด์วิทยาผู้ออกผล:</b>
+         <span id="owner_job7a" class="owner_job7" style="font-size:20px">
              <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
          </span>  
      </div>
