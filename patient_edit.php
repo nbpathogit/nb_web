@@ -1343,6 +1343,19 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                             });
                             
                         });
+                        
+                        
+                            $("#add_sp2_1_2").on("click",function (e) {
+                            let sp2_1 = $("#sp2_1 option").filter(":selected").attr('value');
+                            let sp2_2 = $("#sp2_2 option").filter(":selected").attr('value');
+                            console.log('\n\n\n===================================================================\n');
+                            console.log('sp2_1:'+sp2_1+'\n');
+                            console.log('sp2_2:'+sp2_2+'\n');
+                            console.log('===================================================================\n\n\n');
+                            let str1 = sp2_1 + sp2_2;
+                            let str2 = '<input type="checkbox" class="form-check-input"  id="SP2_'+str1+'" name="SP2_'+str1+'" va="'+str1+'" checked><label for="SP2_'+str1+'"  class="form-check-label" >'+str1+'</label>';
+                            $('#SP2_Scope').append(str2);
+                        });
 
                     });
 </script>

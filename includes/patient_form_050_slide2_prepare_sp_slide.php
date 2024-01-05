@@ -181,65 +181,19 @@ $curStatusAuthEdit = (
                     <input name="comment_for_specimen2" id="comment_for_specimen2" type="text" class="form-control"    value=""   readonly>
                 </div>
                 
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> " >
+                    
+                    <?php require 'includes/sp2dropdownlist.php'; ?>
+                </div>
             <br>
-            <span id="SP2_Scope">
-                <input type="checkbox" class="form-check-input"  id="SP2_A" name="SP2_A" va="A"><label for="SP2_A"  class="form-check-label">A</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_B" name="SP2_B" va="B"><label for="SP2_B"  class="form-check-label">B</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_C" name="SP2_C" va="C"><label for="SP2_C"  class="form-check-label">C</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_D" name="SP2_D" va="D"><label for="SP2_D"  class="form-check-label">D</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_E" name="SP2_E" va="E"><label for="SP2_E"  class="form-check-label">E</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_F" name="SP2_F" va="F"><label for="SP2_F"  class="form-check-label">F</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_G" name="SP2_G" va="G"><label for="SP2_G"  class="form-check-label">G</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_H" name="SP2_H" va="H"><label for="SP2_H"  class="form-check-label">H</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_I" name="SP2_I" va="I"><label for="SP2_I"  class="form-check-label">I</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_J" name="SP2_J" va="J"><label for="SP2_J"  class="form-check-label">J</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_K" name="SP2_K" va="K"><label for="SP2_K"  class="form-check-label">K</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_L" name="SP2_L" va="L"><label for="SP2_L"  class="form-check-label">L</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_M" name="SP2_M" va="M"><label for="SP2_M"  class="form-check-label">M</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_N" name="SP2_N" va="N"><label for="SP2_N"  class="form-check-label">N</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_O" name="SP2_O" va="O"><label for="SP2_O"  class="form-check-label">O</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_P" name="SP2_P" va="P"><label for="SP2_P"  class="form-check-label">P</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_Q" name="SP2_Q" va="Q"><label for="SP2_Q"  class="form-check-label">Q</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_R" name="SP2_R" va="R"><label for="SP2_R"  class="form-check-label">R</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_S" name="SP2_S" va="S"><label for="SP2_S"  class="form-check-label">S</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_T" name="SP2_T" va="T"><label for="SP2_T"  class="form-check-label">T</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_U" name="SP2_U" va="U"><label for="SP2_U"  class="form-check-label">U</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_V" name="SP2_V" va="V"><label for="SP2_V"  class="form-check-label">V</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_W" name="SP2_W" va="W"><label for="SP2_W"  class="form-check-label">W</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_X" name="SP2_X" va="X"><label for="SP2_X"  class="form-check-label">X</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_Y" name="SP2_Y" va="Y"><label for="SP2_Y"  class="form-check-label">Y</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_Z" name="SP2_Z" va="Z"><label for="SP2_Z"  class="form-check-label">Z</label>
-                
-                <input type="checkbox" class="form-check-input"  id="SP2_A1" name="SP2_A1" va="A1"><label for="SP2_A1"  class="form-check-label">A1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_B1" name="SP2_B1" va="B1"><label for="SP2_B1"  class="form-check-label">B1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_C1" name="SP2_C1" va="C1"><label for="SP2_C1"  class="form-check-label">C1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_D1" name="SP2_D1" va="D1"><label for="SP2_D1"  class="form-check-label">D1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_E1" name="SP2_E1" va="E1"><label for="SP2_E1"  class="form-check-label">E1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_F1" name="SP2_F1" va="F1"><label for="SP2_F1"  class="form-check-label">F1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_G1" name="SP2_G1" va="G1"><label for="SP2_G1"  class="form-check-label">G1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_H1" name="SP2_H1" va="H1"><label for="SP2_H1"  class="form-check-label">H1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_I1" name="SP2_I1" va="I1"><label for="SP2_I1"  class="form-check-label">I1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_J1" name="SP2_J1" va="J1"><label for="SP2_J1"  class="form-check-label">J1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_K1" name="SP2_K1" va="K1"><label for="SP2_K1"  class="form-check-label">K1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_L1" name="SP2_L1" va="L1"><label for="SP2_L1"  class="form-check-label">L1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_M1" name="SP2_M1" va="M1"><label for="SP2_M1"  class="form-check-label">M1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_N1" name="SP2_N1" va="N1"><label for="SP2_N1"  class="form-check-label">N1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_O1" name="SP2_O1" va="O1"><label for="SP2_O1"  class="form-check-label">O1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_P1" name="SP2_P1" va="P1"><label for="SP2_P1"  class="form-check-label">P1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_Q1" name="SP2_Q1" va="Q1"><label for="SP2_Q1"  class="form-check-label">Q1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_R1" name="SP2_R1" va="R1"><label for="SP2_R1"  class="form-check-label">R1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_S1" name="SP2_S1" va="S1"><label for="SP2_S1"  class="form-check-label">S1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_T1" name="SP2_T1" va="T1"><label for="SP2_T1"  class="form-check-label">T1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_U1" name="SP2_U1" va="U1"><label for="SP2_U1"  class="form-check-label">U1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_V1" name="SP2_V1" va="V1"><label for="SP2_V1"  class="form-check-label">V1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_W1" name="SP2_W1" va="W1"><label for="SP2_W1"  class="form-check-label">W1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_X1" name="SP2_X1" va="X1"><label for="SP2_X1"  class="form-check-label">X1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_Y1" name="SP2_Y1" va="Y1"><label for="SP2_Y1"  class="form-check-label">Y1</label>
-                <input type="checkbox" class="form-check-input"  id="SP2_Z1" name="SP2_Z1" va="Z1"><label for="SP2_Z1"  class="form-check-label">Z1</label>
-
-
-
             
+            
+            <span id="SP2_Scope">
+                
+<!--                <input type="checkbox" class="form-check-input"  id="SP2_A" name="SP2_A" va="A"><label for="SP2_A"  class="form-check-label">A</label>
+                <input type="checkbox" class="form-check-input"  id="SP2_B" name="SP2_B" va="B"><label for="SP2_B"  class="form-check-label">B</label>
+                <input type="checkbox" class="form-check-input"  id="SP2_C" name="SP2_C" va="C"><label for="SP2_C"  class="form-check-label">C</label>-->
+  
             </span>
             
             
