@@ -351,8 +351,8 @@ function addAction2Flow() {
             return null;
         }
         if(owner_job4_count == 0){
-            alert('ยังไม่ได้เลือกพนักงานเตรียมสไลด์พิเศษ');
-            return null;
+            //alert('ยังไม่ได้เลือกพนักงานเตรียมสไลด์พิเศษ');
+            //return null;
         }
         
 

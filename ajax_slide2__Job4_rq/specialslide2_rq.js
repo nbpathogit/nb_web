@@ -75,7 +75,7 @@ function refreshSpSlideRequested(isAlert) {
 
         str1 = str1 + '<p align="center"><b>';
         str1 = str1 + "รายการที่ร้องขอแล้ว (เลขที่" + datajson[i].id + ") สั่งย้อมเมื่อ [" + datajson[i].req_date + "]";
-        str1 = str1 + '</b></p>';
+        str1 = str1 + ' [ปุ่มลบกำลังพัฒนา หากต้องการลบ เบื้องต้ให้ติดต่อโปรแกรมเมอร์ลบให้เป็นการชั่วคราว]</b></p>';
 
         str1 = str1 + '<p align="left"><b>พนักงานเตรียมสไลด์พิเศษ:</b><span id="" style="font-size:20px">';
         $.ajax({

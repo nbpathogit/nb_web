@@ -57,7 +57,7 @@ if ($auth) {
 
     $data = [];
     foreach ($requuestLists as $req) {
-        if ($req['rid']) {
+        if ($req['r_id']) {
 
             
 //array(9) {
@@ -88,9 +88,25 @@ if ($auth) {
 //    ["pathologist"]=>
 //    string(40) "อภิชาติ ชุมทอง"
 //  }
+            
+//                'r_id' => '7',
+//    'b_id' => '84',
+//    'j4_id' => '691',
+//    'j5_id' => '570',
+//    'rpatient_id' => '322',
+//    'b_patient_num' => 'SN2313814',
+//    'req_date' => '2023-12-30 19:57:18',
+//    'finish_date' => '2023-12-30 19:59:22',
+//    'comment' => '',
+//    'j4owowner' => 'ชนิตา เอี่ยมกร่าง',
+//    'pathologist' => 'อภิชาติ ชุมทอง',
+//    'req_sp_type' => '38504 AE1/3',
+//    'bjob' => 'A',
 
-                $data[] = [$req['rid'], $req['bid'], $req['jid'], $req['patient_id_key'], $req['number'], $req['req_date'], $req['finish_date'], $req['comment'], $req['jowowner'], $req['req_sp_type'], $req['bjob'], $req['pathologist'],NULL];
-       
+            //$data[] = [$req['rid'], $req['bid'], $req['jid'], $req['patient_id_key'], $req['number'], $req['req_date'], $req['finish_date'], $req['comment'], $req['jowowner'], $req['req_sp_type'], $req['bjob'], $req['pathologist'],NULL];
+                
+            
+            $data[] = [$req['r_id'], $req['b_id'], $req['j4_id'], $req['rpatient_id'], $req['b_patient_num'], $req['req_date'], $req['finish_date'], $req['comment'], $req['j4owowner'], $req['req_sp_type'], $req['bjob'], $req['pathologist'],NULL];
         }
     }
 
