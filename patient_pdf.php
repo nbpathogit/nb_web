@@ -284,6 +284,13 @@ if($patient[0]['pgender'] == 'NA'){
     $pgender = $patient[0]['pgender']." ";
 }
 
+$titleName = "PATHOLOGY REPORT";
+if ($patient[0]['sn_type'] == 'SN') {
+  $titleName = "SURGICAL PATHOLOGY REPORT";  
+}else if($patient[0]['sn_type'] == 'CN' || $patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN'){
+  $titleName = "CYTOLOGIC PATHOLOGY REPORT";
+}
+$header = str_replace("<PATHOLOGY_REPORT>", $titleName, $header);
 
 $header = str_replace("<pname>", $preName . $patient[0]['pname'], $header);
 $header = str_replace("<plastname>", $patient[0]['plastname'], $header);
@@ -304,7 +311,7 @@ $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:ang
 $mpdf->SetHTMLFooter($footer);
 
 //==START PN type =====================================================================================================================================
-//==END PN type =====================================================================================================================================
+
 if ($patient[0]['sn_type'] == 'PN') {
 
 

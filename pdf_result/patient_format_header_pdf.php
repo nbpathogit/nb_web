@@ -1,21 +1,22 @@
-<table width="100%"   style="border: 1px solid black;  border-collapse: collapse;">
+<table width="100%"   style="  border-collapse: collapse;">
 
     <tr>
-        <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top"><!-- comment -->
+        <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top;border-bottom: 1px solid black; border-top: 1px solid black;"><!-- comment -->
             <img src="image\logo2.png" alt="" height="50" style="border: 1px solid red;"><br>
-            <span style="font-size:8pt;"><b>18/54 Sanambin Rd. Mueng Phitsanulok 65000</b></span>
+            
             
 
         </td>
-        <td width="50%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:middle; text-align:center"><!-- comment -->
-            <span style="font-size:20pt;"><b>PATHOLOGY REPORT</b></span><br>
+        <td width="45%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:middle; text-align:center;border-bottom: 1px solid black;border-top: 1px solid black;"><!-- comment -->
+            <span style="font-size:19pt;"><b><PATHOLOGY_REPORT></b></span><br>
 
 
         </td>
-        <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right"><!-- comment -->
-            <span style="font-size:12pt;"><b>Email:nbpathologyplk@gmail.com</b></span>
-            <span style="font-size:12pt;"><b>Tel:064-3545-283</b></span>
-            
+        <td width="30%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right; border-bottom: 1px solid black; border-top: 1px solid black;"><!-- comment -->
+            <span style="font-size:10pt;"><b>18/54 Sanambin Rd. Mueng Phitsanulok 65000</b></span><br>
+            <span style="font-size:10pt;"><b>Email:nbpathologyplk@gmail.com</b></span><br>
+            <span style="font-size:10pt;"><b></b><b>Tel:064-3545-283</b></span><br>
+
         </td><!-- comment -->
     </tr>
 
