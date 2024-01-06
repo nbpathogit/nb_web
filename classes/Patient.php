@@ -455,7 +455,7 @@ class Patient {
                 SET status_id = :status_id";
 
         //Update current status as finished date.
-        if ($cur_status_id > 0) {
+        if ($cur_status_id > 1000) {
             $sql = $sql . ", date_" . $cur_status_id . " = '$curDateTime' ";
         }
         if ($isset_date_first_report == "0" && $next_status_id == "20000") {
