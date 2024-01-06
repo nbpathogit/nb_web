@@ -1065,7 +1065,7 @@ class Patient {
                 p.job2qty as p_job2qty,
 
                 GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
-                j.finish_date
+                DATE(j.finish_date) as j_finish_date
 
                         FROM patient as p
                         LEFT JOIN (select * from job where job.job_role_id=2) as j
@@ -1076,6 +1076,7 @@ class Patient {
         if ($end != '0') {
             $sql .= " AND p.date_1000 < '{$end}' ";
         }
+        $sql .= " AND p.movetotrash = 0 ";
         $sql .= " GROUP by p.id ";
         $sql .= " ORDER BY p.id DESC ";
         

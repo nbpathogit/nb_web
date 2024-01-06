@@ -266,6 +266,30 @@ class Job
 
         return $stmt->execute();
     }
+    
+    public static function deleteJob2($conn, $patient_id,$user_id)
+    {
+
+        $sql = "DELETE FROM `job` WHERE patient_id = $patient_id and user_id=$user_id and job_role_id = 2";
+
+//        Util::writeFile(dbg.txt, $sql);
+        
+        $results = $conn->query($sql);
+
+        return $results;
+    }
+    
+    public static function deleteAllJob2($conn, $patient_id)
+    {
+
+        $sql = "DELETE FROM `job` WHERE patient_id = $patient_id and job_role_id = 2";
+
+//        Util::writeFile(dbg.txt, $sql);
+        
+        $results = $conn->query($sql);
+
+        return $results;
+    }
 
     public function update($conn)
     {

@@ -9,12 +9,14 @@ $conn = require 'includes/db.php';
 //$u_cur_group_id = Auth::getUserGroup();
 //$cur_user = Auth::getUser();
 $cur_user_id = $cur_user->id;
+$cur_user_can_manaage_job = $cur_user->can_manaage_job;
 ?>
 
 
 
 <?php 
-$userTechnic = User::getAllbyTeachien($conn);   //2000 2100 2200 
+$userTechnic = User::getAllbyNB($conn);   //2000 2100 2200 
+
 $jobRoles = JobRole::getAll($conn);
 $patient[0]['id'] = 0;
 $patient[0]['pnum'] = "TBD";
@@ -41,13 +43,16 @@ $patient[0]['pnum'] = "TBD";
     <div class="container-fluid pt-4 px-4">
         <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
             
-           <h1 align="center"><span id="">หน้านี้กำลังพัฒนา ยังไม่พร้อมใช้งาน</span></h1>
            <h1 align="center"><span id="">หน้าลงเวลาผู้ช่วยตัดเนื้อ</span></h1>
            <h3 align="center"><span id="title_page_message">กำลังแสดงจากข้อมูลย้อนหลัง 1 เดือน</span></h3>
            <div>
+               <input type="checkbox" id="disable_popup" name="disable_popup" value="" >
+               <label for="vehicle1"> Disable Warning POP UP </label><br>
+           </div>
+           <div>
                 <div class="<?= $isBorder ? "border" : "" ?> ">
                     <label for="p_cross_section_id_job2"  class="form-label">เลือกพนักงานช่วยตัดเนื้อที่ต้องการจะลงเวลา</label>
-                    <select name="p_cross_section_id_job2" id="p_cross_section_id_job2" class="form-select"  >
+                    <select name="p_cross_section_id_job2" id="p_cross_section_id_job2" class="form-select"  <?= ( $isCurUserAdmin || ($cur_user_can_manaage_job == 1) ) ? "" : " disabled readonly " ?>>
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userTechnic as $user): ?>
                             <?php if($user['user_status'] == 1): ?>
@@ -145,11 +150,19 @@ $patient[0]['pnum'] = "TBD";
     var skey = "<?= $_SESSION["skey"] ?>";
     let cur_user_id = "<?= $_SESSION["userid"] ?>";
     let job_role_id = 2;
+    let isCurUserAdmin = "<?= $isCurUserAdmin?'1':'0' ?>";
+    let cur_user_can_manaage_job = "<?= $cur_user_can_manaage_job ?>";
+
     
     var domain = "<?= Url::currentURL() ?>";
     
     $(document).ready(function () {
 
+
+    console.log('isCurUserAdmin::'+isCurUserAdmin);
+    console.log('cur_user_can_manaage_job::'+cur_user_can_manaage_job);
+    
+    
     function processDoc(doc) {
         //
         // https://pdfmake.github.io/docs/fonts/custom-fonts-client-side/
@@ -361,14 +374,11 @@ $patient[0]['pnum'] = "TBD";
         {
             "render": function (data, type, row) {
                 let patient_id = row[0];
-                let sn = row[1];
-                let hn = row[2];
-                let qty  = row[11];
 
                 let renderdata = '<span id="qty_'+patient_id+'" >'+row[11]+'</span>';//<span id="qty_99"></span>
                 
                 //renderdata += '<a  onclick="opend('+patient_id+','+hn+');"  class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Edit</a>';
-                renderdata += '<a type="button" onclick="setTargetPatient_id('+patient_id+',\''+sn+'\',\''+hn+'\','+qty+');" class="btn btn-outline-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editQtyModal"><i class="fa-solid fa-marker"></i> edit </a>';
+                
                 return renderdata;
             },
             "targets": 11
@@ -376,11 +386,23 @@ $patient[0]['pnum'] = "TBD";
         {
             "render": function (data, type, row) {
                 let renderdata = '';
+                
+                let sn = row[1];
+                let hn = row[2];
+                let qty  = row[11];
+
+                
                 let patient_id = row[0];
                 let patient_number = row[1];
-                let hn = row[2];
-                renderdata += '<a  onclick="finishJob2ByPatientId('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Finished Job</a>';
-
+ 
+                renderdata += '<a type="button"  onclick="setTargetPatient_id('+patient_id+',\''+sn+'\',\''+hn+'\','+qty+');" class="btn btn-outline-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editQtyModal"><i class="fa-solid fa-marker"></i> edit Qty </a>';
+                renderdata += '<a id="finish_btn_'+patient_id+'"  onclick="finishJob2ByPatientId('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Add One</a>';
+                renderdata += '<a id="remove_btn_'+patient_id+'"  onclick="removeJob2ByPatientId('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Remove One</a>';
+                if(isCurUserAdmin=='1' || cur_user_can_manaage_job == '1' ){
+                    renderdata += '<a id="remove_all_btn_'+patient_id+'"  onclick="removeJob2ByPatientIdAll('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Remove All</a>';
+                }else{
+                     renderdata += '<a class="btn btn-outline-primary btn-sm me-1 edit disabled"><i class="fa-solid fa-marker"></i>Remove All</a>';
+                }
                 return renderdata;
             },
             "targets": 13
@@ -448,10 +470,29 @@ $patient[0]['pnum'] = "TBD";
 
 });
 
-//on click button delete for seleced specimen list bill in main page
+
 function finishJob2ByPatientId(patient_id,patient_number,hn) {
     
-    if( confirm("Please confirm finish job for patient id = "+patient_id+" ?")){
+    let value = $('#p_cross_section_id_job2 option').filter(':selected').attr('value');
+    let txt = $('#p_cross_section_id_job2 option').filter(':selected').text();
+    if (value == "0" || value == 0) {
+        alert("ยังไม่ได้เลือกคนที่ต้องการจะลงเวลา");
+        return null;
+    }
+    
+//    if(!$('#disable_popup').is(':checked')){
+////        alert('checked');
+//    }else{
+////        alert('uncheck');
+//    }
+    
+    if(!$('#disable_popup').is(':checked')){
+        if( confirm("Please confirm to add "+txt+" to patient number = "+patient_number+" ?")){
+
+        }else{
+           return null;
+        }
+    }
 
 //        alert("cur_user_id="+cur_user_id+"job_role_id="+job_role_id+"patient_id="+patient_id);
         //SELECT * FROM `job` WHERE `job_role_id` = 2 ORDER BY `id` DESC
@@ -463,7 +504,7 @@ function finishJob2ByPatientId(patient_id,patient_number,hn) {
         //alert("start ajax");
     
 
-    var value = $('#p_cross_section_id_job2 option').filter(':selected').attr('value');
+
     var job_role_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('job_role_id');
 //    var patient_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_id');
     var patient_id = patient_id;
@@ -500,10 +541,7 @@ function finishJob2ByPatientId(patient_id,patient_number,hn) {
     }
     
 
-    if (value == "0" || value == 0) {
-        alert("ยังไม่ได้เลือกคนที่ต้องการจะลงเวลา");
-        return null;
-    }
+
 
     $.ajax({
         'async': false,
@@ -535,13 +573,272 @@ function finishJob2ByPatientId(patient_id,patient_number,hn) {
             alert('Exception:', exception);
         }
     });
+    
+    let cur_finish_btn_id = '#finish_btn_' + patient_id;
+    
+    $(cur_finish_btn_id).removeClass();
+    //btn btn-sm me-1 edit btn-dark disabled
+    $(cur_finish_btn_id).addClass("btn");
+    $(cur_finish_btn_id).addClass("btn-sm");
+    $(cur_finish_btn_id).addClass("me-1");
+    $(cur_finish_btn_id).addClass("edit");
+    $(cur_finish_btn_id).addClass("btn-dark");
+    $(cur_finish_btn_id).addClass("disabled");
 
-    alert('Finish Added.');
-
-
-    }else{
-       
+    if(!$('#disable_popup').is(':checked')){
+        alert('Finish Added, Refresh page to see result');
     }
+
+
+
+}
+
+
+function removeJob2ByPatientId(patient_id,patient_number,hn) {
+    
+    let value = $('#p_cross_section_id_job2 option').filter(':selected').attr('value');
+    let txt = $('#p_cross_section_id_job2 option').filter(':selected').text();
+//    alert(txt);
+    if (value == "0" || value == 0) {
+        alert("ยังไม่ได้เลือกคนที่ต้องการจะลงเวลา");
+        return null;
+    }
+    
+    if(!$('#disable_popup').is(':checked')){
+//        alert('checked');
+    }else{
+//        alert('uncheck');
+    }
+    
+    if(!$('#disable_popup').is(':checked')){
+        if( confirm("Please confirm remove "+txt+" from patient number = "+patient_number+" ?")){
+
+        }else{
+           return null;
+        }
+    }
+    
+    
+//        alert("cur_user_id="+cur_user_id+"job_role_id="+job_role_id+"patient_id="+patient_id);
+        //SELECT * FROM `job` WHERE `job_role_id` = 2 ORDER BY `id` DESC
+
+
+   
+        
+        
+        //alert("start ajax");
+    
+
+
+    var job_role_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('job_role_id');
+//    var patient_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_id');
+    var patient_id = patient_id;
+//    var patient_number = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_number');
+    var patient_number = patient_number;
+    if(hn==null){
+        hn='';
+    }
+    var user_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('user_id');
+    var pre_name = $('#p_cross_section_id_job2 option').filter(':selected').attr('pre_name');
+    var name = $('#p_cross_section_id_job2 option').filter(':selected').attr('name');
+    var lastname = $('#p_cross_section_id_job2 option').filter(':selected').attr('lastname');
+    var jobname = $('#p_cross_section_id_job2 option').filter(':selected').attr('jobname');
+    var pay = $('#p_cross_section_id_job2 option').filter(':selected').attr('pay');
+    var cost_count_per_day = $('#p_cross_section_id_job2 option').filter(':selected').attr('cost_count_per_day');
+    var comment = $('#p_cross_section_id_job2 option').filter(':selected').attr('comment');
+    
+    var printdbg = true;
+    if (printdbg) {
+        console.log("==============");
+        console.log("value::" + value);
+        console.log("job_role_id::" + job_role_id);
+        console.log("patient_id::" + patient_id);
+        console.log("patient_number::" + patient_number);
+        console.log("user_id::" + user_id);
+        console.log("pre_name::" + pre_name);
+        console.log("name::" + name);
+        console.log("lastname::" + lastname);
+        console.log("jobname::" + jobname);
+        console.log("pay::" + pay);
+        console.log("cost_count_per_day::" + cost_count_per_day);
+        console.log("comment::" + comment);
+        console.log("==============");
+    }
+    
+
+
+
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: 'ajax_job2_finish/job2_remove_btn.php',
+        data: {
+            'job_role_id': job_role_id,
+            'patient_id': patient_id,
+            'patient_number': patient_number,
+            'user_id': user_id,
+            'pre_name': pre_name,
+            'name': name,
+            'lastname': lastname,
+            'jobname': jobname,
+            'pay': pay,
+            'cost_count_per_day': cost_count_per_day,
+            'comment': comment,
+
+        },
+        success: function (data) {
+            console.log(data);
+//            repaintTbljob2(data);
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+    
+    let cur_remove_btn_id = '#remove_btn_' + patient_id;
+    
+    $(cur_remove_btn_id).removeClass();
+    //btn btn-sm me-1 edit btn-dark disabled
+    $(cur_remove_btn_id).addClass("btn");
+    $(cur_remove_btn_id).addClass("btn-sm");
+    $(cur_remove_btn_id).addClass("me-1");
+    $(cur_remove_btn_id).addClass("edit");
+    $(cur_remove_btn_id).addClass("btn-dark");
+    $(cur_remove_btn_id).addClass("disabled");
+
+    if(!$('#disable_popup').is(':checked')){
+        alert('Finish Removed, Refresh page to see result.');
+    }
+
+
+
+}
+
+function removeJob2ByPatientIdAll(patient_id,patient_number,hn) {
+    
+    let value = $('#p_cross_section_id_job2 option').filter(':selected').attr('value');
+    let txt = $('#p_cross_section_id_job2 option').filter(':selected').text();
+//    alert(txt);
+//    if (value == "0" || value == 0) {
+//        alert("ยังไม่ได้เลือกคนที่ต้องการจะลงเวลา");
+//        return null;
+//    }
+    
+    if(!$('#disable_popup').is(':checked')){
+//        alert('checked');
+    }else{
+//        alert('uncheck');
+    }
+    
+    if(!$('#disable_popup').is(':checked')){
+        if( confirm("Please confirm remove all from patient number = "+patient_number+" ?")){
+
+        }else{
+           return null;
+        }
+    }
+
+    
+//        alert("cur_user_id="+cur_user_id+"job_role_id="+job_role_id+"patient_id="+patient_id);
+        //SELECT * FROM `job` WHERE `job_role_id` = 2 ORDER BY `id` DESC
+
+
+   
+        
+        
+        //alert("start ajax");
+    
+
+
+    var job_role_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('job_role_id');
+//    var patient_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_id');
+    var patient_id = patient_id;
+//    var patient_number = $('#p_cross_section_id_job2 option').filter(':selected').attr('patient_number');
+    var patient_number = patient_number;
+    if(hn==null){
+        hn='';
+    }
+    var user_id = $('#p_cross_section_id_job2 option').filter(':selected').attr('user_id');
+    var pre_name = $('#p_cross_section_id_job2 option').filter(':selected').attr('pre_name');
+    var name = $('#p_cross_section_id_job2 option').filter(':selected').attr('name');
+    var lastname = $('#p_cross_section_id_job2 option').filter(':selected').attr('lastname');
+    var jobname = $('#p_cross_section_id_job2 option').filter(':selected').attr('jobname');
+    var pay = $('#p_cross_section_id_job2 option').filter(':selected').attr('pay');
+    var cost_count_per_day = $('#p_cross_section_id_job2 option').filter(':selected').attr('cost_count_per_day');
+    var comment = $('#p_cross_section_id_job2 option').filter(':selected').attr('comment');
+    
+    var printdbg = true;
+    if (printdbg) {
+        console.log("==============");
+        console.log("value::" + value);
+        console.log("job_role_id::" + job_role_id);
+        console.log("patient_id::" + patient_id);
+        console.log("patient_number::" + patient_number);
+        console.log("user_id::" + user_id);
+        console.log("pre_name::" + pre_name);
+        console.log("name::" + name);
+        console.log("lastname::" + lastname);
+        console.log("jobname::" + jobname);
+        console.log("pay::" + pay);
+        console.log("cost_count_per_day::" + cost_count_per_day);
+        console.log("comment::" + comment);
+        console.log("==============");
+    }
+    
+
+
+
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: 'ajax_job2_finish/job2_remove_all_btn.php',
+        data: {
+            'job_role_id': job_role_id,
+            'patient_id': patient_id,
+            'patient_number': patient_number,
+            'user_id': user_id,
+            'pre_name': pre_name,
+            'name': name,
+            'lastname': lastname,
+            'jobname': jobname,
+            'pay': pay,
+            'cost_count_per_day': cost_count_per_day,
+            'comment': comment,
+
+        },
+        success: function (data) {
+            console.log(data);
+//            repaintTbljob2(data);
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+    
+    let cur_remove_all_btn_id = '#remove_all_btn_' + patient_id;
+    
+    $(cur_remove_all_btn_id).removeClass();
+    //btn btn-sm me-1 edit btn-dark disabled
+    $(cur_remove_all_btn_id).addClass("btn");
+    $(cur_remove_all_btn_id).addClass("btn-sm");
+    $(cur_remove_all_btn_id).addClass("me-1");
+    $(cur_remove_all_btn_id).addClass("edit");
+    $(cur_remove_all_btn_id).addClass("btn-dark");
+    $(cur_remove_all_btn_id).addClass("disabled");
+
+    if(!$('#disable_popup').is(':checked')){
+        alert('Finish Removed All, Refresh page to see result.');
+    }
+
+
 
 }
 

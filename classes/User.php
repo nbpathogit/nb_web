@@ -22,6 +22,16 @@ class User
     public $short_name;
     public $educational_bf;
     public $role;
+    
+    public $role_1;
+    public $role_2;
+    public $role_3;
+    public $role_4;
+    public $role_5;
+    public $role_6;
+    public $role_7;
+    public $can_manaage_job;
+    
     public $udetail;
     public $umobile;
     public $uemail;
@@ -161,6 +171,29 @@ class User
                 (U.ugroup_id = 2000 
                 or U.ugroup_id = 2100
                 or U.ugroup_id = 2200
+                or U.id = 0 )
+                and U.movetotrash = 0 
+                ORDER BY U.id ASC";
+
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAllbyNB($conn)
+    {
+        $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
+                FROM user U
+                JOIN user_groups G
+                JOIN hospital H
+                WHERE U.ugroup_id  = G.id
+                and U.uhospital_id  = H.id
+                and 
+                (U.ugroup_id = 2000 
+                or U.ugroup_id = 2100
+                or U.ugroup_id = 2200
+                or U.ugroup_id = 2500
                 or U.id = 0 )
                 and U.movetotrash = 0 
                 ORDER BY U.id ASC";
