@@ -13,6 +13,7 @@
 
         </td>
         <td width="25%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right"><!-- comment -->
+            <span style="font-size:20pt;"><b><surgical_number></b></span>
             <span style="font-size:12pt;"><b>Email:nbpathologyplk@gmail.com</b></span>
             <span style="font-size:12pt;"><b>Tel:064-3545-283</b></span>
             
@@ -50,8 +51,8 @@
             <table width="100%" style=" border: 1px solid green;    border-collapse: collapse;">
                 <tr>
                     <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Pathologist :</b> <signedpatho></span></td>
-                    <td width="18%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b></b></span></td>
-                    <td width="38%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b></b></span></td>
+                    <td width="40%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt; "><b>Date Received :</b> <date_1000></span></td>
+                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b></b></span></td>
                     <td width=""    align="left" style="border: 1px solid green;  border-collapse: collapse; border-bottom: 1px solid black;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b></b></span></td>
                 </tr>
             </table>
