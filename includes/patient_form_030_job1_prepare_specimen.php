@@ -55,15 +55,15 @@ $isBorder = false;
 <div class="row <?= $isBorder ? "border" : "" ?>"></div>
 <p align="left">
     
-    <b>พนักงานตัดเนื้อ:</b>
+    <b>พนักงานตัดเนื้อ(PA):</b>
     <span id="owner_job1" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
         <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
     </span>  
 
-    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#add_modal_job1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
-    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job1" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
+    <a class="btn btn-outline-primary btn-sm me-1 disabled" data-bs-toggle="modal"  data-bs-target="#add_modal_job1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+    <a class="btn btn-outline-primary btn-sm me-1 disabled"  id="refresh_job1" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job1" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
     
 <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job1"> เพิ่มพนักงานตัดเนื้อ </button>-->

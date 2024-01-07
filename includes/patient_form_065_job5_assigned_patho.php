@@ -26,7 +26,7 @@ $isBorder = false;
 </h5>-->
 <p align="left">
     
-    <b>พยาธิแพทย์ผู้ออกผล(PA):</b>
+    <b>พยาธิแพทย์ผู้ออกผล(Pathologist):</b>
     <span id="owner_job5" class="owner_job5" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
         <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>

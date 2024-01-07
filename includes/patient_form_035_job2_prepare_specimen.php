@@ -20,8 +20,8 @@ $isBorder = false;
         <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
     </span>  
 
-    <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#add_modal_job2" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
-    <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_job2" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
+    <a class="btn btn-outline-primary btn-sm me-1 disabled" data-bs-toggle="modal"  data-bs-target="#add_modal_job2" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+    <a class="btn btn-outline-primary btn-sm me-1 disabled"  id="refresh_job2" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
     <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job2" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
     
 <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal_job1"> เพิ่มพนักงานตัดเนื้อ </button>-->

@@ -13,7 +13,7 @@
 
 <p align="left">
     
-    <b>พนักงานเตรียมสไลด์พิเศษ:</b>
+    <b>พนักงานเตรียมสไลด์พิเศษ(ไม่จำเป็นต้องใส่ข้อมูล):</b>
     <span id="owner_job4" style="font-size:20px">
         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>

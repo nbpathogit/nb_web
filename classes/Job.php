@@ -196,6 +196,25 @@ class Job
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public static function getSlidePreparation($conn, $patient_id = 0)
+    {
+        $sql = "SELECT * FROM `job` ";
+
+        $sql = $sql . " WHERE 1=1 ";
+
+
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        $sql = $sql . " and job_role_id = 3";
+
+        $sql = $sql . " ORDER BY id";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     //
     public static function getByPatientJobRole($conn, $patient_id = 0, $jobrole_id = 0)
@@ -267,6 +286,18 @@ class Job
         return $stmt->execute();
     }
     
+    public static function deleteJob1($conn, $patient_id,$user_id)
+    {
+
+        $sql = "DELETE FROM `job` WHERE patient_id = $patient_id and user_id=$user_id and job_role_id = 1";
+
+//        Util::writeFile(dbg.txt, $sql);
+        
+        $results = $conn->query($sql);
+
+        return $results;
+    }
+    
     public static function deleteJob2($conn, $patient_id,$user_id)
     {
 
@@ -279,10 +310,47 @@ class Job
         return $results;
     }
     
+    public static function deleteJob3($conn, $patient_id,$user_id)
+    {
+
+        $sql = "DELETE FROM `job` WHERE patient_id = $patient_id and user_id=$user_id and job_role_id = 3";
+
+//        Util::writeFile(dbg.txt, $sql);
+        
+        $results = $conn->query($sql);
+
+        return $results;
+    }
+    
+    
+    public static function deleteAllJob1($conn, $patient_id)
+    {
+
+        $sql = "DELETE FROM `job` WHERE patient_id = $patient_id and job_role_id = 1";
+
+//        Util::writeFile(dbg.txt, $sql);
+        
+        $results = $conn->query($sql);
+
+        return $results;
+    }
+    
     public static function deleteAllJob2($conn, $patient_id)
     {
 
         $sql = "DELETE FROM `job` WHERE patient_id = $patient_id and job_role_id = 2";
+
+//        Util::writeFile(dbg.txt, $sql);
+        
+        $results = $conn->query($sql);
+
+        return $results;
+    }
+    
+    public static function deleteAllJob3($conn, $patient_id)
+    {
+
+        $sql = "DELETE FROM `job` WHERE patient_id = $patient_id and job_role_id = 3";
 
 //        Util::writeFile(dbg.txt, $sql);
         
@@ -418,6 +486,19 @@ class Job
         return $stmt->execute();
     }
     
+    public static function setJob1Qty($conn, $patient_id, $job1qty) {
+        $sql = "UPDATE `job` 
+                SET `qty` = :job1qty
+                WHERE  patient_id = :patient_id and job_role_id = 1 ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':job1qty', $job1qty, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
     public static function setJob2Qty($conn, $patient_id, $job2qty) {
         $sql = "UPDATE `job` 
                 SET `qty` = :job2qty
@@ -427,6 +508,19 @@ class Job
 
         $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
         $stmt->bindValue(':job2qty', $job2qty, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
+    public static function setJob3Qty($conn, $patient_id, $job3qty) {
+        $sql = "UPDATE `job` 
+                SET `qty` = :job3qty
+                WHERE  patient_id = :patient_id and job_role_id = 3 ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':job3qty', $job3qty, PDO::PARAM_INT);
 
         return $stmt->execute();
     }

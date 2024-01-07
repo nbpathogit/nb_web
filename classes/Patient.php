@@ -1045,6 +1045,53 @@ class Patient {
         return $stmt->execute();
     }
 
+        public static function getAllJob1FinishPhp($conn, $id = 0, $start = '0', $end = '0') {
+
+        $sql = "
+                SELECT 
+                p.id as pid,
+                p.pnum as p_pnum, 
+                p.phospital_num as p_hn, 
+                
+                DATE(p.date_1000) as p_accept,
+                CONCAT(p.ppre_name,  p.pname, ' ', p.plastname) AS p_patient ,
+
+                j.id as j_id , 
+                j.patient_id as j_patient_id, 
+                j.user_id as j_user_id, 
+                j.job_role_id as j_job_role_id, 
+                j.jobname as j_jobname,
+                j.qty as j_qty,
+                p.job1qty as p_job1qty,
+
+                GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
+                DATE(j.finish_date) as j_finish_date
+
+                        FROM patient as p
+                        LEFT JOIN (select * from job where job.job_role_id=1) as j
+                        ON j.patient_id = p.id ";
+        if ($start != '0') {
+            $sql .= " WHERE p.date_1000 > '{$start}' ";
+        }
+        if ($end != '0') {
+            $sql .= " AND p.date_1000 < '{$end}' ";
+        }
+        $sql .= " AND p.movetotrash = 0 ";
+        $sql .= " GROUP by p.id ";
+        $sql .= " ORDER BY p.id DESC ";
+        
+//        $myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
+//        fwrite($myfile,  $sql);
+//        fclose($myfile);
+//        Util::writeFile('dbg.txt', $sql);
+        
+
+        $results = $conn->query($sql);
+        $rs = $results->fetchAll(PDO::FETCH_ASSOC);
+        return  $rs;
+    }
+    
+    
     public static function getAllJob2FinishPhp($conn, $id = 0, $start = '0', $end = '0') {
 
         $sql = "
@@ -1091,6 +1138,64 @@ class Patient {
     }
     
     
+    public static function getAllJob3FinishPhp($conn, $id = 0, $start = '0', $end = '0') {
+
+        $sql = "
+                SELECT 
+                p.id as pid,
+                p.pnum as p_pnum, 
+                p.phospital_num as p_hn, 
+                
+                DATE(p.date_1000) as p_accept,
+                CONCAT(p.ppre_name,  p.pname, ' ', p.plastname) AS p_patient ,
+
+                j.id as j_id , 
+                j.patient_id as j_patient_id, 
+                j.user_id as j_user_id, 
+                j.job_role_id as j_job_role_id, 
+                j.jobname as j_jobname,
+                j.qty as j_qty,
+                p.job3qty as p_job3qty,
+
+                GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
+                DATE(j.finish_date) as j_finish_date
+
+                        FROM patient as p
+                        LEFT JOIN (select * from job where job.job_role_id=3) as j
+                        ON j.patient_id = p.id ";
+        if ($start != '0') {
+            $sql .= " WHERE p.date_1000 > '{$start}' ";
+        }
+        if ($end != '0') {
+            $sql .= " AND p.date_1000 < '{$end}' ";
+        }
+        $sql .= " AND p.movetotrash = 0 ";
+        $sql .= " GROUP by p.id ";
+        $sql .= " ORDER BY p.id DESC ";
+        
+//        $myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
+//        fwrite($myfile,  $sql);
+//        fclose($myfile);
+        
+
+        $results = $conn->query($sql);
+        $rs = $results->fetchAll(PDO::FETCH_ASSOC);
+        return  $rs;
+    }
+    
+    public static function setJob1Qty($conn, $patient_id, $job1qty) {
+        $sql = "UPDATE patient
+                SET job1qty = :job1qty
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':job1qty', $job1qty, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
     
     public static function setJob2Qty($conn, $patient_id, $job2qty) {
         $sql = "UPDATE patient
@@ -1104,6 +1209,20 @@ class Patient {
 
         return $stmt->execute();
     }
+    
+    public static function setJob3Qty($conn, $patient_id, $job3qty) {
+        $sql = "UPDATE patient
+                SET job3qty = :job3qty
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $patient_id, PDO::PARAM_INT);
+        $stmt->bindValue(':job3qty', $job3qty, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
 
 }
 
