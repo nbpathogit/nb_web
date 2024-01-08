@@ -24,6 +24,13 @@ class Util {
         fwrite($myfile, $text);
         fclose($myfile);
     }
+    
+    public static function writeFileSpecificPath($fileName,$text){
+
+        $myfile = fopen($fileName, "w") or die("Unable to open file!");
+        fwrite($myfile, $text);
+        fclose($myfile);
+    }
 
     public static function Convert($amount_number) {
         //str_replace(find,replace,string,count)

@@ -266,7 +266,11 @@ $mpdf->SetDisplayMode('fullwidth');
 $mpdf->shrink_tables_to_fit = 1;
 
 
+$txtWriteOut = "";
+
 $header = file_get_contents('pdf_result/patient_format_header_pdf.php');
+$header_txt = file_get_contents('pdf_result/patient_format_header_pdf_txt.php');
+
 if ($hideTable) {
     $header = str_replace("border: 1px solid green;", "", $header);
     $header = str_replace("border: 1px solid red;", "", $header);
@@ -302,12 +306,32 @@ $header = str_replace("<pedge>", $patient[0]['pedge'], $header);
 $header = str_replace("<plabnum>", $patient[0]['plabnum'], $header);
 $header = str_replace("<phospital_num>", $patient[0]['phospital_num'], $header);
 $header = str_replace("<pclinician>", $clinician[0]['name'], $header);
-//$header = str_replace("<ward>"           ,"", $header);
+$header = str_replace("<ward>"           ,"", $header);
 $header = str_replace("<hospital>", $hospital[0]['hospital'], $header);
 $header = str_replace("<date_1000>", $patient[0]['date_1000'], $header);
-//$header = str_replace("<an_name>"          ,$patient[0][''], $header);
+$header = str_replace("<an_name>"          ,'', $header);
 $header = str_replace("<date_first_report>", $patient[0]['date_20000'], $header);
+
+
+$header_txt = str_replace("<PATHOLOGY_REPORT>", $titleName, $header_txt);
+
+$header_txt = str_replace("<pname>", $preName . $patient[0]['pname'], $header_txt);
+$header_txt = str_replace("<plastname>", $patient[0]['plastname'], $header_txt);
+$header_txt = str_replace("<surgical_number>", $patient[0]['pnum'], $header_txt);
+$header_txt = str_replace("<pg>", $pgender, $header_txt);
+$header_txt = str_replace("<pedge>", $patient[0]['pedge'], $header_txt);
+$header_txt = str_replace("<plabnum>", $patient[0]['plabnum'], $header_txt);
+$header_txt = str_replace("<phospital_num>", $patient[0]['phospital_num'], $header_txt);
+$header_txt = str_replace("<pclinician>", $clinician[0]['name'], $header_txt);
+$header_txt = str_replace("<ward>"           ,"", $header_txt);
+$header_txt = str_replace("<hospital>", $hospital[0]['hospital'], $header_txt);
+$header_txt = str_replace("<date_1000>", $patient[0]['date_1000'], $header_txt);
+$header_txt = str_replace("<an_name>"          ,'', $header_txt);
+$header_txt = str_replace("<date_first_report>", $patient[0]['date_20000'], $header_txt);
+
+
 $mpdf->SetHTMLHeader($header);
+$txtWriteOut .= $header_txt;
 
 $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
 $mpdf->SetHTMLFooter($footer);
@@ -344,17 +368,23 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 
 
                 $u_result3 = file_get_contents('pdf_result/patient_format_result_pdf_3.php');
+                $u_result3_txt = file_get_contents('pdf_result/patient_format_result_pdf_3_txt.php');
+                
                 if ($hideTable) {
                     $u_result3 = str_replace("border: 1px solid green;", "", $u_result3);
                 }
                 $u_result3 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result3);
+                $u_result3_txt = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result3_txt);
                 $u_result3 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result3);
+                $u_result3_txt = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result3_txt);
 //            $result_message = htmlspecialchars($prsu['result_message']);
                 $result_message = ($prsu['result_message']);
+                $result_message_txt = $result_message;
                 $result_message = str_replace("\n", "<br>", $result_message);
 //            $result_message = str_replace(" ", "&nbsp;", $result_message);
                 $result_message = Util::space2nbsp($result_message);
                 $u_result3 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result3);
+                $u_result3_txt = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message_txt : "", $u_result3_txt);
                 //            if ($prsu['pathologist2_id'] != 0) {
                 if ($isGroup3SecondPathoAval) {
                     //$confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
@@ -368,6 +398,7 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
                     //$u_result3 = str_replace("<confirm_message>", "", $u_result3);
                 }
                 $mpdf->WriteHTML($u_result3);
+                $txtWriteOut .= $u_result3_txt;
                 if ($count_presultupdate3s == $key+1) {
                     //
                     $i = $i + 1;
@@ -388,31 +419,41 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
         
     }
 
-    $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');// CSS 
+    $signature = file_get_contents('pdf_result/patient_format_signature_pdf_0.php');// CSS 
+    $signature_txt = file_get_contents('pdf_result/patient_format_signature_pdf_0_txt.php');// CSS 
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_1.php');// Table open with Blank
+    $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_pdf_1_txt.php');// Table open with Blank
     if ($patient[0]['iscritical'] == 1) {
         $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_2.php'); // Inform as critical report in Red
+        $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_pdf_2_txt.php'); // Inform as critical report in Red
     }
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_3.php');// Table close with Blank
+    $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_pdf_3_txt.php');// Table close with Blank
 
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_cytologist.php');// Digital signed Cytologist
+    $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_digital_pdf_cytologist_txt.php');// Digital signed Cytologist
+    
     $signature = str_replace("<signedcyto>", $signedcytologist, $signature);
+    $signature_txt = str_replace("<signedcyto>", $signedcytologist, $signature_txt);
     // If second pathologist confirm
     if($isGroup3SecondPathoAval){
         $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_Secondpatho.php');// Digital signed by Second patho
+        $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_digital_pdf_Secondpatho_txt.php');// Digital signed by Second patho
         $signature = str_replace("<signedpatho>", $signedSecondPatho, $signature);
+        $signature_txt = str_replace("<signedpatho>", $signedSecondPatho, $signature_txt);
     }
     
     
     
     $signature = str_replace("<release_time>", $release_time, $signature);
+    $signature_txt = str_replace("<release_time>", $release_time, $signature_txt);
 
     if ($hideTable) {
         $signature = str_replace("border: 1px solid green;", "", $signature);
         $signature = str_replace("border: 1px solid red;", "", $signature);
     }
     $mpdf->WriteHTML($signature);
-
+    $txtWriteOut .= $signature_txt;
     
     
     
@@ -445,17 +486,22 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 
 
                 $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_2.php');
+                $u_result2_txt = file_get_contents('pdf_result/patient_format_result_pdf_2_txt.php');
                 if ($hideTable) {
                     $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
                 }
                 $u_result2 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2);
+                $u_result2_txt = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2_txt);
                 $u_result2 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2);
+                $u_result2_txt = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2_txt);
 //            $result_message = htmlspecialchars($prsu['result_message']);
                 $result_message = ($prsu['result_message']);
+                $result_message_txt = $result_message;
                 $result_message = str_replace("\n", "<br>", $result_message);
 //            $result_message = str_replace(" ", "&nbsp;", $result_message);
                 $result_message = Util::space2nbsp($result_message);
                 $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result2);
+                $u_result2_txt = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message_txt : "", $u_result2_txt);
                 //            if ($prsu['pathologist2_id'] != 0) {
                 if ($isGroup2SecondPathoAval) {
                     $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
@@ -464,10 +510,13 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
                     //            var_dump($confirm_msg);
                     //            die();
                     $u_result2 = str_replace("<confirm_message>", $confirm_msg, $u_result2);
+                    $u_result2_txt = str_replace("<confirm_message>", $confirm_msg, $u_result2_txt);
                 } else {
                     $u_result2 = str_replace("<confirm_message>", "", $u_result2);
+                    $u_result2_txt = str_replace("<confirm_message>", "", $u_result2_txt);
                 }
                 $mpdf->WriteHTML($u_result2);
+                $txtWriteOut .= $u_result2_txt;
                 if ($i == 0) {
                     //
                     $i = $i + 1;
@@ -503,17 +552,23 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
             }
 
             $u_result2 = file_get_contents('pdf_result/patient_format_result_pdf_1.php');
+            $u_result2_txt = file_get_contents('pdf_result/patient_format_result_pdf_1_txt.php');
             if ($hideTable) {
                 $u_result2 = str_replace("border: 1px solid green;", "", $u_result2);
+                $u_result2_txt = str_replace("border: 1px solid green;", "", $u_result2_txt);
             }
             $u_result2 = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2);
+            $u_result2_txt = str_replace("<result_type>", isset($prsu['result_type']) ? $prsu['result_type'] : "", $u_result2_txt);
             $u_result2 = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2);
+            $u_result2_txt = str_replace("<result_date>", isset($prsu['release_time']) ? $prsu['release_time'] : "", $u_result2_txt);
 //        $result_message = htmlspecialchars($prsu['result_message']);
             $result_message = ($prsu['result_message']);
+            $result_message_txt = $result_message;
             $result_message = str_replace("\n", "<br>", $result_message);
 //        $result_message = str_replace(" ", "&nbsp;", $result_message);
             $result_message = Util::space2nbsp($result_message);
             $u_result2 = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message : "", $u_result2);
+            $u_result2_txt = str_replace("<result_message>", isset($prsu['result_message']) ? $result_message_txt : "", $u_result2_txt);
             if ($prsu['pathologist2_id'] != 0) {
                 $confirm_msg = "<br>NOTE: According to the first diagnosis of malignancy, this case was discussed with the second pathologist";
                 $secondPatho = User::getByID($conn, $prsu['pathologist2_id']);
@@ -521,40 +576,53 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 //            var_dump($confirm_msg);
 //            die();
                 $u_result2 = str_replace("<confirm_message>", $confirm_msg, $u_result2);
+                $u_result2_txt = str_replace("<confirm_message>", $confirm_msg, $u_result2_txt);
             } else {
                 $u_result2 = str_replace("<confirm_message>", "", $u_result2);
+                $u_result2_txt = str_replace("<confirm_message>", "", $u_result2_txt);
             }
 
             $mpdf->WriteHTML($u_result2);
+            $txtWriteOut .= $u_result2_txt;
         }
     } else {
         
     }
 
 
-    $signature = file_get_contents('pdf_result/patient_format_signature_pdf.php');// CSS 
+    $signature = file_get_contents('pdf_result/patient_format_signature_pdf_0.php');// CSS 
+    $signature_txt = file_get_contents('pdf_result/patient_format_signature_pdf_0_txt.php');// CSS 
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_1.php');// Table open with Blank
+    $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_pdf_1_txt.php');// Table open with Blank
     if ($patient[0]['iscritical'] == 1) {
         $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_2.php'); // Inform as critical report in Red
+        $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_pdf_2_txt.php'); // Inform as critical report in Red
     }
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_3.php');// Table close with Blank
+    $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_pdf_3_txt.php');// Table close with Blank
 
-    $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf.php');// Digital signed patho
+    $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_a.php');// Digital signed patho
+    $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_digital_pdf_a_txt.php');// Digital signed patho
 
     $signature = str_replace("<signedpatho>", $signedpatho, $signature);
+    $signature_txt = str_replace("<signedpatho>", $signedpatho, $signature_txt);
     $signature = str_replace("<release_time>", $release_time, $signature);
+    $signature_txt = str_replace("<release_time>", $release_time, $signature_txt);
 
     if ($hideTable) {
         $signature = str_replace("border: 1px solid green;", "", $signature);
         $signature = str_replace("border: 1px solid red;", "", $signature);
     }
     $mpdf->WriteHTML($signature);
+    $txtWriteOut .= $signature_txt;
 
 //die();
 }
-//==END NON PN type =====================================================================================================================================
-//
-//
+//==END NON PN/LN type =====================================================================================================================================
+
+
+
+//========CREATE AND Generate report file following th option send=================
 //$mpdf->Output();
 //$pdfOutputOption
 //'D': download the PDF file
@@ -580,15 +648,18 @@ $reportFileNameFormat2 = str_replace(' ', '-', $reportFileNameFormat2);
 if ($pdfOutputOption == 'F') {
 
     if ($requestFrom == 'patient_edit_php') { // Generate and keep on server
+    // 
+        //=====================================================================================================================
         //=================== Create Variable to keep Folder file for store report file========================================
+        //=====================================================================================================================
+       
         $targetFolderRelease1 = './release1';
 
         $pdffilepath = $targetFolderRelease1 . '/' . $reportFileName . '.pdf';
+        $txtfilepath = $targetFolderRelease1 . '/' . $reportFileName . '.txt';
+        
         $pdffilepathFormat2 = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
-
-//        $jpgfilepath = $targetFolderRelease1 . '/' . $reportFileName . '.jpg';
-//        $zipfilepath = $targetFolderRelease1 . '/' . $reportFileName . '.zip';
-
+        $txtfilepathFormat2 = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.txt';
         $jpgfilepathFormat2 = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
         $zipfilepathFormat2 = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.zip';
 
@@ -597,7 +668,9 @@ if ($pdfOutputOption == 'F') {
             echo '<br>$reportFileName : ' . $reportFileName;
             echo '<br>$reportFileNameFormat2 : ' . $reportFileNameFormat2;
             echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
+            echo '<br>';
             echo '<br>$pdffilepath : ' . $pdffilepath;
+            echo '<br>$txtfilepath : ' . $txtfilepath;
             echo '<br>$pdffilepathFormat2 : ' . $pdffilepathFormat2;
             echo '<br>$jpgfilepathFormat2 : ' . $jpgfilepathFormat2;
             echo '<br>$zipfilepathFormat2 : ' . $zipfilepathFormat2;
@@ -613,11 +686,14 @@ if ($pdfOutputOption == 'F') {
             echo '<br>';
         }
         $mpdf->Output($pdffilepath, $pdfOutputOption);
+        Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
 
 
-
-        //===================Prepare $commandRename ===========================================
+        //============================================================================================
+        //===================Prepare $commandRename ==================================================
+        //============================================================================================
         $commandRename = 'mv ' . $pdffilepath . ' ' . $pdffilepathFormat2;
+        $commandRename_txt = 'mv ' . $txtfilepath . ' ' . $txtfilepathFormat2;
         if ($dbg_print_patient_pdf) {
             echo '<br>Start "exec($commandRename, $output, $retval) : ' . $commandRename . '<br>';
         }
@@ -642,10 +718,29 @@ if ($pdfOutputOption == 'F') {
             echo '<br>';
         }
 
+        if ($dbg_print_patient_pdf) {
+            echo '<br>Start "exec($commandRename_txt, $output, $retval) : ' . $commandRename_txt . '<br>';
+        }
+        if (exec($commandRename_txt, $output, $retval) == 0) {
+            if ($retval == 0) {
+                if ($dbg_print_patient_pdf) {
+                    echo '<br>Prepare $commandRename : ' . $commandRename_txt . '<br>';
+                }
+            } else {
+                echo 'execute command "' . $commandRename_txt . '" successful.<br>';
+                echo "Returned with status $retval and output:\n<br>";
+                print_r($output);
+            }
+        } else {
+            echo 'execute command "' . $commandRename_txt . '" Fail.<br>';
+            echo "Returned with status $retval and output:\n<br>";
+            print_r($output);
+        }
 
 
-
-        //===================Prepare $command1 ===========================================
+        //===================================================================================================
+        //===================Prepare $command1 , Convert PDF to JPG===========================================
+        //===================================================================================================
         if ($os == "WINNT") {
             $command1 = 'magick -density 300 ' . $pdffilepathFormat2 . ' -density 300 ' . $jpgfilepathFormat2;
         }
@@ -678,7 +773,9 @@ if ($pdfOutputOption == 'F') {
             echo '<br>';
         }
 
-
+        //====================================================================================
+        //=============== Copy file to customer Sharing folder if any ========================
+        //====================================================================================
         $cusReportFolder = Hospital::getReportFolder($conn, $patient[0]['phospital_id']);
         if ($dbg_print_patient_pdf) {
             echo '<br>$cusReportFolder : "' . $cusReportFolder . '"';
@@ -702,11 +799,12 @@ if ($pdfOutputOption == 'F') {
 //============Copy file from "release1" to customer "customerfile2" folder===================================
 //            cp ./release1/SN2303647_R1*.jpg ./customerfile2/pathokph
 //            cp ./release1/SN2303647_R1*.pdf ./customerfile2/pathokph
+//            cp ./release1/SN2303647_R1*.txt ./customerfile2/pathokph
 //            $cmd_copy_pdf = "cp '".$targetFolderRelease1 . '/' . $reportFileNameFormat2 . ".pdf' ".$targetFolderRelease2;
 //            $cmd_copy_pdf = "cd release1 && cp *.jpg ./../customerfile2/pathokph";
             //$cmd_copy_jpg = "cp '".$targetFolderRelease1 . '/' . $reportFileNameFormat2 . ".jpg' ".$targetFolderRelease2;
 
-
+            //=============copy pdf file=====================
             $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
             $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.pdf';
             if ($dbg_print_patient_pdf) {
@@ -717,7 +815,19 @@ if ($pdfOutputOption == 'F') {
             }
             copy($copy_pdf_from, $copy_pdf_to);
 
+            //=============copy txt file=====================
+            $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.txt';
+            $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.txt';
+            if ($dbg_print_patient_pdf) {
+                echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
+                echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
+                echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                echo '<br>';
+            }
+            copy($copy_pdf_from, $copy_pdf_to);
 
+            
+            //============copy jpg in case of one page=============
             $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
             $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.jpg';
             if (file_exists($copy_pdf_from)) {
@@ -736,7 +846,7 @@ if ($pdfOutputOption == 'F') {
                 }
             }
 
-
+            //============copy jpg in case of many page=============
             for ($x = 0; $x <= 10; $x++) {
                 echo "The number is: $x <br>";
                 $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
@@ -760,52 +870,6 @@ if ($pdfOutputOption == 'F') {
             }
 
 
-//            if ($dbg_print_patient_pdf) {
-//                echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-//                echo '<br>$cmd_copy_pdf : "' . $cmd_copy_pdf . '"';
-//                echo '<br>$cmd_copy_pdf : "' . $cmd_copy_jpg . '"';
-//                echo '<br>';
-//            }
-//            if (exec($cmd_copy_pdf, $output, $retval) == 0) {
-//                if ($retval == 0) {
-//                    if ($dbg_print_patient_pdf) {
-//                        echo 'execute command "' . $cmd_copy_pdf . '" .<br>';
-//                        echo "Returned with status $retval and output:\n<br>";
-//                        print_r($output);
-//                        echo '<br>';
-//                    }
-//                } else {
-//                    echo 'execute command "' . $cmd_copy_pdf . '" .<br>';
-//                    echo "Returned with status $retval and output:\n<br>";
-//                    print_r($output);
-//                    echo '<br>';
-//                }
-//            } else {
-//                echo 'execute command "' . $cmd_copy_pdf . '" .<br>';
-//                echo "Returned with status $retval and output:\n<br>";
-//                print_r($output);
-//                echo '<br>';
-//            }
-//            if (exec($cmd_copy_jpg, $output, $retval) == 0) {
-//                if ($retval == 0) {
-//                    if ($dbg_print_patient_pdf) {
-//                        echo 'execute command "' . $cmd_copy_jpg . '" .<br>';
-//                        echo "Returned with status $retval and output:\n<br>";
-//                        print_r($output);
-//                        echo '<br>';
-//                    }
-//                } else {
-//                    echo 'execute command "' . $cmd_copy_jpg . '" .<br>';
-//                    echo "Returned with status $retval and output:\n<br>";
-//                    print_r($output);
-//                    echo '<br>';
-//                }
-//            } else {
-//                echo 'execute command "' . $cmd_copy_jpg . '" .<br>';
-//                echo "Returned with status $retval and output:\n<br>";
-//                print_r($output);
-//                echo '<br>';
-//            }
         } else {
             if ($dbg_print_patient_pdf) {
                 echo '<br>==Dont copy report to customer folder====';
@@ -813,7 +877,9 @@ if ($pdfOutputOption == 'F') {
             }
         }
     } elseif ($requestFrom == 'patient_php') { //Generate and zip then download
+        //===========================================================================================================\
         //=================== Create temporary Folder file for store zip file========================================\
+        //===========================================================================================================\
         $targetFolderForDownload = './customerfile/' . $patient[0]['pnum'] . '_' . $skey . '_' . Time();
         if (!mkdir($targetFolderForDownload, 0777, true)) {
             die('Failed to create directories...' . $targetFolderForDownload);
@@ -822,24 +888,59 @@ if ($pdfOutputOption == 'F') {
             //===================Prepare Path/File =================================================================
 
             $pdffilepath = $targetFolderForDownload . '/' . $reportFileName . '.pdf';
+            $txtfilepath = $targetFolderForDownload . '/' . $reportFileName . '.txt';
+            
+            
             $pdffilepathFormat2 = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '.pdf';
+            $txtfilepathFormat2 = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '.txt';
 
             $jpgfilepathFormat2 = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '.jpg';
             $zipfilepathFormat2 = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '.zip';
 
             $inputtargetpdf2zipfile = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '*.pdf';
             $inputtargetjpg2zipfile = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '*.jpg';
+            $inputtargettxt2zipfile = $targetFolderForDownload . '/' . $reportFileNameFormat2 . '*.txt';
+            
+            
+        if ($dbg_print_patient_pdf) {
+            echo '<br>$reportFileName : ' . $reportFileName;
+            echo '<br>$reportFileNameFormat2 : ' . $reportFileNameFormat2;
+//            echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
+            echo '<br>';
+            echo '<br>$pdffilepath : ' . $pdffilepath;
+            echo '<br>$txtfilepath : ' . $txtfilepath;
+            echo '<br>$pdffilepathFormat2 : ' . $pdffilepathFormat2;
+            echo '<br>$txtfilepathFormat2 : ' . $txtfilepathFormat2;
+            echo '<br>$jpgfilepathFormat2 : ' . $jpgfilepathFormat2;
+            echo '<br>$zipfilepathFormat2 : ' . $zipfilepathFormat2;
+            //echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
+            echo '<br>$inputtargetpdf2zipfile : '.$inputtargetpdf2zipfile;
+            echo '<br>$inputtargetjpg2zipfile : '.$inputtargetjpg2zipfile;
+            echo '<br>$inputtargettxt2zipfile : '.$inputtargettxt2zipfile;
+            echo '<br>';
+        }
+
+
+        if ($dbg_print_patient_pdf) {
+            echo '<br>run:$mpdf->Output($pdffilepath, $pdfOutputOption)';
+            echo '<br>run:Util::writeFileSpecificPath($txtfilepath, $txtWriteOut)';
+            echo '<br>$pdffilepath :' . $pdffilepath . '';
+            echo '<br>$txtfilepath :' . $txtfilepath . '';
+            echo '<br>$pdfOutputOption :' . $pdfOutputOption . '';
+            echo '<br>';
+        }
 
             //===================Output PDF file====================================================================
             $mpdf->Output($pdffilepath, $pdfOutputOption);
+            Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
 
             //===================Prepare anu run rename : $commandRename ===========================================
             $commandRename = 'mv ' . $pdffilepath . ' ' . $pdffilepathFormat2;
+            $commandRename_txt = 'mv ' . $txtfilepath . ' ' . $txtfilepathFormat2;
 
             if ($dbg_print_patient_pdf) {
                 echo '<br>Start "exec($commandRename, $output, $retval) : ' . $commandRename . '<br>';
             }
-
             if (exec($commandRename, $output, $retval) == 0) {
                 if ($retval == 0) {
                     if ($dbg_print_patient_pdf) {
@@ -855,6 +956,26 @@ if ($pdfOutputOption == 'F') {
                 echo "Returned with status $retval and output:\n<br>";
                 print_r($output);
             }
+            
+            
+            if ($dbg_print_patient_pdf) {
+                echo '<br>Start "exec($commandRename_txt, $output, $retval) : ' . $commandRename_txt . '<br>';
+            }
+            if (exec($commandRename_txt, $output, $retval) == 0) {
+                if ($retval == 0) {
+                    if ($dbg_print_patient_pdf) {
+                        echo '<br>Prepare $commandRename : ' . $commandRename_txt . '<br>';
+                    }
+                } else {
+                    echo 'execute command "' . $commandRename_txt . '" successful.<br>';
+                    echo "Returned with status $retval and output:\n<br>";
+                    print_r($output);
+                }
+            } else {
+                echo 'execute command "' . $commandRename_txt . '" Fail.<br>';
+                echo "Returned with status $retval and output:\n<br>";
+                print_r($output);
+            }
 
 
             //===================Prepare $command1 $command2 ===========================================
@@ -863,16 +984,16 @@ if ($pdfOutputOption == 'F') {
 
             if ($os == "WINNT") {
                 $command1 = 'magick -density 300 ' . $pdffilepathFormat2 . ' -density 300 ' . $jpgfilepathFormat2;
-                $command2 = '7z a -tzip ' . $zipfilepathFormat2 . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
+                $command2 = '7z a -tzip ' . $zipfilepathFormat2 . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile . ' ' . $inputtargettxt2zipfile;
             }
             if ($os == "Linux") {
                 $command1 = '/usr/local/bin/magick -density 300 ' . $pdffilepathFormat2 . ' -density 300 ' . $jpgfilepathFormat2;
                 //$command2 = '7z a -tzip ' . $zipfilepathFormat2 . ' ' . $inputtargetpdf2zipfile . ' ' . $inputtargetjpg2zipfile;
-                $command2 = 'cd ' . $targetFolderForDownload . ' && zip  ' . $reportFileNameFormat2 . '.zip *.jpg *.pdf';
+                $command2 = 'cd ' . $targetFolderForDownload . ' && zip  ' . $reportFileNameFormat2 . '.zip *.jpg *.pdf *.txt';
             }
 
             if ($dbg_print_patient_pdf) {
-                echo '<br>Prepare command1 : ' . $command1 . '<br>';
+                echo '<br>Prepare command1 : ' . $command1 . '';
                 echo '<br>Prepare command2 : ' . $command2 . '<br>';
             }
 
@@ -937,6 +1058,7 @@ if ($pdfOutputOption == 'F') {
 } else {
     //View or download mode
     $mpdf->Output($reportFileName . '.pdf', $pdfOutputOption);
+    //Util::writeFile('testWrite.txt', $txtWriteOut);
 }
 ?>
 
