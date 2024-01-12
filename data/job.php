@@ -44,11 +44,12 @@ if ($auth) {
 
 
     $jobs = Job::getAll($conn, 0, 0, $range);
+    $jobs = Job::getAll_v2($conn, 0, 0, $range);
 
     $data = [];
     foreach ($jobs as $job) {
         if ($job['id'])
-            $data[] = [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date'], $job['insert_time'], $job['qty'], $job['req_date']];
+            $data[] = [$job['id'], $job['job_role_id'], $job['patient_id'], $job['patient_number'], $job['user_id'], $job['pre_name'], $job['name'], $job['lastname'], $job['jobname'], $job['pay'], $job['cost_count_per_day'], $job['comment'], $job['finish_date_date'], $job['insert_time'], $job['qty'], $job['req_date_date']];
 //----------------------------0------------------1-----------------2---------------------3--------------------4---------------5----------------6---------------7----------------8--------------9-------------------10---------------------11----------------12--------------------13---------------14-------------15----------
     }
     $result = ["data" => $data];

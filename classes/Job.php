@@ -146,6 +146,33 @@ class Job
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    
+    public static function getAll_v2($conn, $patient_id = 0, $job_role_id = 0, $start = '0')
+    {
+        $sql = "SELECT *, DATE(finish_date) as finish_date_date, DATE(req_date) as req_date_date FROM `job` ";
+
+        $sql = $sql . " WHERE `movetotrash` = 0 ";
+
+
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        if ($job_role_id != 0) {
+            $sql = $sql . " and job_role_id = " . $job_role_id;
+        }
+        if ($start != '0') {
+            $sql .= " and date(req_date) >= '{$start}'";
+        }
+        $sql = $sql . " ORDER BY id DESC";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
+    
+    
     public static function getByID($conn, $id = 0)
     {
         $sql = "SELECT * FROM `job` ";
