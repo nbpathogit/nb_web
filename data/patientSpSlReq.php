@@ -53,7 +53,8 @@ if ($auth) {
 //        $patientLists = Patient::getAllJoin($conn, 0, $range);
 //    }
     
-    $requuestLists = ReqSpSlideID::getBillandJobTableWithStart($conn, $range);
+//    $requuestLists = ReqSpSlideID::getBillandJobTableWithStart($conn, $range);
+    $requuestLists = ReqSpSlideID::getBillandJobTableWithStart_v2($conn, $range);
 
     $data = [];
     foreach ($requuestLists as $req) {
@@ -106,7 +107,7 @@ if ($auth) {
             //$data[] = [$req['rid'], $req['bid'], $req['jid'], $req['patient_id_key'], $req['number'], $req['req_date'], $req['finish_date'], $req['comment'], $req['jowowner'], $req['req_sp_type'], $req['bjob'], $req['pathologist'],NULL];
                 
             
-            $data[] = [$req['r_id'], $req['b_id'], $req['j4_id'], $req['rpatient_id'], $req['b_patient_num'], $req['req_date'], $req['finish_date'], $req['comment'], $req['j4owowner'], $req['req_sp_type'], $req['bjob'], $req['pathologist'],NULL];
+            $data[] = [$req['r_id'], $req['b_id'], $req['j4_id'], $req['rpatient_id'], $req['b_patient_num'], $req['req_datedate'], $req['finish_datedate'], $req['comment'], $req['j4owowner'], $req['req_sp_type'], $req['bjob'], $req['pathologist'],NULL];
         }
     }
 

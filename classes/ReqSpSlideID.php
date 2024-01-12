@@ -267,6 +267,129 @@ class ReqSpSlideID {
         
     }
     
+    // req date as DATE only
+    public static function getBillandJobTableWithStart_v2($conn, $start = '0') {
+        
+        
+//        select * 
+//        FROM 
+//            (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
+//                , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lAStname) AS jowowner
+//                ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
+//            FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id   
+//            WHERE  date(r.req_date) >= '2023-06-18'
+//            GROUP by rid, b.description
+//            ) AS aa
+//        JOIN 
+//            ( 
+//            SELECT jp.patient_id AS patient_id_key,  CONCAT(jp.name,' ', jp.lAStname) AS pathologist   
+//            FROM job AS jp 
+//            Where jp.job_role_id = 5
+//            ) AS bb
+//
+//        ON aa.patient_id_key=bb.patient_id_key
+        
+        
+//rid|bid|jid|patient_id_key|number   |req_date       |finish_date|comment|jowowner|req_sp_type|bjob|patient_id_key|pathologist|
+//5  |86 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 Bcl-6|Z1,G,Z1|176|อภิชาติ ชุมทอง|
+//5  |91 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 Calcitonin|F|176|อภิชาติ ชุมทอง|
+//5  |83 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 CD117|M,R1,S1|176|อภิชาติ ชุมทอง|
+//5  |89 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 CD1a|G,Z1|176|อภิชาติ ชุมทอง|
+//6  |92 |170|176           |CN2300001|6/18/2023 15:01|NULL       |0|วรินทร เหลืองทอง|33000 CD1a|A|176|อภิชาติ ชุมทอง|
+//8  |94 |171|176           |CN2300001|6/18/2023 20:17|NULL       |fkjdsfjcoweacfaw|พีรยุทธ สิทธิไชยากุล|33000 Caldesmon|C,D|176|อภิชาติ ชุมทอง|
+//9  |96 |172|176           |CN2300001|6/18/2023 20:22|NULL       |xcxcx|จุลินทร สำราญ|33000 Calretinin|A,B|176|อภิชาติ ชุมทอง|
+//10 |98 |173|176           |CN2300001|6/18/2023 20:25|NULL       |ffff|นันท์ สิงห์ปาน|33000 CD1a|A,B|176|อภิชาติ ชุมทอง|
+
+
+
+//        $sql = "select * 
+//            FROM 
+//                (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
+//                    , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lastname) AS jowowner
+//                    ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
+//                FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id  and r.movetotrash = 0 "; 
+//        if ($start != '0') {
+//            $sql = $sql . "WHERE  date(r.req_date) >= '{$start}' ";
+//        }
+//
+//        $sql = $sql . "GROUP by rid, b.description
+//                ) AS aa
+//            JOIN 
+//                ( 
+//                SELECT jp.patient_id AS patient_id_key,  CONCAT(jp.name,' ', jp.lastname) AS pathologist   
+//                FROM job AS jp 
+//                Where jp.job_role_id = 5
+//                ) AS bb
+//
+//            ON aa.patient_id_key=bb.patient_id_key";
+        
+        
+        $sql = "SELECT  r.id AS r_id, b.id AS b_id, j4.id AS j4_id, j5.id AS j5_id,  r.patient_id AS rpatient_id ,".
+               "    b.number AS b_patient_num, r.req_date , r.finish_date ,r.comment,  ".
+               "     CONCAT(j4.name,' ', j4.lastname) AS j4owowner,CONCAT(j5.name,' ', j5.lastname) AS pathologist, ".
+               "     CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob"
+                . ", DATE(r.req_date) as req_datedate "
+                . ", DATE(r.finish_date) as  finish_datedate ".
+               " FROM ".
+               " 	req_id_sp_slide AS r ".
+               "     LEFT JOIN ".
+               "    service_billing AS b ON r.id = b.req_id ".
+               "     LEFT JOIN ".
+               "    job AS j4 ON r.id = j4.req_id AND j4.job_role_id = 4 ".
+               "    LEFT JOIN ".
+               "    job AS j5 ON  r.patient_id = j5.patient_id AND j5.job_role_id = 5 ".
+               "WHERE   r.movetotrash = 0 ";
+        if ($start != '0') {
+            $sql = $sql . " and  date(r.req_date) >= '{$start}' ";
+        }
+
+        $sql = $sql . " GROUP by r_id, b.description ";
+                
+//        $sql2 = $sql;
+//        Util::writeFile('dbg.txt', $sql2);
+//        
+        $results = $conn->query($sql);
+        $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+        
+//        $debug = var_export($articles, true);
+//        Util::writeFile('vardump.txt', $debug);
+
+        return $articles;
+                
+                
+//array(1) {
+//  [0]=>
+//  array(12) {
+//    ["rid"]=>
+//    string(1) "4"
+//    ["bid"]=>
+//    string(2) "68"
+//    ["jid"]=>
+//    string(3) "163"
+//    ["patient_id_key"]=>
+//    string(3) "176"
+//    ["number"]=>
+//    string(9) "CN2300001"
+//    ["req_date"]=>
+//    string(19) "2023-06-17 13:17:03"
+//    ["finish_date"]=>
+//    NULL
+//    ["comment"]=>
+//    string(1) "0"
+//    ["jowowner"]=>
+//    string(58) "พีรยุทธ สิทธิไชยากุล"
+//    ["req_sp_type"]=>
+//    string(15) "33000 Amyloid A"
+//    ["bjob"]=>
+//    string(17) "A,O,W,C1,G1,T1,Z1"
+//    ["pathologist"]=>
+//    string(40) "อภิชาติ ชุมทอง"
+//  }
+//}
+        
+    }
+    
+    
     public static function setFinishDate($conn, $rid, $finishdate)
     {
         $sql = "UPDATE `req_id_sp_slide` "
