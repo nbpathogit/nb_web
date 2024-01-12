@@ -1318,6 +1318,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 //
 //                            alert('phospital_id:'+phospital_id);
                             $.ajax({
+                                type: 'POST',
                                 url: "ajax_patient/getUserByHospitalID.php?hospital_id=%s",
                                         
                                 data: {hospital_id: phospital_id},
@@ -1330,14 +1331,13 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                                     let datajson = JSON.parse(data);
                                     if(datajson.length == 0){
                                         $('#pclinician_id').append('<option value="0" >ยังไม่มีแพทย์สำหรับโรงพยาบาลนี้</option>');
+                                    }else{
+                                        $('#pclinician_id').append('<option value="0" >กรุณาเลือก</option>');
+
                                     }
                                     for (let i in datajson)
                                     {
-                                        if (i == 0) {
-                                            $('#pclinician_id').append('<option value="' + datajson[i].uid + '" >กรุณาเลือก</option>');
-                                        } else {
-                                            $('#pclinician_id').append('<option value="' + datajson[i].uid + '">' + datajson[i].name + ' ' + datajson[i].lastname + ' (' + datajson[i].pre_name +')</option>');
-                                        }
+                                        $('#pclinician_id').append('<option value="' + datajson[i].uid + '">' + datajson[i].name + ' ' + datajson[i].lastname + ' (' + datajson[i].pre_name +')</option>');
                                     }
                                     
                                 }
@@ -1346,7 +1346,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                         });
                         
                         
-                            $("#add_sp2_1_2").on("click",function (e) {
+                        $("#add_sp2_1_2").on("click",function (e) {
                             let sp2_1 = $("#sp2_1 option").filter(":selected").attr('value');
                             let sp2_2 = $("#sp2_2 option").filter(":selected").attr('value');
                             console.log('\n\n\n===================================================================\n');

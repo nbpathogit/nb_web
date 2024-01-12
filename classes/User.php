@@ -236,7 +236,7 @@ class User
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
-        public static function getAllbyCliniciansbyHospitalID($conn,$hospital_id)
+    public static function getAllbyCliniciansbyHospitalID($conn,$hospital_id)
     {
         $sql = "SELECT *, U.id as uid, G.id as gid, H.id as hid
                 FROM user U
@@ -248,7 +248,8 @@ class User
                 and
                 (U.ugroup_id = 5000 
                 or U.id = 0 )
-                and U.movetotrash = 0";
+                and U.movetotrash = 0  
+                ORDER BY U.name ASC";
 
 
         $results = $conn->query($sql);
