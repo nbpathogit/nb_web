@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 addsolidborder">
 
                     
-        <h1 align="center"><span id="patient_title_message">กำลังแสดงจากข้อมูลย้อนหลัง 1 เดือน</span></h1>
+        <h1 align="center"><span id="patient_title_message">กำลังแสดงจากข้อมูลย้อนหลัง 2 เดือน</span></h1>
             
 
         <table class="table table-hover" id="patient_table" style="width:100%">
@@ -59,20 +59,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <thead>
                 <tr>
                     <th>#</th>                    <!-- 0 -->
-                    <th>เลขที่ผู้ป่วย</th>              <!-- 1 -->
-                    <th>HN</th>                     <!-- 2 -->
-                    <th>ชื่อผู้ป่วย</th>                    <!-- 3 --> 
-                    <th>นามสกุลผู้ป่วย</th>                 <!-- 4 -->
-                    <th>โรงพยาบาล</th>                  <!-- 5 -->
-                    <th>พยาธิแพทย์</th>                 <!-- 6 -->
-                    <th>วันที่รับ</th>                     <!-- 7 -->
-                    <th>วันที่รายงาน</th>                <!-- 8 -->
-                    <th>tr_time</th>                <!-- 9 -->
-                    <th>สถานะอื่นๆ</th>                  <!-- 10 -->
-                    <th>การออกผล</th>                   <!-- 11 --> 
-                    <th>ความสำคัญ</th>                <!-- 12 -->
-                    <th>PDF</th>                    <!-- 13 -->
-                    <th>จัดการ</th>                    <!-- 14 -->
+                    
+                    <th>type</th>                   <!-- 1 -->
+
+                    <th>เลขที่ผู้ป่วย</th>                 <!-- 2 --> 
+                    <th>HN</th>                   <!-- 3 --> 
+                    <th>ชื่อผู้ป่วย</th>                  <!-- 4 --> 
+                    <th>นามสกุลผู้ป่วย</th>             <!-- 5 -->
+                    <th>โรงพยาบาล</th>               <!-- 6 -->
+                    <th>พยาธิแพทย์</th>                <!-- 7 -->
+                    <th>วันที่รับ</th>                   <!-- 8 --> 
+                    <th>วันที่รายงาน</th>                 <!-- 9 -->
+                    <th>ใช้เวลา<br>ออกผล(วัน)</th>           <!-- 10 --> 
+                    <th>สถานะอื่นๆ</th>                 <!-- 11 -->  
+                    <th>การออกผล</th>                 <!-- 12 --> 
+                    <th>ความสำคัญ</th>                  <!-- 13 -->
+                    <th>PDF</th>                    <!-- 14 -->
+                    <th>จัดการ</th>                    <!-- 15 -->
                 </tr>
             </thead>
         </table>
@@ -100,5 +103,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var isCurUserCust = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=3xxxxx"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=3xxxxxx"></script>
 
