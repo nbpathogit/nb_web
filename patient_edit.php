@@ -1131,13 +1131,13 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
     <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>ย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
+        <h4 align="center"><b>ตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
         <span id="sp_status_message">
             <?php
             if ($patient[0]['request_sp_slide'] == 1) {
-                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอย้อมพิเศษ</h3>';
+                echo '<h3 align="center" style="color: #ff8000;font-weight: bold;">ร้องขอตรวจพิเศษ</h3>';
             } elseif ($patient[0]['request_sp_slide'] == 2) {
-                echo '<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นย้อมพิเศษ</h3>';
+                echo '<h3 align="center" style="color: #30A64A;font-weight: bold;">เสร็จสิ้นตรวจพิเศษ</h3>';
             } else {
                 echo '<h3 align="center" style="color: #ff8000;font-weight: bold;"></h3>';
             }
@@ -1146,7 +1146,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
         
         <span id="sp_slide_requested">
             <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-                <p align="center"><b>รายการที่ xx ส่งย้อมพิเศษแล้วเมื่อ xx</b>
+                <p align="center"><b>รายการที่ xx ส่งตรวจพิเศษแล้วเมื่อ xx</b>
                 </p>
                 <p align="left">
                     <b>พนักงานเตรียมสไลด์พิเศษ:</b>
@@ -1157,7 +1157,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                     </span>
                 </p>
                 <p align="left">
-                    <b>order ย้อมพิเศษ:</b>
+                    <b>order ตรวจพิเศษ:</b>
                     <span id="spcimen_list2_rq" style="font-size:20px">
                         <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
                         <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
@@ -1169,7 +1169,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
         <hr noshade="noshade" width="" size="6">
         <!--<hr>-->
-        <h5 align="center"><b>ใส่ข้อมูลเพื่อร้องขอย้อมพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
+        <h5 align="center"><b>ใส่ข้อมูลเพื่อร้องขอตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
         
         <!--<hr noshade="noshade" width="" size="4">-->
         <hr>

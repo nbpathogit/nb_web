@@ -6,17 +6,27 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
     var enddate = $("#enddate_sp_slide_rq").val();
 //    alert(startdate.substr(0, 4) + " " + startdate.substr(5, 2) + " " + startdate.substr(8, 2));
 
- let date = new Date();
+
+
+//==========Note==============================
+//JavaScript counts months from 0 to 11:
+//January = 0.
+//December = 11.
+//============================================
+
+    let date = new Date();
     let result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
     //$('#bill_todaydate_thai').val(result);
 //    console.log(result);
 
-    date = new Date(startdate.substr(0, 4), startdate.substr(5, 2), startdate.substr(8, 2));
+    date = new Date(startdate.substr(0, 4), (startdate.substr(5, 2))-1, startdate.substr(8, 2));
     result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
+//    alert(result);
     $('.startdate_thai').text(result);
 
-    date = new Date(enddate.substr(0, 4), enddate.substr(5, 2), enddate.substr(8, 2));
+    date = new Date(enddate.substr(0, 4), (enddate.substr(5, 2))-1, enddate.substr(8, 2));
     result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
+//    alert(result);
     $('.enddate_thai').text(result);
  
 
@@ -67,6 +77,7 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
         <th style="font-size: 14pt;width:15%;">' + 'Patient_Num' + '</th>\n\
         <th style="font-size: 14pt;width:15%;">' + 'Request' + '</th>\n\
         <th style="font-size: 14pt;width:15%;">' + 'Block' + '</th>\n\
+        <th style="font-size: 14pt;width:15%;">' + 'Pathologist' + '</th>\n\
         <th style="font-size: 14pt;">' + 'Note' + '</th>\n\
         </tr>';
     strs = strs + "</thead>";
@@ -78,6 +89,7 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
         <td>' + datajson[i].number + '</td>\n\
         <td>' + datajson[i].description + '</td>\n\
         <td>' + datajson[i].sp_slide_block + '</td>\n\
+        <td>' + datajson[i].pathologist + '</td>\n\
         <td>' + '' + '</td>\n\
         </tr>';
 
@@ -89,8 +101,8 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
 
 
 
-    console.log("end");
-    alert("done");
+//    console.log("end");
+//    alert("done");
 
 });
 

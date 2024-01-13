@@ -141,7 +141,27 @@ class ReqSpSlideID {
     public static function getBillandJobFromDateRange($conn, $startdate, $enddate) {
 
         $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN service_billing as b ON r.id = b.req_id "
-                . "WHERE   date(b.req_date) >= '{$startdate}'and date(b.req_date) <= '{$enddate}' ";
+                . "WHERE   date(b.req_date) >= '{$startdate}' and date(b.req_date) <= '{$enddate}' ";
+                
+        //Util::writeFile('dbg.txt', $sql);
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getBillandJobFromDateRange_v2($conn, $startdate, $enddate) {
+
+        $sql = "SELECT *, r.id as rid, b.id as bid
+                    , j.name as j_name , j.lastname as j_lastname
+                    ,CONCAT(j.name,' ',j.lastname) as pathologist
+                FROM req_id_sp_slide as r 
+                INNER JOIN service_billing as b ON r.id = b.req_id 
+                INNER JOIN job AS j ON j.patient_id = r.patient_id
+                WHERE   date(b.req_date) >= '{$startdate}' and date(b.req_date) <= '{$enddate}' 
+                    and j.job_role_id = 5";
+                
+        //Util::writeFile('dbg.txt', $sql);
 
         $results = $conn->query($sql);
 

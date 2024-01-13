@@ -67,4 +67,4 @@ echo '</span>';
         });
     });
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/ajax_sp_slide_requested/req_sp_slide_tbl.js?v=1xปxxxxxxxxxcxcxxxxxcxxปx"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/ajax_sp_slide_requested/req_sp_slide_tbl.js?v=2"></script>
