@@ -1,5 +1,5 @@
 <?php
-
+//require 'includes/init.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -107,28 +107,53 @@ class ServiceBilling {
                   $sql .= " and date(b.import_date) >= '{$start}'";
                 }
                 $sql = $sql . " ORDER by b.id ;";
-
+                
         $results = $conn->query($sql);
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function getAllDateforBillPage($conn, $start = '0',$end = '0') {
-        $sql = "SELECT *, h.id as hid, b.id as bid FROM".
-                " service_billing as b ".
-                " JOIN hospital as h".
-                " JOIN service_type as s".
-                " JOIN patient as p".
-                " WHERE h.id = b.hospital_id and b.slide_type = s.id and b.patient_id = p.id ";
+          
+        $sql =  "SELECT p.id as pid 
+                , b.id as b_id 
+                , p.sn_type as p_sntype
+                , p.pnum as p_sn_num
+                , p.phospital_num as p_hn
+                , CONCAT(p.pname,' ',p.plastname) as p_pname
+                , CONCAT(user_cli.name,' ',user_cli.lastname) as user_clinicient
+                , hp.hospital as hp_hospital
+                , CONCAT(j5.name,' ',j5.lastname) as j5_pathologist
+                , DATE(p.date_1000)	as p_accept_date
+                , st.service_type as st_type
+                , b.code_description as b_code
+                , b.description as b_description
+                , b.sp_slide_block as b_sp_slide_block
+                , b.cost as b_cost
+                FROM  patient as p  
+                 JOIN service_billing as b  ON  p.id = b.patient_id
+                 LEFT JOIN service_type as st ON st.id = b.slide_type
+                 LEFT JOIN job as j5 ON j5.patient_id = p.id and j5.job_role_id = 5
+                 LEFT JOIN user as user_cli ON user_cli.id = p.pclinician_id 
+                 LEFT JOIN hospital as hp ON hp.id = p.phospital_id
+                WHERE  p.movetotrash = 0 ";
+                if ($start != '0') {
+                  $sql .= " and date(b.import_date) >= '{$start}' ";
+                }  
                 if ($end != '0') {
-                  $sql .= " and date(b.import_date) >= '{$start}'";
-                  $sql .= " and date(b.import_date) <= '{$end}'";
+                  $sql .= " and date(b.import_date) <= '{$end}' ";
                 }
-                $sql = $sql . " ORDER by b.id ;";
+                $sql .= " ORDER by p.pnum ASC";
 
+        //Util::writeFile('dbg.txt', $sql);
+
+                
         $results = $conn->query($sql);
-
         return $results->fetchAll(PDO::FETCH_ASSOC);
+        
+//        Util::writeFile('doutput.txt', var_dump($rs));
+        
+        
     }
     
     public static function getBillbyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {

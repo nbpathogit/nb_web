@@ -21,9 +21,9 @@ require 'includes/header.php'; ?>
         <?php else : ?>
 
 
-            <div class="d-flex align-items-center justify-content-between">
+<!--            <div class="d-flex align-items-center justify-content-between">
                 <a href="#" id="csvdownload" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-download me-2"></i>Export</a>
-            </div>
+            </div>-->
 
     </div>
 </div>
@@ -31,40 +31,40 @@ require 'includes/header.php'; ?>
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
-        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" >
             <i class="fa fa-calendar"></i>&nbsp;
             <span></span> <i class="fa fa-caret-down"></i>
         </div>
+        <br><br>
 
         <table class="table table-hover table-striped" id="billing_table" style="width:100%">
             <thead>
                 <tr>
 
-                    <th scope="col">#</th> <!--0-->
-                    <th scope="col">specimen id</th> <!--1-->
-                    <th scope="col">patient id</th><!--2-->
-                    <th scope="col">เลขที่โรงพยาบาล</th> <!--3-->
-                    <th scope="col">ชื่อ</th> <!--4-->
-                    <th scope="col">lastname</th> <!--5-->
-                    <th scope="col">ชนิดค่าบริการ</th> <!--6-->
-                    <th scope="col">code</th> <!--7-->
-                    <th scope="col">description</th> <!--8-->
-                    <th scope="col">วันที่รับ</th> <!--9-->
-                    <th scope="col">วันที่เสร็จ</th> <!--10-->
-                    <th scope="col">โรงพยาบาล</th> <!--11-->
-                    <th scope="col">เลขที่โรงพยาบาล</th> <!--12-->
-                    <th scope="col">แพทย์ผู้ส่งตรวจ</th> <!--13-->
-                    <th scope="col">pathologist</th> <!--14-->
-                    <th scope="col">ค่าตรวจ(บาท)</th> <!--15-->
-                    <th scope="col">Others</th> <!--16-->
+                    <th scope="col">#</th>            <!--0-->
+                    <th scope="col">b_id</th>         <!--1-->
+                    <th scope="col">type</th>         <!--2-->
+                    <th scope="col">SN</th>           <!--3-->
+                    <th scope="col">HN</th>           <!--4-->
+                    <th scope="col">Patient</th>      <!--5-->
+                    <th scope="col">Clinicient</th>   <!--6-->
+                    <th scope="col">Hospital</th>     <!--7-->
+                    <th scope="col">pathologist</th>  <!--8-->
+                    <th scope="col">Accept DAte</th>  <!--9-->
+                    <th scope="col">Service Type</th> <!--10-->
+                    <th scope="col">Code</th>         <!--11-->
+                    <th scope="col">Description</th>  <!--12-->
+                    <th scope="col">Block</th>        <!--13-->
+                    <th scope="col">Cost</th>         <!--14-->
+
                 </tr>
             </thead>
-            <tfoot>
+<!--            <tfoot>
                 <tr>
                     <th colspan="16" style="text-align:right">Total:</th>
                     <th style="text-align:right"></th>
                 </tr>
-            </tfoot>
+            </tfoot>-->
         </table>
 
     <?php endif; ?>
@@ -81,4 +81,4 @@ require 'includes/header.php'; ?>
     var skey = "<?= $_SESSION["skey"] ?>";
     $("#manage_bill").addClass("active");
 </script>
-<script src="<?= Url::getSubFolder1() ?>/js/billing.js?v2"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/billing.js?v2z"></script>

@@ -45,18 +45,53 @@ if ($auth) {
 
         $range = $dateTime->format('Y-m-d');
 
-        $bills = ServiceBilling::getAllforBillPage($conn, $range);
+        $bills = ServiceBilling::getAllDateforBillPage($conn, $range);
     }
 
 
     //var_dump($bills);
-
-    $bill_name = "";
+    
+//    SELECT p.id as pid 
+//        , b.id as b_id 
+//        , p.sn_type as p_sntype
+//        , p.pnum as p_sn_num
+//        , p.phospital_num as p_hn
+//        , CONCAT(p.pname,' ',p.plastname) as p_pname
+//        , CONCAT(user_cli.name,' ',user_cli.lastname) as user_clinicient
+//        , hp.hospital as hp_hospital
+//        , CONCAT(j5.name,' ',j5.lastname) as j5_pathologist
+//        , DATE(p.date_1000)	as p_accept_date
+//        , st.service_type as st_type
+//        , b.code_description as b_code
+//        , b.description as b_description
+//        , b.sp_slide_block as b_sp_slide_block
+//        , b.cost as b_cost
+//    FROM  patient as p  
+//     JOIN service_billing as b  ON  p.id = b.patient_id
+//     LEFT JOIN service_type as st ON st.id = b.slide_type
+//     LEFT JOIN job as j5 ON j5.patient_id = p.id and j5.job_role_id = 5
+//     LEFT JOIN user as user_cli ON user_cli.id = p.pclinician_id 
+//     LEFT JOIN hospital as hp ON hp.id = p.phospital_id
+//    WHERE  p.movetotrash = 0  and date(b.import_date) >= '2024-01-01'  and date(b.import_date) <= '2024-01-31'  ORDER by p.pnum ASC
     $data = [];
     foreach ($bills as $bill) {
-        if ($bill['bid'])
-            $bill_name = $bill['ppre_name'] . " " . $bill['pname'] . " " . $bill['plastname'];
-        $data[] = [$bill['bid'], $bill['specimen_id'], $bill['patient_id'], $bill['number'], $bill_name, $bill['lastname'], $bill['service_type'], $bill['code_description'], $bill['description'], $bill['import_date'], $bill['report_date'], $bill['hospital'], $bill['hn'], $bill['send_doctor'], $bill['pathologist'], $bill['cost'], $bill['comment']];
+        if ($bill['pid']) {
+           $data[] = [$bill['pid']                //0 
+                , $bill['b_id']                   //1 
+                , $bill['p_sntype']               //2 
+                , $bill['p_sn_num']               //3 
+                , $bill['p_hn']                   //4 
+                , $bill['p_pname']                //5 
+                , $bill['user_clinicient']        //6 
+                , $bill['hp_hospital']            //7 
+                , $bill['j5_pathologist']         //8 
+                , $bill['p_accept_date']          //9 
+                , $bill['st_type']                //10
+                , $bill['b_code']                 //11
+                , $bill['b_description']          //12
+                , $bill['b_sp_slide_block']       //13
+                , $bill['b_cost']];               //14
+        }              
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
