@@ -14,7 +14,9 @@ $(document).ready(function () {
     $("#lodingstatus").remove();
     $("#mainpage").show();
     
-
+    $('#phospital_id').selectize({
+        sortField: 'text'
+    });
 
 //    $('#date_1000').datepicker().datepicker('setDate', 'today');
 
