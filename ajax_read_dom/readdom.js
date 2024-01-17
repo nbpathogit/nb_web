@@ -1,4 +1,9 @@
 
+function readFirstDataFromDom(){
+    var lastest_SecondPatho_userid = get_lastest_SecondPatho_userid_in_uresult();
+}
+
+
 function get_lastest_uresultid() {
     //Uresult index id lastest
     var uresultid = '0';

@@ -34,7 +34,7 @@ function refreshTblJob6(isAlert,patient_id,result_id) {
 function updateSecondPathoEditPage(isAlert,patient_id) {
     $('.uresultinxlist2 li').each(function (index) {
         var result_id2 = $(this).attr('tabindex');
-        //alert("result_id2 = "+result_id2);
+//        alert("result_id2 = "+result_id2);
         
         var isDataAval = true;
         $.ajax({
@@ -181,7 +181,7 @@ function deljob6(jobid,patient_id,result_id) {
             }
 
         });
-        
+        lastest_SecondPatho_userid = '0';
     }else{
        
     }
@@ -265,6 +265,7 @@ function add_job_list6(result_id){
             alert( jqxhr.responseText);
         }
     });
+    lastest_SecondPatho_userid = user_id;
 
     alert('Finish Added.');
 }

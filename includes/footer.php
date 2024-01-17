@@ -60,10 +60,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js">
 </script>
 <script src="<?= Url::getSubFolder1() ?>/js/jquery.datetimepicker.full.min.js"></script>
-<script src="<?= Url::getSubFolder1() ?>/js/script.js?v14"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/script.js?v15"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_read_dom/readdom.js?v2xxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_read_dom/readdom.js?v3"></script>
 
 
 

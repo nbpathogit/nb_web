@@ -14,6 +14,9 @@ $(document).ready(function () {
     $("#lodingstatus").remove();
     $("#mainpage").show();
     
+    readFirstDataFromDom();
+    
+    
     $('#phospital_id').selectize({
         sortField: 'text'
     });

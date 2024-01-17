@@ -701,7 +701,9 @@ function addAction2Flow() {
         
      
         
-        var lastest_SecondPatho_userid = get_lastest_SecondPatho_userid_in_uresult();
+        //var lastest_SecondPatho_userid = get_lastest_SecondPatho_userid_in_uresult();
+        
+//        alert("lastest_SecondPatho_userid:"+lastest_SecondPatho_userid);
 
         if (cur_status == '12000' && isCurrentPathoIsOwnerThisCase == '0') {
             alert("You not have authorize to do this ! Only owner can proceed");
@@ -712,7 +714,9 @@ function addAction2Flow() {
             alert("Second patho need to be agree first!");
             return;
         }
-
+//        alert('dbg');
+//        return;
+        
         if (cur_status == '13000')
         {
             console.log('isCurrentPathoIsSecondOwneThisCaseLastest::'+isCurrentPathoIsSecondOwneThisCaseLastest);
