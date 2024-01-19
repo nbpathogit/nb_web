@@ -17,6 +17,8 @@ if (!Auth::isLoggedIn()) {
 
 $hospitals = Hospital::getAll($conn);
 
+$serviceType = ServiceType::getAll($conn);
+
 if ($hide) {
     $nbprices = ServicePriceList::getAll($conn);
 }
@@ -47,9 +49,15 @@ if ($hide) {
 
             <div class="col-auto">
                 <select name="nb_price_type" id="nb_price_type" class="form-select" <?= (true) ? "" : " disabled readonly " ?>>
-                    <option value="0">กรุณาเลือกชนิด</option>
+                -<option value="0">กรุณาเลือกชนิด</option>
+                <?php foreach ($serviceType as $key => $st) : ?>
+                    <option value="<?= ($st['id']); ?>" order_list="<?= ($st['order_list']); ?>"   ><?= $st['service_type'] ; ?></option>
+                <?php endforeach; ?>
+<!--                    <option value="0">กรุณาเลือกชนิด</option>
                     <option value="1">สิ่งส่งตรวจ</option>
-                    <option value="2">ย้อมพิเศษ</option>
+                    <option value="2">ย้อมพิเศษ</option>-->
+                    
+                    
                 </select>
             </div>
         </div>
