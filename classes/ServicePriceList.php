@@ -38,6 +38,41 @@ class ServicePriceList {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+        public static function getAll_v2($conn,$id= -1)
+    {
+        $sql = "SELECT spl.id as spl_id
+                    ,h.id as h_id
+                    ,st.id as st_id
+                    ,spl.number as spl_number
+                    ,h.hospital as h_hospital
+                    ,st.service_type as st_service_type
+                    ,spl.speciment_num as spl_speciment_num
+                    ,spl.specimen as spl_specimen
+                    ,spl.price as spl_price
+                    ,spl.unit_count as spl_unit_count
+                    ,DATE(spl.create_date) as spl_create_date
+                    ,CONCAT(u_add.name , ' ' , u_add.lastname) as user_add
+                    ,CONCAT(u_edit.name , ' ' , u_edit.lastname) as user_edit
+                FROM `service_price_list` as spl 
+                JOIN hospital as h ON h.id = spl.hospital_id 
+                JOIN service_type as st ON st.id = spl.jobtype 
+                LEFT JOIN user as u_add ON u_add.id = spl.add_user_id 
+                LEFT JOIN user as u_edit ON u_edit.id = spl.edit_user_id ";
+        if ($id != -1) {
+            $sql = $sql . " WHERE id = $id ";
+        }else{
+            $sql = $sql . " WHERE 1 ";
+        }
+
+        $sql = $sql . " ORDER BY spl.id;";
+        
+//        Util::writeFile('sql.txt', $sql);
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function getSpecimen($conn)
     {
         $sql = "SELECT *

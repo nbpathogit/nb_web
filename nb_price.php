@@ -89,8 +89,8 @@ if ($hide) {
             <table class="" id="nb_price_tbl">
                 <thead>
                     <tr>
-                        <th> row_id </td>
-                        <th> hospital </td>
+                        <th> row_id </th>
+                        <th> hospital </th>
                         <th> type </th>
                         <th> code </th>
                         <th> detail </th>

@@ -43,58 +43,26 @@ $patient[0]['pnum'] = "TBD";
     <div class="container-fluid pt-4 px-4">
         <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
             
-           <h1 align="center"><span id="">หน้าลงเวลาผู้ตัดเนื้อ</span></h1>
-           <h3 align="center"><span id="title_page_message">กำลังแสดงจากข้อมูลย้อนหลัง 1 เดือน</span></h3>
-           <div>
-               <input type="checkbox" id="disable_popup" name="disable_popup" value="" >
-               <label for="vehicle1"> Disable Warning POP UP </label><br>
-           </div>
-           <div>
-                <div class="<?= $isBorder ? "border" : "" ?> ">
-                    <label for="p_cross_section_id_job1"  class="form-label">เลือกพนักงานช่วยตัดเนื้อที่ต้องการจะลงเวลา</label>
-                    <select name="p_cross_section_id_job1" id="p_cross_section_id_job1" class="form-select"  <?= ( $isCurUserAdmin || ($cur_user_can_manaage_job == 1) ) ? "" : " disabled readonly " ?>>
-                        <!--<option value="">กรุณาเลือก</option>-->
-                        <?php foreach ($userTechnic as $user): ?>
-                            <?php if($user['user_status'] == 1): ?>
-                            <option value="<?= ($user['uid']); //user id     ?>"  
-                                    <?= ( $cur_user_id == $user['uid'])? ' selected ' : '' ; ?>
-                                    job_role_id="1"
-                                    patient_id="<?= $patient[0]['id']; //patient id     ?>"
-                                    patient_number="<?= $patient[0]['pnum']; //Sergical number     ?>"
-                                    user_id="<?= ($user['uid']); //user id     ?>"
-                                    pre_name="<?= ($user['pre_name']); //pre name     ?>"
-                                    name="<?= ($user['name']); //name     ?>"
-                                    lastname="<?= ($user['lastname']); //name     ?>"
-                                    jobname="<?= $jobRoles[0]['name']; //     ?>"
-                                    pay="<?= $jobRoles[0]['cost_per_job']; //     ?>"
-                                    cost_count_per_day="<?= $jobRoles[0]['cost_count_per_day']; //     ?>"
-                                    comment=""
-                                    >  <?= $user['pre_name'] . ' ' . $user['name'] . ' ' . $user['lastname'] ?>
-                            </option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>                                     
-                    </select> 
-                </div>
-            </div>
+           <h1 align="center"><span id="">หน้าแสดงรายการราคา</span></h1>
 
-<table class="table table-hover table-striped" id="bill_table" style="width:100%">
+
+
+<table class="table table-hover table-striped" id="nb_price_view_table" style="width:100%">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>                
-                        <th scope="col">1</th>      
-                        <th scope="col">2</th>       
-                        <th scope="col">3</th>          
-                        <th scope="col">4</th>          
-                        <th scope="col">5</th>          
-                        <th scope="col">6</th>             
-                        <th scope="col">7</th>         
-                        <th scope="col">8</th>          
-                        <th scope="col">9</th>              
-                        <th scope="col">10</th>          
-                        <th scope="col">11</th>          
-                        <th scope="col">12</th> 
-                        <th scope="col">13</th> 
-
+                        <th> spl_id </th>              
+                        <th> h_id </th>                
+                        <th> st_id </th>               
+                        <th> spl_number </th>          
+                        <th> h_hospital </th>          
+                        <th> st_service_type </th>     
+                        <th> spl_speciment_num </th>   
+                        <th> spl_specimen </th>        
+                        <th> spl_price </th>           
+                        <th> spl_unit_count </th>      
+                        <th> spl_create_date </th>     
+                        <th> user_add </th>            
+                        <th> user_edit </th>           
                     </tr>
                 </thead>
             </table>
@@ -147,6 +115,12 @@ $patient[0]['pnum'] = "TBD";
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
+    
+    $("#manage_table").addClass("active");
+    $("#price_tab_view").addClass("active");
+    $("#manage_table").addClass("show");
+    $(".manage_table_dropdown").addClass("show");
+    
     var skey = "<?= $_SESSION["skey"] ?>";
     let cur_user_id = "<?= $_SESSION["userid"] ?>";
     let job_role_id = 1;
@@ -220,10 +194,10 @@ $patient[0]['pnum'] = "TBD";
 
 
     // datatable
-    var table = $('#job1_finish_table').DataTable({
-        "ajax": "ajax_job1_finish/job1_finish.php?skey=" + skey + "&range=1m",
+    var table = $('#nb_price_view_table').DataTable({
+        "ajax": "ajax_nb_price_view/nb_price_view.php?skey=" + skey + "&range=1m",
         responsive: true,
-        dom: 'BPlfrtip',
+        dom: 'BPlfriptip',
         
 //=======================================
 //["pid"]=> string(3) "200" ["p_pnum"]=> string(9) "SN2323116" ["p_hn"]=> string(0) "" ["p_accept"]=> string(19) "2023-11-04 23:04:27" 
@@ -236,22 +210,22 @@ $patient[0]['pnum'] = "TBD";
 //-------8-----------------------------------------9---------------------10------------------11------------------12--------
 //
 
-        columns: [
-        { title: '#' },
-        { title: 'SN' },
-        { title: 'HN' },
-        { title: 'admit date' },
-        { title: 'Patient' },
-        { title: 'j_id' },
-        { title: 'j_patient_id' },
-        { title: 'j_user_id' },
-        { title: 'j_job_role_id' },
-        { title: 'j_jobname' },
-        { title: 'j_owners' },
-        { title: 'qty' },
-        { title: 'finish_date' },
-        { title: 'Manage' }
-        ],
+//        columns: [
+//        { title: '#' },
+//        { title: 'SN' },
+//        { title: 'HN' },
+//        { title: 'admit date' },
+//        { title: 'Patient' },
+//        { title: 'j_id' },
+//        { title: 'j_patient_id' },
+//        { title: 'j_user_id' },
+//        { title: 'j_job_role_id' },
+//        { title: 'j_jobname' },
+//        { title: 'j_owners' },
+//        { title: 'qty' },
+//        { title: 'finish_date' },
+//        { title: 'Manage' }
+//        ],
         
         buttons: [
             {
@@ -277,58 +251,33 @@ $patient[0]['pnum'] = "TBD";
                 }
             },
             
-            {
-            extend: 'collection',
-            text: 'ระยะเวลาย้อนหลัง',
-            autoClose: true,
-            buttons: [{
-                text: '1 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("ajax_job1_finish/job1_finish.php?skey=" + skey + "&range=1m").load();
-                    $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 1 เดือน');
-
-                }
-            },
-            {
-                text: '3 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("ajax_job1_finish/job1_finish.php?skey=" + skey + "&range=3m").load();
-                    $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 3 เดือน');
-                }
-            },
-            {
-                text: '6 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("ajax_job1_finish/job1_finish.php?skey=" + skey + "&range=6m").load();
-                    $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 6 เดือน');
-                }
-            },
-            {
-                text: '1 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("ajax_job1_finish/job1_finish.php?skey=" + skey + "&range=1y").load();
-                    $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 1 ปี');
-                }
-            },
-            {
-                text: '2 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("ajax_job1_finish/job1_finish.php?skey=" + skey + "&range=2y").load();
-                    $('#title_page_message').text('กำลังแสดงจากข้อมูลย้อนหลัง 2 ปี');
-                }
-            },
-            {
-                text: 'ทั้งหมด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("ajax_job1_finish/job1_finish.php?skey=" + skey + "").load();
-                    $('#title_page_message').text('กำลังแสดงจากข้อมูลทั้งหมด');
-                }
-            }
-            ]
-        },],
+            ],
         "order": [
             [0, "desc"]
         ],
+        
+        
+//  $sql = "SELECT spl.id as spl_id                                    $data[] = [$p['spl_id']               //0   <th> spl_id </th>               
+//              ,h.id as h_id                                                   , $p['h_id']                 //1   <th> h_id </th>                 
+//              ,st.id as st_id                                                 , $p['st_id']                //2   <th> st_id </th>                
+//              ,spl.number as spl_number                                       , $p['spl_number']           //3   <th> spl_number </th>           
+//              ,h.hospital as h_hospital                                       , $p['h_hospital']           //4   <th> h_hospital </th>           
+//              ,st.service_type as st_service_type                             , $p['st_service_type']      //5   <th> st_service_type </th>      
+//              ,spl.speciment_num as spl_speciment_num                         , $p['spl_speciment_num']    //6   <th> spl_speciment_num </th>    
+//              ,spl.specimen as spl_specimen                                   , $p['spl_specimen']         //7   <th> spl_specimen </th>         
+//              ,spl.price as spl_price                                         , $p['spl_price']            //8   <th> spl_price </th>            
+//              ,spl.unit_count as spl_unit_count                               , $p['spl_unit_count']       //9   <th> spl_unit_count </th>       
+//              ,DATE(spl.create_date) as spl_create_date                       , $p['spl_create_date']      //10  <th> spl_create_date </th>      
+//              ,CONCAT(u_add.name , ' ' , u_add.lastname) as user_add          , $p['user_add']             //11  <th> user_add </th>             
+//              ,CONCAT(u_edit.name , ' ' , u_edit.lastname) as user_edit       , $p['user_edit']]           //12  <th> user_edit </th>            
+//          FROM `service_price_list` as spl                                                                     
+//          JOIN hospital as h ON h.id = spl.hospital_id                                                         
+//          JOIN service_type as st ON st.id = spl.jobtype                                                       
+//          LEFT JOIN user as u_add ON u_add.id = spl.add_user_id                                                
+//          LEFT JOIN user as u_edit ON u_edit.id = spl.edit_user_id                                             
+//                                                                                                               
+
+        
         searchPanes: {
             initCollapsed: true,
         },
@@ -337,135 +286,40 @@ $patient[0]['pnum'] = "TBD";
             searchPanes: {
                 show: true
             },
-            targets: [ 3,10]
+            targets: []
         },
         {
             searchPanes: {
                 show: false
             },
-            targets: [0, 1, 2,4, 5,6,7,8 ,9,11,12]
+            targets: [0,1,2,8]
         },
         {
             visible: true,
-            targets: [0, 1, 2, 3,4, 9,10,11,12]
+            targets: []
         },
         {
             visible: false,
-            targets: [5,6,7,8]
+            targets: [0,1,2]
         },
-         
-        {
-            "render": function (data, type, row) {
-                let renderdata = '';
-                let patient_id = row[0];
-                let sn = row[1];
-                renderdata += '<a href="patient_edit.php?id='+patient_id+'">'+sn+'</a>';
-                return renderdata;
-            },
-            "targets": 1
-        },
-
         {
             "render": function (data, type, row) {
                 return row[2];
             },
             "targets": 2
-        },
-        {
-            "render": function (data, type, row) {
-                let patient_id = row[0];
-
-                let renderdata = '<span id="qty_'+patient_id+'" >'+row[11]+'</span>';//<span id="qty_99"></span>
-                
-                //renderdata += '<a  onclick="opend('+patient_id+','+hn+');"  class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Edit</a>';
-                
-                return renderdata;
-            },
-            "targets": 11
-        },
-        {
-            "render": function (data, type, row) {
-                let renderdata = '';
-                
-                let sn = row[1];
-                let hn = row[2];
-                let qty  = row[11];
-
-                
-                let patient_id = row[0];
-                let patient_number = row[1];
- 
-                renderdata += '<a type="button"  onclick="setTargetPatient_id('+patient_id+',\''+sn+'\',\''+hn+'\','+qty+');" class="btn btn-outline-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editQtyModal"><i class="fa-solid fa-marker"></i> edit Qty </a>';
-                renderdata += '<a id="finish_btn_'+patient_id+'"  onclick="finishJob1ByPatientId('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Add One</a>';
-                renderdata += '<a id="remove_btn_'+patient_id+'"  onclick="removeJob1ByPatientId('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Remove One</a>';
-                if(isCurUserAdmin=='1' || cur_user_can_manaage_job == '1' ){
-                    renderdata += '<a id="remove_all_btn_'+patient_id+'"  onclick="removeJob1ByPatientIdAll('+patient_id+',\''+patient_number+'\',\''+hn+'\');"           class="btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i>Remove All</a>';
-                }else{
-                     renderdata += '<a class="btn btn-outline-primary btn-sm me-1 edit disabled"><i class="fa-solid fa-marker"></i>Remove All</a>';
-                }
-                return renderdata;
-            },
-            "targets": 13
         }
         ],
 //        "initComplete": colorAdd,
     });
 
     // add color when reload
-    table.on('draw', colorAdd);
+    //table.on('draw', colorAdd);
 
 
-    // delete user
-    $('#patient_table tbody').on('click', 'a.delete', function (e) {
-        var data = table.row($(this).parents('tr')).data();
 
-        e.preventDefault();
-        if (confirm("Item will move to trash. Are you sure?")) {
-            let frm = $("<form>");
-
-            frm.attr('method', 'post');
-            frm.attr('action', "patient.php");
-
-            $('<input>', {
-                type: 'hidden',
-                id: 'foo',
-                name: 'delete_id',
-                value: data[0]
-            }).appendTo(frm);
-
-            frm.appendTo("body");
-            frm.submit();
-        }
-    });
-
-    // trash patient
-    $('#patient_table tbody').on('click', 'a.trash', function (e) {
-        var data = table.row($(this).parents('tr')).data();
-
-        e.preventDefault();
-        if (confirm("Item will move to trash. Are you sure?")) {
-            let frm = $("<form>");
-
-            frm.attr('method', 'post');
-            frm.attr('action', "patient.php");
-
-            $('<input>', {
-                type: 'hidden',
-                id: 'foo',
-                name: 'trash_id',
-                value: data[0]
-            }).appendTo(frm);
-
-            frm.appendTo("body");
-            frm.submit();
-
-
-        }
-
-    });
 
     // set active tab
-    $("#patienttab").addClass("active");
+//    $("#patienttab").addClass("active");
 
 
 });
