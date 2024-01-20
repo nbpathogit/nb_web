@@ -154,6 +154,7 @@
                             <a class="dropdown-item" id="docdownload_tab" href="doc_download.php">ดาวน์โหลดเอกสาร</a>
                             <a class="dropdown-item" id="stuff" href="stuff.php">บุคลากร</a>
                             <a class="dropdown-item" id="service" href="service.php">บริการของเรา</a>
+                            <a class="dropdown-item" id="learning_clip"  target="_black" href="https://youtube.com/playlist?list=PLdCsOsPc8bjqp11uosw7eyTE1QJoHqCAl&si=EUg6ySKsrBLKb4yJ">ดูคลิปสอนการใช้งาน</a>
                         </div>
                     </div>
 
