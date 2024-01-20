@@ -141,6 +141,13 @@ if ($hide) {
     </div>
 </div>
 
+<div class="container-fluid pt-4 px-4">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
+        <h3 style="text-align:center;">
+            <a target="_black" href="https://os5.mycloud.com/action/share/db0a2eb2-0c0f-41b2-9e15-8303f5bf49c2" > Link For Reference Excel Sheet </a>
+        </h3>
+    </div>
+</div>
 
 <?php require 'includes/footer.php'; ?>
 
