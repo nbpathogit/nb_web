@@ -1,8 +1,11 @@
 <?php
 $isBorder = false;
 $isSetShowaddResultButton = true;
+
+$isPersonOwnThisCase = ($isCurrentCytologistIsOwnerThisCase || $isCurrentPathoIsOwnerThisCase);
 ?>
-<?php if ($isCurrentCytologistIsOwnerThisCase) : ?>
+
+<?php if ($isPersonOwnThisCase) : ?>
     <p align="center" > <span id="owner_job7a" class="owner_job7" style="font-size:20px"><span class="badge rounded-pill bg-secondary" id="">NA</span> </span> คุณคือผู้ออกผลของผู้ป่วยท่านนี้  </p>
 <?php else : ?>
     <p align="center" style="color: firebrick">คุณไม่ไช่ผู้ออกผลของผู้ป่วยท่านนี้ คุณสามารถดูข้อมูลได้เท่านั้น</p>
@@ -21,10 +24,10 @@ $isSetShowaddResultButton = true;
         }else{
             $isCurResultReleased = true;
         }
-        $is_show_edit_btn = !$isCurResultReleased && $isCurrentCytologistIsOwnerThisCase;
+        $is_show_edit_btn = !$isCurResultReleased && $isPersonOwnThisCase;
         $is_show_delete_btn = $is_show_edit_btn && ($presultupdate['group_type']==2);
         $is_show_save_btn = false;
-        $is_show_template_btn = !$isCurResultReleased && $isCurrentCytologistIsOwnerThisCase;
+        $is_show_template_btn = !$isCurResultReleased && $isPersonOwnThisCase;
         ?>
         <hr style="height:1px;border-width:0;color:black;background-color:black;">
         <div class="row <?= $isBorder ? "border" : "" ?>">
@@ -48,9 +51,9 @@ $isSetShowaddResultButton = true;
                 <?php if(!$isCurResultReleased && ($count_presultupdates == $key + 1) && true): // ================ Checking for the lastest entry ================================================== ?>
                     <?php
 
-                        $is_show_add_btn = $isCurrentCytologistIsOwnerThisCase;
-                        $is_show_refresh_btn = $isCurrentCytologistIsOwnerThisCase;
-                        $is_show_detail_btn = $isCurrentCytologistIsOwnerThisCase;
+                        $is_show_add_btn = $isPersonOwnThisCase;
+                        $is_show_refresh_btn = $isPersonOwnThisCase;
+                        $is_show_detail_btn = $isPersonOwnThisCase;
                     ?>
                     <a class="btn btn-outline-primary btn-sm me-1 " onclick="add_job6(<?= $presultupdate['id']?>)" id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
                     <a class="btn btn-outline-primary btn-sm me-1 " onclick="refresh_job6(<?= $patient[0]['id']?>,<?= $presultupdate['id']?>)"  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
@@ -119,6 +122,12 @@ $isSetShowaddResultButton = true;
              <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
          </span>  
      </div>
+     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+         <b>แพทย์ผู้ออกผล:</b>
+         <span id="owner_job5a" class="owner_job5" style="font-size:20px">
+             <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
+         </span>  
+     </div>
 
     
 
@@ -127,7 +136,7 @@ $isSetShowaddResultButton = true;
     
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
         <!--<div class="col">-->
-            <?php $isEnable_critical_report = $curstatusid == "12000" && $isCurrentCytologistIsOwnerThisCase; ?> 
+            <?php $isEnable_critical_report = $curstatusid == "12000" && $isPersonOwnThisCase; ?> 
             <?php if(!$isCurUserCust):  ?>
             <input class="form-check-input border-danger" type="checkbox" value="1" id="critical_report" name="critical_report" <?= ($isEnable_critical_report) ? '' : 'disabled'; ?>   <?= $patient[0]['iscritical'] ? "checked" :"" ?>>
             <label class="form-check-label text-danger" for="critical_report" ><B> Critical Report </B></label>
@@ -144,10 +153,10 @@ $isSetShowaddResultButton = true;
 <?php if(!$isCurUserCust):  ?>
 
 
-<?php $isShow_btnmove12000 = $curstatusid != "12000" && $isCurrentCytologistIsOwnerThisCase; ?> 
+<?php $isShow_btnmove12000 = $curstatusid != "12000" && ($isPersonOwnThisCase || $isCurrentPathoIsOwnerThisCase); ?> 
 <button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary" <?= $isShow_btnmove12000 ? '' : 'disabled'; ?>>&nbsp;&nbsp;Start Diagnostic&nbsp;&nbsp;</button>
 
-<?php $isShow_newReportSection = $curstatusid == "12000" && $isCurrentCytologistIsOwnerThisCase && !$isLastReleaseGroup3DateNull; ?> 
+<?php $isShow_newReportSection = $curstatusid == "12000" && $isPersonOwnThisCase && !$isLastReleaseGroup3DateNull; ?> 
 <button class="btn btn-primary" id="add_new_report_section_btn"  data-bs-toggle="modal"  data-bs-target="#add_result_type_modal" <?= ($isShow_newReportSection) ? '' : 'disabled'; ?> title="เพิ่มกล่องข้อความรายงานผลใหม่">&nbsp;&nbsp;Add New Report Section.&nbsp;&nbsp;</button>
 
 
@@ -156,11 +165,11 @@ $isSetShowaddResultButton = true;
 <!--<button name="discard_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Discard&nbsp;&nbsp;</button>-->
 <!--<button name="edit_u_result" type="submit" class="btn btn-primary" style="display: none;">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button>-->
   <?php
-    $isShowSendToReviewbtn = $isCurrentCytologistIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
+    $isShowSendToReviewbtn = $isPersonOwnThisCase  // First patho is ownder this patient id (Cur_user == First patho)
         && $isLastReleaseGroup3SecondPathoAval                         //If Second Patho is select in last release group
         && $curstatus[0]['id'] == 12000;                     //and Status == 12000
 //        && $isLastedResultReleaseDateNULL;                  //If Last report message block still not released
-    $isShow_btn_release = $isCurrentCytologistIsOwnerThisCase  // First patho is ownder this patient id (Cur_user == First patho)
+    $isShow_btn_release = $isPersonOwnThisCase  // First patho is ownder this patient id (Cur_user == First patho)
         && $curstatus[0]['id'] == 12000;                         //and Status == 12000
 //        && $isLastReleaseGroup3DateNull;                     
     ?>

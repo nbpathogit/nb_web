@@ -336,6 +336,8 @@ $txtWriteOut .= $header_txt;
 $footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
 $mpdf->SetHTMLFooter($footer);
 
+$file_rev=1;
+
 //==START PN/LN type =====================================================================================================================================
 
 if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
@@ -343,9 +345,13 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 
 //=======START Result3 Group=========================================================================================================================================
     $job7s = Job::getByPatientJobRole($conn, $patient[0]['id'], 7); // Cycologist
-
-    $cytologist = User::getByID($conn, $job7s[0]['user_id']);
-    $signedcytologist = $cytologist->name_e . " " . $cytologist->lastname_e . " " . $cytologist->educational_bf;
+    if(!empty($job7s)){
+        $cytologist = User::getByID($conn, $job7s[0]['user_id']);
+//        echo "cytologist";
+//        var_dump($cytologist);
+//        echo "\n";
+        $signedcytologist = $cytologist->name_e . " " . $cytologist->lastname_e . " " . $cytologist->educational_bf;
+    }
 //    var_dump($job7s[0]['user_id']);
 //    die();
     
@@ -403,9 +409,16 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
                     //
                     $i = $i + 1;
                     $jobPatho = Job::getAll($conn, $patient[0]['id'], 5);
-                    $pathoUserID = $jobPatho[0]['user_id'];
-                    $pathoUser = User::getByID($conn, $pathoUserID);
-                    $signedpatho = $pathoUser->name_e . " " . $pathoUser->lastname_e . " " . $pathoUser->educational_bf;
+//                    echo "jobPatho";
+//                    var_dump($jobPatho);
+//                    echo "\n";
+                    if(!empty($jobPatho)){
+                        $pathoUserID = $jobPatho[0]['user_id'];
+                        $pathoUser = User::getByID($conn, $pathoUserID);
+                        $signedpatho = $pathoUser->name_e . " " . $pathoUser->lastname_e . " " . $pathoUser->educational_bf;
+                    }
+
+                    
                     if ($isFinished) {
                         $release_time = $prsu['release_time'];
                     } else {
@@ -418,6 +431,8 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
     } else {
         
     }
+    $file_rev=1;
+    
 
     $signature = file_get_contents('pdf_result/patient_format_signature_pdf_0.php');// CSS 
     $signature_txt = file_get_contents('pdf_result/patient_format_signature_pdf_0_txt.php');// CSS 
@@ -430,11 +445,27 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
     $signature = $signature . file_get_contents('pdf_result/patient_format_signature_pdf_3.php');// Table close with Blank
     $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_pdf_3_txt.php');// Table close with Blank
 
-    $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_cytologist.php');// Digital signed Cytologist
-    $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_digital_pdf_cytologist_txt.php');// Digital signed Cytologist
+    if(!empty($cytologist)){
+        $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_cytologist.php');// Digital signed Cytologist
+        $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_digital_pdf_cytologist_txt.php');// Digital signed Cytologist
+        $signature = str_replace("<signedcyto>", $signedcytologist, $signature);
+        $signature_txt = str_replace("<signedcyto>", $signedcytologist, $signature_txt);
+    }
     
-    $signature = str_replace("<signedcyto>", $signedcytologist, $signature);
-    $signature_txt = str_replace("<signedcyto>", $signedcytologist, $signature_txt);
+    if(!empty($jobPatho)){
+        $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_a.php');// Digital signed patho
+        $signature_txt = $signature_txt . file_get_contents('pdf_result/patient_format_signature_digital_pdf_a_txt.php');// Digital signed patho
+        $signature = str_replace("<signedpatho>", $signedpatho, $signature);
+        $signature_txt = str_replace("<signedpatho>", $signedpatho, $signature_txt);
+    }
+    
+
+    
+
+    
+    $signature = str_replace("<release_time>", $release_time, $signature);
+    $signature_txt = str_replace("<release_time>", $release_time, $signature_txt);
+    
     // If second pathologist confirm
     if($isGroup3SecondPathoAval){
         $signature = $signature . file_get_contents('pdf_result/patient_format_signature_digital_pdf_Secondpatho.php');// Digital signed by Second patho
@@ -536,7 +567,7 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
     } else {
         
     }
-
+    $file_rev=$counter_result2;
 //=======END Result2 Group========================================================================================================================================
 
 
@@ -631,7 +662,7 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 //'F': save as file $file_out
 
 
-$reportFileName = $patient[0]['pnum'] . '_R' . $counter_result2 . '_' . $patient[0]['phospital_num'];
+$reportFileName = $patient[0]['pnum'] . '_R' . $file_rev . '_' . $patient[0]['phospital_num']; //$file_rev
 
 if ($isPreviewMode == TRUE) {
     $reportFileName = 'PREVIEW_' . $reportFileName;

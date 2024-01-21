@@ -1043,6 +1043,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
         <?php endif; ?>
         <?php  if($patient[0]['sn_type']=='PN' || $patient[0]['sn_type']=='LN'): ?>
             <?php require 'includes/patient_form_067_job7_assigned_cytologist.php'; ?>
+            <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?> 
         <?php else: ?>
             <?php require 'includes/patient_form_065_job5_assigned_patho.php'; ?> 
         <?php endif; ?>
