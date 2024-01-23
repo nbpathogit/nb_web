@@ -102,9 +102,9 @@ $curStatusAuthEdit = (
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($hospitals as $hospital): ?>
                 <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
-                <option value="" ></option>
+                
                 <?php if($hospital['id'] == 0 ): ?>
-
+                    <option value="" ></option>
                 <?php else: ?>
                     <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= htmlspecialchars($hospital['hospital']); ?></option>
                 <?php endif; ?>

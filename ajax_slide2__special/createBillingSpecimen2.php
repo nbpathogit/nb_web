@@ -8,7 +8,7 @@ $conn = require '../includes/db.php';
 
 
 try {
-    foreach ($_POST['blox_name'] as $key => $blox_name) {
+
 
         $billing = ServiceBilling::getInitObj();
         $billing->patient_id = (int) $_POST['patient_id'];
@@ -28,7 +28,7 @@ try {
         $billing->hn = $_POST['cur_phospital_num'];
         
         $billing->nm_slide_count=0; //text	
-        $billing->sp_slide_block=$blox_name; //text
+        $billing->sp_slide_block=$_POST['blox_name']; //text
         $billing->sp_slide_count=0; //text
 
         $billing->send_doctor = $_POST['pclinician_text'];
@@ -39,7 +39,7 @@ try {
 //        die();
 
         $billing->create($conn);
-    }
+    
 } catch (Exception $e) {
     echo 'Caught exception: ', $e->getMessage(), "\n";
 }

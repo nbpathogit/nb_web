@@ -67,41 +67,63 @@ function refreshSpSlideRequested(isAlert) {
 //</div>
     var datajson = JSON.parse(req_id_list);
     let str1 = "";
+    let str2 = "";
     for (var i in datajson)
     {
         str1="";
+        str2="";
         str1 = str1 + '';
         str1 = str1 + '<div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">';
 
         str1 = str1 + '<p align="center"><b>';
         str1 = str1 + "รายการที่ร้องขอแล้ว (เลขที่" + datajson[i].id + ") สั่งย้อมเมื่อ [" + datajson[i].req_date + "]";
         str1 = str1 + ' [ปุ่มลบกำลังพัฒนา หากต้องการลบ เบื้องต้ให้ติดต่อโปรแกรมเมอร์ลบให้เป็นการชั่วคราว]</b></p>';
+        
 
-        str1 = str1 + '<p align="left"><b>พนักงานเตรียมสไลด์พิเศษ:</b><span id="" style="font-size:20px">';
-        $.ajax({
-            type: 'POST',
-            'async': false,
-            url: "ajax_slide2__Job4_rq/getJobFromReqId.php",
-            data: {
-                'req_id': datajson[i].id,
-            },
-            success: function (data) {
-                if (data[0] != "[") {
-                    alert(data);
-                }
-                var datajson2 = JSON.parse(data);
-                for (var j in datajson2)
-                {
-                    str1 = str1 + '<span class="badge rounded-pill bg-primary" id="">' + datajson2[j].name + ' ' + datajson2[j].lastname + '</span>';
-                }
-            },
-            error: function (jqxhr, status, exception) {
-                alert('Exception:', exception);
-            }
-        });
+
+//        str1 = str1 + '<p align="left"><b>พนักงานเตรียมสไลด์พิเศษ:</b><span id="" style="font-size:20px">';
+//        $.ajax({
+//            type: 'POST',
+//            'async': false,
+//            url: "ajax_slide2__Job4_rq/getJobFromReqId.php",
+//            data: {
+//                'req_id': datajson[i].id,
+//            },
+//            success: function (data) {
+//                if (data[0] != "[") {
+//                    alert(data);
+//                }
+//                var datajson2 = JSON.parse(data);
+//                for (var j in datajson2)
+//                {
+//                    str1 = str1 + '<span class="badge rounded-pill bg-primary" id="">' + datajson2[j].name + ' ' + datajson2[j].lastname + '</span>';
+//                }
+//            },
+//            error: function (jqxhr, status, exception) {
+//                alert('Exception:', exception);
+//            }
+//        });
         str1 = str1 + '</span></p>';
 
         str1 = str1 + '<p align="left"><b>order ย้อมพิเศษ:</b><span id="" style="font-size:20px">';
+        
+        
+        
+        str1 += '    <table class="table table-bordered border-dark" id="">';
+        str1 += '        <thead>';
+        str1 += '            <tr>';
+        str1 += '                <th >Id</th>';
+        str1 += '                <th >Patient Number</th>';
+        str1 += '                <th >Code Name</th>';
+        str1 += '                <th >Description</th>';
+        str1 += '                <th >block</th>';
+        str1 += '                <th >Price</th>';
+        str1 += '                <th >Remark/comment</th>';
+        str1 += '                <th >Manage</th>';
+        str1 += '            </tr>';
+        str1 += '        </thead>';
+        str1 += '        <tbody id="xx">';
+        
         $.ajax({
             type: 'POST',
             'async': false,
@@ -116,23 +138,45 @@ function refreshSpSlideRequested(isAlert) {
                     if (data[0] != "[") {
                         alert(data);
                     }
-                    str1 = str1 + '<span class="badge rounded-pill bg-primary" id="">' + "("+datajson3[j].code_description + ")(" + datajson3[j].description  + ")(" + datajson3[j].sp_slide_block  + ")(" + datajson3[j].cost  + ')</span>';
+                    //str1 = str1 + '<span class="badge rounded-pill bg-primary" id="">' + "("+datajson3[j].code_description + ")(" + datajson3[j].description  + ")(" + datajson3[j].sp_slide_block  + ")(" + datajson3[j].cost  + ')</span>';
+                
+                
+                
+                    str1 += ' <tr>                                              ';
+                    str1 += '     <td >'+datajson3[j].id + '</td>               ';
+                    str1 += '     <td >'+datajson3[j].number+'</td>             ';
+                    str1 += '     <td >'+datajson3[j].code_description+'</td>   ';
+                    str1 += '     <td >'+datajson3[j].description+'</td>        ';
+                    str1 += '     <td >'+datajson3[j].sp_slide_block+'</td>     ';
+                    str1 += '     <td >'+datajson3[j].cost+'</td>               ';
+                    str1 += '     <td >'+datajson3[j].comment+'</td>            ';
+                    str1 += '     <td >  </td>                                  ';
+                    str1 += ' </tr>                                             ';
+                
+
                 }
+                
             },
             error: function (jqxhr, status, exception) {
                 alert('Exception:', exception);
             }
         });
-        str1 = str1 + '</span></p>';
         
+        str1 += '         </tbody>';
+        str1 += '    </table>';
+        
+        str1 = str1 + '</span></p>';
         str1 = str1 + '<p align="left"><b>Comment:</b><span id="" style="font-size:20px">';
         str1 = str1 + datajson[i].comment;
-        
         str1 = str1 + '</span></p>';
-
         str1 = str1 + "</div>";
+        
+
+        
         $('#sp_slide_requested').append(str1);
+        $('#sp_slide_requested').append(str2);
         str1 = "";
+        str2 = "";
 
     }
 

@@ -329,31 +329,45 @@ function addAction2Flow() {
         
         //====Check Whether Data Ready to Proceed======
         
-        let spcimen_list2_scope = document.getElementById("spcimen_list2");
-        let taginside = spcimen_list2_scope.getElementsByTagName("span");
-        let spcimen_list2_count = 0;
-        for (i = 0; i < taginside.length; i++) {
-            spcimen_list2_count = spcimen_list2_count + 1;
-            console.log(taginside[i].textContent);
-        }
+        let sp2_tr = [];
+        let sp2_td = [];
         
-        //owner_job4
-        let owner_job4_scope = document.getElementById("owner_job4");
-        let taginside2 = owner_job4_scope.getElementsByTagName("span");
-        let owner_job4_count = 0;
-        for (i = 0; i < taginside2.length; i++) {
-            owner_job4_count = owner_job4_count + 1;
-            console.log(taginside2[i].textContent);
+        let spcimen_list2_scope = document.getElementById("spcimen_list_table2");
+        let taginside_tr = spcimen_list2_scope.getElementsByTagName("tr");
+        let spcimen_list2_count = 0;
+        for (let i = 0; i < taginside_tr.length; i++) {
+            if(i==0){continue};
+            spcimen_list2_count = spcimen_list2_count + 1;
+            console.log(taginside_tr[i].textContent);
+            let taginside_td=taginside_tr[i].getElementsByTagName("td");
+            sp2_td = [];
+            for(let j = 0;  j<taginside_td.length ; j++ ){
+                console.log(taginside_td[j].textContent);
+                sp2_td.push(taginside_td[j].textContent);
+            }
+            sp2_tr.push(sp2_td);
         }
+        //
+        
+        console.log(sp2_tr);
+//        return null;
+        //owner_job4
+//        let owner_job4_scope = document.getElementById("owner_job4");
+//        let taginside2 = owner_job4_scope.getElementsByTagName("span");
+//        let owner_job4_count = 0;
+//        for (i = 0; i < taginside2.length; i++) {
+//            owner_job4_count = owner_job4_count + 1;
+//            console.log(taginside2[i].textContent);
+//        }
         
         if(spcimen_list2_count == 0){
-            alert('ยังไม่ได้เลือก order ย้อมพิเศษ');
+            alert('ยังไม่มีรายการเตรวจพิเศษเลือกไว้');
             return null;
         }
-        if(owner_job4_count == 0){
-            //alert('ยังไม่ได้เลือกพนักงานเตรียมสไลด์พิเศษ');
-            //return null;
-        }
+//        if(owner_job4_count == 0){
+//            //alert('ยังไม่ได้เลือกพนักงานเตรียมสไลด์พิเศษ');
+//            //return null;
+//        }
         
 
 //        alert("a");

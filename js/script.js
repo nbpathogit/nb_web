@@ -20,6 +20,12 @@ $(document).ready(function () {
     $('#phospital_id').selectize({
         sortField: 'text'
     });
+    $('#phospital_select_for_price2').selectize({
+        sortField: 'text'
+    });
+//    $('#block_sp2').selectize({
+//        sortField: 'text'
+//    });//block_sp2
 
 //    $('#date_1000').datepicker().datepicker('setDate', 'today');
 

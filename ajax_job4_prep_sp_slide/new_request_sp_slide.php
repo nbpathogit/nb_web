@@ -23,7 +23,7 @@ $req_id = $req->id;
 ServiceBilling::setRequestIDifNotSet_SlideType2($conn, $_POST['patient_id'], $req_id,$cur_thai_time);
 
 //Add request id to
-Job::setRequestIDifNotSetJobRole4($conn, $_POST['patient_id'], $req_id,$cur_thai_time);
+//Job::setRequestIDifNotSetJobRole4($conn, $_POST['patient_id'], $req_id,$cur_thai_time);
 
 
 echo $req_id;

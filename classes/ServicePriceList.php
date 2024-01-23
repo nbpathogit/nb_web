@@ -38,7 +38,7 @@ class ServicePriceList {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
-        public static function getAll_v2($conn,$id= -1)
+    public static function getAll_v2($conn,$id= -1)
     {
         $sql = "SELECT spl.id as spl_id
                     ,h.id as h_id

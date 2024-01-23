@@ -1130,9 +1130,17 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     
 
 <div id="slide_sp_prep_section" class="container-fluid pt-4 px-4">
-    <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <!--hr noshade="noshade" width="" size="8" -->
-        <h4 align="center"><b>ตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
+            
+    <!--<h4 align="center"><a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample"><b>ตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></a></h4>-->
+    <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary"   id="collapseExample">
+        <!--hr noshade="noshade" width="" size="8" --> 
+        <h4 align="center"><b>ตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span>
+
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#slide_sp_prep_section_collapse" aria-expanded="false" aria-controls="slide_sp_prep_section_collapse">
+            ซ่อน/แสดง
+            </button>
+        </h4>
+        <div id="slide_sp_prep_section_collapse" class="collapse">
         <span id="sp_status_message">
             <?php
             if ($patient[0]['request_sp_slide'] == 1) {
@@ -1145,58 +1153,25 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
             ?>
         </span>
         
-        <span id="sp_slide_requested">
-            <div class="bg-nb  bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-                <p align="center"><b>รายการที่ xx ส่งตรวจพิเศษแล้วเมื่อ xx</b>
-                </p>
-                <p align="left">
-                    <b>พนักงานเตรียมสไลด์พิเศษ:</b>
-                    <span id="owner_job4_rq" style="font-size:20px">
-                        <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
-                        <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
-                        <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
-                    </span>
-                </p>
-                <p align="left">
-                    <b>order ตรวจพิเศษ:</b>
-                    <span id="spcimen_list2_rq" style="font-size:20px">
-                        <span class="badge rounded-pill bg-primary" id="">Aaaaaa</span>
-                        <span class="badge rounded-pill bg-primary" id="">Bbbbbb</span>
-                        <span class="badge rounded-pill bg-primary" id="">Cccccc</span>
-                    </span>  
-                </p>
-            </div>
-        </span>
-
-        <hr noshade="noshade" width="" size="6">
         <!--<hr>-->
-        <h5 align="center"><b>ใส่ข้อมูลเพื่อร้องขอตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
-        
+           
         <!--<hr noshade="noshade" width="" size="4">-->
-        <hr>
-        <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
-        <?php require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
-        <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
-
         <!--<hr>-->
-        <!--<form id="slide_prep" name="" method="post">-->
+        <!--<h3 align="center" style="color: #30A64A;">เสร็จสิ้นย้อมพิเศษ</h3>-->
+        <?php //require 'includes/patient_form_055_job4_prepare_sp_slide.php'; ?>
+        
+        
+        
 
-        <div align=""  class="mb-3">
-            <label for="p_sp_patho_comment">Comment</label><br>
+     
 
-            <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment"  ></textarea>
-            <?php if (!$isCurUserCust): ?>
-            <a hidden class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
-            <a hidden class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>
-            <?php endif; ?>
+            <?php require 'includes/patient_form_050_slide2_prepare_sp_slide.php'; ?>
+
+            <!--<hr>-->
+            <!--<form id="slide_prep" name="" method="post">-->
+
+            
         </div>
-
-         <?php if (!$isCurUserCust): ?>
-        <button name="btnmove8000" id="btnmove8000" type="submit" class="btn btn-primary" <?= ( !$isCurrentPathoIsOwnerThisCase) ? "disabled" : ""; ?>>&nbsp;&nbsp;สั่งย้อมพิเศษ&nbsp;&nbsp;</button>
-        <button hidden="" name="btnfinish8000" id="btnfinish8000" type="submit" class="btn btn-primary" <?= !($cur_request_sp_slide_status == 1) ? "disabled" : ""; ?>>&nbsp;&nbsp;ย้อมพิเศษเสร็จสิ้น&nbsp;&nbsp;</button>
-        <?php endif; ?>
-        <!--</form>-->
-
     </div>
 </div>
 
@@ -1270,8 +1245,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v3xปxปxปxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v3xxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v1xxxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v4"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v2"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_job1_crossection/job1.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job2_assis_cross/job2.js?v2x"></script>
@@ -1287,7 +1262,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v10xxxxxxxxxxxxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v6x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v7"></script>
 
 <script type="text/javascript">
                     var sn_type = '<?= $patient[0]['sn_type']; ?>';

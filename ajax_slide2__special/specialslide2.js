@@ -1,4 +1,59 @@
 
+//Update 
+function refreshDetailOfPrice(value) {
+    
+    //alert("value:"+value);
+    
+    if( ($('#pspecimen_for_select2 option').filter(':selected').attr('value')) == '0' ){
+        $('#add_spcimen_list2').prop('disabled', true);
+    }else{
+        $('#add_spcimen_list2').prop('disabled', false);
+    }
+    
+   
+    
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        type: 'POST',
+        url: 'ajax_slide2__special/getSpecimenList2_getByID.php',
+        data: {
+            'id': value,
+        },
+        success: function (data) {
+            console.log(data);
+            var datajson = JSON.parse(data); //convert String to JS Object
+            for (var i in datajson)
+            {
+                console.log(datajson[i].speciment_num);
+                console.log(datajson[i].specimen);
+                console.log(datajson[i].price);
+                console.log(datajson[i].comment);
+                $('#specimen_num2').val(datajson[i].speciment_num);
+                $('#specimen_for_specimen2').val(datajson[i].specimen);
+                $('#price_for_specimen2').val(datajson[i].price);
+                $('#comment_for_specimen2').val('');
+                $('#comment_for_specimen2').prop('readonly', false);
+
+                
+            }
+
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+    });
+
+    
+//    $('#specimen_num2').val($('#pspecimen_for_select2 option').filter(':selected').attr('specimen_num'));
+//    $('#specimen_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('specimen'));
+//    $('#price_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('price'));
+//    $('#comment_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('comment'));
+
+}
+
+
 //Update table of speciment in main page
 function refreshSpecimenList2(isAlert) {
     //alert("start ajax");
@@ -37,18 +92,32 @@ function updateSelectionSpeceman2(isalert) {
             var datajson = JSON.parse(data);
             if (datajson == "" || datajson == null) {
                 $('#pspecimen_for_select2 option').remove();
+                $('#pspecimen_for_select2_div label').remove();
+                $('#pspecimen_for_select2_div select').remove();
+                $('#pspecimen_for_select2_div div').remove();
+                $('#pspecimen_for_select2_div').append('<label for="pspecimen_for_select2" class="" >เลือกรายการสไลด์ย้อมพิเศษ</label>');
+                $('#pspecimen_for_select2_div').append('<select name="pspecimen_for_select2" id="pspecimen_for_select2" class=""  > </select>');
                 $('#pspecimen_for_select2').append('<option >No Data for this hospital</option>');
                 $('#pspecimen_for_select2').prop('disabled', true);
                 $('#add_spcimen_list2').prop('disabled', true);
+                $('#pspecimen_for_select2').selectize({
+                    sortField: 'text'
+                });
                 if (isalert) {
                     
                     alert('No Data for this Hospital , Please select other hospital');
                 }
             } else {
-                
-                //alert('Success' + datajson);
-                $('#pspecimen_for_select2').prop('disabled', false);
                 $('#pspecimen_for_select2 option').remove();
+                $('#pspecimen_for_select2_div label').remove();
+                $('#pspecimen_for_select2_div select').remove();
+                $('#pspecimen_for_select2_div div').remove();
+                
+                $('#pspecimen_for_select2_div').append('<label for="pspecimen_for_select2" class="" >เลือกรายการสไลด์ย้อมพิเศษ</label>');
+                $('#pspecimen_for_select2_div').append('<select name="pspecimen_for_select2" id="pspecimen_for_select2" class=""  > </select>');
+                //alert('Success' + datajson);
+                
+//                $('#pspecimen_for_select2 option').remove();
                 $('#pspecimen_for_select2').append('<option value="' + '' + '" >กรุณาเลือก</option>');
                 for (var i in datajson)
                 {
@@ -56,6 +125,16 @@ function updateSelectionSpeceman2(isalert) {
                     $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
                     
                 }
+                $('#pspecimen_for_select2').prop('disabled', false);
+                $('#pspecimen_for_select2').selectize({
+                    sortField: 'text',
+                    onChange: function(value, isOnInitialize) {
+//                        if(value !== ''){
+//                           alert('Value has been changed: ' + value);
+//                        }
+                        refreshDetailOfPrice(value);
+                    }
+                });
 //                if (isalert) {
 //                    alert('Please select specimen.');
 //                }
@@ -118,10 +197,25 @@ $("#refresh_spcimen_list2").on("click", function () {
 
 //On button click add new specimen bill
 $("#add_spcimen_list2").on("click", function () {
-    //alert("start ajax");
-    var printdbg = true;
+//    alert("start ajax");
+    let printdbg = true;
 
-    var cur_patient_id = $(".cur_patient_id").attr('tabindex');
+    
+    let pspecimen_for_select2 = $('#pspecimen_for_select2 option').filter(':selected').attr('value');
+//    alert("pspecimen_for_select2::"+pspecimen_for_select2)
+    if (pspecimen_for_select2 == null || pspecimen_for_select2 == "" ) {
+        alert("ยังไม่ได้เลือกรายการ");
+        return null;
+    }
+    
+    let block_sp2 = $('#block_sp2').val();
+    if (block_sp2 == null || block_sp2 == "" ) {
+        alert("ยังไม่ได้เลือกบล็อก");
+        return null;
+    }
+    
+    
+    let cur_patient_id = $(".cur_patient_id").attr('tabindex');
     var date_1000 = $(".cur_date_1000").attr('tabindex');
     var cur_phospital_num = $(".cur_phospital_num").attr('tabindex');
     var e = document.getElementById("pclinician_id");
@@ -160,57 +254,21 @@ $("#add_spcimen_list2").on("click", function () {
 
         console.log("specimen_id::" + specimen_id);//Specimen code
 
-        console.log("specimen_text" + specimen_text);
-        console.log("price_for_specimen" + price_for_specimen);
-        console.log("comment_for_specimen" + comment_for_specimen);
+        console.log("specimen_text::" + specimen_text);
+        
+        console.log("pspecimen_for_select2::" + pspecimen_for_select2);
+        
+        
+        console.log("price_for_specimen::" + price_for_specimen);
+        console.log("comment_for_specimen::" + comment_for_specimen);
         console.log("==============");
 
     }
-
-    if (specimen_text == "" || price_for_specimen == "") {
-        alert("No data insert");
-        return null;
-    }
     
     
-    
-    var uresultTypeNameLastest = '';
-    $('.uresultTypeName li').each(function (index) {
-        uresultTypeNameLastest = $(this).attr('tabindex');
-    });
 
 
-    //loop insert block name.
-    let SP2_Scope = document.getElementById("SP2_Scope");
-    let input_blox = SP2_Scope.getElementsByTagName("input");
-    let blox_name = [];
-    let blox_count = 0;
-    for (i = 0; i < input_blox.length; i++) {
-        if (input_blox[i].checked) {
-            console.log("Checked");
-            console.log(input_blox[i].getAttribute("va"));
-            blox_name.push(input_blox[i].getAttribute("va"));
-            blox_count = blox_count + 1;
-        } else {
-            console.log("UnChecked");
-            console.log(input_blox[i].getAttribute("va"));
-        }
-    }
-    
-    if(blox_count==0){
-        alert("ยังไม่ได้เลือกชนิดบล็ฮก กรุณาเลือกชนิดบล็อก ก่อน");
-        return null;
-    }
-    
-    for(i = 0; i < blox_name.length ; i++){
-        console.log(blox_name[i]);
-    }
-    
-    console.log("blox_count = "+blox_count)
 
-
-    
-    //return null;
 
     $.ajax({
         type: 'POST',
@@ -220,7 +278,7 @@ $("#add_spcimen_list2").on("click", function () {
         url: 'ajax_slide2__special/createBillingSpecimen2.php',
         data: {
             'patient_id': cur_patient_id,
-            'blox_name':blox_name,
+            'blox_name':block_sp2,
             'cur_pnum': cur_pnum,
             'specimen_id': specimen_id,
             'specimen_num': specimen_num,//specimen code
@@ -248,7 +306,7 @@ $("#add_spcimen_list2").on("click", function () {
         }
     });
 
-    alert('Finish Added.');
+//    alert('Finish Added.');
 });
 
 
@@ -296,16 +354,9 @@ $('#phospital_select_for_price2').on('change', function () {
 //on select specimen change
 $('#pspecimen_for_select2').on('change', function () {
     //alert( "Get from ID: "+this.value );
-    if( ($('#pspecimen_for_select2 option').filter(':selected').attr('value')) == '0' ){
-        $('#add_spcimen_list2').prop('disabled', true);
-    }else{
-        $('#add_spcimen_list2').prop('disabled', false);
-    }
+    alert("On Change.");
+    refreshDetailOfPrice(true);
     
-    $('#specimen_num2').val($('#pspecimen_for_select2 option').filter(':selected').attr('specimen_num'));
-    $('#specimen_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('specimen'));
-    $('#price_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('price'));
-    $('#comment_for_specimen2').val($('#pspecimen_for_select2 option').filter(':selected').attr('comment'));
 
 });
 
