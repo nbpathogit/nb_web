@@ -1244,9 +1244,9 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v3xปxปxปxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v4"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v2"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v4"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v5"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v3"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_job1_crossection/job1.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job2_assis_cross/job2.js?v2x"></script>

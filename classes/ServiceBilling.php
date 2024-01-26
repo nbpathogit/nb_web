@@ -73,7 +73,7 @@ class ServiceBilling {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
-        public static function getAllUnRequest($conn, $patient_id = 0,$type = 0, $start = '0') {
+    public static function getAllUnRequest($conn, $patient_id = 0,$type = 0, $start = '0') {
         $sql = "SELECT *
                 FROM service_billing ";
         
@@ -86,6 +86,29 @@ class ServiceBilling {
         if ($type != 0) {
             $sql = $sql . " and slide_type = " . $type;
         }
+        if ($start != '0') {
+            $sql .= " and date(import_date) >= '{$start}'";
+        }
+        $sql = $sql . " ORDER BY id";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAllUnRequest2367($conn, $patient_id = 0,$type = 0, $start = '0') {
+        $sql = "SELECT *
+                FROM service_billing ";
+        
+        $sql = $sql . " WHERE req_id = 0 ";
+        
+        
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        
+        $sql = $sql . " and (slide_type = 2 or slide_type = 3 or slide_type = 6 or slide_type = 7) ";
+        
         if ($start != '0') {
             $sql .= " and date(import_date) >= '{$start}'";
         }
@@ -344,11 +367,11 @@ class ServiceBilling {
 //        return $stmt->execute();
 //    }
     
-    public static function setRequestIDifNotSet_SlideType2($conn, $patient_id, $req_id,$req_date)
+    public static function setRequestIDifNotSet_SlideType2367($conn, $patient_id, $req_id,$req_date)
     {
         $sql = "UPDATE `service_billing` "
                 . "SET `req_id` = :req_id,  `req_date` = :req_date "
-                . "WHERE (`patient_id` = :patient_id and `req_id` = 0 and slide_type = 2)";
+                . "WHERE (`patient_id` = :patient_id and `req_id` = 0 and (slide_type = 2 or slide_type = 3 or slide_type = 6 or slide_type = 7  ) )";
 
         $stmt = $conn->prepare($sql);
 

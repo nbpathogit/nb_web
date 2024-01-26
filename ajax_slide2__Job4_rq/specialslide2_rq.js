@@ -113,6 +113,7 @@ function refreshSpSlideRequested(isAlert) {
         str1 += '        <thead>';
         str1 += '            <tr>';
         str1 += '                <th >Id</th>';
+        str1 += '                <th >Id#2</th>';
         str1 += '                <th >Patient Number</th>';
         str1 += '                <th >Code Name</th>';
         str1 += '                <th >Description</th>';
@@ -144,6 +145,7 @@ function refreshSpSlideRequested(isAlert) {
                 
                     str1 += ' <tr>                                              ';
                     str1 += '     <td >'+datajson3[j].id + '</td>               ';
+                    str1 += '     <td >'+datajson3[j].slide_type + '</td>               ';
                     str1 += '     <td >'+datajson3[j].number+'</td>             ';
                     str1 += '     <td >'+datajson3[j].code_description+'</td>   ';
                     str1 += '     <td >'+datajson3[j].description+'</td>        ';

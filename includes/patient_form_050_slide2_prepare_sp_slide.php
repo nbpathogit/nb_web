@@ -58,6 +58,7 @@ $curStatusAuthEdit = (
 <h5 align="center"><b>ใส่ข้อมูลเพื่อร้องขอตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h5>
      
 <div class="row ">
+    
     <div class="col-xl-4 col-md-6 ">
         <div id="phospital_select_for_price2_div" class=" <?= $isBorder ? "border" : "" ?>">
             <label for="phospital_select_for_price2" class="">เลือกโรงพยาบาล</label>
@@ -68,6 +69,28 @@ $curStatusAuthEdit = (
                                         <option value="<?= htmlspecialchars($hospital['id']); ?>" <?= ($patient[0]['phospital_id'] == ($hospital['id'])) ? "selected" : ""; ?> ><?= ($hospital['id'] == 0) ? "โรงพยาบาลราคามาตรฐาน" : $hospital['hospital']; ?></option>
             <?php endforeach; ?>
             </select>
+        </div>
+    </div>
+    
+    <div class="col-xl-4 col-md-6 ">
+        <div id="nb_price2_type_div" class=" <?= $isBorder ? "border" : "" ?>">
+            <label for="nb_price2_type" class="">เลือกชนิดตรวจพิเศษ</label>
+            <select name="nb_price2_type" id="nb_price2_type" class="">
+<!--                <option value="0">กรุณาเลือกชนิด</option>
+                                    <option value="1" order_list="1">1 ตรวจชิ้นเนื้อศัลยพยาธิวิทยา (SN or IN)</option>
+                                    <option value="4" order_list="2">2 ตรวจเซลล์วิทยา (CN)</option>
+                                    <option value="5" order_list="3">3 ตรวจเซลล์มะเร็งปากมดลูก (PN or LN)</option>
+                                    <option value="6" order_list="4">4 ตรวจชิ้นเนื้อโดยอุณหภูมิเยือกแข็ง(Frozen Staining)</option>
+                                    <option value="2" order_list="5">5 ตรวจพิเศษ (Special Staining)</option>
+                                    <option value="3" order_list="6">6 ตรวจพิเศษ (Immuno Staining)</option>
+                                    <option value="7" order_list="7">7 ตรวจพิเศษอณูชีววิทยา(Molecular Staining)</option>-->
+                <!--                    <option value="0">กรุณาเลือกชนิด</option>
+                    <option value="1">สิ่งส่งตรวจ</option>
+                    <option value="2">ย้อมพิเศษ</option>-->
+                    
+                    
+            </select>
+            
         </div>
     </div>
     
@@ -110,6 +133,20 @@ $curStatusAuthEdit = (
         <label for="comment_for_specimen2" class="form-label">comment</label>
         <input name="comment_for_specimen2" id="comment_for_specimen2" type="text" class="form-control"    value=""   readonly>
     </div>
+    
+<!--                    $('#comment_note').val(datajson[i].comment);
+                $('#job_type').val(datajson[i].jobtype);-->
+    
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> " >
+        <label for="comment_note" class="form-label">note</label>
+        <input name="comment_note" id="comment_note" type="text" class="form-control"    value=""   readonly>
+    </div>
+    
+    <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> " >
+        <label for="job_type" class="form-label">job_type</label>
+        <input name="job_type" id="job_type" type="text" class="form-control"    value=""   readonly>
+    </div>
+    
 </div>
 
     <br>   
@@ -159,6 +196,7 @@ $curStatusAuthEdit = (
         <thead>
             <tr>
                 <th >Id</th>
+                <th >Id#2</th>
                 <th >Patient Number</th>
                 <th >Code Name</th>
                 <th >Description</th>

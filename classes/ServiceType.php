@@ -14,7 +14,7 @@ class ServiceType {
     public $service_type;
     public $Name_by_spcimen;
     
-      public static function getAll($conn, $id = 0)
+    public static function getAll($conn, $id = 0)
     {
         $sql = "SELECT * FROM `service_type` ";
 
@@ -22,6 +22,42 @@ class ServiceType {
             $sql = $sql . " WHERE id = " . $id;
         }
 
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getAll_v2($conn, $id = 0)
+    {
+        $sql = "SELECT * FROM `service_type` ";
+
+        if ($id != 0) {
+            $sql = $sql . " WHERE id = " . $id;
+        }
+        
+        $sql = $sql . " ORDER BY `service_type`.`order_list` ASC ";
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getG1($conn)
+    {
+        $sql = "SELECT * FROM `service_type` ";
+        $sql = $sql . " WHERE group_type = 1 ";
+        $sql = $sql . " ORDER BY `service_type`.`order_list` ASC ";
+        
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+        public static function getG2($conn)
+    {
+        $sql = "SELECT * FROM `service_type` ";
+        $sql = $sql . " WHERE group_type = 2 ";
+        $sql = $sql . " ORDER BY `service_type`.`order_list` ASC ";
+        
         $results = $conn->query($sql);
 
         return $results->fetchAll(PDO::FETCH_ASSOC);

@@ -14,7 +14,7 @@ try {
         $billing->patient_id = (int) $_POST['patient_id'];
         $billing->number = $_POST['cur_pnum']; //surgical number
         $billing->lastname = ""; //patient surname
-        $billing->slide_type = 2; //
+        $billing->slide_type = $_POST['job_type']; //
         $billing->report_date = NULL;
         $billing->pathologist = "";
 
@@ -49,6 +49,6 @@ try {
 
 
 //$billings = ServiceBilling::getAll($conn, $_POST['patient_id'], 2);
-$billings = ServiceBilling::getAllUnRequest($conn, $_POST['patient_id'], 2);
+$billings = ServiceBilling::getAllUnRequest2367($conn, $_POST['patient_id'], 0);
 
 echo json_encode($billings);

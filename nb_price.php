@@ -17,7 +17,7 @@ if (!Auth::isLoggedIn()) {
 
 $hospitals = Hospital::getAll($conn);
 
-$serviceType = ServiceType::getAll($conn);
+$serviceType = ServiceType::getAll_v2($conn);
 
 if ($hide) {
     $nbprices = ServicePriceList::getAll($conn);

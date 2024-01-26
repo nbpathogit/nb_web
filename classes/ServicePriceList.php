@@ -104,7 +104,46 @@ class ServicePriceList {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-        public static function delSpecimenByHospitalID($conn,$hospital_id,$type=0)
+    public static function getSpecimenByHospitalIDJoptypeSpecimen($conn,$hospital_id)
+    {
+        $sql = "SELECT *
+                FROM service_price_list";
+        $sql = $sql." WHERE hospital_id = :hospital_id ";
+        $sql = $sql." and (jobtype = 1 or jobtype = 4 or jobtype = 5)  "; // service id 1 ,4, 5
+        $sql = $sql." ORDER BY id;";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function getSpecimenByHospitalIDJoptypeSpecialStainging($conn,$hospital_id=0,$service_id=0)
+    {
+        $sql = "SELECT *
+                FROM service_price_list";
+        $sql = $sql." WHERE hospital_id = :hospital_id ";
+        if($service_id == 0){
+            $sql = $sql." and (jobtype = 2 or jobtype = 3 or jobtype = 6 or jobtype = 7)  "; // service id 2, 3, 6, 7
+        }else{
+            $sql = $sql." and (jobtype = $service_id )";
+        }
+
+        $sql = $sql." ORDER BY id;";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function delSpecimenByHospitalID($conn,$hospital_id,$type=0)
     {
         $sql = "DELETE FROM `service_price_list`";
 
