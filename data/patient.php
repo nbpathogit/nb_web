@@ -69,10 +69,50 @@ if ($auth) {
             //phospital_num
             if ($_SESSION['user']->ugroup_id == '5000' || $_SESSION['user']->ugroup_id == '5100') {
                 if ($_SESSION['user']->uhospital_id == $patient['phospital_id']) {// Select only Owner Hospital
-                    $data[] = [$patient['pid'],$patient['sn_type'], $patient['pnum'], $patient['phospital_num'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000_date'], $patient['date_first_report_date'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
+                        $data[] = 
+                            [
+                            $patient['pid']
+                            ,$patient['p_sn_type']
+                            , $patient['p_pnum']
+                            , $patient['p_phospital_num']
+                            , $patient['p_pname']
+                            , $patient['p_plastname']
+                            , $patient['h_hospitial']
+                            , $patient['name_patho']
+                            , $patient['p_date_1000']
+                            , $patient['p_date_first_report']
+                            , $patient['s_des']
+                            , $patient['p_reported_as']
+                            , $patient['pri_priority']
+                            , $patient['p_second_patho_review']
+                            , $patient['p_request_sp_slide']
+                            ,$patient['p_tr_time']
+                            ,$patient['p_create_by']
+                            ,$patient['u_clinician']
+                            ];
                 }
             } else {
-                    $data[] = [$patient['pid'],$patient['sn_type'], $patient['pnum'], $patient['phospital_num'], $patient['pname'], $patient['plastname'], $patient['hospital'], $patient['name'], $patient['date_1000_date'], $patient['date_first_report_date'], $patient['des'], $patient['reported_as'], $patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by']];
+                 $data[] = 
+                            [
+                            $patient['pid']
+                            ,$patient['p_sn_type']
+                            , $patient['p_pnum']
+                            , $patient['p_phospital_num']
+                            , $patient['p_pname']
+                            , $patient['p_plastname']
+                            , $patient['h_hospitial']
+                            , $patient['name_patho']
+                            , $patient['p_date_1000']
+                            , $patient['p_date_first_report']
+                            , $patient['s_des']
+                            , $patient['p_reported_as']
+                            , $patient['pri_priority']
+                            , $patient['p_second_patho_review']
+                            , $patient['p_request_sp_slide']
+                            ,$patient['p_tr_time']
+                            ,$patient['p_create_by']
+                            ,$patient['u_clinician']
+                            ];
             }
         }
     }

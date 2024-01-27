@@ -157,7 +157,7 @@ $(document).ready(function () {
             searchPanes: {
                 show: true
             },
-            targets: [1 , 6, 7, 8, 9, 11, 12, 13]//
+            targets: [1 , 6, 7, 8, 9, 11, 12, 13 ,16]//
         },
         {
             searchPanes: {
@@ -221,7 +221,7 @@ $(document).ready(function () {
                 }
                 return renderdata;
             },
-            "targets": -1
+            "targets": 15
         },
         {
             "render": function (data, type, row) {
@@ -345,6 +345,12 @@ $(document).ready(function () {
                 return row[12];
             },
             "targets": (13)
+        },
+        {
+            "render": function (data, type, row) {
+                return row[17];
+            },
+            "targets": (16)
         },
 //        {
 //            responsivePriority: 0,

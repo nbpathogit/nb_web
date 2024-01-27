@@ -182,16 +182,32 @@ class Patient {
 
     
         public static function getAllJoin_v2($conn, $id = 0, $start = '0') {
-        $sql = "SELECT * ,p.id as pid,p.create_by as pcreate_by, DATE(p.date_1000) as date_1000_date, DATE(p.date_first_report) as date_first_report_date
+        $sql = "SELECT * ,.
+        p.id as pid,
+        p.sn_type as p_sn_type,
+        p.pnum as p_pnum,
+        p.phospital_num as p_phospital_num,
+        p.pname as p_pname,
+        p.plastname as p_plastname,
+        h.hospital as h_hospitial,
+        CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+        DATE(p.date_1000) as p_date_1000,
+        DATE(p.date_first_report) as p_date_first_report,
+        s.des as s_des,
+        p.reported_as as p_reported_as,
+        pri.priority as pri_priority,
+        p.second_patho_review as p_second_patho_review,
+        p.request_sp_slide as p_request_sp_slide,
+        p.tr_time as p_tr_time,
+        p.create_by as p_create_by,
+        CONCAT(uclinician.name,' ',uclinician.lastname) as u_clinician
                 FROM patient as p
-                JOIN user as u
-                JOIN hospital as h
-                JOIN priority as pri
-                JOIN status as s
-                WHERE p.ppathologist_id = u.id
-                and p.phospital_id = h.id
-                and p.priority_id = pri.id
-                and p.status_id = s.id";
+                LEFT JOIN user as upatho ON p.ppathologist_id = upatho.id
+                LEFT JOIN user as uclinician ON p.pclinician_id = uclinician.id
+                LEFT JOIN hospital as h ON p.phospital_id = h.id
+                LEFT JOIN priority as pri ON p.priority_id = pri.id
+                LEFT JOIN status as s ON p.status_id = s.id 
+                WHERE 1 ";
 
 
 
@@ -205,6 +221,8 @@ class Patient {
 
         $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
+        
+//        Util::writeFile('sql_dbg.txt', $sql);
         
         
 //        $sql_dbg = $sql;
