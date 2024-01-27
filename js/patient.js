@@ -48,7 +48,7 @@ $(document).ready(function () {
         }
 
         if (ugroup_id == '5000' || ugroup_id == '5100') {
-            table.column(14+1).visible(false);
+            table.column(15).visible(false);
         }
 
 
@@ -58,12 +58,12 @@ $(document).ready(function () {
     if (isCurUserCust) {
         hidecolumn = {
             visible: false,
-            targets: [ 4+1,10, 10+1]//, 12+1
+            targets: [ 5,10, 11]//, 12+1
         };
     } else {
         hidecolumn = {
             visible: false,
-            targets: [ 4+1,10]//, 12+1
+            targets: [ 5,10]//, 12+1
         };
     }
 
@@ -157,13 +157,13 @@ $(document).ready(function () {
             searchPanes: {
                 show: true
             },
-            targets: [1 , 5+1, 6+1, 7+1, 8+1, 10+1, 11+1, 12+1]//
+            targets: [1 , 6, 7, 8, 9, 11, 12, 13]//
         },
         {
             searchPanes: {
                 show: false
             },
-            targets: [0, 1+1, 2+1, 4+1,9+1]
+            targets: [0, 2, 3, 5,10]
         },
         
 //====Data header offset from display page===================================
@@ -204,18 +204,18 @@ $(document).ready(function () {
                 var renderdata = '';
 
                 if (ugroup_id == '5000' || ugroup_id == '5100') {
-                    if (row[9+1] == "ยังไม่ออกผล") {
+                    if (row[10] == "ยังไม่ออกผล") {
                         renderdata += '<p class="manage_btn_'+row[0]+' btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
                     } else {
-                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1+1] + '" class="manage_btn_'+row[0]+' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '" class="manage_btn_'+row[0]+' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
                     }
                 }
                 else {
-                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1+1] + '" class="manage_btn_'+row[0]+' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
-                    renderdata += '<a onclick="movePatient2Trash('+row[0]+',\''+row[1+1]+'\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
+                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '" class="manage_btn_'+row[0]+' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                    renderdata += '<a onclick="movePatient2Trash('+row[0]+',\''+row[2]+'\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
 
                     if (isCurUserAdmin) {
-                        renderdata += '<a onclick="deletePatientPermanent(' + row[0] + ',\'' + row[1+1] + '\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> Delete</a>';
+                        renderdata += '<a onclick="deletePatientPermanent(' + row[0] + ',\'' + row[2] + '\');" class="manage_btn_'+row[0]+' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> Delete</a>';
                     }
 
                 }
@@ -228,7 +228,7 @@ $(document).ready(function () {
                 var renderdata = '';
 
                 if (ugroup_id == '5000' || ugroup_id == '5100') {
-                    if (row[9+1] == "ยังไม่ออกผล") {
+                    if (row[10] == "ยังไม่ออกผล") {
                         //show in-active link for customer.
                         renderdata += '<p class="btn btn-secondary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i>PDF</p>';
                     } else {
@@ -248,57 +248,57 @@ $(document).ready(function () {
 
                 return renderdata;
             },
-            "targets": (13+1)
+            "targets": (14)
         },
         {
             "render": function (data, type, row) {
                 if ((ugroup_id == '5000' || ugroup_id == '5100')) {
-                    if (row[9+1] == "ยังไม่ออกผล") {
+                    if (row[10] == "ยังไม่ออกผล") {
                         //var data = '<div><h5>' + data;
-                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1+1] + '">' + data + '</a>';
+                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '">' + data + '</a>';
                     } else {
-                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1+1] + '">' + data + '</a>';
+                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '">' + data + '</a>';
                     }
                 }
                 else {
-                    var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[1+1] + '">' + data + '</a>';
+                    var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '">' + data + '</a>';
                 }
 
 
-                if (row[11+1] == "ด่วน") {
-                    data += ' <span class="badge bg-danger">' + row[1+11] + '</span>';
+                if (row[12] == "ด่วน") {
+                    data += ' <span class="badge bg-danger">' + row[12] + '</span>';
                 }
                 data += '</h5></div>';
 
-                if (row[1+9] == "รับเข้า" || row[1+9] == "วางแผนงาน") {
-                    data += '<span class="badge bg-dark">' + row[1+9] + '</span>';
-                } else if (row[1+9] == "วินิจฉัย(อ่านไสลด์)") {
-                    data += '<span class="badge bg-secondary">' + row[1+9] + '</span>';
-                } else if (row[1+9] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[1+9] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
-                    data += '<span class="badge bg-info text-dark">' + row[1+9] + '</span>';
-                } else if (row[1+9] == "เสร็จสิ้น") {
-                    data += '<span class="badge bg-success">' + row[1+9] + '</span>';
+                if (row[10] == "รับเข้า" || row[10] == "วางแผนงาน") {
+                    data += '<span class="badge bg-dark">' + row[10] + '</span>';
+                } else if (row[10] == "วินิจฉัย(อ่านไสลด์)") {
+                    data += '<span class="badge bg-secondary">' + row[10] + '</span>';
+                } else if (row[10] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[10] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
+                    data += '<span class="badge bg-info text-dark">' + row[10] + '</span>';
+                } else if (row[10] == "เสร็จสิ้น") {
+                    data += '<span class="badge bg-success">' + row[10] + '</span>';
                 } else {
-                    data += '<span class="badge bg-secondary">' + row[1+9] + '</span>';
+                    data += '<span class="badge bg-secondary">' + row[10] + '</span>';
                 }
                 return data;
             },
-            "targets": (1+1)
+            "targets": (2)
         },
         {
             "render": function (data, type, row) {
-                if (row[1+10] == "ยังไม่ออกผล") {
-                    data = '<h5><span class="badge bg-secondary">' + row[1+10] + '</span></h5>';
-                } else if (row[1+10] == "ออกผลเบื้องต้น") {
-                    data = '<h5><span class="badge bg-info text-dark">' + row[1+10] + '</span></h5>';
-                } else if (row[1+10] == "ออกผลแล้ว") {
-                    data = '<h5><span class="badge bg-success">' + row[1+10] + '</span></h5>';
+                if (row[11] == "ยังไม่ออกผล") {
+                    data = '<h5><span class="badge bg-secondary">' + row[11] + '</span></h5>';
+                } else if (row[11] == "ออกผลเบื้องต้น") {
+                    data = '<h5><span class="badge bg-info text-dark">' + row[11] + '</span></h5>';
+                } else if (row[11] == "ออกผลแล้ว") {
+                    data = '<h5><span class="badge bg-success">' + row[11] + '</span></h5>';
                 } else {
-                    data = '<h5><span class="badge bg-secondary">' + row[1+10] + '</span></h5>';
+                    data = '<h5><span class="badge bg-secondary">' + row[11] + '</span></h5>';
                 }
                 return data;
             },
-            "targets": (11+1)
+            "targets": (12)
         },
         {
         "render": function (data, type, row) {
@@ -308,41 +308,37 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                return row[1+3] + '<br>' + row[1+4];
+                return row[4] + '<br>' + row[5];
             },
-            "targets": (3+1)
+            "targets": (4)
         },
         {
             "render": function (data, type, row) {
-                return row[1+14];
+                return row[15];
             },
-            "targets": (9+1)
+            "targets": (10)
         },
 
         {
             "render": function (data, type, row) {
                 data = '';
-                data += '<small>รับเข้าโดย:</small><span class="badge bg-success">'+row[1+15]+'</span>';
-                if (row[1+12] == "1") {
+                data += '<small>รับเข้าโดย:</small><span class="badge bg-success">'+row[16]+'</span>';
+                if (row[13] == "1") {
                     data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
-                } else if (row[1+12] == "2") {
+                } else if (row[13] == "2") {
                     data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-success">เสร็จสิ้น</span><br>';
                 }
 
-                if (row[1+13] == "1") {
+                if (row[14] == "1") {
                     data += '<small>ย้อมพิเศษ:</small><span class="badge bg-warning text-dark">ร้องขอ</span>';
-                } else if (row[1+13] == "2") {
+                } else if (row[14] == "2") {
                     data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
                 }
-
-//                for (i = 0; i < row.length; i++) {
-//                    data += '<small>row[' + i + ']:</small><span class="badge bg-success">' + row[i] + '</span>';
-//                }
 
 
                 return data;
             },
-            "targets": 10+1
+            "targets": 11
         },
         {
             "render": function (data, type, row) {
