@@ -85,7 +85,7 @@ $isCurrentPathoIsOwnerThisCase = false;
 //    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
 //}
 if(isset($job5s[0]['user_id'])){
-    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $job5s[0]['user_id'];
+    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $job5s[0]['user_id'] || $_SESSION['user']->role_a == 1 ;
 }
 
 
