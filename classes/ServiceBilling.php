@@ -180,40 +180,69 @@ class ServiceBilling {
     }
     
     public static function getBillbyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-        $sql = "SELECT *, h.id as hid, b.id as bid, p.id as pid FROM".
-                " service_billing as b ".
-                " JOIN hospital as h".
-                " JOIN service_type as s".
-                " JOIN patient as p".
-                " WHERE  b.hospital_id = $hospital_id and b.hospital_id = h.id  and b.slide_type = s.id and b.patient_id = p.id ";
-                
-                $sql .= " and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' ";
-                
-                $sql = $sql . " ORDER by b.id ";
+//        $sql = "SELECT *, h.id as hid, b.id as bid, p.id as pid FROM \n".
+//                " service_billing as b \n".
+//                " JOIN hospital as h \n".
+//                " JOIN service_type as s \n".
+//                " JOIN patient as p \n".
+//                " WHERE  b.hospital_id = $hospital_id and b.hospital_id = h.id  and b.slide_type = s.id and b.patient_id = p.id \n";
+//                
+//                $sql .= " and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' \n";
+//                
+//                $sql = $sql . " ORDER by b.id \n";
+//                if($limit != 0){
+//                    $sql = $sql . " LIMIT $limit ";
+//                }
+
+        $sql =  "SELECT *, h.id as hid, b.id as bid, p.id as pid                                          \n".
+                "FROM patient as p                                                                        \n".
+                "   JOIN service_billing as b on  b.patient_id = p.id                                     \n".
+                "   JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id          \n".
+                "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
+                "   WHERE   date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}'  \n".
+                "   ORDER by b.id                                                                         \n";
                 if($limit != 0){
                     $sql = $sql . " LIMIT $limit ";
                 }
 
+//                Util::writeFile('sql_dbg.txt', $sql);   
+                
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public static function getBillbyHospitalbyDateRangeSumPrice($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount FROM".
-                " service_billing as b ".
-                " JOIN hospital as h".
-                " JOIN service_type as s".
-                " JOIN patient as p".
-                " WHERE  b.hospital_id = $hospital_id and b.hospital_id = h.id  and b.slide_type = s.id and b.patient_id = p.id ";
-                
-                $sql .= " and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' ";
-                
-                $sql = $sql . " ORDER by b.id ";
-                if($limit != 0){
-                    $sql = $sql . " LIMIT $limit ";
-                }
+//        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount FROM \n".
+//                " service_billing as b \n".
+//                " JOIN hospital as h \n".
+//                " JOIN service_type as s \n".
+//                " JOIN patient as p \n".
+//                " WHERE  b.hospital_id = $hospital_id and b.hospital_id = h.id  and b.slide_type = s.id and b.patient_id = p.id \n";
+//                
+//                $sql .= " and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' \n";
+//                
+//                $sql = $sql . " ORDER by b.id \n";
+//                if($limit != 0){
+//                    $sql = $sql . " LIMIT $limit \n";
+//                }
 //                return $sql;
+                
+
+        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount                                   \n".
+               " FROM  patient as p                                                                \n".
+               "   JOIN service_billing as b  ON p.phospital_id = $hospital_id and b.patient_id = p.id \n".
+               "   JOIN hospital as h ON p.phospital_id = h.id                                     \n".
+               "   JOIN service_type as s ON  b.slide_type = s.id                                  \n".
+               "                                                                                   \n".
+               "  WHERE 1                                                                          \n".
+               "  and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}'  \n".
+               "  ORDER by b.id;                                                                   \n";
+                if($limit != 0){
+                    $sql = $sql . " LIMIT $limit \n";
+                }
+
+//        Util::writeFile('sql_dbg.txt', $sql);  
 
         $results = $conn->query($sql);
 
@@ -225,10 +254,27 @@ class ServiceBilling {
     //   ตรวจธรรมดา       10400     26
     //   ตรวจพิเศษ         800       2
     public static function getCostGroupbyServiceTyoebyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
-                if($limit != 0){
-                    $sql = $sql . " LIMIT $limit ";
-                }
+//        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
+//        if($limit != 0){
+//            $sql = $sql . " LIMIT $limit ";
+//        }
+
+        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,                        \n".
+            "  service_type,                                                                     \n".
+            "  Name_by_spcimen,                                                                  \n".
+            "  count(b.cost) as bcost_count,                                                     \n".
+            "  SUM(b.cost) as bcost_sum                                                          \n".
+            "FROM patient as p                                                                   \n".
+            "JOIN service_billing as b ON  b.patient_id = p.id                                   \n".
+            "LEFT JOIN hospital as h ON p.phospital_id = h.id  and p.phospital_id = 9            \n".
+            "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
+            "WHERE date(b.import_date) >= '2024-01-01'and date(b.import_date) <= '2024-01-31'    \n".
+            "      GROUP BY service_type                                                         \n".
+            "      ORDER by s.id                                                                 \n";
+        if($limit != 0){
+            $sql = $sql . " LIMIT $limit ";
+        }
+//        Util::writeFile('sql_dbg_xxx.txt', $sql);
 
         $results = $conn->query($sql);
 
