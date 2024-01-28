@@ -115,8 +115,8 @@
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
                     
                     <div class="nav-item dropdown">
-                        <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ลงเวลางานเสร็จสิ้น</a>
-                        <div class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
+                        <a href="" id="finish_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ลงเวลางานเสร็จสิ้น</a>
+                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
                             <a id="" class="nav-item nav-link" href="job1_finish.php">ลงเวลาตัดเนื้อเสร็จ</a>
                             <a id="" class="nav-item nav-link"  href="job2_finish.php">ลงเวลาผู้ช่วยตัดเนื้อเสร็จ</a>
                             <a id="" class="nav-item nav-link" href="job3_finish.php">ลงเวลาเตรียมสไลด์เสร็จ</a>
@@ -132,7 +132,8 @@
                             <a class="nav-item nav-link" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
                             <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
                             <a id="fluid" href="labfluid.php" class="nav-item nav-link">ดูแลปเซลล์วิทยา</a>
-                            <a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ</a>
+                            <a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>
+                            <a id="price_tab_8c" href="nb_price_8c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
                             <a id="price_tab_view" href="nb_price_view.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
                         </div>
                     </div>

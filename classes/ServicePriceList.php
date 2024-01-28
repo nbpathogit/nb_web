@@ -89,19 +89,16 @@ class ServicePriceList {
     {
         $sql = "SELECT *
                 FROM service_price_list";
-        $sql = $sql." WHERE hospital_id = :hospital_id ";
+        $sql = $sql." WHERE hospital_id = $hospital_id ";
         if($type !=0){
-            $sql = $sql." and jobtype = :type ";
+            $sql = $sql." and jobtype = $type ";
         }
         $sql = $sql." ORDER BY id;";
 
-        $stmt = $conn->prepare($sql);
+        $results = $conn->query($sql);
 
-        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
-        $stmt->bindValue(':type', $type, PDO::PARAM_INT);
-        $stmt->execute();
+        return $results->fetchAll(PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public static function getSpecimenByHospitalIDJoptypeSpecimen($conn,$hospital_id)
@@ -147,19 +144,15 @@ class ServicePriceList {
     {
         $sql = "DELETE FROM `service_price_list`";
 
-        $sql = $sql." WHERE hospital_id = :hospital_id ";
+        $sql = $sql." WHERE hospital_id = $hospital_id ";
         if($type !=0){
-            $sql = $sql." and jobtype = :type ";
+            $sql = $sql." and jobtype = $type ";
         }
-        $sql = $sql." ORDER BY id;";
 
-        $stmt = $conn->prepare($sql);
+//        Util::writeFile('sql.txt', $sql);
+        $results = $conn->query($sql);
 
-        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
-        $stmt->bindValue(':type', $type, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public static function getSpecialSlide($conn)
