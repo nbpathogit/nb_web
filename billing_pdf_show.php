@@ -166,8 +166,8 @@ $mpdf->WriteHTML($page4);
 $mpdf->AddPage();
 $page5 = $_POST['page5'];
 if ($hideLayout) {
-    $page5 = str_replace("border: 1px solid green;", "", $page3);
-    $page5 = str_replace('color:red', "", $page3);
+    $page5 = str_replace("border: 1px solid green;", "", $page5);
+    $page5 = str_replace('color:red', "", $page5);
 }
 $mpdf->WriteHTML($page5);
 
