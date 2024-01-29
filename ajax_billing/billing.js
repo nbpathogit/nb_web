@@ -4,6 +4,7 @@ $("#btn_export_bill_pdf").on("click", function (e) {
     let page2 = $('#bill_page2').html();
     let page3 = $('#bill_page3').html();
     let page4 = $('#bill_page4').html();
+    let page5 = $('#bill_page5').html();
 
     $('#tempform form').remove();
     var frm = $("<form>");
@@ -17,6 +18,7 @@ $("#btn_export_bill_pdf").on("click", function (e) {
     frm.append('<textarea hidden  name="page2">' + page2 + '</textarea> ');
     frm.append('<textarea hidden  name="page3">' + page3 + '</textarea> ');
     frm.append('<textarea hidden  name="page4">' + page4 + '</textarea> ');
+    frm.append('<textarea hidden  name="page5">' + page5 + '</textarea> ');
     frm.appendTo($('#tempform'));
     frm.submit();
 
@@ -31,6 +33,7 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
     let page2 = $('#bill_page2').html();
     let page3 = $('#bill_page3').html();
     let page4 = $('#bill_page4').html();
+    let page5 = $('#bill_page5').html();
 
     $('#tempform form').remove();
     var frm = $("<form>");
@@ -44,6 +47,7 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
     frm.append('<textarea hidden name="page2">' + page2 + '</textarea> ');
     frm.append('<textarea hidden name="page3">' + page3 + '</textarea> ');
     frm.append('<textarea hidden name="page4">' + page4 + '</textarea> ');
+    frm.append('<textarea hidden name="page5">' + page5 + '</textarea> ');
     frm.appendTo("body");
     frm.submit();
 
@@ -51,6 +55,7 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
 });
 
 //Get paramiter from database to DOM
+// Btn   1) preview bill by date range  
 $("#btn_get_bill_by_range").on("click", function (e) {
     var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
     var hospital_name = $("#phospital_id_bill option").filter(":selected").text();
@@ -82,7 +87,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             }
         },
         error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
+             alert( jqxhr.responseText);
         }
     });
 
@@ -111,7 +116,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             net_price = datajson;
         },
         error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
+             alert( jqxhr.responseText);
         }
     });
 
@@ -143,7 +148,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             net_byservice_price = datajson;
         },
         error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
+             alert( jqxhr.responseText);
         }
     });
 
@@ -168,6 +173,9 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     $('#bill_hospital_by_service_price table').remove();
     $('#bill_hospital_by_service_price').append(strs);
 
+
+
+    // get all record one by one
     $.ajax({
         'async': false,
         type: 'POST',
@@ -190,12 +198,50 @@ $("#btn_get_bill_by_range").on("click", function (e) {
                 return;
             }
             drawbill_list_all_page(datajson);
+
             drawbillingTable(datajson);
         },
         error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
+             alert( jqxhr.responseText);
         }
     });
+
+
+
+
+    // get record groupby code
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: 'ajax_billing/getBillingGroupByCode.php',
+        data: {
+            'hospital_id': hospital_id,
+            'startdate': startdate,
+            'enddate': enddate,
+        },
+        success: function (data) {
+            if (data[0] != "[") {
+                alert(data);
+                console.log(data);
+                return;
+            }
+            var datajson = JSON.parse(data);
+            if (datajson.length == 0) {
+                alert("No record found");
+                return;
+            }
+
+            drawbill_list_all_page_g3(datajson);
+            
+        },
+        error: function (jqxhr, status, exception) {
+             alert( jqxhr.responseText);
+        }
+    });
+
+
+
 
 //    C:\anuchit2\nb_web\ajax_billing\getHospital.php
     let hospital = null;
@@ -273,7 +319,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
 });
 
-
+//btn   2) Preview on web page.  
 $("#btn_bill_preview_web").on("click", function (e) {
 
 
@@ -366,6 +412,7 @@ $("#btn_bill_preview_web").on("click", function (e) {
 
 //Write array to page4 at end of table
     let str4_f = '';
+    let str5_f = '';
 
     for (let i in pricebyservice)
     {
@@ -388,6 +435,14 @@ $("#btn_bill_preview_web").on("click", function (e) {
     $('#price_by_service_footer tr').remove();
     $('#price_by_service_footer').append(str4_f);
 
+    str5_f = str5_f +
+            '            <tr>                                 ' +
+            '                <td  colspan="5" style="font-weight: bold;text-align:right;"> รวมทั้งสิ้น </td>   ' +
+            '                <td > <span class="bill_hospital_net_price" style=" font-weight: bold;color:red">X</span> </td>                      ' +
+            '            </tr>                                ';
+
+    $('#price_by_service_footer_g3 tr').remove();
+    $('#price_by_service_footer_g3').append(str5_f);
 
 
 
@@ -467,8 +522,59 @@ function drawbill_list_all_page(datajson) {
     console.log(str);
     $('#bill_list_all').append(str);
 
+
+
+
 }
 
+
+
+function drawbill_list_all_page_g3(datajson) {
+
+    $('#bill_list_all_g3 table').remove();
+
+    let str = "";
+
+    str = str +
+            '<table width="100%" >            ' +
+            '    <thead>                      ' +
+            '        <tr>                     ' +
+            '            <th >ลำดับที่</th>          ' +
+            '            <th >รหัส</th>      ' +
+            '            <th >รายการส่งตรวจ</th>        ' +
+            '            <th >ราคาต่อหน่วย<br>(บาท)</th>       ' +
+            '            <th >จำนวนครั้งที่<br>ส่งตรวจ(ครั้ง)</th>' +
+            '            <th >จำนวนเงิน(บาท)</th>       ' +
+            '        </tr>                    ' +
+            '    </thead>                     ' +
+            '    <tbody>                      ';
+
+    for (var i in datajson)
+    {
+        str = str +
+                '        <tr>                                                                                      ' +
+                '            <td>' + i + '</td>                                                               ' +
+                '            <td>' + datajson[i].b_code + '</td>                                                      ' +
+                '            <td>' + datajson[i].b_description + '</td>   ' +
+                '            <td>' + datajson[i].b_cost + '</td>                                                 ' +
+                '            <td>' + datajson[i].bcost_count + '</td>                                    ' +
+                '            <td>' + datajson[i].bcost_sum + '</td>                                               ' +
+                '        </tr>                                                                                     ';
+
+
+    }
+    
+    str = str +
+            '    </tbody>                                     ' +
+            '    <tfoot id="price_by_service_footer_g3">          ' +
+            '    </tfoot>                                     ' +
+            '</table>                                         ';
+
+
+    console.log(str);
+    $('#bill_list_all_g3').append(str);
+
+}
 
 
 

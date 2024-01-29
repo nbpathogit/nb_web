@@ -188,6 +188,18 @@ echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
 
+<!--//3. สรุปจำนวนแต่ละรายการสิ่งส่งตรวจและย้อมพิเศษในช่วงนั้น (นับตามรหัสกรมบัญชีกลาง)-->
+<?php require 'includes/opencontainer.php'; ?>
+<?php
+$str1 = file_get_contents('pdf_invoice/billinngListAll_g3.php');
+
+echo '<h1 align="center">3. สรุปจำนวนแต่ละรายการสิ่งส่งตรวจและย้อมพิเศษในช่วงนั้น (นับตามรหัสกรมบัญชีกลาง)</h1><hr>';
+echo '<span id="bill_page5">';
+echo $str1;
+echo '</span>';
+?>
+<?php require 'includes/closecontainer.php'; ?>
+
 
 
 <?php require 'includes/opencontainer.php'; ?>

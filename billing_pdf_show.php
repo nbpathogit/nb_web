@@ -145,14 +145,31 @@ if ($hideLayout) {
 }
 $mpdf->WriteHTML($page3);
 
+//https://mpdf.github.io/reference/mpdf-functions/addpage.html
+//$mpdf->AddPage('L','','','','',15,15,17,17,0,0);
+//$page4 = $_POST['page4'];
+//if ($hideLayout) {
+//    $page4 = str_replace("border: 1px solid green;", "", $page4);
+//    $page4 = str_replace('color:red', "", $page4);
+//}
+//$mpdf->WriteHTML($page4);
 
-$mpdf->AddPage('','','','','',15,15,17,17,0,0);
+//https://mpdf.github.io/reference/mpdf-functions/addpage.html
+$mpdf->AddPage('L','','','','',15,15,17,17,0,0);
 $page4 = $_POST['page4'];
 if ($hideLayout) {
     $page4 = str_replace("border: 1px solid green;", "", $page4);
     $page4 = str_replace('color:red', "", $page4);
 }
 $mpdf->WriteHTML($page4);
+
+$mpdf->AddPage();
+$page5 = $_POST['page5'];
+if ($hideLayout) {
+    $page5 = str_replace("border: 1px solid green;", "", $page3);
+    $page5 = str_replace('color:red', "", $page3);
+}
+$mpdf->WriteHTML($page5);
 
 
 $mpdf->Output();
