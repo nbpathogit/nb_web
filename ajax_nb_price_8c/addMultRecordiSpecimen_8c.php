@@ -47,7 +47,7 @@ foreach ($data as $key => $d) {
 }
 //var_dump($sql);
 
-Util::writeFile('sql.txt', $sql);
+//Util::writeFile('sql.txt', $sql);
 
 
 ServicePriceList::createBySQL($conn, $sql);

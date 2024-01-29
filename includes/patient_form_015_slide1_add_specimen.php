@@ -144,6 +144,12 @@
                     <label for="comment_for_specimen1" class="form-label">comment</label>
                     <input name="comment_for_specimen1" id="comment_for_specimen1" type="text" class="form-control"    value=""   readonly>
                 </div>
+                
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <label for="jobtype_for_specimen1" class="form-label">เลขที่ชนิดการให้บริการ</label>
+                    <input name="jobtype_for_specimen1" id="jobtype_for_specimen1" type="text" class="form-control"    value=""   readonly>
+                </div>
+                
                 <div>
                     <br>
                     <button type="button" id="add_spcimen_list1" class="btn btn-primary" data-bs-dismiss="modal">Add</button>

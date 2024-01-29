@@ -65,7 +65,7 @@ $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01",
 
     <div class=" <?= $isBorder ? "border" : "" ?>">
         <br>
-        <button name="btn_get_bill_by_range" id="btn_get_bill_by_range" type="submit" class="btn btn-primary">&nbsp;&nbsp;preview bill by date range&nbsp;&nbsp;</button>
+        <button name="btn_get_bill_by_range" id="btn_get_bill_by_range" type="submit" class="btn btn-primary">&nbsp;&nbsp;1) preview bill by date range&nbsp;&nbsp;</button>
 
     </div>
 </div>
@@ -121,9 +121,9 @@ Net item list count : <input name="bill_count_all_list" id="bill_count_all_list"
 Name of manager : <input name="bill_manager" id="bill_manager" size="100"><br>
 
 <br>
-<button name="btn_bill_preview_web" id="btn_bill_preview_web" type="submit" class="btn btn-primary">&nbsp;&nbsp;Preview on web page.&nbsp;&nbsp;</button>
-<button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp;preview pdf with layout&nbsp;&nbsp;</button>
-<button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;Generate official pdf&nbsp;&nbsp;</button>
+<button name="btn_bill_preview_web" id="btn_bill_preview_web" type="submit" class="btn btn-primary">&nbsp;&nbsp;2) Preview on web page.&nbsp;&nbsp;</button>
+<button name="btn_export_bill_pdf_layout" id="btn_export_bill_pdf_layout" type="submit" class="btn btn-primary">&nbsp;&nbsp; 3) preview pdf with layout&nbsp;&nbsp;</button>
+<button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;4) Generate official pdf&nbsp;&nbsp;</button>
 
 <?php require 'includes/closecontainer.php'; ?>
 
@@ -135,7 +135,7 @@ $str1 = file_get_contents('pdf_invoice/billingletter1.php');
 if (true) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
-echo '<h1 align="center">Page 1</h1><hr>';
+echo '<h1 align="center"> 1. หนังสือนำและใบแจ้งหนี้ (1)</h1><hr>';
 echo '<span id="bill_page1">';
 echo $str1;
 echo '</span>';
@@ -152,7 +152,7 @@ if (false) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
 $str1 = str_replace("ต้นฉบับ_สำเนา", "ต้นฉบับ", $str1);
-echo '<h1 align="center">Page 2</h1><hr>';
+echo '<h1 align="center">1. หนังสือนำและใบแจ้งหนี้ "ต้นฉบับ"</h1><hr>';
 echo '<span id="bill_page2">';
 echo $str1;
 echo '</span>';
@@ -168,7 +168,7 @@ if (false) {
     $str1 = str_replace("border: 1px solid green;", "border: none;", $str1);
 }
 $str1 = str_replace("ต้นฉบับ_สำเนา", "สำเนา", $str1);
-echo '<h1 align="center">Page 3</h1><hr>';
+echo '<h1 align="center">1. หนังสือนำและใบแจ้งหนี้ "สำเนา"</h1><hr>';
 echo '<span id="bill_page3">';
 echo $str1;
 echo '</span>';
@@ -181,7 +181,7 @@ echo '</span>';
 <?php
 $str1 = file_get_contents('pdf_invoice/billinngListAll.php');
 
-echo '<h1 align="center">Page 4</h1><hr>';
+echo '<h1 align="center">2. List รายการตรวจเรียงตาม surgical number (SN, IN, CN, FN, DN, PN, LN) แต่ละ รพ ในช่วงนั้น </h1><hr>';
 echo '<span id="bill_page4">';
 echo $str1;
 echo '</span>';

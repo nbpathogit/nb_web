@@ -54,7 +54,7 @@ function updateSelectionSpeceman1(isalert) {
                 for (var i in datajson)
                 {
 
-                    $('#pspecimen_for_select1').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
+                    $('#pspecimen_for_select1').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '" jobtype="'+datajson[i].jobtype+'" >' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
 
                 }
 //                if (isalert) {
@@ -142,6 +142,8 @@ $("#add_spcimen_list1").on("click", function () {
     var specimen_text = document.getElementById("specimen_for_specimen1").value;
     var specimen_num = document.getElementById("specimen_num1").value;
 
+    let jobtype = document.getElementById("jobtype_for_specimen1").value;
+    
     var price_for_specimen = document.getElementById("price_for_specimen1").value;
     if (price_for_specimen == "") {
         price_for_specimen = "0";
@@ -189,7 +191,8 @@ $("#add_spcimen_list1").on("click", function () {
             'hospital_id': hospital_id,
             'cur_phospital_num': cur_phospital_num,
             'pclinician_text': pclinician_text,
-            'date_1000': date_1000
+            'date_1000': date_1000,
+            'jobtype': jobtype
         },
         success: function (data) {
             repaintspecimentable1(data);
@@ -290,6 +293,7 @@ $('#pspecimen_for_select1').on('change', function () {
     $('#specimen_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('specimen'));
     $('#price_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('price'));
     $('#comment_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('comment'));
+    $('#jobtype_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('jobtype'));
 
 });
 

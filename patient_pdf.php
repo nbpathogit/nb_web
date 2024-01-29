@@ -717,7 +717,7 @@ if ($pdfOutputOption == 'F') {
             echo '<br>';
         }
         $mpdf->Output($pdffilepath, $pdfOutputOption);
-        Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
+//        Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
 
 
         //============================================================================================
@@ -963,7 +963,7 @@ if ($pdfOutputOption == 'F') {
 
             //===================Output PDF file====================================================================
             $mpdf->Output($pdffilepath, $pdfOutputOption);
-            Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
+//            Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
 
             //===================Prepare anu run rename : $commandRename ===========================================
             $commandRename = 'mv ' . $pdffilepath . ' ' . $pdffilepathFormat2;

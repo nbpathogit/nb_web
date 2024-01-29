@@ -13,7 +13,7 @@ $conn = require '../includes/db.php';
     $billing->patient_id = (int) $_POST['patient_id'];
     $billing->number = $_POST['cur_pnum']; //surgical number
     $billing->lastname = ""; //patient surname
-    $billing->slide_type = 1; //patient surname
+    $billing->slide_type = $_POST['jobtype']; 
     $billing->report_date = NULL;
     $billing->pathologist = "";
 
@@ -34,6 +34,6 @@ $conn = require '../includes/db.php';
 
     $billing->create($conn);
     
-    $billings = ServiceBilling::getAll($conn, $_POST['patient_id'],1);
+    $billings = ServiceBilling::getAll145($conn, $_POST['patient_id'],1);
 
     echo json_encode($billings);

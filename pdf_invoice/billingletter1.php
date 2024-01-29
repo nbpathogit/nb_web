@@ -59,7 +59,7 @@
 </table>
 
 
-<br>
+<!--<br>-->
 <p class="df" >
     เรื่อง ขอแจ้งค่าบริการ (ใบแจ้งหนี้ เลขที่ <span class="bill_invoice_sub_number" style="color:red">X</span>/<span class="bill_hospital_invoice_number" style="color:red">X</span>)<br>
     เรียน ผู้อำนวยการ<span class="bill_hospitalname" style="color:red">X</span><br>
@@ -79,7 +79,7 @@
     </tr>
 </table>
 </span>
-<br>
+<!--<br>-->
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="12%" style="border: 1px solid green;"></td>
@@ -89,7 +89,7 @@
     </tr>
 </table>
 
-<br>
+<!--<br>-->
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="6%" style="border: 1px solid green;"></td>
@@ -106,7 +106,8 @@
 
 
 <p class="df" style="text-align:center;">ขอแสดงความนับถือ</p>
-<br><br>
+<br>
+<!--<br>-->
 
 <p class="df" style="text-align:center;">(<span class="bill_manager" style="color:red">X</span>)</p>
 <p class="df" style="text-align:center;">ผู้จัดการห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.</p>

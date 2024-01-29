@@ -73,6 +73,31 @@ class ServiceBilling {
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    
+    public static function getAll145($conn, $patient_id = 0,$type = 0, $start = '0') {
+        $sql = "SELECT *
+                FROM service_billing ";
+        
+        $sql = $sql . " WHERE 1=1 ";
+        
+        
+        if ($patient_id != 0) {
+            $sql = $sql . " and patient_id = " . $patient_id;
+        }
+        
+        $sql = $sql . " and (slide_type = 1 or slide_type = 4 or slide_type = 5)";
+        
+        if ($start != '0') {
+            $sql .= " and date(import_date) >= '{$start}'";
+        }
+        $sql = $sql . " ORDER BY id";
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
     public static function getAllUnRequest($conn, $patient_id = 0,$type = 0, $start = '0') {
         $sql = "SELECT *
                 FROM service_billing ";
