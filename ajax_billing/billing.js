@@ -476,16 +476,16 @@ function drawbill_list_all_page(datajson) {
     $('#bill_list_all table').remove();
 
     let str = "";
-
+ // ลำดับที่   ชื่อ  วันที่รับ เลขที่ แพทย์ผู้ส่ง   รายการ   ค่าตรวจ
     str = str +
             '<table width="100%" >            ' +
             '    <thead>                      ' +
             '        <tr>                     ' +
-            '            <th >#</th>          ' +
+            '            <th >ลำดับที่</th>          ' +
             '            <th >เลขที่งาน</th>      ' +
             '            <th >ผู้ป่วย</th>        ' +
-            '            <th >code</th>       ' +
-            '            <th >description</th>' +
+            '            <th >รหัส</th>       ' +
+            '            <th >รายการ</th>' +
             '            <th >วันที่รับ</th>       ' +
             '            <th >เลขที่โรงพยาบาล</th> ' +
             '            <th >แพทย์ผู้ส่งตรวจ</th>  ' +
@@ -498,15 +498,15 @@ function drawbill_list_all_page(datajson) {
     {
         str = str +
                 '        <tr>                                                                                      ' +
-                '            <td>' + i + '</td>                                                               ' +
+                '            <td>' + (parseInt(i)+1) + '</td>                                                               ' +
                 '            <td>' + datajson[i].number + '</td>                                                      ' +
-                '            <td>' + datajson[i].ppre_name + ' ' + datajson[i].name + ' ' + datajson[i].lastname + '</td>   ' +
+                '            <td>' + datajson[i].patient_name + '</td>   ' +
                 '            <td>' + datajson[i].code_description + '</td>                                            ' +
                 '            <td>' + datajson[i].description + '</td>                                                 ' +
-                '            <td>' + datajson[i].import_date + '</td>                                    ' +
-                '            <td>' + datajson[i].phospital_num + '</td>                                               ' +
-                '            <td>' + datajson[i].send_doctor + '</td>                                                 ' +
-                '            <td>' + datajson[i].cost + '</td>                                                        ' +
+                '            <td>' + datajson[i].admit_date + '</td>                                    ' +
+                '            <td>' + datajson[i].hospital_num + '</td>                                               ' +
+                '            <td>' + datajson[i].patient_name + '</td>                                                 ' +
+                '            <td>' + datajson[i].b_cost + '</td>                                                        ' +
                 '        </tr>                                                                                     ';
 
 
@@ -553,7 +553,7 @@ function drawbill_list_all_page_g3(datajson) {
     {
         str = str +
                 '        <tr>                                                                                      ' +
-                '            <td>' + i + '</td>                                                               ' +
+                '            <td>' + (parseInt(i)+1) + '</td>                                                               ' +
                 '            <td>' + datajson[i].b_code + '</td>                                                      ' +
                 '            <td>' + datajson[i].b_description + '</td>   ' +
                 '            <td>' + datajson[i].b_cost + '</td>                                                 ' +

@@ -218,19 +218,29 @@ class ServiceBilling {
 //                if($limit != 0){
 //                    $sql = $sql . " LIMIT $limit ";
 //                }
+        
+        // ลำดับที่   ชื่อ  วันที่รับ เลขที่ แพทย์ผู้ส่ง   รายการ   ค่าตรวจ
 
-        $sql =  "SELECT *, h.id as hid, b.id as bid, p.id as pid                                          \n".
-                "FROM patient as p                                                                        \n".
-                "   JOIN service_billing as b on  b.patient_id = p.id                                     \n".
-                "   JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id          \n".
-                "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
-                "   WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'  \n".
-                "   ORDER by b.id                                                                         \n";
+        $sql = " SELECT *,                                                                           \n".
+               " h.id as hid, b.id as bid, p.id as pid,                                              \n".
+               " CONCAT(p.ppre_name,p.pname,' ',p.plastname) as patient_name,                        \n".
+               " DATE(p.date_1000) as admit_date,                                                    \n".
+               " p.phospital_num as hospital_num,                                                    \n".
+               " CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as patient_name,            \n".
+               " b.description as b_description,                                                     \n".
+               " b.cost as b_cost                                                                    \n".
+               " FROM patient as p                                                                   \n".   
+               "    JOIN service_billing as b on  b.patient_id = p.id                                \n".   
+               "    JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id     \n".
+               "    JOIN service_type as s ON b.slide_type = s.id                                    \n".
+               "    JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id               \n".
+               "    WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}' \n".
+               "    ORDER by b.code_description                                                      \n";
                 if($limit != 0){
                     $sql = $sql . " LIMIT $limit ";
                 }
 
-                Util::writeFile('sql_dbg.txt', $sql);   
+//                Util::writeFile('sql_dbg.txt', $sql);   
                 
         $results = $conn->query($sql);
 

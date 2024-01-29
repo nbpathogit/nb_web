@@ -176,10 +176,10 @@ echo '</span>';
 <?php require 'includes/closecontainer.php'; ?>
 
 
-
+<!--2. List รายการตรวจเรียงตาม surgical number (SN, IN, CN, FN, DN, PN, LN) แต่ละ รพ ในช่วงนั้น--> 
 <?php require 'includes/opencontainer.php'; ?>
 <?php
-$str1 = file_get_contents('pdf_invoice/billinngListAll.php');
+$str1 = file_get_contents('pdf_invoice/billinngListAll_g2.php');
 
 echo '<h1 align="center">2. List รายการตรวจเรียงตาม surgical number (SN, IN, CN, FN, DN, PN, LN) แต่ละ รพ ในช่วงนั้น </h1><hr>';
 echo '<span id="bill_page4">';
@@ -215,7 +215,7 @@ echo '</span>';
     }
 </style>
 <span id="billing_table_span">
-    <p style="text-align:center;font-size: 14pt;">ตารางรายการอ้างอิง<br>
+    <p style="text-align:center;font-size: 14pt;">ตารางรายการแสดงเพื่อการอ้างอิง<br>
         ตั้งแต่วันที่ <span class="bill_startdate_thai">X</span> ถึง <span class="bill_enddate_thai">X</span></p>
     <table class="" id="billing_table" style="width:100%">
         <thead>
