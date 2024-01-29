@@ -274,4 +274,4 @@ echo '</span>';
         });
     });
 </script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_billing/billing.js?v3"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_billing/billing.js?v4"></script>
