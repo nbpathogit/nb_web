@@ -66,11 +66,9 @@
 
 
 
-<p class="df"><b>เรียน ผู้อำนวยการ<span class="bill_hospitalname" style="color:red">X</span></b></p>
-<p class="df">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จากท่านในการส่งตรวจวิเคราะห์และวินิจฉัยโรคทางห้องปฏิบัติการพยาธิวิทยากายวิภาค ในนาม ศูนย์พยาธิวิทยา เอ็น.บี. ทั้งนี้ทางห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ขอแจ้งค่าบริการที่ทางท่านได้ส่งตรวจดังนี้</p>
-
-
-<p class="df"><b>ตั้งแต่วันที่ <span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span></b></p>
+    <p class="df"><b>เรียน ผู้อำนวยการ<span class="bill_hospitalname" style="color:red">X</span></b><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จากท่านในการส่งตรวจวิเคราะห์และวินิจฉัยโรคทางห้องปฏิบัติการพยาธิวิทยากายวิภาค ในนาม ศูนย์พยาธิวิทยา เอ็น.บี. ทั้งนี้ทางห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี. ขอแจ้งค่าบริการที่ทางท่านได้ส่งตรวจดังนี้<br>
+    <b>ตั้งแต่วันที่ <span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span></b></p>
 <span class="bill_by_service_tbl2">
     <table width="100%" style="border: 1px solid black;">
         <tr>
@@ -108,14 +106,16 @@
     </table>
 </span>
 
-<p class="df"><b>หมายเหตุ</b> โปรดชาระเงินโดย<br>
+<span class="df">
+    <b>หมายเหตุ</b> โปรดชาระเงินโดย<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. เช็คขีดคร่อมสั่งจ่ายในนาม "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. " หรือ<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. โอนเข้าบัญชีเดินสะพัด ธนาคารไทยพาณิชย์ จากัด (มหาชน) สาขา เทสโก้ โลตัส ท่าทอง (พิษณุโลก)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>บัญชีเลขที่ 4680937273 ชื่อบัญชี "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี."</b></p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>บัญชีเลขที่ 4680937273 ชื่อบัญชี "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี."</b>
+</span>
 
 <p class="df" style="text-align:center;">ขอแสดงความนับถือ</p>
 <br><br>
 
-<p class="df" style="text-align:center;">(<span class="bill_manager" style="color:red">X</span>)</p>
-<p class="df" style="text-align:center;">ผู้จัดการห้างหุ้นส่วนจากัด ศูนย์พยาธิวิทยา เอ็น.บี.</p>
+<p class="df" style="text-align:center;">(<span class="bill_manager" style="color:red">X</span>)<br>
+    ผู้จัดการห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.</p>
 

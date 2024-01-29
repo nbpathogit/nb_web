@@ -108,6 +108,5 @@
 <p class="df" style="text-align:center;">ขอแสดงความนับถือ</p>
 <br>
 <!--<br>-->
-
-<p class="df" style="text-align:center;">(<span class="bill_manager" style="color:red">X</span>)</p>
-<p class="df" style="text-align:center;">ผู้จัดการห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.</p>
+<p class="df" style="text-align:center;">(<span class="bill_manager" style="color:red">X</span>)<br>
+                                                                    ผู้จัดการห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.</p>

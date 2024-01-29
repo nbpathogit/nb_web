@@ -115,6 +115,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
 
+
     let net_byservice_price = null;
     $.ajax({
         'async': false,
@@ -155,8 +156,8 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     for (let i in net_byservice_price)
     {
         strs = strs + '<tr>\n\
-<td><input type="text" style="font-size: 14pt;" value="' + net_byservice_price[i].sid + '"></td>\n\
-<td><input type="text" style="font-size: 14pt;"  value="' + net_byservice_price[i].service_type + '"></td>\n\
+<td><input type="text" style="font-size: 14pt;" value="' + (parseInt(i)+1) + '"></td>\n\
+<td><input type="text" style="font-size: 14pt;"  value="' + net_byservice_price[i].service_type_bill + '"></td>\n\
 <td><input type="text" style="font-size: 14pt;"  value="' + net_byservice_price[i].bcost_count + '"></td>\n\
 <td><input type="text" style="font-size: 14pt;"  value="' + net_byservice_price[i].bcost_sum + '"></td>\n\
 </tr>';
@@ -229,11 +230,11 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     $('#bill_todaydate_thai').val(result);
 //    console.log(result);
 
-    date = new Date(startdate.substr(0, 4), startdate.substr(5, 2), startdate.substr(8, 2));
+    date = new Date(startdate.substr(0, 4), startdate.substr(5, 2) -1, startdate.substr(8, 2));
     result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
     $('#bill_startdate_thai').val(result);
 
-    date = new Date(enddate.substr(0, 4), enddate.substr(5, 2), enddate.substr(8, 2));
+    date = new Date(enddate.substr(0, 4), enddate.substr(5, 2) -1, enddate.substr(8, 2));
     result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
     $('#bill_enddate_thai').val(result);
 

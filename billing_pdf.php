@@ -262,4 +262,4 @@ echo '</span>';
         });
     });
 </script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_billing/billing.js?v2xxปxxxxxxxxxxxxx"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_billing/billing.js?v3"></script>

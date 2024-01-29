@@ -286,6 +286,7 @@ class ServiceBilling {
 
         $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,                        \n".
             "  service_type,                                                                     \n".
+            "  service_type_bill,                                                                 \n".
             "  Name_by_spcimen,                                                                  \n".
             "  count(b.cost) as bcost_count,                                                     \n".
             "  SUM(b.cost) as bcost_sum                                                          \n".
@@ -295,7 +296,7 @@ class ServiceBilling {
             "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
             "WHERE date(b.import_date) >= '2024-01-01'and date(b.import_date) <= '2024-01-31'    \n".
             "      GROUP BY service_type                                                         \n".
-            "      ORDER by s.id                                                                 \n";
+            "      ORDER by s.order_list                                                          \n";
         if($limit != 0){
             $sql = $sql . " LIMIT $limit ";
         }
