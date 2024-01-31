@@ -300,6 +300,35 @@ class Job
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public static function getJobCountByDaily($conn, $startdate, $enddate, $user_job_daily, $role_job_daily)
+    {
+        $sql = "SELECT                                                \n".
+            " # * ,                                                       \n".
+            " CONCAT(u_owner.name,' ',u_owner.lastname) as owner_name,    \n".
+            " DATE(p.date_1000) as accept_date,                           \n".
+            " jr.name as job_role_name,                                   \n".
+            " SUM(j.qty) as job_qty_sum                                   \n".
+            " FROM `job` as j                                             \n".
+            " JOIN patient as p ON j.patient_id = p.id                    \n".
+            " JOIN job_role as jr on jr.id = j.job_role_id                \n".
+            " JOIN user as u_owner on u_owner.id = j.user_id              \n".
+            " WHERE p.movetotrash = 0                                     \n".
+            " and ( date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}' )   \n";
+            if($user_job_daily != 0){
+                 $sql .= " and u_owner.id = $user_job_daily ";
+            }
+            if($role_job_daily != 0){
+                 $sql .= " and jr.id = $role_job_daily ";
+            }
+            $sql .= " GROUP BY owner_name, accept_date, job_role_name             \n";
+            
+//            Util::writeFile('sqldbg.txt', $sql);
+
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function delete($conn, $id)
     {

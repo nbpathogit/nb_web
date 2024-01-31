@@ -108,8 +108,17 @@
                     <?php if($isCurUserNB): ?>
                     <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ตรวจพิเศษ</a>
                     <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>Double check by second pathologist</a>
-                    <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>รายการงาน</a>
-                    <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>
+                    
+                    <!--job_daily-->
+                    
+                    <div class="nav-item dropdown">
+                        <a href="" id="view_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>รายการงาน</a>
+                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
+                            <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ดูรายการงาน</a>
+                            <a id="job_tab_jobdaily" href="job_daily.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>จำนวนงานแต่ละวัน</a>
+                        </div>
+                    </div>
+                    
                     <!-- <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a> -->
                     <!--<a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>-->
                     <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
@@ -144,6 +153,7 @@
                             <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูและจัดการรายการในใบแจ้งหนี้</a>
                         </div>
                     </div>
+                    <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>
                     <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติกเกอร์สไลด์</a>
                     <?php  endif; ?>
                     <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
