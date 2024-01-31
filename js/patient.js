@@ -72,7 +72,7 @@ $(document).ready(function () {
     var table = $('#patient_table').DataTable({
         "ajax": "data/patient.php?skey=" + skey + "&range=2m",
         responsive: true,
-        dom: 'BPlfritp',
+        dom: 'BP<"toolbar">lfritp',
         
         buttons: [
             {
@@ -166,6 +166,7 @@ $(document).ready(function () {
             targets: [0, 2, 3, 5,10]
         },
         
+
 //====Data header offset from display page===================================
 //                    <th>#</th>                    <!-- 0 -->
 //                    
@@ -375,6 +376,34 @@ $(document).ready(function () {
             hidecolumn,
         ],
         "initComplete": colorAdd,
+    });
+
+    document.querySelector('div.toolbar').innerHTML = `<div class="text-center mb-4 mt-1"><b>ซ่อนคอลัมม์ : </b>
+    <a class="toggle-vis" data-column="0">#</a> -
+    <a class="toggle-vis" data-column="1">type</a> -
+    <a class="toggle-vis" data-column="2">เลขที่ผู้ป่วย</a> -
+    <a class="toggle-vis" data-column="3">HN</a> -
+    <a class="toggle-vis" data-column="4">ชื่อผู้ป่วย</a> -
+    <a class="toggle-vis" data-column="6">โรงพยาบาล</a> -
+    <a class="toggle-vis" data-column="7">พยาธิแพทย์</a> -
+    <a class="toggle-vis" data-column="8">วันที่รับ</a> -
+    <a class="toggle-vis" data-column="9">วันที่รายงาน</a> -
+    <a class="toggle-vis" data-column="11">สถานะอื่นๆ</a> -
+    <a class="toggle-vis" data-column="12">การออกผล</a> -
+    <a class="toggle-vis" data-column="13">ความสำคัญ</a> -
+    <a class="toggle-vis" data-column="16">แพทย์ผู้ส่ง</a>
+    <div>`;
+
+    document.querySelectorAll('a.toggle-vis').forEach((el) => {
+        el.addEventListener('click', function (e) {
+            e.preventDefault();
+     
+            let columnIdx = e.target.getAttribute('data-column');
+            let column = table.column(columnIdx);
+     
+            // Toggle the visibility
+            column.visible(!column.visible());
+        });
     });
 
     // add color when reload
