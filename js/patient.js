@@ -376,12 +376,26 @@ $(document).ready(function () {
         {
             targets: [4, 7],
             className: 'text-nowrap'
+        },
+        {
+            searchable: false,
+            orderable: false,
+            targets: 0
         }
         ],
         "initComplete": colorAdd,
     });
 
+    table.on('order.dt search.dt', function () {
+        let i = 1;
 
+        table
+            .cells(null, 0, { search: 'applied', order: 'applied' })
+            .every(function (cell) {
+                this.data(i++);
+            });
+    }).draw();
+    
 
     document.querySelector('div.toolbar').innerHTML = `<div class="text-center mb-4 mt-1"><b>ซ่อนคอลัมม์ : </b>
     <a class="toggle-vis" data-column="0">#</a> -
