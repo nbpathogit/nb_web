@@ -352,14 +352,14 @@ $(document).ready(function () {
             },
             "targets": (16)
         },
-            //        {
-            //            responsivePriority: 0,
-            //            targets: 0
-            //        },
-            //        {
-            //            responsivePriority: 1,
-            //            targets: 1
-            //        },
+        {
+            responsivePriority: 0,
+            targets: [4, 14, 15]
+        },
+        {
+            responsivePriority: 1,
+            targets: [2]
+        },
             //        {
             //            responsivePriority: 2,
             //            targets: 2
@@ -395,7 +395,7 @@ $(document).ready(function () {
                 this.data(i++);
             });
     }).draw();
-    
+
 
     document.querySelector('div.toolbar').innerHTML = `<div class="text-center mb-4 mt-1"><b>ซ่อนคอลัมม์ : </b>
     <a class="toggle-vis" data-column="0">#</a> -
