@@ -44,9 +44,9 @@
 </style>
 
 <p style="text-align:center;font-size: 14pt;">สรุปการส่งตรวจทางพยาธิวิทยา (พยาธิวิทยากายวิภาค) โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
-    แสดงทุกรายการ ระหว่างวันที่ (<span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span>)</p>
+    นับตามเลขที่งาน ระหว่างวันที่ (<span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span>)</p>
 
-<span id="bill_list_all">
+<span id="bill_list_all_g2">
     <table width="100%" >
 
     </table> 

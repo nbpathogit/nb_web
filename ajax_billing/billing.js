@@ -197,9 +197,9 @@ $("#btn_get_bill_by_range").on("click", function (e) {
                 alert("No record found");
                 return;
             }
-            drawbill_list_all_page(datajson);
+            drawbill_list_all_page_g2(datajson);
 
-            drawbillingTable(datajson);
+            drawbillingTable(datajson);// last page for reference
         },
         error: function (jqxhr, status, exception) {
              alert( jqxhr.responseText);
@@ -432,8 +432,8 @@ $("#btn_bill_preview_web").on("click", function (e) {
 
 
 
-    $('#price_by_service_footer tr').remove();
-    $('#price_by_service_footer').append(str4_f);
+//    $('#price_by_service_footer tr').remove();
+//    $('#price_by_service_footer').append(str4_f);
 
     str5_f = str5_f +
             '            <tr>                                 ' +
@@ -521,6 +521,82 @@ function drawbill_list_all_page(datajson) {
 
     console.log(str);
     $('#bill_list_all').append(str);
+
+
+
+
+}
+
+
+function drawbill_list_all_page_g2(datajson) {
+
+    $('#bill_list_all_g2 table').remove();
+
+    let str = "";
+    
+//p_sn	p_hn	p_admit_date	patient_name	clinicien_name	b_description_concat_nm	b_description_concat_sp	b_description_concat_all	b_cost_sum_nm	b_cost_sum_sp	b_cost_sum_all 
+
+    str = str +
+            '<table width="100%" >            ' +
+            '    <thead>                      ' +
+            '        <tr>                     ' +
+            '            <th >ลำดับที่</th>          ' +
+            '            <th >เลขที่งาน</th>      ' +
+            '            <th >วันที่รับ</th>      ' +
+            '            <th >ผู้ป่วย</th>        ' +
+            '            <th >เลขที่โรงพยาบาล</th> ' +
+            '            <th >แพทย์ผู้ส่งตรวจ</th>        ' +
+            '            <th >รายการ</th>' +
+            '            <th >b_cost_sum_nm</th>       ' +
+            '            <th >b_cost_sum_sp</th>  ' +
+            '            <th >b_cost_sum_all</th>       ' +
+            '        </tr>                    ' +
+            '    </thead>                     ' +
+            '    <tbody>                      ';
+
+    let sum_of_b_cost_sum_nm = 0;
+    let sum_of_b_cost_sum_sp = 0;
+    let sum_of_b_cost_sum_all = 0;
+    
+    for (var i in datajson)
+    {
+        str = str +
+                '        <tr>                                                                                      ' +
+                '            <td>' + (parseInt(i)+1) + '</td>                                                               ' +
+                '            <td>' + datajson[i].p_sn + '</td>                                                      ' +
+                '            <td>' + datajson[i].p_admit_date + '</td>                                                      ' +
+                '            <td>' + datajson[i].patient_name + '</td>   ' +
+                '            <td>' + datajson[i].p_hn + '</td>                                    ' +
+                '            <td>' + datajson[i].clinicien_name + '</td>   ' +
+                '            <td>' + datajson[i].b_description_concat_all + '</td>                                            ' +
+                '            <td>' + datajson[i].b_cost_sum_nm + '</td>                                                 ' +
+                '            <td>' + datajson[i].b_cost_sum_sp + '</td>                                               ' +
+                '            <td>' + datajson[i].b_cost_sum_all + '</td>                                                        ' +
+                '        </tr>                                                                                     ';
+        sum_of_b_cost_sum_nm += parseInt(datajson[i].b_cost_sum_nm);
+        sum_of_b_cost_sum_sp += parseInt(datajson[i].b_cost_sum_sp);
+        sum_of_b_cost_sum_all += parseInt(datajson[i].b_cost_sum_all);
+    }
+    
+    str = str +
+            '    </tbody>                                     ' +
+            '    <tfoot id="price_by_service_footer">                                      ' +
+            '    </tfoot>                                     ' +
+            '</table>                                         ';
+
+
+    console.log(str);
+    $('#bill_list_all_g2').append(str);
+    
+    let str4_f = ' <tr>                                 ' +
+            '                <td  colspan="7" style="font-weight: bold;text-align:right;"> รวมทั้งสิ้น </td>   ' +
+            '                <td > <span class="" style=" font-weight: bold;color:red">'+sum_of_b_cost_sum_nm+'</span> </td>                      ' +
+            '                <td > <span class="" style=" font-weight: bold;color:red">'+sum_of_b_cost_sum_sp+'</span> </td>                      ' +
+            '                <td > <span class="" style=" font-weight: bold;color:red">'+sum_of_b_cost_sum_all+'</span> </td>                      ' +
+            '            </tr>  ';
+    
+    $('#price_by_service_footer tr').remove();
+    $('#price_by_service_footer').append(str4_f);
 
 
 
