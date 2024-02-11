@@ -574,9 +574,9 @@ function drawbill_list_all_page_g2(datajson) {
             '            <th >เลขที่โรงพยาบาล</th> ' +
             '            <th >แพทย์ผู้ส่งตรวจ</th>        ' +
             '            <th >รายการ</th>'               +
-            '            <th >b_cost_sum_nm</th>       ' +
-            '            <th >b_cost_sum_sp</th>  ' +
-            '            <th >b_cost_sum_all</th>       ' +
+            '            <th >ค่าบริการ</th>       ' +
+            '            <th >ค่าตรวจพิเศษ</th>  ' +
+            '            <th >รวม</th>       ' +
             '        </tr>                    ' +
             '    </thead>                     ' +
             '    <tbody>                      ';
