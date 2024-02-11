@@ -527,13 +527,40 @@ function drawbill_list_all_page(datajson) {
 
 }
 
+function trim(str, ch) {
+    var start = 0, 
+        end = str.length;
+
+    while(start < end && str[start] === ch)
+        ++start;
+
+    while(end > start && str[end - 1] === ch)
+        --end;
+
+    return (start > 0 || end < str.length) ? str.substring(start, end) : str;
+}
+
+function trimslash(str) {
+    let start = 0;
+    let    end = str.length;
+    while(start < end && str[start].match(/\//)){
+//        alert('found match at start');
+        ++start;
+    }
+    while(end > start && str[end - 1] .match(/\//)){
+//        alert('found match at start');
+        --end;
+    }
+    return (start > 0 || end < str.length) ? str.substring(start, end) : str;
+}
+
 
 function drawbill_list_all_page_g2(datajson) {
 
     $('#bill_list_all_g2 table').remove();
 
     let str = "";
-    
+
 //p_sn	p_hn	p_admit_date	patient_name	clinicien_name	b_description_concat_nm	b_description_concat_sp	b_description_concat_all	b_cost_sum_nm	b_cost_sum_sp	b_cost_sum_all 
 
     str = str +
@@ -546,7 +573,7 @@ function drawbill_list_all_page_g2(datajson) {
             '            <th >ผู้ป่วย</th>        ' +
             '            <th >เลขที่โรงพยาบาล</th> ' +
             '            <th >แพทย์ผู้ส่งตรวจ</th>        ' +
-            '            <th >รายการ</th>' +
+            '            <th >รายการ</th>'               +
             '            <th >b_cost_sum_nm</th>       ' +
             '            <th >b_cost_sum_sp</th>  ' +
             '            <th >b_cost_sum_all</th>       ' +
@@ -562,17 +589,17 @@ function drawbill_list_all_page_g2(datajson) {
     {
         str = str +
                 '        <tr>                                                                                      ' +
-                '            <td>' + (parseInt(i)+1) + '</td>                                                               ' +
+                '            <td>' + (parseInt(i)+1) + '</td>                                                      ' +
                 '            <td>' + datajson[i].p_sn + '</td>                                                      ' +
                 '            <td>' + datajson[i].p_admit_date + '</td>                                                      ' +
-                '            <td>' + datajson[i].patient_name + '</td>   ' +
-                '            <td>' + datajson[i].p_hn + '</td>                                    ' +
-                '            <td>' + datajson[i].clinicien_name + '</td>   ' +
-                '            <td>' + datajson[i].b_description_concat_all + '</td>                                            ' +
+                '            <td>' + datajson[i].patient_name + '</td>                                            ' +
+                '            <td>' + datajson[i].p_hn + '</td>                                                         ' +
+                '            <td>' + datajson[i].clinicien_name + '</td>                                              ' +
+                '            <td>' + trim(trim(datajson[i].b_description_concat_all,' '),'/') + '</td>                               ' +
                 '            <td>' + datajson[i].b_cost_sum_nm + '</td>                                                 ' +
                 '            <td>' + datajson[i].b_cost_sum_sp + '</td>                                               ' +
-                '            <td>' + datajson[i].b_cost_sum_all + '</td>                                                        ' +
-                '        </tr>                                                                                     ';
+                '            <td>' + datajson[i].b_cost_sum_all + '</td>                                             ' +
+                '        </tr>                                                                                       ';
         sum_of_b_cost_sum_nm += parseInt(datajson[i].b_cost_sum_nm);
         sum_of_b_cost_sum_sp += parseInt(datajson[i].b_cost_sum_sp);
         sum_of_b_cost_sum_all += parseInt(datajson[i].b_cost_sum_all);
@@ -592,7 +619,7 @@ function drawbill_list_all_page_g2(datajson) {
             '                <td  colspan="7" style="font-weight: bold;text-align:right;"> รวมทั้งสิ้น </td>   ' +
             '                <td > <span class="" style=" font-weight: bold;color:red">'+sum_of_b_cost_sum_nm+'</span> </td>                      ' +
             '                <td > <span class="" style=" font-weight: bold;color:red">'+sum_of_b_cost_sum_sp+'</span> </td>                      ' +
-            '                <td > <span class="" style=" font-weight: bold;color:red">'+sum_of_b_cost_sum_all+'</span> </td>                      ' +
+            '                <td > <span class="" style=" font-weight: bold;color:red">'+sum_of_b_cost_sum_all+'</span> </td>                     ' +
             '            </tr>  ';
     
     $('#price_by_service_footer tr').remove();
@@ -628,14 +655,14 @@ function drawbill_list_all_page_g3(datajson) {
     for (var i in datajson)
     {
         str = str +
-                '        <tr>                                                                                      ' +
-                '            <td>' + (parseInt(i)+1) + '</td>                                                               ' +
-                '            <td>' + datajson[i].b_code + '</td>                                                      ' +
-                '            <td>' + datajson[i].b_description + '</td>   ' +
-                '            <td>' + datajson[i].b_cost + '</td>                                                 ' +
+                '        <tr>                                                                            ' +
+                '            <td>' + (parseInt(i)+1) + '</td>                                            ' +
+                '            <td>' + datajson[i].b_code + '</td>                                         ' +
+                '            <td>' + datajson[i].b_description + '</td>                                  ' +
+                '            <td>' + datajson[i].b_cost + '</td>                                         ' +
                 '            <td>' + datajson[i].bcost_count + '</td>                                    ' +
-                '            <td>' + datajson[i].bcost_sum + '</td>                                               ' +
-                '        </tr>                                                                                     ';
+                '            <td>' + datajson[i].bcost_sum + '</td>                                      ' +
+                '        </tr>                                                                            ';
 
 
     }

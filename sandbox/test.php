@@ -27,3 +27,26 @@ echo "Url::getSubFolder2() = ".Url::getSubFolder2();
 
 echo "---------------------------------------------------<br>";
 var_dump($_SERVER);
+
+?>
+
+<script> 
+     
+function trimslash(str) {
+    let start = 0, 
+        end = str.length;
+    while(start < end && str[start].match(/\//)){
+        //alert('found match at start');
+        ++start;
+    }
+    while(end > start && str[end - 1] .match(/\//)){
+        //alert('found match at start');
+        --end;
+    }
+    return (start > 0 || end < str.length) ? str.substring(start, end) : str;
+}
+
+console.log(trimslash('Uterus ไม่มีปีกมดลูก /'));
+
+    
+</script>
