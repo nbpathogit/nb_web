@@ -18,3 +18,5 @@ session_start();
 
 $hide = false;
 $show = true;
+
+$GLOBALS['isSqlWriteFileForDBG'] = FALSE;

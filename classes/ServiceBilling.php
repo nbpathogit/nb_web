@@ -239,10 +239,51 @@ class ServiceBilling {
                 if($limit != 0){
                     $sql = $sql . " LIMIT $limit ";
                 }
-
-//                Util::writeFile('getBillbyHospitalbyDateRange.txt', $sql);   
-                
+                if($GLOBALS['isSqlWriteFileForDBG']){
+                    Util::writeFile('getBillbyHospitalbyDateRange.txt', $sql);   
+                }
         $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
+    public static function getBillbyPathologistbyDateRange($conn,$patho_id, $startdate,$enddate) {
+
+
+        $sql="SELECT                                                                                   \n". 
+             "#*,                                                                                      \n".
+             "h.id as hid, b.id as bid, p.id as pid, p.pnum as p_sn,  job_pathologist.id as job_id,    \n".
+             "CONCAT(p.ppre_name,p.pname,' ',p.plastname) as patient_name,                             \n".
+             "DATE(p.date_1000) as admit_date,                                                         \n".
+             "p.phospital_num as hospital_num,                                                         \n".
+             "CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as clinicien_name,               \n".
+             "h.hospital as h_hospital,                                                                \n".
+             "CONCAT(job_pathologist.name,' ',job_pathologist.lastname) as pathologist_name,           \n".
+             "b.code_description as b_code,                                                            \n".
+             "b.description as b_description,                                                          \n".
+             "b.cost as b_cost                                                                         \n".
+             "FROM patient as p                                                                        \n".
+             "   JOIN service_billing as b on  b.patient_id = p.id                                     \n".
+             "   JOIN hospital as h ON p.phospital_id = h.id                                           \n".
+             "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
+             "   JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                    \n".
+             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                      \n".
+             "       and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5    \n".
+             "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'     \n".
+             "   ORDER by p.pnum                                                                       \n";
+
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getBillbyPathologistbyDateRange.txt', $sql);   
+//hid	bid	pid	p_sn	job_id	patient_name	admit_date	hospital_num	clinicien_name	h_hospital	pathologist_name	b_code	b_description	b_cost
+//21	157	410	CN2400001	771	นางวรัญณพัชร พาทา	1/1/2024	117865	กฤติคุณ  ตระกูลสุขรัตน์	โรงพยาบาลหล่มสัก	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500
+//20	156	411	CN2400002	774	น.ส.ปราณี เพ็ชรอำไพ	1/1/2024	23176	กมเลศวร์ จุลบุตร	โรงพยาบาลพิจิตร	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500
+//20	432	645	CN2400026	1441	นายประทีป คุ้มดำรงค์	1/5/2024	316146	พระทอง  สมบูรณ์เอนก	โรงพยาบาลพิจิตร	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500
+
+        }      
+        
+            $results = $conn->query($sql);
+        
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -381,9 +422,154 @@ class ServiceBilling {
              ") as a                                                                                                                             \n";
 
         
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN.txt', $sql);   
+        }
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
+    public static function getBillbyPathobyDateRangeGroupBySN($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
+        $sql="select                                                                                                                                                  \n".
+             "#* ,                                                                                                                                                    \n".
+             "IFNULL(aa_p_sn, bb_p_sn) as p_sn,                                                                                                                       \n".
+             "IFNULL(aa_p_hn, bb_p_hn) as p_hn,                                                                                                                       \n".
+             "IFNULL(aa_p_admit_date, bb_p_admit_date) as p_admit_date,                                                                                               \n".
+             "IFNULL(aa_patient_name, bb_patient_name) as patient_name,                                                                                               \n".
+             "IFNULL(aa_clinicien_name, bb_clinicien_name) as clinicien_name,                                                                                         \n".
+             "                                                                                                                                                        \n".
+             "IFNULL(aa_b_description_concat_nm, '') as b_description_concat_nm,                                                                                      \n".
+             "IFNULL(bb_b_description_concat_sp, '') as b_description_concat_sp,                                                                                      \n".
+             "CONCAT_WS(' / ',IFNULL(aa_b_description_concat_nm, ''),IFNULL(bb_b_description_concat_sp, '')) as b_description_concat_all,                             \n".
+             "                                                                                                                                                        \n".
+             "IFNULL(aa_b_cost_sum_nm, 0) as b_cost_sum_nm,                                                                                                           \n".
+             "IFNULL(bb_b_cost_sum_sp, 0) as b_cost_sum_sp,                                                                                                           \n".
+             "(IFNULL(aa_b_cost_sum_nm,0) + IFNULL(bb_b_cost_sum_sp, 0) ) as b_cost_sum_all                                                                           \n".
+             "                                                                                                                                                        \n".
+             "from                                                                                                                                                    \n".
+             "                                                                                                                                                        \n".
+             "(                                                                                                                                                       \n".
+             "    (                                                                                                                                                   \n".
+             "    select                                                                                                                                              \n".
+             "    *                                                                                                                                                   \n".
+             "    FROM                                                                                                                                                \n".
+             "        (                                                                                                                                               \n".
+             "        SELECT                                                                                                                                          \n".
+             "            #*,                                                                                                                                         \n".
+             "            #b.id as bid, p.id as pid, b.code_description as b_code, b.code2 as b_code2, st.id as stid,  h.id as hid,                                   \n".
+             "            #st.service_typea_bill as st_service_typea_bill,                                                                                            \n".
+             "            p.pnum as aa_p_sn,                                                                                                                          \n".
+             "            p.phospital_num as aa_p_hn,                                                                                                                 \n".
+             "            DATE(p.date_1000) as aa_p_admit_date,                                                                                                       \n".
+             "            CONCAT(p.ppre_name,p.pname,' ',p.plastname) as aa_patient_name,                                                                             \n".
+             "            CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as aa_clinicien_name,                                                               \n".
+             "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                                                  \n".
+             "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                                             \n".
+             "        FROM service_billing as b                                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
+             "        JOIN hospital as h ON  p.phospital_id = h.id                                                                                                    \n".
+             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = 20  and job_pathologist.job_role_id = 5          \n".
+             "        WHERE   date(p.date_1000) >= '2024-01-01'and date(p.date_1000) <= '2024-02-15'                                                                  \n".
+             "            and st.service_typea_id = 1                                                                                                                 \n".
+             "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
+             "        GROUP BY p.pnum                                                                                                                                 \n".
+             "        ORDER by p.pnum                                                                                                                                 \n".
+             "        ) as aa                                                                                                                                         \n".
+             "    LEFT JOIN                                                                                                                                           \n".
+             "        (                                                                                                                                               \n".
+             "        SELECT                                                                                                                                          \n".
+             "            #*,                                                                                                                                         \n".
+             "            #b.id as bid, p.id as pid, b.code_description as b_code, b.code2 as b_code2, st.id as stid,  h.id as hid,                                   \n".
+             "            #st.service_typea_bill as st_service_typea_bill,                                                                                            \n".
+             "            p.pnum as bb_p_sn,                                                                                                                          \n".
+             "            p.phospital_num as bb_p_hn,                                                                                                                 \n".
+             "            DATE(p.date_1000) as bb_p_admit_date,                                                                                                       \n".
+             "            CONCAT(p.ppre_name,p.pname,' ',p.plastname) as bb_patient_name,                                                                             \n".
+             "            CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as bb_clinicien_name,                                                               \n".
+             "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                                                  \n".
+             "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                                             \n".
+             "        FROM service_billing as b                                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
+             "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
+             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = 20  and job_pathologist.job_role_id = 5          \n".
+             "        WHERE   date(p.date_1000) >= '2024-01-01' and date(p.date_1000) <= '2024-02-15'                                                                 \n".
+             "            and st.service_typea_id = 2                                                                                                                 \n".
+             "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
+             "        GROUP BY p.pnum                                                                                                                                 \n".
+             "        ORDER by p.pnum                                                                                                                                 \n".
+             "        ) as bb                                                                                                                                         \n".
+             "    ON aa.aa_p_sn = bb.bb_p_sn and aa.aa_p_hn = bb.bb_p_hn and  aa.aa_p_admit_date = bb.bb_p_admit_date                                                 \n".
+             "        and aa.aa_patient_name = bb.bb_patient_name and  aa.aa_clinicien_name = bb.bb_clinicien_name                                                    \n".
+             "    )                                                                                                                                                   \n".
+             "UNION                                                                                                                                                   \n".
+             "    (                                                                                                                                                   \n".
+             "    select                                                                                                                                              \n".
+             "    *                                                                                                                                                   \n".
+             "    FROM                                                                                                                                                \n".
+             "        (                                                                                                                                               \n".
+             "        SELECT                                                                                                                                          \n".
+             "            #*,                                                                                                                                         \n".
+             "            #b.id as bid, p.id as pid, b.code_description as b_code, b.code2 as b_code2, st.id as stid,  h.id as hid,                                   \n".
+             "            #st.service_typea_bill as st_service_typea_bill,                                                                                            \n".
+             "            p.pnum as aa_p_sn,                                                                                                                          \n".
+             "            p.phospital_num as aa_p_hn,                                                                                                                 \n".
+             "            DATE(p.date_1000) as aa_p_admit_date,                                                                                                       \n".
+             "            CONCAT(p.ppre_name,p.pname,' ',p.plastname) as aa_patient_name,                                                                             \n".
+             "            CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as aa_clinicien_name,                                                               \n".
+             "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                                                  \n".
+             "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                                             \n".
+             "        FROM service_billing as b                                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
+             "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
+             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = 20  and job_pathologist.job_role_id = 5          \n".
+             "        WHERE   date(p.date_1000) >= '2024-01-01'and date(p.date_1000) <= '2024-02-15'                                                                  \n".
+             "            and st.service_typea_id = 1                                                                                                                 \n".
+             "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
+             "        GROUP BY p.pnum                                                                                                                                 \n".
+             "        ORDER by p.pnum                                                                                                                                 \n".
+             "        ) as aa                                                                                                                                         \n".
+             "    RIGHT JOIN                                                                                                                                          \n".
+             "        (                                                                                                                                               \n".
+             "        SELECT                                                                                                                                          \n".
+             "            #*,                                                                                                                                         \n".
+             "            #b.id as bid, p.id as pid, b.code_description as b_code, b.code2 as b_code2, st.id as stid,  h.id as hid,                                   \n".
+             "            #st.service_typea_bill as st_service_typea_bill,                                                                                            \n".
+             "            p.pnum as bb_p_sn,                                                                                                                          \n".
+             "            p.phospital_num as bb_p_hn,                                                                                                                 \n".
+             "            DATE(p.date_1000) as bb_p_admit_date,                                                                                                       \n".
+             "            CONCAT(p.ppre_name,p.pname,' ',p.plastname) as bb_patient_name,                                                                             \n".
+             "            CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as bb_clinicien_name,                                                               \n".
+             "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                                                  \n".
+             "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                                             \n".
+             "        FROM service_billing as b                                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
+             "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
+             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = 20  and job_pathologist.job_role_id = 5          \n".
+             "        WHERE   date(p.date_1000) >= '2024-01-01' and date(p.date_1000) <= '2024-02-15'                                                                 \n".
+             "        and st.service_typea_id = 2                                                                                                                     \n".
+             "        #and p.pnum = 'CN2400032'                                                                                                                       \n".
+             "        GROUP BY p.pnum                                                                                                                                 \n".
+             "        ORDER by p.pnum                                                                                                                                 \n".
+             "        ) as bb                                                                                                                                         \n".
+             "    ON aa.aa_p_sn = bb.bb_p_sn and aa.aa_p_hn = bb.bb_p_hn and  aa.aa_p_admit_date = bb.bb_p_admit_date                                                 \n".
+             "       and aa.aa_patient_name = bb.bb_patient_name and  aa.aa_clinicien_name = bb.bb_clinicien_name                                                     \n".
+             "    )                                                                                                                                                   \n".
+             ") as a                                                                                                                                                  \n";
+
         
-        Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN.txt', $sql);   
-                
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getBillbyPathobyDateRangeGroupBySN.txt', $sql);   
+        }
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
@@ -392,16 +578,6 @@ class ServiceBilling {
         
     public static function getBillbyHospitalbyDateRangeGroupByCode($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
 
-//        $sql =  "SELECT *, h.id as hid, b.id as bid, p.id as pid                                          \n".
-//                "FROM patient as p                                                                        \n".
-//                "   JOIN service_billing as b on  b.patient_id = p.id                                     \n".
-//                "   JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id          \n".
-//                "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
-//                "   WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'  \n".
-//                "   ORDER by b.id                                                                         \n";
-                
-                
-                
         $sql = "SELECT                                                                               \n".
                 "b.code_description as b_code,                                                        \n".
                 "b.description as b_description,                                                      \n".
@@ -411,22 +587,49 @@ class ServiceBilling {
                 "h.id as hid, b.id as bid, p.id as pid                                                \n".
                 "FROM patient as p                                                                    \n".  
                 "   JOIN service_billing as b on  b.patient_id = p.id                                 \n".    
-                "   JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id       \n".
+                "   JOIN hospital as h ON h.id = $hospital_id and p.phospital_id = h.id               \n".
                 "   JOIN service_type as s ON b.slide_type = s.id                                     \n".
-                "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
+                "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}' \n".
                 "    GROUP BY service_type                                                            \n".
                 "    ORDER by b.code_description                                                      \n";
                 if($limit != 0){
                     $sql = $sql . " LIMIT $limit ";
                 }
-
-//                Util::writeFile('sql_dbg.txt', $sql);   
-                
+        if($GLOBALS['isSqlWriteFileForDBG']){
+                Util::writeFile('getBillbyHospitalbyDateRangeGroupByCode.txt', $sql);   
+        }
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
     
+            
+    public static function getBillbyPathobyDateRangeGroupByCode($conn,$patho_id, $startdate,$enddate, $limit = 0) {
+
+        $sql="SELECT                                                                                  \n".
+             "b.code_description as b_code,                                                           \n".
+             "b.description as b_description,                                                         \n".
+             "b.cost as b_cost,                                                                       \n".
+             "count(b.cost) as bcost_count,                                                           \n".
+             "SUM(b.cost) as bcost_sum,                                                               \n".
+             "h.id as hid, b.id as bid, p.id as pid                                                   \n".
+             "FROM patient as p                                                                       \n".
+             "   JOIN service_billing as b on  b.patient_id = p.id                                    \n".
+             "   JOIN hospital as h ON  p.phospital_id = h.id                                         \n".
+             "   JOIN service_type as s ON b.slide_type = s.id                                        \n".
+             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                     \n".
+             "         and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5 \n".
+             "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
+             "    GROUP BY service_type                                                               \n".
+             "    ORDER by b.code_description                                                         \n";
+
+        if($GLOBALS['isSqlWriteFileForDBG']){
+                Util::writeFile('getBillbyPathobyDateRangeGroupByCode.txt', $sql);   
+        }
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
     
     public static function getBillbyHospitalbyDateRangeSumPrice($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
 //        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount FROM \n".
@@ -457,23 +660,47 @@ class ServiceBilling {
                 if($limit != 0){
                     $sql = $sql . " LIMIT $limit \n";
                 }
-
-//        Util::writeFile('sql_dbg.txt', $sql);  
-
+        if($GLOBALS['isSqlWriteFileForDBG']){
+                Util::writeFile('sql_dbg.txt', $sql);  
+        }
         $results = $conn->query($sql);
 
         return  $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+     
+    public static function getBillbyPathoDateRangeSumPrice($conn, $patho_id , $startdate, $enddate) {
+        $sql= "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount                                   \n".
+              "  FROM  patient as p                                                              \n".
+              "    JOIN service_billing as b  ON  b.patient_id = p.id                            \n".
+              "    JOIN hospital as h ON p.phospital_id = h.id                                   \n".
+              "    JOIN service_type as s ON  b.slide_type = s.id                                \n".
+              "    JOIN job as job_pathologist ON job_pathologist.patient_id = p.id              \n".
+              "          and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5   \n".                                                 
+              "   WHERE 1                                                                        \n".
+              "   and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
+              "   ORDER by b.id                                                                  \n";
+
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getBillbyPathoDateRangeSumPrice.txt', $sql);  
+            //bcost	bcount
+            //27130	43
+        }
+        $results = $conn->query($sql);
+
+        return  $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     
     //SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = 0 and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by s.id;
     //   service_type    cost_sum  cost_count
     //   ตรวจธรรมดา       10400     26
     //   ตรวจพิเศษ         800       2
     public static function getCostGroupbyServiceTyoebyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-//        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
-//        if($limit != 0){
-//            $sql = $sql . " LIMIT $limit ";
-//        }
+    //        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
+    //        if($limit != 0){
+    //            $sql = $sql . " LIMIT $limit ";
+    //        }
 
         $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,                        \n".
             "  service_type,                                                                     \n".
@@ -483,20 +710,56 @@ class ServiceBilling {
             "  SUM(b.cost) as bcost_sum                                                          \n".
             "FROM patient as p                                                                   \n".
             "JOIN service_billing as b ON  b.patient_id = p.id                                   \n".
-            "LEFT JOIN hospital as h ON p.phospital_id = h.id  and p.phospital_id = 9            \n".
+            "LEFT JOIN hospital as h ON p.phospital_id = h.id  and p.phospital_id = $hospital_id            \n".
             "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
-            "WHERE date(p.date_1000) >= '2024-01-01'and date(p.date_1000) <= '2024-01-31'        \n".
+            "WHERE date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'        \n".
             "      GROUP BY service_type                                                         \n".
             "      ORDER by s.order_list                                                          \n";
         if($limit != 0){
             $sql = $sql . " LIMIT $limit ";
         }
-//        Util::writeFile('sql_dbg_xxx.txt', $sql);
-
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getCostGroupbyServiceTyoebyHospitalbyDateRange.txt', $sql);
+        }
         $results = $conn->query($sql);
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+
+    public static function getCostGroupbyServiceTyoebyPathobyDateRange($conn, $patho_id, $startdate,$enddate) {
+
+       $sql="SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,                           \n".
+            "  service_type,                                                                     \n".
+            "  service_type_bill,                                                                \n".
+            "  Name_by_spcimen,                                                                  \n".
+            "  count(b.cost) as bcost_count,                                                     \n".
+            "  SUM(b.cost) as bcost_sum                                                          \n".
+            "FROM patient as p                                                                   \n".
+            "JOIN service_billing as b ON  b.patient_id = p.id                                   \n".
+            "LEFT JOIN hospital as h ON p.phospital_id = h.id                                    \n".
+            "JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                    \n".
+            "      and job_pathologist.user_id = $patho_id  and job_pathologist.job_role_id = 5  \n".
+            "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
+            "WHERE date(p.date_1000) >= '$startdate'and date(p.date_1000) <= '$enddate'           \n".
+            "      GROUP BY service_type                                                          \n".
+            "      ORDER by s.order_list                                                          \n";
+
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getCostGroupbyServiceTyoebyPathobyDateRange.txt', $sql);
+            //hid	bid	pid	sid	service_type	service_type_bill	Name_by_spcimen	bcost_count	bcost_sum
+            //21	128	373	1	1 ตรวจชิ้นเนื้อศัลยพยาธิวิทยา (SN or IN)	ค่าตรวจชิ้นเนื้อศัลยพยาธิวิทยา	สิ่งส่งตรวจ (SN or IN) with group type 1	409	309460
+            //9         1908	1537	4	2 ตรวจเซลล์วิทยา (CN)                                     ค่าตรวจเซลล์วิทยา	สิ่งส่งตรวจ CN group type 1	16	8400
+            //31	1952	1632	5	3 ตรวจเซลล์มะเร็งปากมดลูก (PN or LN)	ค่าตรวจเซลล์มะเร็งปากมดลูก	สิ่งส่งตรวจ PN LN group type 1	1	120
+            //20	98	401	2	5 ตรวจพิเศษ (Special Staining)	ค่าตรวจพิเศษ (Special Staining)	ย้อมพิเศษ group type 2	92	71365
+            //10	1831	638	3	6 ตรวจพิเศษ (Immuno Staining)	ค่าตรวจพิเศษ (Immuno Staining)	ย้อมพิเศษ group type 2	38	35000
+
+        }
+        $results = $conn->query($sql);
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function create($conn) {
 

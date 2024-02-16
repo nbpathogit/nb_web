@@ -150,6 +150,7 @@
                         <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
+                            <a id="billing_pdf_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">รายงานตามพยาธิแพทย์(PDF)</a>
                             <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูและจัดการรายการในใบแจ้งหนี้</a>
                         </div>
                     </div>
