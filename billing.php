@@ -81,4 +81,4 @@ require 'includes/header.php'; ?>
     var skey = "<?= $_SESSION["skey"] ?>";
     $("#manage_bill").addClass("active");
 </script>
-<script src="<?= Url::getSubFolder1() ?>/js/billing.js?v6"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/billing.js?v7"></script>

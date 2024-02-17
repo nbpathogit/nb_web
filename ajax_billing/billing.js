@@ -63,6 +63,9 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     var enddate = $("#enddate_billing").val();
 //    alert(startdate.substr(0, 4) + " " + startdate.substr(5, 2) + " " + startdate.substr(8, 2));
 
+    let error_ajax = "";
+
+    error_ajax = "";
     $.ajax({
         'async': false,
         type: 'POST',
@@ -78,19 +81,25 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             if (data[0] != "[") {
                 alert(data);
                 console.log(data);
-                return;
+                error_ajax = data;
             }
             var datajson = JSON.parse(data);
             if (datajson.length == 0) {
-                alert("No record found");
-                return;
+                error_ajax = "No record found";
+//                alert("No record found");
+//                return;
             }
         },
         error: function (jqxhr, status, exception) {
              alert( jqxhr.responseText);
         }
     });
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
 
+    error_ajax = "";
     let net_price = null;
     $.ajax({
         'async': false,
@@ -106,12 +115,12 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             if (data[0] != "[") {
                 alert(data);
                 console.log(data);
+                error_ajax = data;
                 return;
             }
             let datajson = JSON.parse(data);
             if (datajson.length == 0) {
-                alert("No record found");
-                return;
+                error_ajax = "No record found";
             }
             net_price = datajson;
         },
@@ -119,8 +128,13 @@ $("#btn_get_bill_by_range").on("click", function (e) {
              alert( jqxhr.responseText);
         }
     });
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
 
 
+    error_ajax = "";
     let net_byservice_price = null;
     $.ajax({
         'async': false,
@@ -137,13 +151,11 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 //            alert(data);
             if (data[0] != "[") {
                 alert(data);
-                console.log(data);
-                return;
+                error_ajax = data;
             }
             let datajson = JSON.parse(data);
             if (datajson.length == 0) {
-                alert("No record found");
-                return;
+                error_ajax = "No record found";
             }
             net_byservice_price = datajson;
         },
@@ -151,6 +163,10 @@ $("#btn_get_bill_by_range").on("click", function (e) {
              alert( jqxhr.responseText);
         }
     });
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
 
     let strs = "";
     strs = strs + "<table>";
@@ -176,6 +192,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
 
     // get all record one by one
+    error_ajax = "";
     $.ajax({
         'async': false,
         type: 'POST',
@@ -190,12 +207,11 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             if (data[0] != "[") {
                 alert(data);
                 console.log(data);
-                return;
+                let error_ajax = data;
             }
             var datajson = JSON.parse(data);
             if (datajson.length == 0) {
-                alert("No record found");
-                return;
+                let error_ajax = "No record found";
             }
             drawbill_list_all_page_g2(datajson);
 
@@ -205,11 +221,15 @@ $("#btn_get_bill_by_range").on("click", function (e) {
              alert( jqxhr.responseText);
         }
     });
-
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
 
 
 
     // get record groupby code
+    error_ajax = "";
     $.ajax({
         'async': false,
         type: 'POST',
@@ -224,12 +244,11 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             if (data[0] != "[") {
                 alert(data);
                 console.log(data);
-                return;
+                error_ajax = "No record found";
             }
             var datajson = JSON.parse(data);
             if (datajson.length == 0) {
-                alert("No record found");
-                return;
+                error_ajax = "No record found";
             }
 
             drawbill_list_all_page_g3(datajson);
@@ -239,11 +258,15 @@ $("#btn_get_bill_by_range").on("click", function (e) {
              alert( jqxhr.responseText);
         }
     });
-
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
 
 
 
 //    C:\anuchit2\nb_web\ajax_billing\getHospital.php
+    error_ajax = "";
     let hospital = null;
     $.ajax({
         'async': false,
@@ -257,12 +280,11 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             if (data[0] != "[") {
                 alert(data);
                 console.log(data);
-                return;
+                error_ajax = data;
             }
             var datajson = JSON.parse(data);
             if (datajson.length == 0) {
-                alert("No hospital record found");
-                return;
+                error_ajax = "No record found";
             }
             hospital = datajson;
         },
@@ -270,6 +292,10 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             alert('Exception:', exception);
         }
     });
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
 
     let date = new Date();
     let result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
@@ -291,6 +317,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     let cost = $('#bill_hospital_net_price').val();
 
     let bill_hospital_net_price_spell = "";
+    error_ajax = "";
     $.ajax({
         'async': false,
         type: 'POST',
@@ -303,10 +330,13 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             bill_hospital_net_price_spell = data;
         },
         error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
-            return;
+            error_ajax = jqxhr.responseText;
         }
     });
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
 
     $('#bill_hospital_net_price_spell').val(bill_hospital_net_price_spell);
 
