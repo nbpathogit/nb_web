@@ -371,7 +371,7 @@ echo '</span>';
 //        });
         
 
-
+        let error_ajax = "";
         let net_price = null;
         $.ajax({
             'async': false,
@@ -387,23 +387,28 @@ echo '</span>';
                 if (data[0] != "[") {
                     alert(data);
                     console.log(data);
-                    return;
+                    error_ajax = data;
                 }
                 let datajson = JSON.parse(data);
                 if (datajson.length == 0) {
-                    alert("No record found");
-                    return;
+//                    alert("No record found");
+                    error_ajax = "No record found";
+//                    return;
                 }
                 net_price = datajson;
             },
             error: function (jqxhr, status, exception) {
-                 alert( jqxhr.responseText);
+                 error_ajax = "jqxhr.responseText";
             }
         });
+        if(! (error_ajax.length === 0) ){
+            alert("::"+error_ajax);
+            return -1;
+        }
         $('#bill_hospital_net_price').val(net_price[0].bcost);
 
 
-
+        error_ajax = "";
         let net_byservice_price = null;
         $.ajax({
             'async': false,
@@ -419,22 +424,28 @@ echo '</span>';
 //                console.log(data);
 //                alert(data);
                 if (data[0] != "[") {
-                    alert(data);
+                    //alert(data);
                     console.log(data);
-                    return;
+                    error_ajax = data;
+                    //return;
                 }
                 let datajson = JSON.parse(data);
                 if (datajson.length == 0) {
-                    alert("No record found");
-                    return;
+                    //alert("No record found");
+                    error_ajax = "No record found ";
+                    //return;
                 }
                 net_byservice_price = datajson;
             },
             error: function (jqxhr, status, exception) {
                  alert( jqxhr.responseText);
+                 error_ajax = jqxhr.responseText;
             }
         });
-        
+        if(! (error_ajax.length === 0) ){
+            alert("::"+error_ajax);
+            return -1;
+        }
 
 
         let strs = "";
@@ -461,7 +472,8 @@ echo '</span>';
 
 
         
-        // get all record one by one
+        // groupbySN
+        error_ajax = "";
         $.ajax({
             'async': false,
             type: 'POST',
@@ -476,26 +488,30 @@ echo '</span>';
                 if (data[0] != "[") {
                     alert(data);
                     console.log(data);
-                    return;
+                    error_ajax = "data";        
                 }
                 var datajson = JSON.parse(data);
                 if (datajson.length == 0) {
-                    alert("No record found");
-                    return;
+                    error_ajax = "No record found";
                 }
                 drawbill_list_all_page_g2(datajson);
 
                 drawbillingTable(datajson);// last page for reference
             },
             error: function (jqxhr, status, exception) {
-                 alert( jqxhr.responseText);
+//                 alert( jqxhr.responseText);
+                 error_ajax =  jqxhr.responseText;
             }
         });
-
+        if(! (error_ajax.length === 0) ){
+            alert("::"+error_ajax);
+            return -1;
+        }
  
 
 
         // get record groupby code
+        error_ajax = "";
         $.ajax({
             'async': false,
             type: 'POST',
@@ -510,25 +526,27 @@ echo '</span>';
                 if (data[0] != "[") {
                     alert(data);
                     console.log(data);
-                    return;
+                    error_ajax = data;
                 }
                 var datajson = JSON.parse(data);
                 if (datajson.length == 0) {
-                    alert("No record found");
-                    return;
+                    error_ajax = "No record found";
+                }else{
+                    drawbill_list_all_page_g3(datajson);
                 }
-
-                drawbill_list_all_page_g3(datajson);
 
             },
             error: function (jqxhr, status, exception) {
-                 alert( jqxhr.responseText);
+                 error_ajax = jqxhr.responseText;
             }
         });
+        if(! (error_ajax.length === 0) ){
+            alert("::"+error_ajax);
+            return -1;
+        }
 
 
-
-        
+  
 
     //    C:\anuchit2\nb_web\ajax_billing\getHospital.php
 //        let hospital = null;
@@ -557,7 +575,7 @@ echo '</span>';
 //                alert('Exception:', exception);
 //            }
 //        });
-        
+
 
 
         let date = new Date();
@@ -582,6 +600,7 @@ echo '</span>';
 
 
         let bill_hospital_net_price_spell = "";
+        error_ajax = "";
         $.ajax({
             'async': false,
             type: 'POST',
@@ -594,10 +613,14 @@ echo '</span>';
                 bill_hospital_net_price_spell = data;
             },
             error: function (jqxhr, status, exception) {
-                alert('Exception:', exception);
-                return;
+                error_ajax = jqxhr.responseText;
             }
         });
+        if(! (error_ajax.length === 0) ){
+            alert("::"+error_ajax);
+            return -1;
+        }
+        
 
         $('#bill_hospital_net_price_spell').val(bill_hospital_net_price_spell);
 
