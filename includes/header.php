@@ -151,6 +151,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
                             <a id="billing_pdf_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">รายงานตามพยาธิแพทย์(PDF)</a>
+                            <a id="billing_pdf_tab" href="billing_by_cytologist_pdf.php" class="nav-item nav-link">รายงานตามนักเซลด์(PDF)</a>
                             <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูและจัดการรายการในใบแจ้งหนี้</a>
                         </div>
                     </div>
