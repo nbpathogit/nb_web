@@ -43,7 +43,7 @@ $userCytologists = User::getAllbyCytologist($conn);
 ?>
 <?php require 'includes/header.php'; ?>
 
-<h1 align="center">(กำลังพัฒนา ไม่พร้อมใช้งาน )สรุปราคาตามนักเซลด์วิทยาผู้ออกผลแต่ละท่าน</h1>
+<h1 align="center">สรุปราคากรองตามนักเซลด์วิทยาที่ออกผล</h1>
 
 <?php require 'includes/opencontainer.php'; ?>
 <div class="row <?= $isBorder ? "border" : "" ?>">
@@ -268,7 +268,8 @@ echo '</span>';
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
     $("#manage_bill").addClass("active");
-    $("#billing_pdf_tab").addClass("active");
+    $("#manage_bill_dropdown").addClass("show");
+    $("#billing_pdf_cyto_tab").addClass("active");
     $(function() {
         $("#startdate_billing").datepicker({
             dateFormat: 'yy-mm-dd'
@@ -289,7 +290,7 @@ echo '</span>';
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('target', '_blank');
-        frm.attr('action', "billing_by_patho_pdf_show.php");
+        frm.attr('action', "billing_by_cyto_pdf_show.php");
         frm.attr('');
 
 
@@ -318,7 +319,7 @@ echo '</span>';
         var frm = $("<form>");
         frm.attr('method', 'post');
         frm.attr('target', '_blank');
-        frm.attr('action', "billing_by_patho_pdf_show.php");
+        frm.attr('action', "billing_by_cyto_pdf_show.php");
         frm.attr('');
 
         frm.append('<input type="hidden" name="layout" value="' + '' + '" /> ');

@@ -41,7 +41,7 @@ $userPathos = User::getAllbyPathologis($conn);
 ?>
 <?php require 'includes/header.php'; ?>
 
-<h1 align="center">สรุปราคาตามผู้ออกผลแต่ละท่าน</h1>
+<h1 align="center">สรุปราคากรองตามพยาธิแพทย์ที่ออกผล</h1>
 
 <?php require 'includes/opencontainer.php'; ?>
 <div class="row <?= $isBorder ? "border" : "" ?>">
@@ -266,7 +266,9 @@ echo '</span>';
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
     $("#manage_bill").addClass("active");
-    $("#billing_pdf_tab").addClass("active");
+    $("#billing_pdf_patho_tab").addClass("active");
+    $("#manage_bill_dropdown").addClass("show");
+
     $(function() {
         $("#startdate_billing").datepicker({
             dateFormat: 'yy-mm-dd'
