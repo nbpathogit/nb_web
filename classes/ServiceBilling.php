@@ -46,7 +46,8 @@ class ServiceBilling {
     public $send_doctor; //varchar(32)	
     public $pathologist; //varchar(32)	
     public $cost;        //int(11)		
-    public $comment;     //text	        
+    public $comment;     //text	    
+    public $create_date;     
 
     //put your code here
 
@@ -259,30 +260,37 @@ class ServiceBilling {
              "p.phospital_num as hospital_num,                                                         \n".
              "CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as clinicien_name,               \n".
              "h.hospital as h_hospital,                                                                \n".
+             "CONCAT(job_cytologist.name,' ',job_cytologist.lastname) as cytologist_name,           \n".
              "CONCAT(job_pathologist.name,' ',job_pathologist.lastname) as pathologist_name,           \n".
              "b.code_description as b_code,                                                            \n".
              "b.description as b_description,                                                          \n".
-             "b.cost as b_cost                                                                         \n".
+             "b.cost as b_cost,                                                                        \n".
+             "s.service_type_bill as s_service_type                                                    \n".
              "FROM patient as p                                                                        \n".
              "   JOIN service_billing as b on  b.patient_id = p.id                                     \n".
              "   JOIN hospital as h ON p.phospital_id = h.id                                           \n".
              "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
              "   JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                    \n".
-             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                      \n".
-             "       and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5    \n".
+             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                      \n";
+             if( ! ((int)$patho_id == -1) ){
+                $sql.="       and job_pathologist.user_id = {$patho_id}                                \n";
+             }
+        $sql.="and job_pathologist.job_role_id = 5                                                     \n".
+             "   LEFT JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                   \n".   
+             "       and job_cytologist.job_role_id = 7                                                \n". 
              "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'     \n".
              "   ORDER by p.pnum                                                                       \n";
 
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getBillbyPathologistbyDateRange.txt', $sql);   
-//hid	bid	pid	p_sn	job_id	patient_name	admit_date	hospital_num	clinicien_name	h_hospital	pathologist_name	b_code	b_description	b_cost
-//21	157	410	CN2400001	771	นางวรัญณพัชร พาทา	1/1/2024	117865	กฤติคุณ  ตระกูลสุขรัตน์	โรงพยาบาลหล่มสัก	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500
-//20	156	411	CN2400002	774	น.ส.ปราณี เพ็ชรอำไพ	1/1/2024	23176	กมเลศวร์ จุลบุตร	โรงพยาบาลพิจิตร	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500
-//20	432	645	CN2400026	1441	นายประทีป คุ้มดำรงค์	1/5/2024	316146	พระทอง  สมบูรณ์เอนก	โรงพยาบาลพิจิตร	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500
+//hid	bid	pid	p_sn	job_id	patient_name	admit_date	hospital_num	clinicien_name	h_hospital cytologist_name	pathologist_name	b_code	b_description	b_cost                                   s_service_type
+//21	157	410	CN2400001	771	นางวรัญณพัชร พาทา	1/1/2024	117865	กฤติคุณ  ตระกูลสุขรัตน์	โรงพยาบาลหล่มสัก- null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
+//20	156	411	CN2400002	774	น.ส.ปราณี เพ็ชรอำไพ	1/1/2024	23176	กมเลศวร์ จุลบุตร	โรงพยาบาลพิจิตร null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
+//20	432	645	CN2400026	1441	นายประทีป คุ้มดำรงค์	1/5/2024	316146	พระทอง  สมบูรณ์เอนก	โรงพยาบาลพิจิตร null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
 
         }      
         
-            $results = $conn->query($sql);
+        $results = $conn->query($sql);
         
 
         return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
@@ -472,8 +480,12 @@ class ServiceBilling {
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON  p.phospital_id = h.id                                                                                                    \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5          \n".
-             "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                                                  \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                                                                                \n";
+             if( ! ((int)$patho_id == -1) ){
+             $sql.= "                     and job_pathologist.user_id = {$patho_id}                                                                                   \n";
+             }
+             $sql.= "                     and job_pathologist.job_role_id = 5                                                                                         \n".
+             "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                                                \n".
              "            and st.service_typea_id = 1                                                                                                                 \n".
              "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
              "        GROUP BY p.pnum                                                                                                                                 \n".
@@ -497,7 +509,11 @@ class ServiceBilling {
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5          \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                                                                                \n";
+             if( ! ((int)$patho_id == -1) ){
+             $sql.="                     and job_pathologist.user_id = {$patho_id}                                                                                    \n";
+             }
+             $sql.="                     and job_pathologist.job_role_id = 5          \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                                 \n".
              "            and st.service_typea_id = 2                                                                                                                 \n".
              "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
@@ -529,8 +545,12 @@ class ServiceBilling {
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5          \n".
-             "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                                  \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                                                                                \n";
+             if( ! ((int)$patho_id == -1) ){
+             $sql.= "                    and job_pathologist.user_id = {$patho_id}                                                                                    \n";
+             }
+             $sql.= "                     and job_pathologist.job_role_id = 5                                                                                         \n".
+             "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                               \n".
              "            and st.service_typea_id = 1                                                                                                                 \n".
              "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
              "        GROUP BY p.pnum                                                                                                                                 \n".
@@ -554,8 +574,12 @@ class ServiceBilling {
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5          \n".
-             "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                                 \n".
+             "        JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                                                                                \n";
+             if( ! ((int)$patho_id == -1) ){
+             $sql.= "                     and job_pathologist.user_id = {$patho_id}                                                                                   \n";
+             }
+             $sql.= "                     and job_pathologist.job_role_id = 5                                                                                         \n".
+             "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                               \n".
              "        and st.service_typea_id = 2                                                                                                                     \n".
              "        #and p.pnum = 'CN2400032'                                                                                                                       \n".
              "        GROUP BY p.pnum                                                                                                                                 \n".
@@ -762,8 +786,11 @@ class ServiceBilling {
              "   JOIN service_billing as b on  b.patient_id = p.id                                    \n".
              "   JOIN hospital as h ON  p.phospital_id = h.id                                         \n".
              "   JOIN service_type as s ON b.slide_type = s.id                                        \n".
-             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                     \n".
-             "         and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5 \n".
+             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                     \n";
+             if( ! ((int)$patho_id == -1) ){
+             $sql.="                 and job_pathologist.user_id = {$patho_id}                        \n";
+             }
+             $sql.="                 and job_pathologist.job_role_id = 5                              \n".
              "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
              "    GROUP BY service_type                                                               \n".
              "    ORDER by b.code_description                                                         \n";
@@ -847,8 +874,11 @@ class ServiceBilling {
               "    JOIN service_billing as b  ON  b.patient_id = p.id                            \n".
               "    JOIN hospital as h ON p.phospital_id = h.id                                   \n".
               "    JOIN service_type as s ON  b.slide_type = s.id                                \n".
-              "    JOIN job as job_pathologist ON job_pathologist.patient_id = p.id              \n".
-              "          and job_pathologist.user_id = {$patho_id}  and job_pathologist.job_role_id = 5   \n".                                                 
+              "    JOIN job as job_pathologist ON job_pathologist.patient_id = p.id              \n";
+              if( ! ((int)$patho_id == -1) ){
+              $sql.="          and job_pathologist.user_id = {$patho_id}                         \n";
+              }
+        $sql.="and job_pathologist.job_role_id = 5                                                \n".                                                 
               "   WHERE 1                                                                        \n".
               "   and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
               "   ORDER by b.id                                                                  \n";
@@ -933,8 +963,11 @@ class ServiceBilling {
             "FROM patient as p                                                                   \n".
             "JOIN service_billing as b ON  b.patient_id = p.id                                   \n".
             "LEFT JOIN hospital as h ON p.phospital_id = h.id                                    \n".
-            "JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                    \n".
-            "      and job_pathologist.user_id = $patho_id  and job_pathologist.job_role_id = 5  \n".
+            "JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                    \n";
+            if( ! ((int)$patho_id == -1) ){
+            $sql.="      and job_pathologist.user_id = $patho_id                                 \n";
+            }
+        $sql.= "and job_pathologist.job_role_id = 5                                               \n".
             "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
             "WHERE date(p.date_1000) >= '$startdate'and date(p.date_1000) <= '$enddate'           \n".
             "      GROUP BY service_type                                                          \n".
@@ -991,10 +1024,10 @@ class ServiceBilling {
 
 
     public function create($conn) {
-
+        $cur_thai_time = Util::get_curreint_thai_date_time();
         //$specimen_id
-        $sql = "INSERT INTO `service_billing` (`id`, `req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`) "
-        . "VALUES                     (NULL, :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment)";
+        $sql = "INSERT INTO `service_billing` (`id`, `req_date` ,`req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`,`create_date`) "
+        . "VALUES                     (NULL,{$cur_thai_time}, :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment , {$cur_thai_time})";
 
 
         $stmt = $conn->prepare($sql);

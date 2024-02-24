@@ -66,7 +66,7 @@ class Util {
         if ($number == 0)
             return $ret;
         if ($number > 1000000) {
-            $ret .= ReadNumber(intval($number / 1000000)) . "ล้าน";
+            $ret .= Util::ReadNumber(intval($number / 1000000)) . "ล้าน";
             $number = intval(fmod($number, 1000000));
         }
 
