@@ -55,7 +55,7 @@ $userPathos = User::getAllbyPathologis($conn);
                 <option value="<?= htmlspecialchars($userPatho['uid']); ?>"><?= htmlspecialchars($userPatho['name'].' '.$userPatho['lastname']); ?></option>
                 <?php  
                 if($userPatho['uid']==0){
-                    echo '<option value="-1">รวมทุกคน</option>';
+                    echo '<option value="-1">รวมของแพทย์พาโธทุกคน</option>';
                 }
                 ?>
             <?php endforeach; ?>
@@ -222,7 +222,7 @@ echo '</span>';
     }
 </style>
 <span id="billing_table_span">
-    <p style="text-align:center;font-size: 14pt;">ตารางรายการแสดงเพื่อการอ้างอิง<br>
+    <p style="text-align:center;font-size: 14pt;">ตารางรายการแสดงเพื่อการอ้างอิงและตรวจทาน<br>
         ตั้งแต่วันที่ <span class="bill_startdate_thai">X</span> ถึง <span class="bill_enddate_thai">X</span></p>
     
     <table class="table table-hover" id="billing_table" style="width:100%">
@@ -340,7 +340,7 @@ echo '</span>';
 
         
         
-            // datatable
+    // datatable
     var table = $('#billing_table').DataTable({
         destroy: true,
         "ajax": "ajax_bypatho_billing/getBillbyPathologistlbyDateRange.php?skey=" + skey + "&patho_id="+patho_id+"&startdate="+startdate+"&enddate="+enddate,

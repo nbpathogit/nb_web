@@ -55,6 +55,11 @@ $userCytologists = User::getAllbyCytologist($conn);
                 <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> 
                 ?>
                 <option value="<?= htmlspecialchars($userCytologist['id']); ?>"><?= htmlspecialchars($userCytologist['name'].' '.$userCytologist['lastname']); ?></option>
+                                <?php  
+                if($userCytologist['id']==0){
+                    echo '<option value="-1">รวมของนักเซลด์ทุกคน</option>';
+                }
+                ?>
             <?php endforeach; ?>
         </select>
     </div>
@@ -219,44 +224,33 @@ echo '</span>';
     }
 </style>
 <span id="billing_table_span">
-    <p style="text-align:center;font-size: 14pt;">ตารางรายการแสดงเพื่อการอ้างอิง<br>
+    <p style="text-align:center;font-size: 14pt;">ตารางรายการแสดงเพื่อการอ้างอิงและตรวจทาน<br>
         ตั้งแต่วันที่ <span class="bill_startdate_thai">X</span> ถึง <span class="bill_enddate_thai">X</span></p>
-    <table class="" id="billing_table" style="width:100%">
+    
+        <table class="table table-hover" id="billing_table" style="width:100%">
+        <!--<table border="1" align="center">-->
         <thead>
             <tr>
-                <th scope="col">#</th> <!--0-->
-                <th scope="col">เลขที่งาน</th> <!--3-->
-                <th scope="col">ผู้ป่วย</th> <!--4-->
-                <th scope="col">ชนิดค่าบริการ</th> <!--6-->
-                <th scope="col">code</th> <!--7-->
-                <th scope="col">description</th> <!--8-->
-                <th scope="col">วันที่รับ</th> <!--9-->
-                <th scope="col">โรงพยาบาล</th> <!--11-->
-                <th scope="col">เลขที่โรงพยาบาล</th> <!--12-->
-                <th scope="col">แพทย์ผู้ส่งตรวจ</th> <!--13-->
-                <th scope="col">ค่าตรวจ</th> <!--15-->
-                <th scope="col">comment</th> <!--16-->
+                <th>hid</th>                    <!-- 0   $b['hid']--> 
+                <th>bid</th>                   <!-- 1 ,$b['bid']--> 
+                <th>pid</th>                 <!-- 2    ,$b['pid']--> 
+                <th>job_id</th>                  <!-- 4    ,$b['job_id']--> 
+                <th>SN</th>                   <!-- 3    ,$b['p_sn']--> 
+                <th>ชือนามสกุลผู้ป่วย</th>             <!-- 5      ,$b['patient_name']--> 
+                <th>วันที่รับเข้า</th>               <!-- 6      ,$b['admit_date'] --> 
+                <th>HN</th>                <!-- 7     ,$b['hospital_num'] --> 
+                <th>แพทย์ผู้ส่ง</th>                   <!-- 8    ,$b['clinicien_name'] --> 
+                <th>โรงพยาบาล</th>                 <!-- 9    ,$b['h_hospital'] --> 
+                <th>นักเซลด์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
+                <th>แพทย์ผู้ออกผล</th>           <!-- 10  ,$b['pathologist_name'] --> 
+                <th>โค้ด</th>                 <!-- 11   ,$b['b_code']--> 
+                <th>รายการ</th>                 <!-- 12   ,$b['b_description'] --> 
+                <th>ราคา</th>                  <!-- 13  ,$b['b_cost'] --> 
+                <th>ชนิด</th>                    <!-- 14 ,$b['s_service_type'] -->              
             </tr>
         </thead>
-        <tbody>
-            <!--            <tr class="">
-                <td class="">40</td>
-                <td><a href="patient_edit.php?id=">SN2302237</a></td>
-                <td>นาย  น้อย พุ่มไม้ </td>
-                <td>ตรวจธรรมดา</td>
-                <td>33000</td>
-                <td>ก้อนเนื้อขนาดใหญ่กว่า 5 ซ.ม.และตัดเกิน 5 blocks (38003)</td>
-                <td>2023-03-04 08:25:07</td>
-                <td>ยังไม่ได้เลือก</td>
-                <td></td>
-                <td>สิทธิโชค (นพ.) รพ.สุโขทัย</td>
-                <td>400</td>
-                <td>ราคามาตรฐาน</td>
-            </tr>-->
-        </tbody>
-        <tfoot>
-        </tfoot>
     </table>
+    
 </span>
 
 <?php require 'includes/closecontainer.php'; ?>
@@ -267,6 +261,7 @@ echo '</span>';
 <!--<script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
+    var skey = "<?= $_SESSION['skey']; ?>";
     $("#manage_bill").addClass("active");
     $("#manage_bill_dropdown").addClass("show");
     $("#billing_pdf_cyto_tab").addClass("active");
@@ -338,42 +333,131 @@ echo '</span>';
     // Btn   1) preview bill by date range  
     $("#btn_get_bill_by_range").on("click", function (e) {
         let cytologist_id = $("#phospital_id_bill option").filter(":selected").attr('value');
+        //alert(cytologist_id);
         var hospital_name = $("#phospital_id_bill option").filter(":selected").text();
         var startdate = $("#startdate_billing").val();
         var enddate = $("#enddate_billing").val();
     //    alert(startdate.substr(0, 4) + " " + startdate.substr(5, 2) + " " + startdate.substr(8, 2));
+            // datatable
+        var table = $('#billing_table').DataTable({
+            destroy: true,
+            "ajax": "ajax_cyto_billing/getBillbyCytologistbyDateRange.php?skey=" + skey + "&cytologist_id="+cytologist_id+"&startdate="+startdate+"&enddate="+enddate,
+           
+            responsive: true,
+            dom: 'BP<"toolbar">lfritp',
 
-//        $.ajax({
-//            'async': false,
-//            type: 'POST',
-//            'global': false,
-//            //hid	bid	pid	p_sn	job_id	patient_name	admit_date	
-//            //hospital_num	clinicien_name	h_hospital	pathologist_name	b_code	b_description	b_cost
-//            url: 'ajax_cyto_billing/getBillbyCytoogistlbyDateRange.php',
-//            data: {
-//                'patho_id': patho_id,
-//                'startdate': startdate,
-//                'enddate': enddate,
-//
-//            },
-//            success: function (data) {
-//                if (data[0] != "[") {
-//                    alert(data);
-//                    console.log(data);
-//                    return;
-//                }
-//                var datajson = JSON.parse(data);
-//                if (datajson.length == 0) {
-//                    alert("No record found");
-//                    return;
-//                }
-//            },
-//            error: function (jqxhr, status, exception) {
-//                 alert( jqxhr.responseText);
-//            }
-//        });
-        
+            buttons: [
+                {
+                    text: 'export excel',
+                    extend: 'excel',
+                },
+                {
+                    extend: 'csv',
+                    text: 'export csv',
+                    charset: 'utf-8',
+                    extension: '.csv',
+                    fieldSeparator: ',',
+                    fieldBoundary: '',
+                    filename: 'export',
+                    bom: true
+                },
+                {
+                    text: 'export pdf',
+                    extend: 'pdf',
+                    customize: function (doc) {
+                        processDoc(doc);
+                        // Data URL generated by http://dataurl.net/#dataurlmaker
+                    }
+                },
 
+               ],
+            "order": [
+                [4, "desc"]
+            ],
+            searchPanes: {
+                initCollapsed: true,
+            },
+            columnDefs: [
+                {
+                    searchPanes: {
+                        show: true
+                    },
+                    targets: []
+                //
+                },
+                {
+                    searchPanes: {
+                        show: false
+                    },
+                    targets: []
+                },
+
+
+                //====Data header offset from display page===================================
+
+                //=======================================================================
+                //0     1        2       3           4        
+                //hid   bid      pid     p_sn        job_id   
+                //21    157      410     CN2400001   771      
+
+                //  5                  6               7        
+                //  patient_name       admit_date  hospital_num 
+                //  นางเอเอ บีบี          1/1/2024    117865                         
+
+                // 8               9                10               11
+                // clinicien_name  h_hospital       cytologist_name  pathologist_name
+                // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลด์          อภิชาติ ชุมทอง                                           
+
+                //12        13                     14
+                //b_code    b_description          b_cost
+                //  38301   Non-Gynecological ผ     500
+                //
+                //15
+                //s_service_type
+                //ตรวจพิเศา
+
+                //ชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชชช
+                //    $data[] = 
+                //        [
+                //        $b['hid']
+                //        ,$b['bid']
+                //        ,$b['pid']
+                //        ,$b['job_id']
+                //        ,$b['p_sn']
+                //        ,$b['patient_name']
+                //        ,$b['admit_date']
+                //        ,$b['hospital_num']
+                //        ,$b['clinicien_name']
+                //        ,$b['h_hospital']
+                //        ,$b['cytologist_name']
+                //        ,$b['pathologist_name']
+                //        ,$b['b_code']
+                //        ,$b['b_description']
+                //        ,$b['b_cost']
+                //        ,$b['s_service_type']
+                //        ];
+                //==============================================           
+
+                {
+                    "render": function (data, type, row) {
+                        let renderdata = row[0];
+
+                        return renderdata;
+                    },
+                    "targets": 0
+                },
+                {
+                    "render": function (data, type, row) {
+                        let renderdata = row[1];
+
+                        return renderdata;
+                    },
+                    "targets": 1
+                },
+            ],
+        });
+    
+    
         let error_ajax = "";
         let net_price = null;
         $.ajax({
@@ -503,7 +587,7 @@ echo '</span>';
                 }
                 drawbill_list_all_page_g2(datajson);
 
-                drawbillingTable(datajson);// last page for reference
+//                drawbillingTable(datajson);// last page for reference
             },
             error: function (jqxhr, status, exception) {
 //                 alert( jqxhr.responseText);
@@ -554,34 +638,6 @@ echo '</span>';
 
 
   
-
-    //    C:\anuchit2\nb_web\ajax_billing\getHospital.php
-//        let hospital = null;
-//        $.ajax({
-//            'async': false,
-//            type: 'POST',
-//            'global': false,
-//            url: 'ajax_cyto_billing/getHospital.php',
-//            data: {
-//                'hospital_id': hospital_id,
-//            },
-//            success: function (data) {
-//                if (data[0] != "[") {
-//                    alert(data);
-//                    console.log(data);
-//                    return;
-//                }
-//                var datajson = JSON.parse(data);
-//                if (datajson.length == 0) {
-//                    alert("No hospital record found");
-//                    return;
-//                }
-//                hospital = datajson;
-//            },
-//            error: function (jqxhr, status, exception) {
-//                alert('Exception:', exception);
-//            }
-//        });
 
 
 
@@ -1002,98 +1058,6 @@ echo '</span>';
 
 
 
-
-
-    function drawbillingTable(datajson) {
-
-        $('#billing_table_span table thead tr').remove();
-        $('#billing_table_span table tbody tr').remove();
-
-
-    //==== Draw most of data ======
-        let str = '<tr>' +
-                '<th scope="col">#</th>' +
-                '<th scope="col">เลขที่งาน</th>        ' +
-                '<th scope="col">ผู้ป่วย</th>          ' +
-                '<th scope="col">ชนิดค่าบริการ</th>     ' +
-                '<th scope="col">code</th>         ' +
-                '<th scope="col">description</th>  ' +
-                '<th scope="col">วันที่รับ</th>         ' +
-                '<th scope="col">โรงพยาบาล</th>      ' +
-                '<th scope="col">เลขที่โรงพยาบาล</th>   ' +
-                '<th scope="col">แพทย์ผู้ส่งตรวจ</th>    ' +
-                '<th scope="col">ค่าตรวจ</th>         ' +
-                '<th scope="col">comment</th>      ' +
-                '</tr>';
-        $('#billing_table_span table thead').append(str);
-        for (var i in datajson)
-        {
-            /*
-
-             <span id="billing_table_span">
-             <table class="" id="billing_table" style="width:100%">
-             <thead>
-             <tr>
-             <th scope="col">#</th> <!--0-->
-             <th scope="col">เลขที่งาน</th> <!--3-->
-             <th scope="col">ผู้ป่วย</th> <!--4-->
-             <th scope="col">ชนิดค่าบริการ</th> <!--6-->
-             <th scope="col">code</th> <!--7-->
-             <th scope="col">description</th> <!--8-->
-             <th scope="col">วันที่รับ</th> <!--9-->
-             <th scope="col">โรงพยาบาล</th> <!--11-->
-             <th scope="col">เลขที่โรงพยาบาล</th> <!--12-->
-             <th scope="col">แพทย์ผู้ส่งตรวจ</th> <!--13-->
-             <th scope="col">ค่าตรวจ</th> <!--15-->
-             <th scope="col">comment</th> <!--16-->
-             </tr>
-             </thead>
-             <tbody>
-             <tr class="">
-             <td class="">40</td>
-             <td><a href="patient_edit.php?id=">SN2302237</a></td>
-             <td>นาย  น้อย พุ่มไม้ </td>
-             <td>ตรวจธรรมดา</td>
-             <td>33000</td>
-             <td>ก้อนเนื้อขนาดใหญ่กว่า 5 ซ.ม.และตัดเกิน 5 blocks (38003)</td>
-             <td>2023-03-04 08:25:07</td>
-             <td>ยังไม่ได้เลือก</td>
-             <td></td>
-             <td>สิทธิโชค (นพ.) รพ.สุโขทัย</td>
-             <td>400</td>
-             <td>ราคามาตรฐาน</td>
-             </tr>
-             </tbody>
-             <tfoot>
-             </tfoot>
-             </table>
-             </span>
-
-
-             */
-
-
-
-            let str = '<tr>' +
-                    '<td>' + datajson[i].bid + '</td>' +
-                    '<td><a href="patient_edit.php?id=' + datajson[i].pid + '">' + datajson[i].number + '</a></td>' +
-                    '<td>' + datajson[i].ppre_name + ' ' + datajson[i].lastname + ' ' + datajson[i].lastname + '</td>' +
-                    '<td>' + datajson[i].service_type + '</td>' +
-                    '<td>' + datajson[i].code_description + '</td>' +
-                    '<td>' + datajson[i].description + '</td>' +
-                    '<td>' + datajson[i].import_date + '</td>' +
-                    '<td>' + datajson[i].hospital + '</td>' +
-                    '<td>' + datajson[i].phospital_num + '</td>' +
-                    '<td>' + datajson[i].send_doctor + '</td>' +
-                    '<td>' + datajson[i].cost + '</td>' +
-                    '<td>' + datajson[i].comment + '</td>' +
-                    '</tr>';
-            console.log(str);
-            $('#billing_table_span table tbody').append(str);
-
-        }
-
-    }
 
 
     $(document).ready(function () {

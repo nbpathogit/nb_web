@@ -206,40 +206,58 @@ class ServiceBilling {
     }
     
     public static function getBillbyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-//        $sql = "SELECT *, h.id as hid, b.id as bid, p.id as pid FROM \n".
-//                " service_billing as b \n".
-//                " JOIN hospital as h \n".
-//                " JOIN service_type as s \n".
-//                " JOIN patient as p \n".
-//                " WHERE  b.hospital_id = $hospital_id and b.hospital_id = h.id  and b.slide_type = s.id and b.patient_id = p.id \n";
-//                
-//                $sql .= " and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' \n";
-//                
-//                $sql = $sql . " ORDER by b.id \n";
-//                if($limit != 0){
-//                    $sql = $sql . " LIMIT $limit ";
-//                }
-        
-        // ลำดับที่   ชื่อ  วันที่รับ เลขที่ แพทย์ผู้ส่ง   รายการ   ค่าตรวจ
 
-        $sql = " SELECT *,                                                                           \n".
-               " h.id as hid, b.id as bid, p.id as pid,                                              \n".
-               " CONCAT(p.ppre_name,p.pname,' ',p.plastname) as patient_name,                        \n".
-               " DATE(p.date_1000) as admit_date,                                                    \n".
-               " p.phospital_num as hospital_num,                                                    \n".
-               " CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as patient_name,            \n".
-               " b.description as b_description,                                                     \n".
-               " b.cost as b_cost                                                                    \n".
-               " FROM patient as p                                                                   \n".   
-               "    JOIN service_billing as b on  b.patient_id = p.id                                \n".   
-               "    JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id     \n".
-               "    JOIN service_type as s ON b.slide_type = s.id                                    \n".
-               "    JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id               \n".
-               "    WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}' \n".
-               "    ORDER by b.code_description                                                      \n";
-                if($limit != 0){
-                    $sql = $sql . " LIMIT $limit ";
-                }
+//        $sql = " SELECT *,                                                                           \n".
+//               " h.id as hid, b.id as bid, p.id as pid,                                              \n".
+//               " CONCAT(p.ppre_name,p.pname,' ',p.plastname) as patient_name,                        \n".
+//               " DATE(p.date_1000) as admit_date,                                                    \n".
+//               " p.phospital_num as hospital_num,                                                    \n".
+//               " CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as patient_name,            \n".
+//               " b.description as b_description,                                                     \n".
+//               " b.cost as b_cost                                                                    \n".
+//               " FROM patient as p                                                                   \n".   
+//               "    JOIN service_billing as b on  b.patient_id = p.id                                \n".   
+//               "    JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id     \n".
+//               "    JOIN service_type as s ON b.slide_type = s.id                                    \n".
+//               "    LEFT JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id          \n".
+//               "              and user_clinicien.id = 7                                               \n".
+//               "    LEFT JOIN job as job_pathologist ON job_pathologist.patient_id = p.id             \n".
+//               "              and job_pathologist.job_role_id = 5                                    \n".
+//               "    WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}' \n".
+//               "               and p.movetotrash = 0                                                 \n".
+//               "    ORDER by b.code_description                                                      \n";
+//               
+               
+        $sql="SELECT                                                                                   \n". 
+             "#*,                                                                                      \n".
+             "h.id as hid, b.id as bid, p.id as pid, p.pnum as p_sn,  job_pathologist.id as job_id,    \n".
+             "CONCAT(p.ppre_name,p.pname,' ',p.plastname) as patient_name,                             \n".
+             "DATE(p.date_1000) as admit_date,                                                         \n".
+             "p.phospital_num as hospital_num,                                                         \n".
+             "CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as clinicien_name,               \n".
+             "h.hospital as h_hospital,                                                                \n".
+             "CONCAT(job_cytologist.name,' ',job_cytologist.lastname) as cytologist_name,              \n".
+             "CONCAT(job_pathologist.name,' ',job_pathologist.lastname) as pathologist_name,           \n".
+             "b.code_description as b_code,                                                            \n".
+             "b.description as b_description,                                                          \n".
+             "b.cost as b_cost,                                                                        \n".
+             "s.service_type_bill as s_service_type                                                    \n".
+             "FROM patient as p                                                                        \n".
+             "   JOIN service_billing as b ON  b.patient_id = p.id                                     \n";
+              if( ! ((int)$hospital_id == -1) ){
+                     $sql.= "and  b.hospital_id = {$hospital_id}                                       \n";
+              }   
+       $sql.="   JOIN hospital as h ON p.phospital_id = h.id                                           \n".
+             "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
+             "   JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                    \n".
+             "   LEFT JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                 \n".
+             "       and job_pathologist.job_role_id = 5                                               \n".
+             "   LEFT JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                   \n".   
+             "       and job_cytologist.job_role_id = 7                                                \n". 
+             "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'     \n".
+             "               and p.movetotrash = 0                                                     \n".
+             "   ORDER by p.pnum                                                                       \n";
+         
                 if($GLOBALS['isSqlWriteFileForDBG']){
                     Util::writeFile('getBillbyHospitalbyDateRange.txt', $sql);   
                 }
@@ -271,7 +289,7 @@ class ServiceBilling {
              "   JOIN hospital as h ON p.phospital_id = h.id                                           \n".
              "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
              "   JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                    \n".
-             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                      \n";
+             "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                 \n";
              if( ! ((int)$patho_id == -1) ){
                 $sql.="       and job_pathologist.user_id = {$patho_id}                                \n";
              }
@@ -279,10 +297,60 @@ class ServiceBilling {
              "   LEFT JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                   \n".   
              "       and job_cytologist.job_role_id = 7                                                \n". 
              "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'     \n".
+             "               and p.movetotrash = 0                                                     \n".
              "   ORDER by p.pnum                                                                       \n";
 
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getBillbyPathologistbyDateRange.txt', $sql);   
+//hid	bid	pid	p_sn	job_id	patient_name	admit_date	hospital_num	clinicien_name	h_hospital cytologist_name	pathologist_name	b_code	b_description	b_cost                                   s_service_type
+//21	157	410	CN2400001	771	นางวรัญณพัชร พาทา	1/1/2024	117865	กฤติคุณ  ตระกูลสุขรัตน์	โรงพยาบาลหล่มสัก- null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
+//20	156	411	CN2400002	774	น.ส.ปราณี เพ็ชรอำไพ	1/1/2024	23176	กมเลศวร์ จุลบุตร	โรงพยาบาลพิจิตร null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
+//20	432	645	CN2400026	1441	นายประทีป คุ้มดำรงค์	1/5/2024	316146	พระทอง  สมบูรณ์เอนก	โรงพยาบาลพิจิตร null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
+
+        }      
+        
+        $results = $conn->query($sql);
+        
+
+        return $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
+    public static function getBillbyCytologistbyDateRange($conn,$cytologist_id, $startdate,$enddate) {
+
+
+        $sql="SELECT                                                                                   \n". 
+             "#*,                                                                                      \n".
+             "h.id as hid, b.id as bid, p.id as pid, p.pnum as p_sn,  job_pathologist.id as job_id,    \n".
+             "CONCAT(p.ppre_name,p.pname,' ',p.plastname) as patient_name,                             \n".
+             "DATE(p.date_1000) as admit_date,                                                         \n".
+             "p.phospital_num as hospital_num,                                                         \n".
+             "CONCAT(user_clinicien.name,' ',user_clinicien.lastname) as clinicien_name,               \n".
+             "h.hospital as h_hospital,                                                                \n".
+             "CONCAT(job_cytologist.name,' ',job_cytologist.lastname) as cytologist_name,           \n".
+             "CONCAT(job_pathologist.name,' ',job_pathologist.lastname) as pathologist_name,           \n".
+             "b.code_description as b_code,                                                            \n".
+             "b.description as b_description,                                                          \n".
+             "b.cost as b_cost,                                                                        \n".
+             "s.service_type_bill as s_service_type                                                    \n".
+             "FROM patient as p                                                                        \n".
+             "   JOIN service_billing as b on  b.patient_id = p.id                                     \n".
+             "   JOIN hospital as h ON p.phospital_id = h.id                                           \n".
+             "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
+             "   JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                    \n".
+             "   LEFT JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                  \n".
+             "             and job_pathologist.job_role_id = 5                                          \n".
+             "   JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                   \n";
+             if( ! ((int)$cytologist_id == -1) ){
+                $sql.="           and job_cytologist.user_id = {$cytologist_id}                         \n";
+             }
+        $sql.="       and job_cytologist.job_role_id = 7                                                \n". 
+             "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'     \n".
+             "               and p.movetotrash = 0                                                     \n".
+             "   ORDER by p.pnum                                                                       \n";
+
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getBillbyCytologistbyDateRange.txt', $sql);   
 //hid	bid	pid	p_sn	job_id	patient_name	admit_date	hospital_num	clinicien_name	h_hospital cytologist_name	pathologist_name	b_code	b_description	b_cost                                   s_service_type
 //21	157	410	CN2400001	771	นางวรัญณพัชร พาทา	1/1/2024	117865	กฤติคุณ  ตระกูลสุขรัตน์	โรงพยาบาลหล่มสัก- null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
 //20	156	411	CN2400002	774	น.ส.ปราณี เพ็ชรอำไพ	1/1/2024	23176	กมเลศวร์ จุลบุตร	โรงพยาบาลพิจิตร null	อภิชาติ ชุมทอง	38301	Non-Gynecological specimen (Fluid, FNA) 4 slide	500      ค่าตรวจ
@@ -335,10 +403,13 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                             \n".
              "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                        \n".
              "        FROM service_billing as b                                                                                                  \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                  \n".
+             "        JOIN patient as p on  b.patient_id = p.id and p.movetotrash = 0                                                            \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
-             "        JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id                                               \n".
-             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
+             "        JOIN hospital as h ON   p.phospital_id = h.id                                                                              \n";
+             if( ! ((int)$hospital_id == -1) ){
+                $sql.= " and   b.hospital_id = $hospital_id                                                                                       \n";
+             }   
+      $sql.= "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                           \n".
              "            and st.service_typea_id = 1                                                                                            \n".
              "            #and p.pnum = 'CN2400032'                                                                                              \n".
@@ -359,10 +430,13 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                             \n".
              "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                        \n".
              "        FROM service_billing as b                                                                                                  \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                  \n".
+             "        JOIN patient as p on  b.patient_id = p.id   and p.movetotrash = 0                                                          \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
-             "        JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id                                               \n".
-             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
+             "        JOIN hospital as h ON p.phospital_id = h.id                                                                                \n";
+             if( ! ((int)$hospital_id == -1) ){
+                     $sql.= "              and  b.hospital_id = $hospital_id                                                                     \n";
+             }        
+       $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                          \n".
              "            and st.service_typea_id = 2                                                                                            \n".
              "            #and p.pnum = 'CN2400032'                                                                                              \n".
@@ -390,10 +464,13 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                             \n".
              "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                        \n".
              "        FROM service_billing as b                                                                                                  \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                  \n".
+             "        JOIN patient as p on  b.patient_id = p.id   and p.movetotrash = 0                                                          \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
-             "        JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id                                               \n".
-             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
+             "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
+             if( ! ((int)$hospital_id == -1) ){
+                     $sql.= "and  b.hospital_id = $hospital_id                                                                                   \n";
+             }        
+     $sql.=  "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                           \n".
              "            and st.service_typea_id = 1                                                                                            \n".
              "            #and p.pnum = 'CN2400032'                                                                                              \n".
@@ -414,10 +491,13 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                             \n".
              "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                        \n".
              "        FROM service_billing as b                                                                                                  \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                  \n".
+             "        JOIN patient as p on  b.patient_id = p.id    and p.movetotrash = 0                                                         \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
-             "        JOIN hospital as h ON b.hospital_id = $hospital_id and p.phospital_id = h.id                                               \n".
-             "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
+             "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
+             if( ! ((int)$hospital_id == -1) ){
+                  $sql.= "and   b.hospital_id = $hospital_id                                                                                     \n";
+             }        
+       $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                       \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                          \n".
              "        and st.service_typea_id = 2                                                                                                \n".
              "        #and p.pnum = 'CN2400032'                                                                                                  \n".
@@ -476,7 +556,7 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                                                  \n".
              "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id  and p.movetotrash = 0                                                                                                         \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON  p.phospital_id = h.id                                                                                                    \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
@@ -505,7 +585,7 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                                                  \n".
              "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id    and p.movetotrash = 0                                                                                                       \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
@@ -541,7 +621,7 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                                                  \n".
              "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id   and p.movetotrash = 0                                                                                                        \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
@@ -570,7 +650,7 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                                                  \n".
              "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id     and p.movetotrash = 0                                                                                                      \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
@@ -637,11 +717,15 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                                                  \n".
              "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id    and p.movetotrash = 0                                                                                                       \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON  p.phospital_id = h.id                                                                                                    \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id and job_cytologist.user_id = {$cytologist_id}  and job_cytologist.job_role_id = 7          \n".
+             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                         \n";
+             if( ! ((int)$cytologist_id == -1) ){
+                       $sql.= "            and job_cytologist.user_id = {$cytologist_id}              \n";
+             }
+        $sql.="                       and job_cytologist.job_role_id = 7          \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                                                  \n".
              "            and st.service_typea_id = 1                                                                                                                 \n".
              "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
@@ -662,11 +746,15 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                                                  \n".
              "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id   and p.movetotrash = 0                                                                                                        \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id and job_cytologist.user_id = {$cytologist_id}  and job_cytologist.job_role_id = 7          \n".
+             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                  \n";
+              if( ! ((int)$cytologist_id == -1) ){
+                     $sql.= "            and job_cytologist.user_id = {$cytologist_id}  \n";
+              }
+        $sql.="                and job_cytologist.job_role_id = 7          \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                                 \n".
              "            and st.service_typea_id = 2                                                                                                                 \n".
              "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
@@ -694,11 +782,15 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS aa_b_description_concat_nm,                                                                  \n".
              "            SUM(b.cost) as aa_b_cost_sum_nm                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id   and p.movetotrash = 0                                                                                                        \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id and job_cytologist.user_id = {$cytologist_id}  and job_cytologist.job_role_id = 7          \n".
+             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                                                    \n";
+             if( ! ((int)$cytologist_id == -1) ){
+                     $sql.= "                     and job_cytologist.user_id = {$cytologist_id}                       \n";
+             }
+        $sql.="                      and job_cytologist.job_role_id = 7          \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                                  \n".
              "            and st.service_typea_id = 1                                                                                                                 \n".
              "            #and p.pnum = 'CN2400032'                                                                                                                   \n".
@@ -719,11 +811,15 @@ class ServiceBilling {
              "            GROUP_CONCAT(b.description SEPARATOR ' / ') AS bb_b_description_concat_sp,                                                                  \n".
              "            SUM(b.cost) as bb_b_cost_sum_sp                                                                                                             \n".
              "        FROM service_billing as b                                                                                                                       \n".
-             "        JOIN patient as p on  b.patient_id = p.id                                                                                                       \n".
+             "        JOIN patient as p on  b.patient_id = p.id    and p.movetotrash = 0                                                                                                       \n".
              "        JOIN service_type as st ON st.id = b.slide_type                                                                                                 \n".
              "        JOIN hospital as h ON p.phospital_id = h.id                                                                                                     \n".
              "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                                              \n".
-             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id and job_cytologist.user_id = {$cytologist_id}  and job_cytologist.job_role_id = 7          \n".
+             "        JOIN job as job_cytologist ON job_cytologist.patient_id = p.id           \n";
+             if( ! ((int)$cytologist_id == -1) ){
+                     $sql.= "                 and job_cytologist.user_id = {$cytologist_id}   \n";
+             }
+        $sql.= "               and job_cytologist.job_role_id = 7          \n".
              "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                                                 \n".
              "        and st.service_typea_id = 2                                                                                                                     \n".
              "        #and p.pnum = 'CN2400032'                                                                                                                       \n".
@@ -756,14 +852,16 @@ class ServiceBilling {
                 "h.id as hid, b.id as bid, p.id as pid                                                \n".
                 "FROM patient as p                                                                    \n".  
                 "   JOIN service_billing as b on  b.patient_id = p.id                                 \n".    
-                "   JOIN hospital as h ON h.id = $hospital_id and p.phospital_id = h.id               \n".
-                "   JOIN service_type as s ON b.slide_type = s.id                                     \n".
+                "   JOIN hospital as h ON   p.phospital_id = h.id                                     \n";
+                if( ! ((int)$hospital_id == -1) ){
+                $sql.= "                and h.id = $hospital_id                                       \n";
+                }
+          $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
                 "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}' \n".
+                "              and p.movetotrash = 0                                                  \n".
                 "    GROUP BY service_type                                                            \n".
                 "    ORDER by b.code_description                                                      \n";
-                if($limit != 0){
-                    $sql = $sql . " LIMIT $limit ";
-                }
+
         if($GLOBALS['isSqlWriteFileForDBG']){
                 Util::writeFile('getBillbyHospitalbyDateRangeGroupByCode.txt', $sql);   
         }
@@ -792,6 +890,7 @@ class ServiceBilling {
              }
              $sql.="                 and job_pathologist.job_role_id = 5                              \n".
              "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
+             "             and p.movetotrash = 0                                                      \n".
              "    GROUP BY service_type                                                               \n".
              "    ORDER by b.code_description                                                         \n";
 
@@ -816,9 +915,13 @@ class ServiceBilling {
              "   JOIN service_billing as b on  b.patient_id = p.id                                    \n".
              "   JOIN hospital as h ON  p.phospital_id = h.id                                         \n".
              "   JOIN service_type as s ON b.slide_type = s.id                                        \n".
-             "   JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                     \n".
-             "         and job_cytologist.user_id = {$cytologist_id}  and job_cytologist.job_role_id = 7 \n".
+             "   JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                     \n";
+             if( ! ((int)$cytologist_id == -1) ){
+             $sql.="         and job_cytologist.user_id = {$cytologist_id}                          \n";
+             }
+        $sql.="               and job_cytologist.job_role_id = 7                                      \n".
              "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
+             "             and p.movetotrash = 0                                                         \n".
              "    GROUP BY service_type                                                               \n".
              "    ORDER by b.code_description                                                         \n";
 
@@ -831,36 +934,23 @@ class ServiceBilling {
     }
     
     public static function getBillbyHospitalbyDateRangeSumPrice($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-//        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount FROM \n".
-//                " service_billing as b \n".
-//                " JOIN hospital as h \n".
-//                " JOIN service_type as s \n".
-//                " JOIN patient as p \n".
-//                " WHERE  b.hospital_id = $hospital_id and b.hospital_id = h.id  and b.slide_type = s.id and b.patient_id = p.id \n";
-//                
-//                $sql .= " and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' \n";
-//                
-//                $sql = $sql . " ORDER by b.id \n";
-//                if($limit != 0){
-//                    $sql = $sql . " LIMIT $limit \n";
-//                }
-//                return $sql;
-                
 
-        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount                                   \n".
-               " FROM  patient as p                                                                \n".
-               "   JOIN service_billing as b  ON p.phospital_id = $hospital_id and b.patient_id = p.id \n".
-               "   JOIN hospital as h ON p.phospital_id = h.id                                     \n".
-               "   JOIN service_type as s ON  b.slide_type = s.id                                  \n".
-               "                                                                                   \n".
-               "  WHERE 1                                                                          \n".
-               "  and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'  \n".
-               "  ORDER by b.id;                                                                   \n";
-                if($limit != 0){
-                    $sql = $sql . " LIMIT $limit \n";
-                }
+
+        $sql = "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount                                          \n".
+               " FROM  patient as p                                                                      \n".
+               "   JOIN service_billing as b  ON b.patient_id = p.id    \n".
+               "   JOIN hospital as h  ON p.phospital_id = h.id                                          \n";
+               if( ! ((int)$hospital_id == -1) ){
+               $sql.=" and  p.phospital_id = $hospital_id                                                \n";
+               } 
+        $sql.="   JOIN service_type as s ON  b.slide_type = s.id                                  \n".
+               "                                                                                         \n".
+               "  WHERE   p.movetotrash = 0                                                              \n".
+               "  and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'          \n".
+               "  ORDER by b.id;                                                                         \n";
+
         if($GLOBALS['isSqlWriteFileForDBG']){
-                Util::writeFile('sql_dbg.txt', $sql);  
+                Util::writeFile('getBillbyHospitalbyDateRangeSumPrice.txt', $sql);  
         }
         $results = $conn->query($sql);
 
@@ -879,9 +969,9 @@ class ServiceBilling {
               $sql.="          and job_pathologist.user_id = {$patho_id}                         \n";
               }
         $sql.="and job_pathologist.job_role_id = 5                                                \n".                                                 
-              "   WHERE 1                                                                        \n".
+              "   WHERE   p.movetotrash = 0                                                    \n".
               "   and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
-              "   ORDER by b.id                                                                  \n";
+              "   ORDER by b.id                                                                   \n";
 
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getBillbyPathoDateRangeSumPrice.txt', $sql);  
@@ -894,16 +984,19 @@ class ServiceBilling {
     }
     
          
-    public static function getBillbyCytoDateRangeSumPrice($conn, $patho_id , $startdate, $enddate) {
+    public static function getBillbyCytoDateRangeSumPrice($conn, $cytologist_id , $startdate, $enddate) {
         $sql= "SELECT SUM(b.cost) as bcost, COUNT(*) as bcount                                   \n".
               "  FROM  patient as p                                                              \n".
               "    JOIN service_billing as b  ON  b.patient_id = p.id                            \n".
               "    JOIN hospital as h ON p.phospital_id = h.id                                   \n".
               "    JOIN service_type as s ON  b.slide_type = s.id                                \n".
-              "    JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                 \n".
-              "          and job_cytologist.user_id = {$patho_id}  and job_cytologist.job_role_id = 7   \n".                                                 
-              "   WHERE 1                                                                        \n".
-              "   and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
+              "    JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                 \n";
+              if( ! ((int)$cytologist_id == -1) ){
+              $sql.="          and job_cytologist.user_id = {$cytologist_id}  \n";
+              }
+       $sql.= "                and job_cytologist.job_role_id = 7                                  \n".                                                 
+              "   WHERE  p.movetotrash = 0                                                              \n".
+              "       and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
               "   ORDER by b.id                                                                  \n";
 
         if($GLOBALS['isSqlWriteFileForDBG']){
@@ -935,9 +1028,13 @@ class ServiceBilling {
             "  SUM(b.cost) as bcost_sum                                                          \n".
             "FROM patient as p                                                                   \n".
             "JOIN service_billing as b ON  b.patient_id = p.id                                   \n".
-            "LEFT JOIN hospital as h ON p.phospital_id = h.id  and p.phospital_id = $hospital_id            \n".
-            "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
+            "LEFT JOIN hospital as h ON p.phospital_id = h.id                                     \n";
+            if( ! ((int)$hospital_id == -1) ){
+            $sql.="and p.phospital_id = $hospital_id                                              \n";
+            }
+        $sql.="LEFT JOIN service_type as s ON b.slide_type = s.id                             \n".
             "WHERE date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'        \n".
+            "and  p.movetotrash = 0                                                              \n".
             "      GROUP BY service_type                                                         \n".
             "      ORDER by s.order_list                                                          \n";
         if($limit != 0){
@@ -965,13 +1062,14 @@ class ServiceBilling {
             "LEFT JOIN hospital as h ON p.phospital_id = h.id                                    \n".
             "JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                    \n";
             if( ! ((int)$patho_id == -1) ){
-            $sql.="      and job_pathologist.user_id = $patho_id                                 \n";
+            $sql.="      and job_pathologist.user_id = {$patho_id}                                 \n";
             }
         $sql.= "and job_pathologist.job_role_id = 5                                               \n".
             "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
             "WHERE date(p.date_1000) >= '$startdate'and date(p.date_1000) <= '$enddate'           \n".
-            "      GROUP BY service_type                                                          \n".
-            "      ORDER by s.order_list                                                          \n";
+            "       and  p.movetotrash = 0                                                           \n".
+            "GROUP BY service_type                                                          \n".
+            "ORDER by s.order_list                                                          \n";
 
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getCostGroupbyServiceTyoebyPathobyDateRange.txt', $sql);
@@ -1000,12 +1098,16 @@ class ServiceBilling {
             "FROM patient as p                                                                   \n".
             "JOIN service_billing as b ON  b.patient_id = p.id                                   \n".
             "LEFT JOIN hospital as h ON p.phospital_id = h.id                                    \n".
-            "JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                    \n".
-            "      and job_cytologist.user_id = $cytologist_id  and job_cytologist.job_role_id = 7  \n".
+            "JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                      \n";
+            if( ! ((int)$cytologist_id == -1) ){
+            $sql.="        and job_cytologist.user_id = $cytologist_id                           \n";
+            }
+        $sql.=" and job_cytologist.job_role_id = 7                                               \n".
             "LEFT JOIN service_type as s ON b.slide_type = s.id                                  \n".
             "WHERE date(p.date_1000) >= '$startdate'and date(p.date_1000) <= '$enddate'           \n".
-            "      GROUP BY service_type                                                          \n".
-            "      ORDER by s.order_list                                                          \n";
+            "         and  p.movetotrash = 0                                                      \n".
+            "GROUP BY service_type                                                                  \n".
+            "ORDER by s.order_list                                                                 \n";
 
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getCostGroupbyServiceTyoebyCytobyDateRange.txt', $sql);

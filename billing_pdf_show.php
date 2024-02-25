@@ -126,7 +126,30 @@ if ($hideLayout) {
     $page1 = str_replace("border: 1px solid green;", "", $page1);
     $page1 = str_replace('color:red', "", $page1);
 }
-$mpdf->WriteHTML($page1);
+//$mpdf->WriteHTML($page1);
+$html = $page1;
+//============================================================
+$chunk = 1000000;
+$long_html = strlen($html);
+echo "page4_size=".$long_html;
+$long_int  = intval($long_html/$chunk);
+
+if($long_int > 0)
+{
+    for($i = 0; $i<$long_int; $i++)
+    {
+        $temp_html = substr($html, ($i*$chunk),999999);
+        $mpdf->WriteHTML($temp_html);
+    }
+    //Last block
+    $temp_html = substr($html, ($i*$chunk),($long_html-($i*$chunk)));
+    $mpdf->WriteHTML($temp_html);
+}
+else
+{
+    $mpdf->WriteHTML($html);
+}
+//===============================================================
 
 
 $mpdf->AddPage();
@@ -135,7 +158,30 @@ if ($hideLayout) {
     $page2 = str_replace("border: 1px solid green;", "", $page2);
     $page2 = str_replace('color:red', "", $page2);
 }
-$mpdf->WriteHTML($page2);
+//$mpdf->WriteHTML($page2);
+$html = $page2;
+//============================================================
+$chunk = 1000000;
+$long_html = strlen($html);
+echo "page4_size=".$long_html;
+$long_int  = intval($long_html/$chunk);
+
+if($long_int > 0)
+{
+    for($i = 0; $i<$long_int; $i++)
+    {
+        $temp_html = substr($html, ($i*$chunk),999999);
+        $mpdf->WriteHTML($temp_html);
+    }
+    //Last block
+    $temp_html = substr($html, ($i*$chunk),($long_html-($i*$chunk)));
+    $mpdf->WriteHTML($temp_html);
+}
+else
+{
+    $mpdf->WriteHTML($html);
+}
+//===============================================================
 
 $mpdf->AddPage();
 $page3 = $_POST['page3'];
@@ -143,7 +189,30 @@ if ($hideLayout) {
     $page3 = str_replace("border: 1px solid green;", "", $page3);
     $page3 = str_replace('color:red', "", $page3);
 }
-$mpdf->WriteHTML($page3);
+//$mpdf->WriteHTML($page3);
+$html = $page3;
+//============================================================
+$chunk = 1000000;
+$long_html = strlen($html);
+echo "page4_size=".$long_html;
+$long_int  = intval($long_html/$chunk);
+
+if($long_int > 0)
+{
+    for($i = 0; $i<$long_int; $i++)
+    {
+        $temp_html = substr($html, ($i*$chunk),999999);
+        $mpdf->WriteHTML($temp_html);
+    }
+    //Last block
+    $temp_html = substr($html, ($i*$chunk),($long_html-($i*$chunk)));
+    $mpdf->WriteHTML($temp_html);
+}
+else
+{
+    $mpdf->WriteHTML($html);
+}
+//===============================================================
 
 //https://mpdf.github.io/reference/mpdf-functions/addpage.html
 //$mpdf->AddPage('L','','','','',15,15,17,17,0,0);
@@ -169,7 +238,30 @@ if ($hideLayout) {
     $page5 = str_replace("border: 1px solid green;", "", $page5);
     $page5 = str_replace('color:red', "", $page5);
 }
-$mpdf->WriteHTML($page5);
+//$mpdf->WriteHTML($page5);
+$html = $page5;
+//============================================================
+$chunk = 1000000;
+$long_html = strlen($html);
+echo "page4_size=".$long_html;
+$long_int  = intval($long_html/$chunk);
+
+if($long_int > 0)
+{
+    for($i = 0; $i<$long_int; $i++)
+    {
+        $temp_html = substr($html, ($i*$chunk),999999);
+        $mpdf->WriteHTML($temp_html);
+    }
+    //Last block
+    $temp_html = substr($html, ($i*$chunk),($long_html-($i*$chunk)));
+    $mpdf->WriteHTML($temp_html);
+}
+else
+{
+    $mpdf->WriteHTML($html);
+}
+//===============================================================
 
 
 $mpdf->Output();

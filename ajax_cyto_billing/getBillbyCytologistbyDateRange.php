@@ -4,7 +4,7 @@ $conn = require '../includes/db.php';
 //Auth::requireLogin("../patient_edit.php", $_GET['cur_patient_id']);
 
 //$jobs = Job::getByPatientJobRole($conn, (int) $_POST['cur_patient_id'],6);
-$billings = ServiceBilling::getBillbyHospitalbyDateRange($conn,$_GET['hospital_id'],$_GET['startdate'],$_GET['enddate']);
+$billings = ServiceBilling::getBillbyCytologistbyDateRange($conn,$_GET['cytologist_id'],$_GET['startdate'],$_GET['enddate']);
 
 
 //0     1        2       3           4        
