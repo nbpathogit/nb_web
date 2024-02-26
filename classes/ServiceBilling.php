@@ -1128,10 +1128,13 @@ class ServiceBilling {
     public function create($conn) {
         $cur_thai_time = Util::get_curreint_thai_date_time();
         //$specimen_id
-        $sql = "INSERT INTO `service_billing` (`id`, `req_date` ,`req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`,`create_date`) "
-        . "VALUES                     (NULL,{$cur_thai_time}, :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment , {$cur_thai_time})";
+        $sql = "INSERT INTO `service_billing` (`id`, `req_date` ,`req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`,`create_date`) \n"
+        . "VALUES                     (NULL,'{$cur_thai_time}', :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment , '{$cur_thai_time}' )";
 
 
+        if($GLOBALS['isSqlWriteFileForDBG']){
+                Util::writeFile('ServiceBilling_create.txt', $sql);   
+        }
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':req_id',$this->req_id ,PDO::PARAM_INT);      //int(11)
