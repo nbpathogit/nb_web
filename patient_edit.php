@@ -679,7 +679,8 @@ $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 $pathoOwnerNameObj = User::getByID($conn, $patient[0]['ppathologist_id']);
 
 $billings = ServiceBilling::getAll($conn, $_GET['id'], 1);
-$billing2s = ServiceBilling::getAll($conn, $_GET['id'], 2);
+//$billing2s = ServiceBilling::getAll($conn, $_GET['id'], 2);
+$billing2s = [];
 
 $job_crosss = Job::getCrossSection($conn, $patient[0]['id']);
 $job_assis_crosss = Job::getAssisCrossSection($conn, $patient[0]['id']);
@@ -1245,8 +1246,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v5"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v5"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v3"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v6"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v4"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_job1_crossection/job1.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job2_assis_cross/job2.js?v2x"></script>

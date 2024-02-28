@@ -195,14 +195,16 @@ $curStatusAuthEdit = (
     <table class="table table-bordered border-dark" id="spcimen_list_table2">
         <thead>
             <tr>
-                <th >Id</th>
-                <th >Id#2</th>
+                <th >Bill id</th>
+                <th >Survice Type</th>
+                <th >Patient id</th>
                 <th >Patient Number</th>
                 <th >Code Name</th>
                 <th >Description</th>
                 <th >block</th>
                 <th >Price</th>
                 <th >Remark/comment</th>
+                <th >DATE</th>
                 <th >Manage</th>
 
             </tr>
@@ -211,6 +213,7 @@ $curStatusAuthEdit = (
 <?php foreach ($billing2s as $billing): ?>
                 <tr>
                     <td ><?= $billing['id'] ?></td>
+                    <td ><?= $billing['number'] ?></td>
                     <td ><?= $billing['number'] ?></td>
                     <td ><?= $billing['code_description'] ?></td>
                     <td ><?= $billing['description'] ?></td>

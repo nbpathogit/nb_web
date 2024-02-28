@@ -130,7 +130,10 @@ class ReqSpSlideID {
     
     public static function getBillFromReqId($conn, $req_id) {
 
-        $sql = "SELECT *, r.id as rid, b.id as bid FROM req_id_sp_slide as r INNER JOIN service_billing as b ON r.id = b.req_id WHERE r.id = $req_id";
+        $sql = "SELECT \n".
+               " *, \n". 
+               " r.id as rid, b.id as bid,b.slide_type as b_slide_type, b.patient_id as b_patient_id, b.create_date as b_create_date  \n" .
+               "FROM req_id_sp_slide as r INNER JOIN service_billing as b ON r.id = b.req_id WHERE r.id =  $req_id";
 
         $results = $conn->query($sql);
 

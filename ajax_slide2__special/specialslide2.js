@@ -276,12 +276,14 @@ function repaintspecimentable2(data) {
         var str = '<tr>'+
                 '<td>' + datajson[i].id + '</td>'+
                 '<td>' + datajson[i].slide_type + '</td>'+
+                '<td>' + datajson[i].patient_id + '</td>'+
                 '<td>' + datajson[i].number + '</td>'+//Surgical Number
                 '<td>' + datajson[i].code_description + '</td>'+ //ex 33000
                 '<td>' + datajson[i].description + '</td>'+
                 '<td>' + datajson[i].sp_slide_block + '</td>'+
                 '<td>' + datajson[i].cost + '</td>'+
                 '<td>' + datajson[i].comment + '</td>'+
+                '<td>' + datajson[i].create_date + '</td>'+
                 '<td>' + '<a  billid="'+datajson[i].id+'" onclick="delbill2('+datajson[i].id+','+datajson[i].patient_id+');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>' + '</td>'+
                 '</tr>';
         

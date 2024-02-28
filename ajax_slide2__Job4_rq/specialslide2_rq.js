@@ -112,14 +112,16 @@ function refreshSpSlideRequested(isAlert) {
         str1 += '    <table class="table table-bordered border-dark" id="">';
         str1 += '        <thead>';
         str1 += '            <tr>';
-        str1 += '                <th >Id</th>';
-        str1 += '                <th >Id#2</th>';
+        str1 += '                <th >Billing Id</th>';
+        str1 += '                <th >b_slide_type</th>';
+        str1 += '                <th >patient_id</th>';
         str1 += '                <th >Patient Number</th>';
         str1 += '                <th >Code Name</th>';
         str1 += '                <th >Description</th>';
         str1 += '                <th >block</th>';
         str1 += '                <th >Price</th>';
         str1 += '                <th >Remark/comment</th>';
+        str1 += '                <th >DATE</th>';
         str1 += '                <th >Manage</th>';
         str1 += '            </tr>';
         str1 += '        </thead>';
@@ -144,15 +146,17 @@ function refreshSpSlideRequested(isAlert) {
                 
                 
                     str1 += ' <tr>                                              ';
-                    str1 += '     <td >'+datajson3[j].id + '</td>               ';
-                    str1 += '     <td >'+datajson3[j].slide_type + '</td>               ';
+                    str1 += '     <td >'+datajson3[j].bid + '</td>              ';
+                    str1 += '     <td >'+datajson3[j].b_slide_type + '</td>              ';
+                    str1 += '     <td >'+datajson3[j].patient_id + '</td>       ';
                     str1 += '     <td >'+datajson3[j].number+'</td>             ';
                     str1 += '     <td >'+datajson3[j].code_description+'</td>   ';
                     str1 += '     <td >'+datajson3[j].description+'</td>        ';
                     str1 += '     <td >'+datajson3[j].sp_slide_block+'</td>     ';
                     str1 += '     <td >'+datajson3[j].cost+'</td>               ';
                     str1 += '     <td >'+datajson3[j].comment+'</td>            ';
-                    str1 += '     <td >  </td>                                  ';
+                    str1 += '     <td >'+datajson3[j].create_date+'</td>            ';
+                    str1 += '     <td > <a  billid="'+datajson3[j].bid +'" onclick="delbill2requested('+datajson3[j].bid +','+datajson3[j].b_patient_id +');" class="btn btn-outline-dark btn-sm delete"><i class="fa-solid fa-trash-can"></i> Delete</a>  </td>                                  ';
                     str1 += ' </tr>                                             ';
                 
 
@@ -184,5 +188,39 @@ function refreshSpSlideRequested(isAlert) {
 
 
 
+
+}
+
+
+//on click button delete for seleced specimen list bill in main page
+function delbill2requested(billid,patientid) {
+    
+    if( confirm("delete bill "+billid)){
+       
+        $.ajax({
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: 'ajax_slide2__special/delBill2requested.php',
+        data: {
+            'bill_id': billid,
+            'patient_id': patientid,
+            
+        },
+        success: function (data) {
+           
+            //repaintspecimentable2(data);
+            refreshSpSlideRequested(false);
+            alert('Success');
+        },
+        error: function (jqxhr, status, exception) {
+            alert('Exception:', exception);
+        }
+
+    });
+        
+    }else{
+       
+    }
 
 }

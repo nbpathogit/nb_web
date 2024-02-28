@@ -116,6 +116,10 @@ class ServiceBilling {
             $sql .= " and date(import_date) >= '{$start}'";
         }
         $sql = $sql . " ORDER BY id";
+        
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('ServiceBilling_getAllUnRequest.txt', $sql);   
+        }
 
         $results = $conn->query($sql);
 
@@ -124,21 +128,25 @@ class ServiceBilling {
     
     public static function getAllUnRequest2367($conn, $patient_id = 0,$type = 0, $start = '0') {
         $sql = "SELECT *
-                FROM service_billing ";
+                FROM service_billing \n";
         
-        $sql = $sql . " WHERE req_id = 0 ";
+        $sql = $sql . " WHERE req_id = 0 \n";//Unrequest req_id = 0
         
         
         if ($patient_id != 0) {
-            $sql = $sql . " and patient_id = " . $patient_id;
+            $sql = $sql . " and patient_id = " . $patient_id ."\n";
         }
         
-        $sql = $sql . " and (slide_type = 2 or slide_type = 3 or slide_type = 6 or slide_type = 7) ";
+        $sql = $sql . " and (slide_type = 2 or slide_type = 3 or slide_type = 6 or slide_type = 7) \n";
         
         if ($start != '0') {
             $sql .= " and date(import_date) >= '{$start}'";
         }
         $sql = $sql . " ORDER BY id";
+        
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('ServiceBilling_getAllUnRequest2367.txt', $sql);   
+        }
 
         $results = $conn->query($sql);
 
