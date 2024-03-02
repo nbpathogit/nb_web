@@ -347,29 +347,35 @@ class ReqSpSlideID {
 //            ON aa.patient_id_key=bb.patient_id_key";
         
         
-        $sql = "SELECT  r.id AS r_id, b.id AS b_id, j4.id AS j4_id, j5.id AS j5_id,  r.patient_id AS rpatient_id ,".
-               "    b.number AS b_patient_num, r.req_date , r.finish_date ,r.comment,  ".
-               "     CONCAT(j4.name,' ', j4.lastname) AS j4owowner,CONCAT(j5.name,' ', j5.lastname) AS pathologist, ".
-               "     CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob"
-                . ", DATE(r.req_date) as req_datedate "
-                . ", DATE(r.finish_date) as  finish_datedate ".
-               " FROM ".
-               " 	req_id_sp_slide AS r ".
-               "     LEFT JOIN ".
-               "    service_billing AS b ON r.id = b.req_id ".
-               "     LEFT JOIN ".
-               "    job AS j4 ON r.id = j4.req_id AND j4.job_role_id = 4 ".
-               "    LEFT JOIN ".
-               "    job AS j5 ON  r.patient_id = j5.patient_id AND j5.job_role_id = 5 ".
-               "WHERE   r.movetotrash = 0 ";
+        $sql = "SELECT \n".
+               "#*,                                                                                                         \n".
+               " r.id AS r_id, b.id AS b_id, j4.id AS j4_id, j5.id AS j5_id,  r.patient_id AS rpatient_id ,                \n".
+               "    b.number AS b_patient_num, r.req_date , r.finish_date ,r.comment,                                        \n".
+               "     CONCAT(j4.name,' ', j4.lastname) AS j4owowner,CONCAT(j5.name,' ', j5.lastname) AS pathologist,           \n".
+               "     CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob    \n".
+               ", DATE(r.req_date) as req_datedate                                                                            \n".
+               ", DATE(r.finish_date) as  finish_datedate                                                                      \n".
+               " FROM                                                                                                           \n".
+               " 	req_id_sp_slide AS r                                                                                   \n".
+               "     LEFT JOIN                                                                                                  \n".
+               "    service_billing AS b ON r.id = b.req_id                                                                     \n".
+               "     LEFT JOIN                                                                                                  \n".
+               "    job AS j4 ON r.id = j4.req_id AND j4.job_role_id = 4                                                        \n".
+               "    LEFT JOIN                                                                                                   \n".
+               "    job AS j5 ON  r.patient_id = j5.patient_id AND j5.job_role_id = 5                                           \n".
+               "WHERE   r.movetotrash = 0                                                                                       \n";
         if ($start != '0') {
-            $sql = $sql . " and  date(r.req_date) >= '{$start}' ";
+            $sql = $sql . " and  date(r.req_date) >= '{$start}'                                                                  \n";
         }
 
-        $sql = $sql . " GROUP by r_id, b.description ";
+        $sql = $sql . " GROUP by r_id, b.description                                                                              \n";
                 
 //        $sql2 = $sql;
 //        Util::writeFile('dbg.txt', $sql2);
+//        
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('ReqSpSlideID_getBillandJobTableWithStart_v2.txt', $sql);   
+        }
 //        
         $results = $conn->query($sql);
         $articles = $results->fetchAll(PDO::FETCH_ASSOC);

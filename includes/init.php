@@ -19,6 +19,7 @@ session_start();
 $hide = false;
 $show = true;
 
+$GLOBALS['isSqlWriteFileForDBG'] = TRUE;
 $GLOBALS['isSqlWriteFileForDBG'] = FALSE;
 
 $GLOBALS['isBillByAcceptDate'] = FALSE;
