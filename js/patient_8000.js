@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     function processDoc(doc) {
         //
         // https://pdfmake.github.io/docs/fonts/custom-fonts-client-side/
@@ -13,11 +13,11 @@ $(document).ready(function () {
                 italics: 'Roboto-Italic.ttf',
                 bolditalics: 'Roboto-MediumItalic.ttf'
             },
-            angsa : {
-                normal: domain+'/fonts/angsau.ttf',
-                bold: domain+'/fonts/angsaub.ttf',
-                italics: domain+'/fonts/angsaui.ttf',
-                bolditalics: domain+'/fonts/angsauz.ttf',
+            angsa: {
+                normal: domain + '/fonts/angsau.ttf',
+                bold: domain + '/fonts/angsaub.ttf',
+                italics: domain + '/fonts/angsaui.ttf',
+                bolditalics: domain + '/fonts/angsauz.ttf',
             }
         };
         // modify the PDF to use a different default font:
@@ -30,6 +30,11 @@ $(document).ready(function () {
         "ajax": "data/patientSpSlReq.php?skey=" + skey + "&range=3m",
         responsive: true,
         dom: 'PlfBrtip',
+        // searchPanes: {
+        //     dtOpts: {
+        //         order: [[5, 'desc']]
+        //     }
+        // },
         buttons: [
             {
                 text: 'export excel',
@@ -54,53 +59,56 @@ $(document).ready(function () {
                 }
             },
             {
-            extend: 'collection',
-            text: 'ระยะเวลาย้อนหลัง',
-            autoClose: true,
-            buttons: [{
-                text: '1 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=1m").load();
+                extend: 'collection',
+                text: 'ระยะเวลาย้อนหลัง',
+                autoClose: true,
+                buttons: [{
+                    text: '1 เดือนล่าสุด',
+                    action: function (e, dt, node, config) {
+                        dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=1m").load();
+                    }
+                },
+                {
+                    text: '3 เดือนล่าสุด',
+                    action: function (e, dt, node, config) {
+                        dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=3m").load();
+                    }
+                },
+                {
+                    text: '6 เดือนล่าสุด',
+                    action: function (e, dt, node, config) {
+                        dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=6m").load();
+                    }
+                },
+                {
+                    text: '1 ปีล่าสุด',
+                    action: function (e, dt, node, config) {
+                        dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=1y").load();
+                    }
+                },
+                {
+                    text: '2 ปีล่าสุด',
+                    action: function (e, dt, node, config) {
+                        dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=2y").load();
+                    }
+                },
+                {
+                    text: 'ทั้งหมด',
+                    action: function (e, dt, node, config) {
+                        dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "").load();
+                    }
                 }
-            },
-            {
-                text: '3 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=3m").load();
-                }
-            },
-            {
-                text: '6 เดือนล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=6m").load();
-                }
-            },
-            {
-                text: '1 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=1y").load();
-                }
-            },
-            {
-                text: '2 ปีล่าสุด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "&range=2y").load();
-                }
-            },
-            {
-                text: 'ทั้งหมด',
-                action: function (e, dt, node, config) {
-                    dt.ajax.url("data/patientSpSlReq.php?skey=" + skey + "").load();
-                }
-            }
-            ]
-        },],
+                ]
+            },],
         "order": [
             [0, "desc"]
         ],
-        searchPanes: {
+        "searchPanes":  {
             initCollapsed: true,
-        },
+            dtOpts: {
+              order: [[ 0, "desc" ]]
+            }                                 
+          },
         columnDefs: [{
             searchPanes: {
                 show: true
@@ -114,93 +122,27 @@ $(document).ready(function () {
             targets: [0]
         },
         {
+            searchPanes: {
+                "order": [
+                    [5, "desc"]
+                ],
+            },
+        },
+
+        {
             "render": function (data, type, row) {
                 let renderdata = '';
-                if(row[6]){
+                if (row[6]) {
                     //If finish date is avalable
-                    renderdata += '<a class="btn btn-success btn-sm  rid'+row[0]+' " disabled><i class="fa-sharp fa-solid fa-check"></i> <span class="btn_msg_'+row[0] +'">FINISHED</span> rid'+ row[0] +' </a>';
-                }else{
+                    renderdata += '<a class="btn btn-success btn-sm  rid' + row[0] + ' " disabled><i class="fa-sharp fa-solid fa-check"></i> <span class="btn_msg_' + row[0] + '">FINISHED</span> rid' + row[0] + ' </a>';
+                } else {
                     //If finished date is null
-                    renderdata += '<a onclick="doneTheJobSP('+ row[0] + ')"  class="btn btn-warning btn-sm done  rid'+row[0]+'"><i class="fa-sharp fa-solid fa-check "></i> <span class="btn_msg_'+row[0] +'">CLOSE</span> rid'+ row[0] +' </a>';
+                    renderdata += '<a onclick="doneTheJobSP(' + row[0] + ')"  class="btn btn-warning btn-sm done  rid' + row[0] + '"><i class="fa-sharp fa-solid fa-check "></i> <span class="btn_msg_' + row[0] + '">CLOSE</span> rid' + row[0] + ' </a>';
                 }
                 return renderdata;
             },
             "targets": -1
         },
-//        {
-//            "render": function (data, type, row) {
-//                let renderdata = row[0];
-//                return renderdata;
-//            },
-//            "targets": 0
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                let renderdata = row[1];
-//                return renderdata;
-//            },
-//            "targets": 1
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[2];
-//            },
-//            "targets": 2
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[3];
-//            },
-//            "targets": 3
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[4];
-//            },
-//            "targets": 4
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[5];
-//            },
-//            "targets": 5
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[6];
-//            },
-//            "targets": 6
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[7];
-//            },
-//            "targets": 7
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[8];
-//            },
-//            "targets": 8
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[9];
-//            },
-//            "targets": 9
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[10];
-//            },
-//            "targets": 10
-//        },
-//        {
-//            "render": function (data, type, row) {
-//                return row[11];
-//            },
-//            "targets": 11
-//        },
         {
             responsivePriority: 1,
             targets: 1
@@ -223,36 +165,36 @@ $(document).ready(function () {
         },
         {
             visible: false,
-             targets: [1, 2, 3]
+            targets: [1, 2, 3]
         },
         ],
-//        "initComplete": colorAdd,
+        //        "initComplete": colorAdd,
     });
 
     // add color when reload
-//    table.on('draw', colorAdd);
+    //    table.on('draw', colorAdd);
 
-//        table.on('draw', function() {
-//            // console.log(table.rows().data());
-//            rawdata = table.rows().data();
-//            console.log(rawdata);
-//            alert("rawdata print");
-//        });
+    //        table.on('draw', function() {
+    //            // console.log(table.rows().data());
+    //            rawdata = table.rows().data();
+    //            console.log(rawdata);
+    //            alert("rawdata print");
+    //        });
 
 
-    
+
 
     // set active tab
     $("#patienttab_8000").addClass("active");
 
-//    setInterval( function () {
-//        table.ajax.reload( null, false ); // user paging is not reset on reload
-//    }, 10000 );
+    //    setInterval( function () {
+    //        table.ajax.reload( null, false ); // user paging is not reset on reload
+    //    }, 10000 );
 
 });
 
-function doneTheJobSP(rid){
-    
+function doneTheJobSP(rid) {
+
 
     let setDate;
     $.ajax({
@@ -263,7 +205,7 @@ function doneTheJobSP(rid){
             'rid': rid,
         },
         success: function (data) {
-//            alert(data);
+            //            alert(data);
             setDate = data;
         },
         error: function (jqxhr, status, exception) {
@@ -271,44 +213,44 @@ function doneTheJobSP(rid){
         }
 
     });
-    
-    
-    let classRIDName = '.rid'+rid;
-    $(classRIDName).addClass( 'disabled' );
-    $(classRIDName).removeClass( "btn-warning" ).addClass( "btn-success" );
+
+
+    let classRIDName = '.rid' + rid;
+    $(classRIDName).addClass('disabled');
+    $(classRIDName).removeClass("btn-warning").addClass("btn-success");
     alert("Done, set finished to " + setDate);
-    
+
 }
 
 //on click button delete for seleced specimen list bill in main page
-function deljob1x(jobid,patientid) {
-    
-    if( confirm("Please confirm delete job di = "+jobid+" ?")){
-       
-    $.ajax({
-        type: 'POST',
-        // make sure you respect the same origin policy with this url:
-        // http://en.wikipedia.org/wiki/Same_origin_policy
-        url: 'ajax_job1_crossection/delJob1.php',
-        data: {
-            'job_id': jobid,
-            'patient_id': patientid,
-            
-        },
-        success: function (data) {
-           
-            repaintTbljob1(data);
-        
-            alert('Success');
-        },
-        error: function (jqxhr, status, exception) {
-            alert('Exception:', exception);
-        }
+function deljob1x(jobid, patientid) {
 
-    });
-        
-    }else{
-       
+    if (confirm("Please confirm delete job di = " + jobid + " ?")) {
+
+        $.ajax({
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: 'ajax_job1_crossection/delJob1.php',
+            data: {
+                'job_id': jobid,
+                'patient_id': patientid,
+
+            },
+            success: function (data) {
+
+                repaintTbljob1(data);
+
+                alert('Success');
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+
+        });
+
+    } else {
+
     }
 
 }
