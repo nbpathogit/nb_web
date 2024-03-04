@@ -45,7 +45,8 @@ require 'user_auth.php';
                     <th>req_sp_type      </th><!--9-->
                     <th>bjob             </th><!--10-->
                     <th>pathologist      </th><!--11-->
-                    <th>จัดการ             </th><!--12-->
+                    <th>hospital         </th><!--12-->
+                    <th>จัดการ             </th><!--13-->
                     
                 </tr>
             </thead>
@@ -67,4 +68,4 @@ require 'user_auth.php';
         var isCurUserAdmin = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient_8000.js?v=1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient_8000.js?v=2"></script>

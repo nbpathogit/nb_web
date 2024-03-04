@@ -293,83 +293,33 @@ class ReqSpSlideID {
     // req date as DATE only
     public static function getBillandJobTableWithStart_v2($conn, $start = '0') {
         
-        
-//        select * 
-//        FROM 
-//            (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
-//                , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lAStname) AS jowowner
-//                ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
-//            FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id   
-//            WHERE  date(r.req_date) >= '2023-06-18'
-//            GROUP by rid, b.description
-//            ) AS aa
-//        JOIN 
-//            ( 
-//            SELECT jp.patient_id AS patient_id_key,  CONCAT(jp.name,' ', jp.lAStname) AS pathologist   
-//            FROM job AS jp 
-//            Where jp.job_role_id = 5
-//            ) AS bb
-//
-//        ON aa.patient_id_key=bb.patient_id_key
-        
-        
-//rid|bid|jid|patient_id_key|number   |req_date       |finish_date|comment|jowowner|req_sp_type|bjob|patient_id_key|pathologist|
-//5  |86 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 Bcl-6|Z1,G,Z1|176|อภิชาติ ชุมทอง|
-//5  |91 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 Calcitonin|F|176|อภิชาติ ชุมทอง|
-//5  |83 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 CD117|M,R1,S1|176|อภิชาติ ชุมทอง|
-//5  |89 |167|176           |CN2300001|6/18/2023 14:53|NULL       |0|ภูศิษฏ์ เรืองวาณิชยกุล|33000 CD1a|G,Z1|176|อภิชาติ ชุมทอง|
-//6  |92 |170|176           |CN2300001|6/18/2023 15:01|NULL       |0|วรินทร เหลืองทอง|33000 CD1a|A|176|อภิชาติ ชุมทอง|
-//8  |94 |171|176           |CN2300001|6/18/2023 20:17|NULL       |fkjdsfjcoweacfaw|พีรยุทธ สิทธิไชยากุล|33000 Caldesmon|C,D|176|อภิชาติ ชุมทอง|
-//9  |96 |172|176           |CN2300001|6/18/2023 20:22|NULL       |xcxcx|จุลินทร สำราญ|33000 Calretinin|A,B|176|อภิชาติ ชุมทอง|
-//10 |98 |173|176           |CN2300001|6/18/2023 20:25|NULL       |ffff|นันท์ สิงห์ปาน|33000 CD1a|A,B|176|อภิชาติ ชุมทอง|
 
-
-
-//        $sql = "select * 
-//            FROM 
-//                (SELECT  r.id AS rid, b.id AS bid, j.id AS jid, j.patient_id AS patient_id_key
-//                    , b.number, r.req_date , r.finish_date ,r.comment,  CONCAT(j.name,' ', j.lastname) AS jowowner
-//                    ,CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob 
-//                FROM (req_id_sp_slide AS r JOIN service_billing AS b)  JOIN job AS j ON r.id = b.req_id and r.id = j.req_id  and r.movetotrash = 0 "; 
-//        if ($start != '0') {
-//            $sql = $sql . "WHERE  date(r.req_date) >= '{$start}' ";
-//        }
-//
-//        $sql = $sql . "GROUP by rid, b.description
-//                ) AS aa
-//            JOIN 
-//                ( 
-//                SELECT jp.patient_id AS patient_id_key,  CONCAT(jp.name,' ', jp.lastname) AS pathologist   
-//                FROM job AS jp 
-//                Where jp.job_role_id = 5
-//                ) AS bb
-//
-//            ON aa.patient_id_key=bb.patient_id_key";
-        
-        
-        $sql = "SELECT \n".
-               "#*,                                                                                                         \n".
-               " r.id AS r_id, b.id AS b_id, j4.id AS j4_id, j5.id AS j5_id,  r.patient_id AS rpatient_id ,                \n".
-               "    b.number AS b_patient_num, r.req_date , r.finish_date ,r.comment,                                        \n".
-               "     CONCAT(j4.name,' ', j4.lastname) AS j4owowner,CONCAT(j5.name,' ', j5.lastname) AS pathologist,           \n".
-               "     CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob    \n".
-               ", DATE(r.req_date) as req_datedate                                                                            \n".
-               ", DATE(r.finish_date) as  finish_datedate                                                                      \n".
-               " FROM                                                                                                           \n".
-               " 	req_id_sp_slide AS r                                                                                   \n".
-               "     LEFT JOIN                                                                                                  \n".
-               "    service_billing AS b ON r.id = b.req_id                                                                     \n".
-               "     LEFT JOIN                                                                                                  \n".
-               "    job AS j4 ON r.id = j4.req_id AND j4.job_role_id = 4                                                        \n".
-               "    LEFT JOIN                                                                                                   \n".
-               "    job AS j5 ON  r.patient_id = j5.patient_id AND j5.job_role_id = 5                                           \n".
-               "WHERE   r.movetotrash = 0                                                                                       \n";
+    $sql="SELECT                                                                                                          \n".
+        "    #*,                                                                                                         \n".
+        "    r.id AS r_id, b.id AS b_id, j4.id AS j4_id, j5.id AS j5_id,  r.patient_id AS rpatient_id ,                  \n".
+        "    b.number AS b_patient_num,                                                                                  \n".
+        "    r.req_date ,                                                                                                \n".
+        "    r.finish_date ,                                                                                             \n".
+        "    r.comment,                                                                                                  \n".
+        "    CONCAT(j4.name,' ', j4.lastname) AS j4owowner,CONCAT(j5.name,' ', j5.lastname) AS pathologist,              \n".
+        "    CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob ,     \n".
+        "    DATE(r.req_date) as req_datedate ,                                                                          \n".
+        "    DATE(r.finish_date) as  finish_datedate ,                                                                   \n".
+        "    h.hospital as h_hospital                                                                                    \n".
+        "FROM  req_id_sp_slide AS r                                                                                      \n".
+        "LEFT JOIN  service_billing AS b ON r.id = b.req_id                                                              \n".
+        "JOIN patient AS p ON p.id = b.patient_id                                                                        \n".
+        "JOIN hospital AS h ON h.id = p.phospital_id                                                                     \n".
+        "LEFT JOIN  job AS j4 ON r.id = j4.req_id AND j4.job_role_id = 4                                                 \n".      
+        "LEFT JOIN  job AS j5 ON  r.patient_id = j5.patient_id AND j5.job_role_id = 5                                    \n".
+        "WHERE   r.movetotrash = 0                                                                                       \n";
         if ($start != '0') {
-            $sql = $sql . " and  date(r.req_date) >= '{$start}'                                                                  \n";
+            $sql = $sql .  "    and  date(r.req_date) >= '{$start}'                                                            \n";
         }
+    $sql = $sql .  "GROUP by r_id, b.description                                                                                    \n".
+        "ORDER by b_patient_num ASC                                                                                      \n";
 
-        $sql = $sql . " GROUP by r_id, b.description                                                                              \n";
-                
+
 //        $sql2 = $sql;
 //        Util::writeFile('dbg.txt', $sql2);
 //        

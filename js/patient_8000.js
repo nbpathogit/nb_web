@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     // datatable
     var table = $('#request_sp_sl_table').DataTable({
-        "ajax": "data/patientSpSlReq.php?skey=" + skey + "&range=1m",
+        "ajax": "data/patientSpSlReq.php?skey=" + skey + "&range=3m",
         responsive: true,
         dom: 'PlfBrtip',
         buttons: [
@@ -105,7 +105,7 @@ $(document).ready(function () {
             searchPanes: {
                 show: true
             },
-            targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]
         },
         {
             searchPanes: {
@@ -219,7 +219,7 @@ $(document).ready(function () {
         },
         {
             visible: true,
-             targets: [0, 4, 5, 6, 7, 8, 9, 10, 11]
+             targets: [0, 4, 5, 6, 7, 8, 9, 10, 11,12]
         },
         {
             visible: false,
