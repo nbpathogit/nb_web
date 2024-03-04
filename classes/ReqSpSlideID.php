@@ -155,16 +155,41 @@ class ReqSpSlideID {
     
     public static function getBillandJobFromDateRange_v2($conn, $startdate, $enddate) {
 
-        $sql = "SELECT *, r.id as rid, b.id as bid
-                    , j.name as j_name , j.lastname as j_lastname
-                    ,CONCAT(j.name,' ',j.lastname) as pathologist
-                FROM req_id_sp_slide as r 
-                INNER JOIN service_billing as b ON r.id = b.req_id 
-                INNER JOIN job AS j ON j.patient_id = r.patient_id
-                WHERE   date(b.req_date) >= '{$startdate}' and date(b.req_date) <= '{$enddate}' 
-                    and j.job_role_id = 5";
+//        $sql = "SELECT *, r.id as rid, b.id as bid
+//                    , j.name as j_name , j.lastname as j_lastname
+//                    ,CONCAT(j.name,' ',j.lastname) as pathologist
+//                FROM req_id_sp_slide as r 
+//                INNER JOIN service_billing as b ON r.id = b.req_id 
+//                INNER JOIN job AS j ON j.patient_id = r.patient_id
+//                WHERE   date(b.req_date) >= '{$startdate}' and date(b.req_date) <= '{$enddate}' 
+//                    and j.job_role_id = 5";
+                
+                
+    $sql="SELECT                                                                             \n".
+        "    #*,                                                                             \n".
+        "    r.id as rid, b.id as bid,                                                       \n".
+        "    date(b.req_date) AS b_req_date,                                                 \n".
+        "    p.pnum as p_sn,                                                                 \n".
+        "    IF(p.priority_id = 10 ,'ด่วน', '') as priority,                                   \n".
+        "    b.description AS b_description,                                                 \n".
+        "    b.sp_slide_block AS b_sp_slide_block,                                           \n".
+        "    j.name as j_name , j.lastname as j_lastname,                                    \n".
+        "    CONCAT(j.name,' ',j.lastname) as pathologist                                    \n".
+        "FROM req_id_sp_slide as r                                                           \n".
+        "JOIN service_billing as b ON r.id = b.req_id                                        \n".
+        "JOIN patient AS p ON p.id = b.patient_id and p.movetotrash = 0                      \n".
+        "JOIN hospital AS h ON h.id = p.phospital_id                                         \n".
+        "JOIN job AS j ON j.patient_id = r.patient_id and j.job_role_id = 5                  \n".
+        "WHERE   date(b.req_date) >= '{$startdate}' and date(b.req_date) <= '{$enddate}'     \n".
+        "  and r.id != 0                                                                     \n".
+        "ORDER BY b.req_date, p.pnum ASC                                                     \n";                
+  
+                
                 
         //Util::writeFile('dbg.txt', $sql);
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('ReqSpSlideID_getBillandJobFromDateRange_v2.txt', $sql);   
+        }
 
         $results = $conn->query($sql);
 

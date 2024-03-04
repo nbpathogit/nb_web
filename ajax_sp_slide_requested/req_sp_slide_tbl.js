@@ -73,11 +73,13 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
     strs = strs + '<table  width="100%">';
     strs = strs + '<thead   >';
     strs = strs + '<tr>\n\
-        <th style="font-size: 14pt;width:15%;">' + 'Request_id' + '</th>\n\
-        <th style="font-size: 14pt;width:15%;">' + 'Patient_Num' + '</th>\n\
-        <th style="font-size: 14pt;width:15%;">' + 'Request' + '</th>\n\
-        <th style="font-size: 14pt;width:15%;">' + 'Block' + '</th>\n\
-        <th style="font-size: 14pt;width:15%;">' + 'Pathologist' + '</th>\n\
+        <th style="font-size: 14pt;width: fit-content;">' + 'Rid' + '</th>\n\
+        <th style="font-size: 14pt;width:fit-content;">' + 'Request' + '</th>\n\
+        <th style="font-size: 14pt;width:fit-content;">' + 'SN' + '</th>\n\
+        <th style="font-size: 14pt;width:fit-content;">' + 'Pri' + '</th>\n\
+        <th style="font-size: 14pt;width:20%;">' + 'Request' + '</th>\n\
+        <th style="font-size: 14pt;width:fit-content;">' + 'Block' + '</th>\n\
+        <th style="font-size: 14pt;width:fit-content;">' + 'Pathologist' + '</th>\n\
         <th style="font-size: 14pt;">' + 'Note' + '</th>\n\
         </tr>';
     strs = strs + "</thead>";
@@ -86,9 +88,11 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
     {
         strs = strs + '<tr>\n\
         <td>' + datajson[i].rid + '</td>\n\
-        <td>' + datajson[i].number + '</td>\n\
-        <td>' + datajson[i].description + '</td>\n\
-        <td>' + datajson[i].sp_slide_block + '</td>\n\
+        <td>' + datajson[i].b_req_date + '</td>\n\
+        <td>' + datajson[i].p_sn + '</td>\n\
+        <td>' + datajson[i].priority + '</td>\n\
+        <td>' + datajson[i].b_description + '</td>\n\
+        <td>' + datajson[i].b_sp_slide_block + '</td>\n\
         <td>' + datajson[i].pathologist + '</td>\n\
         <td>' + '' + '</td>\n\
         </tr>';
