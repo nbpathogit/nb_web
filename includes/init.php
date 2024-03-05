@@ -20,7 +20,7 @@ $hide = false;
 $show = true;
 
 $GLOBALS['isSqlWriteFileForDBG'] = TRUE;
-//$GLOBALS['isSqlWriteFileForDBG'] = FALSE;
+$GLOBALS['isSqlWriteFileForDBG'] = FALSE;
 
 $GLOBALS['isBillByAcceptDate'] = FALSE;
 $GLOBALS['isBillByServiceDate'] = TRUE;
