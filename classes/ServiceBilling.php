@@ -264,7 +264,8 @@ class ServiceBilling {
              "b.code_description as b_code,                                                            \n".
              "b.description as b_description,                                                          \n".
              "b.cost as b_cost,                                                                        \n".
-             "s.service_type_bill as s_service_type                                                     \n".
+             "s.service_type_bill as s_service_type,                                                   \n".
+             "s.service_typea_bill as s_service_typea_bill                                             \n".
              "FROM patient as p                                                                        \n".
              "   JOIN service_billing as b ON  b.patient_id = p.id                                     \n".
              "     and date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'   \n";
@@ -278,7 +279,7 @@ class ServiceBilling {
              "       and job_pathologist.job_role_id = 5                                               \n".
              "   LEFT JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                   \n".   
              "       and job_cytologist.job_role_id = 7                                                \n". 
-             "   WHERE   1     \n".
+             "   WHERE   1                                                                            \n".
              "               and p.movetotrash = 0                                                     \n".
              "   ORDER by p.pnum                                                                       \n";
         }

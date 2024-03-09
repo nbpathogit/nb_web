@@ -43,10 +43,10 @@
         }*/
 </style>
 
-<p style="text-align:center;font-size: 14pt;">สรุปการส่งตรวจทางพยาธิวิทยา (พยาธิวิทยากายวิภาค) โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
+<p style="text-align:center;font-size: 14pt;">แจกแจงทุกรายการบริการ โดย ศูนย์พยาธิวิทยา เอ็น.บี.<br>
    (นับตามรหัสกรมบัญชีกลาง) <span class="bill_hospitalname" style="color:red">XX</span> ระหว่างวันที่ (<span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span>)</p>
 
-<span id="bill_list_all_g3">
+<span id="bill_list_all_g4">
     <table width="100%" >
 
     </table> 

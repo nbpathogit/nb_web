@@ -208,6 +208,18 @@ echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
 
+<!--//4. สรุปจำนวนแต่ละรายการสิ่งส่งตรวจและย้อมพิเศษในช่วงนั้น (นับตามรหัสกรมบัญชีกลาง)-->
+<?php require 'includes/opencontainer.php'; ?>
+<?php
+$str1 = file_get_contents('pdf_invoice/billinngListAll_g4.php');
+
+echo '<h1 align="center">4. แจกแจงทุกรายการบริการ โดย ศูนย์พยาธิวิทยา เอ็น.บี.</h1><hr>';
+echo '<span id="bill_page6">';
+echo $str1;
+echo '</span>';
+?>
+<?php require 'includes/closecontainer.php'; ?>
+
 
 
 <?php require 'includes/opencontainer.php'; ?>
@@ -244,7 +256,8 @@ echo '</span>';
                 <th>โค้ด</th>                 <!-- 11   ,$b['b_code']--> 
                 <th>รายการ</th>                 <!-- 12   ,$b['b_description'] --> 
                 <th>ราคา</th>                  <!-- 13  ,$b['b_cost'] --> 
-                <th>ชนิด</th>                    <!-- 14 ,$b['s_service_type'] -->              
+                <th>ชนิด1</th>                    <!-- 14 ,$b['s_service_type'] -->              
+                <th>ชนิด2</th>                    <!-- 15 ,$b['s_service_typea_bill'] -->              
             </tr>
         </thead>
     </table>

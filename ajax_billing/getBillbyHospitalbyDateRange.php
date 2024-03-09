@@ -48,6 +48,7 @@ foreach ($billings as $b) {
         ,$b['b_description']
         ,$b['b_cost']
         ,$b['s_service_type']
+        ,$b['s_service_typea_bill']
         ];
 
 }
