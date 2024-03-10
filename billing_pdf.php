@@ -687,7 +687,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     }
 
 
-    // get record groupby code
+    // get record groupby code Count
     error_ajax = "";
     $.ajax({
         'async': false,
@@ -722,6 +722,58 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         alert("::"+error_ajax);
         return -1;
     }
+    
+    
+    // get record One by one
+    error_ajax = "";
+    $.ajax({
+        'async': false,
+        type: 'POST',
+        'global': false,
+        url: 'ajax_billing/getBillingHospitalOneByOne.php',
+        data: {
+            'hospital_id': hospital_id,
+            'startdate': startdate,
+            'enddate': enddate,
+        },
+        success: function (data) {
+            if (data[0] != "[") {
+                alert(data);
+                console.log(data);
+                error_ajax = "No record found";
+            }
+            var datajson = JSON.parse(data);
+            if (datajson.length == 0) {
+                error_ajax = "No record found";
+            }
+
+            drawbill_list_all_page_g4(datajson);
+            
+        },
+        error: function (jqxhr, status, exception) {
+             alert( jqxhr.responseText);
+        }
+    });
+    if(! (error_ajax.length === 0) ){
+        alert("::"+error_ajax);
+        return -1;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 //    C:\anuchit2\nb_web\ajax_billing\getHospital.php
@@ -1186,6 +1238,84 @@ function drawbill_list_all_page_g3(datajson) {
 
     console.log(str);
     $('#bill_list_all_g3').append(str);
+
+}
+
+
+function drawbill_list_all_page_g4(datajson) {
+
+    $('#bill_list_all_g4 table').remove();
+
+    let str = "";
+
+    str = str +
+            '<table width="100%" >            ' +
+            '    <thead>                      ' +
+            '        <tr>                     ' +
+            '            <th >ลำดับที่</th>          ' +
+            '            <th >p_sn</th>      ' +
+            '            <th >patient_name</th>        ' +
+            '            <th >admit_date</th>' +
+            '            <th >hospital_num</th>' +
+            
+            '            <th >clinicien_name</th>       ' +
+            '            <th >h_hospital</th>       ' +
+            '            <th >cytologist_name</th>       ' +
+            '            <th >pathologist_name</th>       ' +
+            '            <th >b_code</th>       ' +
+            '            <th >b_description</th>       ' +
+            '            <th >b_cost</th>       ' +
+            '            <th >s_service_type</th>       ' +
+            '            <th >s_service_typea_bill</th>       ' +
+            
+            '        </tr>                    ' +
+            '    </thead>                     ' +
+            '    <tbody>                      ';
+
+    for (var i in datajson)
+    {
+        str = str +
+                '        <tr>                                                                            ' +
+                '            <td>' + (parseInt(i)+1) + '</td>                                            ' +
+                '            <td>' + datajson[i].p_sn + '</td>                                         ' +
+                '            <td>' + datajson[i].patient_name + '</td>                                  ' +
+                '            <td>' + datajson[i].admit_date + '</td>                                    ' +
+                '            <td>' + datajson[i].hospital_num + '</td>                                      ' +
+                
+                
+                '            <td>' + datajson[i].clinicien_name + '</td>                                      ' +
+                '            <td>' + datajson[i].h_hospital + '</td>                                      ' +
+                '            <td>' + datajson[i].cytologist_name + '</td>                                      ' +
+                '            <td>' + datajson[i].pathologist_name + '</td>                                      ' +
+                '            <td>' + datajson[i].b_code + '</td>                                      ' +
+                '            <td>' + datajson[i].b_description + '</td>                                      ' +
+                '            <td>' + datajson[i].b_cost + '</td>                                      ' +
+                '            <td>' + datajson[i].s_service_type + '</td>                                      ' +
+                '            <td>' + datajson[i].s_service_typea_bill + '</td>                            ' +
+                
+                
+                
+                
+                
+                '        </tr>                                                                            ';
+
+
+    }
+    
+    str = str +
+            '    </tbody>                                     ' +
+            '    <tfoot id="price_by_service_footer_g3">          ' +
+            '    <tfoot id="price_by_service_footer">                                      ' +
+            '         <tr>   ' +
+            '              <td  colspan="11" style="font-weight: bold;text-align:right;"> (ทั้งหมด <span class="bill_count_all_list_class" style=" font-weight: bold;color:red">X</span> รายการ) รวมทั้งสิ้น </td>   ' +
+            '              <td > <span class="bill_hospital_net_price" style="color:red">X</span> </td>  '+         
+            '         </tr>   ' +
+            '    </tfoot>                                     ' +
+            '</table>                                         ';
+
+
+    console.log(str);
+    $('#bill_list_all_g4').append(str);
 
 }
 
