@@ -210,6 +210,10 @@ echo '</span>';
 
 <!--//4. สรุปจำนวนแต่ละรายการสิ่งส่งตรวจและย้อมพิเศษในช่วงนั้น (นับตามรหัสกรมบัญชีกลาง)-->
 <?php require 'includes/opencontainer.php'; ?>
+<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#group4_section_collapse" aria-expanded="false" aria-controls="group4_section_collapse">
+4) ซ่อน/แสดง
+</button>
+<div id="group4_section_collapse" class="collapse">
 <?php
 $str1 = file_get_contents('pdf_invoice/billinngListAll_g4.php');
 
@@ -219,7 +223,7 @@ echo $str1;
 echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
-
+</div>
 
 
 <?php require 'includes/opencontainer.php'; ?>
