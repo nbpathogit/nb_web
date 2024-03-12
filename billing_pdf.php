@@ -222,8 +222,9 @@ echo '<span id="bill_page6">';
 echo $str1;
 echo '</span>';
 ?>
-<?php require 'includes/closecontainer.php'; ?>
 </div>
+<?php require 'includes/closecontainer.php'; ?>
+
 
 
 <?php require 'includes/opencontainer.php'; ?>
