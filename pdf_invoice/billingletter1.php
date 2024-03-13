@@ -83,8 +83,14 @@
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="12%" style="border: 1px solid green;"></td>
-        <td width="60%" style="border: 1px solid green;text-align:left;"><b>รวมเป็นเงินทั้งสิ้น <span class="bill_hospital_net_price_spell" style="color:red">X</span></b></td>
+        <td width="60%" style="border: 1px solid green;text-align:left;"><b>รวมเป็นเงินทั้งสิ้น</b></td>
         <td  style="border: 1px solid green;text-align:right;"><b><span class="bill_hospital_net_price" style="color:red">X</span> บาท</b></td>
+        <td width="6%" style="border: 1px solid green;"></td>
+    </tr>
+    <tr>
+        <td width="12%" style="border: 1px solid green;"></td>
+        <td width="60%" style="border: 1px solid green;text-align:left;"><b><span class="bill_hospital_net_price_spell" style="color:red">X</span></b></td>
+        <td  style="border: 1px solid green;text-align:right;"><b></b></td>
         <td width="6%" style="border: 1px solid green;"></td>
     </tr>
 </table>
@@ -94,10 +100,10 @@
     <tr>
         <td width="6%" style="border: 1px solid green;"></td>
         <td width="60%" style="border: 1px solid green;text-align:left;">
-            โปรดชาระเงินโดย<br>
-            1. เช็คขีดคร่อมสั่งจ่ายในนาม "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี." และ ส่งมาที่ ตู้ ปณ. 105 ปณจ. พิษณุโลก อำเภอเมือง จังหวัดพิษณุโลก หรือ<br>
-     2. โอนเข้าบัญชีเดินสะพัดธนาคารไทยพาณิชย์ จำกัด (มหาชน) สาขา เทสโก้ โลตัส ท่าทอง(พิษณุโลก) บัญชีเลขที่ 4680937273 ชื่อบัญชี "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี."<br> 
-            "เลขประจำตัวผู้เสียภาษี 0653562002089 ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.<br>
+            โปรดชำระเงินโดย<br>
+            1. เช็คขีดคร่อมสั่งจ่ายในนาม <B>"ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี."</B> และ ส่งมาที่ ตู้ ปณ. 105 ปณจ. พิษณุโลก อำเภอเมือง จังหวัดพิษณุโลก หรือ<br>
+            2. โอนเข้าบัญชีเดินสะพัดธนาคารไทยพาณิชย์ จำกัด (มหาชน) สาขา เทสโก้ โลตัส ท่าทอง(พิษณุโลก) <b>บัญชีเลขที่ 4680937273 ชื่อบัญชี "ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี."<br> 
+            "เลขประจำตัวผู้เสียภาษี 0653562002089 ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.</b><br>
             18/54 ถ.สนามบิน ต.ในเมือง อ.เมือง จ.พิษณุโลก 65000"
         </td>
         <td width="6%" style="border: 1px solid green;"></td>

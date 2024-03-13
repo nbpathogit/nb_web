@@ -927,7 +927,7 @@ $("#btn_bill_preview_web").on("click", function (e) {
     str2 = str2 + '<table width="100%" style="border: 1px solid black;">' +
             '    <tr>' +
             '        <th width="10%" style="border: 1px solid black;text-align:center;"><b>ลำดับ</b></td>' +
-            '        <th width="10%" style="border: 1px solid black;text-align:left;"><b>รายการบริการตรวจทำงพยาธิวิทยา</b></td>' +
+            '        <th width="10%" style="border: 1px solid black;text-align:left;"><b>รายการบริการตรวจทางพยาธิวิทยา</b></td>' +
             '        <th width="10%" style="border: 1px solid black;text-align:center;"><b>จำนวน(รายการ)</b></td>' +
             '        <th width="%" style="border: 1px solid black;text-align:right;"><b>จำนวนเงิน</b></td>' +
             '     </tr>';
