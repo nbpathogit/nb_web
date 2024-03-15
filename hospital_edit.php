@@ -23,20 +23,21 @@ if (isset($_GET['id'])) {
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // var_dump($_POST);
-    // die();
-    // $hospital = new Hospital();
+//     var_dump($_POST);
+//     die();
+    $hospital = Hospital::getByID($conn, $_GET['id']);
     $hospital->id = $_GET['id'];
     $hospital->hospital = $_POST['hospital_name'];
     $hospital->address = $_POST['hospital_address'];
     $hospital->hdetail = $_POST['hospital_detail'];
+    $hospital->tax_id = $_POST['tax_id'];
 
-    // var_dump($hospital);
-    // exit();
+//     var_dump($hospital);
+//     exit();
 
     if ($hospital->update($conn)) {
 
-        Url::redirect("/hospital.php");
+        Url::redirect("/hospital_detail.php?id=".$hospital->id);
     } else {
         echo '<script>alert("Add hospital fail. Please verify again")</script>';
     }

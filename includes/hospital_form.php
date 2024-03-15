@@ -8,7 +8,7 @@
 
   <div class="mb-3">
     <label for="tax_id" class="form-label">เลขที่ผู้เสียภาษี</label>
-    <input name="tax_id" type="text" class="form-control" id="hospital_name" value="<?= htmlspecialchars($hospital->tax_id); ?>">
+    <input name="tax_id" type="text" class="form-control" id="tax_id" value="<?= htmlspecialchars($hospital->tax_id); ?>">
   </div>
     
   <div class="mb-3">

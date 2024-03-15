@@ -148,7 +148,7 @@ class Hospital
         $sql = "UPDATE hospital
                 SET hospital = :hospital,
                     address = :address,
-                    hdetail = :hdetail
+                    hdetail = :hdetail,
                     tax_id = :tax_id
                 WHERE id = :id";
 

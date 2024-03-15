@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($hospital->create($conn)) {
 
-        Url::redirect("/hospital.php");
+                Url::redirect("/hospital_detail.php?id=".$hospital->id);
     } else {
         echo '<script>alert("Add hospital fail. Please verify again")</script>';
     }
