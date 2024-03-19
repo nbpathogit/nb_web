@@ -84,11 +84,13 @@ invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_in
 
 
 Today date(Thai format) : <input name="bill_todaydate_thai" id="bill_todaydate_thai" size="100"><br>
-start date(Thai format) : <input name="bill_startdate_thai" id="bill_startdate_thai" size="100"><br>
-end date(Thai format) : <input name="bill_enddate_thai" id="bill_enddate_thai" size="100"><br>
-label hospital name : <input name="bill_hospitalname" id="bill_hospitalname" size="100"><br>
-label hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxid" size="100"><br>
-label hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
+Issue date(Thai format) : <input name="bill_issuedate_thai" id="bill_issuedate_thai" size="100"><br>
+Start date(Thai format) : <input name="bill_startdate_thai" id="bill_startdate_thai" size="100"><br>
+End date(Thai format) : <input name="bill_enddate_thai" id="bill_enddate_thai" size="100"><br>
+Hospital pre-name : <input name="bill_pre_hospitalname" id="bill_pre_hospitalname" size="100" value="เรียน ผู้อำนวยการ"><br>
+Hospital name : <input name="bill_hospitalname" id="bill_hospitalname" size="100"><br>
+Hospital tax id : <input name="bill_hospital_taxid" id="bill_hospital_taxid" size="100"><br>
+Hospital address : <input name="bill_hospital_address" id="bill_hospital_address" size="100"><br>
 
 <!--<span id="bill_hospital_by_service_price">-->
 
@@ -825,6 +827,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     date = new Date(enddate.substr(0, 4), enddate.substr(5, 2) -1, enddate.substr(8, 2));
     result = date.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric', });
     $('#bill_enddate_thai').val(result);
+    $('#bill_issuedate_thai').val(result);
 
     $('#bill_hospitalname').val(hospital_name);
     $('#bill_hospital_taxid').val(hospital[0].tax_id);
@@ -1006,8 +1009,10 @@ $("#btn_bill_preview_web").on("click", function (e) {
 
 
     $('.bill_todaydate_thai').text($('#bill_todaydate_thai').val());
+    $('.bill_issuedate_thai').text($('#bill_issuedate_thai').val());
     $('.bill_startdate_thai').text($('#bill_startdate_thai').val());
     $('.bill_enddate_thai').text($('#bill_enddate_thai').val());
+    $('.bill_pre_hospitalname').text($('#bill_pre_hospitalname').val());
     $('.bill_hospitalname').text($('#bill_hospitalname').val());
     $('.bill_hospital_taxid').text($('#bill_hospital_taxid').val());
     $('.bill_hospital_address').text($('#bill_hospital_address').val());

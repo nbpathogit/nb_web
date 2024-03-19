@@ -42,7 +42,7 @@
         </tr>
         <tr>  
             <td width="80%" style="border: 1px solid green;"><b>เลขประจำตัวผู้เสียภาษี 0653562002089</b></td>
-            <td style="border: 1px solid green;"><b><span class="bill_todaydate_thai" style="color:red">X</span></b></td>
+            <td style="border: 1px solid green;"><b><span class="bill_issuedate_thai" style="color:red">Issue date</span></b></td>
         </tr>
     </table>
 
@@ -66,7 +66,7 @@
 
 
 
-    <p class="df"><b>เรียน ผู้อำนวยการ<span class="bill_hospitalname" style="color:red">X</span></b><br>
+    <p class="df"><b><span class="bill_pre_hospitalname" style="color:red">เรียน ผู้อำนวยการ</span><span class="bill_hospitalname" style="color:red">X</span></b><br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตามที่ ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. ได้รับอนุเคราะห์จากท่านในการส่งตรวจวิเคราะห์และวินิจฉัยโรคทางห้องปฏิบัติการพยาธิวิทยากายวิภาค ในนาม ศูนย์พยาธิวิทยา เอ็น.บี. ทั้งนี้ทางห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี. ขอแจ้งค่าบริการที่ทางท่านได้ส่งตรวจดังนี้<br>
     <b>ตั้งแต่วันที่ <span class="bill_startdate_thai" style="color:red">X</span> ถึง <span class="bill_enddate_thai" style="color:red">X</span></b></p>
 <span class="bill_by_service_tbl2">

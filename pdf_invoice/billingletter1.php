@@ -54,7 +54,7 @@
 <table width="100%" style="border: 1px solid green;">
     <tr>
         <td width="50%" style="border: 1px solid green;"></td>
-        <td style="border: 1px solid green;"><span class="bill_todaydate_thai" style="color:red">X</span></td>
+        <td style="border: 1px solid green;"><span class="bill_issuedate_thai" style="color:red">Issue date</span></td>
     </tr>
 </table>
 
