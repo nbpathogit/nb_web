@@ -30,9 +30,9 @@ require 'includes/header.php'; ?>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
-
+        <h4>ดรายการใบแจ้งหนี้ในแต่ละผู้รักษา</h4>
         <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" >
-            <i class="fa fa-calendar"></i>&nbsp;
+            <i class="fa fa-calendar"></i>(ดึงตามวันรับเข้า)&nbsp;
             <span></span> <i class="fa fa-caret-down"></i>
         </div>
         <br><br>
@@ -50,12 +50,13 @@ require 'includes/header.php'; ?>
                     <th scope="col">Clinicient</th>   <!--6-->
                     <th scope="col">Hospital</th>     <!--7-->
                     <th scope="col">pathologist</th>  <!--8-->
-                    <th scope="col">Accept DAte</th>  <!--9-->
-                    <th scope="col">Service Type</th> <!--10-->
-                    <th scope="col">Code</th>         <!--11-->
-                    <th scope="col">Description</th>  <!--12-->
-                    <th scope="col">Block</th>        <!--13-->
-                    <th scope="col">Cost</th>         <!--14-->
+                    <th scope="col">Accept Date</th>  <!--9-->
+                    <th scope="col">Billing Date</th> <!--10-->
+                    <th scope="col">Service Type</th> <!--11-->
+                    <th scope="col">Code</th>         <!--12-->
+                    <th scope="col">Description</th>  <!--13-->
+                    <th scope="col">Block</th>        <!--14-->
+                    <th scope="col">Cost</th>         <!--15-->
 
                 </tr>
             </thead>
@@ -83,4 +84,4 @@ require 'includes/header.php'; ?>
     $("#manage_bill_dropdown").addClass("show");
     $("#billing_tab").addClass("active");
 </script>
-<script src="<?= Url::getSubFolder1() ?>/js/billing.js?v7"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/billing_a.js?v1"></script>

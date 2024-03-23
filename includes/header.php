@@ -152,7 +152,7 @@
                             <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
                             <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
                             <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="nav-item nav-link">กรองข้อมูลตามนักเซลด์(PDF)</a>
-                            <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูและจัดการรายการในใบแจ้งหนี้</a>
+                            <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
                         </div>
                     </div>
                     <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>

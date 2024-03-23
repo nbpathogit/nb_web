@@ -241,6 +241,12 @@ class Patient {
 //                and p.priority_id = pri.id
 //                and p.status_id = s.id and date(p.date_1000) >= '2023-10-17' and p.movetotrash = 0 ORDER BY  p.id DESC;
 
+        
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('Patient_getAllJoin_v2.txt', $sql);   
+        }
+        
+        
         $results = $conn->query($sql);
 
         return $results->fetchAll(PDO::FETCH_ASSOC);

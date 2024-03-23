@@ -47,12 +47,13 @@ $(document).ready(function () {
 //        , CONCAT(user_cli.name,' ',user_cli.lastname) as user_clinicient            , $bill['user_clinicient']        //6          <th scope="col">Clinicient</th>   <!--6-->
 //        , hp.hospital as hp_hospital                                                , $bill['hp_hospital']            //7          <th scope="col">Hospital</th>     <!--7-->
 //        , CONCAT(j5.name,' ',j5.lastname) as j5_pathologist                         , $bill['j5_pathologist']         //8          <th scope="col">pathologist</th>  <!--8-->
-//        , DATE(p.date_1000)	as p_accept_date                                        , $bill['p_accept_date']          //9          <th scope="col">Accept DAte</th>  <!--9-->
-//        , st.service_type as st_type                                                , $bill['st_type']                //10         <th scope="col">Service Type</th> <!--10-->
-//        , b.code_description as b_code                                              , $bill['b_code']                 //11         <th scope="col">Code</th>         <!--11-->
-//        , b.description as b_description                                            , $bill['b_description']          //12         <th scope="col">Description</th>  <!--12-->
-//        , b.sp_slide_block as b_sp_slide_block                                      , $bill['b_sp_slide_block']       //13         <th scope="col">Block</th>        <!--13-->   
-//        , b.cost as b_cost                                                          , $bill['b_cost']];               //14         <th scope="col">Cost</th>         <!--14-->
+//        , DATE(p.date_1000)	as p_accept_date                                      , $bill['p_accept_date']          //9          <th scope="col">Accept DAte</th>  <!--9-->
+//        DATE(b.create_date) as b_billing_date,                                      , $bill['b_billing_date']          //10        <th scope="col">Billing Date</th> <!--10-->
+//        , st.service_type as st_type                                                , $bill['st_type']                //11         <th scope="col">Service Type</th> <!--11-->
+//        , b.code_description as b_code                                              , $bill['b_code']                 //12         <th scope="col">Code</th>         <!--12-->
+//        , b.description as b_description                                            , $bill['b_description']          //13         <th scope="col">Description</th>  <!--13-->
+//        , b.sp_slide_block as b_sp_slide_block                                      , $bill['b_sp_slide_block']       //14         <th scope="col">Block</th>        <!--14-->   
+//        , b.cost as b_cost                                                          , $bill['b_cost']];               //15         <th scope="col">Cost</th>         <!--15-->
 //        FROM  patient as p                                                                                                        
 //         JOIN service_billing as b  ON  p.id = b.patient_id                            
 //         LEFT JOIN service_type as st ON st.id = b.slide_type                    

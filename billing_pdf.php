@@ -253,18 +253,19 @@ echo '</span>';
                 <th>pid</th>                 <!-- 2    ,$b['pid']--> 
                 <th>job_id</th>                  <!-- 4    ,$b['job_id']--> 
                 <th>SN</th>                   <!-- 3    ,$b['p_sn']--> 
-                <th>ชือนามสกุลผู้ป่วย</th>             <!-- 5      ,$b['patient_name']--> 
-                <th>วันที่รับเข้า</th>               <!-- 6      ,$b['admit_date'] --> 
+                <th>ชือนามสกุลผู้ป่วย</th>             <!-- 4      ,$b['patient_name']--> 
+                <th>วันที่รับเข้า</th>               <!-- 5      ,$b['admit_date'] --> 
+                <th>วันที่ให้บริการ</th>               <!-- 6      ,$b['admit_date'] --> 
                 <th>HN</th>                <!-- 7     ,$b['hospital_num'] --> 
                 <th>แพทย์ผู้ส่ง</th>                   <!-- 8    ,$b['clinicien_name'] --> 
                 <th>โรงพยาบาล</th>                 <!-- 9    ,$b['h_hospital'] --> 
                 <th>นักเซลด์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
-                <th>แพทย์ผู้ออกผล</th>           <!-- 10  ,$b['pathologist_name'] --> 
-                <th>โค้ด</th>                 <!-- 11   ,$b['b_code']--> 
-                <th>รายการ</th>                 <!-- 12   ,$b['b_description'] --> 
-                <th>ราคา</th>                  <!-- 13  ,$b['b_cost'] --> 
-                <th>ชนิด1</th>                    <!-- 14 ,$b['s_service_type'] -->              
-                <th>ชนิด2</th>                    <!-- 15 ,$b['s_service_typea_bill'] -->              
+                <th>แพทย์ผู้ออกผล</th>           <!-- 11  ,$b['pathologist_name'] --> 
+                <th>โค้ด</th>                 <!-- 12   ,$b['b_code']--> 
+                <th>รายการ</th>                 <!-- 13   ,$b['b_description'] --> 
+                <th>ราคา</th>                  <!-- 14  ,$b['b_cost'] --> 
+                <th>ชนิด1</th>                    <!-- 15 ,$b['s_service_type'] -->              
+                <th>ชนิด2</th>                    <!-- 16 ,$b['s_service_typea_bill'] -->              
             </tr>
         </thead>
     </table>
@@ -429,19 +430,19 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             //hid   bid      pid     p_sn        job_id   
             //21    157      410     CN2400001   771      
 
-            //  5                  6               7        
-            //  patient_name       admit_date  hospital_num 
-            //  นางเอเอ บีบี          1/1/2024    117865                         
+            //  5                  6               7               8
+            //  patient_name       admit_date   b_service_date   hospital_num 
+            //  นางเอเอ บีบี          1/1/2024     1/1/2024          117865                         
 
-            // 8               9                10               11
+            // 9               10                11               12
             // clinicien_name  h_hospital       cytologist_name  pathologist_name
             // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลด์          อภิชาติ ชุมทอง                                           
 
-            //12        13                     14
+            //13        14                     15
             //b_code    b_description          b_cost
             //  38301   Non-Gynecological ผ     500
             //
-            //15
+            //16
             //s_service_type
             //ตรวจพิเศา
 
@@ -455,6 +456,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             //        ,$b['p_sn']
             //        ,$b['patient_name']
             //        ,$b['admit_date']
+            //        ,$b['b_service_date']
             //        ,$b['hospital_num']
             //        ,$b['clinicien_name']
             //        ,$b['h_hospital']

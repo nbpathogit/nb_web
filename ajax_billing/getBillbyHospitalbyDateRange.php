@@ -39,6 +39,7 @@ foreach ($billings as $b) {
         ,$b['p_sn']
         ,$b['patient_name']
         ,$b['admit_date']
+        ,$b['b_service_date']
         ,$b['hospital_num']
         ,$b['clinicien_name']
         ,$b['h_hospital']
