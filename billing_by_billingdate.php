@@ -30,9 +30,9 @@ require 'includes/header.php'; ?>
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
-        <h4>ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</h4>
+        <h4>ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันให้บริการ:Billing Date)</h4>
         <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" >
-            <i class="fa fa-calendar"></i>(ดึงตามวันรับเข้า)&nbsp;
+            <i class="fa fa-calendar"></i>((ดึงตามวันให้บริการ)&nbsp;
             <span></span> <i class="fa fa-caret-down"></i>
         </div>
         <br><br>
@@ -82,6 +82,6 @@ require 'includes/header.php'; ?>
     var skey = "<?= $_SESSION["skey"] ?>";
     $("#manage_bill").addClass("active");
     $("#manage_bill_dropdown").addClass("show");
-    $("#billing_tab").addClass("active");
+    $("#billing_by_billingdate_tab").addClass("active");
 </script>
-<script src="<?= Url::getSubFolder1() ?>/js/billing_a.js?v1"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/billing_b.js?v1"></script>
