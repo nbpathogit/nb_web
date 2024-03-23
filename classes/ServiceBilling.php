@@ -267,7 +267,7 @@ class ServiceBilling {
 
         if($GLOBALS['isBillByAcceptDate']){
                
-        $sql="SELECT                                                                                   \n". 
+    $sql="SELECT                                                                                   \n". 
              "#*,                                                                                      \n".
              "h.id as hid, b.id as bid, p.id as pid, p.pnum as p_sn,  job_pathologist.id as job_id,    \n".
              "CONCAT(p.ppre_name,p.pname,' ',p.plastname) as patient_name,                             \n".
@@ -280,9 +280,12 @@ class ServiceBilling {
              "b.code_description as b_code,                                                            \n".
              "b.description as b_description,                                                          \n".
              "b.cost as b_cost,                                                                        \n".
-             "s.service_type_bill as s_service_type                                                    \n".
+             "s.service_type_bill as s_service_type,                                                   \n".
+             "s.service_typea_bill as s_service_typea_bill,                                            \n".
+             "DATE(b.create_date) as b_service_date                                                    \n".
              "FROM patient as p                                                                        \n".
-             "   JOIN service_billing as b ON  b.patient_id = p.id                                     \n";
+             "   JOIN service_billing as b ON  b.patient_id = p.id                                     \n".
+             "     and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'       \n";
               if( ! ((int)$hospital_id == -1) ){
                      $sql.= "and  b.hospital_id = {$hospital_id}                                       \n";
               }   
@@ -293,7 +296,7 @@ class ServiceBilling {
              "       and job_pathologist.job_role_id = 5                                               \n".
              "   LEFT JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                   \n".   
              "       and job_cytologist.job_role_id = 7                                                \n". 
-             "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'     \n".
+             "   WHERE   1                                                                            \n".
              "               and p.movetotrash = 0                                                     \n".
              "   ORDER by p.pnum                                                                       \n";
          

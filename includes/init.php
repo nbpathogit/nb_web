@@ -22,5 +22,5 @@ $show = true;
 $GLOBALS['isSqlWriteFileForDBG'] = TRUE;
 $GLOBALS['isSqlWriteFileForDBG'] = FALSE;
 
-$GLOBALS['isBillByAcceptDate'] = FALSE;
-$GLOBALS['isBillByServiceDate'] = TRUE;
+$GLOBALS['isBillByAcceptDate'] = TRUE;
+$GLOBALS['isBillByServiceDate'] = FALSE;
