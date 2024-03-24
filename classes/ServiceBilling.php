@@ -660,7 +660,8 @@ class ServiceBilling {
                  "    ON aa.aa_p_sn = bb.bb_p_sn and aa.aa_p_hn = bb.bb_p_hn and  aa.aa_p_admit_date = bb.bb_p_admit_date                            \n".
                  "       and aa.aa_patient_name = bb.bb_patient_name and  aa.aa_clinicien_name = bb.bb_clinicien_name                                \n".
                  "    )                                                                                                                              \n".
-                 ") as a                                                                                                                             \n";
+                 ") as a                                                                                                                             \n".
+                 "ORDER by p_sn ASC                                                                                                                  \n";
         }   
         
         if($GLOBALS['isBillByServiceDate']){
@@ -804,7 +805,8 @@ class ServiceBilling {
                  "    ON aa.aa_p_sn = bb.bb_p_sn and aa.aa_p_hn = bb.bb_p_hn and  aa.aa_p_admit_date = bb.bb_p_admit_date                            \n".
                  "       and aa.aa_patient_name = bb.bb_patient_name and  aa.aa_clinicien_name = bb.bb_clinicien_name                                \n".
                  "    )                                                                                                                              \n".
-                 ") as a                                                                                                                             \n";
+                 ") as a                                                                                                                             \n".
+                 "ORDER by p_sn ASC                                                                                                                  \n";
                  
         }
         
