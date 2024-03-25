@@ -135,7 +135,7 @@ $user = User::getAll($conn, Auth::getUserId());
                                     <div class="col-auto align-items-center">
                                         <!--<div class="col-auto">-->
                                         <label for="username">ชื่อเข้าใช้</label>
-                                        <input class="form-control" name="username" type="text"  size="30" maxlength="10" readonly value="<?= (isset($user[0]['username']) ? $user[0]['username'] : ''); ?>">
+                                        <input class="form-control" name="username" type="text"  size="50" maxlength="50" readonly value="<?= (isset($user[0]['username']) ? $user[0]['username'] : ''); ?>">
 
                                         <!--</div>-->
                                     </div>
@@ -143,7 +143,7 @@ $user = User::getAll($conn, Auth::getUserId());
                                     <?php if (!$isCurrentPassChangeMe) : ?>
                                         <div class="col-auto">
                                             <label for="old_password">รหัสผ่านเปัจจุบัน</label>
-                                            <input class="form-control" name="old_password" type="password" id="old_password" size="30" maxlength="10">
+                                            <input class="form-control" name="old_password" type="password" id="old_password" size="50" maxlength="50">
                                             <!--<span class="form-text"></span>-->
                                         </div>
                                         <hr>
@@ -155,12 +155,12 @@ $user = User::getAll($conn, Auth::getUserId());
 
                                     <div class="col-auto">
                                         <label for="password"><?= (isset($user[0]['password']) ? "ตั้งรหัสผ่านใหม่" : "รหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
-                                        <input class="form-control" name="password" type="password" id="password" size="30" maxlength="10">
+                                        <input class="form-control" name="password" type="password" id="password" size="50" maxlength="50">
                                         <span class="form-text">6-10 ตัวอักษร</span>
                                     </div>
                                     <div class="col-auto">
                                         <label for="set_password_confirm"><?= (isset($user[0]['password']) ? "ยืนยันรหัสผ่านผ่านใหม่" : "ยืนยันรหัสผ่าน"); ?></label><?= (isset($user[0]['password']) ? "" : "<span> *</span>"); ?>
-                                        <input class="form-control" name="set_password_confirm" type="password" id="set_password_confirm" size="30" maxlength="10">
+                                        <input class="form-control" name="set_password_confirm" type="password" id="set_password_confirm" size="50" maxlength="50">
                                         <span class="form-text">6-10 ตัวอักษร</span>
                                     </div>
 
