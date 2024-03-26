@@ -199,5 +199,45 @@ class Util {
         
         return $strout;
     }
+    
+    
+    
+    public static function getBillCutOffDate(string $acceptDate){
+        
+        //  Degug on  ==> sandbox\getbillingdate.php
+        date_default_timezone_set('Asia/Bangkok');
+        $daycutoff = 20;
+
+        //$datea = '2024-01-31 13:58:51';
+        //$datea = '2024-09-31 13:58:51';
+        //$datea = '2024-12-31 13:58:51';
+        $datea=$acceptDate;
+
+        $year = substr($datea,0,4);
+        $month = substr($datea,5,2);
+        $day = substr($datea,8,2);
+
+        $yearInt = intval($year);
+        $monthInt = intval($month);
+        $dayInt = intval($day);
+
+        $dayInt = $daycutoff;
+        $monthInt = $monthInt + 1;
+        if($monthInt == 13){
+                $monthInt = 1;
+                $yearInt = $yearInt + 1;
+        }
+
+        $year = strval($yearInt);
+        $month = strval($monthInt);
+        $month = '0'.$month;
+        $month = substr($month, -2);
+        $day = strval($dayInt);
+
+        $dateb = $year.'-'.$month.'-'.$day.' 00:00:00';
+
+        return $dateb;
+    }
+    
 
 }
