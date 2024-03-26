@@ -151,7 +151,10 @@ $curStatusAuthEdit = (
 
     <br>   
      <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> " >  
-        <button type="button" id="add_spcimen_list2" class="btn btn-primary" >Add</button>
+        <button type="button" id="add_spcimen_list2" class="btn btn-primary" <?php if ($isOverColsingDate){echo ' disabled ';} ?>>Add</button>
+        <?php if ($isOverColsingDate): ?>
+            <span id="spcimen_list1" style="font-size:16px"> รายการนี้เกินวันปิดยอดบิลแล้ว (<?= $statementClosingDate->format('Y-m-d'); ?>) หากต้องการสร้างกรุณาสร้างกรุณารายการไหม่เป็นชนิด IN</span>
+        <?php endif; ?>
     </div>
 
 <br>

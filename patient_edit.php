@@ -737,6 +737,29 @@ foreach ($presultupdate3s as $prsu) {
 //    echo "job=";          var_dump($job); echo "<br>";
 //    echo "isLastReleaseGroup2SecondPathoAval=";          var_dump($isLastReleaseGroup2SecondPathoAval); echo "<br>";echo "<br>";
 }
+
+
+
+
+
+
+
+$acceptDate = new DateTime($patient[0]['date_1000']);
+$todayDate = new DateTime(Util::get_curreint_thai_date_time());
+$statementClosingDate = new DateTime(Util::getBillCutOffDate($acceptDate->format('Y-m-d H:i:s')));
+
+$isOverColsingDate = false;
+if($todayDate >= $statementClosingDate  ){
+    $isOverColsingDate = true;
+}
+        
+
+
+
+
+
+
+
 //die();
 //เช็คและเตรียมตัวแปรสถานะปัจจุบัน
 require 'includes/status_cur.php';

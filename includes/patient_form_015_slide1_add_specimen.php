@@ -11,10 +11,14 @@
     <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSpecimenModal1"> Add Specimen </button>-->
     <!--<button id="refresh_spcimen_list1" class="btn btn-primary" >Refresh</button>-->
     <?php if (!$isCurUserCust): ?>
-        <a class="btn btn-outline-primary btn-sm me-1 " data-bs-toggle="modal"  data-bs-target="#addSpecimenModal1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+        <a class="btn btn-outline-primary btn-sm me-1 <?php if ($isOverColsingDate){echo ' disabled ';} ?>" data-bs-toggle="modal"  data-bs-target="#addSpecimenModal1" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
         <a class="btn btn-outline-primary btn-sm me-1 "  id="refresh_spcimen_list1" title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
         <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#spcimen_tbl_list1" title="View/Detail" ><i class="fa-solid fa-table"></i></a>
     <?php endif; ?>
+        
+     <?php if ($isOverColsingDate): ?>
+            <span id="spcimen_list1" style="font-size:16px"> รายการนี้เกินวันปิดยอดบิลแล้ว (<?= $statementClosingDate->format('Y-m-d'); ?>) หากต้องการสร้างกรุณาสร้างกรุณารายการไหม่เป็นชนิด IN</span>
+     <?php endif; ?>
 
 </p>
 
