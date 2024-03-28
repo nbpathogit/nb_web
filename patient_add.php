@@ -298,7 +298,7 @@ require 'includes/status_cur.php';
 <?php else : ?>
 
             <div class="d-flex align-items-center justify-content-between">
-                <a href="/patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>
+                <a href="patient.php" class="btn btn-outline-primary m-2 mb-0"><i class="fa-solid fa-bed-pulse me-2"></i>ข้อมูลผู้รักษาทั้งหมด</a>
             </div>
     <?php if (!empty($errors)) : ?>
                 <br>

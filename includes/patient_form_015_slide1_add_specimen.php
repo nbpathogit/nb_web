@@ -22,6 +22,24 @@
 
 </p>
 
+<p align="left">
+    <?php if ($patient[0]['sn_type'] == 'IN' ) : ?>
+        <?php if ( sizeof($super_patient) > 0 ) : ?>
+            <b>เลขที่คนไข้หลัก:</b>
+        <?php endif; ?>
+        <?php foreach ($super_patient as $subp): ?>
+        <span class="badge rounded-pill bg-info" id=""><a href="patient_edit.php?id=<?= $subp['id'] ?>" style="color:black" > <?= $subp['pnum'] ?> </a> </span>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <?php if ( sizeof($sub_patient) > 0 ) : ?>
+            <b>เลขที่สำหรับรอบบิลรอบถัดไป:</b>
+        <?php endif; ?>
+        <?php foreach ($sub_patient as $subp): ?>
+        <span class="badge rounded-pill bg-info" id=""><a href="patient_edit.php?id=<?= $subp['id'] ?>" style="color:black" > <?= $subp['pnum'] ?> </a> </span>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</p>
+
 <?php $dbgshowTable1 = false; ?>
 <?php if (!($dbgshowTable1)) : ?>
     <!-- Modal -->

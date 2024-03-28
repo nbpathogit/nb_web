@@ -149,14 +149,31 @@ $curStatusAuthEdit = (
     
 </div>
 
-    <br>   
-     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> " >  
-        <button type="button" id="add_spcimen_list2" class="btn btn-primary" <?php if ($isOverColsingDate){echo ' disabled ';} ?>>Add</button>
-        <?php if ($isOverColsingDate): ?>
-            <span id="spcimen_list1" style="font-size:16px"> รายการนี้เกินวันปิดยอดบิลแล้ว (<?= $statementClosingDate->format('Y-m-d'); ?>) หากต้องการสร้างกรุณาสร้างกรุณารายการไหม่เป็นชนิด IN</span>
-        <?php endif; ?>
-    </div>
+<br>   
 
+<div>
+    <button type="button" id="add_spcimen_list2" class="btn btn-primary" <?php if ($isOverColsingDate){echo ' disabled ';} ?>>Add</button>
+    <?php if ($isOverColsingDate): ?>
+        <br><span id="spcimen_list1" style="font-size:16px"> รายการนี้เกินวันปิดยอดบิลแล้ว (<?= $statementClosingDate->format('Y-m-d'); ?>) หากต้องการสร้างกรุณาสร้างกรุณารายการไหม่เป็นชนิด IN</span>
+    <?php endif; ?>
+    <p align="left">
+        <?php if ($patient[0]['sn_type'] == 'IN' ) : ?>
+            <?php if ( sizeof($super_patient) > 0 ) : ?>
+                <b>เลขที่คนไข้หลัก:</b>
+            <?php endif; ?>
+            <?php foreach ($super_patient as $subp): ?>
+            <span class="badge rounded-pill bg-info" id=""><a href="patient_edit.php?id=<?= $subp['id'] ?>" style="color:black" > <?= $subp['pnum'] ?> </a> </span>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <?php if ( sizeof($sub_patient) > 0 ) : ?>
+                <b>เลขที่สำหรับรอบบิลรอบถัดไป:</b>
+            <?php endif; ?>
+            <?php foreach ($sub_patient as $subp): ?>
+            <span class="badge rounded-pill bg-info" id=""><a href="patient_edit.php?id=<?= $subp['id'] ?>" style="color:black" > <?= $subp['pnum'] ?> </a> </span>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </p>
+</div>
 <br>
     
     

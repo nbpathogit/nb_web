@@ -125,6 +125,23 @@ class Patient {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+    public static function getSubPatient($conn, $subPatientid) {
+        $sql = "SELECT * 
+                FROM patient ";
+
+        $sql = $sql . " WHERE super_id = " . $subPatientid . " and super_id != 0 and movetotrash = 0";
+        
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('Patient_getSubPatient.txt', $sql);   
+        }
+
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     /**
      * Get all the articles
@@ -144,8 +161,6 @@ class Patient {
                 and p.phospital_id = h.id
                 and p.priority_id = pri.id
                 and p.status_id = s.id";
-
-
 
         if ($id != 0) {
             $sql = $sql . " and p.id = " . $id;

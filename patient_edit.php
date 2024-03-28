@@ -610,6 +610,8 @@ if (!$patient) {
     die();
 }
 
+$sub_patient = Patient::getSubPatient($conn, $patient[0]['id']);
+$super_patient = Patient::getAll($conn, $patient[0]['super_id']);
 
 
 // If isfirstadd == 1 then jump to edit mode for patient_detail
