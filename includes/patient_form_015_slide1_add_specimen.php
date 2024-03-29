@@ -18,8 +18,8 @@
         
      <?php if ($isOverColsingDate): ?>
             <span id="spcimen_list1" style="font-size:16px"> รายการนี้เกินวันปิดยอดบิลแล้ว (<?= $statementClosingDate->format('Y-m-d'); ?>) หากต้องการสร้างกรุณาสร้างกรุณารายการไหม่เป็นชนิด IN</span>
-     <?php endif; ?>
-
+           <?php  require 'patient_form_new_IN.php'; ?>
+    <?php endif; ?>
 </p>
 
 <p align="left">

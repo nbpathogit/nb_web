@@ -155,6 +155,7 @@ $curStatusAuthEdit = (
     <button type="button" id="add_spcimen_list2" class="btn btn-primary" <?php if ($isOverColsingDate){echo ' disabled ';} ?>>Add</button>
     <?php if ($isOverColsingDate): ?>
         <br><span id="spcimen_list1" style="font-size:16px"> รายการนี้เกินวันปิดยอดบิลแล้ว (<?= $statementClosingDate->format('Y-m-d'); ?>) หากต้องการสร้างกรุณาสร้างกรุณารายการไหม่เป็นชนิด IN</span>
+        <?php  require 'patient_form_new_IN.php'; ?>
     <?php endif; ?>
     <p align="left">
         <?php if ($patient[0]['sn_type'] == 'IN' ) : ?>

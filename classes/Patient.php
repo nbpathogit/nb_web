@@ -17,6 +17,9 @@ class Patient {
      * The patient number
      * @var string
      */
+    public $super_id;
+    public $super_pnum;
+    
     public $pnum;
     public $sn_type;
     public $sn_year;
@@ -390,8 +393,8 @@ class Patient {
 
         $curDateTime = Util::get_curreint_thai_date_time();
 
-        $sql = "INSERT INTO `patient` (`id`,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`,   create_date,       create_by)"
-                . "            VALUES     (NULL,  :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,  :date_1000,   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll,   :create_date,     :create_by)";
+        $sql = "INSERT INTO `patient` (`id`,  `super_id`    ,`super_pnum`    ,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`,   create_date,       create_by)"
+                . "           VALUES  (NULL,  :super_id      ,:super_pnum      , :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,  :date_1000,   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll,   :create_date,     :create_by)";
 
 
 
@@ -400,6 +403,11 @@ class Patient {
 
         //var_dump( $this->name);
 
+        $stmt->bindValue(':super_id', $this->super_id, PDO::PARAM_INT);
+        $stmt->bindValue(':super_pnum', $this->super_pnum, PDO::PARAM_STR);
+
+        
+        
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
 
         $stmt->bindValue(':sn_type', $this->sn_type, PDO::PARAM_STR);
@@ -475,6 +483,12 @@ class Patient {
         return [
             [
                 "id" => "",
+                
+                
+                "super_id" => 0,
+                "super_pnum" => "",
+
+                
                 "sn_year" => "0",
                 "sn_run" => 0,
                 "pnum" => "",

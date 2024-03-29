@@ -610,6 +610,8 @@ if (!$patient) {
     die();
 }
 
+$sub_patient = [];
+$super_patient = [];
 $sub_patient = Patient::getSubPatient($conn, $patient[0]['id']);
 $super_patient = Patient::getAll($conn, $patient[0]['super_id']);
 
@@ -1032,6 +1034,13 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 ?>
 
 <?php //START=================สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ=====================================================================================================?>
+<span id="new_in_cursn_input">
+<input name="super_id" id="super_id_id" type="hidden" value="<?=$patient[0]['id']; ?>" >
+<input name="super_pnum" id="super_pnum_id"  type="hidden" value="<?=$patient[0]['pnum']; ?>" >
+<input name="is_autogen"  id="is_autogen_id" type="hidden" value="yes" >
+<input name="snprefix"  id="snprefix_id"  type="hidden" value="IN">
+<input name="create_by"  id="create_by_id" type="hidden" value="<?= $cur_user->name . ' ' . $cur_user->lastname ?>">    
+</span>
 <div id="patient_plan_section" class="container-fluid pt-4 px-4">
     <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
 
@@ -1359,6 +1368,46 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                             let str2 = '<input type="checkbox" class="form-check-input"  id="SP2_'+str1+'" name="SP2_'+str1+'" va="'+str1+'" checked><label for="SP2_'+str1+'"  class="form-check-label" >'+str1+'</label>';
                             $('#SP2_Scope').append(str2);
                         });
+
+
+
+
+                        
+                        $('.new_in_cursn').on('click', function (e) {
+//                            var data = table.row($(this).parents('tr')).data();
+
+                            e.preventDefault();
+                            if (confirm("Are you sure to create INXXXXXX ?")) {
+                                var frm = $("<form>");
+                                frm.attr('method', 'post');
+                                frm.attr('action', "patient_add.php");
+                                let inputstr = $('#new_in_cursn_input').html();
+                                
+                                frm.append(inputstr);
+
+
+                                
+                                frm.appendTo("body");
+                                frm.submit();
+                    
+                    
+                    
+//                    <input name="super_id" id="super_id_id" type="hidden" value="<?=$patient[0]['id']; ?>" >
+//<input name="super_pnum" id="super_pnum_id"  type="hidden" value="<?=$patient[0]['pnum']; ?>" >
+//<input name="is_autogen"  id="is_autogen_id" type="hidden" value="yes" >
+//<input name="snprefix"  id="snprefix_id"  type="hidden" value="IN">
+//<input name="create_by"  id="create_by_id" type="hidden" value="<?= $cur_user->name . ' ' . $cur_user->lastname ?>">    
+
+                            }
+                        });
+
+
+
+
+
+
+
+
 
                     });
 </script>

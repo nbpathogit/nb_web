@@ -32,7 +32,7 @@ $patientini = Patient::getInit();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
-//        var_dump($_POST); //die();
+//        var_dump($_POST); die();
 //        echo '<br>';
 
 
@@ -130,8 +130,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    echo "Calculate sn (String) = " . $sn . "<br><br>";
 
 
-
-        $patientini = Patient::getInit();
+        if(isset( $_POST["super_id"])){
+            $patientini = Patient::getAll($conn, $_POST["super_id"]);
+        }else{
+            $patientini = Patient::getInit();
+        }
+        
 
         $patient = new Patient();
 
@@ -142,6 +146,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $patient->pnum = $patientNumber; // SN
 //    die();
+        isset($_POST['super_id']) ? $patient->super_id = $_POST['super_id'] : $patient->super_id = $patientini[0]['super_id'];
+        isset($_POST['super_pnum']) ? $patient->super_pnum = $_POST['super_pnum'] : $patient->super_pnum = $patientini[0]['super_pnum'];
+        
+
+        
+        
+        
         isset($_POST['plabnum']) ? $patient->plabnum = $_POST['plabnum'] : $patient->plabnum = $patientini[0]['plabnum'];
         isset($_POST['ppre_name']) ? $patient->ppre_name = $_POST['ppre_name'] : $patient->ppre_name = $patientini[0]['ppre_name'];
         isset($_POST['pname']) ? $patient->pname = $_POST['pname'] : $patient->pname = $patientini[0]['pname'];
@@ -189,6 +200,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $patient->pautoscroll = "patient_detail_section"; //set auto scroll
         
         $patient->create_by = $_POST['create_by']; //set auto scroll
+        
+        if(isset( $_POST["super_id"])){
+            $patient->isautoeditmode = ""; 
+            $patient->pautoscroll = "";
+        }
 
 
 
