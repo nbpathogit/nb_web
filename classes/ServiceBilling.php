@@ -159,7 +159,7 @@ class ServiceBilling {
                 " JOIN hospital as h".
                 " JOIN service_type as s".
                 " JOIN patient as p".
-                " WHERE h.id = b.hospital_id and b.slide_type = s.id and b.patient_id = p.id ";
+                " WHERE h.id = p.phospital_id and b.slide_type = s.id and b.patient_id = p.id ";
                 if ($start != '0') {
                   $sql .= " and date(b.import_date) >= '{$start}'";
                 }
@@ -288,7 +288,7 @@ class ServiceBilling {
              "   JOIN service_billing as b ON  b.patient_id = p.id                                     \n".
              "     and date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'       \n";
               if( ! ((int)$hospital_id == -1) ){
-                     $sql.= "and  b.hospital_id = {$hospital_id}                                       \n";
+                     $sql.= "and  p.phospital_id = {$hospital_id}                                       \n";
               }   
        $sql.="   JOIN hospital as h ON p.phospital_id = h.id                                           \n".
              "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
@@ -324,7 +324,7 @@ class ServiceBilling {
              "   JOIN service_billing as b ON  b.patient_id = p.id                                     \n".
              "     and date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'   \n";
               if( ! ((int)$hospital_id == -1) ){
-                     $sql.= "and  b.hospital_id = {$hospital_id}                                       \n";
+                     $sql.= "and  p.phospital_id = {$hospital_id}                                       \n";
               }   
        $sql.="   JOIN hospital as h ON p.phospital_id = h.id                                           \n".
              "   JOIN service_type as s ON b.slide_type = s.id                                         \n".
@@ -561,7 +561,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON   p.phospital_id = h.id                                                                              \n";
                  if( ! ((int)$hospital_id == -1) ){
-                    $sql.= " and   b.hospital_id = $hospital_id                                                                                       \n";
+                    $sql.= " and   p.phospital_id = $hospital_id                                                                                       \n";
                  }   
           $sql.= "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                           \n".
@@ -588,7 +588,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON p.phospital_id = h.id                                                                                \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "              and  b.hospital_id = $hospital_id                                                                     \n";
+                         $sql.= "              and  p.phospital_id = $hospital_id                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                          \n".
@@ -622,7 +622,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "and  b.hospital_id = $hospital_id                                                                                   \n";
+                         $sql.= "and  p.phospital_id = $hospital_id                                                                                   \n";
                  }        
          $sql.=  "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                           \n".
@@ -649,7 +649,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                      $sql.= "and   b.hospital_id = $hospital_id                                                                                     \n";
+                      $sql.= "and   p.phospital_id = $hospital_id                                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                       \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                          \n".
@@ -706,7 +706,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON   p.phospital_id = h.id                                                                              \n";
                  if( ! ((int)$hospital_id == -1) ){
-                    $sql.= " and   b.hospital_id = $hospital_id                                                                                       \n";
+                    $sql.= " and   p.phospital_id = $hospital_id                                                                                       \n";
                  }   
           $sql.= "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                           \n".
@@ -733,7 +733,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON p.phospital_id = h.id                                                                                \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "              and  b.hospital_id = $hospital_id                                                                     \n";
+                         $sql.= "              and  p.phospital_id = $hospital_id                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE    date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                              \n".
@@ -767,7 +767,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "and  b.hospital_id = $hospital_id                                                                                   \n";
+                         $sql.= "and  p.phospital_id = $hospital_id                                                                                   \n";
                  }        
          $sql.=  "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE    date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                               \n".
@@ -794,7 +794,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                      $sql.= "and   b.hospital_id = $hospital_id                                                                                     \n";
+                      $sql.= "and   p.phospital_id = $hospital_id                                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                       \n".
                  "        WHERE    date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                     \n".
@@ -866,7 +866,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON   p.phospital_id = h.id                                                                              \n";
                  if( ! ((int)$hospital_id == -1) ){
-                    $sql.= " and   b.hospital_id = $hospital_id                                                                                       \n";
+                    $sql.= " and   p.phospital_id = $hospital_id                                                                                       \n";
                  }   
           $sql.= "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                           \n".
@@ -893,7 +893,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON p.phospital_id = h.id                                                                                \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "              and  b.hospital_id = $hospital_id                                                                     \n";
+                         $sql.= "              and  p.phospital_id = $hospital_id                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                          \n".
@@ -927,7 +927,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "and  b.hospital_id = $hospital_id                                                                                   \n";
+                         $sql.= "and  p.phospital_id = $hospital_id                                                                                   \n";
                  }        
          $sql.=  "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}'and date(p.date_1000) <= '{$enddate}'                                           \n".
@@ -954,7 +954,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                      $sql.= "and   b.hospital_id = $hospital_id                                                                                     \n";
+                      $sql.= "and   p.phospital_id = $hospital_id                                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                          \n".
@@ -1016,7 +1016,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON   p.phospital_id = h.id                                                                              \n";
                  if( ! ((int)$hospital_id == -1) ){
-                    $sql.= " and   b.hospital_id = $hospital_id                                                                                       \n";
+                    $sql.= " and   p.phospital_id = $hospital_id                                                                                       \n";
                  }   
           $sql.= "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                           \n".
@@ -1043,7 +1043,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON p.phospital_id = h.id                                                                                \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "              and  b.hospital_id = $hospital_id                                                                     \n";
+                         $sql.= "              and  p.phospital_id = $hospital_id                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE    date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                              \n".
@@ -1077,7 +1077,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                         $sql.= "and  b.hospital_id = $hospital_id                                                                                   \n";
+                         $sql.= "and  p.phospital_id = $hospital_id                                                                                   \n";
                  }        
          $sql.=  "        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         \n".
                  "        WHERE    date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                               \n".
@@ -1104,7 +1104,7 @@ class ServiceBilling {
                  "        JOIN service_type as st ON st.id = b.slide_type                                                                            \n".
                  "        JOIN hospital as h ON  p.phospital_id = h.id                                                                               \n";
                  if( ! ((int)$hospital_id == -1) ){
-                      $sql.= "and   b.hospital_id = $hospital_id                                                                                     \n";
+                      $sql.= "and   p.phospital_id = $hospital_id                                                                                     \n";
                  }        
            $sql.="        JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                       \n".
                  "        WHERE    date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'                                     \n".
@@ -2455,12 +2455,12 @@ class ServiceBilling {
     }
     
     
-    //SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = 0 and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by s.id;
+    //SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE p.phospital_id = 0 and p.phospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '2023-01-01'and date(b.import_date) <= '2023-03-01' GROUP BY service_type ORDER by s.id;
     //   service_type    cost_sum  cost_count
     //   ตรวจธรรมดา       10400     26
     //   ตรวจพิเศษ         800       2
     public static function getCostGroupbyServiceTyoebyHospitalbyDateRange($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
-    //        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE b.hospital_id = $hospital_id and b.hospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
+    //        $sql = "SELECT h.id as hid, b.id as bid, p.id as pid,s.id as sid,service_type, Name_by_spcimen, count(b.cost) as bcost_count, SUM(b.cost) as bcost_sum FROM service_billing as b JOIN hospital as h JOIN service_type as s JOIN patient as p WHERE p.phospital_id = $hospital_id and p.phospital_id = h.id and b.slide_type = s.id and b.patient_id = p.id and date(b.import_date) >= '{$startdate}'and date(b.import_date) <= '{$enddate}' GROUP BY service_type ORDER by s.id;";
     //        if($limit != 0){
     //            $sql = $sql . " LIMIT $limit ";
     //        }
