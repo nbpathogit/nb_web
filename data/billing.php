@@ -86,12 +86,13 @@ if ($auth) {
                 , $bill['hp_hospital']            //7 
                 , $bill['j5_pathologist']         //8 
                 , $bill['p_accept_date']          //9 
-                , $bill['b_billing_date']          // 
-                , $bill['st_type']                //10
-                , $bill['b_code']                 //11
-                , $bill['b_description']          //12
-                , $bill['b_sp_slide_block']       //13
-                , $bill['b_cost']];               //14
+                , $bill['b_billing_date']          //10 
+                , $bill['st_service_typea_bill']    //11 
+                , $bill['st_type']                //12
+                , $bill['b_code']                 //13
+                , $bill['b_description']          //14
+                , $bill['b_sp_slide_block']       //15
+                , $bill['b_cost']];               //16
         }              
     }
     $result = ["data" => $data];

@@ -183,6 +183,7 @@ class ServiceBilling {
                  CONCAT(j5.name,' ',j5.lastname) as j5_pathologist,
                  DATE(p.date_1000)as p_accept_date,
                  DATE(b.create_date) as b_billing_date,
+                 st.service_typea_bill as st_service_typea_bill,
                  st.service_type as st_type,
                  b.code_description as b_code,
                  b.description as b_description,
