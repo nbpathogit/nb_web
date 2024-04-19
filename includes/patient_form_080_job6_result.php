@@ -50,7 +50,7 @@ $isSetShowaddResultButton = true;
                         $is_show_refresh_btn = $isCurrentPathoIsOwnerThisCase;
                         $is_show_detail_btn = $isCurrentPathoIsOwnerThisCase;
                     ?>
-                    <a class="btn btn-outline-primary btn-sm me-1 " onclick="add_job6(<?= $presultupdate['id']?>)" id="add_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
+                    <a class="btn btn-outline-primary btn-sm me-1 " onclick="add_job6(<?= $presultupdate['id']?>)" id="add_job6" <?= ($is_show_add_btn)? '':'st]yle="display: none;"'; ?>   data-bs-toggle="modal"  data-bs-target="#add_modal_job6" title="Add" ><i class="fa-sharp fa-solid fa-plus"></i></a>
                      <a class="btn btn-outline-primary btn-sm me-1 " onclick="refresh_job6(<?= $patient[0]['id']?>,<?= $presultupdate['id']?>)"  id="refresh_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="Refresh" ><i class="fa-solid fa-rotate-right"></i></a>
                      <a class="btn btn-outline-primary btn-sm me-1 "  data-bs-toggle="modal"  data-bs-target="#owner_tbl_job6" <?= ($is_show_add_btn)? '':'style="display: none;"'; ?> title="View/Detail" ><i class="fa-solid fa-table"></i></a>
 
@@ -64,7 +64,9 @@ $isSetShowaddResultButton = true;
             </div>
             <?php endif; ?>
 
-            <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
+
+            <?php $caneditTxtArea = $isCurrentPathoAdminIsOwnerThisCase  ?>
+            <textarea <?php if ( $caneditTxtArea ) : ?> ondblclick="edit_txt_rs(<?= $presultupdate['id'] ?>);" <?php endif; ?> name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
 
         </div>
 

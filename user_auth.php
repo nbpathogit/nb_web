@@ -7,6 +7,11 @@
 $u_cur_group_id = Auth::getUserGroup();
 $cur_user = Auth::getUser();
 
+
+//var_dump($u_cur_group_id);
+//var_dump($cur_user);
+//die();
+
 //user group id
 // 1000 ผู้ดูแลระบบ
 // 2000 พยาธิแพทย์
@@ -57,6 +62,8 @@ $isDisableSpecialSlide = false;
 $isUpdateResultAval = true;  //Get from database
 // ผู้ใช้ปัจจุบันเป็น แอดมินหรือไม่
 $isCurUserAdmin = $u_cur_group_id->id == 1000;
+// ผู้ใช้ปัจจุบันเป็น พยาธิแพทย์ ด้วยสิทธิพิเศษ หรือไม่
+$isCurUserPathoAdmin = $u_cur_group_id->id == 1900;
 // ผู้ใช้ปัจจุบันเป็น พยาธิแพทย์ หรือไม่
 $isCurUserPatho = $u_cur_group_id->id == 2000;
 // ผู้ใช้ปัจจุบันเป็น ผู้ช่วยพยาธิแพทย์ หรือไม่
@@ -66,7 +73,7 @@ $isCurUserLabOfficerNB = $u_cur_group_id->id == 2200;
 // ผู้ใช้ปัจจุบันเป็น เจ้าหน้าที่ธุรการ หรือไม่
 $isCurUserAdminStaff = $u_cur_group_id->id == 2500;
 //
-$isCurUserNB = $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500;
+$isCurUserNB = $u_cur_group_id->id == 1000 || $u_cur_group_id->id == 1900 || $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500;
 //
 $isCurUserGeneralNB = $u_cur_group_id->id == 2000 || $u_cur_group_id->id == 2100 || $u_cur_group_id->id == 2200 || $u_cur_group_id->id == 2500;
 
@@ -81,11 +88,13 @@ $isCurUserCust = $u_cur_group_id->id == 5000 || $u_cur_group_id->id == 5100;
 
 // หมอพยาธิ ปัจจุบัน เป็นเจ้าของเคส หรือไม่ ถ้าไช่ สามารถ ใส่ข้อมูลผลการวินิจฉัยได้
 $isCurrentPathoIsOwnerThisCase = false;
+$isCurrentPathoAdminIsOwnerThisCase = false;
 //if (isset($patient[0]['ppathologist_id'])) {
 //    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $patient[0]['ppathologist_id']; // Pathologist owner case only can edit this part
 //}
 if(isset($job5s[0]['user_id'])){
-    $isCurrentPathoIsOwnerThisCase = $_SESSION['user']->id == $job5s[0]['user_id'] || $_SESSION['user']->role_a == 1 ;
+    $isCurrentPathoIsOwnerThisCase = $u_cur_group_id->id == 2000 &&( $_SESSION['user']->id == $job5s[0]['user_id'] || $_SESSION['user']->role_a == 1) ;
+    $isCurrentPathoAdminIsOwnerThisCase = $u_cur_group_id->id == 1900 &&( $_SESSION['user']->id == $job5s[0]['user_id'] || $_SESSION['user']->role_a == 1) ;
 }
 
 

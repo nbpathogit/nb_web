@@ -76,7 +76,9 @@
                     <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Patho</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
+                    <div class="position-relative" <?php if($isCurUserPatho): ?>  
+                         ondblclick="window.location='<?= Url::getSubFolder1() ?>/user_sim_patho_admin.php'"
+                          <?php  endif; ?> >
                         <i class="fa-solid fa-hospital fa-lg"></i>
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>

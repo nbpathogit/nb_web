@@ -129,6 +129,21 @@ class Auth {
         $_SESSION['userid'] = $userid;
         $_SESSION['usergroup'] = $ugroup;
     }
+    
+    public static function pathoAadminSimulatelogin($conn) {
+        $user = User::getByID($conn, $_SESSION['userid']);
+        $userid = $user->id;
+        $ugroup = Ugroup::getByID($conn, '1900');
+
+        //session_regenerate_id(false);
+
+        $_SESSION['adminusername'] = $_SESSION['username'];
+
+        $_SESSION['username'] = $user->username;
+        $_SESSION['user'] = $user;
+        $_SESSION['userid'] = $userid;
+        $_SESSION['usergroup'] = $ugroup;
+    }
 
     public static function getSrvTimeRemain() {
         date_default_timezone_set('Asia/Bangkok');
