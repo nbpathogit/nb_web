@@ -46,6 +46,7 @@ foreach ($billings as $b) {
         ,$b['cytologist_name']
         ,$b['pathologist_name']
         ,$b['b_code']
+        ,$b['b_code2']
         ,$b['b_description']
         ,$b['b_cost']
         ,$b['s_service_type']

@@ -262,16 +262,47 @@ echo '</span>';
                 <th>นักเซลด์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
                 <th>แพทย์ผู้ออกผล</th>           <!-- 11  ,$b['pathologist_name'] --> 
                 <th>โค้ด</th>                 <!-- 12   ,$b['b_code']--> 
-                <th>รายการ</th>                 <!-- 13   ,$b['b_description'] --> 
-                <th>ราคา</th>                  <!-- 14  ,$b['b_cost'] --> 
-                <th>ชนิด1</th>                    <!-- 15 ,$b['s_service_type'] -->              
-                <th>ชนิด2</th>                    <!-- 16 ,$b['s_service_typea_bill'] -->              
+                <th>โค้ด2</th>                 <!-- 13   ,$b['b_code']--> 
+                <th>รายการ</th>                 <!-- 14   ,$b['b_description'] --> 
+                <th>ราคา</th>                  <!-- 15  ,$b['b_cost'] --> 
+                <th>ชนิด1</th>                    <!-- 16 ,$b['s_service_type'] -->              
+                <th>ชนิด2</th>                    <!-- 17 ,$b['s_service_typea_bill'] -->              
             </tr>
         </thead>
     </table>
     
 
 </span>
+
+
+<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editQtyModal">
+  Launch demo modal
+</button>-->
+
+
+<!-- Modal -->
+<div class="modal fade" id="editQtyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+            <label for="qty_modal_job1_finish">Qty:</label>
+            <input type="text" id="qty_modal_job1_finish" name="qty_modal_job1_finish">
+            
+            <a class="btn btn-outline-primary btn-sm me-1 " id="decreaseQty"  title="Decrease"><i class="fa-sharp fa-solid fa-minus"></i></a>
+            <a class="btn btn-outline-primary btn-sm me-1 " id="increaseQty" title="Increase"><i class="fa-sharp fa-solid fa-plus"></i></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="save_qty_modal_job1_finish" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <?php require 'includes/closecontainer.php'; ?>
 <span id="tempform"></span>
@@ -352,6 +383,23 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
 
 
 });
+
+//var cur_patient_id;
+//on click button delete for seleced specimen list bill in main page
+function setCode2(billing_id,code2) {
+   alert(billing_id + ' ' +code2);
+//   cur_patient_id = patient_id;
+//   var cur_sn = sn;
+//   var cur_hn = hn;
+//   var cur_qty = qty;
+//   if(cur_hn==null){
+//       cur_hn='';
+//   }
+//   console.log('cur_patient_id::'+cur_patient_id);
+//
+//   $('#qty_modal_job1_finish').val(cur_qty);
+//   $('#exampleModalLabel').text(cur_sn);
+}
 
 //Get paramiter from database to DOM
 // Btn   1) preview bill by date range  
@@ -438,9 +486,9 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             // clinicien_name  h_hospital       cytologist_name  pathologist_name
             // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลด์          อภิชาติ ชุมทอง                                           
 
-            //13        14                     15
-            //b_code    b_description          b_cost
-            //  38301   Non-Gynecological ผ     500
+            //13             14                     15                   16
+            //b_code         b_code2            b_description          b_cost
+            //  38301        0                  Non-Gynecological ผ     500
             //
             //16
             //s_service_type
@@ -463,6 +511,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             //        ,$b['cytologist_name']
             //        ,$b['pathologist_name']
             //        ,$b['b_code']
+            //        ,$b['b_code2']
             //        ,$b['b_description']
             //        ,$b['b_cost']
             //        ,$b['s_service_type']
@@ -485,8 +534,17 @@ $("#btn_get_bill_by_range").on("click", function (e) {
                 },
                 "targets": (1)
             },
+            {
+                "render": function (data, type, row) {
+                    let renderdata = '<span ondblclick="setCode2('+ row[1] +','+row[14]+')">'+row[14]+'<\span>';
+
+                    return renderdata;
+                },
+                "targets": (14)
+            },
         ],
     });
+
 
 
 

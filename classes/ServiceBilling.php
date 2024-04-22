@@ -279,6 +279,7 @@ class ServiceBilling {
              "CONCAT(job_cytologist.name,' ',job_cytologist.lastname) as cytologist_name,              \n".
              "CONCAT(job_pathologist.name,' ',job_pathologist.lastname) as pathologist_name,           \n".
              "b.code_description as b_code,                                                            \n".
+             "b.code2 as b_code2,                                                                      \n".
              "b.description as b_description,                                                          \n".
              "b.cost as b_cost,                                                                        \n".
              "s.service_type_bill as s_service_type,                                                   \n".
