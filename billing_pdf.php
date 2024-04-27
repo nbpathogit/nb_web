@@ -275,29 +275,30 @@ echo '</span>';
 </span>
 
 
-<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editQtyModal">
+<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editNumberModal">
   Launch demo modal
 </button>-->
-
-
 <!-- Modal -->
-<div class="modal fade" id="editQtyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editNumberModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="modalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-            <label for="qty_modal_job1_finish">Qty:</label>
-            <input type="text" id="qty_modal_job1_finish" name="qty_modal_job1_finish">
+            <!--<label for="modal_number_input">Code2 : </label>-->
+            <input type="text" id="modal_number_input" name="modal_number_input">
             
-            <a class="btn btn-outline-primary btn-sm me-1 " id="decreaseQty"  title="Decrease"><i class="fa-sharp fa-solid fa-minus"></i></a>
-            <a class="btn btn-outline-primary btn-sm me-1 " id="increaseQty" title="Increase"><i class="fa-sharp fa-solid fa-plus"></i></a>
+            <a class="btn btn-outline-primary btn-sm me-1 " id="modalDecreaseQty"  title="Decrease"><i class="fa-sharp fa-solid fa-minus"></i></a>
+            <a class="btn btn-outline-primary btn-sm me-1 " id="modalIncreaseQty" title="Increase"><i class="fa-sharp fa-solid fa-plus"></i></a>
+
       </div>
       <div class="modal-footer">
+        <span id="modal_fieldName" hidden="">xxxx</span>
+        <span id="modal_target_id" hidden="">xxxx</span>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" id="save_qty_modal_job1_finish" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+        <button type="button" id="save_modal_number_input" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>
@@ -384,21 +385,55 @@ $("#btn_export_bill_pdf_layout").on("click", function (e) {
 
 });
 
+
+//save_modal_number_input
+$('#save_modal_number_input').on("click", function (e) {
+    
+    let modal_fieldName =  $('#modal_fieldName').text();
+    
+    let code2 = parseInt( $('#modal_number_input').val());
+    let billing_id = parseInt( $('#modal_target_id').text());
+//    alert(billing_id+' , '+code2+' , '+modal_fieldName)
+    
+    if(modal_fieldName.localeCompare('code2') == 0 ){
+//        alert('code2');
+        $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            type: 'POST',
+            // make sure you respect the same origin policy with this url:
+            // http://en.wikipedia.org/wiki/Same_origin_policy
+            url: 'ajax_ServiceBilling/serviceBillingSetCode2.php',
+            data: {
+                'id': billing_id,
+                'code2': code2,
+            },
+            success: function (data) {
+                console.log(data);
+    //            repaintTbljob1(data);
+            },
+            error: function (jqxhr, status, exception) {
+                 alert( jqxhr.responseText);
+            }
+        });
+        $('.code2_'+billing_id).text(code2);
+    }
+    alert('Finish.');
+});
+
+
 //var cur_patient_id;
 //on click button delete for seleced specimen list bill in main page
-function setCode2(billing_id,code2) {
-   alert(billing_id + ' ' +code2);
-//   cur_patient_id = patient_id;
-//   var cur_sn = sn;
-//   var cur_hn = hn;
-//   var cur_qty = qty;
-//   if(cur_hn==null){
-//       cur_hn='';
-//   }
-//   console.log('cur_patient_id::'+cur_patient_id);
-//
-//   $('#qty_modal_job1_finish').val(cur_qty);
-//   $('#exampleModalLabel').text(cur_sn);
+function setCode2(billing_id) {
+    
+    $('#modal_fieldName').text('code2');
+    $('#modal_target_id').text(billing_id);
+
+    let code2_val = $('#code2_'+billing_id).text();
+    $('#modal_number_input').val(code2_val);
+    $('#modalLabel').text('Code2 Record Number : '+billing_id);
+    $('#editNumberModal').modal('show');
 }
 
 //Get paramiter from database to DOM
@@ -536,7 +571,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             },
             {
                 "render": function (data, type, row) {
-                    let renderdata = '<span ondblclick="setCode2('+ row[1] +','+row[14]+')">'+row[14]+'<\span>';
+                    let renderdata = '<span id="code2_'+ row[1] +'" class="code2_'+ row[1] +'" ondblclick="setCode2('+ row[1] +')" >'+row[14]+'</span>';
 
                     return renderdata;
                 },
@@ -1488,6 +1523,21 @@ function drawbillingTable(datajson) {
 $(document).ready(function () {
 
     $('#nb_navbar_top').removeClass("sticky-top");
+
+
+    $('#modalIncreaseQty').on("click", function (e) {
+        let newVal = parseInt( $('#modal_number_input').val());
+        newVal += 1;
+        $('#modal_number_input').val(newVal);
+
+    });
+
+    $('#modalDecreaseQty').on("click", function (e) {
+        let newVal = parseInt( $('#modal_number_input').val());
+        newVal -= 1;
+        $('#modal_number_input').val(newVal);
+
+    });
 
 
 

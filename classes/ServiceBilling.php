@@ -2803,5 +2803,18 @@ class ServiceBilling {
         
     }
     
+        public static function setCode2($conn, $id, $code2)
+    {
+        
+        $sql = 'UPDATE service_billing '
+        . ' SET code2 = :code2 '
+        . ' WHERE id = :id';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':id', $id , PDO::PARAM_INT);
+        $stmt->bindValue(':code2', $code2, PDO::PARAM_INT);
+        return $stmt->execute();
+        
+    }
 
 }
