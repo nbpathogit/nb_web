@@ -2111,7 +2111,7 @@ class ServiceBilling {
               $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
                     "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}' \n".
                     "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description                                                      \n".
+                    "    GROUP BY b.code_description  , b.code2                                           \n".
                     "    ORDER by b.code_description                                                      \n";
         }
         
@@ -2132,7 +2132,7 @@ class ServiceBilling {
               $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
                     "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}' \n".
                     "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description                                                      \n".
+                    "    GROUP BY b.code_description  , b.code2                                             \n".
                     "    ORDER by b.code_description                                                      \n";
             
         }
@@ -2166,7 +2166,7 @@ class ServiceBilling {
               $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
                     "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}' \n".
                     "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description                                                      \n".
+                    "    GROUP BY b.code_description  , b.code2                                           \n".
                     "    ORDER by b.code_description                                                      \n".
                     ") as a                                                                               \n";
         }
@@ -2192,7 +2192,7 @@ class ServiceBilling {
               $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
                     "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}' \n".
                     "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description                                                      \n".
+                    "    GROUP BY b.code_description  , b.code2                                             \n".
                     "    ORDER by b.code_description                                                      \n".
                     ") as a                                                                               \n";
             
@@ -2229,7 +2229,7 @@ class ServiceBilling {
                  $sql.="                 and job_pathologist.job_role_id = 5                              \n".
                  "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
                  "             and p.movetotrash = 0                                                      \n".
-                 "    GROUP BY b.code_description                                                               \n".
+                 "    GROUP BY b.code_description  , b.code2                                              \n".
                  "    ORDER by b.code_description                                                         \n";
         }
         
@@ -2252,7 +2252,7 @@ class ServiceBilling {
                  $sql.="                 and job_pathologist.job_role_id = 5                              \n".
                  "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'    \n".
                  "             and p.movetotrash = 0                                                      \n".
-                 "    GROUP BY b.code_description                                                          \n".
+                 "    GROUP BY b.code_description  , b.code2                                               \n".
                  "    ORDER by b.code_description                                                         \n";
         }
 
@@ -2284,7 +2284,7 @@ class ServiceBilling {
             $sql.="               and job_cytologist.job_role_id = 7                                      \n".
                  "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
                  "             and p.movetotrash = 0                                                         \n".
-                 "    GROUP BY b.code_description                                                          \n".
+                 "    GROUP BY b.code_description   , b.code2                                              \n".
                  "    ORDER by b.code_description                                                         \n";
 
            }
@@ -2308,7 +2308,7 @@ class ServiceBilling {
             $sql.="               and job_cytologist.job_role_id = 7                                      \n".
                  "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'    \n".
                  "             and p.movetotrash = 0                                                         \n".
-                 "    GROUP BY b.code_description                                                            \n".
+                 "    GROUP BY b.code_description  , b.code2                                                 \n".
                  "    ORDER by b.code_description                                                         \n";
 
         }  
