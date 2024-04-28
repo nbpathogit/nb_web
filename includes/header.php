@@ -143,8 +143,9 @@
                             <a class="nav-item nav-link" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
                             <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
                             <a id="fluid" href="labfluid.php" class="nav-item nav-link">ดูแลปเซลล์วิทยา</a>
-                            <a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>
+                            <!--<a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>-->
                             <a id="price_tab_8c" href="nb_price_8c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
+                            <a id="price_tab_9c" href="nb_price_9c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
                             <a id="price_tab_view" href="nb_price_view.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
                         </div>
                     </div>
