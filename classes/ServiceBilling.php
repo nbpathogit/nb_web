@@ -2111,30 +2111,30 @@ class ServiceBilling {
               $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
                     "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}' \n".
                     "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description  , b.code2                                           \n".
+                    "    GROUP BY b.code_description  , b.code2 , b.description  , b.cost                 \n".
                     "    ORDER by b.code_description                                                      \n";
         }
         
         if($GLOBALS['isBillByServiceDate']){
-            $sql = "SELECT                                                                               \n".
-                    "b.code_description as b_code,                                                        \n".
-                    "b.description as b_description,                                                      \n".
-                    "b.cost as b_cost,                                                                    \n".
-                    "count(b.cost) as bcost_count,                                                        \n".
-                    "SUM(b.cost) as bcost_sum,                                                            \n".
-                    "h.id as hid, b.id as bid, p.id as pid                                                \n".
-                    "FROM patient as p                                                                    \n".  
-                    "   JOIN service_billing as b on  b.patient_id = p.id                                 \n".    
-                    "   JOIN hospital as h ON   p.phospital_id = h.id                                     \n";
-                    if( ! ((int)$hospital_id == -1) ){
-                    $sql.= "                and h.id = $hospital_id                                       \n";
-                    }
-              $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
-                    "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}' \n".
-                    "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description  , b.code2                                             \n".
-                    "    ORDER by b.code_description                                                      \n";
-            
+//            $sql = "SELECT                                                                               \n".
+//                    "b.code_description as b_code,                                                        \n".
+//                    "b.description as b_description,                                                      \n".
+//                    "b.cost as b_cost,                                                                    \n".
+//                    "count(b.cost) as bcost_count,                                                        \n".
+//                    "SUM(b.cost) as bcost_sum,                                                            \n".
+//                    "h.id as hid, b.id as bid, p.id as pid                                                \n".
+//                    "FROM patient as p                                                                    \n".  
+//                    "   JOIN service_billing as b on  b.patient_id = p.id                                 \n".    
+//                    "   JOIN hospital as h ON   p.phospital_id = h.id                                     \n";
+//                    if( ! ((int)$hospital_id == -1) ){
+//                    $sql.= "                and h.id = $hospital_id                                       \n";
+//                    }
+//              $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
+//                    "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}' \n".
+//                    "              and p.movetotrash = 0                                                  \n".
+//                    "    GROUP BY b.code_description  , b.code2                                             \n".
+//                    "    ORDER by b.code_description                                                      \n";
+//            
         }
 
         if($GLOBALS['isSqlWriteFileForDBG']){
@@ -2166,35 +2166,35 @@ class ServiceBilling {
               $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
                     "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}' \n".
                     "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description  , b.code2                                           \n".
+                    "    GROUP BY b.code_description  , b.code2 , b.description  , b.cost                 \n".
                     "    ORDER by b.code_description                                                      \n".
                     ") as a                                                                               \n";
         }
         
         if($GLOBALS['isBillByServiceDate']){
 
-            $sql =  "SELECT COUNT(*) as a_count                                                          \n".
-                    "FROM                                                                                 \n".
-                    "(                                                                                    \n".
-                    "SELECT                                                                               \n".
-                    "b.code_description as b_code,                                                        \n".
-                    "b.description as b_description,                                                      \n".
-                    "b.cost as b_cost,                                                                    \n".
-                    "count(b.cost) as bcost_count,                                                        \n".
-                    "SUM(b.cost) as bcost_sum,                                                            \n".
-                    "h.id as hid, b.id as bid, p.id as pid                                                \n".
-                    "FROM patient as p                                                                    \n".  
-                    "   JOIN service_billing as b on  b.patient_id = p.id                                 \n".    
-                    "   JOIN hospital as h ON   p.phospital_id = h.id                                     \n";
-                    if( ! ((int)$hospital_id == -1) ){
-                    $sql.= "                and h.id = $hospital_id                                       \n";
-                    }
-              $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
-                    "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}' \n".
-                    "              and p.movetotrash = 0                                                  \n".
-                    "    GROUP BY b.code_description  , b.code2                                             \n".
-                    "    ORDER by b.code_description                                                      \n".
-                    ") as a                                                                               \n";
+//            $sql =  "SELECT COUNT(*) as a_count                                                          \n".
+//                    "FROM                                                                                 \n".
+//                    "(                                                                                    \n".
+//                    "SELECT                                                                               \n".
+//                    "b.code_description as b_code,                                                        \n".
+//                    "b.description as b_description,                                                      \n".
+//                    "b.cost as b_cost,                                                                    \n".
+//                    "count(b.cost) as bcost_count,                                                        \n".
+//                    "SUM(b.cost) as bcost_sum,                                                            \n".
+//                    "h.id as hid, b.id as bid, p.id as pid                                                \n".
+//                    "FROM patient as p                                                                    \n".  
+//                    "   JOIN service_billing as b on  b.patient_id = p.id                                 \n".    
+//                    "   JOIN hospital as h ON   p.phospital_id = h.id                                     \n";
+//                    if( ! ((int)$hospital_id == -1) ){
+//                    $sql.= "                and h.id = $hospital_id                                       \n";
+//                    }
+//              $sql.="   JOIN service_type as s ON b.slide_type = s.id                                     \n".
+//                    "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}' \n".
+//                    "              and p.movetotrash = 0                                                  \n".
+//                    "    GROUP BY b.code_description  , b.code2                                             \n".
+//                    "    ORDER by b.code_description                                                      \n".
+//                    ") as a                                                                               \n";
             
         }
 
@@ -2229,31 +2229,31 @@ class ServiceBilling {
                  $sql.="                 and job_pathologist.job_role_id = 5                              \n".
                  "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
                  "             and p.movetotrash = 0                                                      \n".
-                 "    GROUP BY b.code_description  , b.code2                                              \n".
+                 "    GROUP BY b.code_description  , b.code2 , b.description  , b.cost                    \n".
                  "    ORDER by b.code_description                                                         \n";
         }
         
         if($GLOBALS['isBillByServiceDate']){
-                        $sql="SELECT                                                                                  \n".
-                 "b.code_description as b_code,                                                           \n".
-                 "b.description as b_description,                                                         \n".
-                 "b.cost as b_cost,                                                                       \n".
-                 "count(b.cost) as bcost_count,                                                           \n".
-                 "SUM(b.cost) as bcost_sum,                                                               \n".
-                 "h.id as hid, b.id as bid, p.id as pid                                                   \n".
-                 "FROM patient as p                                                                       \n".
-                 "   JOIN service_billing as b on  b.patient_id = p.id                                    \n".
-                 "   JOIN hospital as h ON  p.phospital_id = h.id                                         \n".
-                 "   JOIN service_type as s ON b.slide_type = s.id                                        \n".
-                 "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                     \n";
-                 if( ! ((int)$patho_id == -1) ){
-                 $sql.="                 and job_pathologist.user_id = {$patho_id}                        \n";
-                 }
-                 $sql.="                 and job_pathologist.job_role_id = 5                              \n".
-                 "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'    \n".
-                 "             and p.movetotrash = 0                                                      \n".
-                 "    GROUP BY b.code_description  , b.code2                                               \n".
-                 "    ORDER by b.code_description                                                         \n";
+//                        $sql="SELECT                                                                                  \n".
+//                 "b.code_description as b_code,                                                           \n".
+//                 "b.description as b_description,                                                         \n".
+//                 "b.cost as b_cost,                                                                       \n".
+//                 "count(b.cost) as bcost_count,                                                           \n".
+//                 "SUM(b.cost) as bcost_sum,                                                               \n".
+//                 "h.id as hid, b.id as bid, p.id as pid                                                   \n".
+//                 "FROM patient as p                                                                       \n".
+//                 "   JOIN service_billing as b on  b.patient_id = p.id                                    \n".
+//                 "   JOIN hospital as h ON  p.phospital_id = h.id                                         \n".
+//                 "   JOIN service_type as s ON b.slide_type = s.id                                        \n".
+//                 "   JOIN job as job_pathologist ON job_pathologist.patient_id = p.id                     \n";
+//                 if( ! ((int)$patho_id == -1) ){
+//                 $sql.="                 and job_pathologist.user_id = {$patho_id}                        \n";
+//                 }
+//                 $sql.="                 and job_pathologist.job_role_id = 5                              \n".
+//                 "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'    \n".
+//                 "             and p.movetotrash = 0                                                      \n".
+//                 "    GROUP BY b.code_description  , b.code2                                               \n".
+//                 "    ORDER by b.code_description                                                         \n";
         }
 
         if($GLOBALS['isSqlWriteFileForDBG']){
@@ -2284,32 +2284,32 @@ class ServiceBilling {
             $sql.="               and job_cytologist.job_role_id = 7                                      \n".
                  "   WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'    \n".
                  "             and p.movetotrash = 0                                                         \n".
-                 "    GROUP BY b.code_description   , b.code2                                              \n".
+                 "    GROUP BY b.code_description   , b.code2 , b.description  , b.cost                    \n".
                  "    ORDER by b.code_description                                                         \n";
 
            }
 
         if($GLOBALS['isBillByServiceDate']){
-            $sql="SELECT                                                                                  \n".
-                 "b.code_description as b_code,                                                           \n".
-                 "b.description as b_description,                                                         \n".
-                 "b.cost as b_cost,                                                                       \n".
-                 "count(b.cost) as bcost_count,                                                           \n".
-                 "SUM(b.cost) as bcost_sum,                                                               \n".
-                 "h.id as hid, b.id as bid, p.id as pid                                                   \n".
-                 "FROM patient as p                                                                       \n".
-                 "   JOIN service_billing as b on  b.patient_id = p.id                                    \n".
-                 "   JOIN hospital as h ON  p.phospital_id = h.id                                         \n".
-                 "   JOIN service_type as s ON b.slide_type = s.id                                        \n".
-                 "   JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                     \n";
-                 if( ! ((int)$cytologist_id == -1) ){
-                 $sql.="         and job_cytologist.user_id = {$cytologist_id}                          \n";
-                 }
-            $sql.="               and job_cytologist.job_role_id = 7                                      \n".
-                 "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'    \n".
-                 "             and p.movetotrash = 0                                                         \n".
-                 "    GROUP BY b.code_description  , b.code2                                                 \n".
-                 "    ORDER by b.code_description                                                         \n";
+//            $sql="SELECT                                                                                  \n".
+//                 "b.code_description as b_code,                                                           \n".
+//                 "b.description as b_description,                                                         \n".
+//                 "b.cost as b_cost,                                                                       \n".
+//                 "count(b.cost) as bcost_count,                                                           \n".
+//                 "SUM(b.cost) as bcost_sum,                                                               \n".
+//                 "h.id as hid, b.id as bid, p.id as pid                                                   \n".
+//                 "FROM patient as p                                                                       \n".
+//                 "   JOIN service_billing as b on  b.patient_id = p.id                                    \n".
+//                 "   JOIN hospital as h ON  p.phospital_id = h.id                                         \n".
+//                 "   JOIN service_type as s ON b.slide_type = s.id                                        \n".
+//                 "   JOIN job as job_cytologist ON job_cytologist.patient_id = p.id                     \n";
+//                 if( ! ((int)$cytologist_id == -1) ){
+//                 $sql.="         and job_cytologist.user_id = {$cytologist_id}                          \n";
+//                 }
+//            $sql.="               and job_cytologist.job_role_id = 7                                      \n".
+//                 "   WHERE   date(b.create_date) >= '{$startdate}' and date(b.create_date) <= '{$enddate}'    \n".
+//                 "             and p.movetotrash = 0                                                         \n".
+//                 "    GROUP BY b.code_description  , b.code2                                                 \n".
+//                 "    ORDER by b.code_description                                                         \n";
 
         }  
              
