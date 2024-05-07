@@ -163,8 +163,24 @@ class Util {
 
     public static function get_curreint_thai_date_time() {
 
-        date_default_timezone_set('Asia/Bangkok');
-        return date('Y-m-d H:i:s');
+        if(isset($_SESSION['cur_date'])){
+            //Return simulate time
+            return $_SESSION['cur_date'] . ' 12:00:00';
+        }else{
+            date_default_timezone_set('Asia/Bangkok');
+            return date('Y-m-d H:i:s');
+        }
+    }
+    
+    public static function get_curreint_thai_date() {
+
+        if(isset($_SESSION['cur_date'])){
+            //Return simulate time
+            return $_SESSION['cur_date'];
+        }else{
+            date_default_timezone_set('Asia/Bangkok');
+            return date('Y-m-d');
+        }
     }
 
     public static function get_diff_time_in_days($enddate, $startdate) {
