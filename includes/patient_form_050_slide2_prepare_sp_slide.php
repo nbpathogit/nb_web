@@ -57,8 +57,9 @@ $curStatusAuthEdit = (
 <hr>
 <h5 align="center"><b>ใส่ข้อมูลเพื่อร้องขอตรวจพิเศษ</b><span style="color:orange;"><?= ""; // ($curstatusid == "8000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h5>
      
-<div class="row ">
-    
+
+<div class="row " <?php if ($isOverColsingDate): ?> hidden <?php endif; ?> >
+
     <div class="col-xl-4 col-md-6 ">
         <div id="phospital_select_for_price2_div" class=" <?= $isBorder ? "border" : "" ?>">
             <label for="phospital_select_for_price2" class="">เลือกโรงพยาบาล</label>
@@ -151,7 +152,9 @@ $curStatusAuthEdit = (
 
 <br>   
 
-<div>
+
+
+<div  >
     <button type="button" id="add_spcimen_list2" class="btn btn-primary" <?php if ($isOverColsingDate){echo ' disabled ';} ?>>Add</button>
     <?php if ($isOverColsingDate): ?>
         <br><span id="spcimen_list1" style="font-size:16px"> รายการนี้เกินวันปิดยอดบิลแล้ว (<?= $statementClosingDate->format('Y-m-d'); ?>) หากต้องการสร้างกรุณาสร้างกรุณารายการไหม่เป็นชนิด IN</span>
