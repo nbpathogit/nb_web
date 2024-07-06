@@ -1122,6 +1122,20 @@ class Patient {
 
         return $stmt->execute();
     }
+    
+    public static function set_update_edit_date($conn, $id) {
+        $cur_dt = Util::get_curreint_thai_date_time();
+        $sql = "UPDATE patient
+                SET edit_date = :edit_date
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':edit_date', $cur_dt, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 
     public static function set_update_first_released_time_if_null($conn, $id, $date_first_report, $importdate) {
  

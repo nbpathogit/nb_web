@@ -41,6 +41,8 @@ function save_txt_rs(rs_id){
         data: {
             'rs_id': rs_id,
             'result_message': result_message,
+            'patient_id': patient_id,
+            'usergroup': usergroup,
         },
         success: function (data) {
             //alert(data);

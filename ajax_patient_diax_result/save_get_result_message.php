@@ -16,5 +16,10 @@ if($a){
     die();
 }
 
+// if pathologist_admin edit, then record edit date
+if( $_POST['usergroup'] == '1900'){
+    Patient::set_update_edit_date($conn, $_POST['patient_id']);
+}
+
 $result_message = Presultupdate::getTxtResult($conn, $_POST['rs_id']);
 echo json_encode($result_message);
