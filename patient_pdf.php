@@ -1,3 +1,5 @@
+<!-- For window require 7z mv and magick command -->
+
 <!-- Customized Bootstrap Stylesheet -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -847,32 +849,32 @@ if ($pdfOutputOption == 'F') {
             copy($copy_pdf_from, $copy_pdf_to);
 
             //=============copy txt file=====================
-            $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.txt';
-            $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.txt';
+            $copy_txt_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.txt';
+            $copy_txt_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.txt';
             if ($dbg_print_patient_pdf) {
                 echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-                echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
-                echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                echo '<br>$copy_txt_from : "' . $copy_txt_from . '"';
+                echo '<br>$copy_txt_to : "' . $copy_txt_to . '"';
                 echo '<br>';
             }
-            copy($copy_pdf_from, $copy_pdf_to);
+            copy($copy_txt_from, $copy_txt_to);
 
             
             //============copy jpg in case of one page=============
-            $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
-            $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.jpg';
-            if (file_exists($copy_pdf_from)) {
+            $copy_jpg_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
+            $copy_jpg_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.jpg';
+            if (file_exists($copy_jpg_from)) {
                 if ($dbg_print_patient_pdf) {
                     echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-                    echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
-                    echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                    echo '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
+                    echo '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
                     echo '<br>';
                 }
-                copy($copy_pdf_from, $copy_pdf_to);
+                copy($copy_jpg_from, $copy_jpg_to);
             } else {
                 if ($dbg_print_patient_pdf) {
                     echo '=========Skip copy file from "release1" to customer "customerfile2" folder==========';
-                    echo '<br> File Dosnt exist $copy_pdf_from : "' . $copy_pdf_from . '"';
+                    echo '<br> File Dosnt exist $copy_jpg_from : "' . $copy_jpg_from . '"';
                     echo '<br>';
                 }
             }
@@ -880,26 +882,65 @@ if ($pdfOutputOption == 'F') {
             //============copy jpg in case of many page=============
             for ($x = 0; $x <= 10; $x++) {
                 echo "The number is: $x <br>";
-                $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
-                $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
+                $copy_jpg_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
+                $copy_jpg_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
 
-                if (file_exists($copy_pdf_from)) {
+                if (file_exists($copy_jpg_from)) {
                     if ($dbg_print_patient_pdf) {
                         echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-                        echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
-                        echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                        echo '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
+                        echo '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
                         echo '<br>';
                     }
-                    copy($copy_pdf_from, $copy_pdf_to);
+                    copy($copy_jpg_from, $copy_jpg_to);
                 } else {
                     if ($dbg_print_patient_pdf) {
                         echo '=========Skip copy file from "release1" to customer "customerfile2" folder==========';
-                        echo '<br> File Dosnt exist $copy_pdf_from : "' . $copy_pdf_from . '"';
+                        echo '<br> File Dosnt exist $copy_jpg_from : "' . $copy_jpg_from . '"';
                         echo '<br>';
                     }
                 }
             }
 
+            //====================================================================================
+            //=============== Send report for Winmed to Rest API =================================
+            //====================================================================================
+            $is_Cur_Cust_Winmed = ($patient[0]['phospital_id'] == '38'
+                    || $patient[0]['phospital_id'] == '40'
+                    || $patient[0]['phospital_id'] == '41');
+            if($is_Cur_Cust_Winmed){
+                $textlog = "";
+                //Perform send message to Winmed API
+                $lab_no = $patient[0]['plabnum'];
+                $nb_no = $patient[0]['pnum'];
+                $pdf_path = $copy_pdf_to;
+                $txt_path = $copy_txt_to;
+
+                $winmed = new WinmedAPI();
+                $textlog .= "time:".Util::get_curreint_thai_date_time()."\n";
+                $textlog .= "lab_no:".$lab_no."\n";
+                $textlog .= "nb_no:".$nb_no."\n";
+                $textlog .= "pdf_path:".$pdf_path."\n";
+                $textlog .= "txt_path:".$txt_path."\n";
+                $res=json_decode($winmed->sentAPI($lab_no, $nb_no, $pdf_path, $txt_path));
+
+                // var_dump($res->resCode);
+                
+                $fileName = $copy_pdf_to.'_return_message.log';
+
+                $textlog .= "ResponseMessage:". json_encode($res). "\n";
+                if ($dbg_print_patient_pdf) {
+                    echo '=========Send message to Winmed==========<br>';
+                    echo $textlog.'<br>';
+                    echo '=========================================<br>';
+                }
+                Util::writeFileSpecificPath($fileName, $textlog);
+            }
+            //====================================================================================
+            //===============End Send report for Winmed to Rest API ==============================
+            //====================================================================================
+            
+            
 
         } else {
             if ($dbg_print_patient_pdf) {
