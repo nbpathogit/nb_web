@@ -59,9 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <thead>
                 <tr>
                     <th>#</th>                    <!-- 0 -->
-                    
                     <th>type</th>                   <!-- 1 -->
-
                     <th>เลขที่ผู้ป่วย</th>                 <!-- 2 --> 
                     <th>HN</th>                   <!-- 3 --> 
                     <th>ชื่อผู้ป่วย</th>                  <!-- 4 --> 
@@ -77,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <th>PDF</th>                    <!-- 14 -->
                     <th>จัดการ</th>                    <!-- 15 -->
                     <th>แพทย์ผู้ส่ง</th>                    <!-- 16 -->
+                    <th>pid</th>                    <!-- 17 -->
                 </tr>
             </thead>
         </table>

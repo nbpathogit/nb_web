@@ -56,12 +56,12 @@ $(document).ready(function () {
     if (isCurUserCust) {
         hidecolumn = {
             visible: false,
-            targets: [5, 10, 11]//, 12+1
+            targets: [5, 10, 11,17]//, 12+1
         };
     } else {
         hidecolumn = {
             visible: false,
-            targets: [5, 10]//, 12+1
+            targets: [5, 10,17]//, 12+1
         };
     }
 
@@ -142,8 +142,7 @@ $(document).ready(function () {
                         dt.ajax.url("data/patient.php?skey=" + skey + "").load();
                         $('#patient_title_message').text('แสดงจากข้อมูลทั้งหมด');
                     }
-                }
-                ]
+                }]
             },],
         "order": [
             [0, "desc"]
@@ -161,7 +160,7 @@ $(document).ready(function () {
             searchPanes: {
                 show: false
             },
-            targets: [0, 2, 3, 5, 10]
+            targets: [0, 2, 3, 5, 10,17]
         },
 
 
@@ -204,17 +203,17 @@ $(document).ready(function () {
 
                 if (ugroup_id == '5000' || ugroup_id == '5100') {
                     if (row[10] == "ยังไม่ออกผล") {
-                        renderdata += '<p class="manage_btn_' + row[0] + ' btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
+                        renderdata += '<p class="manage_btn_' + row[18] + ' btn btn-secondary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</p>';
                     } else {
-                        renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '" class="manage_btn_' + row[0] + ' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                        renderdata += '<a href="patient_edit.php?id=' + row[18] + '&pnum=' + row[2] + '" class="manage_btn_' + row[18] + ' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
                     }
                 }
                 else {
-                    renderdata += '<a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '" class="manage_btn_' + row[0] + ' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
-                    renderdata += '<a onclick="movePatient2Trash(' + row[0] + ',\'' + row[2] + '\');" class="manage_btn_' + row[0] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
+                    renderdata += '<a href="patient_edit.php?id=' + row[18] + '&pnum=' + row[2] + '" class="manage_btn_' + row[18] + ' btn btn-outline-primary btn-sm me-1 edit"><i class="fa-solid fa-marker"></i> Edit</a>';
+                    renderdata += '<a onclick="movePatient2Trash(' + row[18] + ',\'' + row[2] + '\');" class="manage_btn_' + row[18] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-trash-can"></i> Trash</a>';
 
                     if (isCurUserAdmin) {
-                        renderdata += '<a onclick="deletePatientPermanent(' + row[0] + ',\'' + row[2] + '\');" class="manage_btn_' + row[0] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> Delete</a>';
+                        renderdata += '<a onclick="deletePatientPermanent(' + row[18] + ',\'' + row[2] + '\');" class="manage_btn_' + row[18] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> Delete</a>';
                     }
 
                 }
@@ -225,6 +224,10 @@ $(document).ready(function () {
         {
             "render": function (data, type, row) {
                 var renderdata = '';
+                // console.log("render row0 : ", row[18]);
+                // setInterval(()=>{
+
+                // }, 1000);
 
                 if (ugroup_id == '5000' || ugroup_id == '5100') {
                     if (row[10] == "ยังไม่ออกผล") {
@@ -232,18 +235,18 @@ $(document).ready(function () {
                         renderdata += '<p class="btn btn-secondary btn-sm me-1 pdf"><i class="fa-solid fa-file-pdf"></i>PDF</p>';
                     } else {
                         //show active link
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="manage_pdf_' + row[0] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="manage_pdf_' + row[0] + ' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
-                        renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_' + row[0] + ' btn btn-outline-dark btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
+                        renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=I" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
+                        renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=D" class="manage_pdf_' + row[18] + ' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                        renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=F" class="manage_pdf_' + row[18] + ' btn btn-outline-dark btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
                     }
                 }
                 else {
                     //show active link
 
-                    renderdata += '<a href="patient_pdf_for_note.php?id=' + row[0] + '&option=I" class="manage_pdf_' + row[0] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-pen"></i>ใบจด</a>';
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=I" class="manage_pdf_' + row[0] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=D" class="manage_pdf_' + row[0] + ' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
-                    renderdata += '<a href="patient_pdf.php?id=' + row[0] + '&option=F" class="manage_pdf_' + row[0] + ' btn btn-outline-dark btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
+                    renderdata += '<a href="patient_pdf_for_note.php?id=' + row[18] + '&option=I" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-pen"></i>ใบจด</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=I" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=D" class="manage_pdf_' + row[18] + ' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
+                    renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=F" class="manage_pdf_' + row[18] + ' btn btn-outline-dark btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>PDF/JPG</a>';
                 }
 
                 return renderdata;
@@ -255,13 +258,13 @@ $(document).ready(function () {
                 if ((ugroup_id == '5000' || ugroup_id == '5100')) {
                     if (row[10] == "ยังไม่ออกผล") {
                         //var data = '<div><h5>' + data;
-                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '">' + data + '</a>';
+                        var data = '<div><h5><a href="patient_edit.php?id=' + row[18] + '&pnum=' + row[2] + '">' + data + '</a>';
                     } else {
-                        var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '">' + data + '</a>';
+                        var data = '<div><h5><a href="patient_edit.php?id=' + row[18] + '&pnum=' + row[2] + '">' + data + '</a>';
                     }
                 }
                 else {
-                    var data = '<div><h5><a href="patient_edit.php?id=' + row[0] + '&pnum=' + row[2] + '">' + data + '</a>';
+                    var data = '<div><h5><a href="patient_edit.php?id=' + row[18] + '&pnum=' + row[2] + '">' + data + '</a>';
                 }
 
 
