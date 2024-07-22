@@ -114,6 +114,7 @@ if ($auth) {
                             ,$patient['p_create_by']
                             ,$patient['u_clinician']
                             ,$patient['pid']  
+                            ,$patient['edit_date']  
                             ];
             }
         }

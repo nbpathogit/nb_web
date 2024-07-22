@@ -356,6 +356,16 @@ $(document).ready(function () {
             "targets": (16)
         },
         {
+            "render": function (data, type, row) {
+                let renderdata = row[9];
+                if(row[19] && !(ugroup_id == '5000' || ugroup_id == '5100')){
+                    renderdata+="<br><small>(edited:" + row[19] + ")</small>";
+                }
+                return renderdata;
+            },
+            "targets": (9)
+        },
+        {
             responsivePriority: 0,
             targets: [4, 14, 15]
         },
