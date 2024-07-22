@@ -49,6 +49,7 @@ $(document).ready(function () {
 
         if (ugroup_id == '5000' || ugroup_id == '5100') {
             table.column(15).visible(false);
+            table.column(17).visible(false);
         }
     }
 
@@ -56,12 +57,12 @@ $(document).ready(function () {
     if (isCurUserCust) {
         hidecolumn = {
             visible: false,
-            targets: [5, 10, 11,17]//, 12+1
+            targets: [5, 10, 11]//, 12+1
         };
     } else {
         hidecolumn = {
             visible: false,
-            targets: [5, 10,17]//, 12+1
+            targets: [5, 10]//, 12+1
         };
     }
 
@@ -357,14 +358,16 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                let renderdata = row[9];
-                if(row[19] && !(ugroup_id == '5000' || ugroup_id == '5100')){
-                    renderdata+="<br><small>(edited:" + row[19] + ")</small>";
-                }
-                return renderdata;
+                return row[19];
             },
-            "targets": (9)
+            "targets": (17)
         },
+        // {
+        //     "render": function (data, type, row) {
+        //         return row[9];
+        //     },
+        //     "targets": (9)
+        // },
         {
             responsivePriority: 0,
             targets: [4, 14, 15]

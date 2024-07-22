@@ -90,6 +90,7 @@ if ($auth) {
                             ,$patient['p_create_by']        //16
                             ,$patient['u_clinician']        //17
                             ,$patient['pid']                //18
+                            ,$patient['pid']
                             ];
                 }
             } else {
