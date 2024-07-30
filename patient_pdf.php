@@ -4,12 +4,16 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <?php
+
+
 require_once __DIR__ . '/vendor/autoload.php';
 if (!isset($inited)) {
     require 'includes/init.php';
 }
 Auth::requireLogin();
-$dbg_print_patient_pdf = FALSE;
+if(!isset($dbg_print_patient_pdf)){
+    $dbg_print_patient_pdf = FALSE;
+}
 ?>
 
 <?php require 'user_auth.php'; ?>
@@ -21,10 +25,14 @@ if (!Auth::isLoggedIn()) {
     die();
 }
 
+$file_patient_pdf_php = "patient_pdf_php.txt";
+
 $skey = $_SESSION['skey'];
 $os = PHP_OS;
 if ($dbg_print_patient_pdf) {
-    echo '<br>Server run on OS : ' . $os . '<br>';
+    $txt = '<br>Server run on OS : ' . $os . '<br>';
+    echo $txt;
+    Util::writeFile($file_patient_pdf_php, $txt);
 }
 
 $isPreviewMode = FALSE;
@@ -698,25 +706,35 @@ if ($pdfOutputOption == 'F') {
 
 
         if ($dbg_print_patient_pdf) {
-            echo '<br>$reportFileName : ' . $reportFileName;
-            echo '<br>$reportFileNameFormat2 : ' . $reportFileNameFormat2;
-            echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
-            echo '<br>';
-            echo '<br>$pdffilepath : ' . $pdffilepath;
-            echo '<br>$txtfilepath : ' . $txtfilepath;
-            echo '<br>$pdffilepathFormat2 : ' . $pdffilepathFormat2;
-            echo '<br>$jpgfilepathFormat2 : ' . $jpgfilepathFormat2;
-            echo '<br>$zipfilepathFormat2 : ' . $zipfilepathFormat2;
-            echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
-            echo '<br>';
+            $txt = "";
+            $txt .= '<br>$reportFileName : ' . $reportFileName;
+            $txt .=  '<br>$reportFileNameFormat2 : ' . $reportFileNameFormat2;
+            $txt .=  '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
+            $txt .=  '<br>';
+            $txt .=  '<br>$pdffilepath : ' . $pdffilepath;
+            $txt .=  '<br>$txtfilepath : ' . $txtfilepath;
+            $txt .=  '<br>$pdffilepathFormat2 : ' . $pdffilepathFormat2;
+            $txt .=  '<br>$jpgfilepathFormat2 : ' . $jpgfilepathFormat2;
+            $txt .=  '<br>$zipfilepathFormat2 : ' . $zipfilepathFormat2;
+            $txt .=  '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
+            $txt .=  '<br>';
+            
+            echo $txt;
+            $txt = str_replace("<br>", "\n", $txt);
+            Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
 
 
         if ($dbg_print_patient_pdf) {
-            echo '<br>run:$mpdf->Output($pdffilepath, $pdfOutputOption)';
-            echo '<br>$pdffilepath :' . $pdffilepath . '';
-            echo '<br>$pdfOutputOption :' . $pdfOutputOption . '';
-            echo '<br>';
+            $txt = "";
+            $txt .= '<br>run:$mpdf->Output($pdffilepath, $pdfOutputOption)';
+            $txt .= '<br>$pdffilepath :' . $pdffilepath . '';
+            $txt .= '<br>$pdfOutputOption :' . $pdfOutputOption . '';
+            $txt .= '<br>';
+            
+            echo $txt;
+            $txt = str_replace("<br>", "\n", $txt);
+            Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
         $mpdf->Output($pdffilepath, $pdfOutputOption);
         Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
@@ -728,46 +746,75 @@ if ($pdfOutputOption == 'F') {
         $commandRename = 'mv ' . $pdffilepath . ' ' . $pdffilepathFormat2;
         $commandRename_txt = 'mv ' . $txtfilepath . ' ' . $txtfilepathFormat2;
         if ($dbg_print_patient_pdf) {
-            echo '<br>Start "exec($commandRename, $output, $retval) : ' . $commandRename . '<br>';
+            $txt = '<br>===========================================================================';
+            $txt .= '<br>Start "exec($commandRename, $output, $retval) : ' . $commandRename . '<br>';
+            echo $txt;
+            $txt = str_replace("<br>", "\n", $txt);
+            Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
         if (exec($commandRename, $output, $retval) == 0) {
             if ($retval == 0) {
                 if ($dbg_print_patient_pdf) {
-                    echo '<br>execute command "' . $commandRename . '" .<br>';
-                    echo "<br>Returned with status $retval and output:\n<br>";
-                    print_r($output);
-                    echo '<br>';
+                    $txt = '<br>execute command "' . $commandRename . '" .<br>';
+                    $txt .= "<br>Returned with status $retval and output:\n<br>";
+                    $txt .= print_r($output,TRUE);
+                    $txt .= '<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
+                    
                 }
             } else {
-                echo '<br>execute command "' . $commandRename . '" .<br>';
-                echo "<br>Returned with status $retval and output:\n<br>";
-                print_r($output);
-                echo '<br>';
+                $txt = '<br>execute command "' . $commandRename . '" .<br>';
+                $txt .= "<br>Returned with status $retval and output:\n<br>";
+                $txt .= print_r($output,TRUE);
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
         } else {
-            echo '<br>execute command "' . $commandRename . '" .<br>';
-            echo "<br>Returned with status $retval and output:\n<br>";
-            print_r($output);
-            echo '<br>';
+                $txt = '<br>execute command "' . $commandRename . '" .<br>';
+                $txt .= "<br>Returned with status $retval and output:\n<br>";
+                $txt .= print_r($output,TRUE);
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
 
         if ($dbg_print_patient_pdf) {
-            echo '<br>Start "exec($commandRename_txt, $output, $retval) : ' . $commandRename_txt . '<br>';
+            $txt = '<br>===========================================================================';
+            $txt .= '<br>Start "exec($commandRename_txt, $output, $retval) : ' . $commandRename_txt . '<br>';
+            echo $txt;
+            $txt = str_replace("<br>", "\n", $txt);
+            Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
         if (exec($commandRename_txt, $output, $retval) == 0) {
             if ($retval == 0) {
                 if ($dbg_print_patient_pdf) {
-                    echo '<br>Prepare $commandRename : ' . $commandRename_txt . '<br>';
+                    $txt = 'execute command "' . $commandRename_txt . '" successful.<br>';
+                    $txt .= "Returned with status $retval and output:\n<br>";
+                    $txt .= print_r($output,TRUE);
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
                 }
             } else {
-                echo 'execute command "' . $commandRename_txt . '" successful.<br>';
-                echo "Returned with status $retval and output:\n<br>";
-                print_r($output);
+                $txt = 'execute command "' . $commandRename_txt . '" successful.<br>';
+                $txt .= "Returned with status $retval and output:\n<br>";
+                $txt .= print_r($output,TRUE);
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
         } else {
-            echo 'execute command "' . $commandRename_txt . '" Fail.<br>';
-            echo "Returned with status $retval and output:\n<br>";
-            print_r($output);
+            $txt = 'execute command "' . $commandRename_txt . '" successful.<br>';
+            $txt .= "Returned with status $retval and output:\n<br>";
+            $txt .= print_r($output,TRUE);
+            echo $txt;
+            $txt = str_replace("<br>", "\n", $txt);
+            Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
 
 
@@ -781,29 +828,42 @@ if ($pdfOutputOption == 'F') {
             $command1 = '/usr/local/bin/magick -density 300 ' . $pdffilepathFormat2 . ' -density 300 ' . $jpgfilepathFormat2;
         }
         if ($dbg_print_patient_pdf) {
-            echo '<br>$command1 :' . $command1 . '';
-            echo '<br>exec($command1, $output, $retval)';
-            echo '<br>';
+            $txt = '<br>===========================================================================';
+            $txt .= '<br>$command1 :' . $command1 . '';
+            $txt .= '<br>exec($command1, $output, $retval)';
+            $txt .= '<br>';
+            echo $txt;
+            $txt = str_replace("<br>", "\n", $txt);
+            Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
         if (exec($command1, $output, $retval) == 0) {
             if ($retval == 0) {
                 if ($dbg_print_patient_pdf) {
-                    echo 'execute command "' . $command1 . '" .<br>';
-                    echo "Returned with status $retval and output:\n<br>";
-                    print_r($output);
-                    echo '<br>';
+                    $txt = 'execute command "' . $command1 . '" .<br>';
+                    $txt .= "Returned with status $retval and output:\n<br>";
+                    $txt .= print_r($output,TRUE);
+                    $txt .= '<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
                 }
             } else {
-                echo 'execute command "' . $command1 . '" .<br>';
-                echo "Returned with status $retval and output:\n<br>";
-                print_r($output);
-                echo '<br>';
+                $txt = 'execute command "' . $command1 . '" .<br>';
+                $txt .= "Returned with status $retval and output:\n<br>";
+                $txt .= print_r($output,TRUE);
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
         } else {
-            echo 'execute command "' . $command1 . '" .<br>';
-            echo "Returned with status $retval and output:\n<br>";
-            print_r($output);
-            echo '<br>';
+            $txt = 'execute command "' . $command1 . '" .<br>';
+            $txt .= "Returned with status $retval and output:\n<br>";
+            $txt .= print_r($output,TRUE);
+            $txt .= '<br>';
+            echo $txt;
+            $txt = str_replace("<br>", "\n", $txt);
+            Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
 
         //====================================================================================
@@ -822,8 +882,13 @@ if ($pdfOutputOption == 'F') {
 //            echo "customer folder =" . $cusReportFolder;
             $targetFolderRelease2 = './customerfile2/' . $cusReportFolder;
             if ($dbg_print_patient_pdf) {
-                echo '<br>Make new Folder if not avalable : "' . $cusReportFolder . '"';
-                echo '<br>';
+                $txt = '<br>==================================================================';
+                $txt .= '<br>Make new Folder if not avalable : "' . $cusReportFolder . '"';
+                $txt .= '<br>call  mkdir($targetFolderRelease2, 0777, true);';
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
             if (!file_exists($targetFolderRelease2) && !is_dir($targetFolderRelease2)) {
                 mkdir($targetFolderRelease2, 0777, true);
@@ -841,10 +906,14 @@ if ($pdfOutputOption == 'F') {
             $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
             $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.pdf';
             if ($dbg_print_patient_pdf) {
-                echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-                echo '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
-                echo '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
-                echo '<br>';
+                $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
+                $txt .= '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
+                $txt .= '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+                $txt .= 'call copy($copy_pdf_from, $copy_pdf_to);';
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
             copy($copy_pdf_from, $copy_pdf_to);
 
@@ -852,10 +921,14 @@ if ($pdfOutputOption == 'F') {
             $copy_txt_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.txt';
             $copy_txt_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.txt';
             if ($dbg_print_patient_pdf) {
-                echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-                echo '<br>$copy_txt_from : "' . $copy_txt_from . '"';
-                echo '<br>$copy_txt_to : "' . $copy_txt_to . '"';
-                echo '<br>';
+                $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
+                $txt .= '<br>$copy_txt_from : "' . $copy_txt_from . '"';
+                $txt .= '<br>$copy_txt_to : "' . $copy_txt_to . '"';
+                $txt .= '<br>Call copy($copy_txt_from, $copy_txt_to);';
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
             copy($copy_txt_from, $copy_txt_to);
 
@@ -865,17 +938,24 @@ if ($pdfOutputOption == 'F') {
             $copy_jpg_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.jpg';
             if (file_exists($copy_jpg_from)) {
                 if ($dbg_print_patient_pdf) {
-                    echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-                    echo '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
-                    echo '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
-                    echo '<br>';
+                    $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
+                    $txt .= '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
+                    $txt .= '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
+                    $txt .= '<br>Call copy($copy_jpg_from, $copy_jpg_to);';
+                    $txt .= '<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
                 }
                 copy($copy_jpg_from, $copy_jpg_to);
             } else {
                 if ($dbg_print_patient_pdf) {
-                    echo '=========Skip copy file from "release1" to customer "customerfile2" folder==========';
-                    echo '<br> File Dosnt exist $copy_jpg_from : "' . $copy_jpg_from . '"';
-                    echo '<br>';
+                    $txt = '<br>=========Skip copy file from "release1" to customer "customerfile2" folder==========';
+                    $txt .= '<br> File Dosnt exist $copy_jpg_from : "' . $copy_jpg_from . '"';
+                    $txt .= '<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
                 }
             }
 
@@ -887,17 +967,24 @@ if ($pdfOutputOption == 'F') {
 
                 if (file_exists($copy_jpg_from)) {
                     if ($dbg_print_patient_pdf) {
-                        echo '=========Copy file from "release1" to customer "customerfile2" folder==========';
-                        echo '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
-                        echo '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
-                        echo '<br>';
+                        $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
+                        $txt .= '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
+                        $txt .= '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
+                        $txt .= '<br> Call copy($copy_jpg_from, $copy_jpg_to);';
+                        $txt .= '<br>';
+                        echo $txt;
+                        $txt = str_replace("<br>", "\n", $txt);
+                        Util::writeFileAppend($file_patient_pdf_php, $txt);
                     }
                     copy($copy_jpg_from, $copy_jpg_to);
                 } else {
                     if ($dbg_print_patient_pdf) {
-                        echo '=========Skip copy file from "release1" to customer "customerfile2" folder==========';
-                        echo '<br> File Dosnt exist $copy_jpg_from : "' . $copy_jpg_from . '"';
-                        echo '<br>';
+                        $txt = '<br>=========Skip copy file from "release1" to customer "customerfile2" folder==========';
+                        $txt .= '<br> File Dosnt exist $copy_jpg_from : "' . $copy_jpg_from . '"';
+                        $txt .= '<br>';
+                        echo $txt;
+                        $txt = str_replace("<br>", "\n", $txt);
+                        Util::writeFileAppend($file_patient_pdf_php, $txt);
                     }
                 }
             }
@@ -908,8 +995,10 @@ if ($pdfOutputOption == 'F') {
             $is_Cur_Cust_Winmed = ($patient[0]['phospital_id'] == '38'
                     || $patient[0]['phospital_id'] == '40'
                     || $patient[0]['phospital_id'] == '41');
+            
+            
             if($is_Cur_Cust_Winmed){
-                $textlog = "";
+                $txt = '<br>=========Send message to Winmed==========<br>';
                 //Perform send message to Winmed API
                 $lab_no = $patient[0]['plabnum'];
                 $nb_no = $patient[0]['pnum'];
@@ -917,24 +1006,40 @@ if ($pdfOutputOption == 'F') {
                 $txt_path = $copy_txt_to;
 
                 $winmed = new WinmedAPI();
-                $textlog .= "time:".Util::get_curreint_thai_date_time()."\n";
-                $textlog .= "lab_no:".$lab_no."\n";
-                $textlog .= "nb_no:".$nb_no."\n";
-                $textlog .= "pdf_path:".$pdf_path."\n";
-                $textlog .= "txt_path:".$txt_path."\n";
+                $txt .= "<br>time:".Util::get_curreint_thai_date_time();
+                $txt .= "<br>lab_no:".$lab_no;
+                $txt .= "<br>nb_no:".$nb_no;
+                $txt .= "<br>pdf_path:".$pdf_path;
+                $txt .= "<br>txt_path:".$txt_path;
+                $txt .= '<br> Call $res=json_decode($winmed->sentAPI($lab_no, $nb_no, $pdf_path, $txt_path));';
+                $txt .= "<br>";
+                if ($dbg_print_patient_pdf) {
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
+                }
                 $res=json_decode($winmed->sentAPI($lab_no, $nb_no, $pdf_path, $txt_path));
 
                 // var_dump($res->resCode);
                 
                 $fileName = $copy_pdf_to.'_return_message.log';
-
-                $textlog .= "ResponseMessage:". json_encode($res). "\n";
-                if ($dbg_print_patient_pdf) {
-                    echo '=========Send message to Winmed==========<br>';
-                    echo $textlog.'<br>';
-                    echo '=========================================<br>';
-                }
+                $textlog .= "<br>ResponseMessage:". json_encode($res). "";
                 Util::writeFileSpecificPath($fileName, $textlog);
+                
+                $txt = $textlog;
+                if ($dbg_print_patient_pdf) {
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
+                }
+
+            } else {
+                if ($dbg_print_patient_pdf) {
+                    $txt = '<br>=========Not Winmed ,Do not send message to Winmed==========<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
+                }
             }
             //====================================================================================
             //===============End Send report for Winmed to Rest API ==============================

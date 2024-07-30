@@ -25,6 +25,24 @@ class Util {
         fclose($myfile);
     }
     
+    public static function writeFileAppend($fileName,$text){
+        if (isset($_SESSION["subfolder"])) {
+//            echo '<br>';
+//            echo '$_SESSION["subfolder"] ::' . $_SESSION['subfolder'];
+//            echo '<br>';
+        } else {
+//            echo 'Need to login first';
+//            die();
+            //If not login, Do nothing.
+            return 1;
+        }
+        $file2write = $_SERVER['DOCUMENT_ROOT'] . Url::getSubFolder1() . "/" . $fileName;
+        //echo 'write file to :: ' . $file2write . '<br>';
+        $myfile = fopen($file2write, "a") or die("Unable to open file!");
+        fwrite($myfile, $text);
+        fclose($myfile);
+    }
+    
     public static function writeFileSpecificPath($fileName,$text){
 
         $myfile = fopen($fileName, "w") or die("Unable to open file!");

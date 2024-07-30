@@ -614,7 +614,7 @@ $sub_patient = [];
 $super_patient = [];
 $sub_patient = Patient::getSubPatient($conn, $patient[0]['id']);
 $super_patient = Patient::getAll($conn, $patient[0]['super_id']);
-
+$is_released = ($patient[0]['date_20000'] == NULL) ? FALSE : TRUE;
 
 // If isfirstadd == 1 then jump to edit mode for patient_detail
 //{
@@ -1000,6 +1000,11 @@ if (isset($curstatus[0]['next3'])) {
                 <button name="btnmove2000" id="btnmove2000" type="submit" class="btn btn-primary" <?= $isEnableEditButton ? "" : "disabled"; ?>>&nbsp;&nbsp;Next step&nbsp;&nbsp;</button>
                 <?php endif; ?>
             <?php endif; ?>
+            <?php if (!$isCurUserCust && $is_released): ?>
+                <button name="btn_update_data_to_cus_report" id="btn_update_data_to_cus_report" type="submit" class="btn btn-primary" >
+                    <span id="span_btn_update_data_to_cus_report" role="status" aria-hidden="true"></span>
+                    &nbsp;&nbsp;Update data to customer report&nbsp;&nbsp;</button>
+            <?php endif; ?>
         </h4>
 
         <form id="patient_detail" name="" method="post">
@@ -1304,6 +1309,9 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
                     var usergroup = '<?= Auth::getUserGroup()->id; ?>';
                     var patient_id = '<?= $patient[0]['id']; ?>';
+                    console.log("patient_id::"+patient_id);
+                    
+
 
                     $(document).ready(function () {
                         //set active tab
@@ -1405,12 +1413,46 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                             }
                         });
 
+                        $("#btn_update_data_to_cus_report").on("click",function (e) {
+                            console.log("patient_id::"+patient_id);
+                            if(confirm("อับเดทการแก้ไข ไปที่รายงานของลูกค้าใหม่ หรือไม่") == false){
+                                return;
+                            }
+                            //spinner-border spinner-border-sm
+                            $("#span_btn_update_data_to_cus_report").addClass("spinner-border");
+                            $("#span_btn_update_data_to_cus_report").addClass("spinner-border-sm");
+                            $("#btn_update_data_to_cus_report").prop('disabled', true);
 
 
+                            $.ajax({
+                                'async': true,
+                                type: 'POST',
+                                'global': false,
+                                type: 'POST',
+                                url: 'ajax_updateCusReport.php',
+                                data: {
+                                    'patient_id': patient_id,
+                        
+                                },
+                                success: function (data) {
+                                    console.log(data);
+//                                    var datajson = JSON.parse(data); //convert String to JS Object
+//                                    for (var i in datajson)
+//                                    {
+//                                        console.log(datajson[i].number);
+//                                        console.log(datajson[i].number);
+//                                    }
+                                    $("#span_btn_update_data_to_cus_report").removeClass("spinner-border");
+                                    $("#span_btn_update_data_to_cus_report").removeClass("spinner-border-sm");
+                                    $("#btn_update_data_to_cus_report").prop('disabled', false);
 
-
-
-
+                                },
+                                error: function (jqxhr, status, exception) {
+                                    alert( jqxhr.responseText);
+                                }
+                            });
+    
+                        });   
 
 
                     });
