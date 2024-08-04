@@ -1292,7 +1292,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <script src="<?= Url::getSubFolder1() ?>/ajax_job2_assis_cross/job2.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job3_prep_slide/job3.js?v2x"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job4_prep_sp_slide/job4.js?v2xxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_job5_patho/job5.js?v3x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_job5_patho/job5.js?v4"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job6_patho/job6.js?v6xxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_job7_cytologist/job7.js?v0aaxaaa"></script>
 

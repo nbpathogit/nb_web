@@ -136,6 +136,16 @@ $("#add_job_list5").on("click", function () {
         alert("No data select");
         return null;
     }
+    
+    
+    let job_list5_count = 0;
+    $('#owner_job5 span').each(function (index) {
+        job_list5_count = job_list5_count + 1;
+    });
+    if(job_list5_count > 0){
+        alert("Can not add, the record already exist.");
+        return null;
+    }
 
     $.ajax({
         type: 'POST',
