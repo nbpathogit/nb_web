@@ -874,6 +874,7 @@ if ($pdfOutputOption == 'F') {
             echo '<br>$cusReportFolder : "' . $cusReportFolder . '"';
             echo '<br>';
         }
+        //==Copy report to customer foldera====
         if ($cusReportFolder != "") {
             if ($dbg_print_patient_pdf) {
                 echo '<br>==Copy report to customer foldera====';
@@ -905,49 +906,79 @@ if ($pdfOutputOption == 'F') {
             //=============copy pdf file=====================
             $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
             $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.pdf';
+            $copy_command = 'cp '.$copy_pdf_from.' '.$copy_pdf_to;
             if ($dbg_print_patient_pdf) {
                 $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
                 $txt .= '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
                 $txt .= '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
-                $txt .= 'call copy($copy_pdf_from, $copy_pdf_to);';
+//                $txt .= 'call copy($copy_pdf_from, $copy_pdf_to);';
+                $txt .= '<br>$copy_command : "' . $copy_command . '"';
                 $txt .= '<br>';
                 echo $txt;
                 $txt = str_replace("<br>", "\n", $txt);
                 Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
-            copy($copy_pdf_from, $copy_pdf_to);
-
+//            copy($copy_pdf_from, $copy_pdf_to);
+            exec($copy_command, $output, $retval);
+            if ($dbg_print_patient_pdf) {
+                $txt  = '<br>Returned with status : "' . $retval . '"';
+                $txt .= '<br>output : "' . print_r($output,TRUE) . '"';
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
+            }
             //=============copy txt file=====================
             $copy_txt_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.txt';
             $copy_txt_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.txt';
+            $copy_command = 'cp '.$copy_txt_from.' '.$copy_txt_to;
             if ($dbg_print_patient_pdf) {
-                $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
+                $txt = '<br>=========Copy text file from "release1" to customer "customerfile2" folder==========';
                 $txt .= '<br>$copy_txt_from : "' . $copy_txt_from . '"';
                 $txt .= '<br>$copy_txt_to : "' . $copy_txt_to . '"';
-                $txt .= '<br>Call copy($copy_txt_from, $copy_txt_to);';
+                $txt .= '<br>$copy_command : "' . $copy_command . '"';
+//                $txt .= '<br>Call copy($copy_txt_from, $copy_txt_to);';
                 $txt .= '<br>';
                 echo $txt;
                 $txt = str_replace("<br>", "\n", $txt);
                 Util::writeFileAppend($file_patient_pdf_php, $txt);
             }
-            copy($copy_txt_from, $copy_txt_to);
-
-            
+//            copy($copy_txt_from, $copy_txt_to);
+            exec($copy_command, $output, $retval);
+            if ($dbg_print_patient_pdf) {
+                $txt  = '<br>Returned with status : "' . $retval . '"';
+                $txt .= '<br>output : "' . print_r($output,TRUE) . '"';
+                $txt .= '<br>';
+                echo $txt;
+                $txt = str_replace("<br>", "\n", $txt);
+                Util::writeFileAppend($file_patient_pdf_php, $txt);
+            }
             //============copy jpg in case of one page=============
             $copy_jpg_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
             $copy_jpg_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.jpg';
+            $copy_command = 'cp '.$copy_jpg_from.' '.$copy_jpg_to;
             if (file_exists($copy_jpg_from)) {
                 if ($dbg_print_patient_pdf) {
-                    $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
+                    $txt = '<br>=========Copy pdf file from "release1" to customer "customerfile2" folder==========';
                     $txt .= '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
                     $txt .= '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
-                    $txt .= '<br>Call copy($copy_jpg_from, $copy_jpg_to);';
+                    $txt .= '<br>$copy_command : "' . $copy_command . '"';
+//                        $txt .= '<br> Call copy($copy_jpg_from, $copy_jpg_to);';
                     $txt .= '<br>';
                     echo $txt;
                     $txt = str_replace("<br>", "\n", $txt);
                     Util::writeFileAppend($file_patient_pdf_php, $txt);
                 }
-                copy($copy_jpg_from, $copy_jpg_to);
+                exec($copy_command, $output, $retval);
+//                    copy($copy_jpg_from, $copy_jpg_to);
+                if ($dbg_print_patient_pdf) {
+                    $txt  = '<br>Returned with status : "' . $retval . '"';
+                    $txt .= '<br>output : "' . print_r($output,TRUE) . '"';
+                    $txt .= '<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
+                }
             } else {
                 if ($dbg_print_patient_pdf) {
                     $txt = '<br>=========Skip copy file from "release1" to customer "customerfile2" folder==========';
@@ -964,19 +995,30 @@ if ($pdfOutputOption == 'F') {
                 echo "The number is: $x <br>";
                 $copy_jpg_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
                 $copy_jpg_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '-' . $x . '.jpg';
+                $copy_command = 'cp '.$copy_jpg_from.' '.$copy_jpg_to;
 
                 if (file_exists($copy_jpg_from)) {
                     if ($dbg_print_patient_pdf) {
                         $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
                         $txt .= '<br>$copy_jpg_from : "' . $copy_jpg_from . '"';
                         $txt .= '<br>$copy_jpg_to : "' . $copy_jpg_to . '"';
-                        $txt .= '<br> Call copy($copy_jpg_from, $copy_jpg_to);';
+                        $txt .= '<br>$copy_command : "' . $copy_command . '"';
+//                        $txt .= '<br> Call copy($copy_jpg_from, $copy_jpg_to);';
                         $txt .= '<br>';
                         echo $txt;
                         $txt = str_replace("<br>", "\n", $txt);
                         Util::writeFileAppend($file_patient_pdf_php, $txt);
                     }
-                    copy($copy_jpg_from, $copy_jpg_to);
+                    exec($copy_command, $output, $retval);
+//                    copy($copy_jpg_from, $copy_jpg_to);
+                    if ($dbg_print_patient_pdf) {
+                        $txt  = '<br>Returned with status : "' . $retval . '"';
+                        $txt .= '<br>output : "' . print_r($output,TRUE) . '"';
+                        $txt .= '<br>';
+                        echo $txt;
+                        $txt = str_replace("<br>", "\n", $txt);
+                        Util::writeFileAppend($file_patient_pdf_php, $txt);
+                    }
                 } else {
                     if ($dbg_print_patient_pdf) {
                         $txt = '<br>=========Skip copy file from "release1" to customer "customerfile2" folder==========';

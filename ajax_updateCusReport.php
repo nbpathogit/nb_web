@@ -1,6 +1,6 @@
 <?php
 
-$dbg_print_patient_pdf = FALSE;
+$dbg_print_patient_pdf = TRUE;
 
 
 require 'includes/init.php';
