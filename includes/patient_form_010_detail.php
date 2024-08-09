@@ -34,7 +34,7 @@ $curStatusAuthEdit = (
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="" class="">รับเข้าเมื่อวันที่</label>
-        <input name="date_1000" class="form-control border" type="text" class="" id="date_1000" placeholder="This Field will Auto Generate" <?= $isEditModePageOn && ($userAuthEdit && $curStatusAuthEdit) && FALSE ? "" : " disabled readonly " ?> value="<?= $patient[0]['date_1000']; ?>">
+        <input name="date_1000" id="date_1000_id" class="form-control border" type="text" class="" id="date_1000" placeholder="This Field will Auto Generate" <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && !$isAddPage && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> value="<?= $patient[0]['date_1000']; ?>">
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">

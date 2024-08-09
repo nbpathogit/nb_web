@@ -696,7 +696,8 @@ class Patient {
          * ["save_patient_detail"]=> string(0) "" }
          */
         $sql = "UPDATE `patient` 
-                 SET pnum=:pnum,
+                 SET date_1000=:date_1000,
+                    pnum=:pnum,
                     plabnum=:plabnum,
                     ppre_name=:ppre_name,
                     pname=:pname,
@@ -719,6 +720,7 @@ class Patient {
 
         //var_dump( $this->name);
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':date_1000', $this->date_1000, PDO::PARAM_STR);
         $stmt->bindValue(':pnum', $this->pnum, PDO::PARAM_STR);
         $stmt->bindValue(':plabnum', $this->plabnum, PDO::PARAM_STR);
         $stmt->bindValue(':ppre_name', $this->ppre_name, PDO::PARAM_STR);

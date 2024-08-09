@@ -1329,7 +1329,11 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
                         $(":submit").click(function () {
                             window.removeEventListener("beforeunload", onNosave);
-                        })
+                        });
+                        
+                        $('#date_1000_id').datetimepicker({
+                            format:'Y-m-d h:m:s'
+                        });
                         
                         $("#phospital_id").change(function () {
                             
