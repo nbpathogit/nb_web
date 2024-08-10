@@ -1047,28 +1047,31 @@ if ($pdfOutputOption == 'F') {
                 $pdf_path = $copy_pdf_to;
                 $txt_path = $copy_txt_to;
 
-                $winmed = new WinmedAPI();
+                $winmed = new WinmedAPI($lab_no, $nb_no, $pdf_path, $txt_path);
+                
                 $txt .= "<br>time:".Util::get_curreint_thai_date_time();
                 $txt .= "<br>lab_no:".$lab_no;
                 $txt .= "<br>nb_no:".$nb_no;
                 $txt .= "<br>pdf_path:".$pdf_path;
                 $txt .= "<br>txt_path:".$txt_path;
+                $txt .= "<br>curl_path:".$winmed->curlopturl;
                 $txt .= '<br> Call $res=json_decode($winmed->sentAPI($lab_no, $nb_no, $pdf_path, $txt_path));';
                 $txt .= "<br>";
+                $textlog = $txt;
                 if ($dbg_print_patient_pdf) {
                     echo $txt;
                     $txt = str_replace("<br>", "\n", $txt);
                     Util::writeFileAppend($file_patient_pdf_php, $txt);
                 }
-                $res=json_decode($winmed->sentAPI($lab_no, $nb_no, $pdf_path, $txt_path));
-
-                // var_dump($res->resCode);
                 
+                $res=json_decode($winmed->sentAPI());
+
                 $fileName = $copy_pdf_to.'_return_message.log';
                 $textlog .= "<br>ResponseMessage:". json_encode($res). "";
+                $textlog = str_replace("<br>", "\n", $textlog);
                 Util::writeFileSpecificPath($fileName, $textlog);
                 
-                $txt = $textlog;
+                $txt =  "<br>ResponseMessage:". json_encode($res). "";
                 if ($dbg_print_patient_pdf) {
                     echo $txt;
                     $txt = str_replace("<br>", "\n", $txt);
