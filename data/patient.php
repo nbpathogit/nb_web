@@ -90,32 +90,32 @@ if ($auth) {
                             ,$patient['p_create_by']        //16
                             ,$patient['u_clinician']        //17
                             ,$patient['pid']                //18
-                            ,$patient['pid']
+                            ,$patient['pid']                //19
                             ];
                 }
             } else {
                  $data[] = 
                             [
-                            $patient['pid']
-                            ,$patient['p_sn_type']
-                            , $patient['p_pnum']
-                            , $patient['p_phospital_num']
-                            , $patient['p_pname']
-                            , $patient['p_plastname']
-                            , $patient['h_hospitial']
-                            , $patient['name_patho']
-                            , $patient['p_date_1000']
-                            , $patient['p_date_first_report']
-                            , $patient['s_des']
-                            , $patient['p_reported_as']
-                            , $patient['pri_priority']
-                            , $patient['p_second_patho_review']
-                            , $patient['p_request_sp_slide']
-                            ,$patient['p_tr_time']
-                            ,$patient['p_create_by']
-                            ,$patient['u_clinician']
-                            ,$patient['pid']  
-                            ,$patient['edit_date']  
+                            $patient['pid']                        //0
+                            ,$patient['p_sn_type']                 //1
+                            , $patient['p_pnum']                   //2
+                            , $patient['p_phospital_num']          //3
+                            , $patient['p_pname']                  //4
+                            , $patient['p_plastname']              //5
+                            , $patient['h_hospitial']              //6
+                            , $patient['name_patho']               //7
+                            , $patient['p_date_1000']              //8
+                            , $patient['p_date_first_report']      //9
+                            , $patient['s_des']                    //10
+                            , $patient['p_reported_as']            //11
+                            , $patient['pri_priority']             //12
+                            , $patient['p_second_patho_review']    //13
+                            , $patient['p_request_sp_slide']       //14
+                            ,$patient['p_tr_time']                 //15
+                            ,$patient['p_create_by']               //16
+                            ,$patient['u_clinician']               //17
+                            ,$patient['pid']                       //18
+                            ,$patient['edit_date']                 //19
                             ];
             }
         }

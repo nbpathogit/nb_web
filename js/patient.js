@@ -155,46 +155,60 @@ $(document).ready(function () {
             searchPanes: {
                 show: true
             },
-            targets: [1, 6, 7, 8, 9, 11, 12, 13, 16]//
+            targets: [1, 6, 7, 8, 9, 11, 12, 13, 16, 17]//
         },
         {
             searchPanes: {
                 show: false
             },
-            targets: [0, 2, 3, 5, 10,17]
+            targets: [0, 2, 3, 5, 10, 18]
         },
 
 
         //====Data header offset from display page===================================
-        //                    <th>#</th>                    <!-- 0 -->
-        //                    
-        //                    <th>type</th>                   <!-- 1 -->
-        //
-        //                    <th>เลขที่ผู้ป่วย</th>                 <!-- 2 --> 
-        //                    <th>HN</th>                   <!-- 3 --> 
-        //                    <th>ชื่อผู้ป่วย</th>                  <!-- 4 --> 
-        //                    <th>นามสกุลผู้ป่วย</th>             <!-- 5 -->
-        //                    <th>โรงพยาบาล</th>               <!-- 6 -->
-        //                    <th>พยาธิแพทย์</th>                <!-- 7 -->
-        //                    <th>วันที่รับ</th>                   <!-- 8 --> 
-        //                    <th>วันที่รายงาน</th>                 <!-- 9 -->
-        //                    <th>ใช้เวลา<br>ออกผล(วัน)</th>           <!-- 10 --> 
-        //                    <th>สถานะอื่นๆ</th>                 <!-- 11 -->  
-        //                    <th>การออกผล</th>                 <!-- 12 --> 
-        //                    <th>ความสำคัญ</th>                  <!-- 13 -->
-        //                    <th>PDF</th>                    <!-- 14 -->
-        //                    <th>จัดการ</th>                    <!-- 15 -->
+//                    <th>#</th>                    <!-- 0 -->
+//                    <th>type</th>                   <!-- 1 -->
+//                    <th>เลขที่ผู้ป่วย</th>                 <!-- 2 --> 
+//                    <th>HN</th>                   <!-- 3 --> 
+//                    <th>ชื่อผู้ป่วย</th>                  <!-- 4 --> 
+//                    <th>นามสกุลผู้ป่วย</th>             <!-- 5 -->
+//                    <th>โรงพยาบาล</th>               <!-- 6 -->
+//                    <th>พยาธิแพทย์</th>                <!-- 7 -->
+//                    <th>วันที่รับ</th>                   <!-- 8 --> 
+//                    <th>วันที่รายงาน</th>                 <!-- 9 -->
+//                    <th>ใช้เวลา<br>ออกผล(วัน)</th>           <!-- 10 --> 
+//                    <th>สถานะอื่นๆ</th>                 <!-- 11 -->  
+//                    <th>การออกผล</th>                 <!-- 12 --> 
+//                    <th>ความสำคัญ</th>                  <!-- 13 -->
+//                    <th>PDF</th>                    <!-- 14 -->
+//                    <th>จัดการ</th>                    <!-- 15 -->
+//                    <th>แพทย์ผู้ส่ง</th>                    <!-- 16 -->
+//                    <th>edit date</th>                   <!--  17 -->
+//                    <th>tr</th>                          <!--  18 -->
         //=======================================================================
         //
         //=== Data offset get from data base=============
-        //   $data[] = [$patient['pid'],   $patient['sn_type'], $patient['pnum'], $patient['phospital_num'], $patient['pname'], $patient['plastname'] 
-        //-------------------------0----------------1-----------------2-----------------------3---------------------4-------------------5----------
-        //
-        //, $patient['hospital'], $patient['name'], $patient['date_1000'], $patient['date_20000'], $patient['des']
-        //----------6-----------------------7--------------------8-------------------9--------------------10--------
-        //
-        // , $patient['reported_as'],$patient['priority'], $patient['second_patho_review'], $patient['request_sp_slide'],$patient['tr_time'],$patient['pcreate_by'];
-        //-----------------11------------------------12-----------------------13---------------------------14------------------------15---------------------16--------------
+//
+//                            $patient['pid']                        //0
+//                            ,$patient['p_sn_type']                 //1
+//                            , $patient['p_pnum']                   //2
+//                            , $patient['p_phospital_num']          //3
+//                            , $patient['p_pname']                  //4
+//                            , $patient['p_plastname']              //5
+//                            , $patient['h_hospitial']              //6
+//                            , $patient['name_patho']               //7
+//                            , $patient['p_date_1000']              //8
+//                            , $patient['p_date_first_report']      //9
+//                            , $patient['s_des']                    //10
+//                            , $patient['p_reported_as']            //11
+//                            , $patient['pri_priority']             //12
+//                            , $patient['p_second_patho_review']    //13
+//                            , $patient['p_request_sp_slide']       //14
+//                            ,$patient['p_tr_time']                 //15
+//                            ,$patient['p_create_by']               //16
+//                            ,$patient['u_clinician']               //17
+//                            ,$patient['pid']                       //18
+//                            ,$patient['edit_date']                 //19
         //
         //==============================================           
 
@@ -362,6 +376,12 @@ $(document).ready(function () {
             },
             "targets": (17)
         },
+        {
+            "render": function (data, type, row) {
+                return row[15];
+            },
+            "targets": (18)
+        },
         // {
         //     "render": function (data, type, row) {
         //         return row[9];
@@ -426,7 +446,8 @@ $(document).ready(function () {
     <a class="toggle-vis" data-column="11">สถานะอื่นๆ</a> -
     <a class="toggle-vis" data-column="12">การออกผล</a> -
     <a class="toggle-vis" data-column="13">ความสำคัญ</a> -
-    <a class="toggle-vis" data-column="16">แพทย์ผู้ส่ง</a>
+    <a class="toggle-vis" data-column="16">แพทย์ผู้ส่ง</a> -
+    <a class="toggle-vis" data-column="18">turn around time</a>
     <div>`;
 
     document.querySelectorAll('a.toggle-vis').forEach((el) => {
