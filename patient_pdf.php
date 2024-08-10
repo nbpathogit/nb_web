@@ -694,7 +694,7 @@ if ($pdfOutputOption == 'F') {
         //=================== Create Variable to keep Folder file for store report file========================================
         //=====================================================================================================================
        
-        $targetFolderRelease1 = './release1';
+        $targetFolderRelease1 = './cus';
 
         $pdffilepath = $targetFolderRelease1 . '/' . $reportFileName . '.pdf';
         $txtfilepath = $targetFolderRelease1 . '/' . $reportFileName . '.txt';
@@ -881,7 +881,7 @@ if ($pdfOutputOption == 'F') {
                 echo '<br>';
             }
 //            echo "customer folder =" . $cusReportFolder;
-            $targetFolderRelease2 = './customerfile2/' . $cusReportFolder;
+            $targetFolderRelease2 = './customerfileb/' . $cusReportFolder;
             if ($dbg_print_patient_pdf) {
                 $txt = '<br>==================================================================';
                 $txt .= '<br>Make new Folder if not avalable : "' . $cusReportFolder . '"';
