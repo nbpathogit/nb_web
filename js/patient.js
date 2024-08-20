@@ -72,7 +72,7 @@ $(document).ready(function () {
         "ajax": "data/patient.php?skey=" + skey + "&range=2m",
         responsive: true,
         dom: 'BP<"toolbar">lfritp',
-
+        pageLength: 100,
         buttons: [
             {
                 text: 'export excel',
