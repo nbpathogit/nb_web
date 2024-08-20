@@ -66,6 +66,15 @@ $(document).ready(function () {
         };
     }
 
+    const searchPanesCol = { show: [], hide: [] }
+    if (ugroup_id == '5000' || ugroup_id == '5100') {
+        searchPanesCol.show = [1, 6, 7, 8, 9, 11, 12, 13, 16];
+        searchPanesCol.hide = [0, 2, 3, 5, 10, 17, 18];
+    }
+    else {
+        searchPanesCol.show = [1, 6, 7, 8, 9, 11, 12, 13, 16, 17];
+        searchPanesCol.hide = [0, 2, 3, 5, 10, 18];
+    }
 
     // datatable
     var table = $('#patient_table').DataTable({
@@ -155,60 +164,60 @@ $(document).ready(function () {
             searchPanes: {
                 show: true
             },
-            targets: [1, 6, 7, 8, 9, 11, 12, 13, 16, 17]//
+            targets: searchPanesCol.show//
         },
         {
             searchPanes: {
                 show: false
             },
-            targets: [0, 2, 3, 5, 10, 18]
+            targets: searchPanesCol.hide
         },
 
 
         //====Data header offset from display page===================================
-//                    <th>#</th>                    <!-- 0 -->
-//                    <th>type</th>                   <!-- 1 -->
-//                    <th>เลขที่ผู้ป่วย</th>                 <!-- 2 --> 
-//                    <th>HN</th>                   <!-- 3 --> 
-//                    <th>ชื่อผู้ป่วย</th>                  <!-- 4 --> 
-//                    <th>นามสกุลผู้ป่วย</th>             <!-- 5 -->
-//                    <th>โรงพยาบาล</th>               <!-- 6 -->
-//                    <th>พยาธิแพทย์</th>                <!-- 7 -->
-//                    <th>วันที่รับ</th>                   <!-- 8 --> 
-//                    <th>วันที่รายงาน</th>                 <!-- 9 -->
-//                    <th>ใช้เวลา<br>ออกผล(วัน)</th>           <!-- 10 --> 
-//                    <th>สถานะอื่นๆ</th>                 <!-- 11 -->  
-//                    <th>การออกผล</th>                 <!-- 12 --> 
-//                    <th>ความสำคัญ</th>                  <!-- 13 -->
-//                    <th>PDF</th>                    <!-- 14 -->
-//                    <th>จัดการ</th>                    <!-- 15 -->
-//                    <th>แพทย์ผู้ส่ง</th>                    <!-- 16 -->
-//                    <th>edit date</th>                   <!--  17 -->
-//                    <th>tr</th>                          <!--  18 -->
+        //                    <th>#</th>                    <!-- 0 -->
+        //                    <th>type</th>                   <!-- 1 -->
+        //                    <th>เลขที่ผู้ป่วย</th>                 <!-- 2 --> 
+        //                    <th>HN</th>                   <!-- 3 --> 
+        //                    <th>ชื่อผู้ป่วย</th>                  <!-- 4 --> 
+        //                    <th>นามสกุลผู้ป่วย</th>             <!-- 5 -->
+        //                    <th>โรงพยาบาล</th>               <!-- 6 -->
+        //                    <th>พยาธิแพทย์</th>                <!-- 7 -->
+        //                    <th>วันที่รับ</th>                   <!-- 8 --> 
+        //                    <th>วันที่รายงาน</th>                 <!-- 9 -->
+        //                    <th>ใช้เวลา<br>ออกผล(วัน)</th>           <!-- 10 --> 
+        //                    <th>สถานะอื่นๆ</th>                 <!-- 11 -->  
+        //                    <th>การออกผล</th>                 <!-- 12 --> 
+        //                    <th>ความสำคัญ</th>                  <!-- 13 -->
+        //                    <th>PDF</th>                    <!-- 14 -->
+        //                    <th>จัดการ</th>                    <!-- 15 -->
+        //                    <th>แพทย์ผู้ส่ง</th>                    <!-- 16 -->
+        //                    <th>edit date</th>                   <!--  17 -->
+        //                    <th>tr</th>                          <!--  18 -->
         //=======================================================================
         //
         //=== Data offset get from data base=============
-//
-//                            $patient['pid']                        //0
-//                            ,$patient['p_sn_type']                 //1
-//                            , $patient['p_pnum']                   //2
-//                            , $patient['p_phospital_num']          //3
-//                            , $patient['p_pname']                  //4
-//                            , $patient['p_plastname']              //5
-//                            , $patient['h_hospitial']              //6
-//                            , $patient['name_patho']               //7
-//                            , $patient['p_date_1000']              //8
-//                            , $patient['p_date_first_report']      //9
-//                            , $patient['s_des']                    //10
-//                            , $patient['p_reported_as']            //11
-//                            , $patient['pri_priority']             //12
-//                            , $patient['p_second_patho_review']    //13
-//                            , $patient['p_request_sp_slide']       //14
-//                            ,$patient['p_tr_time']                 //15
-//                            ,$patient['p_create_by']               //16
-//                            ,$patient['u_clinician']               //17
-//                            ,$patient['pid']                       //18
-//                            ,$patient['edit_date']                 //19
+        //
+        //                            $patient['pid']                        //0
+        //                            ,$patient['p_sn_type']                 //1
+        //                            , $patient['p_pnum']                   //2
+        //                            , $patient['p_phospital_num']          //3
+        //                            , $patient['p_pname']                  //4
+        //                            , $patient['p_plastname']              //5
+        //                            , $patient['h_hospitial']              //6
+        //                            , $patient['name_patho']               //7
+        //                            , $patient['p_date_1000']              //8
+        //                            , $patient['p_date_first_report']      //9
+        //                            , $patient['s_des']                    //10
+        //                            , $patient['p_reported_as']            //11
+        //                            , $patient['pri_priority']             //12
+        //                            , $patient['p_second_patho_review']    //13
+        //                            , $patient['p_request_sp_slide']       //14
+        //                            ,$patient['p_tr_time']                 //15
+        //                            ,$patient['p_create_by']               //16
+        //                            ,$patient['u_clinician']               //17
+        //                            ,$patient['pid']                       //18
+        //                            ,$patient['edit_date']                 //19
         //
         //==============================================           
 
