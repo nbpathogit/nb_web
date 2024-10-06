@@ -11,6 +11,7 @@ if (!isset($inited)) {
     require 'includes/init.php';
 }
 Auth::requireLogin();
+//$dbg_print_patient_pdf = TRUE;
 if(!isset($dbg_print_patient_pdf)){
     $dbg_print_patient_pdf = FALSE;
 }
@@ -38,6 +39,11 @@ if ($dbg_print_patient_pdf) {
 $isPreviewMode = FALSE;
 if (isset($_GET['preview'])) {
     $isPreviewMode = TRUE;
+}
+
+$filetype = 'na';
+if (isset($_GET['filetype'])) {
+    $filetype = $_GET['filetype'];
 }
 
 if (!isset($requestFrom)) {
@@ -1098,6 +1104,13 @@ if ($pdfOutputOption == 'F') {
                 echo '<br>';
             }
         }
+        
+        
+        
+        
+        
+        
+        
     } elseif ($requestFrom == 'patient_php') { //Generate and zip then download
         //===========================================================================================================\
         //=================== Create temporary Folder file for store zip file========================================\
@@ -1129,6 +1142,7 @@ if ($pdfOutputOption == 'F') {
             echo '<br>$reportFileNameFormat2 : ' . $reportFileNameFormat2;
 //            echo '<br>$targetFolderRelease1 : ' . $targetFolderRelease1;
             echo '<br>';
+            echo '<br>$targetFolderForDownload : ' . $targetFolderForDownload;
             echo '<br>$pdffilepath : ' . $pdffilepath;
             echo '<br>$txtfilepath : ' . $txtfilepath;
             echo '<br>$pdffilepathFormat2 : ' . $pdffilepathFormat2;
@@ -1285,6 +1299,7 @@ if ($pdfOutputOption == 'F') {
 ?>
 
 <?php if (!($requestFrom == 'patient_edit_php')): ?>
+    <?php if (($filetype == 'zip')): ?>
     <br>
     <p style="text-align:center;">
         <a id="downloadLink" aligned="center" href="<?= $zipfilepathFormat2 ?>" download >
@@ -1293,7 +1308,32 @@ if ($pdfOutputOption == 'F') {
         </a>
         <br> You can close this window.
     </p>
+    <?php endif; ?>
+    <?php if (($filetype == 'jpg')): ?>
+    <?php
+        echo '<p style="text-align:center;font-size: 250%;">';
+        $files = scandir($targetFolderForDownload);
+        sort($files); // this does the sorting
+        foreach ($files as $file) {
+
+            $path_parts = pathinfo($targetFolderForDownload . '/' . $file);
+            //echo 'pathInfo: '. $path_parts['extension']  . '<br>';
+            if($path_parts['extension'] == 'jpg'){
+            echo'<a href="' . $targetFolderForDownload . '/' . $file . '" download>' . $file . '</a>';
+            echo'<br>';
+
+            }
+        }
+        echo '</p>';
+    ?>
+    <?php endif; ?>
+    
+    
+    
+    
 <?php endif; ?>
+    
+
 
 <script>
     var downloadTimeout = setTimeout(function () {
