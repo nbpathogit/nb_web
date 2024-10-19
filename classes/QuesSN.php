@@ -22,6 +22,22 @@ class QuesSN {
     public $score_contaminate;
     public $note;
     public $errors = [];
+    
+    public static function getInitObj() {
+        $quesSN = new QuesSN();
+
+        $quesSN->id=NULL;
+        $quesSN->patient_id=NULL;
+        $quesSN->patient_num="";
+        $quesSN->score_thickness=5;
+        $quesSN->score_staining=5;
+        $quesSN->score_mounting=5;
+        $quesSN->score_labeling=5;
+        $quesSN->score_contaminate=5;
+        $quesSN->note="";   
+
+        return $quesSN;
+    }
 
     public function create($conn) {
 
@@ -42,6 +58,10 @@ class QuesSN {
         $stmt->bindValue(':score_labeling', $this->score_labeling, PDO::PARAM_INT);
         $stmt->bindValue(':score_contaminate', $this->score_contaminate, PDO::PARAM_INT);
         $stmt->bindValue(':note', $this->note, PDO::PARAM_STR);
+        
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('QuesSN.txt', $sql);   
+        }
 
         //var_dump($stmt);
         if ($stmt->execute()) {
@@ -53,7 +73,7 @@ class QuesSN {
         }
     }
     
-        public function update($conn) {
+    public function update($conn) {
 
         $curDateTime = Util::get_curreint_thai_date_time();
 

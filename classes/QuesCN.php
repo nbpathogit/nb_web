@@ -13,15 +13,30 @@ class QuesCN {
      * @var integer
      */
     public $id;             
-public $patient_id;     
-public $patient_num;    
-public $score_specimen; 
-public $score_staining; 
-public $score_mounting; 
-public $score_labeling; 
-public $note;           
+    public $patient_id;     
+    public $patient_num;    
+    public $score_specimen; 
+    public $score_staining; 
+    public $score_mounting; 
+    public $score_labeling; 
+    public $note;           
 
     public $errors = [];
+    
+    public static function getInitObj() {
+        $quesCN = new QuesCN();
+
+        $quesCN->id=NULL;             
+        $quesCN->patient_id=NULL;     
+        $quesCN->patient_num="";    
+        $quesCN->score_specimen=5; 
+        $quesCN->score_staining=5; 
+        $quesCN->score_mounting=5; 
+        $quesCN->score_labeling=5; 
+        $quesCN->note=""; 
+
+        return $quesCN;
+    }
 
     public function create($conn) {
 
