@@ -246,7 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $qa->create($conn);                                             //=
             }                                                                   //=
             if($sn_type=='CN'){                                                 //=
-                $qa = quesCN::getInitObj();                                     //=
+                $qa = QuesCN::getInitObj();                                     //=
                 $qa->patient_id=$patient->id;                                   //=
                 $qa->patient_num=$patient->pnum;                                //=
                 $qa->create($conn);                                             //=

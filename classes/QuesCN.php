@@ -116,4 +116,16 @@ class QuesCN {
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getAllbyPatientID($conn, $id) {
+        $sql = "SELECT * FROM `questionnaire_quality_cn` ";
+
+        if ($id != 0) {
+            $sql = $sql . " WHERE patient_id = " . $id;
+        }
+
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

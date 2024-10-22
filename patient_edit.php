@@ -599,6 +599,10 @@ if (isset($_GET['id'])) {
     }
     Patient::clearAutoScroll($conn, $_GET['id']);
     Patient::clearisautoeditmode($conn, $_GET['id']);
+    
+    $quesSN = QuesSN::getAllbyPatientID($conn, $patient[0]['id']);
+    $quesCN = QuesCN::getAllbyPatientID($conn, $patient[0]['id']);
+    
 } else {
     $patient = null;
 }
@@ -1149,6 +1153,20 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>เตรียมสไลด์(จุลพยาธิวิทยา)</b><span style="color:orange;"><?= ""; // ($curstatusid == "6000") ? "<b> <-ขั้นตอนปัจจุบัน</b>" : ""    ?></span></h4>
             <?php require 'includes/patient_form_040_job3_prepare_slide.php'; ?>
+            <?php //var_dump($quesSN); ?>
+            <?php //var_dump($quesCN); ?>
+            <?php if($patient[0]['sn_type'] == 'SN' ): ?>
+                <?php if(sizeof($quesSN)>0 ): ?>
+                    <hr>
+                    <?php require 'includes/questionnaire_quality_sn.php'; ?>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php if($patient[0]['sn_type'] == 'CN' ): ?>
+                <?php if(sizeof($quesCN)>0 ): ?>
+                    <hr>
+                    <?php require 'includes/questionnaire_quality_cn.php'; ?>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 <?php endif; ?>
