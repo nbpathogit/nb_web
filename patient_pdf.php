@@ -312,6 +312,19 @@ if ($patient[0]['sn_type'] == 'SN') {
 }else if($patient[0]['sn_type'] == 'CN' || $patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN'){
   $titleName = "CYTOLOGIC PATHOLOGY REPORT";
 }
+
+$jobPatho = Job::getAll($conn, $patient[0]['id'], 5);
+//                    echo "jobPatho";
+//                    var_dump($jobPatho);
+//                    echo "\n";
+if(!empty($jobPatho)){
+    $pathoUserID = $jobPatho[0]['user_id'];
+    $pathoUser = User::getByID($conn, $pathoUserID);
+    $signedpatho = $pathoUser->name_e . " " . $pathoUser->lastname_e . " " . $pathoUser->educational_bf;
+}
+
+
+
 $header = str_replace("<PATHOLOGY_REPORT>", $titleName, $header);
 
 $header = str_replace("<pname>", $preName . $patient[0]['pname'], $header);
@@ -323,6 +336,7 @@ $header = str_replace("<plabnum>", $patient[0]['plabnum'], $header);
 $header = str_replace("<phospital_num>", $patient[0]['phospital_num'], $header);
 $header = str_replace("<pclinician>", $clinician[0]['name'].' '.$clinician[0]['lastname'], $header);
 $header = str_replace("<ward>"           ,"", $header);
+$header = str_replace("<ppathologist>"           ,$signedpatho, $header);
 $header = str_replace("<hospital>", $hospital[0]['hospital'], $header);
 $header = str_replace("<date_1000>", $patient[0]['date_1000'], $header);
 $header = str_replace("<an_name>"          ,'', $header);
@@ -340,6 +354,7 @@ $header_txt = str_replace("<plabnum>", $patient[0]['plabnum'], $header_txt);
 $header_txt = str_replace("<phospital_num>", $patient[0]['phospital_num'], $header_txt);
 $header_txt = str_replace("<pclinician>", $clinician[0]['name'], $header_txt);
 $header_txt = str_replace("<ward>"           ,"", $header_txt);
+$header_txt = str_replace("<ppathologist>"           ,$signedpatho, $header_txt);
 $header_txt = str_replace("<hospital>", $hospital[0]['hospital'], $header_txt);
 $header_txt = str_replace("<date_1000>", $patient[0]['date_1000'], $header_txt);
 $header_txt = str_replace("<an_name>"          ,'', $header_txt);

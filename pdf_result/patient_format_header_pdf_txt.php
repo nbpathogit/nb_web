@@ -8,5 +8,5 @@ Surgical Number : <surgical_number>
 Hospital Number :<phospital_num>
 Name : <pname> Surname : <plastname> 
 Sex : <pg>   Age : <pedge>   LAB Number : <plabnum> 
-Clinician : <pclinician>   Ward : <ward>   Hospital : <hospital>
+Clinician : <pclinician>   Pathologist : <ppathologist>   Hospital : <hospital>
 Date Received : <date_1000>   AN: <an_name>   Date Report : <date_first_report> 
