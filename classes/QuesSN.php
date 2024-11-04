@@ -73,7 +73,7 @@ class QuesSN {
         }
     }
     
-    public function update($conn) {
+    public static function  update($conn,$id,$patient_id,$a1,$a2,$a3,$a4,$a5,$qcomment) {
 
         $curDateTime = Util::get_curreint_thai_date_time();
 
@@ -90,13 +90,13 @@ class QuesSN {
         $stmt = $conn->prepare($sql);
 
         //var_dump($this->name);
-        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $stmt->bindValue(':score_thickness', $this->score_thickness, PDO::PARAM_INT);
-        $stmt->bindValue(':score_staining', $this->score_staining, PDO::PARAM_INT);
-        $stmt->bindValue(':score_mounting', $this->score_mounting, PDO::PARAM_INT);
-        $stmt->bindValue(':score_labeling', $this->score_labeling, PDO::PARAM_INT);
-        $stmt->bindValue(':score_contaminate', $this->score_contaminate, PDO::PARAM_INT);
-        $stmt->bindValue(':note', $this->note, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':score_thickness',$a1, PDO::PARAM_INT);
+        $stmt->bindValue(':score_staining', $a2, PDO::PARAM_INT);
+        $stmt->bindValue(':score_mounting', $a3, PDO::PARAM_INT);
+        $stmt->bindValue(':score_labeling', $a4, PDO::PARAM_INT);
+        $stmt->bindValue(':score_contaminate', $a5, PDO::PARAM_INT);
+        $stmt->bindValue(':note',$qcomment, PDO::PARAM_STR);
 
         //var_dump($stmt);
         if ($stmt->execute()) {
@@ -132,5 +132,7 @@ class QuesSN {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
 
 }

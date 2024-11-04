@@ -1334,6 +1334,8 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                     $(document).ready(function () {
                         //set active tab
                         $("#patienttab").addClass("active");
+                        
+                        $(".snqaprop").prop('disabled', true);
 
                         // prevent from unsave
                         function onNosave(e) {
@@ -1475,7 +1477,103 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                             });
     
                         });   
+                        
+                        $("#save_quessn").on("click",function (e) {
+	
+                            e.preventDefault();
+                            
+                            let a1 = document.querySelector('input[name="a1"]:checked').value;
+                            let a2 = document.querySelector('input[name="a2"]:checked').value;
+                            let a3 = document.querySelector('input[name="a3"]:checked').value;
+                            let a4 = document.querySelector('input[name="a4"]:checked').value;
+                            let a5 = document.querySelector('input[name="a5"]:checked').value;
+                            let qcomment = document.getElementById("qcomment").value;
+                            let qsn_id = document.getElementById("q_sn_id").value;
 
+                            console.log("patient_id::"+patient_id);
+                            console.log("qsn_id::"+qsn_id);
+                            
+                            console.log('a1::'+a1);
+                            console.log('a2::'+a2);
+                            console.log('a3::'+a3);
+                            console.log('a4::'+a4);
+                            console.log('a5::'+a5);
+                            console.log('txt::'+qcomment);
+                            
+                            
+                            
+                            if(confirm("ต้องการบันทัก ไช่หรือไม่") == false){
+                                return;
+                            }
+                            //spinner-border spinner-border-sm
+                            $("#span_save_quessn").addClass("spinner-border");
+                            $("#span_save_quessn").addClass("spinner-border-sm");
+                            $("#save_quessn").prop('disabled', true);
+                            $("#edit_quessn").prop('disabled', true);
+
+
+                            $.ajax({
+                                'async': true,
+                                type: 'POST',
+                                'global': false,
+                                type: 'POST',
+                                url: 'ajax_patient/patient_edit_qu_sn_update_db.php',
+                                data: {
+                                    'patient_id': patient_id,
+                                    'id': qsn_id,
+                                    'a1': a1,
+                                    'a2': a2,
+                                    'a3': a3,
+                                    'a4': a4,
+                                    'a5': a5,
+                                    'qcomment': qcomment,
+
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                //                                    var datajson = JSON.parse(data); //convert String to JS Object
+                //                                    for (var i in datajson)
+                //                                    {
+                //                                        console.log(datajson[i].number);
+                //                                        console.log(datajson[i].number);
+                //                                    }
+                                    $("#span_save_quessn").removeClass("spinner-border");
+                                    $("#span_save_quessn").removeClass("spinner-border-sm");
+                                    //disable input field
+                                    $("#save_quessn").prop('disabled', true);
+                                    $(".snqaprop").prop('disabled', true);
+                                    $("#edit_quessn").prop('disabled', false);
+
+                                },
+                                error: function (jqxhr, status, exception) {
+                                    alert( jqxhr.responseText);
+                                }
+                            });
+                            
+                            
+                            
+
+                        });   
+                        
+                        //edit_quessn
+
+                        $("#edit_quessn").on("click",function (e) {
+                            e.preventDefault();
+                            
+                            var isCurrentPathoIsOwnerThisCase = $(".isCurrentPathoIsOwnerThisCase").attr('tabindex');
+                            console.log('isCurrentPathoIsOwnerThisCase::'+isCurrentPathoIsOwnerThisCase);
+                            if (isCurrentPathoIsOwnerThisCase == '') {
+                                alert("No pathologist is assigned");
+                                return;
+                            }
+                            if (isCurrentPathoIsOwnerThisCase == '0') {
+                                alert("You not have authorize to do this ! Only owner can proceed");
+                                return;
+                            }
+                            $("#save_quessn").prop('disabled', false);
+                            $(".snqaprop").prop('disabled', false);
+                        });   
+                        
 
                     });
 </script>
