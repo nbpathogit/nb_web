@@ -104,5 +104,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var isCurUserCust = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=9"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=11"></script>
 

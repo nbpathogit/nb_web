@@ -292,24 +292,8 @@ $(document).ready(function () {
                 else {
                     var data = '<div><h5><a href="patient_edit.php?id=' + row[18] + '&pnum=' + row[2] + '">' + data + '</a>';
                 }
-
-
-                if (row[12] == "ด่วน") {
-                    data += ' <span class="badge bg-danger">' + row[12] + '</span>';
-                }
                 data += '</h5></div>';
 
-                if (row[10] == "รับเข้า" || row[10] == "วางแผนงาน") {
-                    data += '<span class="badge bg-dark">' + row[10] + '</span>';
-                } else if (row[10] == "วินิจฉัย(อ่านไสลด์)") {
-                    data += '<span class="badge bg-secondary">' + row[10] + '</span>';
-                } else if (row[10] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[10] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
-                    data += '<span class="badge bg-info text-dark">' + row[10] + '</span>';
-                } else if (row[10] == "เสร็จสิ้น") {
-                    data += '<span class="badge bg-success">' + row[10] + '</span>';
-                } else {
-                    data += '<span class="badge bg-secondary">' + row[10] + '</span>';
-                }
                 return data;
             },
             "targets": (2)
@@ -331,7 +315,24 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                return row[1];
+                var data = row[1] + "<br>";
+
+                if (row[12] == "ด่วน") {
+                    data += ' <span class="badge bg-danger">' + row[12] + '</span>';
+                }
+        
+                if (row[10] == "รับเข้า" || row[10] == "วางแผนงาน") {
+                    data += '<span class="badge bg-dark">' + row[10] + '</span>';
+                } else if (row[10] == "วินิจฉัย(อ่านไสลด์)") {
+                    data += '<span class="badge bg-secondary">' + row[10] + '</span>';
+                } else if (row[10] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[10] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
+                    data += '<span class="badge bg-info text-dark">' + row[10] + '</span>';
+                } else if (row[10] == "เสร็จสิ้น") {
+                    data += '<span class="badge bg-success">' + row[10] + '</span>';
+                } else {
+                    data += '<span class="badge bg-secondary">' + row[10] + '</span>';
+                }
+                return data;
             },
             "targets": 1
         },
