@@ -684,6 +684,20 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //========CREATE AND Generate report file following th option send=================
 //$mpdf->Output();
 //$pdfOutputOption
@@ -702,7 +716,8 @@ if ($hideTable == FALSE) {
     $reportFileName = 'LAYOUTVIEW_' . $reportFileName;
 }
 
-$reportFileNameFormat2 = $reportFileName . '_' . $patient[0]['pname'] . '_' . $patient[0]['plastname'];
+//$reportFileNameFormat2 = $reportFileName . '_' . $patient[0]['pname'] . '_' . $patient[0]['plastname'];
+$reportFileNameFormat2 = $reportFileName;
 
 $reportFileName = str_replace(' ', '-', $reportFileName);
 $reportFileNameFormat2 = str_replace(' ', '-', $reportFileNameFormat2);
