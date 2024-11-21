@@ -776,6 +776,27 @@ if ($pdfOutputOption == 'F') {
         Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
 
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        $is_Cur_Cust_Kampang = ($patient[0]['phospital_id'] == '9');
+        
+        
+        
         //============================================================================================
         //===================Prepare $commandRename ==================================================
         //============================================================================================
@@ -938,34 +959,34 @@ if ($pdfOutputOption == 'F') {
 //            $cmd_copy_pdf = "cp '".$targetFolderRelease1 . '/' . $reportFileNameFormat2 . ".pdf' ".$targetFolderRelease2;
 //            $cmd_copy_pdf = "cd release1 && cp *.jpg ./../customerfile2/pathokph";
             //$cmd_copy_jpg = "cp '".$targetFolderRelease1 . '/' . $reportFileNameFormat2 . ".jpg' ".$targetFolderRelease2;
-
-            //=============copy pdf file=====================
-            $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
-            $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.pdf';
-            $copy_command = 'cp '.$copy_pdf_from.' '.$copy_pdf_to;
-            if ($dbg_print_patient_pdf) {
-                $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
-                $txt .= '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
-                $txt .= '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
-//                $txt .= 'call copy($copy_pdf_from, $copy_pdf_to);';
-                $txt .= '<br>$copy_command : "' . $copy_command . '"';
-                $txt .= '<br>';
-                echo $txt;
-                $txt = str_replace("<br>", "\n", $txt);
-                Util::writeFileAppend($file_patient_pdf_php, $txt);
+            if(!$is_Cur_Cust_Kampang){ // skip copy txt to Kampang
+                //=============copy pdf file=====================
+                $copy_pdf_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.pdf';
+                $copy_pdf_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.pdf';
+                $copy_command = 'cp '.$copy_pdf_from.' '.$copy_pdf_to;
+                if ($dbg_print_patient_pdf) {
+                    $txt = '<br>=========Copy file from "release1" to customer "customerfile2" folder==========';
+                    $txt .= '<br>$copy_pdf_from : "' . $copy_pdf_from . '"';
+                    $txt .= '<br>$copy_pdf_to : "' . $copy_pdf_to . '"';
+    //                $txt .= 'call copy($copy_pdf_from, $copy_pdf_to);';
+                    $txt .= '<br>$copy_command : "' . $copy_command . '"';
+                    $txt .= '<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
+                }
+    //            copy($copy_pdf_from, $copy_pdf_to);
+                exec($copy_command, $output, $retval);
+                if ($dbg_print_patient_pdf) {
+                    $txt  = '<br>Returned with status : "' . $retval . '"';
+                    $txt .= '<br>output : "' . print_r($output,TRUE) . '"';
+                    $txt .= '<br>';
+                    echo $txt;
+                    $txt = str_replace("<br>", "\n", $txt);
+                    Util::writeFileAppend($file_patient_pdf_php, $txt);
+                }
             }
-//            copy($copy_pdf_from, $copy_pdf_to);
-            exec($copy_command, $output, $retval);
-            if ($dbg_print_patient_pdf) {
-                $txt  = '<br>Returned with status : "' . $retval . '"';
-                $txt .= '<br>output : "' . print_r($output,TRUE) . '"';
-                $txt .= '<br>';
-                echo $txt;
-                $txt = str_replace("<br>", "\n", $txt);
-                Util::writeFileAppend($file_patient_pdf_php, $txt);
-            }
-            
-            if($patient[0]['phospital_id'] != 9){ // skip copy txt to Kampang
+            if(!$is_Cur_Cust_Kampang){ // skip copy txt to Kampang
                 //=============copy txt file=====================
                 $copy_txt_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.txt';
                 $copy_txt_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.txt';
@@ -992,6 +1013,7 @@ if ($pdfOutputOption == 'F') {
                     Util::writeFileAppend($file_patient_pdf_php, $txt);
                 }
             }
+            
             //============copy jpg in case of one page=============
             $copy_jpg_from = $targetFolderRelease1 . '/' . $reportFileNameFormat2 . '.jpg';
             $copy_jpg_to = $targetFolderRelease2 . '/' . $reportFileNameFormat2 . '.jpg';
