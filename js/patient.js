@@ -224,6 +224,11 @@ $(document).ready(function () {
         {
             "render": function (data, type, row) {
                 var renderdata = '';
+                
+                if (isCurUserAdmin) {
+                   renderdata += '<a onclick="regenpdftocustomer(' + row[18] + ',\'' + row[2] + '\');" class="resend_btn_' + row[18] + ' manage_btn_' + row[18] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> ReSendPdf</a>';
+                }
+
 
                 if (ugroup_id == '5000' || ugroup_id == '5100') {
                     if (row[10] == "ยังไม่ออกผล") {
@@ -607,6 +612,53 @@ function deletePatientPermanent(patient_id, patient_num) {
                 alert('Exception:', exception);
             }
         });
+    }
+
+}
+
+
+
+function regenpdftocustomer(patient_id, patient_num) {
+    //e.preventDefault();
+    var btnclass = ".resend_btn_"+patient_id;
+    console.log("patient_id::" + patient_id);
+    console.log("btnclass::"+btnclass);
+    if (confirm("Item " + patient_num + " will be regenerate aryou sure?")) {
+
+        //spinner-border spinner-border-sm
+       
+        $(btnclass).addClass("spinner-border");
+        $(btnclass).addClass("spinner-border-sm");
+        $(btnclass).prop('disabled', true);
+
+        $.ajax({
+            'async': true,
+            type: 'POST',
+            'global': false,
+            type: 'POST',
+            url: 'ajax_updateCusReport.php',
+            data: {
+                'patient_id': patient_id,
+
+            },
+            success: function (data) {
+                console.log(data);
+//                                    var datajson = JSON.parse(data); //convert String to JS Object
+//                                    for (var i in datajson)
+//                                    {
+//                                        console.log(datajson[i].number);
+//                                        console.log(datajson[i].number);
+//                                    }
+                $(btnclass).removeClass("spinner-border");
+                $(btnclass).removeClass("spinner-border-sm");
+                $(btnclass).prop('disabled', false);
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert(jqxhr.responseText);
+            }
+        });
+
     }
 
 }
