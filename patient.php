@@ -69,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <th>วันที่รับ</th>                   <!-- 8 --> 
                     <th>วันที่รายงาน</th>                 <!-- 9 -->
                     <th>ใช้เวลา<br>ออกผล(วัน)</th>           <!-- 10 --> 
-                    <th>สถานะ</th>                 <!-- 11 --> 
-                    <th>สถานะอื่นๆ</th>                 <!-- 12 -->  
+                    <th>สถานะอื่นๆ</th>                 <!-- 11 -->  
+                    <th>การออกผล</th>                 <!-- 12 --> 
                     <th>ความสำคัญ</th>                  <!-- 13 -->
                     <th>PDF</th>                    <!-- 14 -->
                     <th>จัดการ</th>                    <!-- 15 -->
@@ -104,5 +104,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var isCurUserCust = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=13"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient.js?v=12"></script>
 

@@ -224,9 +224,9 @@ $(document).ready(function () {
         {
             "render": function (data, type, row) {
                 var renderdata = '';
-
+                
                 if (isCurUserAdmin) {
-                    renderdata += '<a onclick="regenpdftocustomer(' + row[18] + ',\'' + row[2] + '\');" class="resend_btn_' + row[18] + ' manage_btn_' + row[18] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> ReSendPdf</a>';
+                   renderdata += '<a onclick="regenpdftocustomer(' + row[18] + ',\'' + row[2] + '\');" class="resend_btn_' + row[18] + ' manage_btn_' + row[18] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> ReSendPdf</a>';
                 }
 
 
@@ -314,11 +314,18 @@ $(document).ready(function () {
                 } else {
                     data = '<h5><span class="badge bg-secondary">' + row[11] + '</span></h5>';
                 }
-                // data += '<br>';
+                return data;
+            },
+            "targets": (12)
+        },
+        {
+            "render": function (data, type, row) {
+                var data = row[1] + "<br>";
+
                 if (row[12] == "ด่วน") {
                     data += ' <span class="badge bg-danger">' + row[12] + '</span>';
                 }
-                // data += '<br>';
+        
                 if (row[10] == "รับเข้า" || row[10] == "วางแผนงาน") {
                     data += '<span class="badge bg-dark">' + row[10] + '</span>';
                 } else if (row[10] == "วินิจฉัย(อ่านไสลด์)") {
@@ -330,30 +337,6 @@ $(document).ready(function () {
                 } else {
                     data += '<span class="badge bg-secondary">' + row[10] + '</span>';
                 }
-
-                return data;
-            },
-            "targets": (11)
-        },
-        {
-            "render": function (data, type, row) {
-                var data = row[1];
-
-                // if (row[12] == "ด่วน") {
-                //     data += ' <span class="badge bg-danger">' + row[12] + '</span>';
-                // }
-
-                // if (row[10] == "รับเข้า" || row[10] == "วางแผนงาน") {
-                //     data += '<span class="badge bg-dark">' + row[10] + '</span>';
-                // } else if (row[10] == "วินิจฉัย(อ่านไสลด์)") {
-                //     data += '<span class="badge bg-secondary">' + row[10] + '</span>';
-                // } else if (row[10] == "เตรียมชิ้นเนื้อ(ศัลยพยาธิ)" || row[10] == "เตรียมสไลด์(จุลพยาธิวิทยา)") {
-                //     data += '<span class="badge bg-info text-dark">' + row[10] + '</span>';
-                // } else if (row[10] == "เสร็จสิ้น") {
-                //     data += '<span class="badge bg-success">' + row[10] + '</span>';
-                // } else {
-                //     data += '<span class="badge bg-secondary">' + row[10] + '</span>';
-                // }
                 return data;
             },
             "targets": 1
@@ -390,7 +373,7 @@ $(document).ready(function () {
 
                 return data;
             },
-            "targets": 12
+            "targets": 11
         },
         {
             "render": function (data, type, row) {
@@ -428,7 +411,7 @@ $(document).ready(function () {
         },
         {
             responsivePriority: 1,
-            targets: [2,11]
+            targets: [2]
         },
             //        {
             //            responsivePriority: 2,
@@ -637,13 +620,13 @@ function deletePatientPermanent(patient_id, patient_num) {
 
 function regenpdftocustomer(patient_id, patient_num) {
     //e.preventDefault();
-    var btnclass = ".resend_btn_" + patient_id;
+    var btnclass = ".resend_btn_"+patient_id;
     console.log("patient_id::" + patient_id);
-    console.log("btnclass::" + btnclass);
+    console.log("btnclass::"+btnclass);
     if (confirm("Item " + patient_num + " will be regenerate aryou sure?")) {
 
         //spinner-border spinner-border-sm
-
+       
         $(btnclass).addClass("spinner-border");
         $(btnclass).addClass("spinner-border-sm");
         $(btnclass).prop('disabled', true);
@@ -660,12 +643,12 @@ function regenpdftocustomer(patient_id, patient_num) {
             },
             success: function (data) {
                 console.log(data);
-                //                                    var datajson = JSON.parse(data); //convert String to JS Object
-                //                                    for (var i in datajson)
-                //                                    {
-                //                                        console.log(datajson[i].number);
-                //                                        console.log(datajson[i].number);
-                //                                    }
+//                                    var datajson = JSON.parse(data); //convert String to JS Object
+//                                    for (var i in datajson)
+//                                    {
+//                                        console.log(datajson[i].number);
+//                                        console.log(datajson[i].number);
+//                                    }
                 $(btnclass).removeClass("spinner-border");
                 $(btnclass).removeClass("spinner-border-sm");
                 $(btnclass).prop('disabled', false);
