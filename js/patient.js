@@ -68,12 +68,12 @@ $(document).ready(function () {
 
     const searchPanesCol = { show: [], hide: [] }
     if (ugroup_id == '5000' || ugroup_id == '5100') {
-        searchPanesCol.show = [1, 6, 7, 8, 9, 11, 12, 13, 16];
-        searchPanesCol.hide = [0, 2, 3, 5, 10, 17, 18];
+        searchPanesCol.show = [1, 6, 7, 8, 9, 10, 11, 12, 13, 16];
+        searchPanesCol.hide = [0, 2, 3, 5, 17, 18];
     }
     else {
-        searchPanesCol.show = [1, 6, 7, 8, 9, 11, 12, 13, 16, 17];
-        searchPanesCol.hide = [0, 2, 3, 5, 10, 18];
+        searchPanesCol.show = [1, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17];
+        searchPanesCol.hide = [0, 2, 3, 5, 18];
     }
 
     // datatable
@@ -224,9 +224,9 @@ $(document).ready(function () {
         {
             "render": function (data, type, row) {
                 var renderdata = '';
-                
+
                 if (isCurUserAdmin) {
-                   renderdata += '<a onclick="regenpdftocustomer(' + row[18] + ',\'' + row[2] + '\');" class="resend_btn_' + row[18] + ' manage_btn_' + row[18] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> ReSendPdf</a>';
+                    renderdata += '<a onclick="regenpdftocustomer(' + row[18] + ',\'' + row[2] + '\');" class="resend_btn_' + row[18] + ' manage_btn_' + row[18] + ' btn btn-outline-dark btn-sm"><i class="fa-solid fa-eraser"></i> ReSendPdf</a>';
                 }
 
 
@@ -320,12 +320,19 @@ $(document).ready(function () {
         },
         {
             "render": function (data, type, row) {
-                var data = row[1] + "<br>";
+                var data = row[1];
+                return data;
+            },
+            "targets": 1
+        },
+        {
+            "render": function (data, type, row) {
+                var data = "";
 
                 if (row[12] == "ด่วน") {
                     data += ' <span class="badge bg-danger">' + row[12] + '</span>';
                 }
-        
+
                 if (row[10] == "รับเข้า" || row[10] == "วางแผนงาน") {
                     data += '<span class="badge bg-dark">' + row[10] + '</span>';
                 } else if (row[10] == "วินิจฉัย(อ่านไสลด์)") {
@@ -339,7 +346,7 @@ $(document).ready(function () {
                 }
                 return data;
             },
-            "targets": 1
+            "targets": 9
         },
         {
             "render": function (data, type, row) {
@@ -620,13 +627,13 @@ function deletePatientPermanent(patient_id, patient_num) {
 
 function regenpdftocustomer(patient_id, patient_num) {
     //e.preventDefault();
-    var btnclass = ".resend_btn_"+patient_id;
+    var btnclass = ".resend_btn_" + patient_id;
     console.log("patient_id::" + patient_id);
-    console.log("btnclass::"+btnclass);
+    console.log("btnclass::" + btnclass);
     if (confirm("Item " + patient_num + " will be regenerate aryou sure?")) {
 
         //spinner-border spinner-border-sm
-       
+
         $(btnclass).addClass("spinner-border");
         $(btnclass).addClass("spinner-border-sm");
         $(btnclass).prop('disabled', true);
@@ -643,12 +650,12 @@ function regenpdftocustomer(patient_id, patient_num) {
             },
             success: function (data) {
                 console.log(data);
-//                                    var datajson = JSON.parse(data); //convert String to JS Object
-//                                    for (var i in datajson)
-//                                    {
-//                                        console.log(datajson[i].number);
-//                                        console.log(datajson[i].number);
-//                                    }
+                //                                    var datajson = JSON.parse(data); //convert String to JS Object
+                //                                    for (var i in datajson)
+                //                                    {
+                //                                        console.log(datajson[i].number);
+                //                                        console.log(datajson[i].number);
+                //                                    }
                 $(btnclass).removeClass("spinner-border");
                 $(btnclass).removeClass("spinner-border-sm");
                 $(btnclass).prop('disabled', false);
