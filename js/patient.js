@@ -57,23 +57,23 @@ $(document).ready(function () {
     if (isCurUserCust) {
         hidecolumn = {
             visible: false,
-            targets: [5, 10, 11]//, 12+1
+            targets: [5,  11]//, 12+1
         };
     } else {
         hidecolumn = {
             visible: false,
-            targets: [5, 10]//, 12+1
+            targets: [5]//, 12+1
         };
     }
 
     const searchPanesCol = { show: [], hide: [] }
     if (ugroup_id == '5000' || ugroup_id == '5100') {
-        searchPanesCol.show = [1, 6, 7, 8, 9, 10, 11, 12, 13, 16];
-        searchPanesCol.hide = [0, 2, 3, 5, 17, 18];
+        searchPanesCol.show = [1, 6, 7, 8, 9, 11, 12, 13, 16];
+        searchPanesCol.hide = [0, 2, 3, 5, 10, 17, 18];
     }
     else {
-        searchPanesCol.show = [1, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17];
-        searchPanesCol.hide = [0, 2, 3, 5, 18];
+        searchPanesCol.show = [1, 6, 7, 8, 9, 11, 12, 13, 16, 17];
+        searchPanesCol.hide = [0, 2, 3, 5, 10, 18];
     }
 
     // datatable
@@ -346,7 +346,7 @@ $(document).ready(function () {
                 }
                 return data;
             },
-            "targets": 9
+            "targets": 10
         },
         {
             "render": function (data, type, row) {
@@ -362,25 +362,25 @@ $(document).ready(function () {
         },
 
         {
-            "render": function (data, type, row) {
-                data = '';
-                data += '<small>รับเข้าโดย:</small><span class="badge bg-success">' + row[16] + '</span>';
-                if (row[13] == "1") {
-                    data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
-                } else if (row[13] == "2") {
-                    data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-success">เสร็จสิ้น</span><br>';
-                }
+        "render": function (data, type, row) {
+            data = row[10] + '<br>' + row[11] + '<br>';
+            data += '<small>รับเข้าโดย:</small><span class="badge bg-success">' + row[16] + '</span>';
+            if (row[13] == "1") {
+                data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
+            } else if (row[13] == "2") {
+                data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-success">เสร็จสิ้น</span><br>';
+            }
 
-                if (row[14] == "1") {
-                    data += '<small>ย้อมพิเศษ:</small><span class="badge bg-warning text-dark">ร้องขอ</span>';
-                } else if (row[14] == "2") {
-                    data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
-                }
+            if (row[14] == "1") {
+                data += '<small>ย้อมพิเศษ:</small><span class="badge bg-warning text-dark">ร้องขอ</span>';
+            } else if (row[14] == "2") {
+                data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
+            }
 
 
-                return data;
-            },
-            "targets": 11
+            return data;
+        },
+        "targets": 11
         },
         {
             "render": function (data, type, row) {
