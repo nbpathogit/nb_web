@@ -254,7 +254,7 @@ $mpdf = new \Mpdf\Mpdf(
     'margin_right' => 15,
     'margin_top' => 65,
     'margin_bottom' => 15,
-    'margin_header' => 10,
+    'margin_header' => 4,
     'margin_footer' => 4,
     'useFixedNormalLineHeight' => true,
     'languageToFont' => new CustomLanguageToFontImplementation(),
@@ -385,7 +385,7 @@ if($is_Cur_Cust_Kampang){
 $mpdf->SetHTMLHeader($header);
 $txtWriteOut .= $header_txt;
 
-$footer = '<hr><div style="text-align: center; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
+$footer = '<hr><div style="text-align: right; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>';
 $mpdf->SetHTMLFooter($footer);
 
 $file_rev=1;

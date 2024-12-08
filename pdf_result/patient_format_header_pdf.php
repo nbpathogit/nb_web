@@ -1,3 +1,4 @@
+<div style="text-align: right; font-weight: bold;font-family:angsana; font-size:14pt; color:#000000;"> page {PAGENO} of {nb} </div>
 <table width="100%"   style="  border-collapse: collapse;">
 
     <tr>
