@@ -157,6 +157,11 @@ $clinician = User::getAll($conn, $patient[0]['pclinician_id']);
 $hospital = Hospital::getAll($conn, $patient[0]['phospital_id']);
 $pathologist = User::getAllbyPathologis($conn, $patient[0]['ppathologist_id']);
 
+$is_Cur_Cust_Kampang = ($patient[0]['phospital_id'] == '9');
+
+$is_Cur_Cust_Winmed = ($patient[0]['phospital_id'] == '38'
+        || $patient[0]['phospital_id'] == '40'
+        || $patient[0]['phospital_id'] == '41');
 
 //var_dump($patient[0]['ppathologist_id']);
 //var_dump($pathologist);
@@ -338,9 +343,17 @@ $header = str_replace("<pclinician>", $clinician[0]['name'].' '.$clinician[0]['l
 $header = str_replace("<ward>"           ,"", $header);
 $header = str_replace("<ppathologist>"           ,$signedpatho, $header);
 $header = str_replace("<hospital>", $hospital[0]['hospital'], $header);
-$header = str_replace("<date_1000>", $patient[0]['date_1000'], $header);
+if($is_Cur_Cust_Kampang){
+    $header = str_replace("<date_1000>", date('d/m/Y H:i:s',strtotime($patient[0]['date_1000'])), $header);
+}else{
+    $header = str_replace("<date_1000>", $patient[0]['date_1000'], $header);
+}
 $header = str_replace("<an_name>"          ,'', $header);
-$header = str_replace("<date_first_report>", $patient[0]['date_20000'], $header);
+if($is_Cur_Cust_Kampang){
+    $header = str_replace("<date_first_report>", date('d/m/Y H:i:s',strtotime($patient[0]['date_20000'])), $header);
+}else{
+    $header = str_replace("<date_first_report>", $patient[0]['date_20000'], $header);
+}
 
 
 $header_txt = str_replace("<PATHOLOGY_REPORT>", $titleName, $header_txt);
@@ -356,9 +369,17 @@ $header_txt = str_replace("<pclinician>", $clinician[0]['name'], $header_txt);
 $header_txt = str_replace("<ward>"           ,"", $header_txt);
 $header_txt = str_replace("<ppathologist>"           ,$signedpatho, $header_txt);
 $header_txt = str_replace("<hospital>", $hospital[0]['hospital'], $header_txt);
-$header_txt = str_replace("<date_1000>", $patient[0]['date_1000'], $header_txt);
+if($is_Cur_Cust_Kampang){
+    $header_txt = str_replace("<date_1000>", date('d/m/Y H:i:s',strtotime($patient[0]['date_1000'])), $header_txt);
+}else{
+    $header_txt = str_replace("<date_1000>", $patient[0]['date_1000'], $header_txt);
+}
 $header_txt = str_replace("<an_name>"          ,'', $header_txt);
-$header_txt = str_replace("<date_first_report>", $patient[0]['date_20000'], $header_txt);
+if($is_Cur_Cust_Kampang){
+    $header_txt = str_replace("<date_first_report>", date('d/m/Y H:i:s',strtotime($patient[0]['date_20000'])), $header_txt);
+}else{
+    $header_txt = str_replace("<date_first_report>", $patient[0]['date_20000'], $header_txt);
+}
 
 
 $mpdf->SetHTMLHeader($header);
@@ -793,7 +814,7 @@ if ($pdfOutputOption == 'F') {
         
         
         
-        $is_Cur_Cust_Kampang = ($patient[0]['phospital_id'] == '9');
+
         
         
         
@@ -1095,9 +1116,7 @@ if ($pdfOutputOption == 'F') {
             //====================================================================================
             //=============== Send report for Winmed to Rest API =================================
             //====================================================================================
-            $is_Cur_Cust_Winmed = ($patient[0]['phospital_id'] == '38'
-                    || $patient[0]['phospital_id'] == '40'
-                    || $patient[0]['phospital_id'] == '41');
+
             
             
             if($is_Cur_Cust_Winmed){
