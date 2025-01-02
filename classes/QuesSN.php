@@ -120,6 +120,40 @@ class QuesSN {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+    public static function getAllbyDaterange($conn,$range= '0'){
+        $sql = "SELECT 
+                #*,
+                s.id as id, 
+                s.patient_id AS patient_id, 
+                p.pnum as patient_num ,
+                p.date_1000 as accept_date,
+                s.score_thickness AS score_thickness,
+                s.score_staining AS score_staining,
+                s.score_mounting AS score_mounting,
+                s.score_labeling AS score_labeling,
+                s.score_contaminate AS score_contaminate,
+                s.note AS note
+                FROM `questionnaire_quality_sn` AS s
+                JOIN patient as p ON p.id = s.patient_id and p.movetotrash = 0
+                WHERE 1  ";
+
+        
+        if ($range != '0') {
+            $sql .= " and date(p.date_1000) >= '{$range}' ";
+        }
+
+        if($GLOBALS['isSqlWriteFileForDBG']){
+//        if(TRUE){
+            Util::writeFile('QuesSN_getAllbydaterange.txt', $sql);   
+        }
+        
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+        
+    }
 
     public static function getAllbyPatientID($conn, $id) {
         $sql = "SELECT * FROM `questionnaire_quality_sn` ";

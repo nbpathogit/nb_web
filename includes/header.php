@@ -112,6 +112,14 @@
                     <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ตรวจพิเศษ</a>
                     <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>Double check by second pathologist</a>
                     
+                    <div class="nav-item dropdown">
+                        <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แบบสอบถาม</a>
+                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
+                            <a id="qn_sn_tab" href="questionare_sn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(SN)</a>
+                            <a id="qn_cn_tab" href="questionare_cn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(CN)</a>
+                        </div>
+                    </div>
+                    
                     <!--job_daily-->
                     
                     <div class="nav-item dropdown">
