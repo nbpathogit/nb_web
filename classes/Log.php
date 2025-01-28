@@ -101,5 +101,28 @@ class Log
             return FALSE;
         }
     }
+    
+    public static function getAllLogInLogOut($conn)
+    {
+        $sql = "SELECT "
+                . " `id`,`username`,`name`,`event`,`detail`,`event_date` "
+                . " FROM `log`  "
+                . " WHERE (`event`= 'login' or `event`= 'logout') "
+                . " ORDER BY id DESC ";
+
+        $results = $conn->query($sql);
+
+        return  $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
 
 }
+
+
+
+
+
+
+
+

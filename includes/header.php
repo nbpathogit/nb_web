@@ -120,6 +120,13 @@
                         </div>
                     </div>
                     
+                    <div class="nav-item dropdown">
+                        <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ดูประวัติการเข้าใช้</a>
+                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
+                            <a id="qn_sn_tab" href="log_login_logout_datatable.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ประวัติการล็อกอินล็อกเอ้าท์</a>
+                        </div>
+                    </div>
+                    
                     <!--job_daily-->
                     
                     <div class="nav-item dropdown">
