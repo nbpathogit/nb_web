@@ -26,7 +26,12 @@ if (!Auth::isLoggedIn()) {
     die();
 }
 
-$file_patient_pdf_php = "patient_pdf_php.txt";
+$curDateTime = Util::get_curreint_thai_date_time();
+$curDateTime = str_replace(" ","_",$curDateTime);
+$curDateTime = str_replace(":","_",$curDateTime);
+$curDateTime = str_replace("-","_",$curDateTime);
+
+$file_patient_pdf_php = "log_patient_pdf_php/".$curDateTime."_patient_pdf_php.txt";
 
 $skey = $_SESSION['skey'];
 $os = PHP_OS;
