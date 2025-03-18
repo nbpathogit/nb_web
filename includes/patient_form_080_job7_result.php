@@ -68,8 +68,8 @@ $isPersonOwnThisCase = ($isCurrentCytologistIsOwnerThisCase || $isCurrentPathoIs
                  <?php endif;?>
             </div>
             <?php endif; ?>
-
-            <textarea name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
+            <?php $caneditTxtArea = $isCurrentPathoAdminIsOwnerThisCase  ?>
+            <textarea <?php if ( $caneditTxtArea ) : ?> ondblclick="edit_txt_rs(<?= $presultupdate['id'] ?>);" <?php endif; ?>  name="txt_rs_<?= $presultupdate['id']?>" cols="100" rows="5" class="form-control" id="txt_rs_<?= $presultupdate['id']?>" readonly ><?= $presultupdate['result_message'] ?> </textarea>
 
         </div>
 
