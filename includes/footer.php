@@ -61,6 +61,7 @@
 </script>
 <script src="<?= Url::getSubFolder1() ?>/js/jquery.datetimepicker.full.min.js"></script>
 <script src="<?= Url::getSubFolder1() ?>/js/script.js?v16"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/scriptutil.js?v1a"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxxxxx"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_read_dom/readdom.js?v3"></script>

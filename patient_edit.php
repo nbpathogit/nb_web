@@ -1294,6 +1294,18 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
         <?php endif; ?>
     </div>
 </div>
+    
+    
+    
+ <?php if ($isCurUserNB) : ?>
+    <div id="finish_section" class="container-fluid pt-4 px-4">
+        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+            <!--hr noshade="noshade" width="" size="8" -->
+            <h4 align="center"><b>Internal Note</b><span style="color:green;"></span></h4>
+            <?php require "patient_internal_note.php"; ?>
+        </div>
+    </div>
+<?php endif; ?>
 
 
 <span id="end_section">    </span>

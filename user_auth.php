@@ -104,6 +104,7 @@ if(isset($job7s[0]['user_id'])){
 }
 
 $cur_user_id = $_SESSION['user']->id;
+$cur_user_id_name_lastname = $_SESSION['user']->name. " " . $_SESSION['user']->lastname ;
 
 
 

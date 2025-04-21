@@ -10,6 +10,11 @@
     <li class="cur_user_id" tabindex="<?= $cur_user_id ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$cur_user_id::<?= $cur_user_id ?> </li>
 <?php endif; ?>
 
+    
+    
+<?php if (isset($cur_user_id_name_lastname)): ?>
+    <li class="cur_user_id_name_lastname" tabindex="<?= $cur_user_id_name_lastname ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >$cur_user_id_name_lastname::<?= $cur_user_id_name_lastname ?> </li>
+<?php endif; ?>
 <?php if (isset($curstatus[0]['id'])): ?>
     <li class="cur_status" tabindex="<?= $curstatus[0]['id'] ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>"  >cur_status::$curstatus[0]['id']::<?= $curstatus[0]['id'] ?> </li>
     <li class="isset_date_first_report" tabindex="<?= $isset_date_first_report ?>" style="<?= $hidden_data2dom ? "display: none;":"" ?>" >isset_date_first_report::$isset_date_first_report::<?= $isset_date_first_report ?> </li>
