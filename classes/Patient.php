@@ -233,8 +233,10 @@ class Patient {
             $sql = $sql . " and p.id = " . $id;
         }
 
-        if ($start != '0') {
+        if ($start != '0' && !is_numeric($start)) {
             $sql .= " and date(p.date_1000) >= '{$start}'";
+        }else if($start != '0' && is_numeric($start)){
+            $sql .= " and YEAR(p.date_1000) = {$start}";
         }
 
         $sql .= " and p.movetotrash = 0";
@@ -345,8 +347,10 @@ class Patient {
             $sql = $sql . " and p.id = " . $id;
         }
 
-        if ($start != '0') {
+        if ($start != '0' && !is_numeric($start)) {
             $sql .= " and date(p.date_1000) >= '{$start}'";
+        }else if($start != '0' && is_numeric($start)){
+            $sql .= " and YEAR(p.date_1000) = {$start}";
         }
 
         $sql .= " and p.movetotrash = 0";

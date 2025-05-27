@@ -57,7 +57,7 @@ $(document).ready(function () {
     if (isCurUserCust) {
         hidecolumn = {
             visible: false,
-            targets: [5,  11]//, 12+1
+            targets: [5, 11]//, 12+1
         };
     } else {
         hidecolumn = {
@@ -82,6 +82,7 @@ $(document).ready(function () {
         responsive: true,
         dom: 'BP<"toolbar">lfritp',
         pageLength: 100,
+        processing: true, // Add this line to enable the built-in loading indicator
         buttons: [
             {
                 text: 'export excel',
@@ -113,46 +114,99 @@ $(document).ready(function () {
                 buttons: [{
                     text: '2 เดือนล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=2m").load();
-                        $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 2 เดือน');
+                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=2m").load(function () {
+                            $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 2 เดือน');
+                        });
+                        $('#patient_title_message').text('กำลังโหลดข้อมูล...');
 
                     }
                 },
                 {
                     text: '3 เดือนล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=3m").load();
-                        $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 3 เดือน');
+                        // dt.state.clear();
+                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=3m").load(function () {
+                            $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 3 เดือน');
+                        });
+                        $('#patient_title_message').text('กำลังโหลดข้อมูล...');
                     }
                 },
                 {
                     text: '6 เดือนล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=6m").load();
-                        $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 6 เดือน');
+                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=6m").load(function () {
+                            $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 6 เดือน');
+                        });
+                        $('#patient_title_message').text('กำลังโหลดข้อมูล...');
                     }
                 },
                 {
                     text: '1 ปีล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=1y").load();
-                        $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 1 ปี');
+                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=1y").load(function () {
+                            $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 1 ปี');
+                        });
+                        $('#patient_title_message').text('กำลังโหลดข้อมูล...');
                     }
                 },
-                {
-                    text: '2 ปีล่าสุด',
-                    action: function (e, dt, node, config) {
-                        dt.ajax.url("data/patient.php?skey=" + skey + "&range=2y").load();
-                        $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 2 ปี');
+                // {
+                //     text: 'ปี 2023',
+                //     action: function (e, dt, node, config) {
+                //         dt.ajax.url("data/patient.php?skey=" + skey + "&range=2023").load();
+                //         $('#patient_title_message').text('แสดงจากข้อมูลปี 2023');
+                //     }
+                // },
+                // {
+                //     text: 'ปี 2024',
+                //     action: function (e, dt, node, config) {
+                //         dt.ajax.url("data/patient.php?skey=" + skey + "&range=2024").load();
+                //         $('#patient_title_message').text('แสดงจากข้อมูลปี 2024');
+                //     }
+                // },
+                /* Dynamic year generation starts */
+                (function () {
+                    var currentYear = new Date().getFullYear();
+                    var yearButtons = [];
+
+                    // Function to create year button action
+                    function createYearAction(year) {
+                        return function (e, dt, node, config) {
+                            // Show loading indicator
+                            // dt.processing(true);
+
+                            dt.ajax.url("data/patient.php?skey=" + skey + "&range=" + year).load(function () {
+                                $('#patient_title_message').text('แสดงจากข้อมูลปี ' + year);
+                            });
+                            $('#patient_title_message').text('กำลังโหลดข้อมูล...');
+                        };
                     }
-                },
-                {
-                    text: 'ทั้งหมด',
-                    action: function (e, dt, node, config) {
-                        dt.ajax.url("data/patient.php?skey=" + skey + "").load();
-                        $('#patient_title_message').text('แสดงจากข้อมูลทั้งหมด');
+
+                    // Loop from 2023 to current year (inclusive)
+                    for (var year = 2024; year <= currentYear; year++) {
+                        yearButtons.push({
+                            text: 'ปี ' + year,
+                            action: createYearAction(year)
+                        });
                     }
-                }]
+
+                    return yearButtons;
+                })(),
+                    /* Dynamic year generation ends */
+                    // {
+                    //     text: '2 ปีล่าสุด',
+                    //     action: function (e, dt, node, config) {
+                    //         dt.ajax.url("data/patient.php?skey=" + skey + "&range=2y").load();
+                    //         $('#patient_title_message').text('แสดงจากข้อมูลย้อนหลัง 2 ปี');
+                    //     }
+                    // },
+                    // {
+                    //     text: 'ทั้งหมด',
+                    //     action: function (e, dt, node, config) {
+                    //         dt.ajax.url("data/patient.php?skey=" + skey + "").load();
+                    //         $('#patient_title_message').text('แสดงจากข้อมูลทั้งหมด');
+                    //     }
+                    // }
+                ]
             },],
         "order": [
             [0, "desc"]
@@ -362,25 +416,25 @@ $(document).ready(function () {
         },
 
         {
-        "render": function (data, type, row) {
-            data = row[10] + '<br>' + row[11] + '<br>';
-            data += '<small>รับเข้าโดย:</small><span class="badge bg-success">' + row[16] + '</span>';
-            if (row[13] == "1") {
-                data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
-            } else if (row[13] == "2") {
-                data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-success">เสร็จสิ้น</span><br>';
-            }
+            "render": function (data, type, row) {
+                data = row[10] + '<br>' + row[11] + '<br>';
+                data += '<small>รับเข้าโดย:</small><span class="badge bg-success">' + row[16] + '</span>';
+                if (row[13] == "1") {
+                    data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-warning text-dark">ร้องขอ</span><br>';
+                } else if (row[13] == "2") {
+                    data += '<small>รอคอนเฟิร์ม:</small><span class="badge bg-success">เสร็จสิ้น</span><br>';
+                }
 
-            if (row[14] == "1") {
-                data += '<small>ย้อมพิเศษ:</small><span class="badge bg-warning text-dark">ร้องขอ</span>';
-            } else if (row[14] == "2") {
-                data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
-            }
+                if (row[14] == "1") {
+                    data += '<small>ย้อมพิเศษ:</small><span class="badge bg-warning text-dark">ร้องขอ</span>';
+                } else if (row[14] == "2") {
+                    data += '<small>ย้อมพิเศษ:</small><span class="badge bg-success">เสร็จสิ้น</span>';
+                }
 
 
-            return data;
-        },
-        "targets": 11
+                return data;
+            },
+            "targets": 11
         },
         {
             "render": function (data, type, row) {
@@ -488,7 +542,12 @@ $(document).ready(function () {
 
     // add color when reload
     table.on('draw', colorAdd);
-
+    // table.on('preXhr.dt', function() {
+    //     table.processing(true); // Show loading indicator when AJAX starts
+    // });
+    // table.on('xhr.dt', function() {
+    //     table.processing(false); // Hide loading indicator when AJAX completes
+    // });
 
     // delete user
     $('#patient_table tbody').on('click', 'a.delete', function (e) {
