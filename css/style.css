@@ -29,6 +29,17 @@
 }
 
 
+
+.contact-info {
+    color: var(--primary);
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.contact-info b {
+    font-weight: 600;
+}
+
 /*** Button ***/
 .btn {
     transition: .5s;
