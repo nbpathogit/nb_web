@@ -733,7 +733,7 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 //'F': save as file $file_out
 
 
-$reportFileName = $patient[0]['pnum'] . '_R' . $file_rev . '_' . $patient[0]['phospital_num']; //$file_rev
+$reportFileName = $patient[0]['pnum'] . '_R' . $file_rev . '_' . str_replace('/', '_',$patient[0]['phospital_num']); //$file_rev
 
 if ($isPreviewMode == TRUE) {
     $reportFileName = 'PREVIEW_' . $reportFileName;
