@@ -103,6 +103,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a id="user_sim_admin_tab" href="user_sim_admin.php" class="nav-item nav-link">จำลองผู้ใช้</a>
                             <a id="user_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
+                            <a id="user_sim_admin_tab" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
                         </div>
                     </div>
                     <?php  endif; ?>
