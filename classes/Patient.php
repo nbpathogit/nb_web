@@ -1345,6 +1345,12 @@ class Patient {
         return $stmt->execute();
     }
 
+    public static function getBySQL($conn, $sql) {
+
+        $results = $conn->query($sql);
+        $rs = $results->fetchAll(PDO::FETCH_ASSOC);
+        return  $rs;
+    }
 
 }
 

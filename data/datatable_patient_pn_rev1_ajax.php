@@ -4,7 +4,9 @@ require '../includes/init.php';
 
 $auth = false;
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    if (!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1() . "/datatable_draft.php")) {
+    if (!empty($_SERVER['HTTP_REFERER']) 
+            && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1() . "/datatable_patient_pn_rev1.php")
+            ) {
 
         // >>>> Security check
         if (empty($_SESSION['skey']) || empty($_REQUEST['skey']) || ($_SESSION['skey'] != $_REQUEST['skey'])) {
@@ -22,7 +24,13 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 
 
 
-//$auth = true;
+$auth = true;
+
+
+
+
+
+
 if ($auth) {
     $conn = require '../includes/db.php';
 
@@ -48,7 +56,8 @@ if ($auth) {
         $range = $dateTime->format('Y-m-d');
     }
 
-    $sql = "SELECTconcat(p.ppre_name,' ',p.pname) as name ,
+    $sql = "SELECT 
+        concat(p.ppre_name,' ',p.pname) as name ,
     p.plastname as surname ,
     p.pnum as pn,
     p.`pedge` as age, 
@@ -81,13 +90,29 @@ if ($auth) {
   and p.movetotrash = 0
   AND DATE(p.date_1000) >= '2025-01-01' AND DATE(p.date_1000) <= '2025-05-13' 
   ORDER BY p.pnum ASC";
-    
-    $assoc_datas = Patient::getBySQL($conn, $sql);
 
+    $assoc_datas = Patient::getBySQL($conn, $sql);
+    //var_dump($assoc_datas);
     $data = [];
     foreach ($assoc_datas as $adata) {
-        if ($adata['uid'])
-            $data[] = [$adata['uid'], $adata['username'], $adata['pre_name'], $adata['name'], $adata['lastname'], $adata['pre_name_e'], $adata['name_e'], $adata['lastname_e'], $adata['short_name'], $adata['hospital'], $adata['ugroup'], "action"];
+        
+            $data[] = [
+                $adata['name'],
+                $adata['surname'],
+                $adata['pn'],
+                $adata['age'],
+                $adata['hn'],
+                $adata['Hospital'],
+                $adata['Specimen'],
+                $adata['ssource'],
+                $adata['specimen_adequacy'],
+                $adata['interpretation'],
+                $adata['EDUCATIONAL_NOTES_AND_SUGGESTION'],
+                $adata['Date_Received'],
+                $adata['Date_Report'],
+                $adata['Pathologist'],
+                $adata['Cytologist']
+            ];
     }
     $result = ["data" => $data];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
