@@ -4,9 +4,10 @@ require '../includes/init.php';
 
 $auth = false;
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    if (!empty($_SERVER['HTTP_REFERER']) 
-            && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1() . "/datatable_patient_pn_rev1.php")
-            ) {
+    if (
+        !empty($_SERVER['HTTP_REFERER'])
+        && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'] . Url::getSubFolder1() . "/datatable_patient_pn_rev1.php")
+    ) {
 
         // >>>> Security check
         if (empty($_SESSION['skey']) || empty($_REQUEST['skey']) || ($_SESSION['skey'] != $_REQUEST['skey'])) {
@@ -92,28 +93,21 @@ if ($auth) {
   ORDER BY p.pnum ASC";
 
     $assoc_datas = Patient::getBySQL($conn, $sql);
-    //var_dump($assoc_datas);
+
+    $columns = [];
     $data = [];
-    foreach ($assoc_datas as $adata) {
-        
-            $data[] = [
-                $adata['name'],
-                $adata['surname'],
-                $adata['pn'],
-                $adata['age'],
-                $adata['hn'],
-                $adata['Hospital'],
-                $adata['Specimen'],
-                $adata['ssource'],
-                $adata['specimen_adequacy'],
-                $adata['interpretation'],
-                $adata['EDUCATIONAL_NOTES_AND_SUGGESTION'],
-                $adata['Date_Received'],
-                $adata['Date_Report'],
-                $adata['Pathologist'],
-                $adata['Cytologist']
-            ];
+
+    if (!empty($assoc_datas)) {
+        $firstRow = $assoc_datas[0];
+        foreach (array_keys($firstRow) as $columnName) {
+            $columns[] = ['title' => $columnName, 'data' => $columnName];
+        }
+
+        foreach ($assoc_datas as $adata) {
+            $data[] = $adata;
+        }
     }
-    $result = ["data" => $data];
+
+    $result = ["data" => $data, "columns" => $columns];
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
 }
