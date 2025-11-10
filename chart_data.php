@@ -47,22 +47,30 @@ if (isset($_GET['id'])) {
 </div>
 
 <div class="container-fluid pt-4 px-4">
-    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
-        <!-- Chart Container -->
-        <div class="col-md-6">
-            <div class="chart-container" style="position: relative; height: 400px; width: 100%;">
-                <canvas id="patientChart"></canvas>
+    <!-- Chart Row -->
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 mb-4">
+        <div class="col-12">
+            <div class="bg-white rounded p-3 shadow-sm">
+                <h5 class="text-center mb-3">Patient Count Chart</h5>
+                <div class="chart-container" style="position: relative; height: 400px; width: 100%;">
+                    <canvas id="patientChart"></canvas>
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Data Table -->
-        <div class="col-md-6">
-            <table class="table table-hover table-striped text-center" id="DataTableID" style="width:100%">
-                <thead>
-                    <tr>
-                    </tr>
-                </thead>
-            </table>
+    <!-- Data Table Row -->
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
+        <div class="col-12">
+            <div class="bg-white rounded p-3 shadow-sm">
+                <h5 class="text-center mb-3">Patient Data</h5>
+                <table class="table table-hover table-striped text-center" id="DataTableID" style="width:100%">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 </div>
