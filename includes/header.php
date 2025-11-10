@@ -19,7 +19,7 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">-->
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
@@ -32,7 +32,7 @@
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 
-    
+
     <link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.7/af-2.6.0/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rg-1.4.1/rr-1.4.1/sc-2.3.0/sb-1.6.0/sp-2.2.0/sl-1.7.0/sr-1.3.0/datatables.min.css" rel="stylesheet">
 
     <!--<link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/2.0.0/css/searchPanes.dataTables.min.css">-->
@@ -42,17 +42,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap5.min.css">
-    
+
     <!-- from old header -->
     <link rel="stylesheet" href="css/jquery.datetimepicker.min.css">
     <link rel="stylesheet" href="css/flowchart.css">
 
     <!-- Template Stylesheet -->
     <link href="css/style.css?v1xxxxxxxxxxxx" rel="stylesheet">
-   
-    <!--Selectize Js--> 
+
+    <!--Selectize Js-->
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 
 
 </head>
@@ -76,15 +76,15 @@
                     <h3 class="text-primary"><i class="fa-solid fa-microscope"></i> NB Patho</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative" <?php if($isCurUserPatho): ?>  
-                         ondblclick="window.location='<?= Url::getSubFolder1() ?>/user_sim_patho_admin.php'"
-                          <?php  endif; ?> >
+                    <div class="position-relative" <?php if ($isCurUserPatho): ?>
+                        ondblclick="window.location='<?= Url::getSubFolder1() ?>/user_sim_patho_admin.php'"
+                        <?php endif; ?>>
                         <i class="fa-solid fa-hospital fa-lg"></i>
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <?php if(isset($_SESSION['adminusername'])){
-                            echo '<h6 style="color:red;" class="mb-0"><b>Admin:'. $_SESSION['adminusername'] .'</b></h6>';
+                        <?php if (isset($_SESSION['adminusername'])) {
+                            echo '<h6 style="color:red;" class="mb-0"><b>Admin:' . $_SESSION['adminusername'] . '</b></h6>';
                         }  ?>
                         <h6 class="mb-0"><?= $_SESSION['username'] ?></h6>
                         <span><?= isset($_SESSION['usergroup']->ugroup) ? $_SESSION['usergroup']->ugroup : "" ?></span>
@@ -97,88 +97,88 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed"></i>ข้อมูลผู้รักษา</a>
-                    <?php if($isCurUserAdmin): ?>
-                    <div class="nav-item dropdown">
-                        <a href="" id="admin_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แอดมินเมนู</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a id="user_sim_admin_tab" href="user_sim_admin.php" class="nav-item nav-link">จำลองผู้ใช้</a>
-                            <a id="user_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
-                            <a id="user_sim_admin_tab" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
+                    <?php if ($isCurUserAdmin): ?>
+                        <div class="nav-item dropdown">
+                            <a href="" id="admin_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แอดมินเมนู</a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a id="user_sim_admin_tab" href="user_sim_admin.php" class="nav-item nav-link">จำลองผู้ใช้</a>
+                                <a id="user_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
+                                <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
+                            </div>
                         </div>
-                    </div>
-                    <?php  endif; ?>
-                    
-                    
-                    <?php if($isCurUserNB): ?>
-                    <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ตรวจพิเศษ</a>
-                    <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>Double check by second pathologist</a>
-                    
-                    <div class="nav-item dropdown">
-                        <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แบบสอบถาม</a>
-                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
-                            <a id="qn_sn_tab" href="questionare_sn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(SN)</a>
-                            <a id="qn_cn_tab" href="questionare_cn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(CN)</a>
+                    <?php endif; ?>
+
+
+                    <?php if ($isCurUserNB): ?>
+                        <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ตรวจพิเศษ</a>
+                        <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>Double check by second pathologist</a>
+
+                        <div class="nav-item dropdown">
+                            <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แบบสอบถาม</a>
+                            <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
+                                <a id="qn_sn_tab" href="questionare_sn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(SN)</a>
+                                <a id="qn_cn_tab" href="questionare_cn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(CN)</a>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="nav-item dropdown">
-                        <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ดูประวัติการเข้าใช้</a>
-                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
-                            <a id="qn_sn_tab" href="log_login_logout_datatable.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ประวัติการล็อกอินล็อกเอ้าท์</a>
+
+                        <div class="nav-item dropdown">
+                            <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ดูประวัติการเข้าใช้</a>
+                            <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
+                                <a id="qn_sn_tab" href="log_login_logout_datatable.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ประวัติการล็อกอินล็อกเอ้าท์</a>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!--job_daily-->
-                    
-                    <div class="nav-item dropdown">
-                        <a href="" id="view_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>รายการงาน</a>
-                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
-                            <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ดูรายการงาน</a>
-                            <a id="job_tab_jobdaily" href="job_daily.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>จำนวนงานแต่ละวัน</a>
+
+                        <!--job_daily-->
+
+                        <div class="nav-item dropdown">
+                            <a href="" id="view_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>รายการงาน</a>
+                            <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
+                                <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ดูรายการงาน</a>
+                                <a id="job_tab_jobdaily" href="job_daily.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>จำนวนงานแต่ละวัน</a>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a> -->
-                    <!--<a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>-->
-                    <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
-                    
-                    <div class="nav-item dropdown">
-                        <a href="" id="finish_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ลงเวลางานเสร็จสิ้น</a>
-                        <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
-                            <a id="" class="nav-item nav-link" href="job1_finish.php">ลงเวลาตัดเนื้อเสร็จ</a>
-                            <a id="" class="nav-item nav-link"  href="job2_finish.php">ลงเวลาผู้ช่วยตัดเนื้อเสร็จ</a>
-                            <a id="" class="nav-item nav-link" href="job3_finish.php">ลงเวลาเตรียมสไลด์เสร็จ</a>
+
+                        <!-- <a href="home.php" id="home" class="nav-item nav-link"><i class="fa-solid fa-chart-line"></i>แดชบอร์ด</a> -->
+                        <!--<a id="specimentab" href="specimen.php" class="nav-item nav-link"><i class="fa-solid fa-disease"></i>ข้อมูลสิ่งส่งตรวจ</a>-->
+                        <!-- <a href="print.php" class="nav-item nav-link"><i class="fa-solid fa-print"></i>พิมพ์ข้อมูล</a> -->
+
+                        <div class="nav-item dropdown">
+                            <a href="" id="finish_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ลงเวลางานเสร็จสิ้น</a>
+                            <div class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
+                                <a id="" class="nav-item nav-link" href="job1_finish.php">ลงเวลาตัดเนื้อเสร็จ</a>
+                                <a id="" class="nav-item nav-link" href="job2_finish.php">ลงเวลาผู้ช่วยตัดเนื้อเสร็จ</a>
+                                <a id="" class="nav-item nav-link" href="job3_finish.php">ลงเวลาเตรียมสไลด์เสร็จ</a>
+                            </div>
                         </div>
-                    </div>
-                    
-                    
-                    <div class="nav-item dropdown">
-                        <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
-                        <div class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
-                            <a id="user_add" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
-                            <a id="user" class="nav-item nav-link" href="user.php">ดูผู้ใช้งานระบบ</a>
-                            <a class="nav-item nav-link" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
-                            <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
-                            <a id="fluid" href="labfluid.php" class="nav-item nav-link">ดูแลปเซลล์วิทยา</a>
-                            <!--<a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>-->
-                            <a id="price_tab_8c" href="nb_price_8c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
-                            <a id="price_tab_9c" href="nb_price_9c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
-                            <a id="price_tab_view" href="nb_price_view.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
+
+
+                        <div class="nav-item dropdown">
+                            <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
+                            <div class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
+                                <a id="user_add" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
+                                <a id="user" class="nav-item nav-link" href="user.php">ดูผู้ใช้งานระบบ</a>
+                                <a class="nav-item nav-link" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
+                                <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
+                                <a id="fluid" href="labfluid.php" class="nav-item nav-link">ดูแลปเซลล์วิทยา</a>
+                                <!--<a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>-->
+                                <a id="price_tab_8c" href="nb_price_8c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
+                                <a id="price_tab_9c" href="nb_price_9c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
+                                <a id="price_tab_view" href="nb_price_view.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
-                        <div class="dropdown-menu bg-transparent border-0 " id="manage_bill_dropdown">
-                            <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
-                            <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
-                            <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="nav-item nav-link">กรองข้อมูลตามนักเซลด์(PDF)</a>
-                            <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
-                            <a id="billing_by_billingdate_tab" href="billing_by_billingdate.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันให้บริการ)</a>
+                        <div class="nav-item dropdown">
+                            <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
+                            <div class="dropdown-menu bg-transparent border-0 " id="manage_bill_dropdown">
+                                <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
+                                <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
+                                <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="nav-item nav-link">กรองข้อมูลตามนักเซลด์(PDF)</a>
+                                <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
+                                <a id="billing_by_billingdate_tab" href="billing_by_billingdate.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันให้บริการ)</a>
+                            </div>
                         </div>
-                    </div>
-                    <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>
-                    <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติกเกอร์สไลด์</a>
-                    <?php  endif; ?>
+                        <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>
+                        <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติกเกอร์สไลด์</a>
+                    <?php endif; ?>
                     <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                     <div class="nav-item dropdown">
                         <a href="about.php" id="about_main" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>เกี่ยวกับ</a>
@@ -188,7 +188,7 @@
                             <a class="dropdown-item" id="docdownload_tab" href="doc_download.php">ดาวน์โหลดเอกสาร</a>
                             <a class="dropdown-item" id="stuff" href="stuff.php">บุคลากร</a>
                             <a class="dropdown-item" id="service" href="service.php">บริการของเรา</a>
-                            <a class="dropdown-item" id="learning_clip"  target="_black" href="https://youtube.com/playlist?list=PLdCsOsPc8bjqp11uosw7eyTE1QJoHqCAl&si=EUg6ySKsrBLKb4yJ">ดูคลิปสอนการใช้งาน</a>
+                            <a class="dropdown-item" id="learning_clip" target="_black" href="https://youtube.com/playlist?list=PLdCsOsPc8bjqp11uosw7eyTE1QJoHqCAl&si=EUg6ySKsrBLKb4yJ">ดูคลิปสอนการใช้งาน</a>
                         </div>
                     </div>
 
@@ -303,4 +303,3 @@
 
             <?php // var_dump($_SESSION); 
             ?>
-
