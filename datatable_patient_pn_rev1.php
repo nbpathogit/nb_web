@@ -135,53 +135,6 @@ if (isset($_GET['id'])) {
                                 processDoc(doc);
                             }
                         },
-                        {
-                            extend: 'collection',
-                            text: 'ระยะเวลาย้อนหลัง',
-                            autoClose: true,
-                            buttons: [{
-                                    text: '2 เดือนล่าสุด',
-                                    action: function (e, dt, node, config) {
-                                        reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey + "&range=2m");
-                                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 2 เดือน');
-                                    }
-                                },
-                                {
-                                    text: '3 เดือนล่าสุด',
-                                    action: function (e, dt, node, config) {
-                                        reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey + "&range=3m");
-                                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 3 เดือน');
-                                    }
-                                },
-                                {
-                                    text: '6 เดือนล่าสุด',
-                                    action: function (e, dt, node, config) {
-                                        reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey + "&range=6m");
-                                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 6 เดือน');
-                                    }
-                                },
-                                {
-                                    text: '1 ปีล่าสุด',
-                                    action: function (e, dt, node, config) {
-                                        reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey + "&range=1y");
-                                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 1 ปี');
-                                    }
-                                },
-                                {
-                                    text: '2 ปีล่าสุด',
-                                    action: function (e, dt, node, config) {
-                                        reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey + "&range=2y");
-                                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 2 ปี');
-                                    }
-                                },
-                                {
-                                    text: 'ทั้งหมด',
-                                    action: function (e, dt, node, config) {
-                                        reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey);
-                                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลทั้งหมด');
-                                    }
-                                }]
-                        }
                     ],
                     searchPanes: {
                         initCollapsed: true,
