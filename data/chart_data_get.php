@@ -94,33 +94,31 @@ if ($auth) {
     $isChartRequest = isset($_REQUEST['chart']) && $_REQUEST['chart'] == '1';
     
     if ($isChartRequest) {
-        // Prepare chart data - get first 2 records for chart
+        // Prepare chart data for line chart with time series
         $chartData = [];
-        $labels = [];
-        $dataPoints = [];
         
-        $limit = min(2, count($assoc_datas));
-        for ($i = 0; $i < $limit; $i++) {
-            $row = $assoc_datas[$i];
-            $labels[] = $row['date_in'];
-            $dataPoints[] = (int)$row['number_of'];
+        // Prepare data points for line chart
+        $dataPoints = [];
+        foreach ($assoc_datas as $row) {
+            $dataPoints[] = [
+                'x' => $row['date_in'], // Date for x-axis
+                'y' => (int)$row['number_of'] // Number for y-axis
+            ];
         }
         
         $chartData = [
-            'labels' => $labels,
             'datasets' => [
                 [
                     'label' => 'Number of Patients',
                     'data' => $dataPoints,
-                    'backgroundColor' => [
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 99, 132, 0.2)'
-                    ],
-                    'borderColor' => [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)'
-                    ],
-                    'borderWidth' => 1
+                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                    'borderColor' => 'rgba(54, 162, 235, 1)',
+                    'borderWidth' => 2,
+                    'tension' => 0.4,
+                    'pointRadius' => 5,
+                    'pointHoverRadius' => 7,
+                    'pointBackgroundColor' => 'rgba(54, 162, 235, 1)',
+                    'pointBorderColor' => 'rgba(54, 162, 235, 1)'
                 ]
             ]
         ];

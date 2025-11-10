@@ -87,6 +87,7 @@ if (isset($_GET['id'])) {
 
 <!-- Include Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
 <script type="text/javascript">
     var skey = '<?= $_SESSION["skey"]; ?>';
@@ -189,7 +190,7 @@ if (isset($_GET['id'])) {
             }
             
             chart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: chartData,
                 options: {
                     responsive: true,
@@ -197,7 +198,7 @@ if (isset($_GET['id'])) {
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Patient Count by Date'
+                            text: 'Patient Count Trend'
                         },
                         legend: {
                             display: true,
@@ -213,10 +214,31 @@ if (isset($_GET['id'])) {
                             }
                         },
                         x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                displayFormats: {
+                                    day: 'dd/MM/yyyy'
+                                }
+                            },
                             title: {
                                 display: true,
                                 text: 'Date'
                             }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 5,
+                            hoverRadius: 7,
+                            backgroundColor: 'rgba(54, 162, 235, 1)',
+                            borderColor: 'rgba(54, 162, 235, 1)'
+                        },
+                        line: {
+                            tension: 0.4,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 2
                         }
                     }
                 }
