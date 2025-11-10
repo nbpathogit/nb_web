@@ -50,8 +50,10 @@ if ($auth) {
     if ($startDate && $endDate) {
         $dateFilter = "AND DATE(p.date_1000) >= '$startDate' AND DATE(p.date_1000) <= '$endDate'";
     } else {
-        // Default date range if no parameters provided - set to 2025
-        $dateFilter = "AND DATE(p.date_1000) >= '2025-01-01' AND DATE(p.date_1000) <= '2025-12-31'";
+        // Default date range if no parameters provided - set to last 30 days
+        $endDate = date('Y-m-d');
+        $startDate = date('Y-m-d', strtotime('-30 days'));
+        $dateFilter = "AND DATE(p.date_1000) >= '$startDate' AND DATE(p.date_1000) <= '$endDate'";
     }
 
     $sql = "SELECT

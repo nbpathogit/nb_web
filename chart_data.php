@@ -250,9 +250,9 @@ if (isset($_GET['id'])) {
             var startDate, endDate;
             
             if (!$('#dateRangePicker').data('daterangepicker')) {
-                // Date picker not initialized yet, use default dates
-                startDate = moment('2025-01-01').format('YYYY-MM-DD');
-                endDate = moment('2025-12-31').format('YYYY-MM-DD');
+                // Date picker not initialized yet, use default dates (last 30 days)
+                startDate = moment().subtract(29, 'days').format('YYYY-MM-DD');
+                endDate = moment().format('YYYY-MM-DD');
             } else {
                 // Use selected dates
                 startDate = $("#dateRangePicker").data('daterangepicker').startDate.format('YYYY-MM-DD');
@@ -333,8 +333,8 @@ if (isset($_GET['id'])) {
 
         // Load initial data
         function loadInitialData() {
-            var initialStartDate = moment('2025-01-01').format('YYYY-MM-DD');
-            var initialEndDate = moment('2025-12-31').format('YYYY-MM-DD');
+            var initialStartDate = moment().subtract(29, 'days').format('YYYY-MM-DD');
+            var initialEndDate = moment().format('YYYY-MM-DD');
             
             $.ajax({
                 url: "data/chart_data_get.php?skey=" + skey + "&startDate=" + initialStartDate + "&endDate=" + initialEndDate,
@@ -417,8 +417,8 @@ if (isset($_GET['id'])) {
                 "monthNames": ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
                 "firstDay": 1
             },
-            "startDate": moment('2025-01-01'),
-            "endDate": moment('2025-12-31'),
+            "startDate": moment().subtract(29, 'days'),
+            "endDate": moment(),
             "ranges": {
                 'วันนี้': [moment().startOf('day'), moment()],
                 'เมื่อวาน': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -453,10 +453,11 @@ if (isset($_GET['id'])) {
         });
 
         // Trigger initial callback to set the correct preset label
-        var initialStart = moment('2025-01-01');
-        var initialEnd = moment('2025-12-31');
-        var initialLabel = 'ปีนี้';
+        var initialStart = moment().subtract(29, 'days');
+        var initialEnd = moment();
+        var initialLabel = '30 วันล่าสุด';
         $('#dateRangePicker').val(initialStart.format('DD/MM/YYYY') + ' - ' + initialEnd.format('DD/MM/YYYY'));
+        $('#presetLabel').text(initialLabel).removeClass('bg-secondary').addClass('bg-primary');
 
         // Load initial data after date picker is initialized
         loadInitialData();
