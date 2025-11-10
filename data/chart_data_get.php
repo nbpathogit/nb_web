@@ -45,15 +45,27 @@ if ($auth) {
         $endDate = $_REQUEST['endDate'];
     }
 
-    // Build WHERE clause for date filtering
+    // Build WHERE clause for date filtering with prepared statements
     $dateFilter = "";
+    $params = [];
+    
     if ($startDate && $endDate) {
-        $dateFilter = "AND DATE(p.date_1000) >= '$startDate' AND DATE(p.date_1000) <= '$endDate'";
+        // Validate date format to prevent injection
+        if (!strtotime($startDate) || !strtotime($endDate)) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid date format']);
+            exit;
+        }
+        $dateFilter = "AND DATE(p.date_1000) >= ? AND DATE(p.date_1000) <= ?";
+        $params[] = $startDate;
+        $params[] = $endDate;
     } else {
         // Default date range if no parameters provided - set to last 30 days
         $endDate = date('Y-m-d');
         $startDate = date('Y-m-d', strtotime('-30 days'));
-        $dateFilter = "AND DATE(p.date_1000) >= '$startDate' AND DATE(p.date_1000) <= '$endDate'";
+        $dateFilter = "AND DATE(p.date_1000) >= ? AND DATE(p.date_1000) <= ?";
+        $params[] = $startDate;
+        $params[] = $endDate;
     }
 
     $sql = "SELECT
@@ -85,7 +97,10 @@ if ($auth) {
       ORDER BY date_in ASC";
 
     try {
-        $assoc_datas = Patient::getBySQL($conn, $sql);
+        // Use prepared statement to prevent SQL injection
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+        $assoc_datas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         header('Content-Type: application/json');
         echo json_encode(['error' => 'Database query failed: ' . $e->getMessage()]);
