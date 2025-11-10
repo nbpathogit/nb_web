@@ -49,8 +49,9 @@ if ($auth) {
     if ($startDate && $endDate) {
         $dateFilter = "AND DATE(p.date_1000) >= '$startDate' AND DATE(p.date_1000) <= '$endDate'";
     } else {
-        // Default date range if no parameters provided
-        $dateFilter = "AND DATE(p.date_1000) >= '2025-01-01' AND DATE(p.date_1000) <= '2025-05-13'";
+        // Default date range if no parameters provided - set to today
+        $today = date('Y-m-d');
+        $dateFilter = "AND DATE(p.date_1000) >= '$today' AND DATE(p.date_1000) <= '$today'";
     }
 
     $sql = "SELECT

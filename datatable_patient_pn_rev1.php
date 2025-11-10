@@ -37,7 +37,7 @@ if (isset($_GET['id'])) {
         <!-- Date Range Picker -->
         <div class="col-md-6">
             <div class="form-group">
-                <label for="dateRangePicker">เลือกช่วงวันที่:</label>
+                <label for="dateRangePicker">เลือกช่วงวันที่: <span id="presetLabel" class="badge bg-primary">วันนี้</span></label>
                 <input type="text" id="dateRangePicker" class="form-control" name="dateRangePicker" value="วันนี้" />
             </div>
         </div>
@@ -108,57 +108,126 @@ if (isset($_GET['id'])) {
         }
 
         var table;
+        var defaultColumns = [
+            { title: 'Name', data: 'name' },
+            { title: 'Surname', data: 'surname' },
+            { title: 'PN', data: 'pn' },
+            { title: 'Age', data: 'age' },
+            { title: 'HN', data: 'hn' },
+            { title: 'Hospital', data: 'Hospital' },
+            { title: 'Specimen', data: 'Specimen' },
+            { title: 'Source', data: 'ssource' },
+            { title: 'Specimen Adequacy', data: 'specimen_adequacy' },
+            { title: 'Interpretation', data: 'interpretation' },
+            { title: 'Educational Notes', data: 'EDUCATIONAL_NOTES_AND_SUGGESTION' },
+            { title: 'Date Received', data: 'Date_Received' },
+            { title: 'Date Report', data: 'Date_Report' },
+            { title: 'Pathologist', data: 'Pathologist' },
+            { title: 'Cytologist', data: 'Cytologist' }
+        ];
+        
+        // Initialize table immediately with default columns
+        table = $('#DataTableID').DataTable({
+            columns: defaultColumns,
+            data: [],
+            responsive: true,
+            dom: 'BP<"toolbar">lfritip',
+            pageLength: 100,
+            buttons: [
+                {
+                    text: 'export excel',
+                    extend: 'excel',
+                },
+                {
+                    extend: 'csv',
+                    text: 'export csv',
+                    charset: 'utf-8',
+                    extension: '.csv',
+                    fieldSeparator: ',',
+                    fieldBoundary: '',
+                    filename: 'export',
+                    bom: true
+                },
+                {
+                    text: 'export pdf',
+                    extend: 'pdf',
+                    customize: function (doc) {
+                        processDoc(doc);
+                    }
+                }
+            ],
+            searchPanes: {
+                initCollapsed: true,
+            },
+            columnDefs: [{
+                searchPanes: {
+                    show: true
+                },
+                targets: defaultColumns.map((col, index) => index)
+            }]
+        });
+
+        // Load initial data
         $.ajax({
             url: "data/datatable_patient_pn_rev1_ajax.php?skey=" + skey,
             method: 'GET',
             dataType: 'json',
             success: function(response) {
-                var columns = response.columns || [];
-                var columnCount = columns.length;
-                var targets = [];
-                for (var i = 0; i < columnCount; i++) {
-                    targets.push(i);
+                if (response && response.data && response.data.length > 0) {
+                    // Clear and add new data
+                    table.clear();
+                    table.rows.add(response.data);
+                    table.draw();
+                    
+                    // Update columns if they exist in response
+                    if (response.columns && response.columns.length > 0) {
+                        table.destroy();
+                        var targets = [];
+                        for (var i = 0; i < response.columns.length; i++) {
+                            targets.push(i);
+                        }
+                        
+                        table = $('#DataTableID').DataTable({
+                            columns: response.columns,
+                            data: response.data,
+                            responsive: true,
+                            dom: 'BP<"toolbar">lfritip',
+                            pageLength: 100,
+                            buttons: [
+                                {
+                                    text: 'export excel',
+                                    extend: 'excel',
+                                },
+                                {
+                                    extend: 'csv',
+                                    text: 'export csv',
+                                    charset: 'utf-8',
+                                    extension: '.csv',
+                                    fieldSeparator: ',',
+                                    fieldBoundary: '',
+                                    filename: 'export',
+                                    bom: true
+                                },
+                                {
+                                    text: 'export pdf',
+                                    extend: 'pdf',
+                                    customize: function (doc) {
+                                        processDoc(doc);
+                                    }
+                                }
+                            ],
+                            searchPanes: {
+                                initCollapsed: true,
+                            },
+                            columnDefs: [{
+                                searchPanes: {
+                                    show: true
+                                },
+                                targets: targets
+                            }]
+                        });
+                    }
                 }
-
-                table = $('#DataTableID').DataTable({
-                    columns: columns,
-                    data: response.data,
-                    responsive: true,
-                    dom: 'BP<"toolbar">lfritip',
-                    pageLength: 100,
-                    buttons: [
-                        {
-                            text: 'export excel',
-                            extend: 'excel',
-                        },
-                        {
-                            extend: 'csv',
-                            text: 'export csv',
-                            charset: 'utf-8',
-                            extension: '.csv',
-                            fieldSeparator: ',',
-                            fieldBoundary: '',
-                            filename: 'export',
-                            bom: true
-                        },
-                        {
-                            text: 'export pdf',
-                            extend: 'pdf',
-                            customize: function (doc) {
-                                processDoc(doc);
-                            }
-                        },
-                    ],
-                    searchPanes: {
-                        initCollapsed: true,
-                    },
-                    columnDefs: [{
-                        searchPanes: {
-                            show: true
-                        },
-                        targets: targets
-                    }]
-                });
             }
         });
 
@@ -195,11 +264,25 @@ if (isset($_GET['id'])) {
             // Update the input field with the selected range
             $('#dateRangePicker').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
             
+            // Update the preset label if it's a preset range
+            if (label) {
+                $('#presetLabel').text(label).removeClass('bg-secondary').addClass('bg-primary');
+            } else {
+                // For custom ranges, show "กำหนดเอง"
+                $('#presetLabel').text('กำหนดเอง').removeClass('bg-primary').addClass('bg-secondary');
+            }
+            
             // Reload table with new date range
             var startDate = start.format('YYYY-MM-DD');
             var endDate = end.format('YYYY-MM-DD');
             reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey + "&startDate=" + startDate + "&endDate=" + endDate);
         });
+
+        // Trigger initial callback to set the correct preset label
+        var initialStart = moment();
+        var initialEnd = moment();
+        var initialLabel = 'วันนี้';
+        $('#dateRangePicker').val(initialStart.format('DD/MM/YYYY') + ' - ' + initialEnd.format('DD/MM/YYYY'));
 
         function reloadTable(url) {
             $.ajax({
@@ -207,9 +290,97 @@ if (isset($_GET['id'])) {
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    table.clear();
-                    table.rows.add(response.data);
-                    table.draw();
+                    // Always destroy and recreate for consistency
+                    if (table) {
+                        table.destroy();
+                    }
+                    
+                    var columns, data, targets;
+                    
+                    // Handle response structure
+                    if (response && response.columns && response.columns.length > 0) {
+                        // Use columns from response
+                        columns = response.columns;
+                        data = response.data || [];
+                    } else {
+                        // Use default columns when no column structure in response
+                        columns = defaultColumns;
+                        data = [];
+                    }
+                    
+                    var columnCount = columns.length;
+                    targets = [];
+                    for (var i = 0; i < columnCount; i++) {
+                        targets.push(i);
+                    }
+                    
+                    // Ensure data rows match column count
+                    if (data.length > 0) {
+                        // Validate each row has the correct number of columns
+                        for (var j = 0; j < data.length; j++) {
+                            var rowData = data[j];
+                            if (Array.isArray(rowData) && rowData.length !== columnCount) {
+                                // Fix row data to match column count
+                                if (rowData.length < columnCount) {
+                                    // Pad with empty values
+                                    while (rowData.length < columnCount) {
+                                        rowData.push('');
+                                    }
+                                } else {
+                                    // Truncate to column count
+                                    data[j] = rowData.slice(0, columnCount);
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Recreate table with validated data
+                    table = $('#DataTableID').DataTable({
+                        columns: columns,
+                        data: data,
+                        responsive: true,
+                        dom: 'BP<"toolbar">lfritip',
+                        pageLength: 100,
+                        buttons: [
+                            {
+                                text: 'export excel',
+                                extend: 'excel',
+                            },
+                            {
+                                extend: 'csv',
+                                text: 'export csv',
+                                charset: 'utf-8',
+                                extension: '.csv',
+                                fieldSeparator: ',',
+                                fieldBoundary: '',
+                                filename: 'export',
+                                bom: true
+                            },
+                            {
+                                text: 'export pdf',
+                                extend: 'pdf',
+                                customize: function (doc) {
+                                    processDoc(doc);
+                                }
+                            }
+                        ],
+                        searchPanes: {
+                            initCollapsed: true,
+                        },
+                        columnDefs: [{
+                            searchPanes: {
+                                show: true
+                            },
+                            targets: targets
+                        }]
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading data:', error);
+                    // Clear table on error
+                    if (table) {
+                        table.clear().draw();
+                    }
                 }
             });
         }
