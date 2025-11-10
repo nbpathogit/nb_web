@@ -7,17 +7,6 @@ Auth::requireLogin("user_sim_admin.php");
 $conn = require 'includes/db.php';
 require 'user_auth.php';
 
-
-
-
-
-//$ugroups = Ugroup::getAll($conn);
-//$hospitals = Hospital::getAll($conn);
-//var_dump($hospitals);
-
-
-
-
 if (isset($_GET['id'])) {
     if ($isCurUserAdmin) {
         Auth::adminSimulatelogin($conn, $_GET['id']);

@@ -99,12 +99,31 @@ if ($auth) {
         // Prepare chart data for line chart with time series
         $chartData = [];
         
-        // Prepare data points for line chart
-        $dataPoints = [];
+        // Get date range from the query or use defaults
+        $dateRangeStart = $startDate ?: date('Y-m-d', strtotime('-30 days'));
+        $dateRangeEnd = $endDate ?: date('Y-m-d');
+        
+        // Create a complete date range array
+        $dateRange = [];
+        $currentDate = new DateTime($dateRangeStart);
+        $endDateObj = new DateTime($dateRangeEnd);
+        
+        while ($currentDate <= $endDateObj) {
+            $dateRange[$currentDate->format('Y-m-d')] = 0; // Initialize with 0
+            $currentDate->modify('+1 day');
+        }
+        
+        // Fill in actual data from database
         foreach ($assoc_datas as $row) {
+            $dateRange[$row['date_in']] = (int)$row['number_of'];
+        }
+        
+        // Prepare data points for line chart (including zeros)
+        $dataPoints = [];
+        foreach ($dateRange as $date => $count) {
             $dataPoints[] = [
-                'x' => $row['date_in'], // Date for x-axis
-                'y' => (int)$row['number_of'] // Number for y-axis
+                'x' => $date, // Date for x-axis
+                'y' => $count // Number for y-axis (includes zeros)
             ];
         }
         
