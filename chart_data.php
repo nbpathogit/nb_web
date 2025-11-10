@@ -192,6 +192,19 @@ if (isset($_GET['id'])) {
                         legend: {
                             display: true,
                             position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    // Format tooltip title to show only date, not time
+                                    var date = new Date(context[0].parsed.x);
+                                    return date.toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    });
+                                }
+                            }
                         }
                     },
                     scales: {
