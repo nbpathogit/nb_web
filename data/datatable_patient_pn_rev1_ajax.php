@@ -35,13 +35,29 @@ $auth = true;
 if ($auth) {
     $conn = require '../includes/db.php';
 
+    // Handle date range parameters
+    $startDate = null;
+    $endDate = null;
+    
+    if (isset($_REQUEST['startDate']) && isset($_REQUEST['endDate'])) {
+        $startDate = $_REQUEST['startDate'];
+        $endDate = $_REQUEST['endDate'];
+    }
 
+    // Build WHERE clause for date filtering
+    $dateFilter = "";
+    if ($startDate && $endDate) {
+        $dateFilter = "AND DATE(p.date_1000) >= '$startDate' AND DATE(p.date_1000) <= '$endDate'";
+    } else {
+        // Default date range if no parameters provided
+        $dateFilter = "AND DATE(p.date_1000) >= '2025-01-01' AND DATE(p.date_1000) <= '2025-05-13'";
+    }
 
-    $sql = "SELECT 
+    $sql = "SELECT
         concat(p.ppre_name,' ',p.pname) as name ,
     p.plastname as surname ,
     p.pnum as pn,
-    p.`pedge` as age, 
+    p.`pedge` as age,
     p.phospital_num as hn,
     h.hospital as Hospital,
     rsu_21.result_message as Specimen,
@@ -66,10 +82,10 @@ if ($auth) {
     LEFT JOIN job as jPatho ON jPatho.patient_id = p.id and jPatho.job_role_id = 5
     LEFT JOIN job as jCyto ON jCyto.patient_id = p.id and jCyto.job_role_id = 7
 
-    WHERE p.sn_type = 'PN' 
+    WHERE p.sn_type = 'PN'
 
   and p.movetotrash = 0
-  AND DATE(p.date_1000) >= '2025-01-01' AND DATE(p.date_1000) <= '2025-05-13' 
+  $dateFilter
   ORDER BY p.pnum ASC";
 
     $assoc_datas = Patient::getBySQL($conn, $sql);

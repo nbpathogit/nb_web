@@ -33,7 +33,14 @@ if (isset($_GET['id'])) {
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
-
+        
+        <!-- Date Range Picker -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="dateRangePicker">เลือกช่วงวันที่:</label>
+                <input type="text" id="dateRangePicker" class="form-control" name="dateRangePicker" value="วันนี้" />
+            </div>
+        </div>
 
         <div class="d-flex align-items-center justify-content-between">
 
@@ -62,6 +69,12 @@ if (isset($_GET['id'])) {
 
 
 <?php require 'includes/footer.php'; ?>
+
+<!-- Include Moment.js and DateRangePicker CSS and JS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.js"></script>
+
 <script type="text/javascript">
     var skey = '<?= $_SESSION["skey"]; ?>';
 
@@ -147,6 +160,45 @@ if (isset($_GET['id'])) {
                     }]
                 });
             }
+        });
+
+        // Initialize Date Range Picker
+        $('#dateRangePicker').daterangepicker({
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "ยืนยัน",
+                "cancelLabel": "ยกเลิก",
+                "fromLabel": "จาก",
+                "toLabel": "ถึง",
+                "customRangeLabel": "กำหนดเอง",
+                "weekLabel": "ส",
+                "daysOfWeek": ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"],
+                "monthNames": ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+                "firstDay": 1
+            },
+            "startDate": moment(),
+            "endDate": moment(),
+            "ranges": {
+                'วันนี้': [moment().startOf('day'), moment()],
+                'เมื่อวาน': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 วันล่าสุด': [moment().subtract(6, 'days'), moment()],
+                '30 วันล่าสุด': [moment().subtract(29, 'days'), moment()],
+                'เดือนนี้': [moment().startOf('month'), moment().endOf('month')],
+                'เดือนที่แล้ว': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                '3 เดือนล่าสุด': [moment().subtract(2, 'month').startOf('month'), moment()],
+                'ปีนี้': [moment().startOf('year'), moment()]
+            },
+            "alwaysShowCalendars": true,
+            "showDropdowns": true
+        }, function(start, end, label) {
+            // Update the input field with the selected range
+            $('#dateRangePicker').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+            
+            // Reload table with new date range
+            var startDate = start.format('YYYY-MM-DD');
+            var endDate = end.format('YYYY-MM-DD');
+            reloadTable("data/datatable_patient_pn_rev1_ajax.php?skey=" + skey + "&startDate=" + startDate + "&endDate=" + endDate);
         });
 
         function reloadTable(url) {
