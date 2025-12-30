@@ -105,6 +105,7 @@
                                 <a id="user_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
                                 <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
                                 <a id="chart_data_tab" href="chart_data.php" class="nav-item nav-link">chart data</a>
+                                <a id="featurehistory_tab" href="featurehistory.php" class="nav-item nav-link">featurehistory</a>
                             </div>
                         </div>
                     <?php endif; ?>
