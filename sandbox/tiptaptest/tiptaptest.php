@@ -3,10 +3,7 @@
 
 
 
-//CREATE TABLE nbpa_data (
-//    id INT AUTO_INCREMENT PRIMARY KEY,
-//    content TEXT NOT NULL
-//);
+//CREATE TABLE testtiptap ( id INT AUTO_INCREMENT PRIMARY KEY, content TEXT NOT NULL );
 
 
 
@@ -17,21 +14,25 @@ $conn = (new Database())->getConnMysqli();
 
 
 
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-
-
-if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
-
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $content = $_POST['content'];
-    $stmt = $conn->prepare("INSERT INTO nbpa_data (content) VALUES (?)");
+    $content = $_POST['content']; // HTML from Summernote
+
+    // Insert into table testtiptap
+    $stmt = $conn->prepare("INSERT INTO testtiptap (content) VALUES (?)");
     $stmt->bind_param("s", $content);
     $stmt->execute();
     $stmt->close();
 }
 
+// Fetch the latest entry to prefill editor
 $latestContent = "";
-$result = $conn->query("SELECT * FROM nbpa_data ORDER BY id DESC LIMIT 1");
+$result = $conn->query("SELECT * FROM testtiptap ORDER BY id DESC LIMIT 1");
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $latestContent = $row['content'];
@@ -59,6 +60,7 @@ if ($result && $result->num_rows > 0) {
 <div class="container">
   <h2>Summernote Editor Demo (Angsana New Default)</h2>
   <form method="post">
+    <!-- Prefill editor with latest content -->
     <textarea id="summernote" name="content"><?php echo htmlspecialchars($latestContent); ?></textarea>
     <br>
     <button type="submit" class="btn btn-primary">Save</button>
@@ -89,8 +91,8 @@ if ($result && $result->num_rows > 0) {
     $('#summernote').summernote({
       height: 200,
       placeholder: 'Write your content here...',
-      fontNames: ['Angsana New', 'Arial', 'Courier New', 'Tahoma'], // add Angsana New
-      fontNamesIgnoreCheck: ['Angsana New'], // force Summernote to accept it
+      fontNames: ['Angsana New', 'Arial', 'Courier New', 'Tahoma'],
+      fontNamesIgnoreCheck: ['Angsana New'],
       toolbar: [
         ['style', ['style']],
         ['font', ['fontname', 'fontsize', 'bold', 'italic', 'underline', 'clear']],
