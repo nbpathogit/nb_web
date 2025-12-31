@@ -14,14 +14,14 @@ $conn = (new Database())->getConnMysqli();
 
 
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
+
+
+if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 
 // Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $content = $_POST['content']; // HTML from Summernote
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
+    $content = $_POST['content'];
 
     // Insert into table testtiptap
     $stmt = $conn->prepare("INSERT INTO testtiptap (content) VALUES (?)");
@@ -42,7 +42,7 @@ if ($result && $result->num_rows > 0) {
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Summernote PHP + MySQL Example</title>
+  <title>Summernote PHP + MySQL + Upload + YouTube</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
   <!-- Summernote CSS -->
@@ -58,10 +58,10 @@ if ($result && $result->num_rows > 0) {
 </head>
 <body>
 <div class="container">
-  <h2>Summernote Editor Demo (Angsana New Default)</h2>
+  <h2>Summernote Editor Demo (Angsana New + Image Upload + YouTube)</h2>
   <form method="post">
     <!-- Prefill editor with latest content -->
-    <textarea id="summernote" name="content"><?php echo htmlspecialchars($latestContent); ?></textarea>
+    <textarea id="summernote" name="content"><?php echo $latestContent; ?></textarea>
     <br>
     <button type="submit" class="btn btn-primary">Save</button>
   </form>
@@ -71,7 +71,7 @@ if ($result && $result->num_rows > 0) {
   <?php
   if (!empty($latestContent)) {
       echo "<div style='border:1px solid #ccc; padding:10px; margin-bottom:10px; font-family:Angsana New, serif;'>";
-      echo $latestContent;
+      echo $latestContent; // do NOT escape, so iframe renders
       echo "</div>";
   } else {
       echo "<p>No entries yet.</p>";
@@ -97,14 +97,40 @@ if ($result && $result->num_rows > 0) {
         ['style', ['style']],
         ['font', ['fontname', 'fontsize', 'bold', 'italic', 'underline', 'clear']],
         ['para', ['ul', 'ol', 'paragraph']],
-        ['insert', ['link', 'picture', 'video']],
+        ['insert', ['link', 'picture', 'video']], // video button enabled
         ['view', ['fullscreen', 'codeview']]
-      ]
+      ],
+      callbacks: {
+        onImageUpload: function(files) {
+          sendFile(files[0]);
+        }
+      },
+      // Allow iframe embeds
+      codeviewFilter: false,
+      codeviewIframeFilter: false
     });
 
     // Set Angsana New as default font
     $('#summernote').summernote('fontName', 'Angsana New');
   });
+
+  function sendFile(file) {
+    var data = new FormData();
+    data.append("file", file);
+    $.ajax({
+      url: "upload.php",   // PHP script to handle upload
+      type: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      success: function(url) {
+        $('#summernote').summernote('insertImage', url);
+      },
+      error: function() {
+        alert("Image upload failed");
+      }
+    });
+  }
 </script>
 </body>
 </html>
