@@ -4,7 +4,7 @@
 require 'includes/init.php';
 // var_dump($_SESSION['user']->id);exit;
 // Auth::requireLogin();
-Auth::requireLogin("featurehistory.php");
+Auth::requireLogin("changehistory.php");
 
 require 'user_auth.php';
 
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
     $content = $_POST['content'];
 
     // Insert into table testtiptap
-    $stmt = $conn->prepare("INSERT INTO testtiptap (content) VALUES (?)");
+    $stmt = $conn->prepare("INSERT INTO changehistory (content) VALUES (?)");
     $stmt->bind_param("s", $content);
     $stmt->execute();
     $stmt->close();
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
 
 // Fetch the latest entry to prefill editor
 $latestContent = "";
-$result = $conn->query("SELECT * FROM testtiptap ORDER BY id DESC LIMIT 1");
+$result = $conn->query("SELECT * FROM changehistory ORDER BY id DESC LIMIT 1");
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $latestContent = $row['content'];
@@ -36,7 +36,7 @@ if ($result && $result->num_rows > 0) {
 
 ?>
 
-<?php require 'includes/header_c.php'; ?>
+<?php require 'includes/header.php'; ?>
 
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -50,18 +50,22 @@ if ($result && $result->num_rows > 0) {
       font-size: 16px;
     }
   </style>
-
-<div class="container">
-  <h2>Summernote Editor Demo (Angsana New + Image Upload + YouTube)</h2>
+<?php if ($isCurUserAdmin): ?>
+<!--<div class="container">-->
+<div class="container-md bg-blue-a">
+  <h2>Change History Editer</h2>
   <form method="post">
     <!-- Prefill editor with latest content -->
     <textarea id="summernote" name="content"><?php echo $latestContent; ?></textarea>
     <br>
     <button type="submit" class="btn btn-primary">Save</button>
   </form>
-
+</div>
+<?php endif; ?>
+  
+<div class="container-md bg-blue-a">
   <hr>
-  <h3>Last Saved Entry:</h3>
+  <h3>Change History:</h3>
   <?php
   if (!empty($latestContent)) {
       echo "<div style='border:1px solid #ccc; padding:10px; margin-bottom:10px; font-family:Angsana New, serif;'>";
@@ -76,10 +80,10 @@ if ($result && $result->num_rows > 0) {
 
 
 
+<?php require 'includes/footer.php'; ?>
 
 
 
-<?php require 'includes/footer_c.php'; ?>
 
   
   
@@ -122,7 +126,7 @@ if ($result && $result->num_rows > 0) {
     var data = new FormData();
     data.append("file", file);
     $.ajax({
-      url: "upload.php",   // PHP script to handle upload
+      url: "changehistoryupload.php",   // PHP script to handle upload
       type: "POST",
       data: data,
       contentType: false,
