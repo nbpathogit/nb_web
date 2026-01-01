@@ -81,6 +81,19 @@ class TemplateReport
         return $stmt->execute();
     }
     
+        public static function deletebyArray($conn,$tps)
+    {
+        // need update
+        $sql = "delete from template_report
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $tps[0]['id'], PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    
         
     public static function getAllbyid($conn, $id = 0) {
 

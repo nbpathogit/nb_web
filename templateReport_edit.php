@@ -30,8 +30,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tps_edit[0]['name']=$_POST['tname'];
     $tps_edit[0]['description']=$_POST['tdescription'];
     
-    if(TemplateReport::updatebyArray($conn, $tps_edit)){
-        Url::redirect("/templateReport_edit.php?id=" . $_GET['id']);
+    if(isset($_POST["save_tps_btn"])){
+        if(TemplateReport::updatebyArray($conn, $tps_edit)){
+            Url::redirect("/templateReport_edit.php?id=" . $_GET['id']);
+        }
+    }
+    
+    if(isset($_POST["del_tps_btn"])){
+        if(TemplateReport::deletebyArray($conn, $tps_edit)){
+            Url::redirect("/templateReport.php");
+        }
     }
 
 }
@@ -84,6 +92,7 @@ $isBorder = false;
             <div class="row <?= $isBorder ? "border" : "" ?>">
                 <div class=" align-items-center <?= $isBorder ? "border" : "" ?>">
                 <button name="save_tps_btn" id="save_tps_btn" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Save&nbsp;&nbsp;</button>
+                <button name="del_tps_btn" id="del_tps_btn" type="submit" class="btn btn-primary" onclick="return confirm('Are you sure to delete?')">&nbsp;&nbsp;Delete&nbsp;&nbsp;</button>
                 </div>
             </div>
             <input type="hidden" id="" name="user_id" value="<?= Auth::getUser()->id; ?>">
@@ -105,6 +114,7 @@ $isBorder = false;
         $("#tdescription").prop("disabled", true);
         $("#rname_selected").prop("disabled", true);
         $("#save_tps_btn").prop("disabled", true);
+        $("#del_tps_btn").prop("disabled", true);
 
     });
 
@@ -118,12 +128,14 @@ $isBorder = false;
             $("#tdescription").prop("disabled", false);
             $("#rname_selected").prop("disabled", false);
             $("#save_tps_btn").prop("disabled", false);
+            $("#del_tps_btn").prop("disabled", false);
         } else {
             $("#rname").prop("disabled", true);
             $("#tname").prop("disabled", true);
             $("#tdescription").prop("disabled", true);
             $("#rname_selected").prop("disabled", true);
             $("#save_tps_btn").prop("disabled", true);
+            $("#del_tps_btn").prop("disabled", true);
         }
 
     });
