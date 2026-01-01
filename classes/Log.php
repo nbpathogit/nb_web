@@ -74,12 +74,11 @@ class Log
         }
     }
     
-    public static function add($conn,$username,$name,$event,$detail,$event_date)
+    public static function add($conn,$username,$name,$event,$detail,$event_date="")
     {
-        
-//        $curDateTime = Util::get_curreint_thai_date_time();
-        // INSERT INTO user (id, name, lastname, username, password, ugroup_id, uhospital_id) VALUES (NULL, 'อนุชิกก', 'ยุงทอม', 'aaaa', 'aaaa', '4', '2');
-
+        if($event_date == ""){
+           $event_date = Util::get_curreint_thai_date_time();
+        }
         $sql = "INSERT INTO `log` (`id`, `username`, `name`, `event`, `detail`, `event_date`) "
                 . "VALUES (NULL, :username, :name, :event, :detail, :event_date)";
         

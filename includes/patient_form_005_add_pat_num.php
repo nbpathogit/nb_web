@@ -37,7 +37,7 @@ if ($debug) {
             <label for="autogen"><b>Auto generate number.(โปรแกรมสร้างตัวเลขให้)</b></label>
         </div><br>
 
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
+        <div class="col-xl-12 col-md-12 <?= $isBorder ? "border" : "" ?>">
             <label for="snprefix">อักษรย่อชนิดส่งตรวจ</label>
             <select class="form-select" name="snprefix" id="snprefix" >
                 <!--<option value="#">กรุณาเลือก</option>-->
@@ -46,8 +46,9 @@ if ($debug) {
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>"></div>
-        <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>"></div>
+        <div class="col-xl-12 col-md-12 <?= $isBorder ? "border" : "" ?>"><br>
+            <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูลใหม่ลงในระบบทันที</button>
+        </div>
     </div>
     <br>
 
@@ -81,7 +82,9 @@ if ($debug) {
             <input name="runnum" type="text" id="runnum" class="form-control" maxlength="5"  placeholder="เช่น: 00001"    value="">
         </div>
         <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>"></div>
-
+        <div class="col-xl-12 col-md-12 <?= $isBorder ? "border" : "" ?>"><br>
+            <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูลใหม่ลงในระบบทันที</button>
+        </div>
     </div>
     <br>
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
@@ -126,7 +129,7 @@ if ($debug) {
         <p align="center">
             <!--<button>ตกลง</button>-->
             <br>
-            <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูลใหม่ลงในระบบ</button>
+            <button name="Submit2" type="submit" class="btn btn-primary">เพิ่มข้อมูลใหม่ลงในระบบพร้อมชื่อคนไข้</button>
         </p>
         <input type="hidden" name="create_by" value="<?= $cur_user->name . ' ' . $cur_user->lastname ?>">
 

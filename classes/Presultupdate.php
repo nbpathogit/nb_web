@@ -208,6 +208,17 @@ class Presultupdate {
 
     public function create($conn) {
 
+        $curDateTime = Util::get_curreint_thai_date_time();
+        
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Call Presultupdate::create()", 
+                'O::id' . $this->id 
+                .' O::group_type::'.$this->group_type
+                .' O::patient_id::'.$this->patient_id
+                .' O::result_type::'.$this->result_type
+                .' O::result_type_id::'.$this->result_type_id
+                .' O::release_type::'.$this->release_type
+                , $curDateTime);
+
         $sql = "INSERT INTO `presultupdate` (`id`,   `group_type`   ,   `patient_id`   , `result_type`, `result_type_id`  , `result_message`, `pathologist_id`, `pathologist2_id` , `release_time`, `release_type`) "
                 . "VALUES                   (NULL,   :group_type    ,   :patient_id    , :result_type , :result_type_id   , ''              , 0               , 0                 ,  NULL         , :release_type)";
 
@@ -226,7 +237,9 @@ class Presultupdate {
 
         if ($stmt->execute()) {
             $this->id = $conn->lastInsertId();
-
+                Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Call Presultupdate::create()", 
+                'O::id' . $this->id 
+                , $curDateTime);
             return true;
         } else {
             return false;

@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
 
         $patient = new Patient();
-
+        $patient->is_autogen = $_POST['is_autogen'];
 
         $patient->sn_type = $sn_type; // SN // string
         $patient->sn_year = $curyear; // SN // string
@@ -357,12 +357,12 @@ require 'includes/status_cur.php';
 
 <script type="text/javascript">
     // set active tab
-    $("#patienttab").addClass("active");
+    $("#addpatienttab").addClass("active");
     
     
                         $(document).ready(function () {
                         //set active tab
-                        $("#patienttab").addClass("active");
+                        $("#addpatienttab").addClass("active");
                         
                         function selectElement(id, valueToSelect) {    
                             let element = document.getElementById(id);

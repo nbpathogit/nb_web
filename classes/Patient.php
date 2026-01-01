@@ -75,6 +75,7 @@ class Patient {
     public $errors = [];
     public $create_date;
     public $create_by;
+    public $is_autogen;
 
     public static function getTotal($conn, $user_group = "*") {
         return $conn->query("SELECT COUNT(*) FROM patient")->fetchColumn();
@@ -396,6 +397,8 @@ class Patient {
     public function create($conn) {
 
         $curDateTime = Util::get_curreint_thai_date_time();
+        
+        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Call Patient::create()", 'PatienID::' . $this->id .' Pnum::'.$this->pnum .' Autogen::'.$this->is_autogen, $curDateTime);
 
         $sql = "INSERT INTO `patient` (`id`,  `super_id`    ,`super_pnum`    ,  `sn_type`    ,  `sn_year`, `sn_run`, `pnum`, `plabnum`, `ppre_name` ,  `pname`,  `pgender`, `plastname`, `pedge`,`status_id`,  `date_1000`,   `priority_id`, `phospital_id`, `phospital_num`,  `ppathologist_id`,  `pspecimen_id`, `pclinician_id`,`p_cross_section_id`,`p_cross_section_ass_id`,`p_slide_prep_id`, `p_slide_prep_sp_id`,  `pprice`, `pspprice`, `p_rs_specimen`, `p_rs_clinical_diag`, `p_rs_gross_desc`, `p_rs_microscopic_desc`,   `p_speciment_type`,  `p_slide_lab_id`,  `p_slide_lab_price`,  `isautoeditmode`, `pautoscroll`,   create_date,       create_by)"
                 . "           VALUES  (NULL,  :super_id      ,:super_pnum      , :sn_type     ,  :sn_year,  :sn_run,  :pnum,  :plabnum , :ppre_name  ,  :pname,   :pgender,  :plastname,   :pedge ,:status_id,  :date_1000,   :priority_id,  :phospital_id,  :phospital_num,   :ppathologist_id,   :pspecimen_id,  :pclinician_id, :p_cross_section_id, :p_cross_section_ass_id, :p_slide_prep_id,  :p_slide_prep_sp_id,   :pprice,  :pspprice,  :p_rs_specimen, :p_rs_clinical_diag,    :p_rs_gross_desc,  :p_rs_microscopic_desc,   :p_speciment_type,   :p_slide_lab_id,   :p_slide_lab_price ,  :isautoeditmode , :pautoscroll,   :create_date,     :create_by)";
@@ -475,6 +478,8 @@ class Patient {
 
         if ($stmt->execute()) {
             $this->id = $conn->lastInsertId();
+            Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Done Patient::create()", 'PatienID::' . $this->id .' Pnum::'.$this->pnum .' Autogen::'.$this->is_autogen , $curDateTime);
+
             //            $stmt->debugDumpParams();
             return true;
         } else {

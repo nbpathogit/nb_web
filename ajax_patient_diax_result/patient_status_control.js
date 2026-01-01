@@ -995,7 +995,7 @@ $("#btnfinish8000").on("click", function (e) {
 
 
 //validat form for patient_edit.php
-$("#formAddPatient , #patient_detail , #patient_plan , #save_patient_detail , #save_patient_detail_next").validate({
+$("#patient_detail , #patient_plan , #save_patient_detail , #save_patient_detail_next").validate({
     rules: {
 
         //==========  a  =============

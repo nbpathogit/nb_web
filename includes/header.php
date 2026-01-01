@@ -96,6 +96,9 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
+                    <?php if ($isCurUserNB): ?>
+                    <a id="addpatienttab" class="nav-item nav-link" href="patient_add.php"><i class="fa-solid fa-bed"></i>เพิ่มข้อมูลผู้รักษา</a>
+                    <?php endif; ?>
                     <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed"></i>ข้อมูลผู้รักษา</a>
                     <?php if ($isCurUserAdmin): ?>
                         <div class="nav-item dropdown">
