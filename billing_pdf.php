@@ -259,7 +259,7 @@ echo '</span>';
                 <th>HN</th>                <!-- 7     ,$b['hospital_num'] --> 
                 <th>แพทย์ผู้ส่ง</th>                   <!-- 8    ,$b['clinicien_name'] --> 
                 <th>โรงพยาบาล</th>                 <!-- 9    ,$b['h_hospital'] --> 
-                <th>นักเซลด์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
+                <th>นักเซลล์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
                 <th>แพทย์ผู้ออกผล</th>           <!-- 11  ,$b['pathologist_name'] --> 
                 <th>โค้ด</th>                 <!-- 12   ,$b['b_code']--> 
                 <th>โค้ด2</th>                 <!-- 13   ,$b['b_code']--> 
@@ -519,7 +519,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
             // 9               10                11               12
             // clinicien_name  h_hospital       cytologist_name  pathologist_name
-            // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลด์          อภิชาติ ชุมทอง                                           
+            // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลดล์         อภิชาติ ชุมทอง                                           
 
             //13             14                     15                   16
             //b_code         b_code2            b_description          b_cost

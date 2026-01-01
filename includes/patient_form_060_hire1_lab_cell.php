@@ -10,7 +10,7 @@ $isBorder = false;
 <div class="row <?= $isBorder ? "border" : "" ?>">
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="p_slide_lab_id" class="form-label" >แลปเซลด์วิทยา(To be remove)</label>
+        <label for="p_slide_lab_id" class="form-label" >แลปเซลล์วิทยา(To be remove)</label>
         <select name="p_slide_lab_id" id="p_slide_lab_id" class="form-select" <?= $isEditModePageOn && $isEditModePageForPlaningDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?> >
             <!--<option value="">กรุณาเลือก</option>-->
             <?php foreach ($labFluids as $labFluid): ?>

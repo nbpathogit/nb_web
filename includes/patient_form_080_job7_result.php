@@ -117,7 +117,7 @@ $isPersonOwnThisCase = ($isCurrentCytologistIsOwnerThisCase || $isCurrentPathoIs
 <hr>
 <div class="row <?= $isBorder ? "border" : "" ?>">
      <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-         <b>นักเซลด์วิทยาผู้ออกผล:</b>
+         <b>นักเซลล์วิทยาผู้ออกผล:</b>
          <span id="owner_job7a" class="owner_job7" style="font-size:20px">
              <span class="badge rounded-pill bg-primary" id="">Please Refresh</span>
          </span>  

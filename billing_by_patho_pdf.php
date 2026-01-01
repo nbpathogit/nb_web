@@ -239,7 +239,7 @@ echo '</span>';
                 <th>HN</th>                <!-- 7     ,$b['hospital_num'] --> 
                 <th>แพทย์ผู้ส่ง</th>                   <!-- 8    ,$b['clinicien_name'] --> 
                 <th>โรงพยาบาล</th>                 <!-- 9    ,$b['h_hospital'] --> 
-                <th>นักเซลด์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
+                <th>นักเซลล์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
                 <th>แพทย์ผู้ออกผล</th>           <!-- 10  ,$b['pathologist_name'] --> 
                 <th>โค้ด</th>                 <!-- 11   ,$b['b_code']--> 
                 <th>รายการ</th>                 <!-- 12   ,$b['b_description'] --> 
@@ -407,7 +407,7 @@ echo '</span>';
 
             // 8               9                10               11
             // clinicien_name  h_hospital       cytologist_name  pathologist_name
-            // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลด์          อภิชาติ ชุมทอง                                           
+            // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลล์          อภิชาติ ชุมทอง                                           
 
             //12        13                     14
             //b_code    b_description          b_cost

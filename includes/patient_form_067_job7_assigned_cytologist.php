@@ -105,13 +105,13 @@ $isBorder = false;
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel5">เลือกนักเซลด์วิทยาผู้ออกผล</h5>
+                <h5 class="modal-title" id="exampleModalLabel5">เลือกนักเซลล์วิทยาผู้ออกผล</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <?php //$userTechnic ?>      
                 <div class="<?= $isBorder ? "border" : "" ?> ">
-                    <label for="select_job7"  class="form-label">เลือกนักเซลด์วิทยาผู้ออกผล</label>
+                    <label for="select_job7"  class="form-label">เลือกนักเซลล์วิทยาผู้ออกผล</label>
                     <select name="select_job7" id="select_job7" class="form-select"  >
                         <!--<option value="">กรุณาเลือก</option>-->
                         <?php foreach ($userCytologist as $user): ?>

@@ -43,12 +43,12 @@ $userCytologists = User::getAllbyCytologist($conn);
 ?>
 <?php require 'includes/header.php'; ?>
 
-<h1 align="center">สรุปราคากรองตามนักเซลด์วิทยาที่ออกผล</h1>
+<h1 align="center">สรุปราคากรองตามนักเซลล์วิทยาที่ออกผล</h1>
 
 <?php require 'includes/opencontainer.php'; ?>
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
-        <label for="phospital_id_bill" class="">เลือกนักเซลด์ผู้ออกผล</label>
+        <label for="phospital_id_bill" class="">เลือกนักเซลล์ผู้ออกผล</label>
         <select name="phospital_id_bill" id="phospital_id_bill" class="form-select">
             <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
             <?php foreach ($userCytologists as $userCytologist) : ?>
@@ -57,7 +57,7 @@ $userCytologists = User::getAllbyCytologist($conn);
                 <option value="<?= htmlspecialchars($userCytologist['id']); ?>"><?= htmlspecialchars($userCytologist['name'].' '.$userCytologist['lastname']); ?></option>
                                 <?php  
                 if($userCytologist['id']==0){
-                    echo '<option value="-1">รวมของนักเซลด์ทุกคน</option>';
+                    echo '<option value="-1">รวมของนักเซลล์ทุกคน</option>';
                 }
                 ?>
             <?php endforeach; ?>
@@ -241,7 +241,7 @@ echo '</span>';
                 <th>HN</th>                <!-- 7     ,$b['hospital_num'] --> 
                 <th>แพทย์ผู้ส่ง</th>                   <!-- 8    ,$b['clinicien_name'] --> 
                 <th>โรงพยาบาล</th>                 <!-- 9    ,$b['h_hospital'] --> 
-                <th>นักเซลด์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
+                <th>นักเซลล์ผู้ออกผล</th>           <!-- 10  ,$b['cytologist_name'] --> 
                 <th>แพทย์ผู้ออกผล</th>           <!-- 10  ,$b['pathologist_name'] --> 
                 <th>โค้ด</th>                 <!-- 11   ,$b['b_code']--> 
                 <th>รายการ</th>                 <!-- 12   ,$b['b_description'] --> 
@@ -406,7 +406,7 @@ echo '</span>';
 
                 // 8               9                10               11
                 // clinicien_name  h_hospital       cytologist_name  pathologist_name
-                // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลด์          อภิชาติ ชุมทอง                                           
+                // เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลล์          อภิชาติ ชุมทอง                                           
 
                 //12        13                     14
                 //b_code    b_description          b_cost

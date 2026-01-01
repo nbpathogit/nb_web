@@ -17,7 +17,7 @@ $billings = ServiceBilling::getBillbyCytologistbyDateRange($conn,$_GET['cytologi
 
 // 8               9                10               11
 // clinicien_name  h_hospital       cytologist_name  pathologist_name
-// เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลด์          อภิชาติ ชุมทอง                                 
+// เอเอ บีบี          โรงพยาบาลหล่มสัก   ชื่อนักเซลดล์         อภิชาติ ชุมทอง                                 
 
 //12        13                     14
 //b_code    b_description          b_cost
