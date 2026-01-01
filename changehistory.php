@@ -68,14 +68,16 @@ if ($result && $result->num_rows > 0) {
   <h3>Change History:</h3>
   <?php
   if (!empty($latestContent)) {
-      echo "<div style='border:1px solid #ccc; padding:10px; margin-bottom:10px; font-family:Angsana New, serif;'>";
+      echo "<div style='border:1px solid #ccc; padding:10px; margin-bottom:10px; font-family:Angsana New;'>";
       echo $latestContent; // do NOT escape, so iframe renders
       echo "</div>";
   } else {
       echo "<p>No entries yet.</p>";
   }
   ?>
+  <br>
 </div>
+<br>
 
 
 

@@ -105,7 +105,7 @@
                                 <a id="user_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
                                 <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
                                 <a id="chart_data_tab" href="chart_data.php" class="nav-item nav-link">chart data</a>
-                                <a id="featurehistory_tab" href="changehistory.php" class="nav-item nav-link">Change History</a>
+                                
                             </div>
                         </div>
                     <?php endif; ?>
@@ -187,6 +187,9 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a class="dropdown-item" id="about" href="about.php">เกียวกับเรา</a>
                             <a class="dropdown-item" id="webfeature" href="webfeature.php">เกียวกับเว็บแอฟฟลิเคชั่น</a>
+                            <?php if ($isCurUserNB): ?>
+                            <a id="featurehistory_tab" href="changehistory.php" class="nav-item nav-link">Web Change History</a>
+                            <?php endif; ?>
                             <a class="dropdown-item" id="docdownload_tab" href="doc_download.php">ดาวน์โหลดเอกสาร</a>
                             <a class="dropdown-item" id="stuff" href="stuff.php">บุคลากร</a>
                             <a class="dropdown-item" id="service" href="service.php">บริการของเรา</a>
