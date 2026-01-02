@@ -680,6 +680,11 @@ function addAction2Flow() {
             alert("Result data need to save first!");
             return;
         }
+        
+        if (get_spcimen_list1_count()==0) {
+            alert("Please Add Speciment price before release");
+            return;
+        }
 
         
         var cur_status = $(".cur_status").attr('tabindex');

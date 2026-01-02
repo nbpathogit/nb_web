@@ -1314,7 +1314,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 
-<script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v5"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_slide1_specimen/specimenlist1.js?v6"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide2__special/specialslide2.js?v6"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_slide2__Job4_rq/specialslide2_rq.js?v4"></script>
 
@@ -1330,9 +1330,9 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_hire1_fluidlab/hire1.js?v2x"></script>
 
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v11"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/diagresult.js?v12"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_template_rs/template_rs.js?v0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v7"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_patient_diax_result/patient_status_control.js?v8"></script>
 
 <script type="text/javascript">
                     var sn_type = '<?= $patient[0]['sn_type']; ?>';

@@ -223,6 +223,7 @@
                     </form> -->
 
                 <div class="navbar-nav align-items-center ms-auto">
+                    <span id="red_notice_text" style="color:red; font-weight:bold;"></span>
                     <span id="top_free_text"></span>
 
                     <!-- <div class="nav-item dropdown">

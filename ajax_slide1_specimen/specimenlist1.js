@@ -107,8 +107,19 @@ function repaintspecimentable1(data) {
         $('#spcimen_list1').append(str2);
     }
 
+    if (get_spcimen_list1_count()==0) {
+        $('#red_notice_text').text('(ยังไม่ได้ลงสิ่งส่งตรวจ)');
+    }else{
+        $('#red_notice_text').text('');
+    }
 }
 
+function get_spcimen_list1_count() {
+    const parent = document.getElementById("spcimen_list1"); // Count only direct children 
+    const count = parent.children.length; 
+    console.log("Number of entries:", count);
+    return count;
+}
 
 
 $("#refresh_spcimen_list1").on("click", function () {
@@ -201,7 +212,11 @@ $("#add_spcimen_list1").on("click", function () {
             alert('Exception:', exception);
         }
     });
-
+    if (get_spcimen_list1_count()==0) {
+        $('#red_notice_text').text('(ยังไม่ได้ลงสิ่งส่งตรวจ)');
+    }else{
+        $('#red_notice_text').text('');
+    }
     alert('Finish Added.');
 });
 
@@ -238,6 +253,11 @@ function delbill1(billid,patientid) {
        
     }
 
+    if (get_spcimen_list1_count()==0) {
+        $('#red_notice_text').text('(ยังไม่ได้ลงสิ่งส่งตรวจ)');
+    }else{
+        $('#red_notice_text').text('');
+    }
 }
 
 
