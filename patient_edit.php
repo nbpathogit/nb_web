@@ -1306,7 +1306,27 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
         </div>
     </div>
 <?php endif; ?>
+    
+    
+ <?php if ($isCurUserAdmin) : ?>
+    <div id="finish_section" class="container-fluid pt-4 px-4">
+            <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+                <!--hr noshade="noshade" width="" size="8" -->
+                <h4 align="center"><b>PDF File for append</b><span style="color:green;"></span></h4>
+                <form id="uploadAttachPdfForm" enctype="multipart/form-data"> 
+                    <input type="file" name="file" id="fileInput" accept="application/pdf" required> 
+                    <!-- Hidden input --> <input type="hidden" name="patient_id" value="<?= $patient[0]['id']; ?>">
+                    <button type="submit">Upload</button> 
+                </form> 
+                <div id="pdfUploadStatus"></div>
+            </div>
+        </div>
+    <script>
 
+
+    </script>
+    
+<?php endif; ?>
 
 <span id="end_section">    </span>
 
@@ -1344,6 +1364,32 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
                     $(document).ready(function () {
+                        
+                        
+                    
+                        $("#uploadAttachPdfForm").on("submit", function(e) {
+                          e.preventDefault(); // prevent normal form submission
+
+                          var formData = new FormData(this);
+                          console.log('patient_id::'+patient_id);
+                          $.ajax({
+                            url: "pdf_attach_upload.php",       // server-side script
+                            type: "POST",
+                            'async': false,
+                            data: formData,
+                            contentType: false,      // important for file upload
+                            processData: false,      // prevent jQuery from processing data
+                            success: function(response) {
+                              $("#pdfUploadStatus").html(response);
+                            },
+                            error: function() {
+                              $("#pdfUploadStatus").html("File upload failed.");
+                            }
+                          });
+                        });
+                        
+                        
+                     
                         //set active tab
                         $("#patienttab").addClass("active");
                         

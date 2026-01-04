@@ -7,6 +7,28 @@
  */
 class Util {
     
+    /**
+    * Clean up spaces and special characters from a string
+    *
+    * @param string $input
+    * @return string
+    */
+   public static function cleanString($input) {
+       // 1. Trim leading/trailing spaces
+       $clean = trim($input);
+
+       // 2. Replace multiple spaces with a single space
+       $clean = preg_replace('/\s+/', '_', $clean);
+
+       // 3. Remove special characters (keep letters, numbers, spaces, underscores, hyphens)
+       $clean = preg_replace('/[^A-Za-z0-9 _\.-]/', '', $clean);
+       
+       // 4. Replace spaces with underscores 
+       $clean = str_replace(' ', '_', $clean);
+
+       return $clean;
+   }
+    
     public static function writeFile($fileName,$text){
         if (isset($_SESSION["subfolder"])) {
 //            echo '<br>';
