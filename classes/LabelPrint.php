@@ -12,7 +12,7 @@ class LabelPrint {
     public $accept_date;
     public $company_name;
 
-        public function create($conn) {
+     public function create($conn) {
 
         $sql = "INSERT INTO `labelprint_tmp_a`(`id`, `userid`, `sn_num`, `hn_num`, `patho_abbreviation`, `speciment_abbreviation`, `accept_date`, `company_name`) "
                ."                      VALUES (NULL, :userid, :sn_num,  :hn_num,  :patho_abbreviation,  :speciment_abbreviation,   :accept_date,  :company_name );";
@@ -38,6 +38,20 @@ class LabelPrint {
             //            $stmt->debugDumpParams();
             return false;
         }
+    }
+    
+    public static function deleteAllbyUserID($conn, $userid)
+    {
+        $sql = "DELETE FROM labelprint_tmp_a
+                WHERE userid = :userid";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':userid', $userid, PDO::PARAM_INT);
+
+        return $stmt->execute();
+        
+        
     }
     
     public static function getAllbyUserID($conn, $userid) {

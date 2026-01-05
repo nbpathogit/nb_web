@@ -6,6 +6,11 @@ Auth::requireLogin();
 require 'user_auth.php';
 //var_dump($_POST);
 
+
+
+
+
+//Add record to database
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    die();
     if (isset($_POST['add'])) {
@@ -26,6 +31,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<script>alert("Add user fail. Please verify again")</script>';
         }
     }
+    
+    
+    
+    if (isset($_POST['delAll'])) {
+
+
+        if (LabelPrint::deleteAllbyUserID($conn, $_POST['userid'])) {
+            Url::redirect("/generate_label.php");
+        } else {
+            echo '<script>alert("Delete fail. Please verify again")</script>';
+        }
+    }
+    
+    
 //    if (isset($_POST['viewpdf1'])) {
 //        Url::redirect("/patient_sn_pdf1.php");
 //    }
@@ -34,8 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-//Get Specific Row from Table
-
+//Get Specific Row from Table for generate pdf
 $labelPrints = LabelPrint::getAllbyUserID($conn, $_SESSION['userid']);
 
 if (!$labelPrints) {
@@ -93,6 +111,15 @@ if (!$labelPrints) {
             <?php endforeach; ?>
 
         </table>
+        
+        <form action="" method="post" class="">
+            <div class="">
+                <button name="delAll" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Remove all list&nbsp;&nbsp;</button>
+            </div>
+            <input type="hidden" name="userid"  readonly="readonly" value="<?= $_SESSION['userid'] ?>">
+        </form>
+        
+        
     </div>
 
     <br>
@@ -122,9 +149,19 @@ if (!$labelPrints) {
                     <label for="accept_date" class="form-label">accept_date: </label>
                     <input type="text" name="accept_date" class="form-control" value="01//02//2526">
                 </div>
+                
+                
+
+        
+
+
+                
+                
+                
             </div>
+            
             <label for="" class="form-label">Select type </label>
-                            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="A" name="A">A</div></label>
+            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="A" name="A">A</div></label>
             <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="B" name="B">B</div></label>
             <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="C" name="C">C</div></label>
             <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="D" name="D">D</div></label>
