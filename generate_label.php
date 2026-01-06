@@ -12,7 +12,19 @@ require 'user_auth.php';
 
 //Add record to database
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    die();
+    
+    var_dump($_POST);
+    
+    echo "  letter::".$_POST['letter'];
+    echo "  start_number::".$_POST['start_num'];
+    echo "  end_number::".$_POST['end_num'];
+    echo "  userid::".$_POST['userid'];
+    echo "  pnum_id::".$_POST['pnum_id'];
+    echo "  patho_abbreviation::".$_POST['patho_abbreviation'];
+
+    
+    die();
+    
     if (isset($_POST['add'])) {
 
         $labelPrint = new LabelPrint();
@@ -55,6 +67,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 //Get Specific Row from Table for generate pdf
 $labelPrints = LabelPrint::getAllbyUserID($conn, $_SESSION['userid']);
+
+//
+$patientLists = Patient::getAllJoin_forlableprint($conn, 1);
+
+//var_dump($patientLists);
+
 
 if (!$labelPrints) {
     // Skip show table
@@ -126,71 +144,89 @@ if (!$labelPrints) {
 
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h1>Fill in data for insert to list</h1>
-        <form action="" method="post" class="">
+        <form action="" id="form_add_record" method="post" class="">
             <div class="row <?= $isBorder ? "border" : "" ?>">
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-                    <label for="sn_num" class="form-label">SN Number: </label>
-                    <input type="text" name="sn_num" class="form-control"  value="SN229988">
+                    <label for="pnum_id" class="">SN Number: </label>
+                    <select name="pnum_id" id="pnum_id" class="" required>
+                        <option value=""></option>
+                        <?php foreach ($patientLists as $patient) : ?>
+                            <option value="<?= htmlspecialchars($patient['pid']); ?>" 
+                                    p_pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
+                                    patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
+                                    accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
+                                    ><?= htmlspecialchars($patient['p_pnum']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-                    <label for="hn_num" class="form-label">Hospital Number: </label>
-                    <input type="text" name="hn_num" class="form-control" value="HN221234">
-                </div>
+                
+                
+
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
                     <label for="patho_abbreviation" class="form-label">patho_Abbreviation: </label>
-                    <input type="text" name="patho_abbreviation" class="form-control" value="AC.">
-                </div>
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-                    <label for="speciment_abbreviation" class="form-label">specimen_Abbrevation: </label>
-                    <input type="text" name="speciment_abbreviation" class="form-control" value="Z">
+                    <input type="text" name="patho_abbreviation" id="patho_abbreviation" class="form-control" value="" readonly required>
                 </div>
 
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
                     <label for="accept_date" class="form-label">accept_date: </label>
-                    <input type="text" name="accept_date" class="form-control" value="01//02//2526">
+                    <input type="text" name="accept_date" id="accept_date" class="form-control" value="" readonly required>
+                </div>
+            </div>
+            <br>
+            
+            
+            
+            <hr>
+            <div class="row <?= $isBorder ? "border" : "" ?>">
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <!--<label for="" class="form-label">Select Letter::</label>-->
+                    Select Letter::
+                    <?php
+                    echo '<select name="letter" id="letter" required>';
+                    echo '<option value=""></option>';
+                    foreach (range('A', 'Z') as $letter) {
+                        echo '<option value="' . $letter . '">' . $letter . '</option>';
+                    }
+                    echo '</select>';
+                    ?>
                 </div>
                 
-                
-
-        
-
-
-                
-                
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <!--<label for="" class="form-label">           Number from::</label>-->
+                    Number from::
+                    <?php
+                    echo '<select name="start_num" id="start_num"  required>';
+                    echo '<option value=""></option>';
+                    for ($i = 1; $i <= 99; $i++) {
+                        echo '<option value="' . $i . '">' . $i . '</option>';
+                    }
+                    echo '</select>';
+                    ?>
+                </div>
+                    
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <!--<label for="" class="form-label"> Number to::</label>-->
+                    Number to::
+                    <?php
+                    echo '<select name="end_num" id="end_num" required>';
+                    echo '<option value=""></option>';
+                    for ($i = 1; $i <= 99; $i++) {
+                        echo '<option value="' . $i . '">' . $i . '</option>';
+                    }
+                    echo '</select>';
+                    ?>
+                </div>
                 
             </div>
             
-            <label for="" class="form-label">Select type </label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="A" name="A">A</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="B" name="B">B</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="C" name="C">C</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="D" name="D">D</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="E" name="E">E</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="F" name="F">F</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="G" name="G">G</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="H" name="H">H</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="I" name="I">I</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="J" name="J">J</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="K" name="K">K</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="L" name="L">L</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="M" name="M">M</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="N" name="N">N</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="O" name="O">O</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="P" name="P">P</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Q" name="Q">Q</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="R" name="R">R</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="S" name="S">S</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="T" name="T">T</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="U" name="U">U</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="V" name="V">V</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="W" name="W">W</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="X" name="X">X</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Y" name="Y">Y</div></label>
-            <label class="form-check-label"><div class="form-check form-check-inline"><input type="checkbox" class="form-check-input" value="Z" name="Z">Z</div></label>
+            <br>
+         
+            
             <div class="">
                 <button name="add" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Add to list&nbsp;&nbsp;</button>
             </div>
-            <input type="hidden" name="userid"  readonly="readonly" value="<?= $_SESSION['userid'] ?>">
+            <input type="hidden" name="userid" id="userid" readonly="readonly" value="<?= $_SESSION['userid'] ?>">
 
 
         </form>
@@ -202,15 +238,224 @@ if (!$labelPrints) {
             <a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
                 <button name="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm&nbsp;&nbsp;</button>
             </a>
-
         </div>
+            
+            
     </div>
 
 </div>
+
+
+<?php $hidden_data2dom=FALSE; ?>
+<?php if (isset( $patientLists   )): ?>  
+    <ul class="patientlist" style="<?= $hidden_data2dom ? "display: none;" : "" ?>" >
+        <?php foreach ($patientLists as $patient) : ?>
+            <li 
+                tabindex="<?= $patient['pid'] ?>" 
+                pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
+                patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
+                accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
+                >
+                tabindex="<?= $patient['pid'] ?>" 
+                pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
+                patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
+                accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
+            </li>
+        <?php endforeach; ?> 
+    </ul>     
+<?php endif; ?>
+
+
+
 <?php require 'includes/footer.php'; ?>
 
 <script type="text/javascript">
+    
+    var resultArray;
+    var targetpatient;
+    
+    function convertDateFormat(dateStr) {
+        // Split the string into parts
+        const parts = dateStr.split("-"); // ["2025", "12", "08"]
+
+        const year = parts[0];
+        const month = parts[1];
+        const day = parts[2];
+
+        // Return in DD/MM/YYYY format
+        return `${day}/${month}/${year}`;
+    }
+
+    
     $(document).ready(function () {
         $("#generate_label").addClass("active");
+
+        $('select').selectize({
+//            sortField: 'text'
+        });
+        
+        
+
+        $("#form_add_record").on("submit", function(e) {
+            e.preventDefault(); // prevent normal form submission
+
+            // prepare all parameter
+            let patient_id = targetpatient.tabindex;
+            let userid = $('#userid').val();
+            let sn_num = targetpatient.pnum;
+            let hn_num = "";
+            let patho_abbrev = targetpatient.patho_abbreviation;
+            let accept_date = convertDateFormat(targetpatient.accept_date);
+            let company_name = "N.B.Pathology";
+            let letter = $('#letter').selectize()[0].selectize.getValue();
+            let start_num = $('#start_num').selectize()[0].selectize.getValue();
+            let end_num = $('#end_num').selectize()[0].selectize.getValue();
+
+            // Print to console
+            console.log("patient_id:", patient_id);
+            console.log("userid:", userid);
+            console.log("sn_num:", sn_num);
+            console.log("hn_num:", hn_num);
+            console.log("patho_abbrev:", patho_abbrev);
+            console.log("accept_date:", accept_date);
+            console.log("company_name:", company_name);
+            console.log("letter:", letter);
+            console.log("start_num:", start_num);
+            console.log("end_num:", end_num);
+
+            alert("submit");
+            
+            return ; // to be continue update from below line
+
+            var formData = new FormData(this);
+            console.log('patient_id::'+patient_id);
+            $.ajax({
+              url: "pdf_attach_upload.php",       // server-side script
+                type: "POST",
+                'async': false,
+                data: formData,
+                contentType: false,      // important for file upload
+                processData: false,      // prevent jQuery from processing data
+                success: function(response) {
+                    $("#pdfUploadStatus").html(response);
+                },
+                error: function() {
+                    $("#pdfUploadStatus").html("File upload failed.");
+                }
+            });
+          
+        });
+
+
+        $("#pnum_id").change(function () {
+
+            console.log('\n\n\n===================================================================\n');
+            console.log('======================pnum_change==============================\n');
+            console.log('===================================================================\n\n\n');
+
+            let selectize = $('#pnum_id').selectize()[0].selectize;            // Initialize Selectize
+            let pnum_id_selected = selectize.getValue();             // Get value when needed
+            
+            console.log('selectizeValue::'+pnum_id_selected)
+
+            targetpatient = resultArray.find(obj => obj.tabindex === pnum_id_selected);
+            
+            console.log(targetpatient);
+            
+            console.log('tabindex::'+targetpatient.tabindex);
+            console.log('pnum::'+targetpatient.pnum);
+            console.log('patho_abbreviation::'+targetpatient.patho_abbreviation);
+            console.log('accept_date::'+targetpatient.accept_date);
+
+            // Set values with jQuery
+            $('#patho_abbreviation').val(targetpatient.patho_abbreviation);
+            $('#accept_date').val(targetpatient.accept_date);
+
+            let patient_id = targetpatient.tabindex;
+            let userid = $('#userid').val();
+            let sn_num = targetpatient.pnum;
+            let hn_num = "";
+            let patho_abbrev = targetpatient.patho_abbreviation;
+            let accept_date = convertDateFormat(targetpatient.accept_date);
+            let company_name = "N.B.Pathology";
+            let letter = $('#letter').selectize()[0].selectize.getValue();
+            let start_num = $('#start_num').selectize()[0].selectize.getValue();
+            let end_num = $('#end_num').selectize()[0].selectize.getValue();
+ 
+            // Print to console
+            console.log("patient_id:", patient_id);
+            console.log("userid:", userid);
+            console.log("sn_num:", sn_num);
+            console.log("hn_num:", hn_num);
+            console.log("patho_abbrev:", patho_abbrev);
+            console.log("accept_date:", accept_date);
+            console.log("company_name:", company_name);
+            console.log("letter:", letter);
+            console.log("start_num:", start_num);
+            console.log("end_num:", end_num);
+
+            //alert('pnum_id:'+pnum_id);
+
+        });
+        
+
+
+        // Select all <li> inside the ul.patientlist
+        // Then keep as global variable resultArray
+        const items = document.querySelectorAll("ul.patientlist li");
+
+        // Convert NodeList to array and map attributes
+        resultArray = Array.from(items).map(li => {
+          return {
+            tabindex: li.getAttribute("tabindex"),
+            pnum: li.getAttribute("pnum"),
+            patho_abbreviation: li.getAttribute("patho_abbreviation"),
+            accept_date: li.getAttribute("accept_date")
+          };
+        });
+
+        //==Print out for debug===
+        //console.log(resultArray);
+
+//=========EXPECT OUT PUT===========
+//        [
+//          {
+//            tabindex: "34609",
+//            pnum: "SN2600001",
+//            patho_abbreviation: "",
+//            accept_date: "2026-01-05"
+//          },
+//          {
+//            tabindex: "34605",
+//            pnum: "CN2501855",
+//            patho_abbreviation: "AC.",
+//            accept_date: "2025-12-31"
+//          },
+//          {
+//            tabindex: "34604",
+//            pnum: "CN2501854",
+//            patho_abbreviation: "AC.",
+//            accept_date: "2025-12-31"
+//          }
+//        ]
+//
+//
+//        const matches = resultArray.filter(obj => obj.tabindex === "34605");
+//
+//        console.log(matches[0].pnum); // "CN2501855"
+
+
+
+
+
+
+
+
     });
+    
+    
+    
+    
+    
+
 </script>

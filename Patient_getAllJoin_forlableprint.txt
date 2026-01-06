@@ -1,0 +1,11 @@
+SELECT 
+        p.id as pid,
+        p.pnum as p_pnum,
+        CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+        upatho.short_name as ab_patho,
+        DATE(p.date_1000) as accept_date
+
+                FROM patient as p
+                LEFT JOIN user as upatho ON p.ppathologist_id = upatho.id
+
+                WHERE   p.date_1000 BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()  and p.movetotrash = 0 ORDER BY  p.id DESC;

@@ -274,6 +274,41 @@ class Patient {
     }
 
     
+    
+    
+    public static function getAllJoin_forlableprint($conn, $month_back = 3) {
+        
+        $sql = "SELECT 
+        p.id as pid,
+        p.pnum as p_pnum,
+        CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+        upatho.short_name as ab_patho,
+        DATE(p.date_1000) as accept_date
+
+                FROM patient as p
+                LEFT JOIN user as upatho ON p.ppathologist_id = upatho.id
+
+                WHERE  ";
+
+        
+        $sql .= " p.date_1000 BETWEEN DATE_SUB(CURDATE(), INTERVAL ".$month_back." MONTH) AND CURDATE() ";
+
+        $sql .= " and p.movetotrash = 0";
+        $sql .= " ORDER BY  p.id DESC;";
+        
+
+        Util::writeFile('Patient_getAllJoin_forlableprint.txt', $sql);  
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('Patient_getAllJoin_forlableprint.txt', $sql);   
+        }
+        
+        
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
     public static function getAllJoinWithReported($conn, $id = 0, $start = '0') {
         $sql = "SELECT * ,p.id as pid
                 FROM patient as p
