@@ -184,7 +184,7 @@ if (!$labelPrints) {
                     Select Letter::
                     <?php
                     echo '<select name="letter" id="letter" required>';
-                    echo '<option value=""></option>';
+                    //echo '<option value=""></option>';
                     foreach (range('A', 'Z') as $letter) {
                         echo '<option value="' . $letter . '">' . $letter . '</option>';
                     }
@@ -197,7 +197,7 @@ if (!$labelPrints) {
                     Number from::
                     <?php
                     echo '<select name="start_num" id="start_num"  required>';
-                    echo '<option value=""></option>';
+                    //echo '<option value=""></option>';
                     for ($i = 1; $i <= 99; $i++) {
                         echo '<option value="' . $i . '">' . $i . '</option>';
                     }
@@ -210,7 +210,7 @@ if (!$labelPrints) {
                     Number to::
                     <?php
                     echo '<select name="end_num" id="end_num" required>';
-                    echo '<option value=""></option>';
+                    //echo '<option value=""></option>';
                     for ($i = 1; $i <= 99; $i++) {
                         echo '<option value="' . $i . '">' . $i . '</option>';
                     }
@@ -247,6 +247,9 @@ if (!$labelPrints) {
 
 
 <?php $hidden_data2dom=FALSE; ?>
+<!-- Container where we will add the form -->
+<div id="formContainer"></div>
+
 <?php if (isset( $patientLists   )): ?>  
     <ul class="patientlist" style="<?= $hidden_data2dom ? "display: none;" : "" ?>" >
         <?php foreach ($patientLists as $patient) : ?>
@@ -295,7 +298,7 @@ if (!$labelPrints) {
         });
         
         
-
+        //=============Add record to database===========================================
         $("#form_add_record").on("submit", function(e) {
             e.preventDefault(); // prevent normal form submission
 
@@ -325,6 +328,43 @@ if (!$labelPrints) {
 
             alert("submit");
             
+            
+            
+            
+
+            $.ajax({
+                'async': false,
+                type: 'POST',
+                'global': false,
+                type: 'POST',
+                url: 'ajax_data/generate_label_add_record.php',
+                data: {
+                    'patient_id':  patient_id    ,
+                    'userid':      userid        ,
+                    'sn_num':      sn_num        ,
+                    'hn_num':      hn_num        ,
+                    'patho_abbrev':patho_abbrev  ,
+                    'accept_date': accept_date   ,
+                    'company_name':company_name  ,
+                    'letter':      letter        ,
+                    'start_num':   start_num     ,
+                    'end_num':     end_num       ,
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (jqxhr, status, exception) {
+                    alert('Exception:', exception);
+                }
+            });
+
+            
+            
+            
+            
+            
+            
+            
             return ; // to be continue update from below line
 
             var formData = new FormData(this);
@@ -347,6 +387,8 @@ if (!$labelPrints) {
         });
 
 
+
+        //========Update related input field=====================
         $("#pnum_id").change(function () {
 
             console.log('\n\n\n===================================================================\n');

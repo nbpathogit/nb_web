@@ -40,6 +40,26 @@ class LabelPrint {
         }
     }
     
+    public static function createByLoopNum($conn,$userid,$sn_num,$hn_num,$patho_abbreviation,$accept_date,$company_name,$letter,$start_num,$end_num) {
+        $result = TRUE;
+        try {
+            for ($i = $start_num; $i <= $end_num; $i++) { 
+                $speciment_abbreviation = $letter . $i;
+                $sql = "INSERT INTO `labelprint_tmp_a`(`id`, `userid`, `sn_num`, `hn_num`, `patho_abbreviation`, `speciment_abbreviation`, `accept_date`, `company_name`) "
+                   ."                          VALUES (NULL, '{$userid}','{$sn_num}','{$hn_num}', '{$patho_abbreviation}',  '{$speciment_abbreviation}',   '{$accept_date}',  '{$company_name}' );";
+                //Util::writeFile("aaa.txt", $sql);
+                   
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+            }
+        } catch (Exception $e) {
+            
+            $result = "Caught exception: " . $e->getMessage();
+            //Util::writeFile("bbb.txt", $result);
+        }
+        return $result;
+    }
+    
     public static function deleteAllbyUserID($conn, $userid)
     {
         $sql = "DELETE FROM labelprint_tmp_a
