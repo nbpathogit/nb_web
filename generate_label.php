@@ -103,21 +103,36 @@ if (!$labelPrints) {
 
     <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h1>Table List to print out label</h1>
-        <table class=""> 
+        
+        <style>
+            table {
+              border-collapse: collapse;
+            }
+            th, td {
+              border: 1px solid black;
+
+              text-align: center;
+            }
+            th {
+              background-color: #f2f2f2;
+            }
+        </style>
+        
+        <table id="tableforprintlabel"> 
             <tr>
-                <th> row_id </td>
-                <th> User ID </th>
-                <th> SN Number </th>
-                <th> HN Number </th>
-                <th> Pathologist Abbreviation</th>
-                <th> Speciment Abbreviation </th>
-                <th> Income date </th>
-                <th> Company Name </th>  
+                <th>id</td>
+                <th>User_ID </th>
+                <th>SN_Num</th>
+                <th>HN_Num</th>
+                <th>PathoAbrev</th>
+                <th>SpeciAbrev</th>
+                <th>admit_date</th>
+                <th>Org.</th>
 
             </tr>
             <?php foreach ($labelPrints as $labelprint) : ?>
-                <tr>
-                    <td> <?= $labelprint['id'] ?> </td>
+                <tr id="" border="1">
+                    <td border="1"> <?= $labelprint['id'] ?> </td>
                     <td> <?= $labelprint['userid'] ?> </td>
                     <td> <?= $labelprint['sn_num'] ?> </td>
                     <td> <?= $labelprint['hn_num'] ?> </td>
@@ -277,6 +292,67 @@ if (!$labelPrints) {
     var resultArray;
     var targetpatient;
     
+    
+    
+    function drawtableforprintlabel() {
+        let user_id = $('#userid').val();
+        let datajson;
+        // get data from database
+        $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            type: 'POST',
+            url: 'ajax_data/generate_label_get_record.php',
+            data: {
+                'user_id': user_id,
+            },
+            success: function (data) {
+                console.log(data);//print json string
+                datajson = JSON.parse(data); //convert String to JS Object
+                for (var i in datajson)
+                {
+                    //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
+                    console.log(datajson[i].id);
+                }
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+
+        
+        // print to table
+        // Get the table element by ID 
+        let $tablelable = $("#tableforprintlabel"); 
+        
+        // Remove everything inside the table (rows, cells, etc.) 
+        $tablelabel.empty();
+        
+        //Append a new row 
+        $tablelable.append("<tr> <th>id</td> <th>User_ID </th> <th>SN_Num</th> <th>HN_Num</th> <th>PathoAbrev</th> <th>SpeciAbrev</th> <th>admit_date</th> <th>Org.</th> </tr>");
+        for (var i in datajson)
+        {
+            let id =datajson[i].id;
+            //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
+            $tablelable.append("<tr>"+
+                "<td>"+datajson[i].id+"</td>"+
+                "<td>"+datajson[i].userid+" </td>"+
+                "<td>"+datajson[i].sn_num+"</td>"+
+                "<td>"+datajson[i].hn_num+"</td>"+
+                "<td>"+datajson[i].hn_num+"</td>"+
+                "<td>"+datajson[i].patho_abbreviation+"</td>"+
+                "<td>"+datajson[i].accept_date+"</td>"+
+                "<td>"+datajson[i].accept_date+"</td>"+
+                "</tr>");
+        
+            console.log(datajson[i].id);
+        }
+        
+    }
+
+    
     function convertDateFormat(dateStr) {
         // Split the string into parts
         const parts = dateStr.split("-"); // ["2025", "12", "08"]
@@ -297,6 +373,8 @@ if (!$labelPrints) {
 //            sortField: 'text'
         });
         
+        //=============Print table of row record selected=============================
+        drawtableforprintlabel();
         
         //=============Add record to database===========================================
         $("#form_add_record").on("submit", function(e) {
