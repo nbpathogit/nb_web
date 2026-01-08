@@ -187,6 +187,13 @@ if (!$labelPrints) {
                     <label for="accept_date" class="form-label">accept_date: </label>
                     <input type="text" name="accept_date" id="accept_date" class="form-control" value="" readonly required>
                 </div>
+            
+            
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <label for="hn_num" class="form-label">hn_num: </label>
+                    <input type="text" name="hn_num" id="hn_num" class="form-control" value="" readonly required>
+                </div>
+                
             </div>
             <br>
             
@@ -271,11 +278,13 @@ if (!$labelPrints) {
             <li 
                 tabindex="<?= $patient['pid'] ?>" 
                 pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
+                hn_num="<?= htmlspecialchars($patient['p_phospital_num']); ?>" 
                 patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
                 accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
                 >
                 tabindex="<?= $patient['pid'] ?>" 
                 pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
+                hn_num="<?= htmlspecialchars($patient['p_phospital_num']); ?>" 
                 patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
                 accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
             </li>
@@ -325,26 +334,26 @@ if (!$labelPrints) {
         
         // print to table
         // Get the table element by ID 
-        let $tablelable = $("#tableforprintlabel"); 
+        let $tablelabel = $("#tableforprintlabel"); 
         
         // Remove everything inside the table (rows, cells, etc.) 
         $tablelabel.empty();
         
         //Append a new row 
-        $tablelable.append("<tr> <th>id</td> <th>User_ID </th> <th>SN_Num</th> <th>HN_Num</th> <th>PathoAbrev</th> <th>SpeciAbrev</th> <th>admit_date</th> <th>Org.</th> </tr>");
+        $tablelabel.append("<tr> <th>id</td> <th>User_ID </th> <th>SN_Num</th> <th>HN_Num</th> <th>PathoAbrev</th> <th>SpeciAbrev</th> <th>admit_date</th> <th>Org.</th> </tr>");
         for (var i in datajson)
         {
             let id =datajson[i].id;
             //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
-            $tablelable.append("<tr>"+
+            $tablelabel.append("<tr>"+
                 "<td>"+datajson[i].id+"</td>"+
                 "<td>"+datajson[i].userid+" </td>"+
                 "<td>"+datajson[i].sn_num+"</td>"+
                 "<td>"+datajson[i].hn_num+"</td>"+
-                "<td>"+datajson[i].hn_num+"</td>"+
                 "<td>"+datajson[i].patho_abbreviation+"</td>"+
+                "<td>"+datajson[i].speciment_abbreviation+"</td>"+
                 "<td>"+datajson[i].accept_date+"</td>"+
-                "<td>"+datajson[i].accept_date+"</td>"+
+                "<td>"+datajson[i].company_name+"</td>"+
                 "</tr>");
         
             console.log(datajson[i].id);
@@ -384,7 +393,7 @@ if (!$labelPrints) {
             let patient_id = targetpatient.tabindex;
             let userid = $('#userid').val();
             let sn_num = targetpatient.pnum;
-            let hn_num = "";
+            let hn_num = targetpatient.hn_num;
             let patho_abbrev = targetpatient.patho_abbreviation;
             let accept_date = convertDateFormat(targetpatient.accept_date);
             let company_name = "N.B.Pathology";
@@ -490,11 +499,12 @@ if (!$labelPrints) {
             // Set values with jQuery
             $('#patho_abbreviation').val(targetpatient.patho_abbreviation);
             $('#accept_date').val(targetpatient.accept_date);
+            $('#hn_num').val(targetpatient.hn_num);
 
             let patient_id = targetpatient.tabindex;
             let userid = $('#userid').val();
             let sn_num = targetpatient.pnum;
-            let hn_num = "";
+            let hn_num = targetpatient.hn_num;
             let patho_abbrev = targetpatient.patho_abbreviation;
             let accept_date = convertDateFormat(targetpatient.accept_date);
             let company_name = "N.B.Pathology";

@@ -281,6 +281,7 @@ class Patient {
         $sql = "SELECT 
         p.id as pid,
         p.pnum as p_pnum,
+        p.phospital_num as p_phospital_num,
         CONCAT(upatho.name,'',upatho.lastname) as name_patho,
         upatho.short_name as ab_patho,
         DATE(p.date_1000) as accept_date
