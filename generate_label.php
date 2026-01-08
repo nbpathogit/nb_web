@@ -268,7 +268,7 @@ if (!$labelPrints) {
 </div>
 
 
-<?php $hidden_data2dom=FALSE; ?>
+<?php $hidden_data2dom=TRUE; ?>
 <!-- Container where we will add the form -->
 <div id="formContainer"></div>
 
@@ -413,11 +413,8 @@ if (!$labelPrints) {
             console.log("start_num:", start_num);
             console.log("end_num:", end_num);
 
-            alert("submit");
-            
-            
-            
-            
+            //alert("submit");
+      
 
             $.ajax({
                 'async': false,
@@ -444,33 +441,9 @@ if (!$labelPrints) {
                     alert('Exception:', exception);
                 }
             });
-
             
-            
-            
-            
-            
-            
-            
-            return ; // to be continue update from below line
-
-            var formData = new FormData(this);
-            console.log('patient_id::'+patient_id);
-            $.ajax({
-              url: "pdf_attach_upload.php",       // server-side script
-                type: "POST",
-                'async': false,
-                data: formData,
-                contentType: false,      // important for file upload
-                processData: false,      // prevent jQuery from processing data
-                success: function(response) {
-                    $("#pdfUploadStatus").html(response);
-                },
-                error: function() {
-                    $("#pdfUploadStatus").html("File upload failed.");
-                }
-            });
-          
+            drawtableforprintlabel();
+ 
         });
 
 
@@ -493,6 +466,7 @@ if (!$labelPrints) {
             
             console.log('tabindex::'+targetpatient.tabindex);
             console.log('pnum::'+targetpatient.pnum);
+            console.log('hn_num::'+targetpatient.hn_num);
             console.log('patho_abbreviation::'+targetpatient.patho_abbreviation);
             console.log('accept_date::'+targetpatient.accept_date);
 
@@ -539,6 +513,7 @@ if (!$labelPrints) {
           return {
             tabindex: li.getAttribute("tabindex"),
             pnum: li.getAttribute("pnum"),
+            hn_num: li.getAttribute("hn_num"),
             patho_abbreviation: li.getAttribute("patho_abbreviation"),
             accept_date: li.getAttribute("accept_date")
           };
