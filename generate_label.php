@@ -258,7 +258,12 @@ if (!$labelPrints) {
         <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <div class="">
             <a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
-                <button name="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm&nbsp;&nbsp;</button>
+                <button name="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm (Paper A4)&nbsp;&nbsp;</button>
+            </a>
+        </div>
+        <div class="">
+            <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+                <button name="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm (paper 140 x 20mm)&nbsp;&nbsp;</button>
             </a>
         </div>
             
