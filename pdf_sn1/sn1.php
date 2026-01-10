@@ -23,6 +23,13 @@
         text-align: center;
         vertical-align: text-top;
     }
+    .padwidth{
+        table-layout:fixed;
+        width:widthmm; 
+        /*height:2.5mm;*/
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
     .padwidth25{
         table-layout:fixed;
         width:2.5mm; 
@@ -74,7 +81,7 @@
     .r1{
         font-family: angsana;
         font-weight: bold;
-        font-size: 12pt;
+        font-size: 11pt;
         background-color: darkgray;
         display: inline-block;
         line-height: 14pt;

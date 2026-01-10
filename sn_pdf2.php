@@ -17,6 +17,20 @@ if (!$labelPrints) {
 }
 
 
+$num_cal = 3;
+$num_row = 1;
+
+$space_cal_padding = 2;
+
+$pageHight = 23;
+$pageWidth = 140;
+
+$pdf_margin_left = 1;
+$pdf_margin_top = 1;
+$pdf_margin_right = 0;
+
+
+
 
 // create new PDF document
 //============================================================+
@@ -55,7 +69,7 @@ if (!$labelPrints) {
 //P → Portrait (vertical)
 //L → Landscape (horizontal)
 
-$pdf = new TCPDF('L', 'mm', array(140, 100), true, 'UTF-8', false); // 
+$pdf = new TCPDF('L', 'mm', array($pageWidth, $pageHight), true, 'UTF-8', false); // 
 //$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false); // 
 
 // set document information
@@ -75,12 +89,13 @@ $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 // set margins
 //$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 
-$pdf->SetMargins(1, 1, 0);
+$pdf->SetMargins($pdf_margin_left, $pdf_margin_top, $pdf_margin_right);
 
 
 // set auto page breaks
 //$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-$pdf->SetAutoPageBreak(TRUE, 0);
+//$pdf->SetAutoPageBreak(TRUE, 0);
+$pdf->SetAutoPageBreak(FALSE, 0);
 
 
 // set image scale factor
@@ -92,15 +107,14 @@ if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
 
 
 
-$num_cal = 3;
-$num_row = 3;
-
 $count_element = 0;
 
 $sn = file_get_contents('pdf_sn1/sn1.php');
 
 $sn = str_replace("background-color: darkgray;", "", $sn);
 $sn = str_replace("display: inline-block;", "", $sn);
+
+$sn = str_replace("widthmm", $space_cal_padding, $sn);
 
 $trflag1 = false;
 
@@ -151,7 +165,7 @@ foreach ($labelPrints as $element) {
     //==End Add Element column Section==========================================
 
     //==Add Space Column Section==============================================
-    $htmltxt = $htmltxt . "<td class=\"padwidth25\"  style=\" font-size: 1pt \"></td>\n";
+    $htmltxt = $htmltxt . "<td class=\"padwidth\"  style=\" font-size: 1pt \"></td>\n";
     //==Add Space Column Section==============================================
     
     
