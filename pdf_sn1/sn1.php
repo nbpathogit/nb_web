@@ -142,7 +142,7 @@
     .r6{
         font-family: angsana;
         font-weight: bold;
-        font-size: 20pt;
+        font-size: 22pt;
         background-color: darkgray;
         display: inline-block;
         line-height: 14pt;

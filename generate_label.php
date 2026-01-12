@@ -282,7 +282,7 @@ if (!$labelPrints) {
             <a href="<?= Url::currentURL() ?>/sn_pdf3.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
                 <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;3) Generate PDF Label 5.0x2.5 cm (paper 50 x 25mm show border)&nbsp;&nbsp;</button>
             </a>
-            <a href="<?= Url::currentURL() ?>/sn_pdf3.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+            <a href="<?= Url::currentURL() ?>/sn_pdf3.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
                 <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;3) Generate PDF Label 5.0x2.5 cm (paper 50 x 25mm hide border)&nbsp;&nbsp;</button>
             </a>
         </div>
