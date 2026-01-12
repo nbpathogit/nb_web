@@ -138,7 +138,7 @@ foreach ($labelPrints as $element) {
     
     
     //Add new table row then start of num col
-    if ( ($count_element % ($num_cal*$num_row)) == 1) {
+    if ( ($count_element % ($num_cal*$num_row)) == 1 || ($num_cal*$num_row) == 1) {
 //        echo "count_element::".$count_element;
 //        echo "num_cal::".$num_cal;
 //        echo "num_row::".$num_row;
@@ -152,7 +152,7 @@ foreach ($labelPrints as $element) {
 
     
     //Add new Row of table then start of num col
-    if ($count_element % $num_cal == 1) {
+    if ($count_element % $num_cal == 1 || $num_cal == 1) {
         $htmltxt = $htmltxt . "<tr>\n";
     }
     

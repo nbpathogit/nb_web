@@ -23,6 +23,16 @@
         text-align: center;
         vertical-align: text-top;
     }
+    .datatd2{
+        border: 1px solid black;
+        border-collapse: collapse;
+        /*padding: 2.5mm;*/
+        width:45mm; 
+        height:23mm;
+        table-layout:fixed;
+        text-align: center;
+        vertical-align: middle;
+    }
     .padwidth{
         table-layout:fixed;
         width:widthmm; 
@@ -128,6 +138,16 @@
         display: inline-block;
         line-height: 8pt;
         margin-bottom: 22px;
+    }
+    .r6{
+        font-family: angsana;
+        font-weight: bold;
+        font-size: 20pt;
+        background-color: darkgray;
+        display: inline-block;
+        line-height: 14pt;
+        padding-top: 22px;
+
     }
 
 </style>

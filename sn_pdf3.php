@@ -17,13 +17,13 @@ if (!$labelPrints) {
 }
 
 
-$num_cal = 2;
+$num_cal = 1;
 $num_row = 1;
 
 $space_cal_padding = "2.0mm";
 
-$pageHight = 23;
-$pageWidth = 76;
+$pageHight = 25;
+$pageWidth = 50;
 
 $pdf_margin_left = 1;
 $pdf_margin_top = 1;
@@ -138,7 +138,7 @@ foreach ($labelPrints as $element) {
     
     
     //Add new table row then start of num col
-    if ( ($count_element % ($num_cal*$num_row)) == 1) {
+    if ( ($count_element % ($num_cal*$num_row)) == 1  || ($num_cal*$num_row)==1) {
 //        echo "count_element::".$count_element;
 //        echo "num_cal::".$num_cal;
 //        echo "num_row::".$num_row;
@@ -152,18 +152,18 @@ foreach ($labelPrints as $element) {
 
     
     //Add new Row of table then start of num col
-    if ($count_element % $num_cal == 1) {
+    if ($count_element % $num_cal == 1 || $num_cal == 1) {
         $htmltxt = $htmltxt . "<tr>\n";
     }
     
     //==Add Element Column Section==============================================
-    $htmltxt = $htmltxt . "<td  class=\"datatd\">";
+    $htmltxt = $htmltxt . "<td  class=\"datatd2\">";
 
-    $htmltxt = $htmltxt . "<span class=\"r1\" >" . $element['sn_num']  . "</span>". "<br>";
-    $htmltxt = $htmltxt . "<span class=\"r2_1\" >" . $element['patho_abbreviation'] . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class=\"r2_2\">" . $element['speciment_abbreviation'] . "</span><br>";
+    $htmltxt = $htmltxt . "<span class=\"r6\" >" ." ". "</span><br>";
+    $htmltxt = $htmltxt . "<span class=\"r6\" >" ." ". "</span><br>";
+    $htmltxt = $htmltxt . "<span class=\"r6\" >" . $element['sn_num']  . "</span>". "<br>";
     //$htmltxt = $htmltxt . "<span class=\"r3\" >" . $element['hn_num']. "</span><br>";
-    $htmltxt = $htmltxt . "<span class=\"r4\" >" . $element['accept_date'] . "</span><br>";
-    $htmltxt = $htmltxt . "<span class=\"r5\" >" . $element['company_name'] . "</span>";
+
 
     $htmltxt = $htmltxt . "</td>\n";
     //==End Add Element column Section==========================================
@@ -191,10 +191,12 @@ foreach ($labelPrints as $element) {
 //        echo "<br>";
         $istableclose = true;
         $htmltxt = $htmltxt . "</table>\n";
+        
         $pdf->AddPage();
         $pdf->SetFont('helvetica', '', 7);
         // output the HTML content
         $pdf->writeHTML($htmltxt, true, 0, true, 0);
+        
         $htmltxt2 .= $htmltxt;
         $htmltxt =  $sn;
     } 
