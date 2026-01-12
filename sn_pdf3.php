@@ -17,7 +17,7 @@ if (!$labelPrints) {
 }
 
 
-$num_cal = 3;
+$num_cal = 2;
 $num_row = 1;
 
 $space_cal_padding = "2.0mm";

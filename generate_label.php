@@ -254,19 +254,26 @@ if (!$labelPrints) {
         </form>
 
         <br>
+
         </div>
         <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <div class="">
             <a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
-                <button name="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm (Paper A4)&nbsp;&nbsp;</button>
+                <button name="viewpdf1" id="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (Paper A4)&nbsp;&nbsp;</button>
+            </a>
+        </div>
+        <br>
+        <div class="">
+            <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+                <button name="viewpdf2" id="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (paper 76 x 20mm)&nbsp;&nbsp;</button>
             </a>
         </div>
         <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
-                <button name="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2x2.3 cm (paper 140 x 20mm)&nbsp;&nbsp;</button>
+            <a href="<?= Url::currentURL() ?>/sn_pdf3.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 5.0x2.5 cm (paper 50 x 25mm)&nbsp;&nbsp;</button>
             </a>
         </div>
-            
+
             
     </div>
 
