@@ -13,17 +13,7 @@ require 'user_auth.php';
 //Add record to database
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    var_dump($_POST);
-    
-    echo "  letter::".$_POST['letter'];
-    echo "  start_number::".$_POST['start_num'];
-    echo "  end_number::".$_POST['end_num'];
-    echo "  userid::".$_POST['userid'];
-    echo "  pnum_id::".$_POST['pnum_id'];
-    echo "  patho_abbreviation::".$_POST['patho_abbreviation'];
 
-    
-    die();
     
     if (isset($_POST['add'])) {
 
