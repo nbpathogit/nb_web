@@ -50,7 +50,7 @@
     .padhigh{
         table-layout:fixed;
         /*width:2.5mm;*/ 
-        height:3.5mm;
+        height:heightmm;
         border: 1px solid black;
         border-collapse: collapse;
     }

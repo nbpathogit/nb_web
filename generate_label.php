@@ -248,17 +248,32 @@ if (!$labelPrints) {
         </div>
     
 
-        <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
 
         <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
-                <button name="viewpdf1" id="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (Paper A4 show border)&nbsp;&nbsp;</button>
-            </a>
-            <a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
-                <button name="viewpdf1" id="viewpdf1" type="submit" class="btn btn-primary" >&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (Paper A4 hide border)&nbsp;&nbsp;</button>
-            </a>
+            <!--<a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">-->
+                <button name="viewpdf1" id="viewpdf1a" class="btn btn-primary" onclick="onBtnViewPdf1A()">&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (Paper A4 show border)&nbsp;&nbsp;</button>
+            <!--</a>-->
+            <!--<a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">-->
+                <button name="viewpdf1" id="viewpdf1b" class="btn btn-primary" onclick="onBtnViewPdf1B()">&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (Paper A4 hide border)&nbsp;&nbsp;</button>
+            <!--</a>-->
+            <br><br>
+            
+            <label for="1A">A:</label>
+            <input type="text" id="1A" name="1A" value="2.5">
+
+            <label for="1B">B:</label>
+            <input type="text" id="1B" name="1B"  value="2.5">
+
+            <label for="1X">X:</label>
+            <input type="text" id="1X" name="1X"  value="2.5">
+
+            <label for="1Y">Y:</label>
+            <input type="text" id="1Y" name="1Y"  value="2.5">
+
+            
         </div>
-        <br>
+        <hr>
         <div class="">
             <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
                 <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;2) Generate PDF Label 2.3x2.0 cm (paper 76 x 20mm show border)&nbsp;&nbsp;</button>
@@ -267,7 +282,8 @@ if (!$labelPrints) {
                 <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;2) Generate PDF Label 2.3x2.0 cm (paper 76 x 20mm hide border)&nbsp;&nbsp;</button>
             </a>
         </div>
-        <br>
+
+        <hr>
         <div class="">
             <a href="<?= Url::currentURL() ?>/sn_pdf3.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
                 <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;3) Generate PDF Label 5.0x2.5 cm (paper 50 x 25mm show border)&nbsp;&nbsp;</button>
@@ -279,7 +295,12 @@ if (!$labelPrints) {
 
             
     </div>
-
+    <br>
+   
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h1>Configuration</h1>
+        <img src="generate_label/configuration.png" alt="Configuration Image">
+    </div>
 </div>
 
 
@@ -315,7 +336,37 @@ if (!$labelPrints) {
     
     var resultArray;
     var targetpatient;
+    var cur_user_id = "<?= $_SESSION['userid'] ?>";
     
+    function openPdf1(x,y,a,b,ishideborder){
+        window.open("sn_pdf1.php?userid="+cur_user_id+"&a="+a+"&b="+b+"&x="+x+"&y="+y, "_blank");
+    }
+    function onBtnViewPdf1A(){
+        //alert("btn1a");
+        let a = $("#1A").val();
+        let b = $("#1B").val();
+        let x = $("#1X").val();
+        let y = $("#1Y").val();
+        console.log('a::'+a);
+        console.log('b::'+b);
+        console.log('x::'+x);
+        console.log('y::'+y);
+//        alert('a');
+        openPdf1(x,y,a,b,true);
+    }
+    function onBtnViewPdf1B(){
+        //alert("btn1b");
+        let a = $("#1A").val();
+        let b = $("#1B").val();
+        let x = $("#1X").val();
+        let y = $("#1Y").val();
+        console.log('a::'+a);
+        console.log('b::'+b);
+        console.log('x::'+x);
+        console.log('y::'+y);
+//        alert('a');
+        openPdf1(x,y,a,b,true);
+    }
     
     
     function drawtableforprintlabel() {

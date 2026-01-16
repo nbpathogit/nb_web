@@ -20,14 +20,33 @@ if (!$labelPrints) {
 $num_cal = 8;
 $num_row = 12;
 
-$space_cal_padding = "2.5mm";
+if (isset($_GET['a'])) {
+    $space_cal_padding = $_GET['a']."mm";
+}else{
+    $space_cal_padding = "2.5mm";
+}
+
+if (isset($_GET['b'])) {
+    $space_row_padding = $_GET['b']."mm";
+}else{
+    $space_row_padding = "2.5mm";
+}
 
 //====Use A4=======
 //$pageHight = 23;
 //$pageWidth = 140;
 
-$pdf_margin_left = 2.5;
-$pdf_margin_top = 2.5;
+if (isset($_GET['x'])) {
+    $pdf_margin_left = $_GET['x'];
+} else {
+    $pdf_margin_left = 2.5;
+}
+
+if (isset($_GET['y'])) {
+    $pdf_margin_top = $_GET['x'];
+} else {
+    $pdf_margin_top = 2.5;
+}
 $pdf_margin_right = 0;
 
 
@@ -110,6 +129,7 @@ $sn = str_replace("background-color: darkgray;", "", $sn);
 $sn = str_replace("display: inline-block;", "", $sn);
 
 $sn = str_replace("widthmm", $space_cal_padding, $sn);
+$sn = str_replace("heightmm", $space_row_padding, $sn);
 
 $trflag1 = false;
 
@@ -166,7 +186,7 @@ foreach ($labelPrints as $element) {
     
     //==IF Element add reach num_cal, then add TR with horizontal space for new table row
     if ($count_element % $num_cal == 0) {
-        $htmltxt = $htmltxt . "</tr>\n<tr><td class=\"padhigh25 \" style=\" font-size: 1pt \"  > </td></tr>\n";
+        $htmltxt = $htmltxt . "</tr>\n<tr><td class=\"padhigh \" style=\" font-size: 1pt \"  > </td></tr>\n";
         $trflag1 = false;
     } else {
         $trflag1 = true;
