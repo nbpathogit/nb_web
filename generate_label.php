@@ -246,18 +246,21 @@ if (!$labelPrints) {
         <br>
 
         </div>
+    <br>
+    
+    
     
 
+    <!-- ===============================================
+    button to show pdf section =========================
+    ====================================================-->
+    <hr>
+    <h1>
+        Generate Sticker Slide
+    </h1>
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-
+        <h3>1. Generate PDF (Paper A4) (Sticker Label 2.3x2.0 cm)  </h3>
         <div class="">
-            <!--<a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">-->
-                <button name="viewpdf1" id="viewpdf1a" class="btn btn-primary" onclick="onBtnViewPdf1A()">&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (Paper A4 show border)&nbsp;&nbsp;</button>
-            <!--</a>-->
-            <!--<a href="<?= Url::currentURL() ?>/sn_pdf1.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">-->
-                <button name="viewpdf1" id="viewpdf1b" class="btn btn-primary" onclick="onBtnViewPdf1B()">&nbsp;&nbsp;1) Generate PDF Label 2.3x2.0 cm (Paper A4 hide border)&nbsp;&nbsp;</button>
-            <!--</a>-->
-            <br><br>
             
             <label for="1A">A:</label>
             <input type="text" id="1A" name="1A" value="2.5">
@@ -270,33 +273,60 @@ if (!$labelPrints) {
 
             <label for="1Y">Y:</label>
             <input type="text" id="1Y" name="1Y"  value="2.5">
-
             
+            <br><br>
+                <button name="viewpdf1" id="viewpdf1a" class="btn btn-primary" onclick="onBtnViewPdf1A()">&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
+                <button name="viewpdf1" id="viewpdf1b" class="btn btn-primary" onclick="onBtnViewPdf1B()">&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
         </div>
-        <hr>
+    </div>
+
+        
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">    
+        <h3>2. Generate PDF (Paper 76mm x 20mm) (Sticker Label 2.3x2.0cm x3 per row)  </h3>
         <div class="">
             <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
-                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;2) Generate PDF Label 2.3x2.0 cm (paper 76 x 20mm show border)&nbsp;&nbsp;</button>
+                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
             </a>
             <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
-                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;2) Generate PDF Label 2.3x2.0 cm (paper 76 x 20mm hide border)&nbsp;&nbsp;</button>
+                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
             </a>
         </div>
-
-        <hr>
-        <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_pdf3.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
-                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;3) Generate PDF Label 5.0x2.5 cm (paper 50 x 25mm show border)&nbsp;&nbsp;</button>
-            </a>
-            <a href="<?= Url::currentURL() ?>/sn_pdf3.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
-                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;3) Generate PDF Label 5.0x2.5 cm (paper 50 x 25mm hide border)&nbsp;&nbsp;</button>
-            </a>
-        </div>
-
-            
     </div>
-    <br>
-   
+    
+
+    
+
+    <!-- ===============================================
+    button to show pdf section =========================
+    ====================================================-->
+    <hr>
+    <h1>
+        Generate Sticker Specimen
+    </h1>
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h3>1. Generate PDF (Paper 5.0cmx2.5cm) (Sticker Label 5.0cmx2.5cm x1 per row)  </h3>
+        <div class="">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
+            </a>
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
+            </a>
+        </div>
+    </div>
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h3>2. Generate PDF (Paper 5.0cmx1.9cm) (Sticker Label 5.0cmx1.9cm x1 per row)  </h3>
+        <div class="">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
+            </a>
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
+            </a>
+        </div>
+    </div>
+    
+    <hr>
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h1>Configuration</h1>
         <img src="generate_label/configuration.png" alt="Configuration Image">
