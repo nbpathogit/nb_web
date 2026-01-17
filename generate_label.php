@@ -301,7 +301,7 @@ if (!$labelPrints) {
     ====================================================-->
     <hr>
     <h1>
-        Generate Sticker Specimen
+        Generate Sticker Specimen (Print x2 per record)
     </h1>
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h3>1. Generate PDF (Paper 5.0cmx2.5cm) (Sticker Label 5.0cmx2.5cm x1 per row)  </h3>
