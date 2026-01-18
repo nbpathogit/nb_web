@@ -1099,7 +1099,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
 
 <?php //START === PN/LN ================================================================================================================================ ?>
-<?php  if($patient[0]['sn_type']=='PN'): ?>
+<?php  if($patient[0]['sn_type']=='PN'  || $patient[0]['sn_type']=='LN' ) : ?>
 
 <div id="diag_result_section" class="container-fluid pt-4 px-4">
     <div class="bg-nb bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1  border border-secondary">
@@ -1118,7 +1118,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     
 <?php //END === PN/LN ================================================================================================================================ ?>
     
-<?php //START == NON PN ============================================================================================================================?>
+<?php //START == NON PN/LN ============================================================================================================================?>
 <?php else: ?>
     
     

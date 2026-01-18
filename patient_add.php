@@ -211,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($patient->create($conn)) {
             
             //==Create Presultupdate ============================================== 
-            if($sn_type=='PN'){                                                 //=
+            if($sn_type=='PN'  || $sn_type=='LN' ){                                                 //=
                 $cur_patient_id = $patient->id;                                 //=
                 $typelists = ReportType::getAllbyGroup3($conn);                 //=
                 foreach($typelists as $typelist){                               //=
