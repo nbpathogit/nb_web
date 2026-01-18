@@ -151,6 +151,16 @@ if (!$labelPrints) {
         <h1>Fill in data for insert to list</h1>
         <form action="" id="form_add_record" method="post" class="">
             <div class="row <?= $isBorder ? "border" : "" ?>">
+                
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <label for="accept_date" class="form-label">accept date: </label>
+                    <input type="text" name="accept_date" id="accept_date" class="form-control">
+                </div>
+                
+                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <a name="add" type="" id="button_accept_date"  class="btn btn-primary">&nbsp;&nbsp;Retrive&nbsp;&nbsp;</a>
+                </div>
+                
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
                     <label for="pnum_id" class="">SN Number: </label>
                     <select name="pnum_id" id="pnum_id" class="" required>
@@ -362,11 +372,21 @@ if (!$labelPrints) {
 
 <?php require 'includes/footer.php'; ?>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<!--<script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
     
     var resultArray;
     var targetpatient;
     var cur_user_id = "<?= $_SESSION['userid'] ?>";
+    
+    $(function() {
+        $("#accept_date").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+
+    });
     
     function openPdf1(x,y,a,b,ishideborder){
         window.open("sn_pdf1.php?userid="+cur_user_id+"&a="+a+"&b="+b+"&x="+x+"&y="+y, "_blank");
@@ -477,6 +497,9 @@ if (!$labelPrints) {
         $('select').selectize({
 //            sortField: 'text'
         });
+        
+        
+
         
         //=============Print table of row record selected=============================
         drawtableforprintlabel();
