@@ -84,9 +84,6 @@ if (!$labelPrints) {
         }*/
 </style>
 
-<?php //Write Data to DOM pass value to java script ?>
-<?php $hidden_data2dom = true; ?>
-<li class="pautoscroll" tabindex="insert_label_list_section" style="<?= $hidden_data2dom ? "display: none;" : "" ?>"  >insert_label_list_section </li>
 
 
 <div id="patient_plan_section" class="container-fluid pt-4 px-4">
@@ -153,15 +150,18 @@ if (!$labelPrints) {
             <div class="row <?= $isBorder ? "border" : "" ?>">
                 
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-                    <label for="accept_date" class="form-label">accept date: </label>
-                    <input type="text" name="accept_date" id="accept_date" class="form-control">
+                    <label for="target_accept_date" class="form-label">accept date: </label>
+                    <input type="text" name="target_accept_date" id="target_accept_date" class="form-control">
                 </div>
                 
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-                    <a name="add" type="" id="button_accept_date"  class="btn btn-primary">&nbsp;&nbsp;Retrive&nbsp;&nbsp;</a>
+                    <label for="button_accept_date" class="form-label">Retrive: </label><br>
+                    <a name="button_accept_date" type="" id="button_accept_date"  class="btn btn-primary" onclick="retrivepnumbyacceptdate()">&nbsp;&nbsp;Retrive&nbsp;&nbsp;</a>
                 </div>
                 
+                
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                    <span id="pnum_id_span">
                     <label for="pnum_id" class="">SN Number: </label>
                     <select name="pnum_id" id="pnum_id" class="" required>
                         <option value=""></option>
@@ -174,6 +174,7 @@ if (!$labelPrints) {
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    </span>
                 </div>
                 
                 
@@ -349,7 +350,7 @@ if (!$labelPrints) {
 <div id="formContainer"></div>
 
 <?php if (isset( $patientLists   )): ?>  
-    <ul class="patientlist" style="<?= $hidden_data2dom ? "display: none;" : "" ?>" >
+    <ul class="patientlist" id="patientlist" style="<?= $hidden_data2dom ? "display: none;" : "" ?>" >
         <?php foreach ($patientLists as $patient) : ?>
             <li 
                 tabindex="<?= $patient['pid'] ?>" 
@@ -381,8 +382,15 @@ if (!$labelPrints) {
     var targetpatient;
     var cur_user_id = "<?= $_SESSION['userid'] ?>";
     
+    function retrivepnumbyacceptdate() {
+        //let tardate = $("#target_accept_date").val();
+        //alert("tardate::"+tardate);
+        drawSelectionAndDOM();
+    }
+    
+    
     $(function() {
-        $("#accept_date").datepicker({
+        $("#target_accept_date").datepicker({
             dateFormat: 'yy-mm-dd'
         });
 
@@ -416,6 +424,191 @@ if (!$labelPrints) {
         console.log('y::'+y);
 //        alert('a');
         openPdf1(x,y,a,b,true);
+    }
+    
+    
+    function drawSelectionAndDOM(){
+        //$patientLists = Patient::getAllJoin_forlableprint($conn, 1);
+        let user_id = $('#userid').val();
+        let accept_date = $('#target_accept_date').val();
+        let pnumjson;
+        // get data from database
+        $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            type: 'POST',
+            url: 'ajax_data/generate_label_get_SN_by_date.php',
+            data: {
+                'user_id': user_id,
+                'accept_date': accept_date,
+            },
+            success: function (data) {
+                console.log("data::");
+                console.log(data);//print json string
+                //{"pid":"35101","p_pnum":"CN2600061","p_phospital_num":"489883","name_patho":"\u0e08\u0e38\u0e25\u0e34\u0e19\u0e17\u0e23\u0e2a\u0e33\u0e23\u0e32\u0e0d","ab_patho":"JS.","accept_date":"2026-01-13"}
+                pnumjson = JSON.parse(data); //convert String to JS Object
+                for (var i in pnumjson)
+                {
+                    //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
+                    console.log("pnumjson[i].pid"+pnumjson[i].pid);
+                }
+
+            },
+            error: function (jqxhr, status, exception) {
+                alert('Exception:', exception);
+            }
+        });
+        
+        //====== print selection.=====
+        //==Expect output==
+        //------before selectize---------
+        //<div class="col-xl-4 col-md-6">
+        //    <label for="pnum_id" class="">SN Number: </label>
+        //    <select name="pnum_id" id="pnum_id" class="" required>
+        //        <option value=""></option>
+        //       
+        //            <option value="pid" 
+        //                    p_pnum="p_pnum" 
+        //                    patho_abbreviation="ab_patho" 
+        //                    accept_date="accept_date" 
+        //                    >
+        //            </option>
+        //    </select>
+        //</div>
+        //-------------After apply selectize------------
+        ////<select name="pnum_id" id="pnum_id" class="selectized" tabindex="-1" style="display: none;">
+        //	<option value="" selected="selected"></option>
+        //</select>
+        //<div class="selectize-control single">
+        //	<div class="selectize-input items required invalid not-full has-options">
+        //		<input type="select-one" autocomplete="off" tabindex="" id="pnum_id-selectized" required="" style="width: 4px; opacity: 1; position: relative; left: 0px;">
+        //	</div>
+        //	<div class="selectize-dropdown single" style="display: none; visibility: visible; width: 380.067px; top: 34.1333px; left: 0px;">
+        //		<div class="selectize-dropdown-content">
+        //			<div class="option" data-selectable="" data-value="35325">LN2600004</div>
+        //			<div class="option" data-selectable="" data-value="35324">LN2600003</div>
+        //			<div class="option" data-selectable="" data-value="35323">SN2600599</div>
+        //			<div class="option" data-selectable="" data-value="34299">CN2501822</div>
+        //		</div>
+        //	</div>
+        //</div>
+        //--------------------------
+
+        // Step 1: Select the dropdown
+        let $select_pnum_id_span = $("#pnum_id_span");
+
+        // Step 2: Clear existing options
+        $select_pnum_id_span.empty();
+        
+        // Create and append a new label element with attributes
+        // <label for="pnum_id" class="">SN Number: </label>
+        let newLabel = $("<label>", {
+          for: "pnum_id",
+          class: "",
+          text: "SN Number: " // text inside the label
+        });
+        $select_pnum_id_span.append(newLabel);
+        
+        // Create and append a new select element with attributes
+        // <select name="pnum_id" id="pnum_id" class="" required>
+        let newselectBox = $("<select>", {
+          name: "pnum_id",
+          id: "pnum_id",
+          class: "",       // empty class here
+          required: true   // required attribute
+        });
+        // Optionally add a default option
+        newselectBox.append($("<option>", {
+          value: "",
+          text: "-- Select SN --"
+        }));
+        
+        $select_pnum_id_span.append(newselectBox);
+
+        // Step 3: Loop through JSON and add new options
+        //{"pid":"34796","p_pnum":"PN2600008","p_phospital_num":"7995","name_patho":"\u0e07","ab_patho":"AC.","accept_date":"2026-01-07"}
+                  
+        $.each(pnumjson, function(index, item) {
+//            console.log();
+//            console.log("item.pid"+item.pid);
+//            console.log("item.p_pnum"+item.p_pnum);
+//            console.log("item.p_phospital_num"+item.p_phospital_num);
+//            console.log("item.name_patho"+item.name_patho);
+//            console.log("item.ab_patho"+item.ab_patho);
+//            console.log("item.accept_date"+item.accept_date);
+            //-------------Draw following structure-------------
+            //            <option value="pid" 
+            //                    p_pnum="p_pnum" 
+            //                    patho_abbreviation="ab_patho" 
+            //                    accept_date="accept_date" 
+            //                    >
+            //            </option>
+            //-------------------------------------------------
+            newselectBox.append($("<option>", {
+              value: item.pid,
+              p_pnum: item.p_pnum,
+              p_phospital_num: item.p_phospital_num,
+              name_patho: item.name_patho,
+              ab_patho: item.ab_patho,
+              accept_date: item.accept_date,
+              text: item.p_pnum,
+            }));
+        });
+        
+        $('#pnum_id').selectize({
+//            sortField: 'text'
+        });
+        
+
+        
+        
+        
+        //====== print to DOM========
+        //----Expect data to DOM---
+        //<ul class="patientlist" style="display: none">
+        //        <li 
+        //            tabindex=" $patient['pid'] " 
+        //            pnum=" ($patient['p_pnum']); " 
+        //            hn_num=" ($patient['p_phospital_num']); " 
+        //            patho_abbreviation=" ($patient['ab_patho']); " 
+        //            accept_date=" ($patient['accept_date']); " 
+        //            >
+        //            tabindex=" $patient['pid'] " 
+        //            pnum=" ($patient['p_pnum']); " 
+        //            hn_num=" ($patient['p_phospital_num']); " 
+        //            patho_abbreviation=" ($patient['ab_patho']); " 
+        //            accept_date=" ($patient['accept_date']); " 
+        //        </li>
+        //</ul>  
+        //--------------------------------------
+        let uldom = $("#patientlist");
+        uldom.empty();
+        
+        $.each(pnumjson, function(index, item) {
+//            console.log();
+//            console.log("item.pid"+item.pid);
+//            console.log("item.p_pnum"+item.p_pnum);
+//            console.log("item.p_phospital_num"+item.p_phospital_num);
+//            console.log("item.name_patho"+item.name_patho);
+//            console.log("item.ab_patho"+item.ab_patho);
+//            console.log("item.accept_date"+item.accept_date);
+
+            uldom.append($("<li>", {
+              tabindex: item.pid,
+              pnum: item.p_pnum,
+              hn_num: item.p_phospital_num,
+              patho_abbreviation: item.ab_patho,
+              ab_patho: item.ab_patho,
+              accept_date: item.accept_date,
+              text: (item.p_pnum+'::'+item.p_phospital_num+'::'+item.name_patho+'::'+item.ab_patho+'::'+item.accept_date),
+            }));
+        });
+        //============================================================================
+        inifunction();
+        
+        //alert("pause");
+        
     }
     
     
@@ -489,20 +682,8 @@ if (!$labelPrints) {
         // Return in DD/MM/YYYY format
         return `${day}/${month}/${year}`;
     }
-
     
-    $(document).ready(function () {
-        $("#generate_label").addClass("active");
-
-        $('select').selectize({
-//            sortField: 'text'
-        });
-        
-        
-
-        
-        //=============Print table of row record selected=============================
-        drawtableforprintlabel();
+    function inifunction(){
         
         //=============Add record to database===========================================
         $("#form_add_record").on("submit", function(e) {
@@ -566,12 +747,11 @@ if (!$labelPrints) {
         });
 
 
-
         //========Update related input field=====================
         $("#pnum_id").change(function () {
 
             console.log('\n\n\n===================================================================\n');
-            console.log('======================pnum_change==============================\n');
+            console.log('==========================pnum_change==============================\n');
             console.log('===================================================================\n\n\n');
 
             let selectize = $('#pnum_id').selectize()[0].selectize;            // Initialize Selectize
@@ -621,7 +801,21 @@ if (!$labelPrints) {
 
         });
         
+    }
 
+
+    $(document).ready(function () {
+        $("#generate_label").addClass("active");
+
+        $('select').selectize({
+//            sortField: 'text'
+        });
+        
+        
+
+        //=============Print table of row record selected=============================
+        drawtableforprintlabel();
+        
 
         // Select all <li> inside the ul.patientlist
         // Then keep as global variable resultArray
@@ -637,43 +831,13 @@ if (!$labelPrints) {
             accept_date: li.getAttribute("accept_date")
           };
         });
-
-        //==Print out for debug===
-        //console.log(resultArray);
-
-//=========EXPECT OUT PUT===========
-//        [
-//          {
-//            tabindex: "34609",
-//            pnum: "SN2600001",
-//            patho_abbreviation: "",
-//            accept_date: "2026-01-05"
-//          },
-//          {
-//            tabindex: "34605",
-//            pnum: "CN2501855",
-//            patho_abbreviation: "AC.",
-//            accept_date: "2025-12-31"
-//          },
-//          {
-//            tabindex: "34604",
-//            pnum: "CN2501854",
-//            patho_abbreviation: "AC.",
-//            accept_date: "2025-12-31"
-//          }
-//        ]
-//
-//
-//        const matches = resultArray.filter(obj => obj.tabindex === "34605");
-//
-//        console.log(matches[0].pnum); // "CN2501855"
-
-
-
-
-
-
-
+        
+        
+        
+        //============================================================================
+        inifunction();
+        
+        
 
     });
     

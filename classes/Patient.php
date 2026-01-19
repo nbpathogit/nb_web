@@ -276,6 +276,39 @@ class Patient {
     
     
     
+    public static function getAllJoin_forlableprint_by_acceptdate($conn, $acceptdate) {
+        
+        $sql = "SELECT 
+        p.id as pid,
+        p.pnum as p_pnum,
+        p.phospital_num as p_phospital_num,
+        CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+        upatho.short_name as ab_patho,
+        DATE(p.date_1000) as accept_date
+
+                FROM patient as p
+                LEFT JOIN user as upatho ON p.ppathologist_id = upatho.id
+
+                WHERE  ";
+
+        
+        $sql .= " DATE(p.date_1000) = '".$acceptdate."' ";
+
+        $sql .= " and p.movetotrash = 0";
+        $sql .= " ORDER BY  p.id DESC;";
+        
+
+        //Util::writeFile('getAllJoin_forlableprint_by_acceptdate.txt', $sql);  
+        if($GLOBALS['isSqlWriteFileForDBG']){
+            Util::writeFile('getAllJoin_forlableprint_by_acceptdate.txt', $sql);   
+        }
+        
+        
+        $results = $conn->query($sql);
+
+        return $results->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public static function getAllJoin_forlableprint($conn, $month_back = 3) {
         
         $sql = "SELECT 
@@ -298,7 +331,7 @@ class Patient {
         $sql .= " ORDER BY  p.id DESC;";
         
 
-        Util::writeFile('Patient_getAllJoin_forlableprint.txt', $sql);  
+        //Util::writeFile('Patient_getAllJoin_forlableprint.txt', $sql);  
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('Patient_getAllJoin_forlableprint.txt', $sql);   
         }
@@ -308,6 +341,7 @@ class Patient {
 
         return $results->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     
     public static function getAllJoinWithReported($conn, $id = 0, $start = '0') {
