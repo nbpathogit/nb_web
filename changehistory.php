@@ -108,7 +108,7 @@ if ($result && $result->num_rows > 0) {
         ['color', ['color']], // <-- add this line
         ['font', ['fontname', 'fontsize', 'bold', 'italic', 'underline', 'clear']],
         ['para', ['ul', 'ol', 'paragraph']],
-        ['insert', ['link', 'picture', 'video']], // video button enabled
+        ['insert', ['link', 'picture', 'video', 'table']], // video button enabled
         ['view', ['fullscreen', 'codeview']]
       ],
       callbacks: {
