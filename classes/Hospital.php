@@ -44,10 +44,10 @@ class Hospital
         $sql = "SELECT *
                 FROM hospital
                 ";
-        
+        $sql = $sql . " WHERE movetotrash = 0 ";
         if ($id != -1) {
-             $sql = $sql . " WHERE ";
-            $sql = $sql . " id = " . $id;
+             
+            $sql = $sql . " and id = " . $id;
         }
          $sql = $sql . " ORDER BY id";
 
@@ -62,7 +62,7 @@ class Hospital
         $sql = "SELECT *".
                 " FROM hospital" .
                 " WHERE ".
-               " user_id = 0".
+               " user_id = 0 and movetotrash = 0 ".
                 " ORDER BY id";
 
         $results = $conn->query($sql);
@@ -105,7 +105,7 @@ class Hospital
 
     public static function getTotal($conn)
     {
-        return $conn->query("SELECT COUNT(*) FROM hospital")->fetchColumn();
+        return $conn->query("SELECT COUNT(*) FROM hospital WHERE movetotrash = 0 ")->fetchColumn();
     }
 
     public static function getPage($conn, $limit, $offset)
