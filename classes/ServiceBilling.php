@@ -2093,6 +2093,10 @@ class ServiceBilling {
     }
     
         
+    
+    //b_code    b_description    b_cost   bcost_count  bcost_sum  hid   bid   pid
+    //0         cell_block       500      5            2500       9     53019 34652
+    //0         ER_PR_Her-2      1800     13           23400      9     53086 34640
     public static function getBillbyHospitalbyDateRangeGroupByCode($conn,$hospital_id, $startdate,$enddate, $limit = 0) {
         if($GLOBALS['isBillByAcceptDate']){
             $sql = "SELECT                                                                               \n".
