@@ -397,7 +397,11 @@ if (!$labelPrints) {
     });
     
     function openPdf1(x,y,a,b,ishideborder){
-        window.open("sn_pdf1.php?userid="+cur_user_id+"&a="+a+"&b="+b+"&x="+x+"&y="+y, "_blank");
+        if(ishideborder){
+            window.open("sn_pdf1.php?userid="+cur_user_id+"&a="+a+"&b="+b+"&x="+x+"&y="+y+"&ishideborder", "_blank");
+        }else{
+            window.open("sn_pdf1.php?userid="+cur_user_id+"&a="+a+"&b="+b+"&x="+x+"&y="+y+"", "_blank");
+        }
     }
     function onBtnViewPdf1A(){
         //alert("btn1a");

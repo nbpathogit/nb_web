@@ -18,7 +18,7 @@ if (!$labelPrints) {
 
 
 $num_cal = 8;
-$num_row = 12;
+$num_row = 13;
 
 if (isset($_GET['a'])) {
     $space_cal_padding = $_GET['a']."mm";
