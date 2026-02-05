@@ -280,10 +280,10 @@ if (!$labelPrints) {
             <input type="text" id="1B" name="1B"  value="2.5">
 
             <label for="1X">X:</label>
-            <input type="text" id="1X" name="1X"  value="2.5">
+            <input type="text" id="1X" name="1X"  value="3.6">
 
             <label for="1Y">Y:</label>
-            <input type="text" id="1Y" name="1Y"  value="2.5">
+            <input type="text" id="1Y" name="1Y"  value="6.0">
             
             <br><br>
                 <button name="viewpdf1" id="viewpdf1a" class="btn btn-primary" onclick="onBtnViewPdf1A()">&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
