@@ -414,7 +414,7 @@ if (!$labelPrints) {
         console.log('x::'+x);
         console.log('y::'+y);
 //        alert('a');
-        openPdf1(x,y,a,b,true);
+        openPdf1(x,y,a,b,false);
     }
     function onBtnViewPdf1B(){
         //alert("btn1b");
