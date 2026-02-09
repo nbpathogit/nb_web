@@ -700,15 +700,16 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     $('#bill_hospital_by_service_price table').remove();
     $('#bill_hospital_by_service_price').append(strs);
 
-
-
-    // get all record GroupBySNe
+    //====================================
+    //==========Get Data for G2 page======
+    //==== get all record GroupBySN=======
+    //====================================
     error_ajax = "";
     $.ajax({
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getBillingGroupBySN.php',
+        url: 'ajax_billing/getBillingGroupBySN_2.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -1242,7 +1243,7 @@ function trimslash(str) {
     return (start > 0 || end < str.length) ? str.substring(start, end) : str;
 }
 
-
+//==Draw G2 Page===
 function drawbill_list_all_page_g2(datajson) {
 
     $('#bill_list_all_g2 table').remove();
