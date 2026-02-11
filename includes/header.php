@@ -175,6 +175,7 @@
                             <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
                             <div class="dropdown-menu bg-transparent border-0 " id="manage_bill_dropdown">
                                 <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
+                                <a id="billing_pdf_tab" href="billing_pdf_2.php" class="nav-item nav-link">ออกใบแจ้งหนี้ V2(PDF)</a>
                                 <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
                                 <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="nav-item nav-link">กรองข้อมูลตามนักเซลล์(PDF)</a>
                                 <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
