@@ -1114,7 +1114,7 @@ class ServiceBilling {
              "ORDER by p_sn ASC                                                                                                                  \n";
 
         
-        Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2.txt', $sql);   
+        //Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2.txt', $sql);   
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2.txt', $sql);   
         }
@@ -1160,7 +1160,7 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
                     and p.pnum = '$sn';";
 
         
-        Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm.txt', $sql);   
+        //Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm.txt', $sql);   
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm.txt', $sql);   
         }
@@ -1205,7 +1205,7 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
                     and p.pnum = '$sn';";
 
         
-        Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp.txt', $sql);   
+        //Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp.txt', $sql);   
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp.txt', $sql);   
         }

@@ -34,10 +34,10 @@ foreach ($billings as $key => $billing) {
     
 }
 
-var_dump($billings);
+//var_dump($billings);
 
 
-//echo json_encode($billings);
+echo json_encode($billings);
 
 
 ?>

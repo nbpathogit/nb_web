@@ -214,6 +214,7 @@ $str1 = file_get_contents('pdf_invoice/billinngListAll_g2.php');
 
 echo '<h1 align="center">2. List รายการตรวจเรียงตาม surgical number (SN, IN, CN, FN, DN, PN, LN) แต่ละ รพ ในช่วงนั้น </h1><hr>';
 echo '<span id="bill_page4">';
+//<span id="bill_list_all_g2">
 echo $str1;
 echo '</span>';
 ?>
@@ -1247,6 +1248,9 @@ function trimslash(str) {
 function drawbill_list_all_page_g2(datajson) {
 
     $('#bill_list_all_g2 table').remove();
+    
+    console.log(datajson);
+    alert();
 
     let str = "";
 
@@ -1274,21 +1278,115 @@ function drawbill_list_all_page_g2(datajson) {
     let sum_of_b_cost_sum_sp = 0;
     let sum_of_b_cost_sum_all = 0;
     
-    for (var i in datajson)
-    {
+    for (var i in datajson){
+    
+    /*
+     *   {
+    ["p_sn"]=>
+    string(9) "CN2600090"
+    ["p_hn"]=>
+    string(6) "565242"
+    ["p_admit_date"]=>
+    string(10) "2026-01-19"
+    ["patient_name"]=>
+    string(55) "นางสาวบัวศรี สารภาพ"
+    ["clinicien_name"]=>
+    string(29) "พศิกา  สาโท"
+    ["b_description_concat_nm"]=>
+    string(14) "Fluid cytology"
+    ["b_description_concat_sp"]=>
+    string(0) ""
+    ["b_description_concat_all"]=>
+    string(17) "Fluid cytology / "
+    ["b_cost_sum_nm"]=>
+    string(3) "500"
+    ["b_cost_sum_sp"]=>
+    string(1) "0"
+    ["b_cost_sum_all"]=>
+    string(3) "500"
+    ["subarray"]=>
+    array(1) {
+      [0]=>
+      array(6) {
+        ["p_sn"]=>
+        string(9) "CN2600090"
+        ["aa_p_admit_date"]=>
+        string(10) "2026-01-19"
+        ["b_description"]=>
+        string(14) "Fluid cytology"
+        ["b_cost_sum_nm"]=>
+        string(3) "500"
+        ["b_cost_sum_sp"]=>
+        string(1) "0"
+        ["b_cost_sum_all"]=>
+        string(3) "500"
+      }
+    }
+  }
+    
+    
+ {
+    "p_sn": "SN2600616",
+    "p_hn": "565242",
+    "p_admit_date": "2026-01-19",
+    "patient_name": "นางสาวบัวศรี สารภาพ",
+    "clinicien_name": "พศิกา  สาโท",
+    "b_description_concat_nm": "Uterus with SO / Biopsy หรือชิ้นเนื้อที่มีความยาวมากกว่า 5 ซม.",
+    "b_description_concat_sp": "",
+    "b_description_concat_all": "Uterus with SO / Biopsy หรือชิ้นเนื้อที่มีความยาวมากกว่า 5 ซม. / ",
+    "b_cost_sum_nm": "2200",
+    "b_cost_sum_sp": "0",
+    "b_cost_sum_all": "2200",
+    "subarray": [
+        {
+            "p_sn": "SN2600616",
+            "aa_p_admit_date": "2026-01-19",
+            "b_description": "Uterus with SO",
+            "b_cost_sum_nm": "1200",
+            "b_cost_sum_sp": "0",
+            "b_cost_sum_all": "1200"
+        },
+        {
+            "p_sn": "SN2600616",
+            "aa_p_admit_date": "2026-01-19",
+            "b_description": "Biopsy หรือชิ้นเนื้อที่มีความยาวมากกว่า 5 ซม.",
+            "b_cost_sum_nm": "1000",
+            "b_cost_sum_sp": "0",
+            "b_cost_sum_all": "1000"
+        }
+    ]
+}
+     */
+    
+       let subarray = datajson[i].subarray.length;
+     
         str = str +
                 '        <tr>                                                                                      ' +
-                '            <td>' + (parseInt(i)+1) + '</td>                                                      ' +
-                '            <td>' + datajson[i].p_sn + '</td>                                                      ' +
-                '            <td>' + datajson[i].p_admit_date + '</td>                                                      ' +
-                '            <td>' + datajson[i].patient_name + '</td>                                            ' +
-                '            <td>' + datajson[i].p_hn + '</td>                                                         ' +
-                '            <td>' + datajson[i].clinicien_name + '</td>                                              ' +
-                '            <td>' + trim(trim(datajson[i].b_description_concat_all,' '),'/') + '</td>                               ' +
-                '            <td>' + datajson[i].b_cost_sum_nm + '</td>                                                 ' +
-                '            <td>' + datajson[i].b_cost_sum_sp + '</td>                                               ' +
-                '            <td>' + datajson[i].b_cost_sum_all + '</td>                                             ' +
-                '        </tr>                                                                                       ';
+                '            <td rowspan="'+subarray+'">' + (parseInt(i)+1) + '</td>                                                      ' +
+                '            <td rowspan="'+subarray+'">' + datajson[i].p_sn + '</td>                                                      ' +
+                '            <td rowspan="'+subarray+'">' + datajson[i].p_admit_date + '</td>                                                      ' +
+                '            <td rowspan="'+subarray+'">' + datajson[i].patient_name + '</td>                                            ' +
+                '            <td rowspan="'+subarray+'">' + datajson[i].p_hn + '</td>                                                         ' +
+                '            <td rowspan="'+subarray+'">' + datajson[i].clinicien_name + '</td>                                              ' ;
+        for (var j in datajson[i].subarray){
+            if(j>=2){
+                str = str +        '<tr>  ';
+            }
+            str = str +       
+                    '            <td>' + datajson[i].subarray[j].b_description + '</td>                  ' +
+                    '            <td>' + datajson[i].subarray[j].b_cost_sum_nm + '</td>                                                 ' +
+                    '            <td>' + datajson[i].subarray[j].b_cost_sum_sp + '</td>                                               ' +
+                    '            <td>' + datajson[i].subarray[j].b_cost_sum_all + '</td>                                             ';
+            
+            str = str +        '        </tr>  ';
+        }
+
+        
+
+        
+        
+        
+        
         sum_of_b_cost_sum_nm += parseInt(datajson[i].b_cost_sum_nm);
         sum_of_b_cost_sum_sp += parseInt(datajson[i].b_cost_sum_sp);
         sum_of_b_cost_sum_all += parseInt(datajson[i].b_cost_sum_all);
