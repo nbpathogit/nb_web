@@ -40,7 +40,7 @@ $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01",
 ?>
 <?php require 'includes/header.php'; ?>
 
-<h1 align="center">สร้างใบแจ้งหนี้</h1>
+<h1 align="center">สร้างใบแจ้งหนี้ V2</h1>
 
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
@@ -338,7 +338,7 @@ echo '</span>';
     var skey = "<?= $_SESSION['skey']; ?>";
     $("#manage_bill_dropdown").addClass("show");
     $("#manage_bill").addClass("active");
-    $("#billing_pdf_tab").addClass("active");
+    $("#billing_pdf_tab_2").addClass("active");
     
     $(function() {
         $("#startdate_billing").datepicker({
@@ -1250,7 +1250,7 @@ function drawbill_list_all_page_g2(datajson) {
     $('#bill_list_all_g2 table').remove();
     
     console.log(datajson);
-    alert();
+    //alert();
 
     let str = "";
 
@@ -1260,16 +1260,16 @@ function drawbill_list_all_page_g2(datajson) {
             '<table width="100%" >            ' +
             '    <thead>                      ' +
             '        <tr>                     ' +
-            '            <th >ลำดับที่</th>          ' +
-            '            <th >เลขที่งาน</th>      ' +
-            '            <th >วันที่รับ</th>      ' +
-            '            <th >ผู้ป่วย</th>        ' +
-            '            <th >เลขที่โรงพยาบาล</th> ' +
-            '            <th >แพทย์ผู้ส่งตรวจ</th>        ' +
-            '            <th >รายการ</th>'               +
-            '            <th >ค่าบริการ</th>       ' +
-            '            <th >ค่าตรวจพิเศษ</th>  ' +
-            '            <th >รวม</th>       ' +
+            '            <th class="trfitwidth"> ลำดับที่ </th>          ' +
+            '            <th class="trfitwidth"> เลขที่งาน </th>      ' +
+            '            <th class="trfitwidth"> วันที่รับ </th>      ' +
+            '            <th class="trfitwidth"> ผู้ป่วย </th>        ' +
+            '            <th class="trfitwidth"> เลขที่โรงพยาบาล </th> ' +
+            '            <th class="trfitwidth"> แพทย์ผู้ส่งตรวจ </th>        ' +
+            '            <th > รายการ </th>'               +
+            '            <th class="trfitwidth"> ค่าบริการ </th>       ' +
+            '            <th class="trfitwidth"> ค่าตรวจพิเศษ </th>  ' +
+            '            <th class="trfitwidth"> รวม </th>       ' +
             '        </tr>                    ' +
             '    </thead>                     ' +
             '    <tbody>                      ';
@@ -1362,21 +1362,21 @@ function drawbill_list_all_page_g2(datajson) {
      
         str = str +
                 '        <tr>                                                                                      ' +
-                '            <td rowspan="'+subarray+'">' + (parseInt(i)+1) + '</td>                                                      ' +
-                '            <td rowspan="'+subarray+'">' + datajson[i].p_sn + '</td>                                                      ' +
-                '            <td rowspan="'+subarray+'">' + datajson[i].p_admit_date + '</td>                                                      ' +
-                '            <td rowspan="'+subarray+'">' + datajson[i].patient_name + '</td>                                            ' +
-                '            <td rowspan="'+subarray+'">' + datajson[i].p_hn + '</td>                                                         ' +
-                '            <td rowspan="'+subarray+'">' + datajson[i].clinicien_name + '</td>                                              ' ;
+                '            <td class="trfitwidth" rowspan="'+subarray+'">' + (parseInt(i)+1) + '</td>                                                      ' +
+                '            <td class="trfitwidth" rowspan="'+subarray+'">' + datajson[i].p_sn + '</td>                                                      ' +
+                '            <td class="trfitwidth" rowspan="'+subarray+'">' + datajson[i].p_admit_date + '</td>                                                      ' +
+                '            <td class="trfitwidth" rowspan="'+subarray+'">' + datajson[i].patient_name + '</td>                                            ' +
+                '            <td class="trfitwidth" rowspan="'+subarray+'">' + datajson[i].p_hn + '</td>                                                         ' +
+                '            <td class="trfitwidth" rowspan="'+subarray+'">' + datajson[i].clinicien_name + '</td>                                              ' ;
         for (var j in datajson[i].subarray){
             if(j>=2){
                 str = str +        '<tr>  ';
             }
             str = str +       
                     '            <td>' + datajson[i].subarray[j].b_description + '</td>                  ' +
-                    '            <td>' + datajson[i].subarray[j].b_cost_sum_nm + '</td>                                                 ' +
-                    '            <td>' + datajson[i].subarray[j].b_cost_sum_sp + '</td>                                               ' +
-                    '            <td>' + datajson[i].subarray[j].b_cost_sum_all + '</td>                                             ';
+                    '            <td class="trfitwidth">' + datajson[i].subarray[j].b_cost_sum_nm + '</td>                                                 ' +
+                    '            <td class="trfitwidth">' + datajson[i].subarray[j].b_cost_sum_sp + '</td>                                               ' +
+                    '            <td class="trfitwidth">' + datajson[i].subarray[j].b_cost_sum_all + '</td>                                             ';
             
             str = str +        '        </tr>  ';
         }
@@ -1459,7 +1459,7 @@ function drawbill_list_all_page_g3(datajson) {
             '    <tfoot id="price_by_service_footer_g3">          ' +
             '    <tfoot id="price_by_service_footer">                                      ' +
             '         <tr>   ' +
-            '              <td  colspan="4" style="font-weight: bold;text-align:right;"> (ทั้งหมด <span class="bill_count_bycode_list_class">X</span> รายการ) รวมทั้งสิ้น </td>   ' +
+            '              <td  colspan="5" style="font-weight: bold;text-align:right;"> (ทั้งหมด <span class="bill_count_bycode_list_class">X</span> รายการ) รวมทั้งสิ้น </td>   ' +
             '              <td > <span class="bill_hospital_net_price" style=" font-weight: bold;color:red">X</span> </td>  '+         
             '         </tr>   ' +
             '    </tfoot>                                     ' +

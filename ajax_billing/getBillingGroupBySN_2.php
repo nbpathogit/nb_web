@@ -5,9 +5,9 @@ $conn = require '../includes/db.php';
 
 
 /* Fordebug  *  */
-$_POST['hospital_id']=9;
-$_POST['startdate']='2026-01-19 00:00:00';
-$_POST['enddate']='2026-01-19 00:00:00';
+//$_POST['hospital_id']=9;
+//$_POST['startdate']='2026-01-19 00:00:00';
+//$_POST['enddate']='2026-01-19 00:00:00';
 
 
 //p_sn	p_hn	p_admit_date	patient_name	clinicien_name	b_description_concat_nm	b_description_concat_sp	b_description_concat_all	b_cost_sum_nm	b_cost_sum_sp	b_cost_sum_all 

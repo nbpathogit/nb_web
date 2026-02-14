@@ -35,6 +35,10 @@
     .font4{
         font-size: 4pt;
     }
+    .trfitwidth{
+        width: max-content;
+        white-space: nowrap;
+    }
     /*    @page *{
             margin-top: 2.54cm;
             margin-bottom: 2.54cm;
