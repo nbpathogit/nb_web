@@ -5,36 +5,28 @@ require 'includes/init.php';
 // var_dump($_SESSION['user']->id);exit;
 // Auth::requireLogin();
 Auth::requireLogin("changehistory.php");
-
 require 'user_auth.php';
+$conn = require 'includes/db.php';
 
-// ===== DB CONFIG =====
-
-$conn = (new Database())->getConnMysqli();
-
-
-if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 
 // Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
-    $content = $_POST['content'];
-   
-    // Insert into table testtiptap
-    //INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', 'AAA', current_timestamp(), NULL);
-    $stmt = $conn->prepare("INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', '".$content."', current_timestamp(), NULL)");
-//    echo "INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', '".$content."', current_timestamp(), NULL)";
-//    die();
-    $stmt->execute();
-    $stmt->close();
-}
-
-// Fetch the latest entry to prefill editor
-$latestContent = "";
-$result = $conn->query("SELECT * FROM `nbnote` WHERE sub_id = 1 ORDER BY id DESC LIMIT 1");
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $latestContent = $row['content'];
-}
+//if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
+//    $content = $_POST['content'];
+//
+//    // Insert into table testtiptap
+//    $stmt = $conn->prepare("INSERT INTO changehistory (content) VALUES (?)");
+//    $stmt->bind_param("s", $content);
+//    $stmt->execute();
+//    $stmt->close();
+//}
+//
+//// Fetch the latest entry to prefill editor
+//$latestContent = "";
+//$result = $conn->query("SELECT * FROM changehistory ORDER BY id DESC LIMIT 1");
+//if ($result && $result->num_rows > 0) {
+//    $row = $result->fetch_assoc();
+//    $latestContent = $row['content'];
+//}
 
 ?>
 
@@ -52,6 +44,22 @@ if ($result && $result->num_rows > 0) {
       font-size: 16px;
     }
   </style>
+  
+  
+
+
+<div class="container-md bg-blue-a">
+    <?php $nbnotes=Nbnotetitle::getAll($conn);   ?>
+    <label for="nbnote_title" class="">เลือกบันทึกข้อความ</label>		
+    <select name="nbnote_title" id="nbnote_title" class="form-select" <?= ( true ) ? "" : " disabled readonly " ?> >		
+            <option value="-1">กรุณาเลือก</option>
+            <?php foreach ($nbnotes as $nbnote): ?>	
+                    <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> ?>
+                    <option value="<?= $nbnote['id']; ?>"  ><?= ($nbnote['id'] == 0) ? "กรุณาเลือก" : $nbnote['title']; ?></option>
+            <?php endforeach; ?>
+    </select>		
+</div>
+  
 <?php if ($isCurUserAdmin): ?>
 <!--<div class="container">-->
 <div class="container-md bg-blue-a">
