@@ -193,6 +193,7 @@
                             <a class="dropdown-item" id="webfeature" href="webfeature.php">เกียวกับเว็บแอฟฟลิเคชั่น</a>
                             <?php if ($isCurUserNB): ?>
                             <a id="featurehistory_tab" href="changehistory.php" class="nav-item nav-link">Web Change History</a>
+                            <a id="printersetting_tab" href="printersetting.php" class="nav-item nav-link">Printer Setting</a>
                             <?php endif; ?>
                             <a class="dropdown-item" id="docdownload_tab" href="doc_download.php">ดาวน์โหลดเอกสาร</a>
                             <a class="dropdown-item" id="stuff" href="stuff.php">บุคลากร</a>
