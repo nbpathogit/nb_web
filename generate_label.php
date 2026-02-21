@@ -15,24 +15,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     
-    if (isset($_POST['add'])) {
-
-        $labelPrint = new LabelPrint();
-
-        $labelPrint->userid = $_POST['userid'];
-        $labelPrint->sn_num = $_POST['sn_num'];
-        $labelPrint->hn_num = $_POST['hn_num'];
-        $labelPrint->patho_abbreviation = $_POST['patho_abbreviation'];
-        $labelPrint->speciment_abbreviation = $_POST['speciment_abbreviation'];
-        $labelPrint->accept_date = $_POST['accept_date'];
-
-        if ($labelPrint->create($conn)) {
-
-            Url::redirect("/generate_label.php");
-        } else {
-            echo '<script>alert("Add user fail. Please verify again")</script>';
-        }
-    }
+//    if (isset($_POST['add'])) {
+//
+//        $labelPrint = new LabelPrint();
+//
+//        $labelPrint->userid = $_POST['userid'];
+//        $labelPrint->sn_num = $_POST['sn_num'];
+//        $labelPrint->hn_num = $_POST['hn_num'];
+//        $labelPrint->patho_abbreviation = $_POST['patho_abbreviation'];
+//        $labelPrint->speciment_abbreviation = $_POST['speciment_abbreviation'];
+//        $labelPrint->accept_date = $_POST['accept_date'];
+//
+//        if ($labelPrint->create($conn)) {
+//
+//            Url::redirect("/generate_label.php");
+//        } else {
+//            echo '<script>alert("Add user fail. Please verify again")</script>';
+//        }
+//    }
     
     
     
@@ -605,12 +605,26 @@ if (!$labelPrints) {
               patho_abbreviation: item.ab_patho,
               ab_patho: item.ab_patho,
               accept_date: item.accept_date,
-              text: (item.p_pnum+'::'+item.p_phospital_num+'::'+item.name_patho+'::'+item.ab_patho+'::'+item.accept_date),
+              text: (item.pid+'::'+item.p_pnum+'::'+item.p_phospital_num+'::'+item.name_patho+'::'+item.ab_patho+'::'+item.accept_date),
             }));
         });
         //============================================================================
         inifunction();
         
+        // Select all <li> inside the ul.patientlist
+        // Then keep as global variable resultArray
+        const items = document.querySelectorAll("ul.patientlist li");
+
+        // Convert NodeList to array and map attributes
+        resultArray = Array.from(items).map(li => {
+          return {
+            tabindex: li.getAttribute("tabindex"),
+            pnum: li.getAttribute("pnum"),
+            hn_num: li.getAttribute("hn_num"),
+            patho_abbreviation: li.getAttribute("patho_abbreviation"),
+            accept_date: li.getAttribute("accept_date")
+          };
+        });
         //alert("pause");
         
     }
@@ -690,7 +704,7 @@ if (!$labelPrints) {
     function inifunction(){
         
         //=============Add record to database===========================================
-        $("#form_add_record").on("submit", function(e) {
+        $("#form_add_record").off("submit").on("submit", function(e) {
             e.preventDefault(); // prevent normal form submission
 
             // prepare all parameter
@@ -717,7 +731,7 @@ if (!$labelPrints) {
             console.log("start_num:", start_num);
             console.log("end_num:", end_num);
 
-            //alert("submit");
+//            alert("submit");
       
 
             $.ajax({
@@ -747,12 +761,13 @@ if (!$labelPrints) {
             });
             
             drawtableforprintlabel();
+            
  
         });
 
 
-        //========Update related input field=====================
-        $("#pnum_id").change(function () {
+        //========Update related input field when pnum_id dropdown list is changed  =====================
+        $("#pnum_id").off("change").on("change", function() {
 
             console.log('\n\n\n===================================================================\n');
             console.log('==========================pnum_change==============================\n');
@@ -762,10 +777,17 @@ if (!$labelPrints) {
             let pnum_id_selected = selectize.getValue();             // Get value when needed
             
             console.log('selectizeValue::'+pnum_id_selected)
+//            alert('selectizeValue::'+pnum_id_selected);
 
             targetpatient = resultArray.find(obj => obj.tabindex === pnum_id_selected);
+            //console.log("resultArray::"+resultArray);
             
-            console.log(targetpatient);
+            //resultArray.forEach(item => { console.log("Tabindex:", item.tabindex, "Pnum:", item.pnum, "HN:", item.hn_num, "Patho:", item.patho_abbreviation, "Date:", item.accept_date); });
+            console.log(JSON.stringify(resultArray, null, 2));
+            console.log("targetpatient::"+targetpatient);
+            
+            
+//            alert("pause for debug");
             
             console.log('tabindex::'+targetpatient.tabindex);
             console.log('pnum::'+targetpatient.pnum);
@@ -773,10 +795,12 @@ if (!$labelPrints) {
             console.log('patho_abbreviation::'+targetpatient.patho_abbreviation);
             console.log('accept_date::'+targetpatient.accept_date);
 
+
             // Set values with jQuery
             $('#patho_abbreviation').val(targetpatient.patho_abbreviation);
             $('#accept_date').val(targetpatient.accept_date);
             $('#hn_num').val(targetpatient.hn_num);
+            //alert("done set field");
 
             let patient_id = targetpatient.tabindex;
             let userid = $('#userid').val();
@@ -804,6 +828,12 @@ if (!$labelPrints) {
             //alert('pnum_id:'+pnum_id);
 
         });
+        
+        // First clear any previous change handlers, then add a new one
+        $("#target_accept_date").off("change").on("change", function() {
+            drawSelectionAndDOM();
+        });
+
         
     }
 
@@ -835,11 +865,12 @@ if (!$labelPrints) {
             accept_date: li.getAttribute("accept_date")
           };
         });
-        
+//        
         
         
         //============================================================================
         inifunction();
+        
         
         
 
