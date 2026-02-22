@@ -154,10 +154,7 @@ if (!$labelPrints) {
                     <input type="text" name="target_accept_date" id="target_accept_date" class="form-control">
                 </div>
                 
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-                    <label for="button_accept_date" class="form-label">Retrive: </label><br>
-                    <a name="button_accept_date" type="" id="button_accept_date"  class="btn btn-primary" onclick="retrivepnumbyacceptdate()">&nbsp;&nbsp;Retrive&nbsp;&nbsp;</a>
-                </div>
+
                 
                 
                 <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
@@ -556,8 +553,9 @@ if (!$labelPrints) {
               name_patho: item.name_patho,
               ab_patho: item.ab_patho,
               accept_date: item.accept_date,
-              text: item.p_pnum,
+              text: (index + 1) + ":: " +item.p_pnum,
             }));
+   
         });
         
         $('#pnum_id').selectize({
