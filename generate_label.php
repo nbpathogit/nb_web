@@ -293,6 +293,9 @@ if (!$labelPrints) {
             </tbody>
         </table>
     </div>
+    <div class="text-center mt-3">
+        <button id="btn_add_all_to_list" type="button" class="btn btn-success btn-lg">&nbsp;&nbsp;Add All to List&nbsp;&nbsp;</button>
+    </div>
     </div>
 
 
@@ -756,6 +759,147 @@ if (!$labelPrints) {
         });
 
     }
+
+    // Function to add all SN numbers from DataTable to the print list
+    function addAllToListAsync() {
+        console.log("=== addAllToListAsync called ===");
+
+        let user_id = $('#userid').val();
+        console.log("User ID:", user_id);
+
+        let successCount = 0;
+        let failCount = 0;
+        let totalRows = 0;
+
+        // Get all rows from the DataTable
+        let table = $('#snDataTable').DataTable();
+        let rows = table.rows().nodes();
+        totalRows = rows.length;
+
+        console.log("Total rows found:", totalRows);
+
+        if (totalRows === 0) {
+            alert('No SN numbers to add!');
+            return;
+        }
+
+        // Confirm before adding all
+        if (!confirm('Are you sure you want to add ' + totalRows + ' SN numbers to the list?')) {
+            console.log("User cancelled the operation");
+            return;
+        }
+
+        console.log("Starting to add rows...");
+
+        // Loop through each row
+        $(rows).each(function(index, row) {
+            console.log("Processing row index:", index);
+
+            // Get data from the row using the row's cells
+            let $row = $(row);
+
+            // Debug: show the entire row HTML
+            console.log("Row HTML:", $row.html());
+
+            // Get the data-pid from the letter-select element
+            let $letterSelect = $row.find('.letter-select');
+            let pid = $letterSelect.data('pid');
+            console.log("Found PID:", pid);
+
+            // Get values from table cells
+            let $cells = $row.find('td');
+            console.log("Number of cells:", $cells.length);
+
+            let sn_num = $cells.eq(1).text().trim();
+            let hn_num = $cells.eq(2).text().trim();
+            let patho_full = $cells.eq(3).text().trim();
+            let accept_date = $cells.eq(4).text().trim();
+
+            // Extract abbreviation from "Name (AB)"
+            let patho_abbrev = "";
+            let match = patho_full.match(/\(([^)]+)\)/);
+            if (match) {
+                patho_abbrev = match[1];
+            }
+
+            // Get values from select dropdowns
+            let letter = $letterSelect.val();
+            let start_num = $row.find('.start-num-select').val();
+            let end_num = $row.find('.end-num-select').val();
+            let company_name = "N.B.Pathology";
+
+            console.log("Row " + (index + 1) + " data:");
+            console.log("  PID:", pid);
+            console.log("  SN Number:", sn_num);
+            console.log("  HN Number:", hn_num);
+            console.log("  Pathology Abbrev:", patho_abbrev);
+            console.log("  Accept Date:", accept_date);
+            console.log("  Letter:", letter);
+            console.log("  Start Num:", start_num);
+            console.log("  End Num:", end_num);
+
+            // Validate data before sending
+            if (!pid || !sn_num) {
+                console.error("Missing required data for row " + (index + 1));
+                failCount++;
+                return; // Skip this row
+            }
+
+            // Prepare data to send
+            let requestData = {
+                'patient_id': pid,
+                'userid': user_id,
+                'sn_num': sn_num,
+                'hn_num': hn_num,
+                'patho_abbrev': patho_abbrev,
+                'accept_date': accept_date,
+                'company_name': company_name,
+                'letter': letter,
+                'start_num': start_num,
+                'end_num': end_num
+            };
+
+            console.log("Sending data:", requestData);
+
+            // Send AJAX request to add this record
+            $.ajax({
+                'async': false,
+                type: 'POST',
+                'global': false,
+                url: 'ajax_data/generate_label_add_record.php',
+                data: requestData,
+                success: function (response) {
+                    console.log('✓ Success adding SN ' + sn_num + '. Response:', response);
+                    successCount++;
+                },
+                error: function (jqxhr, status, exception) {
+                    console.error('✗ Error adding SN ' + sn_num + '. Status:', status, 'Exception:', exception);
+                    console.error('Response:', jqxhr.responseText);
+                    failCount++;
+                }
+            });
+        });
+
+        console.log("=== Finished adding rows ===");
+        console.log("Success:", successCount, "Failed:", failCount);
+
+        // Show result
+        let message = 'Added ' + successCount + ' SN numbers successfully!';
+        if (failCount > 0) {
+            message += '\nFailed: ' + failCount;
+        }
+        alert(message);
+
+        // Refresh the print label table
+        console.log("Refreshing print label table...");
+        drawtableforprintlabel();
+    }
+
+    // Event handler for "Add All to List" button
+    $(document).on('click', '#btn_add_all_to_list', function() {
+        addAllToListAsync();
+    });
+
 
 
     function drawtableforprintlabel() {
