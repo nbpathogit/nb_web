@@ -1494,6 +1494,30 @@ if (!$labelPrints) {
 
         $tablelabel.append($tbody);
 
+        // Initialize DataTable with pagination
+        if ($.fn.DataTable.isDataTable('#tableforprintlabel')) {
+            $('#tableforprintlabel').DataTable().destroy();
+        }
+
+        $("#tableforprintlabel").DataTable({
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            language: {
+                emptyTable: "No data available"
+            },
+            order: [[0, "desc"]],
+            columnDefs: [
+                { width: "5%", targets: 0 },
+                { width: "5%", targets: 1 },
+                { width: "15%", targets: 2 },
+                { width: "10%", targets: 3 },
+                { width: "10%", targets: 4 },
+                { width: "10%", targets: 5 },
+                { width: "10%", targets: 6 },
+                { width: "15%", targets: 7 }
+            ]
+        });
     }
 
 
