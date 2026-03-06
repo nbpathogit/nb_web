@@ -2,7 +2,7 @@
 
 /*
  * Backend API to add multiple SN numbers to the print label list at once
- * This is more efficient than sending individual requests for each SN number
+ * OPTIMIZED VERSION - Uses single bulk INSERT instead of nested loops
  */
 
 require "../includes/init.php";
@@ -47,64 +47,74 @@ try {
         throw new Exception("Records array is empty");
     }
 
-    $results = [];
+    // Prepare arrays for bulk insert
+    $insertRows = [];
+    $params = [];
+    $totalLabels = 0;
     $successCount = 0;
     $failCount = 0;
 
-    // Process each record
-    foreach ($records as $index => $record) {
-        try {
-            // Validate required fields for this record
-            // Note: patient_id is not used by createByLoopNum, so we don't need to validate it
-            if (
-                !isset($record["userid"]) ||
-                !isset($record["sn_num"]) ||
-                !isset($record["hn_num"]) ||
-                !isset($record["patho_abbrev"]) ||
-                !isset($record["accept_date"]) ||
-                !isset($record["company_name"]) ||
-                !isset($record["letter"]) ||
-                !isset($record["start_num"]) ||
-                !isset($record["end_num"])
-            ) {
-                throw new Exception(
-                    "Missing required fields in record " . ($index + 1),
-                );
-            }
-
-            // Call the LabelPrint method to create the record
-            // This method handles the loop to generate multiple labels based on letter, start_num, and end_num
-            $result = LabelPrint::createByLoopNum(
-                $conn,
-                $record["userid"],
-                $record["sn_num"],
-                $record["hn_num"],
-                $record["patho_abbrev"],
-                $record["accept_date"],
-                $record["company_name"],
-                $record["letter"],
-                $record["start_num"],
-                $record["end_num"],
-            );
-
-            $results[] = [
-                "index" => $index,
-                "sn_num" => $record["sn_num"],
-                "success" => true,
-                "result" => $result,
-            ];
-
-            $successCount++;
-        } catch (Exception $e) {
-            $results[] = [
-                "index" => $index,
-                "sn_num" => $record["sn_num"] ?? "unknown",
-                "success" => false,
-                "error" => $e->getMessage(),
-            ];
-
-            $failCount++;
+    // Collect all label data first before bulk insertion
+    foreach ($records as $record) {
+        // Validate required fields
+        if (
+            !isset($record["userid"]) ||
+            !isset($record["sn_num"]) ||
+            !isset($record["hn_num"]) ||
+            !isset($record["patho_abbrev"]) ||
+            !isset($record["accept_date"]) ||
+            !isset($record["company_name"]) ||
+            !isset($record["letter"]) ||
+            !isset($record["start_num"]) ||
+            !isset($record["end_num"])
+        ) {
+            throw new Exception("Missing required fields in record");
         }
+
+        $userid = $record["userid"];
+        $sn_num = $record["sn_num"];
+        $hn_num = $record["hn_num"];
+        $patho_abbrev = $record["patho_abbrev"];
+        $accept_date = $record["accept_date"];
+        $company_name = $record["company_name"];
+        $letter = $record["letter"];
+        $start_num = intval($record["start_num"]);
+        $end_num = intval($record["end_num"]);
+
+        // Loop through the range to collect all labels
+        for ($i = $start_num; $i <= $end_num; $i++) {
+            $speciment_abbrev = $letter . $i;
+            $insertRows[] = "(?, ?, ?, ?, ?, ?, ?)";
+            $params[] = $userid;
+            $params[] = $sn_num;
+            $params[] = $hn_num;
+            $params[] = $patho_abbrev;
+            $params[] = $speciment_abbrev;
+            $params[] = $accept_date;
+            $params[] = $company_name;
+        }
+
+        $totalLabels += $end_num - $start_num + 1;
+    }
+
+    // Execute single bulk INSERT query with transaction
+    try {
+        $conn->beginTransaction();
+
+        $sql =
+            "INSERT INTO `labelprint_tmp_a`(`userid`, `sn_num`, `hn_num`, `patho_abbreviation`, `speciment_abbreviation`, `accept_date`, `company_name`) " .
+            "VALUES " .
+            implode(", ", $insertRows);
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+
+        $conn->commit();
+        $successCount = $totalLabels;
+    } catch (Exception $e) {
+        $conn->rollBack();
+        $failCount = $totalLabels;
+        throw $e;
     }
 
     // Return success response with details
@@ -113,11 +123,16 @@ try {
         "message" =>
             "Processed " .
             count($records) .
-            " records. Success: $successCount, Failed: $failCount",
+            " record(s) generating $totalLabels label(s). Success: $successCount, Failed: $failCount",
         "total_records" => count($records),
+        "total_labels" => $totalLabels,
         "success_count" => $successCount,
         "fail_count" => $failCount,
-        "results" => $results,
+        "results" => [
+            "labels_generated" => $totalLabels,
+            "sql_queries" => 1, // Now only 1 INSERT query!
+            "optimization" => "Bulk insert with single query",
+        ],
     ]);
 } catch (Exception $e) {
     // Return error response
@@ -125,6 +140,7 @@ try {
         "success" => false,
         "message" => $e->getMessage(),
         "total_records" => 0,
+        "total_labels" => 0,
         "success_count" => 0,
         "fail_count" => 0,
         "results" => [],
