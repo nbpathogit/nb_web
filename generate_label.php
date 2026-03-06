@@ -558,6 +558,16 @@ if (!$labelPrints) {
             <h1><i class="fas fa-list me-2"></i>All SN Number List</h1>
         </div>
         <div class="card-body-custom">
+            <div class="form-row-custom mb-4">
+                <div class="row">
+                    <div class="col-xl-4 col-md-6 form-group-custom">
+                        <label for="filter_accept_date" class="modern-label">
+                            <i class="far fa-calendar-alt me-1"></i>Filter by Accept Date
+                        </label>
+                        <input type="text" name="filter_accept_date" id="filter_accept_date" class="modern-form-control" placeholder="Select date to filter">
+                    </div>
+                </div>
+            </div>
             <div class="table-container">
                 <div class="table-responsive">
                     <table id="snDataTable" class="modern-table" style="width:100%">
@@ -775,8 +785,121 @@ if (!$labelPrints) {
         $("#target_accept_date").datepicker({
             dateFormat: 'yy-mm-dd'
         });
+        $("#filter_accept_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            onSelect: function(dateText) {
+                filterTableByDate(dateText);
+            }
+        });
 
     });
+
+    function filterTableByDate(selectedDate){
+        let user_id = $('#userid').val();
+        let accept_date = selectedDate;
+        let pnumjson;
+
+        // Show loading indicator
+        $("#snDataTable").find("tbody").html('<tr><td colspan="8" class="text-center">Loading...</td></tr>');
+
+        // get data from database
+        $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            url: 'ajax_data/generate_label_get_SN_by_date.php',
+            data: {
+                'user_id': user_id,
+                'accept_date': accept_date,
+            },
+            success: function (data) {
+                console.log("Filtered data::");
+                console.log(data);
+                pnumjson = JSON.parse(data);
+
+                // Check if DataTable already exists, if yes destroy it first
+                if ($.fn.DataTable.isDataTable('#snDataTable')) {
+                    $('#snDataTable').DataTable().clear().destroy();
+                }
+
+                // Clear table body
+                $("#snDataTable").find("tbody").empty();
+
+                // Create select options for Letter (A-Z) with "none" as default
+                let letterOptions = '<option value="none" selected>-- None --</option>';
+                for (let i = 65; i <= 90; i++) {
+                    let letter = String.fromCharCode(i);
+                    letterOptions += '<option value="' + letter + '">' + letter + '</option>';
+                }
+
+                // Create select options for Number from/to (1-99)
+                let numOptions = '';
+                for (let i = 1; i <= 99; i++) {
+                    numOptions += '<option value="' + i + '">' + i + '</option>';
+                }
+
+                // Loop through pnumjson and add rows to table
+                if (pnumjson.length > 0) {
+                    $.each(pnumjson, function(index, item) {
+                        let acceptDateFormatted = convertDateFormat(item.accept_date);
+                        let rowId = 'row_' + index;
+
+                        $("#snDataTable").find("tbody").append(
+                            "<tr id='" + rowId + "'>" +
+                            "<td>" + (index + 1) + "</td>" +
+                            "<td>" + item.p_pnum + "</td>" +
+                            "<td>" + item.p_phospital_num + "</td>" +
+                            "<td>" + item.name_patho + " (" + item.ab_patho + ")</td>" +
+                            "<td>" + acceptDateFormatted + "</td>" +
+                            "<td>" +
+                                "<select class='form-select form-select-sm letter-select' data-pid='" + item.pid + "'>" +
+                                    letterOptions +
+                                "</select>" +
+                            "</td>" +
+                            "<td>" +
+                                "<select class='form-select form-select-sm start-num-select' data-pid='" + item.pid + "'>" +
+                                    numOptions +
+                                "</select>" +
+                            "</td>" +
+                            "<td>" +
+                                "<select class='form-select form-select-sm end-num-select' data-pid='" + item.pid + "'>" +
+                                    numOptions +
+                                "</select>" +
+                            "</td>" +
+                            "</tr>"
+                        );
+                    });
+                } else {
+                    $("#snDataTable").find("tbody").html('<tr><td colspan="8" class="text-center">No SN numbers found for this date</td></tr>');
+                }
+
+                // Initialize DataTable
+                $("#snDataTable").DataTable({
+                    "responsive": true,
+                    "pageLength": 10,
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    "language": {
+                        "emptyTable": "No SN numbers found for this date"
+                    },
+                    "order": [[0, "asc"]],
+                    "columnDefs": [
+                        { "width": "5%", "targets": 0 },
+                        { "width": "15%", "targets": 1 },
+                        { "width": "12%", "targets": 2 },
+                        { "width": "20%", "targets": 3 },
+                        { "width": "12%", "targets": 4 },
+                        { "width": "10%", "targets": 5 },
+                        { "width": "8%", "targets": 6 },
+                        { "width": "8%", "targets": 7 }
+                    ]
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching filtered data:", error);
+                $("#snDataTable").find("tbody").html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+            }
+        });
+    }
 
     function openPdf1(x,y,a,b,ishideborder){
         if(ishideborder){
@@ -813,7 +936,7 @@ if (!$labelPrints) {
     }
 
 
-    function drawSelectionAndDOM(){
+    function drawSelectionAndDOM(updateTable = true){
         //$patientLists = Patient::getAllJoin_forlableprint($conn, 1);
         let user_id = $('#userid').val();
         let accept_date = $('#target_accept_date').val();
@@ -1010,15 +1133,17 @@ if (!$labelPrints) {
         });
 
         //====== Populate DataTable for All SN Number List ======
-        let $snDataTable = $("#snDataTable");
+        // Only update table if updateTable parameter is true
+        if (updateTable) {
+            let $snDataTable = $("#snDataTable");
 
-        // Check if DataTable already exists, if yes destroy it first
-        if ($.fn.DataTable.isDataTable('#snDataTable')) {
-            $('#snDataTable').DataTable().clear().destroy();
-        }
+            // Check if DataTable already exists, if yes destroy it first
+            if ($.fn.DataTable.isDataTable('#snDataTable')) {
+                $('#snDataTable').DataTable().clear().destroy();
+            }
 
-        // Clear table body
-        $snDataTable.find("tbody").empty();
+            // Clear table body
+            $snDataTable.find("tbody").empty();
 
         // Create select options for Letter (A-Z) with "none" as default
         let letterOptions = '<option value="none" selected>-- None --</option>';
@@ -1065,7 +1190,7 @@ if (!$labelPrints) {
         });
 
         // Initialize DataTable
-        $("#snDataTable").DataTable({
+            $("#snDataTable").DataTable({
             "responsive": true,
             "pageLength": 10,
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -1083,7 +1208,8 @@ if (!$labelPrints) {
                 { "width": "10%", "targets": 6 },
                 { "width": "10%", "targets": 7 }
             ]
-        });
+            });
+        }
 
     }
 
@@ -1370,8 +1496,9 @@ if (!$labelPrints) {
         });
 
         // First clear any previous change handlers, then add a new one
+        // target_accept_date change event only updates dropdown, not the table
         $("#target_accept_date").off("change").on("change", function() {
-            drawSelectionAndDOM();
+            drawSelectionAndDOM(false); // Pass false to skip table update
         });
 
 
