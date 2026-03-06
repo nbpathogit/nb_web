@@ -284,6 +284,9 @@ if (!$labelPrints) {
                     <th>HN Number</th>
                     <th>Pathology</th>
                     <th>Accept Date</th>
+                    <th>Letter</th>
+                    <th>Number from</th>
+                    <th>Number to</th>
                 </tr>
             </thead>
             <tbody>
@@ -687,17 +690,46 @@ if (!$labelPrints) {
         // Clear table body
         $snDataTable.find("tbody").empty();
 
+        // Create select options for Letter (A-Z)
+        let letterOptions = '';
+        for (let i = 65; i <= 90; i++) {
+            let letter = String.fromCharCode(i);
+            letterOptions += '<option value="' + letter + '">' + letter + '</option>';
+        }
+
+        // Create select options for Number from/to (1-99)
+        let numOptions = '';
+        for (let i = 1; i <= 99; i++) {
+            numOptions += '<option value="' + i + '">' + i + '</option>';
+        }
+
         // Loop through pnumjson and add rows to table
         $.each(pnumjson, function(index, item) {
             let acceptDateFormatted = convertDateFormat(item.accept_date);
+            let rowId = 'row_' + index;
 
             $snDataTable.find("tbody").append(
-                "<tr>" +
+                "<tr id='" + rowId + "'>" +
                 "<td>" + (index + 1) + "</td>" +
                 "<td>" + item.p_pnum + "</td>" +
                 "<td>" + item.p_phospital_num + "</td>" +
                 "<td>" + item.name_patho + " (" + item.ab_patho + ")</td>" +
                 "<td>" + acceptDateFormatted + "</td>" +
+                "<td>" +
+                    "<select class='form-select form-select-sm letter-select' data-pid='" + item.pid + "'>" +
+                        letterOptions +
+                    "</select>" +
+                "</td>" +
+                "<td>" +
+                    "<select class='form-select form-select-sm start-num-select' data-pid='" + item.pid + "'>" +
+                        numOptions +
+                    "</select>" +
+                "</td>" +
+                "<td>" +
+                    "<select class='form-select form-select-sm end-num-select' data-pid='" + item.pid + "'>" +
+                        numOptions +
+                    "</select>" +
+                "</td>" +
                 "</tr>"
             );
         });
@@ -710,7 +742,17 @@ if (!$labelPrints) {
             "language": {
                 "emptyTable": "No SN numbers found for this date"
             },
-            "order": [[0, "asc"]]
+            "order": [[0, "asc"]],
+            "columnDefs": [
+                { "width": "5%", "targets": 0 },
+                { "width": "15%", "targets": 1 },
+                { "width": "12%", "targets": 2 },
+                { "width": "25%", "targets": 3 },
+                { "width": "13%", "targets": 4 },
+                { "width": "10%", "targets": 5 },
+                { "width": "10%", "targets": 6 },
+                { "width": "10%", "targets": 7 }
+            ]
         });
 
     }
