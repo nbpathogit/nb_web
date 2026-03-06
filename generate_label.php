@@ -408,7 +408,8 @@ if (!$labelPrints) {
 
     <div class="modern-card mb-4">
         <div class="card-header-custom">
-            <h1><i class="fas fa-plus-circle me-2"></i>Fill in data for insert to list</h1>
+            <!--<h1><i class="fas fa-plus-circle me-2"></i>Fill in data for insert to list</h1>-->
+            <h1><i class="fas fa-plus-circle me-2"></i>SN Number 1 รายการ</h1>
         </div>
         <div class="card-body-custom">
             <form action="" id="form_add_record" method="post" class="">
@@ -555,7 +556,7 @@ if (!$labelPrints) {
 
     <div class="modern-card mb-4">
         <div class="card-header-custom">
-            <h1><i class="fas fa-list me-2"></i>All SN Number List</h1>
+            <h1><i class="fas fa-list me-2"></i>SN Number ทีละหลายรายการ</h1>
         </div>
         <div class="card-body-custom">
             <div class="form-row-custom mb-4">
@@ -798,9 +799,39 @@ if (!$labelPrints) {
         let user_id = $('#userid').val();
         let accept_date = selectedDate;
         let pnumjson;
+        let existingSNs = new Set(); // Store existing SN numbers
 
         // Show loading indicator
         $("#snDataTable").find("tbody").html('<tr><td colspan="8" class="text-center">Loading...</td></tr>');
+
+        // First, fetch existing records from tableforprintlabel
+        $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            url: 'ajax_data/generate_label_get_record.php',
+            data: {
+                'user_id': user_id,
+            },
+            success: function (data) {
+                try {
+                    if (data && data.trim() !== '') {
+                        let existingRecords = JSON.parse(data);
+                        // Extract SN numbers from existing records
+                        $.each(existingRecords, function(index, record) {
+                            if (record.sn_num) {
+                                existingSNs.add(record.sn_num);
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.error("Error parsing existing records:", e);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching existing records:", error);
+            }
+        });
 
         // get data from database
         $.ajax({
@@ -843,13 +874,16 @@ if (!$labelPrints) {
                     $.each(pnumjson, function(index, item) {
                         let acceptDateFormatted = convertDateFormat(item.accept_date);
                         let rowId = 'row_' + index;
+                        let isFinished = existingSNs.has(item.p_pnum);
+                        let finishedBadge = isFinished ? ' <span class="badge bg-success">Finish</span>' : '';
+                        let rowClass = isFinished ? 'table-secondary' : '';
 
                         $("#snDataTable").find("tbody").append(
-                            "<tr id='" + rowId + "'>" +
-                            "<td>" + (index + 1) + "</td>" +
+                            "<tr id='" + rowId + "' class='" + rowClass + "'>" +
+                            "<td>" + (index + 1) + finishedBadge + "</td>" +
                             "<td>" + item.p_pnum + "</td>" +
                             "<td>" + item.p_phospital_num + "</td>" +
-                            "<td>" + item.name_patho + " (" + item.ab_patho + ")</td>" +
+                            "<td>" + item.name_patho + "</td>" +
                             "<td>" + acceptDateFormatted + "</td>" +
                             "<td>" +
                                 "<select class='form-select form-select-sm letter-select' data-pid='" + item.pid + "'>" +
@@ -941,6 +975,37 @@ if (!$labelPrints) {
         let user_id = $('#userid').val();
         let accept_date = $('#target_accept_date').val();
         let pnumjson;
+        let existingSNs = new Set(); // Store existing SN numbers
+
+        // First, fetch existing records from tableforprintlabel
+        $.ajax({
+            'async': false,
+            type: 'POST',
+            'global': false,
+            url: 'ajax_data/generate_label_get_record.php',
+            data: {
+                'user_id': user_id,
+            },
+            success: function (data) {
+                try {
+                    if (data && data.trim() !== '') {
+                        let existingRecords = JSON.parse(data);
+                        // Extract SN numbers from existing records
+                        $.each(existingRecords, function(index, record) {
+                            if (record.sn_num) {
+                                existingSNs.add(record.sn_num);
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.error("Error parsing existing records:", e);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching existing records:", error);
+            }
+        });
+
         // get data from database
         $.ajax({
             'async': false,
@@ -1039,13 +1104,17 @@ if (!$labelPrints) {
         //{"pid":"34796","p_pnum":"PN2600008","p_phospital_num":"7995","name_patho":"\u0e07","ab_patho":"AC.","accept_date":"2026-01-07"}
 
         $.each(pnumjson, function(index, item) {
-//            console.log();
-//            console.log("item.pid"+item.pid);
-//            console.log("item.p_pnum"+item.p_pnum);
-//            console.log("item.p_phospital_num"+item.p_phospital_num);
-//            console.log("item.name_patho"+item.name_patho);
-//            console.log("item.ab_patho"+item.ab_patho);
-//            console.log("item.accept_date"+item.accept_date);
+            // Check if SN number already exists in tableforprintlabel
+            let isFinished = existingSNs.has(item.p_pnum);
+            let displayText = (index + 1) + ":: " + item.p_pnum + (isFinished ? " (Finish)" : "");
+
+ //            console.log();
+ //            console.log("item.pid"+item.pid);
+ //            console.log("item.p_pnum"+item.p_pnum);
+ //            console.log("item.p_phospital_num"+item.p_phospital_num);
+ //            console.log("item.name_patho"+item.name_patho);
+ //            console.log("item.ab_patho"+item.ab_patho);
+ //            console.log("item.accept_date"+item.accept_date);
             //-------------Draw following structure-------------
             //            <option value="pid"
             //                    p_pnum="p_pnum"
@@ -1061,7 +1130,7 @@ if (!$labelPrints) {
               name_patho: item.name_patho,
               ab_patho: item.ab_patho,
               accept_date: item.accept_date,
-              text: (index + 1) + ":: " +item.p_pnum,
+              text: displayText,
             }));
 
         });
@@ -1104,6 +1173,13 @@ if (!$labelPrints) {
 //            console.log("item.ab_patho"+item.ab_patho);
 //            console.log("item.accept_date"+item.accept_date);
 
+            // Check if SN number already exists in tableforprintlabel
+            let isFinished = existingSNs.has(item.p_pnum);
+            let listText = item.pid+'::'+item.p_pnum+'::'+item.p_phospital_num+'::'+item.name_patho+'::'+item.ab_patho+'::'+item.accept_date;
+            if (isFinished) {
+                listText += ' (Finish)';
+            }
+
             uldom.append($("<li>", {
               tabindex: item.pid,
               pnum: item.p_pnum,
@@ -1111,7 +1187,7 @@ if (!$labelPrints) {
               patho_abbreviation: item.ab_patho,
               ab_patho: item.ab_patho,
               accept_date: item.accept_date,
-              text: (item.pid+'::'+item.p_pnum+'::'+item.p_phospital_num+'::'+item.name_patho+'::'+item.ab_patho+'::'+item.accept_date),
+              text: listText,
             }));
         });
         //============================================================================
@@ -1162,13 +1238,16 @@ if (!$labelPrints) {
         $.each(pnumjson, function(index, item) {
             let acceptDateFormatted = convertDateFormat(item.accept_date);
             let rowId = 'row_' + index;
+            let isFinished = existingSNs.has(item.p_pnum);
+            let finishedBadge = isFinished ? ' <span class="badge bg-success">Finish</span>' : '';
+            let rowClass = isFinished ? 'table-secondary' : '';
 
             $snDataTable.find("tbody").append(
-                "<tr id='" + rowId + "'>" +
-                "<td>" + (index + 1) + "</td>" +
+                "<tr id='" + rowId + "' class='" + rowClass + "'>" +
+                "<td>" + (index + 1) + finishedBadge + "</td>" +
                 "<td>" + item.p_pnum + "</td>" +
                 "<td>" + item.p_phospital_num + "</td>" +
-                "<td>" + item.name_patho + " (" + item.ab_patho + ")</td>" +
+                "<td>" + item.name_patho + "</td>" +
                 "<td>" + acceptDateFormatted + "</td>" +
                 "<td>" +
                     "<select class='form-select form-select-sm letter-select' data-pid='" + item.pid + "'>" +
@@ -1202,9 +1281,9 @@ if (!$labelPrints) {
                 { "width": "5%", "targets": 0 },
                 { "width": "15%", "targets": 1 },
                 { "width": "12%", "targets": 2 },
-                { "width": "25%", "targets": 3 },
+                { "width": "20%", "targets": 3 },
                 { "width": "13%", "targets": 4 },
-                { "width": "10%", "targets": 5 },
+                { "width": "13%", "targets": 5 },
                 { "width": "10%", "targets": 6 },
                 { "width": "10%", "targets": 7 }
             ]
@@ -1312,6 +1391,18 @@ if (!$labelPrints) {
                     let responseData = typeof response === 'string' ? JSON.parse(response) : response;
                     // alert(responseData.message || 'Added ' + recordsArray.length + ' SN numbers successfully!');
                     drawtableforprintlabel();
+
+                    // Refresh SN Number List table to show updated "Finish" status
+                    let filterDate = $('#filter_accept_date').val();
+                    if (filterDate) {
+                        filterTableByDate(filterDate);
+                    } else {
+                        // If no filter date, refresh the dropdown and current table
+                        let targetDate = $('#target_accept_date').val();
+                        if (targetDate) {
+                            drawSelectionAndDOM(true);
+                        }
+                    }
                 } catch (e) {
                     console.error('Error parsing response:', e);
                     console.error('Response:', response);
