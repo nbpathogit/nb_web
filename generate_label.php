@@ -856,11 +856,12 @@ if (!$labelPrints) {
                 // Clear table body
                 $("#snDataTable").find("tbody").empty();
 
-                // Create select options for Letter (A-Z) with "none" as default
-                let letterOptions = '<option value="none" selected>-- None --</option>';
+                // Create select options for Letter (A-Z) with "A" as default
+                let letterOptions = '';
                 for (let i = 65; i <= 90; i++) {
                     let letter = String.fromCharCode(i);
-                    letterOptions += '<option value="' + letter + '">' + letter + '</option>';
+                    let selected = (i === 65) ? ' selected' : '';
+                    letterOptions += '<option value="' + letter + '"' + selected + '>' + letter + '</option>';
                 }
 
                 // Create select options for Number from/to (1-99)
@@ -1221,11 +1222,12 @@ if (!$labelPrints) {
             // Clear table body
             $snDataTable.find("tbody").empty();
 
-        // Create select options for Letter (A-Z) with "none" as default
-        let letterOptions = '<option value="none" selected>-- None --</option>';
+        // Create select options for Letter (A-Z) with "A" as default
+        let letterOptions = '';
         for (let i = 65; i <= 90; i++) {
             let letter = String.fromCharCode(i);
-            letterOptions += '<option value="' + letter + '">' + letter + '</option>';
+            let selected = (i === 65) ? ' selected' : '';
+            letterOptions += '<option value="' + letter + '"' + selected + '>' + letter + '</option>';
         }
 
         // Create select options for Number from/to (1-99)
