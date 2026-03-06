@@ -693,8 +693,8 @@ if (!$labelPrints) {
         // Clear table body
         $snDataTable.find("tbody").empty();
 
-        // Create select options for Letter (A-Z)
-        let letterOptions = '';
+        // Create select options for Letter (A-Z) with "none" as default
+        let letterOptions = '<option value="none" selected>-- None --</option>';
         for (let i = 65; i <= 90; i++) {
             let letter = String.fromCharCode(i);
             letterOptions += '<option value="' + letter + '">' + letter + '</option>';
@@ -842,6 +842,12 @@ if (!$labelPrints) {
             if (!pid || !sn_num) {
                 console.error("Missing required data for row " + (index + 1));
                 failCount++;
+                return; // Skip this row
+            }
+
+            // Skip if letter is "none"
+            if (letter === 'none' || !letter) {
+                console.log("Skipping row " + (index + 1) + " - Letter is not selected");
                 return; // Skip this row
             }
 
