@@ -1249,13 +1249,19 @@ if (!$labelPrints) {
         // Remove everything inside the table (rows, cells, etc.)
         $tablelabel.empty();
 
-        //Append a new row
-        $tablelabel.append("<tr> <th>id</td> <th>User_ID </th> <th>SN_Num</th> <th>HN_Num</th> <th>PathoAbrev</th> <th>SpeciAbrev</th> <th>admit_date</th> <th>Org.</th> </tr>");
+        // Create and append thead with header row
+        let $thead = $("<thead></thead>");
+        $thead.append("<tr> <th>ID</th> <th>User ID</th> <th>SN Number</th> <th>HN Number</th> <th>Pathology</th> <th>Specimen</th> <th>Admit Date</th> <th>Organization</th> </tr>");
+        $tablelabel.append($thead);
+
+        // Create and append tbody
+        let $tbody = $("<tbody></tbody>");
+
         for (var i in datajson)
         {
             let id =datajson[i].id;
             //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
-            $tablelabel.append("<tr>"+
+            $tbody.append("<tr>"+
                 "<td>"+datajson[i].id+"</td>"+
                 "<td>"+datajson[i].userid+" </td>"+
                 "<td>"+datajson[i].sn_num+"</td>"+
@@ -1265,8 +1271,9 @@ if (!$labelPrints) {
                 "<td>"+datajson[i].accept_date+"</td>"+
                 "<td>"+datajson[i].company_name+"</td>"+
                 "</tr>");
-
         }
+
+        $tablelabel.append($tbody);
 
     }
 
