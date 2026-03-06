@@ -857,7 +857,7 @@ if (!$labelPrints) {
             success: function (response) {
                 try {
                     let responseData = typeof response === 'string' ? JSON.parse(response) : response;
-                    alert(responseData.message || 'Added ' + recordsArray.length + ' SN numbers successfully!');
+                    // alert(responseData.message || 'Added ' + recordsArray.length + ' SN numbers successfully!');
                     drawtableforprintlabel();
                 } catch (e) {
                     console.error('Error parsing response:', e);
