@@ -57,290 +57,597 @@ if (!$labelPrints) {
 <?php require "includes/header.php"; ?>
 
 <style>
+    :root {
+        --primary-color: #009CFF;
+        --primary-dark: #007ACC;
+        --primary-light: #E3F2FF;
+        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        --card-shadow-hover: 0 8px 25px rgba(0, 156, 255, 0.15);
+    }
 
-    /*    th,td{
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 0.5;
-        }*/
+    .modern-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(0, 156, 255, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .modern-card:hover {
+        box-shadow: var(--card-shadow-hover);
+        border-color: var(--primary-color);
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: #ffffff;
+        padding: 1.25rem 1.5rem;
+        border: none;
+        border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .card-header-custom h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+        color: #ffffff;
+    }
+
+    .card-header-custom h3 {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin: 0;
+        color: #ffffff;
+        opacity: 0.95;
+    }
+
+    .card-body-custom {
+        padding: 1.5rem;
+    }
+
+    .modern-label {
+        font-weight: 600;
+        color: var(--primary-dark);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .modern-form-control {
+        border: 2px solid #E8EEF5;
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #FAFBFD;
+    }
+
+    .modern-form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(0, 156, 255, 0.1);
+        background: #ffffff;
+    }
+
+    .modern-form-control[readonly] {
+        background: #F5F8FC;
+        cursor: default;
+    }
+
+    .modern-select {
+        border: 2px solid #E8EEF5;
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #FAFBFD;
+        cursor: pointer;
+    }
+
+    .modern-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(0, 156, 255, 0.1);
+        background: #ffffff;
+    }
+
+    .modern-btn-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        border: none;
+        color: #ffffff;
+        padding: 0.7rem 1.8rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 156, 255, 0.3);
+    }
+
+    .modern-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 156, 255, 0.4);
+        color: #ffffff;
+    }
+
+    .modern-btn-success {
+        background: linear-gradient(135deg, #28A745 0%, #218838 100%);
+        border: none;
+        color: #ffffff;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+
+    .modern-btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        color: #ffffff;
+    }
+
+    .modern-btn-danger {
+        background: linear-gradient(135deg, #DC3545 0%, #C82333 100%);
+        border: none;
+        color: #ffffff;
+        padding: 0.7rem 1.8rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+    }
+
+    .modern-btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        color: #ffffff;
+    }
+
+    .modern-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 0;
+    }
+
+    .modern-table thead th {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: #ffffff;
+        font-weight: 600;
+        padding: 1rem;
+        text-align: center;
+        border: none;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .modern-table thead th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    .modern-table thead th:last-child {
+        border-top-right-radius: 8px;
+    }
+
+    .modern-table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+    .modern-table tbody tr:nth-child(even) {
+        background: #F8FBFE;
+    }
+
+    .modern-table tbody tr:hover {
+        background: var(--primary-light);
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(0, 156, 255, 0.1);
+    }
+
+    .modern-table tbody td {
+        padding: 0.9rem 1rem;
+        border: none;
+        border-bottom: 1px solid #E8EEF5;
+        text-align: center;
+        color: #495057;
+        font-size: 0.9rem;
+    }
+
+    .modern-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .modern-table tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 8px;
+    }
+
+    .modern-table tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 8px;
+    }
+
+    .form-group-custom {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-row-custom {
+        background: #FAFBFD;
+        border-radius: 10px;
+        padding: 1.5rem;
+        border: 1px solid #E8EEF5;
+    }
+
+    .section-divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, var(--primary-color) 50%, transparent 100%);
+        margin: 2rem 0;
+        opacity: 0.3;
+    }
+
+    .modern-hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, var(--primary-color) 50%, transparent 100%);
+        margin: 2.5rem 0;
+    }
+
+    .input-group-text-custom {
+        background: var(--primary-color);
+        color: #ffffff;
+        border: 2px solid var(--primary-color);
+        border-radius: 8px 0 0 8px;
+        padding: 0.6rem 1rem;
+        font-weight: 600;
+    }
+
+    .table-container {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(0, 156, 255, 0.1);
+    }
+
+    .section-title {
+        color: var(--primary-dark);
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .section-title::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: var(--primary-color);
+        border-radius: 2px;
+    }
+
+    .select-label-inline {
+        font-weight: 600;
+        color: var(--primary-dark);
+        margin-right: 0.5rem;
+    }
+
+    .config-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 2px solid #E8EEF5;
+    }
+
+    @media (max-width: 768px) {
+        .modern-table {
+            font-size: 0.8rem;
+        }
+
+        .modern-table thead th,
+        .modern-table tbody td {
+            padding: 0.6rem 0.5rem;
+        }
+    }
 </style>
 
 
 
 <div id="patient_plan_section" class="container-fluid pt-4 px-4">
 
-    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <h1>Table List to print out label</h1>
-
-        <style>
-            table {
-              border-collapse: collapse;
-            }
-            th, td {
-              border: 1px solid black;
-
-              text-align: center;
-            }
-            th {
-              background-color: #f2f2f2;
-            }
-        </style>
-
-        <table id="tableforprintlabel">
-            <tr>
-                <th>id</td>
-                <th>User_ID </th>
-                <th>SN_Num</th>
-                <th>HN_Num</th>
-                <th>PathoAbrev</th>
-                <th>SpeciAbrev</th>
-                <th>admit_date</th>
-                <th>Org.</th>
-
-            </tr>
-            <?php foreach ($labelPrints as $labelprint): ?>
-                <tr id="" border="1">
-                    <td border="1"> <?= $labelprint["id"] ?> </td>
-                    <td> <?= $labelprint["userid"] ?> </td>
-                    <td> <?= $labelprint["sn_num"] ?> </td>
-                    <td> <?= $labelprint["hn_num"] ?> </td>
-                    <td> <?= $labelprint["patho_abbreviation"] ?> </td>
-                    <td> <?= $labelprint["speciment_abbreviation"] ?> </td>
-                    <td> <?= $labelprint["accept_date"] ?> </td>
-                    <td> <?= $labelprint["company_name"] ?> </td>
-                </tr>
-            <?php endforeach; ?>
-
-        </table>
-
-        <form action="" method="post" class="">
-            <div class="">
-                <button name="delAll" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Remove all list&nbsp;&nbsp;</button>
-            </div>
-            <input type="hidden" name="userid"  readonly="readonly" value="<?= $_SESSION[
-                "userid"
-            ] ?>">
-        </form>
-
-
-    </div>
-
-    <br>
-
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <h1>Fill in data for insert to list</h1>
-        <form action="" id="form_add_record" method="post" class="">
-            <div class="row <?= $isBorder ? "border" : "" ?>">
-
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <label for="target_accept_date" class="form-label">accept date: </label>
-                    <input type="text" name="target_accept_date" id="target_accept_date" class="form-control">
-                </div>
-
-
-
-
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <span id="pnum_id_span">
-                    <label for="pnum_id" class="">SN Number: </label>
-                    <select name="pnum_id" id="pnum_id" class="" required>
-                        <option value=""></option>
-                        <?php foreach ($patientLists as $patient): ?>
-                            <option value="<?= htmlspecialchars(
-                                $patient["pid"],
-                            ) ?>"
-                                    p_pnum="<?= htmlspecialchars(
-                                        $patient["p_pnum"],
-                                    ) ?>"
-                                    patho_abbreviation="<?= htmlspecialchars(
-                                        $patient["ab_patho"],
-                                    ) ?>"
-                                    accept_date="<?= htmlspecialchars(
-                                        $patient["accept_date"],
-                                    ) ?>"
-                                    ><?= htmlspecialchars($patient["p_pnum"]) ?>
-                            </option>
+    <div class="modern-card mb-4">
+        <div class="card-header-custom">
+            <h1><i class="fas fa-table me-2"></i>Table List to Print Out Label</h1>
+        </div>
+        <div class="card-body-custom">
+            <div class="table-container mb-3">
+                <table id="tableforprintlabel" class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User ID</th>
+                            <th>SN Number</th>
+                            <th>HN Number</th>
+                            <th>Pathology</th>
+                            <th>Specimen</th>
+                            <th>Admit Date</th>
+                            <th>Organization</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($labelPrints as $labelprint): ?>
+                            <tr>
+                                <td><?= $labelprint["id"] ?></td>
+                                <td><?= $labelprint["userid"] ?></td>
+                                <td><?= $labelprint["sn_num"] ?></td>
+                                <td><?= $labelprint["hn_num"] ?></td>
+                                <td><?= $labelprint[
+                                    "patho_abbreviation"
+                                ] ?></td>
+                                <td><?= $labelprint[
+                                    "speciment_abbreviation"
+                                ] ?></td>
+                                <td><?= $labelprint["accept_date"] ?></td>
+                                <td><?= $labelprint["company_name"] ?></td>
+                            </tr>
                         <?php endforeach; ?>
-                    </select>
-                    </span>
-                </div>
-
-
-
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <label for="patho_abbreviation" class="form-label">patho_Abbreviation: </label>
-                    <input type="text" name="patho_abbreviation" id="patho_abbreviation" class="form-control" value="" readonly required>
-                </div>
-
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <label for="accept_date" class="form-label">accept_date: </label>
-                    <input type="text" name="accept_date" id="accept_date" class="form-control" value="" readonly required>
-                </div>
-
-
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <label for="hn_num" class="form-label">hn_num: </label>
-                    <input type="text" name="hn_num" id="hn_num" class="form-control" value="" readonly required>
-                </div>
-
+                    </tbody>
+                </table>
             </div>
-            <br>
-
-
-
-            <hr>
-            <div class="row <?= $isBorder ? "border" : "" ?>">
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <!--<label for="" class="form-label">Select Letter::</label>-->
-                    Select Letter::
-                    <?php
-                    echo '<select name="letter" id="letter" required>';
-                    //echo '<option value=""></option>';
-                    foreach (range("A", "Z") as $letter) {
-                        echo '<option value="' .
-                            $letter .
-                            '">' .
-                            $letter .
-                            "</option>";
-                    }
-                    echo "</select>";
-                    ?>
-                </div>
-
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <!--<label for="" class="form-label">           Number from::</label>-->
-                    Number from::
-                    <?php
-                    echo '<select name="start_num" id="start_num"  required>';
-                    //echo '<option value=""></option>';
-                    for ($i = 1; $i <= 99; $i++) {
-                        echo '<option value="' . $i . '">' . $i . "</option>";
-                    }
-                    echo "</select>";
-                    ?>
-                </div>
-
-                <div class="col-xl-4 col-md-6 <?= $isBorder
-                    ? "border"
-                    : "" ?> ">
-                    <!--<label for="" class="form-label"> Number to::</label>-->
-                    Number to::
-                    <?php
-                    echo '<select name="end_num" id="end_num" required>';
-                    //echo '<option value=""></option>';
-                    for ($i = 1; $i <= 99; $i++) {
-                        echo '<option value="' . $i . '">' . $i . "</option>";
-                    }
-                    echo "</select>";
-                    ?>
-                </div>
-
+            <div class="text-center">
+                <form action="" method="post" class="d-inline-block">
+                    <button name="delAll" type="submit" class="modern-btn-danger">
+                        <i class="fas fa-trash-alt me-2"></i>Remove All List
+                    </button>
+                    <input type="hidden" name="userid" readonly="readonly" value="<?= $_SESSION[
+                        "userid"
+                    ] ?>">
+                </form>
             </div>
-
-            <br>
-
-
-            <div class="">
-                <button name="add" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Add to list&nbsp;&nbsp;</button>
-            </div>
-            <input type="hidden" name="userid" id="userid" readonly="readonly" value="<?= $_SESSION[
-                "userid"
-            ] ?>">
-
-
-        </form>
-
-        <br>
-
         </div>
+    </div>
+
+    <br>
+
+    <div class="modern-card mb-4">
+        <div class="card-header-custom">
+            <h1><i class="fas fa-plus-circle me-2"></i>Fill in data for insert to list</h1>
+        </div>
+        <div class="card-body-custom">
+            <form action="" id="form_add_record" method="post" class="">
+                <div class="form-row-custom mb-4">
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <label for="target_accept_date" class="modern-label">
+                                <i class="far fa-calendar-alt me-1"></i>Accept Date
+                            </label>
+                            <input type="text" name="target_accept_date" id="target_accept_date" class="modern-form-control" placeholder="Select date">
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <span id="pnum_id_span">
+                                <label for="pnum_id" class="modern-label">
+                                    <i class="fas fa-barcode me-1"></i>SN Number
+                                </label>
+                                <select name="pnum_id" id="pnum_id" class="modern-select" required>
+                                    <option value="">Select SN Number</option>
+                                    <?php foreach (
+                                        $patientLists
+                                        as $patient
+                                    ): ?>
+                                        <option value="<?= htmlspecialchars(
+                                            $patient["pid"],
+                                        ) ?>"
+                                                p_pnum="<?= htmlspecialchars(
+                                                    $patient["p_pnum"],
+                                                ) ?>"
+                                                patho_abbreviation="<?= htmlspecialchars(
+                                                    $patient["ab_patho"],
+                                                ) ?>"
+                                                accept_date="<?= htmlspecialchars(
+                                                    $patient["accept_date"],
+                                                ) ?>">
+                                            <?= htmlspecialchars(
+                                                $patient["p_pnum"],
+                                            ) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </span>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <label for="patho_abbreviation" class="modern-label">
+                                <i class="fas fa-file-medical me-1"></i>Pathology Abbreviation
+                            </label>
+                            <input type="text" name="patho_abbreviation" id="patho_abbreviation" class="modern-form-control" value="" readonly required>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <label for="accept_date" class="modern-label">
+                                <i class="far fa-calendar me-1"></i>Accept Date
+                            </label>
+                            <input type="text" name="accept_date" id="accept_date" class="modern-form-control" value="" readonly required>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <label for="hn_num" class="modern-label">
+                                <i class="fas fa-hospital me-1"></i>HN Number
+                            </label>
+                            <input type="text" name="hn_num" id="hn_num" class="modern-form-control" value="" readonly required>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="modern-hr"></div>
+
+                <div class="section-title">
+                    <i class="fas fa-sliders-h me-2"></i>Label Configuration
+                </div>
+
+                <div class="form-row-custom">
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <label class="select-label-inline">
+                                <i class="fas fa-font me-1"></i>Select Letter:
+                            </label>
+                            <?php
+                            echo '<select name="letter" id="letter" class="modern-select" required>';
+                            foreach (range("A", "Z") as $letter) {
+                                echo '<option value="' .
+                                    $letter .
+                                    '">' .
+                                    $letter .
+                                    "</option>";
+                            }
+                            echo "</select>";
+                            ?>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <label class="select-label-inline">
+                                <i class="fas fa-sort-numeric-up me-1"></i>Number From:
+                            </label>
+                            <?php
+                            echo '<select name="start_num" id="start_num" class="modern-select" required>';
+                            for ($i = 1; $i <= 99; $i++) {
+                                echo '<option value="' .
+                                    $i .
+                                    '">' .
+                                    $i .
+                                    "</option>";
+                            }
+                            echo "</select>";
+                            ?>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 form-group-custom">
+                            <label class="select-label-inline">
+                                <i class="fas fa-sort-numeric-down me-1"></i>Number To:
+                            </label>
+                            <?php
+                            echo '<select name="end_num" id="end_num" class="modern-select" required>';
+                            for ($i = 1; $i <= 99; $i++) {
+                                echo '<option value="' .
+                                    $i .
+                                    '">' .
+                                    $i .
+                                    "</option>";
+                            }
+                            echo "</select>";
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button name="add" type="submit" class="modern-btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add to List
+                    </button>
+                </div>
+                <input type="hidden" name="userid" id="userid" readonly="readonly" value="<?= $_SESSION[
+                    "userid"
+                ] ?>">
+            </form>
+        </div>
+    </div>
     <br>
 
 
-    <div id="sn_number_list"  class="bg-nb bg-blue-a rounded p-3 mx-1 border border-secondary">
-    <h1 class="text-center mb-3">All SN Number List</h1>
-    <div class="table-responsive">
-        <table id="snDataTable" class="table table-striped table-bordered table-hover" style="width:100%">
-            <thead class="table-dark">
-                <tr>
-                    <th>No.</th>
-                    <th>SN Number</th>
-                    <th>HN Number</th>
-                    <th>Pathology</th>
-                    <th>Accept Date</th>
-                    <th>Letter</th>
-                    <th>Number from</th>
-                    <th>Number to</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center mt-3">
-        <button id="btn_add_all_to_list" type="button" class="btn btn-success btn-lg">&nbsp;&nbsp;Add All to List&nbsp;&nbsp;</button>
-    </div>
+    <div class="modern-card mb-4">
+        <div class="card-header-custom">
+            <h1><i class="fas fa-list me-2"></i>All SN Number List</h1>
+        </div>
+        <div class="card-body-custom">
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table id="snDataTable" class="modern-table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>SN Number</th>
+                                <th>HN Number</th>
+                                <th>Pathology</th>
+                                <th>Accept Date</th>
+                                <th>Letter</th>
+                                <th>Number from</th>
+                                <th>Number to</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button id="btn_add_all_to_list" type="button" class="modern-btn-success">
+                    <i class="fas fa-layer-group me-2"></i>Add All to List
+                </button>
+            </div>
+        </div>
     </div>
 
 
     <!-- ===============================================
     button to show pdf section =========================
     ====================================================-->
-    <hr>
-    <h1>
-        Generate Sticker Slide
-    </h1>
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <h3>1. Generate PDF (Paper A4) (Sticker Label 2.3x2.0 cm)  </h3>
-        <div class="">
-
-            <label for="1A">A:</label>
-            <input type="text" id="1A" name="1A" value="2.5">
-
-            <label for="1B">B:</label>
-            <input type="text" id="1B" name="1B"  value="2.5">
-
-            <label for="1X">X:</label>
-            <input type="text" id="1X" name="1X"  value="3.6">
-
-            <label for="1Y">Y:</label>
-            <input type="text" id="1Y" name="1Y"  value="6.0">
-
-            <br><br>
-                <button name="viewpdf1" id="viewpdf1a" class="btn btn-primary" onclick="onBtnViewPdf1A()">&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
-                <button name="viewpdf1" id="viewpdf1b" class="btn btn-primary" onclick="onBtnViewPdf1B()">&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
+    <div class="modern-card mb-4">
+        <div class="card-header-custom">
+            <h1><i class="fas fa-print me-2"></i>Generate Sticker Slide</h1>
+        </div>
+        <div class="card-body-custom">
+            <h3 class="section-title">
+                <i class="fas fa-file-pdf me-2"></i>1. Generate PDF (Paper A4) - Sticker Label 2.3x2.0 cm
+            </h3>
+            <div class="form-row-custom">
+                <div class="row">
+                    <div class="col-md-3 form-group-custom">
+                        <label for="1A" class="modern-label">A:</label>
+                        <input type="text" id="1A" name="1A" value="2.5" class="modern-form-control">
+                    </div>
+                    <div class="col-md-3 form-group-custom">
+                        <label for="1B" class="modern-label">B:</label>
+                        <input type="text" id="1B" name="1B" value="2.5" class="modern-form-control">
+                    </div>
+                    <div class="col-md-3 form-group-custom">
+                        <label for="1X" class="modern-label">X:</label>
+                        <input type="text" id="1X" name="1X" value="3.6" class="modern-form-control">
+                    </div>
+                    <div class="col-md-3 form-group-custom">
+                        <label for="1Y" class="modern-label">Y:</label>
+                        <input type="text" id="1Y" name="1Y" value="6.0" class="modern-form-control">
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button name="viewpdf1" id="viewpdf1a" class="modern-btn-primary me-2" onclick="onBtnViewPdf1A()">
+                        <i class="fas fa-border-all me-2"></i>Generate with grid line
+                    </button>
+                    <button name="viewpdf1" id="viewpdf1b" class="modern-btn-primary" onclick="onBtnViewPdf1B()">
+                        <i class="far fa-square me-2"></i>Generate with no grid line
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
 
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <h3>2. Generate PDF (Paper 76mm x 20mm) (Sticker Label 2.3x2.0cm x3 per row)  </h3>
-        <div class="">
+    <div class="modern-card mb-4">
+        <div class="card-header-custom">
+            <h3><i class="fas fa-file-invoice me-2"></i>2. Generate PDF (Paper 76mm x 20mm) - Sticker Label 2.3x2.0cm x3 per row</h3>
+        </div>
+        <div class="card-body-custom text-center">
             <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION[
     "userid"
-] ?>"  target="_blank">
-                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
+] ?>" target="_blank" class="text-decoration-none">
+                <button name="viewpdf2" id="viewpdf2" type="submit" class="modern-btn-primary me-3">
+                    <i class="fas fa-border-all me-2"></i>Generate with grid line
+                </button>
             </a>
             <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION[
     "userid"
-] ?>&ishideborder"  target="_blank">
-                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
+] ?>&ishideborder" target="_blank" class="text-decoration-none">
+                <button name="viewpdf2" id="viewpdf2" type="submit" class="modern-btn-primary">
+                    <i class="far fa-square me-2"></i>Generate with no grid line
+                </button>
             </a>
         </div>
     </div>
@@ -351,45 +658,65 @@ if (!$labelPrints) {
     <!-- ===============================================
     button to show pdf section =========================
     ====================================================-->
-    <hr>
-    <h1>
-        Generate Sticker Specimen (Print x2 per record)
-    </h1>
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <h3>1. Generate PDF (Paper 5.0cmx2.5cm) (Sticker Label 5.0cmx2.5cm x1 per row)  </h3>
-        <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
-    "userid"
-] ?>"  target="_blank">
-                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
-            </a>
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
-    "userid"
-] ?>&ishideborder"  target="_blank">
-                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
-            </a>
+    <div class="modern-card mb-4">
+        <div class="card-header-custom">
+            <h1><i class="fas fa-tags me-2"></i>Generate Sticker Specimen (Print x2 per record)</h1>
         </div>
-    </div>
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <h3>2. Generate PDF (Paper 5.0cmx1.9cm) (Sticker Label 5.0cmx1.9cm x1 per row)  </h3>
-        <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
+        <div class="card-body-custom">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h3 class="section-title">
+                        <i class="fas fa-file-invoice me-2"></i>1. Generate PDF (Paper 5.0cm x 2.5cm) - Sticker Label 5.0cm x 2.5cm x1 per row
+                    </h3>
+                    <div class="text-center">
+                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
     "userid"
-] ?>"  target="_blank">
-                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
-            </a>
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
+] ?>" target="_blank" class="text-decoration-none">
+                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary me-2">
+                                <i class="fas fa-border-all me-2"></i>Generate with grid line
+                            </button>
+                        </a>
+                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
     "userid"
-] ?>&ishideborder"  target="_blank">
-                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
-            </a>
+] ?>&ishideborder" target="_blank" class="text-decoration-none">
+                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary">
+                                <i class="far fa-square me-2"></i>Generate with no grid line
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="section-title">
+                        <i class="fas fa-file-invoice me-2"></i>2. Generate PDF (Paper 5.0cm x 1.9cm) - Sticker Label 5.0cm x 1.9cm x1 per row
+                    </h3>
+                    <div class="text-center">
+                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
+    "userid"
+] ?>" target="_blank" class="text-decoration-none">
+                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary me-2">
+                                <i class="fas fa-border-all me-2"></i>Generate with grid line
+                            </button>
+                        </a>
+                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
+    "userid"
+] ?>&ishideborder" target="_blank" class="text-decoration-none">
+                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary">
+                                <i class="far fa-square me-2"></i>Generate with no grid line
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <hr>
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        <h1>Configuration</h1>
-        <img src="generate_label/configuration.png" alt="Configuration Image">
+    <div class="modern-card">
+        <div class="card-header-custom">
+            <h1><i class="fas fa-cogs me-2"></i>Configuration</h1>
+        </div>
+        <div class="card-body-custom text-center">
+            <img src="generate_label/configuration.png" alt="Configuration Image" class="config-image img-fluid">
+        </div>
     </div>
 </div>
 
