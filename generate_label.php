@@ -1301,6 +1301,10 @@ if (!$labelPrints) {
         let failCount = 0;
         let totalRows = 0;
 
+        // Disable button and show loading state
+        let $btn = $('#btn_add_all_to_list');
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Adding...');
+
         // Get all rows from the DataTable
         let table = $('#snDataTable').DataTable();
         let rows = table.rows().nodes();
@@ -1308,6 +1312,8 @@ if (!$labelPrints) {
 
         if (totalRows === 0) {
             alert('No SN numbers to add!');
+            // Re-enable button
+            $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
             return;
         }
 
@@ -1373,6 +1379,8 @@ if (!$labelPrints) {
         // Check if there are records to send
         if (recordsArray.length === 0) {
             alert('No valid records to add!');
+            // Re-enable button
+            $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
             return;
         }
 
@@ -1389,6 +1397,9 @@ if (!$labelPrints) {
             url: 'ajax_data/generate_label_add_multiple_record.php',
             data: requestData,
             success: function (response) {
+                // Re-enable button
+                $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
+
                 try {
                     let responseData = typeof response === 'string' ? JSON.parse(response) : response;
                     // alert(responseData.message || 'Added ' + recordsArray.length + ' SN numbers successfully!');
@@ -1412,6 +1423,9 @@ if (!$labelPrints) {
                 }
             },
             error: function (jqxhr, status, exception) {
+                // Re-enable button
+                $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
+
                 console.error('Error adding SN numbers:', status, exception);
                 console.error('Response Text:', jqxhr.responseText);
                 let errorMsg = 'Error adding SN numbers. Status: ' + status;
