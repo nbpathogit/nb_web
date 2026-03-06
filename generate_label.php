@@ -273,8 +273,24 @@ if (!$labelPrints) {
     <br>
 
 
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
-        </div>
+    <div id="sn_number_list"  class="bg-nb bg-blue-a rounded p-3 mx-1 border border-secondary">
+    <h1 class="text-center mb-3">All SN Number List</h1>
+    <div class="table-responsive">
+        <table id="snDataTable" class="table table-striped table-bordered table-hover" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>SN Number</th>
+                    <th>HN Number</th>
+                    <th>Pathology</th>
+                    <th>Accept Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    </div>
 
 
     <!-- ===============================================
@@ -659,7 +675,43 @@ if (!$labelPrints) {
             accept_date: li.getAttribute("accept_date")
           };
         });
-        //alert("pause");
+
+        //====== Populate DataTable for All SN Number List ======
+        let $snDataTable = $("#snDataTable");
+
+        // Check if DataTable already exists, if yes destroy it first
+        if ($.fn.DataTable.isDataTable('#snDataTable')) {
+            $('#snDataTable').DataTable().clear().destroy();
+        }
+
+        // Clear table body
+        $snDataTable.find("tbody").empty();
+
+        // Loop through pnumjson and add rows to table
+        $.each(pnumjson, function(index, item) {
+            let acceptDateFormatted = convertDateFormat(item.accept_date);
+
+            $snDataTable.find("tbody").append(
+                "<tr>" +
+                "<td>" + (index + 1) + "</td>" +
+                "<td>" + item.p_pnum + "</td>" +
+                "<td>" + item.p_phospital_num + "</td>" +
+                "<td>" + item.name_patho + " (" + item.ab_patho + ")</td>" +
+                "<td>" + acceptDateFormatted + "</td>" +
+                "</tr>"
+            );
+        });
+
+        // Initialize DataTable
+        $("#snDataTable").DataTable({
+            "responsive": true,
+            "pageLength": 10,
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "language": {
+                "emptyTable": "No SN numbers found for this date"
+            },
+            "order": [[0, "asc"]]
+        });
 
     }
 
