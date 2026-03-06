@@ -880,8 +880,8 @@ if (!$labelPrints) {
 
                         $("#snDataTable").find("tbody").append(
                             "<tr id='" + rowId + "' class='" + rowClass + "'>" +
-                            "<td>" + (index + 1) + finishedBadge + "</td>" +
-                            "<td>" + item.p_pnum + "</td>" +
+                            "<td>" + (index + 1) + "</td>" +
+                            "<td>" + item.p_pnum + finishedBadge + "</td>" +
                             "<td>" + item.p_phospital_num + "</td>" +
                             "<td>" + item.name_patho + "</td>" +
                             "<td>" + acceptDateFormatted + "</td>" +
@@ -1244,8 +1244,8 @@ if (!$labelPrints) {
 
             $snDataTable.find("tbody").append(
                 "<tr id='" + rowId + "' class='" + rowClass + "'>" +
-                "<td>" + (index + 1) + finishedBadge + "</td>" +
-                "<td>" + item.p_pnum + "</td>" +
+                "<td>" + (index + 1) + "</td>" +
+                "<td>" + item.p_pnum + finishedBadge + "</td>" +
                 "<td>" + item.p_phospital_num + "</td>" +
                 "<td>" + item.name_patho + "</td>" +
                 "<td>" + acceptDateFormatted + "</td>" +
