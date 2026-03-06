@@ -762,11 +762,7 @@ if (!$labelPrints) {
 
     // Function to add all SN numbers from DataTable to the print list
     function addAllToListAsync() {
-        console.log("=== addAllToListAsync called ===");
-
         let user_id = $('#userid').val();
-        console.log("User ID:", user_id);
-
         let successCount = 0;
         let failCount = 0;
         let totalRows = 0;
@@ -776,40 +772,24 @@ if (!$labelPrints) {
         let rows = table.rows().nodes();
         totalRows = rows.length;
 
-        console.log("Total rows found:", totalRows);
-
         if (totalRows === 0) {
             alert('No SN numbers to add!');
             return;
         }
 
-        // Confirm before adding all
-        if (!confirm('Are you sure you want to add ' + totalRows + ' SN numbers to the list?')) {
-            console.log("User cancelled the operation");
-            return;
-        }
+        // Collect all records into arrays
+        let recordsArray = [];
 
-        console.log("Starting to add rows...");
-
-        // Loop through each row
+        // Loop through each row and collect data
         $(rows).each(function(index, row) {
-            console.log("Processing row index:", index);
 
             // Get data from the row using the row's cells
             let $row = $(row);
-
-            // Debug: show the entire row HTML
-            console.log("Row HTML:", $row.html());
-
-            // Get the data-pid from the letter-select element
             let $letterSelect = $row.find('.letter-select');
             let pid = $letterSelect.data('pid');
-            console.log("Found PID:", pid);
 
             // Get values from table cells
             let $cells = $row.find('td');
-            console.log("Number of cells:", $cells.length);
-
             let sn_num = $cells.eq(1).text().trim();
             let hn_num = $cells.eq(2).text().trim();
             let patho_full = $cells.eq(3).text().trim();
@@ -828,77 +808,73 @@ if (!$labelPrints) {
             let end_num = $row.find('.end-num-select').val();
             let company_name = "N.B.Pathology";
 
-            console.log("Row " + (index + 1) + " data:");
-            console.log("  PID:", pid);
-            console.log("  SN Number:", sn_num);
-            console.log("  HN Number:", hn_num);
-            console.log("  Pathology Abbrev:", patho_abbrev);
-            console.log("  Accept Date:", accept_date);
-            console.log("  Letter:", letter);
-            console.log("  Start Num:", start_num);
-            console.log("  End Num:", end_num);
-
-            // Validate data before sending
+            // Validate data before adding to array
             if (!pid || !sn_num) {
-                console.error("Missing required data for row " + (index + 1));
                 failCount++;
                 return; // Skip this row
             }
 
             // Skip if letter is "none"
             if (letter === 'none' || !letter) {
-                console.log("Skipping row " + (index + 1) + " - Letter is not selected");
                 return; // Skip this row
             }
 
-            // Prepare data to send
-            let requestData = {
+            // Add record to array
+            recordsArray.push({
                 'patient_id': pid,
                 'userid': user_id,
                 'sn_num': sn_num,
                 'hn_num': hn_num,
                 'patho_abbrev': patho_abbrev,
                 'accept_date': accept_date,
-                'company_name': company_name,
+                'company_name': "N.B.Pathology",
                 'letter': letter,
                 'start_num': start_num,
                 'end_num': end_num
-            };
-
-            console.log("Sending data:", requestData);
-
-            // Send AJAX request to add this record
-            $.ajax({
-                'async': false,
-                type: 'POST',
-                'global': false,
-                url: 'ajax_data/generate_label_add_record.php',
-                data: requestData,
-                success: function (response) {
-                    console.log('✓ Success adding SN ' + sn_num + '. Response:', response);
-                    successCount++;
-                },
-                error: function (jqxhr, status, exception) {
-                    console.error('✗ Error adding SN ' + sn_num + '. Status:', status, 'Exception:', exception);
-                    console.error('Response:', jqxhr.responseText);
-                    failCount++;
-                }
             });
         });
 
-        console.log("=== Finished adding rows ===");
-        console.log("Success:", successCount, "Failed:", failCount);
+        console.log("Collected " + recordsArray.length + " valid records to send");
 
-        // Show result
-        let message = 'Added ' + successCount + ' SN numbers successfully!';
-        if (failCount > 0) {
-            message += '\nFailed: ' + failCount;
+        // Check if there are records to send
+        if (recordsArray.length === 0) {
+            alert('No valid records to add!');
+            return;
         }
-        alert(message);
 
-        // Refresh the print label table
-        console.log("Refreshing print label table...");
-        drawtableforprintlabel();
+        // Prepare data to send - send records as JSON string in POST parameter
+        let requestData = {
+            'records': JSON.stringify(recordsArray)
+        };
+
+        console.log("Adding " + recordsArray.length + " SN numbers to the list...");
+
+        // Send single AJAX request with all records
+        $.ajax({
+            type: 'POST',
+            url: 'ajax_data/generate_label_add_multiple_record.php',
+            data: requestData,
+            success: function (response) {
+                try {
+                    let responseData = typeof response === 'string' ? JSON.parse(response) : response;
+                    alert(responseData.message || 'Added ' + recordsArray.length + ' SN numbers successfully!');
+                    drawtableforprintlabel();
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                    console.error('Response:', response);
+                    alert('Error: Server returned invalid response.\n' + response.substring(0, 200));
+                }
+            },
+            error: function (jqxhr, status, exception) {
+                console.error('Error adding SN numbers:', status, exception);
+                console.error('Response Text:', jqxhr.responseText);
+                let errorMsg = 'Error adding SN numbers. Status: ' + status;
+                if (jqxhr.responseText) {
+                    errorMsg += '\nResponse: ' + jqxhr.responseText.substring(0, 200);
+                }
+                alert(errorMsg);
+            }
+        });
     }
 
     // Event handler for "Add All to List" button
@@ -922,14 +898,16 @@ if (!$labelPrints) {
                 'user_id': user_id,
             },
             success: function (data) {
-                console.log(data);//print json string
-                datajson = JSON.parse(data); //convert String to JS Object
-                for (var i in datajson)
-                {
-                    //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
-                    console.log(datajson[i].id);
+                if (!data || data.trim() === '') {
+                    datajson = [];
+                    return;
                 }
-
+                try {
+                    datajson = JSON.parse(data);
+                } catch (e) {
+                    console.error("Error parsing JSON:", e);
+                    datajson = [];
+                }
             },
             error: function (jqxhr, status, exception) {
                 alert('Exception:', exception);
@@ -961,7 +939,6 @@ if (!$labelPrints) {
                 "<td>"+datajson[i].company_name+"</td>"+
                 "</tr>");
 
-            console.log(datajson[i].id);
         }
 
     }
@@ -996,21 +973,6 @@ if (!$labelPrints) {
             let letter = $('#letter').selectize()[0].selectize.getValue();
             let start_num = $('#start_num').selectize()[0].selectize.getValue();
             let end_num = $('#end_num').selectize()[0].selectize.getValue();
-
-            // Print to console
-            console.log("patient_id:", patient_id);
-            console.log("userid:", userid);
-            console.log("sn_num:", sn_num);
-            console.log("hn_num:", hn_num);
-            console.log("patho_abbrev:", patho_abbrev);
-            console.log("accept_date:", accept_date);
-            console.log("company_name:", company_name);
-            console.log("letter:", letter);
-            console.log("start_num:", start_num);
-            console.log("end_num:", end_num);
-
-//            alert("submit");
-
 
             $.ajax({
                 'async': false,
@@ -1047,32 +1009,12 @@ if (!$labelPrints) {
         //========Update related input field when pnum_id dropdown list is changed  =====================
         $("#pnum_id").off("change").on("change", function() {
 
-            console.log('\n\n\n===================================================================\n');
-            console.log('==========================pnum_change==============================\n');
-            console.log('===================================================================\n\n\n');
-
             let selectize = $('#pnum_id').selectize()[0].selectize;            // Initialize Selectize
             let pnum_id_selected = selectize.getValue();             // Get value when needed
 
-            console.log('selectizeValue::'+pnum_id_selected)
-//            alert('selectizeValue::'+pnum_id_selected);
 
             targetpatient = resultArray.find(obj => obj.tabindex === pnum_id_selected);
             //console.log("resultArray::"+resultArray);
-
-            //resultArray.forEach(item => { console.log("Tabindex:", item.tabindex, "Pnum:", item.pnum, "HN:", item.hn_num, "Patho:", item.patho_abbreviation, "Date:", item.accept_date); });
-            console.log(JSON.stringify(resultArray, null, 2));
-            console.log("targetpatient::"+targetpatient);
-
-
-//            alert("pause for debug");
-
-            console.log('tabindex::'+targetpatient.tabindex);
-            console.log('pnum::'+targetpatient.pnum);
-            console.log('hn_num::'+targetpatient.hn_num);
-            console.log('patho_abbreviation::'+targetpatient.patho_abbreviation);
-            console.log('accept_date::'+targetpatient.accept_date);
-
 
             // Set values with jQuery
             $('#patho_abbreviation').val(targetpatient.patho_abbreviation);
@@ -1090,20 +1032,6 @@ if (!$labelPrints) {
             let letter = $('#letter').selectize()[0].selectize.getValue();
             let start_num = $('#start_num').selectize()[0].selectize.getValue();
             let end_num = $('#end_num').selectize()[0].selectize.getValue();
-
-            // Print to console
-            console.log("patient_id:", patient_id);
-            console.log("userid:", userid);
-            console.log("sn_num:", sn_num);
-            console.log("hn_num:", hn_num);
-            console.log("patho_abbrev:", patho_abbrev);
-            console.log("accept_date:", accept_date);
-            console.log("company_name:", company_name);
-            console.log("letter:", letter);
-            console.log("start_num:", start_num);
-            console.log("end_num:", end_num);
-
-            //alert('pnum_id:'+pnum_id);
 
         });
 
