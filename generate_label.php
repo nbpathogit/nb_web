@@ -1,68 +1,52 @@
 <?php
 //session_start();
-require 'includes/init.php';
-$conn = require 'includes/db.php';
+require "includes/init.php";
+$conn = require "includes/db.php";
 Auth::requireLogin();
-require 'user_auth.php';
+require "user_auth.php";
 //var_dump($_POST);
-
-
-
-
 
 //Add record to database
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+    //    if (isset($_POST['add'])) {
+    //
+    //        $labelPrint = new LabelPrint();
+    //
+    //        $labelPrint->userid = $_POST['userid'];
+    //        $labelPrint->sn_num = $_POST['sn_num'];
+    //        $labelPrint->hn_num = $_POST['hn_num'];
+    //        $labelPrint->patho_abbreviation = $_POST['patho_abbreviation'];
+    //        $labelPrint->speciment_abbreviation = $_POST['speciment_abbreviation'];
+    //        $labelPrint->accept_date = $_POST['accept_date'];
+    //
+    //        if ($labelPrint->create($conn)) {
+    //
+    //            Url::redirect("/generate_label.php");
+    //        } else {
+    //            echo '<script>alert("Add user fail. Please verify again")</script>';
+    //        }
+    //    }
 
-    
-//    if (isset($_POST['add'])) {
-//
-//        $labelPrint = new LabelPrint();
-//
-//        $labelPrint->userid = $_POST['userid'];
-//        $labelPrint->sn_num = $_POST['sn_num'];
-//        $labelPrint->hn_num = $_POST['hn_num'];
-//        $labelPrint->patho_abbreviation = $_POST['patho_abbreviation'];
-//        $labelPrint->speciment_abbreviation = $_POST['speciment_abbreviation'];
-//        $labelPrint->accept_date = $_POST['accept_date'];
-//
-//        if ($labelPrint->create($conn)) {
-//
-//            Url::redirect("/generate_label.php");
-//        } else {
-//            echo '<script>alert("Add user fail. Please verify again")</script>';
-//        }
-//    }
-    
-    
-    
-    if (isset($_POST['delAll'])) {
-
-
-        if (LabelPrint::deleteAllbyUserID($conn, $_POST['userid'])) {
+    if (isset($_POST["delAll"])) {
+        if (LabelPrint::deleteAllbyUserID($conn, $_POST["userid"])) {
             Url::redirect("/generate_label.php");
         } else {
             echo '<script>alert("Delete fail. Please verify again")</script>';
         }
     }
-    
-    
-//    if (isset($_POST['viewpdf1'])) {
-//        Url::redirect("/patient_sn_pdf1.php");
-//    }
+
+    //    if (isset($_POST['viewpdf1'])) {
+    //        Url::redirect("/patient_sn_pdf1.php");
+    //    }
 }
 
-
-
-
 //Get Specific Row from Table for generate pdf
-$labelPrints = LabelPrint::getAllbyUserID($conn, $_SESSION['userid']);
+$labelPrints = LabelPrint::getAllbyUserID($conn, $_SESSION["userid"]);
 
 //
 $patientLists = Patient::getAllJoin_forlableprint($conn, 1);
 
 //var_dump($patientLists);
-
 
 if (!$labelPrints) {
     // Skip show table
@@ -70,7 +54,7 @@ if (!$labelPrints) {
 ?>
 
 
-<?php require 'includes/header.php'; ?>
+<?php require "includes/header.php"; ?>
 
 <style>
 
@@ -90,7 +74,7 @@ if (!$labelPrints) {
 
     <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h1>Table List to print out label</h1>
-        
+
         <style>
             table {
               border-collapse: collapse;
@@ -104,8 +88,8 @@ if (!$labelPrints) {
               background-color: #f2f2f2;
             }
         </style>
-        
-        <table id="tableforprintlabel"> 
+
+        <table id="tableforprintlabel">
             <tr>
                 <th>id</td>
                 <th>User_ID </th>
@@ -117,29 +101,31 @@ if (!$labelPrints) {
                 <th>Org.</th>
 
             </tr>
-            <?php foreach ($labelPrints as $labelprint) : ?>
+            <?php foreach ($labelPrints as $labelprint): ?>
                 <tr id="" border="1">
-                    <td border="1"> <?= $labelprint['id'] ?> </td>
-                    <td> <?= $labelprint['userid'] ?> </td>
-                    <td> <?= $labelprint['sn_num'] ?> </td>
-                    <td> <?= $labelprint['hn_num'] ?> </td>
-                    <td> <?= $labelprint['patho_abbreviation'] ?> </td>
-                    <td> <?= $labelprint['speciment_abbreviation'] ?> </td>
-                    <td> <?= $labelprint['accept_date'] ?> </td>
-                    <td> <?= $labelprint['company_name'] ?> </td>
+                    <td border="1"> <?= $labelprint["id"] ?> </td>
+                    <td> <?= $labelprint["userid"] ?> </td>
+                    <td> <?= $labelprint["sn_num"] ?> </td>
+                    <td> <?= $labelprint["hn_num"] ?> </td>
+                    <td> <?= $labelprint["patho_abbreviation"] ?> </td>
+                    <td> <?= $labelprint["speciment_abbreviation"] ?> </td>
+                    <td> <?= $labelprint["accept_date"] ?> </td>
+                    <td> <?= $labelprint["company_name"] ?> </td>
                 </tr>
             <?php endforeach; ?>
 
         </table>
-        
+
         <form action="" method="post" class="">
             <div class="">
                 <button name="delAll" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Remove all list&nbsp;&nbsp;</button>
             </div>
-            <input type="hidden" name="userid"  readonly="readonly" value="<?= $_SESSION['userid'] ?>">
+            <input type="hidden" name="userid"  readonly="readonly" value="<?= $_SESSION[
+                "userid"
+            ] ?>">
         </form>
-        
-        
+
+
     </div>
 
     <br>
@@ -148,105 +134,135 @@ if (!$labelPrints) {
         <h1>Fill in data for insert to list</h1>
         <form action="" id="form_add_record" method="post" class="">
             <div class="row <?= $isBorder ? "border" : "" ?>">
-                
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <label for="target_accept_date" class="form-label">accept date: </label>
                     <input type="text" name="target_accept_date" id="target_accept_date" class="form-control">
                 </div>
-                
 
-                
-                
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+
+
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <span id="pnum_id_span">
                     <label for="pnum_id" class="">SN Number: </label>
                     <select name="pnum_id" id="pnum_id" class="" required>
                         <option value=""></option>
-                        <?php foreach ($patientLists as $patient) : ?>
-                            <option value="<?= htmlspecialchars($patient['pid']); ?>" 
-                                    p_pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
-                                    patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
-                                    accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
-                                    ><?= htmlspecialchars($patient['p_pnum']); ?>
+                        <?php foreach ($patientLists as $patient): ?>
+                            <option value="<?= htmlspecialchars(
+                                $patient["pid"],
+                            ) ?>"
+                                    p_pnum="<?= htmlspecialchars(
+                                        $patient["p_pnum"],
+                                    ) ?>"
+                                    patho_abbreviation="<?= htmlspecialchars(
+                                        $patient["ab_patho"],
+                                    ) ?>"
+                                    accept_date="<?= htmlspecialchars(
+                                        $patient["accept_date"],
+                                    ) ?>"
+                                    ><?= htmlspecialchars($patient["p_pnum"]) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                     </span>
                 </div>
-                
-                
 
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <label for="patho_abbreviation" class="form-label">patho_Abbreviation: </label>
                     <input type="text" name="patho_abbreviation" id="patho_abbreviation" class="form-control" value="" readonly required>
                 </div>
 
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <label for="accept_date" class="form-label">accept_date: </label>
                     <input type="text" name="accept_date" id="accept_date" class="form-control" value="" readonly required>
                 </div>
-            
-            
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <label for="hn_num" class="form-label">hn_num: </label>
                     <input type="text" name="hn_num" id="hn_num" class="form-control" value="" readonly required>
                 </div>
-                
+
             </div>
             <br>
-            
-            
-            
+
+
+
             <hr>
             <div class="row <?= $isBorder ? "border" : "" ?>">
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <!--<label for="" class="form-label">Select Letter::</label>-->
                     Select Letter::
                     <?php
                     echo '<select name="letter" id="letter" required>';
                     //echo '<option value=""></option>';
-                    foreach (range('A', 'Z') as $letter) {
-                        echo '<option value="' . $letter . '">' . $letter . '</option>';
+                    foreach (range("A", "Z") as $letter) {
+                        echo '<option value="' .
+                            $letter .
+                            '">' .
+                            $letter .
+                            "</option>";
                     }
-                    echo '</select>';
+                    echo "</select>";
                     ?>
                 </div>
-                
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <!--<label for="" class="form-label">           Number from::</label>-->
                     Number from::
                     <?php
                     echo '<select name="start_num" id="start_num"  required>';
                     //echo '<option value=""></option>';
                     for ($i = 1; $i <= 99; $i++) {
-                        echo '<option value="' . $i . '">' . $i . '</option>';
+                        echo '<option value="' . $i . '">' . $i . "</option>";
                     }
-                    echo '</select>';
+                    echo "</select>";
                     ?>
                 </div>
-                    
-                <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
                     <!--<label for="" class="form-label"> Number to::</label>-->
                     Number to::
                     <?php
                     echo '<select name="end_num" id="end_num" required>';
                     //echo '<option value=""></option>';
                     for ($i = 1; $i <= 99; $i++) {
-                        echo '<option value="' . $i . '">' . $i . '</option>';
+                        echo '<option value="' . $i . '">' . $i . "</option>";
                     }
-                    echo '</select>';
+                    echo "</select>";
                     ?>
                 </div>
-                
+
             </div>
-            
+
             <br>
-         
-            
+
+
             <div class="">
                 <button name="add" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Add to list&nbsp;&nbsp;</button>
             </div>
-            <input type="hidden" name="userid" id="userid" readonly="readonly" value="<?= $_SESSION['userid'] ?>">
+            <input type="hidden" name="userid" id="userid" readonly="readonly" value="<?= $_SESSION[
+                "userid"
+            ] ?>">
 
 
         </form>
@@ -255,9 +271,11 @@ if (!$labelPrints) {
 
         </div>
     <br>
-    
-    
-    
+
+
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        </div>
+
 
     <!-- ===============================================
     button to show pdf section =========================
@@ -269,7 +287,7 @@ if (!$labelPrints) {
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h3>1. Generate PDF (Paper A4) (Sticker Label 2.3x2.0 cm)  </h3>
         <div class="">
-            
+
             <label for="1A">A:</label>
             <input type="text" id="1A" name="1A" value="2.5">
 
@@ -281,28 +299,32 @@ if (!$labelPrints) {
 
             <label for="1Y">Y:</label>
             <input type="text" id="1Y" name="1Y"  value="6.0">
-            
+
             <br><br>
                 <button name="viewpdf1" id="viewpdf1a" class="btn btn-primary" onclick="onBtnViewPdf1A()">&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
                 <button name="viewpdf1" id="viewpdf1b" class="btn btn-primary" onclick="onBtnViewPdf1B()">&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
         </div>
     </div>
 
-        
-    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">    
+
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h3>2. Generate PDF (Paper 76mm x 20mm) (Sticker Label 2.3x2.0cm x3 per row)  </h3>
         <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+            <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION[
+    "userid"
+] ?>"  target="_blank">
                 <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
             </a>
-            <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
+            <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION[
+    "userid"
+] ?>&ishideborder"  target="_blank">
                 <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
             </a>
         </div>
     </div>
-    
 
-    
+
+
 
     <!-- ===============================================
     button to show pdf section =========================
@@ -314,10 +336,14 @@ if (!$labelPrints) {
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h3>1. Generate PDF (Paper 5.0cmx2.5cm) (Sticker Label 5.0cmx2.5cm x1 per row)  </h3>
         <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
+    "userid"
+] ?>"  target="_blank">
                 <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
             </a>
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
+    "userid"
+] ?>&ishideborder"  target="_blank">
                 <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
             </a>
         </div>
@@ -325,15 +351,19 @@ if (!$labelPrints) {
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h3>2. Generate PDF (Paper 5.0cmx1.9cm) (Sticker Label 5.0cmx1.9cm x1 per row)  </h3>
         <div class="">
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION['userid'] ?>"  target="_blank">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
+    "userid"
+] ?>"  target="_blank">
                 <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
             </a>
-            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION['userid'] ?>&ishideborder"  target="_blank">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
+    "userid"
+] ?>&ishideborder"  target="_blank">
                 <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
             </a>
         </div>
     </div>
-    
+
     <hr>
     <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
         <h1>Configuration</h1>
@@ -342,57 +372,63 @@ if (!$labelPrints) {
 </div>
 
 
-<?php $hidden_data2dom=TRUE; ?>
+<?php $hidden_data2dom = true; ?>
 <!-- Container where we will add the form -->
 <div id="formContainer"></div>
 
-<?php if (isset( $patientLists   )): ?>  
-    <ul class="patientlist" id="patientlist" style="<?= $hidden_data2dom ? "display: none;" : "" ?>" >
-        <?php foreach ($patientLists as $patient) : ?>
-            <li 
-                tabindex="<?= $patient['pid'] ?>" 
-                pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
-                hn_num="<?= htmlspecialchars($patient['p_phospital_num']); ?>" 
-                patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
-                accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
+<?php if (isset($patientLists)): ?>
+    <ul class="patientlist" id="patientlist" style="<?= $hidden_data2dom
+        ? "display: none;"
+        : "" ?>" >
+        <?php foreach ($patientLists as $patient): ?>
+            <li
+                tabindex="<?= $patient["pid"] ?>"
+                pnum="<?= htmlspecialchars($patient["p_pnum"]) ?>"
+                hn_num="<?= htmlspecialchars($patient["p_phospital_num"]) ?>"
+                patho_abbreviation="<?= htmlspecialchars(
+                    $patient["ab_patho"],
+                ) ?>"
+                accept_date="<?= htmlspecialchars($patient["accept_date"]) ?>"
                 >
-                tabindex="<?= $patient['pid'] ?>" 
-                pnum="<?= htmlspecialchars($patient['p_pnum']); ?>" 
-                hn_num="<?= htmlspecialchars($patient['p_phospital_num']); ?>" 
-                patho_abbreviation="<?= htmlspecialchars($patient['ab_patho']); ?>" 
-                accept_date="<?= htmlspecialchars($patient['accept_date']); ?>" 
+                tabindex="<?= $patient["pid"] ?>"
+                pnum="<?= htmlspecialchars($patient["p_pnum"]) ?>"
+                hn_num="<?= htmlspecialchars($patient["p_phospital_num"]) ?>"
+                patho_abbreviation="<?= htmlspecialchars(
+                    $patient["ab_patho"],
+                ) ?>"
+                accept_date="<?= htmlspecialchars($patient["accept_date"]) ?>"
             </li>
-        <?php endforeach; ?> 
-    </ul>     
+        <?php endforeach; ?>
+    </ul>
 <?php endif; ?>
 
 
 
-<?php require 'includes/footer.php'; ?>
+<?php require "includes/footer.php"; ?>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <!--<script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
-    
+
     var resultArray;
     var targetpatient;
-    var cur_user_id = "<?= $_SESSION['userid'] ?>";
-    
+    var cur_user_id = "<?= $_SESSION["userid"] ?>";
+
     function retrivepnumbyacceptdate() {
         //let tardate = $("#target_accept_date").val();
         //alert("tardate::"+tardate);
         drawSelectionAndDOM();
     }
-    
-    
+
+
     $(function() {
         $("#target_accept_date").datepicker({
             dateFormat: 'yy-mm-dd'
         });
 
     });
-    
+
     function openPdf1(x,y,a,b,ishideborder){
         if(ishideborder){
             window.open("sn_pdf1.php?userid="+cur_user_id+"&a="+a+"&b="+b+"&x="+x+"&y="+y+"&ishideborder", "_blank");
@@ -426,8 +462,8 @@ if (!$labelPrints) {
 //        alert('a');
         openPdf1(x,y,a,b,true);
     }
-    
-    
+
+
     function drawSelectionAndDOM(){
         //$patientLists = Patient::getAllJoin_forlableprint($conn, 1);
         let user_id = $('#userid').val();
@@ -460,7 +496,7 @@ if (!$labelPrints) {
                 alert('Exception:', exception);
             }
         });
-        
+
         //====== print selection.=====
         //==Expect output==
         //------before selectize---------
@@ -468,11 +504,11 @@ if (!$labelPrints) {
         //    <label for="pnum_id" class="">SN Number: </label>
         //    <select name="pnum_id" id="pnum_id" class="" required>
         //        <option value=""></option>
-        //       
-        //            <option value="pid" 
-        //                    p_pnum="p_pnum" 
-        //                    patho_abbreviation="ab_patho" 
-        //                    accept_date="accept_date" 
+        //
+        //            <option value="pid"
+        //                    p_pnum="p_pnum"
+        //                    patho_abbreviation="ab_patho"
+        //                    accept_date="accept_date"
         //                    >
         //            </option>
         //    </select>
@@ -501,7 +537,7 @@ if (!$labelPrints) {
 
         // Step 2: Clear existing options
         $select_pnum_id_span.empty();
-        
+
         // Create and append a new label element with attributes
         // <label for="pnum_id" class="">SN Number: </label>
         let newLabel = $("<label>", {
@@ -510,7 +546,7 @@ if (!$labelPrints) {
           text: "SN Number: " // text inside the label
         });
         $select_pnum_id_span.append(newLabel);
-        
+
         // Create and append a new select element with attributes
         // <select name="pnum_id" id="pnum_id" class="" required>
         let newselectBox = $("<select>", {
@@ -524,12 +560,12 @@ if (!$labelPrints) {
           value: "",
           text: "-- Select SN --"
         }));
-        
+
         $select_pnum_id_span.append(newselectBox);
 
         // Step 3: Loop through JSON and add new options
         //{"pid":"34796","p_pnum":"PN2600008","p_phospital_num":"7995","name_patho":"\u0e07","ab_patho":"AC.","accept_date":"2026-01-07"}
-                  
+
         $.each(pnumjson, function(index, item) {
 //            console.log();
 //            console.log("item.pid"+item.pid);
@@ -539,10 +575,10 @@ if (!$labelPrints) {
 //            console.log("item.ab_patho"+item.ab_patho);
 //            console.log("item.accept_date"+item.accept_date);
             //-------------Draw following structure-------------
-            //            <option value="pid" 
-            //                    p_pnum="p_pnum" 
-            //                    patho_abbreviation="ab_patho" 
-            //                    accept_date="accept_date" 
+            //            <option value="pid"
+            //                    p_pnum="p_pnum"
+            //                    patho_abbreviation="ab_patho"
+            //                    accept_date="accept_date"
             //                    >
             //            </option>
             //-------------------------------------------------
@@ -555,38 +591,38 @@ if (!$labelPrints) {
               accept_date: item.accept_date,
               text: (index + 1) + ":: " +item.p_pnum,
             }));
-   
+
         });
-        
+
         $('#pnum_id').selectize({
 //            sortField: 'text'
         });
-        
 
-        
-        
-        
+
+
+
+
         //====== print to DOM========
         //----Expect data to DOM---
         //<ul class="patientlist" style="display: none">
-        //        <li 
-        //            tabindex=" $patient['pid'] " 
-        //            pnum=" ($patient['p_pnum']); " 
-        //            hn_num=" ($patient['p_phospital_num']); " 
-        //            patho_abbreviation=" ($patient['ab_patho']); " 
-        //            accept_date=" ($patient['accept_date']); " 
+        //        <li
+        //            tabindex=" $patient['pid'] "
+        //            pnum=" ($patient['p_pnum']); "
+        //            hn_num=" ($patient['p_phospital_num']); "
+        //            patho_abbreviation=" ($patient['ab_patho']); "
+        //            accept_date=" ($patient['accept_date']); "
         //            >
-        //            tabindex=" $patient['pid'] " 
-        //            pnum=" ($patient['p_pnum']); " 
-        //            hn_num=" ($patient['p_phospital_num']); " 
-        //            patho_abbreviation=" ($patient['ab_patho']); " 
-        //            accept_date=" ($patient['accept_date']); " 
+        //            tabindex=" $patient['pid'] "
+        //            pnum=" ($patient['p_pnum']); "
+        //            hn_num=" ($patient['p_phospital_num']); "
+        //            patho_abbreviation=" ($patient['ab_patho']); "
+        //            accept_date=" ($patient['accept_date']); "
         //        </li>
-        //</ul>  
+        //</ul>
         //--------------------------------------
         let uldom = $("#patientlist");
         uldom.empty();
-        
+
         $.each(pnumjson, function(index, item) {
 //            console.log();
 //            console.log("item.pid"+item.pid);
@@ -608,7 +644,7 @@ if (!$labelPrints) {
         });
         //============================================================================
         inifunction();
-        
+
         // Select all <li> inside the ul.patientlist
         // Then keep as global variable resultArray
         const items = document.querySelectorAll("ul.patientlist li");
@@ -624,10 +660,10 @@ if (!$labelPrints) {
           };
         });
         //alert("pause");
-        
+
     }
-    
-    
+
+
     function drawtableforprintlabel() {
         let user_id = $('#userid').val();
         let datajson;
@@ -656,15 +692,15 @@ if (!$labelPrints) {
             }
         });
 
-        
+
         // print to table
-        // Get the table element by ID 
-        let $tablelabel = $("#tableforprintlabel"); 
-        
-        // Remove everything inside the table (rows, cells, etc.) 
+        // Get the table element by ID
+        let $tablelabel = $("#tableforprintlabel");
+
+        // Remove everything inside the table (rows, cells, etc.)
         $tablelabel.empty();
-        
-        //Append a new row 
+
+        //Append a new row
         $tablelabel.append("<tr> <th>id</td> <th>User_ID </th> <th>SN_Num</th> <th>HN_Num</th> <th>PathoAbrev</th> <th>SpeciAbrev</th> <th>admit_date</th> <th>Org.</th> </tr>");
         for (var i in datajson)
         {
@@ -680,13 +716,13 @@ if (!$labelPrints) {
                 "<td>"+datajson[i].accept_date+"</td>"+
                 "<td>"+datajson[i].company_name+"</td>"+
                 "</tr>");
-        
+
             console.log(datajson[i].id);
         }
-        
+
     }
 
-    
+
     function convertDateFormat(dateStr) {
         // Split the string into parts
         const parts = dateStr.split("-"); // ["2025", "12", "08"]
@@ -698,9 +734,9 @@ if (!$labelPrints) {
         // Return in DD/MM/YYYY format
         return `${day}/${month}/${year}`;
     }
-    
+
     function inifunction(){
-        
+
         //=============Add record to database===========================================
         $("#form_add_record").off("submit").on("submit", function(e) {
             e.preventDefault(); // prevent normal form submission
@@ -730,7 +766,7 @@ if (!$labelPrints) {
             console.log("end_num:", end_num);
 
 //            alert("submit");
-      
+
 
             $.ajax({
                 'async': false,
@@ -757,10 +793,10 @@ if (!$labelPrints) {
                     alert('Exception:', exception);
                 }
             });
-            
+
             drawtableforprintlabel();
-            
- 
+
+
         });
 
 
@@ -773,20 +809,20 @@ if (!$labelPrints) {
 
             let selectize = $('#pnum_id').selectize()[0].selectize;            // Initialize Selectize
             let pnum_id_selected = selectize.getValue();             // Get value when needed
-            
+
             console.log('selectizeValue::'+pnum_id_selected)
 //            alert('selectizeValue::'+pnum_id_selected);
 
             targetpatient = resultArray.find(obj => obj.tabindex === pnum_id_selected);
             //console.log("resultArray::"+resultArray);
-            
+
             //resultArray.forEach(item => { console.log("Tabindex:", item.tabindex, "Pnum:", item.pnum, "HN:", item.hn_num, "Patho:", item.patho_abbreviation, "Date:", item.accept_date); });
             console.log(JSON.stringify(resultArray, null, 2));
             console.log("targetpatient::"+targetpatient);
-            
-            
+
+
 //            alert("pause for debug");
-            
+
             console.log('tabindex::'+targetpatient.tabindex);
             console.log('pnum::'+targetpatient.pnum);
             console.log('hn_num::'+targetpatient.hn_num);
@@ -810,7 +846,7 @@ if (!$labelPrints) {
             let letter = $('#letter').selectize()[0].selectize.getValue();
             let start_num = $('#start_num').selectize()[0].selectize.getValue();
             let end_num = $('#end_num').selectize()[0].selectize.getValue();
- 
+
             // Print to console
             console.log("patient_id:", patient_id);
             console.log("userid:", userid);
@@ -826,13 +862,13 @@ if (!$labelPrints) {
             //alert('pnum_id:'+pnum_id);
 
         });
-        
+
         // First clear any previous change handlers, then add a new one
         $("#target_accept_date").off("change").on("change", function() {
             drawSelectionAndDOM();
         });
 
-        
+
     }
 
 
@@ -842,12 +878,12 @@ if (!$labelPrints) {
         $('select').selectize({
 //            sortField: 'text'
         });
-        
-        
+
+
 
         //=============Print table of row record selected=============================
         drawtableforprintlabel();
-        
+
 
         // Select all <li> inside the ul.patientlist
         // Then keep as global variable resultArray
@@ -863,20 +899,20 @@ if (!$labelPrints) {
             accept_date: li.getAttribute("accept_date")
           };
         });
-//        
-        
-        
+//
+
+
         //============================================================================
         inifunction();
-        
-        
-        
+
+
+
 
     });
-    
-    
-    
-    
-    
+
+
+
+
+
 
 </script>
