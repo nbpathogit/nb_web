@@ -569,6 +569,14 @@ if (!$labelPrints) {
                     </div>
                 </div>
             </div>
+            <div class="text-center mb-3">
+                <button id="btn_check_all" type="button" class="modern-btn-primary me-2">
+                    <i class="fas fa-check-square me-2"></i>Check All
+                </button>
+                <button id="btn_uncheck_all" type="button" class="modern-btn-danger">
+                    <i class="fas fa-square me-2"></i>Uncheck All
+                </button>
+            </div>
             <div class="table-container">
                 <div class="table-responsive">
                     <table id="snDataTable" class="modern-table" style="width:100%">
@@ -1559,6 +1567,38 @@ if (!$labelPrints) {
     // Event handler for "Add All to List" button
     $(document).on('click', '#btn_add_all_to_list', function() {
         addAllToListAsync();
+    });
+
+    // Event handler for "Check All" button
+    $(document).on('click', '#btn_check_all', function() {
+        console.log("=== Check All clicked ===");
+        // Check all letter checkboxes
+        $('#snDataTable').find('.letter-checkbox').prop('checked', true);
+
+        // Enable all number selects and set to "1"
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+        letters.forEach(function(letter) {
+            $('#snDataTable').find('.start-num-select-' + letter).prop('disabled', false).val('1');
+            $('#snDataTable').find('.end-num-select-' + letter).prop('disabled', false).val('1');
+        });
+
+        console.log("All checkboxes checked, all number selects enabled and set to 1");
+    });
+
+    // Event handler for "Uncheck All" button
+    $(document).on('click', '#btn_uncheck_all', function() {
+        console.log("=== Uncheck All clicked ===");
+        // Uncheck all letter checkboxes
+        $('#snDataTable').find('.letter-checkbox').prop('checked', false);
+
+        // Disable all number selects but keep their current values
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+        letters.forEach(function(letter) {
+            $('#snDataTable').find('.start-num-select-' + letter).prop('disabled', true);
+            $('#snDataTable').find('.end-num-select-' + letter).prop('disabled', true);
+        });
+
+        console.log("All checkboxes unchecked, all number selects disabled (values preserved)");
     });
 
 
