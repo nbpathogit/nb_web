@@ -923,52 +923,60 @@ if (!$labelPrints) {
                             "</tr>"
                         );
                     });
-                } else {
-                    $("#snDataTable").find("tbody").html('<tr><td colspan="6" class="text-center">No SN numbers found for this date</td></tr>');
                 }
 
-                // Initialize DataTable
-                $("#snDataTable").DataTable({
-                    "responsive": true,
-                    "pageLength": -1,
-                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                    "language": {
-                        "emptyTable": "No SN numbers found for this date"
-                    },
-                    "order": [[1, "asc"]],
-                    "columnDefs": [
-                        { "width": "5%", "targets": 0 },
-                        { "width": "15%", "targets": 1 },
-                        { "width": "12%", "targets": 2, "visible": false },
-                        { "width": "20%", "targets": 3, "visible": false },
-                        { "width": "13%", "targets": 4, "visible": false },
-                        { "width": "35%", "targets": 5 }
-                    ]
-                });
+                // Destroy existing DataTable if it exists
+                if ($.fn.DataTable.isDataTable('#snDataTable')) {
+                    $('#snDataTable').DataTable().destroy();
+                }
 
-                // Add event listeners for checkboxes to enable/disable number selects
-                $("#snDataTable").on('change', '.letter-checkbox', function() {
+                // Initialize DataTable only if there's data, otherwise just show empty message
+                if (data.length > 0) {
+                    $("#snDataTable").DataTable({
+                        "responsive": true,
+                        "pageLength": -1,
+                        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                        "language": {
+                            "emptyTable": "No SN numbers found for this date"
+                        },
+                        "order": [[1, "asc"]],
+                        "columnDefs": [
+                            { "width": "5%", "targets": 0 },
+                            { "width": "15%", "targets": 1 },
+                            { "width": "12%", "targets": 2, "visible": false },
+                            { "width": "20%", "targets": 3, "visible": false },
+                            { "width": "13%", "targets": 4, "visible": false },
+                            { "width": "35%", "targets": 5 }
+                        ]
+                    });
+
+                    // Add event listeners for checkboxes to enable/disable number selects
+                    $("#snDataTable").on('change', '.letter-checkbox', function() {
                     let $checkbox = $(this);
                     let letter = $checkbox.val();
                     let $row = $checkbox.closest('tr');
                     let $startSelect = $row.find('.start-num-select-' + letter);
                     let $endSelect = $row.find('.end-num-select-' + letter);
 
-                    if ($checkbox.is(':checked')) {
-                        $startSelect.prop('disabled', false);
-                        $endSelect.prop('disabled', false);
-                    } else {
-                        $startSelect.prop('disabled', true).val('');
-                        $endSelect.prop('disabled', true).val('');
-                    }
-                });
+                        if ($checkbox.is(':checked')) {
+                            $startSelect.prop('disabled', false);
+                            $endSelect.prop('disabled', false);
+                        } else {
+                            $startSelect.prop('disabled', true).val('');
+                            $endSelect.prop('disabled', true).val('');
+                        }
+                    });
 
-                // Set default value "1" for all letters (A-E) number selects
-                const letters = ['A', 'B', 'C', 'D', 'E'];
-                letters.forEach(function(letter) {
-                    $("#snDataTable").find('.start-num-select-' + letter).val('1');
-                    $("#snDataTable").find('.end-num-select-' + letter).val('1');
-                });
+                    // Set default value "1" for all letters (A-E) number selects
+                    const letters = ['A', 'B', 'C', 'D', 'E'];
+                    letters.forEach(function(letter) {
+                        $("#snDataTable").find('.start-num-select-' + letter).val('1');
+                        $("#snDataTable").find('.end-num-select-' + letter).val('1');
+                    });
+                } else {
+                    // No data found - just show message without DataTable
+                    $("#snDataTable").find("tbody").html('<tr><td colspan="6" class="text-center">No SN numbers found for this date</td></tr>');
+                }
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching filtered data:", error);
