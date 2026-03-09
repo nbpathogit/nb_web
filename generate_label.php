@@ -808,11 +808,11 @@ if (!$labelPrints) {
         let existingSNs = new Set(); // Store existing SN numbers
 
         // Show loading indicator
-        $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center">Loading...</td></tr>');
+        $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></td></tr>');
 
         // First, fetch existing records from tableforprintlabel
         $.ajax({
-            'async': false,
+            // 'async': false,
             type: 'POST',
             'global': false,
             url: 'ajax_data/generate_label_get_record.php',
@@ -841,7 +841,7 @@ if (!$labelPrints) {
 
         // get data from database
         $.ajax({
-            'async': false,
+            // 'async': false,
             type: 'POST',
             'global': false,
             url: 'ajax_data/generate_label_get_SN_by_date.php',
@@ -850,8 +850,8 @@ if (!$labelPrints) {
                 'accept_date': accept_date,
             },
             success: function (data) {
-                console.log("Filtered data::");
-                console.log(data);
+                // console.log("Filtered data::");
+                // console.log(data);
                 pnumjson = JSON.parse(data);
 
                 // Check if DataTable already exists, if yes destroy it first
@@ -1058,7 +1058,7 @@ if (!$labelPrints) {
 
         // get data from database
         $.ajax({
-            'async': false,
+            // 'async': false,
             type: 'POST',
             'global': false,
             type: 'POST',
@@ -1068,15 +1068,15 @@ if (!$labelPrints) {
                 'accept_date': accept_date,
             },
             success: function (data) {
-                console.log("data::");
-                console.log(data);//print json string
+                // console.log("data::");
+                // console.log(data);//print json string
                 //{"pid":"35101","p_pnum":"CN2600061","p_phospital_num":"489883","name_patho":"\u0e08\u0e38\u0e25\u0e34\u0e19\u0e17\u0e23\u0e2a\u0e33\u0e23\u0e32\u0e0d","ab_patho":"JS.","accept_date":"2026-01-13"}
                 pnumjson = JSON.parse(data); //convert String to JS Object
-                for (var i in pnumjson)
-                {
-                    //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
-                    console.log("pnumjson[i].pid"+pnumjson[i].pid);
-                }
+                // for (var i in pnumjson)
+                // {
+                //     //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
+                //     console.log("pnumjson[i].pid"+pnumjson[i].pid);
+                // }
 
             },
             error: function (jqxhr, status, exception) {
