@@ -579,9 +579,7 @@ if (!$labelPrints) {
                                 <th style="display: none;">HN Number</th>
                                 <th style="display: none;">Pathology</th>
                                 <th style="display: none;">Accept Date</th>
-                                <th>Letter</th>
-                                <th>Number from</th>
-                                <th>Number to</th>
+                                <th>Letter & Numbers</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -856,14 +854,6 @@ if (!$labelPrints) {
                 // Clear table body
                 $("#snDataTable").find("tbody").empty();
 
-                // Create select options for Letter (A-Z) with "A" as default
-                let letterOptions = '';
-                for (let i = 65; i <= 90; i++) {
-                    let letter = String.fromCharCode(i);
-                    let selected = (i === 65) ? ' selected' : '';
-                    letterOptions += '<option value="' + letter + '"' + selected + '>' + letter + '</option>';
-                }
-
                 // Create select options for Number from/to (1-99)
                 let numOptions = '';
                 for (let i = 1; i <= 99; i++) {
@@ -879,6 +869,39 @@ if (!$labelPrints) {
                         let finishedBadge = isFinished ? ' <span class="badge bg-success">Finish</span>' : '';
                         let rowClass = isFinished ? 'table-secondary' : '';
 
+                        // Create checkbox options for A, B, C, D, E with number from/to inputs
+                        let letterCheckboxHtml = '<div class="d-flex flex-column gap-2">';
+                        const letters = ['A', 'B', 'C', 'D', 'E'];
+
+                        for (let i = 0; i < letters.length; i++) {
+                            let letter = letters[i];
+                            let isChecked = (letter === 'A') ? ' checked' : '';
+                            let isDisabled = (letter === 'A') ? '' : ' disabled';
+                            let defaultFrom = (letter === 'A') ? '1' : '';
+                            let defaultTo = (letter === 'A') ? '1' : '';
+
+                            letterCheckboxHtml += `
+                                <div class="d-flex align-items-center gap-1">
+                                    <div class="form-check form-check-sm">
+                                        <input class="form-check-input letter-checkbox" type="checkbox"
+                                               value="${letter}" data-pid="${item.pid}" id="letter_${letter}_${index}"${isChecked}>
+                                        <label class="form-check-label" for="letter_${letter}_${index}">${letter}</label>
+                                    </div>
+                                    <select class="form-select form-select-sm start-num-select-${letter}"
+                                            data-pid="${item.pid}"${isDisabled}>
+                                        <option value="">From</option>
+                                        ${numOptions}
+                                    </select>
+                                    <select class="form-select form-select-sm end-num-select-${letter}"
+                                            data-pid="${item.pid}"${isDisabled}>
+                                        <option value="">To</option>
+                                        ${numOptions}
+                                    </select>
+                                </div>
+                            `;
+                        }
+                        letterCheckboxHtml += '</div>';
+
                         $("#snDataTable").find("tbody").append(
                             "<tr id='" + rowId + "' class='" + rowClass + "'>" +
                             "<td>" + (index + 1) + "</td>" +
@@ -887,25 +910,13 @@ if (!$labelPrints) {
                             "<td>" + item.name_patho + "</td>" +
                             "<td>" + acceptDateFormatted + "</td>" +
                             "<td>" +
-                                "<select class='form-select form-select-sm letter-select' data-pid='" + item.pid + "'>" +
-                                    letterOptions +
-                                "</select>" +
-                            "</td>" +
-                            "<td>" +
-                                "<select class='form-select form-select-sm start-num-select' data-pid='" + item.pid + "'>" +
-                                    numOptions +
-                                "</select>" +
-                            "</td>" +
-                            "<td>" +
-                                "<select class='form-select form-select-sm end-num-select' data-pid='" + item.pid + "'>" +
-                                    numOptions +
-                                "</select>" +
+                                letterCheckboxHtml +
                             "</td>" +
                             "</tr>"
                         );
                     });
                 } else {
-                    $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center">No SN numbers found for this date</td></tr>');
+                    $("#snDataTable").find("tbody").html('<tr><td colspan="6" class="text-center">No SN numbers found for this date</td></tr>');
                 }
 
                 // Initialize DataTable
@@ -922,12 +933,31 @@ if (!$labelPrints) {
                         { "width": "15%", "targets": 1 },
                         { "width": "12%", "targets": 2, "visible": false },
                         { "width": "20%", "targets": 3, "visible": false },
-                        { "width": "12%", "targets": 4, "visible": false },
-                        { "width": "10%", "targets": 5 },
-                        { "width": "8%", "targets": 6 },
-                        { "width": "8%", "targets": 7 }
+                        { "width": "13%", "targets": 4, "visible": false },
+                        { "width": "35%", "targets": 5 }
                     ]
                 });
+
+                // Add event listeners for checkboxes to enable/disable number selects
+                $("#snDataTable").on('change', '.letter-checkbox', function() {
+                    let $checkbox = $(this);
+                    let letter = $checkbox.val();
+                    let $row = $checkbox.closest('tr');
+                    let $startSelect = $row.find('.start-num-select-' + letter);
+                    let $endSelect = $row.find('.end-num-select-' + letter);
+
+                    if ($checkbox.is(':checked')) {
+                        $startSelect.prop('disabled', false);
+                        $endSelect.prop('disabled', false);
+                    } else {
+                        $startSelect.prop('disabled', true).val('');
+                        $endSelect.prop('disabled', true).val('');
+                    }
+                });
+
+                // Set default value "1" for letter A number selects
+                $("#snDataTable").find('.start-num-select-A').val('1');
+                $("#snDataTable").find('.end-num-select-A').val('1');
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching filtered data:", error);
@@ -1212,23 +1242,17 @@ if (!$labelPrints) {
         //====== Populate DataTable for All SN Number List ======
         // Only update table if updateTable parameter is true
         if (updateTable) {
-            let $snDataTable = $("#snDataTable");
-
             // Check if DataTable already exists, if yes destroy it first
             if ($.fn.DataTable.isDataTable('#snDataTable')) {
-                $('#snDataTable').DataTable().clear().destroy();
+                let dataTable = $('#snDataTable').DataTable();
+                dataTable.clear().destroy();
             }
+
+            // Get fresh reference to table after destruction
+            let $snDataTable = $("#snDataTable");
 
             // Clear table body
             $snDataTable.find("tbody").empty();
-
-        // Create select options for Letter (A-Z) with "A" as default
-        let letterOptions = '';
-        for (let i = 65; i <= 90; i++) {
-            let letter = String.fromCharCode(i);
-            let selected = (i === 65) ? ' selected' : '';
-            letterOptions += '<option value="' + letter + '"' + selected + '>' + letter + '</option>';
-        }
 
         // Create select options for Number from/to (1-99)
         let numOptions = '';
@@ -1244,6 +1268,39 @@ if (!$labelPrints) {
             let finishedBadge = isFinished ? ' <span class="badge bg-success">Finish</span>' : '';
             let rowClass = isFinished ? 'table-secondary' : '';
 
+            // Create checkbox options for A, B, C, D, E with number from/to inputs
+            let letterCheckboxHtml = '<div class="d-flex flex-column gap-2">';
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+
+            for (let i = 0; i < letters.length; i++) {
+                let letter = letters[i];
+                let isChecked = (letter === 'A') ? ' checked' : '';
+                let isDisabled = (letter === 'A') ? '' : ' disabled';
+                let defaultFrom = (letter === 'A') ? '1' : '';
+                let defaultTo = (letter === 'A') ? '1' : '';
+
+                letterCheckboxHtml += `
+                    <div class="d-flex align-items-center gap-1">
+                        <div class="form-check form-check-sm">
+                            <input class="form-check-input letter-checkbox" type="checkbox"
+                                   value="${letter}" data-pid="${item.pid}" id="letter_${letter}_${index}"${isChecked}>
+                            <label class="form-check-label" for="letter_${letter}_${index}">${letter}</label>
+                        </div>
+                        <select class="form-select form-select-sm start-num-select-${letter}"
+                                data-pid="${item.pid}"${isDisabled}>
+                            <option value="">From</option>
+                            ${numOptions}
+                        </select>
+                        <select class="form-select form-select-sm end-num-select-${letter}"
+                                data-pid="${item.pid}"${isDisabled}>
+                            <option value="">To</option>
+                            ${numOptions}
+                        </select>
+                    </div>
+                `;
+            }
+            letterCheckboxHtml += '</div>';
+
             $snDataTable.find("tbody").append(
                 "<tr id='" + rowId + "' class='" + rowClass + "'>" +
                 "<td>" + (index + 1) + "</td>" +
@@ -1252,19 +1309,7 @@ if (!$labelPrints) {
                 "<td>" + item.name_patho + "</td>" +
                 "<td>" + acceptDateFormatted + "</td>" +
                 "<td>" +
-                    "<select class='form-select form-select-sm letter-select' data-pid='" + item.pid + "'>" +
-                        letterOptions +
-                    "</select>" +
-                "</td>" +
-                "<td>" +
-                    "<select class='form-select form-select-sm start-num-select' data-pid='" + item.pid + "'>" +
-                        numOptions +
-                    "</select>" +
-                "</td>" +
-                "<td>" +
-                    "<select class='form-select form-select-sm end-num-select' data-pid='" + item.pid + "'>" +
-                        numOptions +
-                    "</select>" +
+                    letterCheckboxHtml +
                 "</td>" +
                 "</tr>"
             );
@@ -1285,11 +1330,30 @@ if (!$labelPrints) {
                 { "width": "12%", "targets": 2, "visible": false },
                 { "width": "20%", "targets": 3, "visible": false },
                 { "width": "13%", "targets": 4, "visible": false },
-                { "width": "13%", "targets": 5 },
-                { "width": "10%", "targets": 6 },
-                { "width": "10%", "targets": 7 }
+                { "width": "35%", "targets": 5 }
             ]
             });
+
+            // Add event listeners for checkboxes to enable/disable number selects
+            $snDataTable.on('change', '.letter-checkbox', function() {
+                let $checkbox = $(this);
+                let letter = $checkbox.val();
+                let $row = $checkbox.closest('tr');
+                let $startSelect = $row.find('.start-num-select-' + letter);
+                let $endSelect = $row.find('.end-num-select-' + letter);
+
+                if ($checkbox.is(':checked')) {
+                    $startSelect.prop('disabled', false);
+                    $endSelect.prop('disabled', false);
+                } else {
+                    $startSelect.prop('disabled', true).val('');
+                    $endSelect.prop('disabled', true).val('');
+                }
+            });
+
+            // Set default value "1" for letter A number selects
+            $snDataTable.find('.start-num-select-A').val('1');
+            $snDataTable.find('.end-num-select-A').val('1');
         }
 
     }
@@ -1325,8 +1389,13 @@ if (!$labelPrints) {
 
             // Get data from the row using the row's cells
             let $row = $(row);
-            let $letterSelect = $row.find('.letter-select');
-            let pid = $letterSelect.data('pid');
+            let $checkboxes = $row.find('.letter-checkbox:checked');
+
+            if ($checkboxes.length === 0) {
+                return; // Skip this row if no checkboxes are checked
+            }
+
+            let pid = $row.find('.letter-checkbox').first().data('pid');
 
             // Get values from table cells
             let $cells = $row.find('td');
@@ -1342,35 +1411,37 @@ if (!$labelPrints) {
                 patho_abbrev = match[1];
             }
 
-            // Get values from select dropdowns
-            let letter = $letterSelect.val();
-            let start_num = $row.find('.start-num-select').val();
-            let end_num = $row.find('.end-num-select').val();
-            let company_name = "N.B.Pathology";
-
             // Validate data before adding to array
             if (!pid || !sn_num) {
                 failCount++;
                 return; // Skip this row
             }
 
-            // Skip if letter is "none"
-            if (letter === 'none' || !letter) {
-                return; // Skip this row
-            }
+            // Loop through each checked checkbox for this row
+            $checkboxes.each(function() {
+                let letter = $(this).val();
+                let start_num = $row.find('.start-num-select-' + letter).val();
+                let end_num = $row.find('.end-num-select-' + letter).val();
 
-            // Add record to array
-            recordsArray.push({
-                'patient_id': pid,
-                'userid': user_id,
-                'sn_num': sn_num,
-                'hn_num': hn_num,
-                'patho_abbrev': patho_abbrev,
-                'accept_date': accept_date,
-                'company_name': "N.B.Pathology",
-                'letter': letter,
-                'start_num': start_num,
-                'end_num': end_num
+                // Skip if no start/end numbers selected
+                if (!start_num || !end_num) {
+                    failCount++;
+                    return;
+                }
+
+                // Add record to array for each checked letter
+                recordsArray.push({
+                    'patient_id': pid,
+                    'userid': user_id,
+                    'sn_num': sn_num,
+                    'hn_num': hn_num,
+                    'patho_abbrev': patho_abbrev,
+                    'accept_date': accept_date,
+                    'company_name': "N.B.Pathology",
+                    'letter': letter,
+                    'start_num': start_num,
+                    'end_num': end_num
+                });
             });
         });
 
