@@ -922,7 +922,7 @@ if (!$labelPrints) {
                 // Initialize DataTable
                 $("#snDataTable").DataTable({
                     "responsive": true,
-                    "pageLength": 10,
+                    "pageLength": -1,
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
                     "language": {
                         "emptyTable": "No SN numbers found for this date"
@@ -955,9 +955,12 @@ if (!$labelPrints) {
                     }
                 });
 
-                // Set default value "1" for letter A number selects
-                $("#snDataTable").find('.start-num-select-A').val('1');
-                $("#snDataTable").find('.end-num-select-A').val('1');
+                // Set default value "1" for all letters (A-E) number selects
+                const letters = ['A', 'B', 'C', 'D', 'E'];
+                letters.forEach(function(letter) {
+                    $("#snDataTable").find('.start-num-select-' + letter).val('1');
+                    $("#snDataTable").find('.end-num-select-' + letter).val('1');
+                });
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching filtered data:", error);
@@ -1318,7 +1321,7 @@ if (!$labelPrints) {
         // Initialize DataTable
             $("#snDataTable").DataTable({
             "responsive": true,
-            "pageLength": 10,
+            "pageLength": -1,
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             "language": {
                 "emptyTable": "No SN numbers found for this date"
@@ -1351,9 +1354,12 @@ if (!$labelPrints) {
                 }
             });
 
-            // Set default value "1" for letter A number selects
-            $snDataTable.find('.start-num-select-A').val('1');
-            $snDataTable.find('.end-num-select-A').val('1');
+            // Set default value "1" for all letters (A-E) number selects
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            letters.forEach(function(letter) {
+                $snDataTable.find('.start-num-select-' + letter).val('1');
+                $snDataTable.find('.end-num-select-' + letter).val('1');
+            });
         }
 
     }
@@ -1383,6 +1389,7 @@ if (!$labelPrints) {
 
         // Collect all records into arrays
         let recordsArray = [];
+        console.log("=== Starting to collect records from " + rows.length + " rows ===");
 
         // Loop through each row and collect data
         $(rows).each(function(index, row) {
@@ -1391,18 +1398,26 @@ if (!$labelPrints) {
             let $row = $(row);
             let $checkboxes = $row.find('.letter-checkbox:checked');
 
+            console.log("Row " + index + ": Found " + $checkboxes.length + " checked checkboxes");
+
             if ($checkboxes.length === 0) {
                 return; // Skip this row if no checkboxes are checked
             }
 
             let pid = $row.find('.letter-checkbox').first().data('pid');
 
-            // Get values from table cells
+            // Get values from table cells - extract only text nodes, not HTML content
             let $cells = $row.find('td');
-            let sn_num = $cells.eq(1).text().trim();
-            let hn_num = $cells.eq(2).text().trim();
-            let patho_full = $cells.eq(3).text().trim();
-            let accept_date = $cells.eq(4).text().trim();
+            let sn_num = $cells.eq(1).clone().children().remove().end().text().trim();
+            let hn_num = $cells.eq(2).clone().children().remove().end().text().trim();
+            let patho_full = $cells.eq(3).clone().children().remove().end().text().trim();
+            let accept_date = $cells.eq(4).clone().children().remove().end().text().trim();
+
+            // Truncate raw fields to prevent database column length errors
+            sn_num = sn_num.substring(0, 50);  // VARCHAR(50)
+            hn_num = hn_num.substring(0, 20);  // VARCHAR(20)
+            patho_full = patho_full.substring(0, 100);  // VARCHAR(100) for full pathology name
+            accept_date = accept_date.substring(0, 20);  // VARCHAR(20)
 
             // Extract abbreviation from "Name (AB)"
             let patho_abbrev = "";
@@ -1410,6 +1425,9 @@ if (!$labelPrints) {
             if (match) {
                 patho_abbrev = match[1];
             }
+
+            // Truncate patho_abbrev after extraction
+            patho_abbrev = patho_abbrev.substring(0, 20);  // VARCHAR(20)
 
             // Validate data before adding to array
             if (!pid || !sn_num) {
@@ -1423,14 +1441,18 @@ if (!$labelPrints) {
                 let start_num = $row.find('.start-num-select-' + letter).val();
                 let end_num = $row.find('.end-num-select-' + letter).val();
 
+                console.log("  - Letter " + letter + ": from=" + start_num + ", to=" + end_num);
+
                 // Skip if no start/end numbers selected
                 if (!start_num || !end_num) {
+                    console.log("    WARNING: Missing start or end number, skipping");
                     failCount++;
                     return;
                 }
 
                 // Add record to array for each checked letter
-                recordsArray.push({
+                // Backend will expand the range (start_num to end_num) into individual records
+                let record = {
                     'patient_id': pid,
                     'userid': user_id,
                     'sn_num': sn_num,
@@ -1441,11 +1463,22 @@ if (!$labelPrints) {
                     'letter': letter,
                     'start_num': start_num,
                     'end_num': end_num
+                };
+
+                console.log("  Record being added:", {
+                    sn_num: record.sn_num + (record.sn_num.length > 20 ? ' (' + record.sn_num.length + ' chars)' : ''),
+                    hn_num: record.hn_num + (record.hn_num.length > 10 ? ' (' + record.hn_num.length + ' chars)' : ''),
+                    patho_abbrev: record.patho_abbrev,
+                    letter: record.letter,
+                    range: record.start_num + '-' + record.end_num
                 });
+
+                recordsArray.push(record);
             });
         });
 
-        console.log("Collected " + recordsArray.length + " valid records to send");
+        console.log("=== Total records collected: " + recordsArray.length + " ===");
+        console.log("Records array:", recordsArray);
 
         // Check if there are records to send
         if (recordsArray.length === 0) {
@@ -1463,17 +1496,27 @@ if (!$labelPrints) {
         console.log("Adding " + recordsArray.length + " SN numbers to the list...");
 
         // Send single AJAX request with all records
+        console.log("=== Sending AJAX request to backend ===");
+        console.log("Request data:", requestData);
+
         $.ajax({
             type: 'POST',
             url: 'ajax_data/generate_label_add_multiple_record.php',
             data: requestData,
             success: function (response) {
+                console.log("=== AJAX SUCCESS ===");
+                console.log("Response:", response);
+
                 // Re-enable button
                 $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
 
                 try {
                     let responseData = typeof response === 'string' ? JSON.parse(response) : response;
+                    console.log("Parsed response data:", responseData);
+                    console.log("Success message:", responseData.message);
+
                     // alert(responseData.message || 'Added ' + recordsArray.length + ' SN numbers successfully!');
+                    console.log("=== Calling drawtableforprintlabel() ===");
                     drawtableforprintlabel();
 
                     // Refresh SN Number List table to show updated "Finish" status
@@ -1488,17 +1531,22 @@ if (!$labelPrints) {
                         }
                     }
                 } catch (e) {
-                    console.error('Error parsing response:', e);
+                    console.error('=== ERROR parsing response ===');
+                    console.error('Error:', e);
                     console.error('Response:', response);
                     alert('Error: Server returned invalid response.\n' + response.substring(0, 200));
                 }
             },
             error: function (jqxhr, status, exception) {
+                console.error('=== AJAX ERROR ===');
+                console.error('Status:', status);
+                console.error('Exception:', exception);
+                console.error('Response Text:', jqxhr.responseText);
+                console.error('Response Status:', jqxhr.status);
+                console.error('Response Status Text:', jqxhr.statusText);
+
                 // Re-enable button
                 $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
-
-                console.error('Error adding SN numbers:', status, exception);
-                console.error('Response Text:', jqxhr.responseText);
                 let errorMsg = 'Error adding SN numbers. Status: ' + status;
                 if (jqxhr.responseText) {
                     errorMsg += '\nResponse: ' + jqxhr.responseText.substring(0, 200);
@@ -1516,8 +1564,11 @@ if (!$labelPrints) {
 
 
     function drawtableforprintlabel() {
+        console.log("=== drawtableforprintlabel() STARTED ===");
         let user_id = $('#userid').val();
+        console.log("User ID:", user_id);
         let datajson;
+
         // get data from database
         $.ajax({
             'async': false,
@@ -1529,18 +1580,31 @@ if (!$labelPrints) {
                 'user_id': user_id,
             },
             success: function (data) {
+                console.log("=== AJAX SUCCESS from generate_label_get_record.php ===");
+                console.log("Raw response:", data);
+                console.log("Response length:", data ? data.length : 0);
+
                 if (!data || data.trim() === '') {
+                    console.log("WARNING: Empty response received");
                     datajson = [];
                     return;
                 }
                 try {
                     datajson = JSON.parse(data);
+                    console.log("Parsed JSON data:", datajson);
+                    console.log("Number of records:", datajson.length);
                 } catch (e) {
-                    console.error("Error parsing JSON:", e);
+                    console.error("=== ERROR parsing JSON ===");
+                    console.error("Error:", e);
+                    console.error("Data that failed to parse:", data);
                     datajson = [];
                 }
             },
             error: function (jqxhr, status, exception) {
+                console.error("=== AJAX ERROR from generate_label_get_record.php ===");
+                console.error("Status:", status);
+                console.error("Exception:", exception);
+                console.error("Response:", jqxhr.responseText);
                 alert('Exception:', exception);
             }
         });
@@ -1561,6 +1625,8 @@ if (!$labelPrints) {
         // Create and append tbody
         let $tbody = $("<tbody></tbody>");
 
+        console.log("=== Building table with " + datajson.length + " rows ===");
+
         for (var i in datajson)
         {
             let id =datajson[i].id;
@@ -1578,6 +1644,9 @@ if (!$labelPrints) {
         }
 
         $tablelabel.append($tbody);
+
+    console.log("=== Table built successfully ===");
+    console.log("Total rows added:", Object.keys(datajson).length);
 
         // Initialize DataTable with pagination
         if ($.fn.DataTable.isDataTable('#tableforprintlabel')) {
