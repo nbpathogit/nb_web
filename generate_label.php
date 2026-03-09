@@ -576,9 +576,9 @@ if (!$labelPrints) {
                             <tr>
                                 <th>No.</th>
                                 <th>SN Number</th>
-                                <th>HN Number</th>
-                                <th>Pathology</th>
-                                <th>Accept Date</th>
+                                <th style="display: none;">HN Number</th>
+                                <th style="display: none;">Pathology</th>
+                                <th style="display: none;">Accept Date</th>
                                 <th>Letter</th>
                                 <th>Number from</th>
                                 <th>Number to</th>
@@ -802,7 +802,7 @@ if (!$labelPrints) {
         let existingSNs = new Set(); // Store existing SN numbers
 
         // Show loading indicator
-        $("#snDataTable").find("tbody").html('<tr><td colspan="8" class="text-center">Loading...</td></tr>');
+        $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center">Loading...</td></tr>');
 
         // First, fetch existing records from tableforprintlabel
         $.ajax({
@@ -905,7 +905,7 @@ if (!$labelPrints) {
                         );
                     });
                 } else {
-                    $("#snDataTable").find("tbody").html('<tr><td colspan="8" class="text-center">No SN numbers found for this date</td></tr>');
+                    $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center">No SN numbers found for this date</td></tr>');
                 }
 
                 // Initialize DataTable
@@ -916,13 +916,13 @@ if (!$labelPrints) {
                     "language": {
                         "emptyTable": "No SN numbers found for this date"
                     },
-                    "order": [[0, "asc"]],
+                    "order": [[1, "asc"]],
                     "columnDefs": [
                         { "width": "5%", "targets": 0 },
                         { "width": "15%", "targets": 1 },
-                        { "width": "12%", "targets": 2 },
-                        { "width": "20%", "targets": 3 },
-                        { "width": "12%", "targets": 4 },
+                        { "width": "12%", "targets": 2, "visible": false },
+                        { "width": "20%", "targets": 3, "visible": false },
+                        { "width": "12%", "targets": 4, "visible": false },
                         { "width": "10%", "targets": 5 },
                         { "width": "8%", "targets": 6 },
                         { "width": "8%", "targets": 7 }
@@ -931,7 +931,7 @@ if (!$labelPrints) {
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching filtered data:", error);
-                $("#snDataTable").find("tbody").html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+                $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
             }
         });
     }
@@ -1278,13 +1278,13 @@ if (!$labelPrints) {
             "language": {
                 "emptyTable": "No SN numbers found for this date"
             },
-            "order": [[0, "asc"]],
+            "order": [[1, "asc"]],
             "columnDefs": [
                 { "width": "5%", "targets": 0 },
                 { "width": "15%", "targets": 1 },
-                { "width": "12%", "targets": 2 },
-                { "width": "20%", "targets": 3 },
-                { "width": "13%", "targets": 4 },
+                { "width": "12%", "targets": 2, "visible": false },
+                { "width": "20%", "targets": 3, "visible": false },
+                { "width": "13%", "targets": 4, "visible": false },
                 { "width": "13%", "targets": 5 },
                 { "width": "10%", "targets": 6 },
                 { "width": "10%", "targets": 7 }
