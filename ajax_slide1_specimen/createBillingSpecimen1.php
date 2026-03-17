@@ -34,6 +34,6 @@ $conn = require '../includes/db.php';
 
     $billing->create($conn);
     
-    $billings = ServiceBilling::getAll145($conn, $_POST['patient_id'],1);
+    $billings = ServiceBilling::getAll1458($conn, $_POST['patient_id'],1);
 
     echo json_encode($billings);
