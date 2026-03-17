@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST["delAll"])) {
         if (LabelPrint::deleteAllbyUserID($conn, $_POST["userid"])) {
-            Url::redirect("/generate_label.php");
+            Url::redirect("/generate_labelv2.php");
         } else {
             echo '<script>alert("Delete fail. Please verify again")</script>';
         }
