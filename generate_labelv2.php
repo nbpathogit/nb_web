@@ -1825,7 +1825,7 @@ if (!$labelPrints) {
 
 
     $(document).ready(function () {
-        $("#generate_label").addClass("active");
+        $("#generate_labelv2").addClass("active");
 
         $('select').selectize({
 //            sortField: 'text'

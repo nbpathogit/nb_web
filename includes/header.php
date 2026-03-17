@@ -108,7 +108,7 @@
                                 <a id="user_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
                                 <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
                                 <a id="chart_data_tab" href="chart_data.php" class="nav-item nav-link">chart data</a>
-                                
+
                             </div>
                         </div>
                     <?php endif; ?>
@@ -184,6 +184,7 @@
                         </div>
                         <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>
                         <a id="generate_label" href="generate_label.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติกเกอร์สไลด์</a>
+                        <a id="generate_labelv2" href="generate_labelv2.php" class="nav-item nav-link"><i class="fa-solid fa-water"></i>สร้างสติกเกอร์สไลด์V2</a>
                     <?php endif; ?>
                     <!-- <a href="log.php" class="nav-item nav-link"><i class="fa-solid fa-bars-staggered"></i>ข้อมูลการใช้งานระบบ</a> -->
                     <div class="nav-item dropdown">
@@ -312,5 +313,5 @@
             <?php $hidden_data2dom = true; ?>
             <li class="sesstion_timelimit_int_sec" tabindex="<?= Auth::$sesstion_timelimit_int_sec ?>" style="<?= $hidden_data2dom ? "display: none;" : "" ?>">Auth::$sesstion_timelimit_int_sec :: <?= Auth::$sesstion_timelimit_int_sec ?> </li>
 
-            <?php // var_dump($_SESSION); 
+            <?php // var_dump($_SESSION);
             ?>
