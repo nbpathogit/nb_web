@@ -106,7 +106,7 @@ class ServicePriceList {
         $sql = "SELECT *
                 FROM service_price_list";
         $sql = $sql." WHERE hospital_id = :hospital_id ";
-        $sql = $sql." and (jobtype = 1 or jobtype = 4 or jobtype = 5)  "; // service id 1 ,4, 5
+        $sql = $sql." and (jobtype = 1 or jobtype = 4 or jobtype = 5 or jobtype = 8)  "; // service id 1 ,4, 5
         $sql = $sql." ORDER BY id;";
 
         $stmt = $conn->prepare($sql);
