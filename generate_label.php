@@ -57,614 +57,266 @@ if (!$labelPrints) {
 <?php require "includes/header.php"; ?>
 
 <style>
-    :root {
-        --primary-color: #009CFF;
-        --primary-dark: #007ACC;
-        --primary-light: #E3F2FF;
-        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-        --card-shadow-hover: 0 8px 25px rgba(0, 156, 255, 0.15);
-    }
 
-    .modern-card {
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: var(--card-shadow);
-        border: 1px solid rgba(0, 156, 255, 0.1);
-        transition: all 0.3s ease;
-        overflow: hidden;
-    }
-
-    .modern-card:hover {
-        box-shadow: var(--card-shadow-hover);
-        border-color: var(--primary-color);
-    }
-
-    .card-header-custom {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-        color: #ffffff;
-        padding: 1.25rem 1.5rem;
-        border: none;
-        border-bottom: 3px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .card-header-custom h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin: 0;
-        color: #ffffff;
-    }
-
-    .card-header-custom h3 {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin: 0;
-        color: #ffffff;
-        opacity: 0.95;
-    }
-
-    .card-body-custom {
-        padding: 1.5rem;
-    }
-
-    .modern-label {
-        font-weight: 600;
-        color: var(--primary-dark);
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-        display: block;
-    }
-
-    .modern-form-control {
-        border: 2px solid #E8EEF5;
-        border-radius: 8px;
-        padding: 0.6rem 1rem;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        background: #FAFBFD;
-    }
-
-    .modern-form-control:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(0, 156, 255, 0.1);
-        background: #ffffff;
-    }
-
-    .modern-form-control[readonly] {
-        background: #F5F8FC;
-        cursor: default;
-    }
-
-    .modern-select {
-        border: 2px solid #E8EEF5;
-        border-radius: 8px;
-        padding: 0.6rem 1rem;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        background: #FAFBFD;
-        cursor: pointer;
-    }
-
-    .modern-select:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(0, 156, 255, 0.1);
-        background: #ffffff;
-    }
-
-    .modern-btn-primary {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-        border: none;
-        color: #ffffff;
-        padding: 0.7rem 1.8rem;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 156, 255, 0.3);
-    }
-
-    .modern-btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0, 156, 255, 0.4);
-        color: #ffffff;
-    }
-
-    .modern-btn-success {
-        background: linear-gradient(135deg, #28A745 0%, #218838 100%);
-        border: none;
-        color: #ffffff;
-        padding: 0.8rem 2rem;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-    }
-
-    .modern-btn-success:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-        color: #ffffff;
-    }
-
-    .modern-btn-danger {
-        background: linear-gradient(135deg, #DC3545 0%, #C82333 100%);
-        border: none;
-        color: #ffffff;
-        padding: 0.7rem 1.8rem;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-    }
-
-    .modern-btn-danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
-        color: #ffffff;
-    }
-
-    .modern-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin-bottom: 0;
-    }
-
-    .modern-table thead th {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-        color: #ffffff;
-        font-weight: 600;
-        padding: 1rem;
-        text-align: center;
-        border: none;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .modern-table thead th:first-child {
-        border-top-left-radius: 8px;
-    }
-
-    .modern-table thead th:last-child {
-        border-top-right-radius: 8px;
-    }
-
-    .modern-table tbody tr {
-        transition: all 0.3s ease;
-    }
-
-    .modern-table tbody tr:nth-child(even) {
-        background: #F8FBFE;
-    }
-
-    .modern-table tbody tr:hover {
-        background: var(--primary-light);
-        transform: scale(1.01);
-        box-shadow: 0 2px 8px rgba(0, 156, 255, 0.1);
-    }
-
-    .modern-table tbody td {
-        padding: 0.9rem 1rem;
-        border: none;
-        border-bottom: 1px solid #E8EEF5;
-        text-align: center;
-        color: #495057;
-        font-size: 0.9rem;
-    }
-
-    .modern-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    .modern-table tbody tr:last-child td:first-child {
-        border-bottom-left-radius: 8px;
-    }
-
-    .modern-table tbody tr:last-child td:last-child {
-        border-bottom-right-radius: 8px;
-    }
-
-    .form-group-custom {
-        margin-bottom: 1.25rem;
-    }
-
-    .form-row-custom {
-        background: #FAFBFD;
-        border-radius: 10px;
-        padding: 1.5rem;
-        border: 1px solid #E8EEF5;
-    }
-
-    .section-divider {
-        height: 2px;
-        background: linear-gradient(90deg, transparent 0%, var(--primary-color) 50%, transparent 100%);
-        margin: 2rem 0;
-        opacity: 0.3;
-    }
-
-    .modern-hr {
-        border: none;
-        height: 2px;
-        background: linear-gradient(90deg, transparent 0%, var(--primary-color) 50%, transparent 100%);
-        margin: 2.5rem 0;
-    }
-
-    .input-group-text-custom {
-        background: var(--primary-color);
-        color: #ffffff;
-        border: 2px solid var(--primary-color);
-        border-radius: 8px 0 0 8px;
-        padding: 0.6rem 1rem;
-        font-weight: 600;
-    }
-
-    .table-container {
-        background: #ffffff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: var(--card-shadow);
-        border: 1px solid rgba(0, 156, 255, 0.1);
-    }
-
-    .section-title {
-        color: var(--primary-dark);
-        font-weight: 600;
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .section-title::before {
-        content: '';
-        width: 4px;
-        height: 24px;
-        background: var(--primary-color);
-        border-radius: 2px;
-    }
-
-    .select-label-inline {
-        font-weight: 600;
-        color: var(--primary-dark);
-        margin-right: 0.5rem;
-    }
-
-    .config-image {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        border: 2px solid #E8EEF5;
-    }
-
-    @media (max-width: 768px) {
-        .modern-table {
-            font-size: 0.8rem;
-        }
-
-        .modern-table thead th,
-        .modern-table tbody td {
-            padding: 0.6rem 0.5rem;
-        }
-    }
+    /*    th,td{
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 0.5;
+        }*/
 </style>
 
 
 
 <div id="patient_plan_section" class="container-fluid pt-4 px-4">
 
-    <div class="modern-card mb-4">
-        <div class="card-header-custom">
-            <h1><i class="fas fa-table me-2"></i>Table List to Print Out Label</h1>
-        </div>
-        <div class="card-body-custom">
-            <div class="table-container mb-3">
-                <table id="tableforprintlabel" class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User ID</th>
-                            <th>SN Number</th>
-                            <th>HN Number</th>
-                            <th>Pathology</th>
-                            <th>Specimen</th>
-                            <th>Admit Date</th>
-                            <th>Organization</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($labelPrints as $labelprint): ?>
-                            <tr>
-                                <td><?= $labelprint["id"] ?></td>
-                                <td><?= $labelprint["userid"] ?></td>
-                                <td><?= $labelprint["sn_num"] ?></td>
-                                <td><?= $labelprint["hn_num"] ?></td>
-                                <td><?= $labelprint[
-                                    "patho_abbreviation"
-                                ] ?></td>
-                                <td><?= $labelprint[
-                                    "speciment_abbreviation"
-                                ] ?></td>
-                                <td><?= $labelprint["accept_date"] ?></td>
-                                <td><?= $labelprint["company_name"] ?></td>
-                            </tr>
+    <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h1>Table List to print out label</h1>
+
+        <style>
+            table {
+              border-collapse: collapse;
+            }
+            th, td {
+              border: 1px solid black;
+
+              text-align: center;
+            }
+            th {
+              background-color: #f2f2f2;
+            }
+        </style>
+
+        <table id="tableforprintlabel">
+            <tr>
+                <th>id</td>
+                <th>User_ID </th>
+                <th>SN_Num</th>
+                <th>HN_Num</th>
+                <th>PathoAbrev</th>
+                <th>SpeciAbrev</th>
+                <th>admit_date</th>
+                <th>Org.</th>
+
+            </tr>
+            <?php foreach ($labelPrints as $labelprint): ?>
+                <tr id="" border="1">
+                    <td border="1"> <?= $labelprint["id"] ?> </td>
+                    <td> <?= $labelprint["userid"] ?> </td>
+                    <td> <?= $labelprint["sn_num"] ?> </td>
+                    <td> <?= $labelprint["hn_num"] ?> </td>
+                    <td> <?= $labelprint["patho_abbreviation"] ?> </td>
+                    <td> <?= $labelprint["speciment_abbreviation"] ?> </td>
+                    <td> <?= $labelprint["accept_date"] ?> </td>
+                    <td> <?= $labelprint["company_name"] ?> </td>
+                </tr>
+            <?php endforeach; ?>
+
+        </table>
+
+        <form action="" method="post" class="">
+            <div class="">
+                <button name="delAll" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Remove all list&nbsp;&nbsp;</button>
+            </div>
+            <input type="hidden" name="userid"  readonly="readonly" value="<?= $_SESSION[
+                "userid"
+            ] ?>">
+        </form>
+
+
+    </div>
+
+    <br>
+
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h1>Fill in data for insert to list</h1>
+        <form action="" id="form_add_record" method="post" class="">
+            <div class="row <?= $isBorder ? "border" : "" ?>">
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <label for="target_accept_date" class="form-label">accept date: </label>
+                    <input type="text" name="target_accept_date" id="target_accept_date" class="form-control">
+                </div>
+
+
+
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <span id="pnum_id_span">
+                    <label for="pnum_id" class="">SN Number: </label>
+                    <select name="pnum_id" id="pnum_id" class="" required>
+                        <option value=""></option>
+                        <?php foreach ($patientLists as $patient): ?>
+                            <option value="<?= htmlspecialchars(
+                                $patient["pid"],
+                            ) ?>"
+                                    p_pnum="<?= htmlspecialchars(
+                                        $patient["p_pnum"],
+                                    ) ?>"
+                                    patho_abbreviation="<?= htmlspecialchars(
+                                        $patient["ab_patho"],
+                                    ) ?>"
+                                    accept_date="<?= htmlspecialchars(
+                                        $patient["accept_date"],
+                                    ) ?>"
+                                    ><?= htmlspecialchars($patient["p_pnum"]) ?>
+                            </option>
                         <?php endforeach; ?>
-                    </tbody>
-                </table>
+                    </select>
+                    </span>
+                </div>
+
+
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <label for="patho_abbreviation" class="form-label">patho_Abbreviation: </label>
+                    <input type="text" name="patho_abbreviation" id="patho_abbreviation" class="form-control" value="" readonly required>
+                </div>
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <label for="accept_date" class="form-label">accept_date: </label>
+                    <input type="text" name="accept_date" id="accept_date" class="form-control" value="" readonly required>
+                </div>
+
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <label for="hn_num" class="form-label">hn_num: </label>
+                    <input type="text" name="hn_num" id="hn_num" class="form-control" value="" readonly required>
+                </div>
+
             </div>
-            <div class="text-center">
-                <form action="" method="post" class="d-inline-block">
-                    <button name="delAll" type="submit" class="modern-btn-danger">
-                        <i class="fas fa-trash-alt me-2"></i>Remove All List
-                    </button>
-                    <input type="hidden" name="userid" readonly="readonly" value="<?= $_SESSION[
-                        "userid"
-                    ] ?>">
-                </form>
+            <br>
+
+
+
+            <hr>
+            <div class="row <?= $isBorder ? "border" : "" ?>">
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <!--<label for="" class="form-label">Select Letter::</label>-->
+                    Select Letter::
+                    <?php
+                    echo '<select name="letter" id="letter" required>';
+                    //echo '<option value=""></option>';
+                    foreach (range("A", "Z") as $letter) {
+                        echo '<option value="' .
+                            $letter .
+                            '">' .
+                            $letter .
+                            "</option>";
+                    }
+                    echo "</select>";
+                    ?>
+                </div>
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <!--<label for="" class="form-label">           Number from::</label>-->
+                    Number from::
+                    <?php
+                    echo '<select name="start_num" id="start_num"  required>';
+                    //echo '<option value=""></option>';
+                    for ($i = 1; $i <= 99; $i++) {
+                        echo '<option value="' . $i . '">' . $i . "</option>";
+                    }
+                    echo "</select>";
+                    ?>
+                </div>
+
+                <div class="col-xl-4 col-md-6 <?= $isBorder
+                    ? "border"
+                    : "" ?> ">
+                    <!--<label for="" class="form-label"> Number to::</label>-->
+                    Number to::
+                    <?php
+                    echo '<select name="end_num" id="end_num" required>';
+                    //echo '<option value=""></option>';
+                    for ($i = 1; $i <= 99; $i++) {
+                        echo '<option value="' . $i . '">' . $i . "</option>";
+                    }
+                    echo "</select>";
+                    ?>
+                </div>
+
             </div>
+
+            <br>
+
+
+            <div class="">
+                <button name="add" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Add to list&nbsp;&nbsp;</button>
+            </div>
+            <input type="hidden" name="userid" id="userid" readonly="readonly" value="<?= $_SESSION[
+                "userid"
+            ] ?>">
+
+
+        </form>
+
+        <br>
+
         </div>
-    </div>
-
-    <br>
-
-    <div class="modern-card mb-4">
-        <div class="card-header-custom">
-            <!--<h1><i class="fas fa-plus-circle me-2"></i>Fill in data for insert to list</h1>-->
-            <h1><i class="fas fa-plus-circle me-2"></i>SN Number 1 รายการ</h1>
-        </div>
-        <div class="card-body-custom">
-            <form action="" id="form_add_record" method="post" class="">
-                <div class="form-row-custom mb-4">
-                    <div class="row">
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <label for="target_accept_date" class="modern-label">
-                                <i class="far fa-calendar-alt me-1"></i>Accept Date
-                            </label>
-                            <input type="text" name="target_accept_date" id="target_accept_date" class="modern-form-control" placeholder="Select date">
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <span id="pnum_id_span">
-                                <label for="pnum_id" class="modern-label">
-                                    <i class="fas fa-barcode me-1"></i>SN Number
-                                </label>
-                                <select name="pnum_id" id="pnum_id" class="modern-select" required>
-                                    <option value="">Select SN Number</option>
-                                    <?php foreach (
-                                        $patientLists
-                                        as $patient
-                                    ): ?>
-                                        <option value="<?= htmlspecialchars(
-                                            $patient["pid"],
-                                        ) ?>"
-                                                p_pnum="<?= htmlspecialchars(
-                                                    $patient["p_pnum"],
-                                                ) ?>"
-                                                patho_abbreviation="<?= htmlspecialchars(
-                                                    $patient["ab_patho"],
-                                                ) ?>"
-                                                accept_date="<?= htmlspecialchars(
-                                                    $patient["accept_date"],
-                                                ) ?>">
-                                            <?= htmlspecialchars(
-                                                $patient["p_pnum"],
-                                            ) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </span>
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <label for="patho_abbreviation" class="modern-label">
-                                <i class="fas fa-file-medical me-1"></i>Pathology Abbreviation
-                            </label>
-                            <input type="text" name="patho_abbreviation" id="patho_abbreviation" class="modern-form-control" value="" readonly required>
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <label for="accept_date" class="modern-label">
-                                <i class="far fa-calendar me-1"></i>Accept Date
-                            </label>
-                            <input type="text" name="accept_date" id="accept_date" class="modern-form-control" value="" readonly required>
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <label for="hn_num" class="modern-label">
-                                <i class="fas fa-hospital me-1"></i>HN Number
-                            </label>
-                            <input type="text" name="hn_num" id="hn_num" class="modern-form-control" value="" readonly required>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="modern-hr"></div>
-
-                <div class="section-title">
-                    <i class="fas fa-sliders-h me-2"></i>Label Configuration
-                </div>
-
-                <div class="form-row-custom">
-                    <div class="row">
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <label class="select-label-inline">
-                                <i class="fas fa-font me-1"></i>Select Letter:
-                            </label>
-                            <?php
-                            echo '<select name="letter" id="letter" class="modern-select" required>';
-                            foreach (range("A", "Z") as $letter) {
-                                echo '<option value="' .
-                                    $letter .
-                                    '">' .
-                                    $letter .
-                                    "</option>";
-                            }
-                            echo "</select>";
-                            ?>
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <label class="select-label-inline">
-                                <i class="fas fa-sort-numeric-up me-1"></i>Number From:
-                            </label>
-                            <?php
-                            echo '<select name="start_num" id="start_num" class="modern-select" required>';
-                            for ($i = 1; $i <= 99; $i++) {
-                                echo '<option value="' .
-                                    $i .
-                                    '">' .
-                                    $i .
-                                    "</option>";
-                            }
-                            echo "</select>";
-                            ?>
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 form-group-custom">
-                            <label class="select-label-inline">
-                                <i class="fas fa-sort-numeric-down me-1"></i>Number To:
-                            </label>
-                            <?php
-                            echo '<select name="end_num" id="end_num" class="modern-select" required>';
-                            for ($i = 1; $i <= 99; $i++) {
-                                echo '<option value="' .
-                                    $i .
-                                    '">' .
-                                    $i .
-                                    "</option>";
-                            }
-                            echo "</select>";
-                            ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center mt-4">
-                    <button name="add" type="submit" class="modern-btn-primary">
-                        <i class="fas fa-plus me-2"></i>Add to List
-                    </button>
-                </div>
-                <input type="hidden" name="userid" id="userid" readonly="readonly" value="<?= $_SESSION[
-                    "userid"
-                ] ?>">
-            </form>
-        </div>
-    </div>
     <br>
 
 
-    <div class="modern-card mb-4">
-        <div class="card-header-custom">
-            <h1><i class="fas fa-list me-2"></i>SN Number ทีละหลายรายการ</h1>
-        </div>
-        <div class="card-body-custom">
-            <div class="form-row-custom mb-4">
-                <div class="row">
-                    <div class="col-xl-4 col-md-6 form-group-custom">
-                        <label for="filter_accept_date" class="modern-label">
-                            <i class="far fa-calendar-alt me-1"></i>Filter by Accept Date
-                        </label>
-                        <input type="text" name="filter_accept_date" id="filter_accept_date" class="modern-form-control" placeholder="Select date to filter">
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mb-3">
-                <button id="btn_check_all" type="button" class="modern-btn-primary me-2">
-                    <i class="fas fa-check-square me-2"></i>Check All
-                </button>
-                <button id="btn_uncheck_all" type="button" class="modern-btn-danger">
-                    <i class="fas fa-square me-2"></i>Uncheck All
-                </button>
-            </div>
-            <div class="table-container">
-                <div class="table-responsive">
-                    <table id="snDataTable" class="modern-table" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>SN Number</th>
-                                <th style="display: none;">HN Number</th>
-                                <th style="display: none;">Pathology</th>
-                                <th style="display: none;">Accept Date</th>
-                                <th>Letter & Numbers</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="text-center mt-4">
-                <button id="btn_add_all_to_list" type="button" class="modern-btn-success">
-                    <i class="fas fa-layer-group me-2"></i>Add All to List
-                </button>
-            </div>
-        </div>
-    </div>
 
 
     <!-- ===============================================
     button to show pdf section =========================
     ====================================================-->
-    <div class="modern-card mb-4">
-        <div class="card-header-custom">
-            <h1><i class="fas fa-print me-2"></i>Generate Sticker Slide</h1>
-        </div>
-        <div class="card-body-custom">
-            <h3 class="section-title">
-                <i class="fas fa-file-pdf me-2"></i>1. Generate PDF (Paper A4) - Sticker Label 2.3x2.0 cm
-            </h3>
-            <div class="form-row-custom">
-                <div class="row">
-                    <div class="col-md-3 form-group-custom">
-                        <label for="1A" class="modern-label">A:</label>
-                        <input type="text" id="1A" name="1A" value="2.5" class="modern-form-control">
-                    </div>
-                    <div class="col-md-3 form-group-custom">
-                        <label for="1B" class="modern-label">B:</label>
-                        <input type="text" id="1B" name="1B" value="2.5" class="modern-form-control">
-                    </div>
-                    <div class="col-md-3 form-group-custom">
-                        <label for="1X" class="modern-label">X:</label>
-                        <input type="text" id="1X" name="1X" value="3.6" class="modern-form-control">
-                    </div>
-                    <div class="col-md-3 form-group-custom">
-                        <label for="1Y" class="modern-label">Y:</label>
-                        <input type="text" id="1Y" name="1Y" value="6.0" class="modern-form-control">
-                    </div>
-                </div>
-                <div class="text-center mt-3">
-                    <button name="viewpdf1" id="viewpdf1a" class="modern-btn-primary me-2" onclick="onBtnViewPdf1A()">
-                        <i class="fas fa-border-all me-2"></i>Generate with grid line
-                    </button>
-                    <button name="viewpdf1" id="viewpdf1b" class="modern-btn-primary" onclick="onBtnViewPdf1B()">
-                        <i class="far fa-square me-2"></i>Generate with no grid line
-                    </button>
-                </div>
-            </div>
+    <hr>
+    <h1>
+        Generate Sticker Slide
+    </h1>
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h3>1. Generate PDF (Paper A4) (Sticker Label 2.3x2.0 cm)  </h3>
+        <div class="">
+
+            <label for="1A">A:</label>
+            <input type="text" id="1A" name="1A" value="2.5">
+
+            <label for="1B">B:</label>
+            <input type="text" id="1B" name="1B"  value="2.5">
+
+            <label for="1X">X:</label>
+            <input type="text" id="1X" name="1X"  value="3.6">
+
+            <label for="1Y">Y:</label>
+            <input type="text" id="1Y" name="1Y"  value="6.0">
+
+            <br><br>
+                <button name="viewpdf1" id="viewpdf1a" class="btn btn-primary" onclick="onBtnViewPdf1A()">&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
+                <button name="viewpdf1" id="viewpdf1b" class="btn btn-primary" onclick="onBtnViewPdf1B()">&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
         </div>
     </div>
 
 
-    <div class="modern-card mb-4">
-        <div class="card-header-custom">
-            <h3><i class="fas fa-file-invoice me-2"></i>2. Generate PDF (Paper 76mm x 20mm) - Sticker Label 2.3x2.0cm x3 per row</h3>
-        </div>
-        <div class="card-body-custom text-center">
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h3>2. Generate PDF (Paper 76mm x 20mm) (Sticker Label 2.3x2.0cm x3 per row)  </h3>
+        <div class="">
             <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION[
     "userid"
-] ?>" target="_blank" class="text-decoration-none">
-                <button name="viewpdf2" id="viewpdf2" type="submit" class="modern-btn-primary me-3">
-                    <i class="fas fa-border-all me-2"></i>Generate with grid line
-                </button>
+] ?>"  target="_blank">
+                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
             </a>
             <a href="<?= Url::currentURL() ?>/sn_pdf2.php?userid=<?= $_SESSION[
     "userid"
-] ?>&ishideborder" target="_blank" class="text-decoration-none">
-                <button name="viewpdf2" id="viewpdf2" type="submit" class="modern-btn-primary">
-                    <i class="far fa-square me-2"></i>Generate with no grid line
-                </button>
+] ?>&ishideborder"  target="_blank">
+                <button name="viewpdf2" id="viewpdf2" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
             </a>
         </div>
     </div>
@@ -675,65 +327,45 @@ if (!$labelPrints) {
     <!-- ===============================================
     button to show pdf section =========================
     ====================================================-->
-    <div class="modern-card mb-4">
-        <div class="card-header-custom">
-            <h1><i class="fas fa-tags me-2"></i>Generate Sticker Specimen (Print x2 per record)</h1>
+    <hr>
+    <h1>
+        Generate Sticker Specimen (Print x2 per record)
+    </h1>
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h3>1. Generate PDF (Paper 5.0cmx2.5cm) (Sticker Label 5.0cmx2.5cm x1 per row)  </h3>
+        <div class="">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
+    "userid"
+] ?>"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
+            </a>
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
+    "userid"
+] ?>&ishideborder"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
+            </a>
         </div>
-        <div class="card-body-custom">
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <h3 class="section-title">
-                        <i class="fas fa-file-invoice me-2"></i>1. Generate PDF (Paper 5.0cm x 2.5cm) - Sticker Label 5.0cm x 2.5cm x1 per row
-                    </h3>
-                    <div class="text-center">
-                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
+    </div>
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h3>2. Generate PDF (Paper 5.0cmx1.9cm) (Sticker Label 5.0cmx1.9cm x1 per row)  </h3>
+        <div class="">
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
     "userid"
-] ?>" target="_blank" class="text-decoration-none">
-                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary me-2">
-                                <i class="fas fa-border-all me-2"></i>Generate with grid line
-                            </button>
-                        </a>
-                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf1.php?userid=<?= $_SESSION[
+] ?>"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with grid line&nbsp;&nbsp;</button>
+            </a>
+            <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
     "userid"
-] ?>&ishideborder" target="_blank" class="text-decoration-none">
-                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary">
-                                <i class="far fa-square me-2"></i>Generate with no grid line
-                            </button>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <h3 class="section-title">
-                        <i class="fas fa-file-invoice me-2"></i>2. Generate PDF (Paper 5.0cm x 1.9cm) - Sticker Label 5.0cm x 1.9cm x1 per row
-                    </h3>
-                    <div class="text-center">
-                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
-    "userid"
-] ?>" target="_blank" class="text-decoration-none">
-                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary me-2">
-                                <i class="fas fa-border-all me-2"></i>Generate with grid line
-                            </button>
-                        </a>
-                        <a href="<?= Url::currentURL() ?>/sn_sp_pdf2.php?userid=<?= $_SESSION[
-    "userid"
-] ?>&ishideborder" target="_blank" class="text-decoration-none">
-                            <button name="viewpdf3" id="viewpdf3" type="submit" class="modern-btn-primary">
-                                <i class="far fa-square me-2"></i>Generate with no grid line
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+] ?>&ishideborder"  target="_blank">
+                <button name="viewpdf3" id="viewpdf3" type="submit" class="btn btn-primary" >&nbsp;&nbsp;Generate with no grid line&nbsp;&nbsp;</button>
+            </a>
         </div>
     </div>
 
-    <div class="modern-card">
-        <div class="card-header-custom">
-            <h1><i class="fas fa-cogs me-2"></i>Configuration</h1>
-        </div>
-        <div class="card-body-custom text-center">
-            <img src="generate_label/configuration.png" alt="Configuration Image" class="config-image img-fluid">
-        </div>
+    <hr>
+    <div id="insert_label_list_section"  class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <h1>Configuration</h1>
+        <img src="generate_label/configuration.png" alt="Configuration Image">
     </div>
 </div>
 
@@ -792,198 +424,8 @@ if (!$labelPrints) {
         $("#target_accept_date").datepicker({
             dateFormat: 'yy-mm-dd'
         });
-        $("#filter_accept_date").datepicker({
-            dateFormat: 'yy-mm-dd',
-            onSelect: function(dateText) {
-                filterTableByDate(dateText);
-            }
-        });
 
     });
-
-    function filterTableByDate(selectedDate){
-        let user_id = $('#userid').val();
-        let accept_date = selectedDate;
-        let pnumjson;
-        let existingSNs = new Set(); // Store existing SN numbers
-
-        // Show loading indicator
-        $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></td></tr>');
-
-        // First, fetch existing records from tableforprintlabel
-        $.ajax({
-            // 'async': false,
-            type: 'POST',
-            'global': false,
-            url: 'ajax_data/generate_label_get_record.php',
-            data: {
-                'user_id': user_id,
-            },
-            success: function (data) {
-                try {
-                    if (data && data.trim() !== '') {
-                        let existingRecords = JSON.parse(data);
-                        // Extract SN numbers from existing records
-                        $.each(existingRecords, function(index, record) {
-                            if (record.sn_num) {
-                                existingSNs.add(record.sn_num);
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.error("Error parsing existing records:", e);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching existing records:", error);
-            }
-        });
-
-        // get data from database
-        $.ajax({
-            // 'async': false,
-            type: 'POST',
-            'global': false,
-            url: 'ajax_data/generate_label_get_SN_by_date.php',
-            data: {
-                'user_id': user_id,
-                'accept_date': accept_date,
-            },
-            success: function (data) {
-                // console.log("Filtered data::");
-                // console.log(data);
-                pnumjson = JSON.parse(data);
-
-                // Check if DataTable already exists, if yes destroy it first
-                if ($.fn.DataTable.isDataTable('#snDataTable')) {
-                    $('#snDataTable').DataTable().clear().destroy();
-                }
-
-                // Clear table body
-                $("#snDataTable").find("tbody").empty();
-
-                // Create select options for Number from/to (1-99)
-                let numOptions = '';
-                for (let i = 1; i <= 99; i++) {
-                    numOptions += '<option value="' + i + '">' + i + '</option>';
-                }
-
-                // Loop through pnumjson and add rows to table
-                if (pnumjson.length > 0) {
-                    $.each(pnumjson, function(index, item) {
-                        let acceptDateFormatted = convertDateFormat(item.accept_date);
-                        let rowId = 'row_' + index;
-                        let isFinished = existingSNs.has(item.p_pnum);
-                        let finishedBadge = isFinished ? ' <span class="badge bg-success">Finish</span>' : '';
-                        let rowClass = isFinished ? 'table-secondary' : '';
-
-                        // Create checkbox options for A, B, C, D, E with number from/to inputs
-                        let letterCheckboxHtml = '<div class="d-flex flex-column gap-2">';
-                        const letters = ['A', 'B', 'C', 'D', 'E'];
-
-                        for (let i = 0; i < letters.length; i++) {
-                            let letter = letters[i];
-                            let isChecked = (letter === 'A') ? ' checked' : '';
-                            let isDisabled = (letter === 'A') ? '' : ' disabled';
-                            let defaultFrom = (letter === 'A') ? '1' : '';
-                            let defaultTo = (letter === 'A') ? '1' : '';
-
-                            letterCheckboxHtml += `
-                                <div class="d-flex align-items-center gap-1">
-                                    <div class="form-check form-check-sm">
-                                        <input class="form-check-input letter-checkbox" type="checkbox"
-                                               value="${letter}" data-pid="${item.pid}" id="letter_${letter}_${index}"${isChecked}>
-                                        <label class="form-check-label" for="letter_${letter}_${index}">${letter}</label>
-                                    </div>
-                                    <select class="form-select form-select-sm start-num-select-${letter}"
-                                            data-pid="${item.pid}"${isDisabled}>
-                                        <option value="">From</option>
-                                        ${numOptions}
-                                    </select>
-                                    <select class="form-select form-select-sm end-num-select-${letter}"
-                                            data-pid="${item.pid}"${isDisabled}>
-                                        <option value="">To</option>
-                                        ${numOptions}
-                                    </select>
-                                </div>
-                            `;
-                        }
-                        letterCheckboxHtml += '</div>';
-
-                        $("#snDataTable").find("tbody").append(
-                            "<tr id='" + rowId + "' class='" + rowClass + "'>" +
-                            "<td>" + (index + 1) + "</td>" +
-                            "<td>" + item.p_pnum + finishedBadge + "</td>" +
-                            "<td>" + item.p_phospital_num + "</td>" +
-                            "<td>" + item.name_patho + "</td>" +
-                            "<td>" + acceptDateFormatted + "</td>" +
-                            "<td>" +
-                                letterCheckboxHtml +
-                            "</td>" +
-                            "</tr>"
-                        );
-                    });
-                }
-
-                // Destroy existing DataTable if it exists
-                if ($.fn.DataTable.isDataTable('#snDataTable')) {
-                    $('#snDataTable').DataTable().destroy();
-                }
-
-                // Initialize DataTable only if there's data, otherwise just show empty message
-                if (data.length > 0) {
-                    $("#snDataTable").DataTable({
-                        "responsive": true,
-                        "pageLength": -1,
-                        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                        "language": {
-                            "emptyTable": "No SN numbers found for this date"
-                        },
-                        "order": [[1, "asc"]],
-                        "columnDefs": [
-                            { "width": "5%", "targets": 0 },
-                            { "width": "15%", "targets": 1 },
-                            { "width": "12%", "targets": 2, "visible": false },
-                            { "width": "20%", "targets": 3, "visible": false },
-                            { "width": "13%", "targets": 4, "visible": false },
-                            { "width": "35%", "targets": 5 }
-                        ]
-                    });
-
-                    // Add event listeners for checkboxes to enable/disable number selects
-                    $("#snDataTable").on('change', '.letter-checkbox', function() {
-                    let $checkbox = $(this);
-                    let letter = $checkbox.val();
-                    let $row = $checkbox.closest('tr');
-                    let $startSelect = $row.find('.start-num-select-' + letter);
-                    let $endSelect = $row.find('.end-num-select-' + letter);
-
-                        if ($checkbox.is(':checked')) {
-                            $startSelect.prop('disabled', false);
-                            $endSelect.prop('disabled', false);
-                        } else {
-                            $startSelect.prop('disabled', true).val('');
-                            $endSelect.prop('disabled', true).val('');
-                        }
-                    });
-
-                    // Set default value "1" for all letters (A-E) number selects
-                    const letters = ['A', 'B', 'C', 'D', 'E'];
-                    letters.forEach(function(letter) {
-                        $("#snDataTable").find('.start-num-select-' + letter).val('1');
-                        $("#snDataTable").find('.end-num-select-' + letter).val('1');
-                    });
-                } else {
-                    // No data found - just show message without DataTable
-                    $("#snDataTable").find("tbody").html('<tr><td colspan="6" class="text-center">No SN numbers found for this date</td></tr>');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching filtered data:", error);
-                $("#snDataTable").find("tbody").html('<tr><td colspan="5" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
-            }
-        });
-    }
 
     function openPdf1(x,y,a,b,ishideborder){
         if(ishideborder){
@@ -1020,45 +462,14 @@ if (!$labelPrints) {
     }
 
 
-    function drawSelectionAndDOM(updateTable = true){
+    function drawSelectionAndDOM(){
         //$patientLists = Patient::getAllJoin_forlableprint($conn, 1);
         let user_id = $('#userid').val();
         let accept_date = $('#target_accept_date').val();
         let pnumjson;
-        let existingSNs = new Set(); // Store existing SN numbers
-
-        // First, fetch existing records from tableforprintlabel
-        $.ajax({
-            'async': false,
-            type: 'POST',
-            'global': false,
-            url: 'ajax_data/generate_label_get_record.php',
-            data: {
-                'user_id': user_id,
-            },
-            success: function (data) {
-                try {
-                    if (data && data.trim() !== '') {
-                        let existingRecords = JSON.parse(data);
-                        // Extract SN numbers from existing records
-                        $.each(existingRecords, function(index, record) {
-                            if (record.sn_num) {
-                                existingSNs.add(record.sn_num);
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.error("Error parsing existing records:", e);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching existing records:", error);
-            }
-        });
-
         // get data from database
         $.ajax({
-            // 'async': false,
+            'async': false,
             type: 'POST',
             'global': false,
             type: 'POST',
@@ -1068,15 +479,15 @@ if (!$labelPrints) {
                 'accept_date': accept_date,
             },
             success: function (data) {
-                // console.log("data::");
-                // console.log(data);//print json string
+                console.log("data::");
+                console.log(data);//print json string
                 //{"pid":"35101","p_pnum":"CN2600061","p_phospital_num":"489883","name_patho":"\u0e08\u0e38\u0e25\u0e34\u0e19\u0e17\u0e23\u0e2a\u0e33\u0e23\u0e32\u0e0d","ab_patho":"JS.","accept_date":"2026-01-13"}
                 pnumjson = JSON.parse(data); //convert String to JS Object
-                // for (var i in pnumjson)
-                // {
-                //     //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
-                //     console.log("pnumjson[i].pid"+pnumjson[i].pid);
-                // }
+                for (var i in pnumjson)
+                {
+                    //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
+                    console.log("pnumjson[i].pid"+pnumjson[i].pid);
+                }
 
             },
             error: function (jqxhr, status, exception) {
@@ -1154,17 +565,13 @@ if (!$labelPrints) {
         //{"pid":"34796","p_pnum":"PN2600008","p_phospital_num":"7995","name_patho":"\u0e07","ab_patho":"AC.","accept_date":"2026-01-07"}
 
         $.each(pnumjson, function(index, item) {
-            // Check if SN number already exists in tableforprintlabel
-            let isFinished = existingSNs.has(item.p_pnum);
-            let displayText = (index + 1) + ":: " + item.p_pnum + (isFinished ? " (Finish)" : "");
-
- //            console.log();
- //            console.log("item.pid"+item.pid);
- //            console.log("item.p_pnum"+item.p_pnum);
- //            console.log("item.p_phospital_num"+item.p_phospital_num);
- //            console.log("item.name_patho"+item.name_patho);
- //            console.log("item.ab_patho"+item.ab_patho);
- //            console.log("item.accept_date"+item.accept_date);
+//            console.log();
+//            console.log("item.pid"+item.pid);
+//            console.log("item.p_pnum"+item.p_pnum);
+//            console.log("item.p_phospital_num"+item.p_phospital_num);
+//            console.log("item.name_patho"+item.name_patho);
+//            console.log("item.ab_patho"+item.ab_patho);
+//            console.log("item.accept_date"+item.accept_date);
             //-------------Draw following structure-------------
             //            <option value="pid"
             //                    p_pnum="p_pnum"
@@ -1180,7 +587,7 @@ if (!$labelPrints) {
               name_patho: item.name_patho,
               ab_patho: item.ab_patho,
               accept_date: item.accept_date,
-              text: displayText,
+              text: (index + 1) + ":: " +item.p_pnum,
             }));
 
         });
@@ -1223,13 +630,6 @@ if (!$labelPrints) {
 //            console.log("item.ab_patho"+item.ab_patho);
 //            console.log("item.accept_date"+item.accept_date);
 
-            // Check if SN number already exists in tableforprintlabel
-            let isFinished = existingSNs.has(item.p_pnum);
-            let listText = item.pid+'::'+item.p_pnum+'::'+item.p_phospital_num+'::'+item.name_patho+'::'+item.ab_patho+'::'+item.accept_date;
-            if (isFinished) {
-                listText += ' (Finish)';
-            }
-
             uldom.append($("<li>", {
               tabindex: item.pid,
               pnum: item.p_pnum,
@@ -1237,7 +637,7 @@ if (!$labelPrints) {
               patho_abbreviation: item.ab_patho,
               ab_patho: item.ab_patho,
               accept_date: item.accept_date,
-              text: listText,
+              text: (item.pid+'::'+item.p_pnum+'::'+item.p_phospital_num+'::'+item.name_patho+'::'+item.ab_patho+'::'+item.accept_date),
             }));
         });
         //============================================================================
@@ -1257,366 +657,14 @@ if (!$labelPrints) {
             accept_date: li.getAttribute("accept_date")
           };
         });
-
-        //====== Populate DataTable for All SN Number List ======
-        // Only update table if updateTable parameter is true
-        if (updateTable) {
-            // Check if DataTable already exists, if yes destroy it first
-            if ($.fn.DataTable.isDataTable('#snDataTable')) {
-                let dataTable = $('#snDataTable').DataTable();
-                dataTable.clear().destroy();
-            }
-
-            // Get fresh reference to table after destruction
-            let $snDataTable = $("#snDataTable");
-
-            // Clear table body
-            $snDataTable.find("tbody").empty();
-
-        // Create select options for Number from/to (1-99)
-        let numOptions = '';
-        for (let i = 1; i <= 99; i++) {
-            numOptions += '<option value="' + i + '">' + i + '</option>';
-        }
-
-        // Loop through pnumjson and add rows to table
-        $.each(pnumjson, function(index, item) {
-            let acceptDateFormatted = convertDateFormat(item.accept_date);
-            let rowId = 'row_' + index;
-            let isFinished = existingSNs.has(item.p_pnum);
-            let finishedBadge = isFinished ? ' <span class="badge bg-success">Finish</span>' : '';
-            let rowClass = isFinished ? 'table-secondary' : '';
-
-            // Create checkbox options for A, B, C, D, E with number from/to inputs
-            let letterCheckboxHtml = '<div class="d-flex flex-column gap-2">';
-            const letters = ['A', 'B', 'C', 'D', 'E'];
-
-            for (let i = 0; i < letters.length; i++) {
-                let letter = letters[i];
-                let isChecked = (letter === 'A') ? ' checked' : '';
-                let isDisabled = (letter === 'A') ? '' : ' disabled';
-                let defaultFrom = (letter === 'A') ? '1' : '';
-                let defaultTo = (letter === 'A') ? '1' : '';
-
-                letterCheckboxHtml += `
-                    <div class="d-flex align-items-center gap-1">
-                        <div class="form-check form-check-sm">
-                            <input class="form-check-input letter-checkbox" type="checkbox"
-                                   value="${letter}" data-pid="${item.pid}" id="letter_${letter}_${index}"${isChecked}>
-                            <label class="form-check-label" for="letter_${letter}_${index}">${letter}</label>
-                        </div>
-                        <select class="form-select form-select-sm start-num-select-${letter}"
-                                data-pid="${item.pid}"${isDisabled}>
-                            <option value="">From</option>
-                            ${numOptions}
-                        </select>
-                        <select class="form-select form-select-sm end-num-select-${letter}"
-                                data-pid="${item.pid}"${isDisabled}>
-                            <option value="">To</option>
-                            ${numOptions}
-                        </select>
-                    </div>
-                `;
-            }
-            letterCheckboxHtml += '</div>';
-
-            $snDataTable.find("tbody").append(
-                "<tr id='" + rowId + "' class='" + rowClass + "'>" +
-                "<td>" + (index + 1) + "</td>" +
-                "<td>" + item.p_pnum + finishedBadge + "</td>" +
-                "<td>" + item.p_phospital_num + "</td>" +
-                "<td>" + item.name_patho + "</td>" +
-                "<td>" + acceptDateFormatted + "</td>" +
-                "<td>" +
-                    letterCheckboxHtml +
-                "</td>" +
-                "</tr>"
-            );
-        });
-
-        // Initialize DataTable
-            $("#snDataTable").DataTable({
-            "responsive": true,
-            "pageLength": -1,
-            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            "language": {
-                "emptyTable": "No SN numbers found for this date"
-            },
-            "order": [[1, "asc"]],
-            "columnDefs": [
-                { "width": "5%", "targets": 0 },
-                { "width": "15%", "targets": 1 },
-                { "width": "12%", "targets": 2, "visible": false },
-                { "width": "20%", "targets": 3, "visible": false },
-                { "width": "13%", "targets": 4, "visible": false },
-                { "width": "35%", "targets": 5 }
-            ]
-            });
-
-            // Add event listeners for checkboxes to enable/disable number selects
-            $snDataTable.on('change', '.letter-checkbox', function() {
-                let $checkbox = $(this);
-                let letter = $checkbox.val();
-                let $row = $checkbox.closest('tr');
-                let $startSelect = $row.find('.start-num-select-' + letter);
-                let $endSelect = $row.find('.end-num-select-' + letter);
-
-                if ($checkbox.is(':checked')) {
-                    $startSelect.prop('disabled', false);
-                    $endSelect.prop('disabled', false);
-                } else {
-                    $startSelect.prop('disabled', true).val('');
-                    $endSelect.prop('disabled', true).val('');
-                }
-            });
-
-            // Set default value "1" for all letters (A-E) number selects
-            const letters = ['A', 'B', 'C', 'D', 'E'];
-            letters.forEach(function(letter) {
-                $snDataTable.find('.start-num-select-' + letter).val('1');
-                $snDataTable.find('.end-num-select-' + letter).val('1');
-            });
-        }
+        //alert("pause");
 
     }
-
-    // Function to add all SN numbers from DataTable to the print list
-    function addAllToListAsync() {
-        let user_id = $('#userid').val();
-        let successCount = 0;
-        let failCount = 0;
-        let totalRows = 0;
-
-        // Disable button and show loading state
-        let $btn = $('#btn_add_all_to_list');
-        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Adding...');
-
-        // Get all rows from the DataTable
-        let table = $('#snDataTable').DataTable();
-        let rows = table.rows().nodes();
-        totalRows = rows.length;
-
-        if (totalRows === 0) {
-            alert('No SN numbers to add!');
-            // Re-enable button
-            $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
-            return;
-        }
-
-        // Collect all records into arrays
-        let recordsArray = [];
-        console.log("=== Starting to collect records from " + rows.length + " rows ===");
-
-        // Loop through each row and collect data
-        $(rows).each(function(index, row) {
-
-            // Get data from the row using the row's cells
-            let $row = $(row);
-            let $checkboxes = $row.find('.letter-checkbox:checked');
-
-            console.log("Row " + index + ": Found " + $checkboxes.length + " checked checkboxes");
-
-            if ($checkboxes.length === 0) {
-                return; // Skip this row if no checkboxes are checked
-            }
-
-            let pid = $row.find('.letter-checkbox').first().data('pid');
-
-            // Get values from table cells - extract only text nodes, not HTML content
-            let $cells = $row.find('td');
-            let sn_num = $cells.eq(1).clone().children().remove().end().text().trim();
-            let hn_num = $cells.eq(2).clone().children().remove().end().text().trim();
-            let patho_full = $cells.eq(3).clone().children().remove().end().text().trim();
-            let accept_date = $cells.eq(4).clone().children().remove().end().text().trim();
-
-            // Truncate raw fields to prevent database column length errors
-            sn_num = sn_num.substring(0, 50);  // VARCHAR(50)
-            hn_num = hn_num.substring(0, 20);  // VARCHAR(20)
-            patho_full = patho_full.substring(0, 100);  // VARCHAR(100) for full pathology name
-            accept_date = accept_date.substring(0, 20);  // VARCHAR(20)
-
-            // Extract abbreviation from "Name (AB)"
-            let patho_abbrev = "";
-            let match = patho_full.match(/\(([^)]+)\)/);
-            if (match) {
-                patho_abbrev = match[1];
-            }
-
-            // Truncate patho_abbrev after extraction
-            patho_abbrev = patho_abbrev.substring(0, 20);  // VARCHAR(20)
-
-            // Validate data before adding to array
-            if (!pid || !sn_num) {
-                failCount++;
-                return; // Skip this row
-            }
-
-            // Loop through each checked checkbox for this row
-            $checkboxes.each(function() {
-                let letter = $(this).val();
-                let start_num = $row.find('.start-num-select-' + letter).val();
-                let end_num = $row.find('.end-num-select-' + letter).val();
-
-                console.log("  - Letter " + letter + ": from=" + start_num + ", to=" + end_num);
-
-                // Skip if no start/end numbers selected
-                if (!start_num || !end_num) {
-                    console.log("    WARNING: Missing start or end number, skipping");
-                    failCount++;
-                    return;
-                }
-
-                // Add record to array for each checked letter
-                // Backend will expand the range (start_num to end_num) into individual records
-                let record = {
-                    'patient_id': pid,
-                    'userid': user_id,
-                    'sn_num': sn_num,
-                    'hn_num': hn_num,
-                    'patho_abbrev': patho_abbrev,
-                    'accept_date': accept_date,
-                    'company_name': "N.B.Pathology",
-                    'letter': letter,
-                    'start_num': start_num,
-                    'end_num': end_num
-                };
-
-                console.log("  Record being added:", {
-                    sn_num: record.sn_num + (record.sn_num.length > 20 ? ' (' + record.sn_num.length + ' chars)' : ''),
-                    hn_num: record.hn_num + (record.hn_num.length > 10 ? ' (' + record.hn_num.length + ' chars)' : ''),
-                    patho_abbrev: record.patho_abbrev,
-                    letter: record.letter,
-                    range: record.start_num + '-' + record.end_num
-                });
-
-                recordsArray.push(record);
-            });
-        });
-
-        console.log("=== Total records collected: " + recordsArray.length + " ===");
-        console.log("Records array:", recordsArray);
-
-        // Check if there are records to send
-        if (recordsArray.length === 0) {
-            alert('No valid records to add!');
-            // Re-enable button
-            $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
-            return;
-        }
-
-        // Prepare data to send - send records as JSON string in POST parameter
-        let requestData = {
-            'records': JSON.stringify(recordsArray)
-        };
-
-        console.log("Adding " + recordsArray.length + " SN numbers to the list...");
-
-        // Send single AJAX request with all records
-        console.log("=== Sending AJAX request to backend ===");
-        console.log("Request data:", requestData);
-
-        $.ajax({
-            type: 'POST',
-            url: 'ajax_data/generate_label_add_multiple_record.php',
-            data: requestData,
-            success: function (response) {
-                console.log("=== AJAX SUCCESS ===");
-                console.log("Response:", response);
-
-                // Re-enable button
-                $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
-
-                try {
-                    let responseData = typeof response === 'string' ? JSON.parse(response) : response;
-                    console.log("Parsed response data:", responseData);
-                    console.log("Success message:", responseData.message);
-
-                    // alert(responseData.message || 'Added ' + recordsArray.length + ' SN numbers successfully!');
-                    console.log("=== Calling drawtableforprintlabel() ===");
-                    drawtableforprintlabel();
-
-                    // Refresh SN Number List table to show updated "Finish" status
-                    let filterDate = $('#filter_accept_date').val();
-                    if (filterDate) {
-                        filterTableByDate(filterDate);
-                    } else {
-                        // If no filter date, refresh the dropdown and current table
-                        let targetDate = $('#target_accept_date').val();
-                        if (targetDate) {
-                            drawSelectionAndDOM(true);
-                        }
-                    }
-                } catch (e) {
-                    console.error('=== ERROR parsing response ===');
-                    console.error('Error:', e);
-                    console.error('Response:', response);
-                    alert('Error: Server returned invalid response.\n' + response.substring(0, 200));
-                }
-            },
-            error: function (jqxhr, status, exception) {
-                console.error('=== AJAX ERROR ===');
-                console.error('Status:', status);
-                console.error('Exception:', exception);
-                console.error('Response Text:', jqxhr.responseText);
-                console.error('Response Status:', jqxhr.status);
-                console.error('Response Status Text:', jqxhr.statusText);
-
-                // Re-enable button
-                $('#btn_add_all_to_list').prop('disabled', false).html('<i class="fas fa-layer-group me-2"></i>Add All to List');
-                let errorMsg = 'Error adding SN numbers. Status: ' + status;
-                if (jqxhr.responseText) {
-                    errorMsg += '\nResponse: ' + jqxhr.responseText.substring(0, 200);
-                }
-                alert(errorMsg);
-            }
-        });
-    }
-
-    // Event handler for "Add All to List" button
-    $(document).on('click', '#btn_add_all_to_list', function() {
-        addAllToListAsync();
-    });
-
-    // Event handler for "Check All" button
-    $(document).on('click', '#btn_check_all', function() {
-        console.log("=== Check All clicked ===");
-        // Check all letter checkboxes
-        $('#snDataTable').find('.letter-checkbox').prop('checked', true);
-
-        // Enable all number selects and set to "1"
-        const letters = ['A', 'B', 'C', 'D', 'E'];
-        letters.forEach(function(letter) {
-            $('#snDataTable').find('.start-num-select-' + letter).prop('disabled', false).val('1');
-            $('#snDataTable').find('.end-num-select-' + letter).prop('disabled', false).val('1');
-        });
-
-        console.log("All checkboxes checked, all number selects enabled and set to 1");
-    });
-
-    // Event handler for "Uncheck All" button
-    $(document).on('click', '#btn_uncheck_all', function() {
-        console.log("=== Uncheck All clicked ===");
-        // Uncheck all letter checkboxes
-        $('#snDataTable').find('.letter-checkbox').prop('checked', false);
-
-        // Disable all number selects but keep their current values
-        const letters = ['A', 'B', 'C', 'D', 'E'];
-        letters.forEach(function(letter) {
-            $('#snDataTable').find('.start-num-select-' + letter).prop('disabled', true);
-            $('#snDataTable').find('.end-num-select-' + letter).prop('disabled', true);
-        });
-
-        console.log("All checkboxes unchecked, all number selects disabled (values preserved)");
-    });
-
 
 
     function drawtableforprintlabel() {
-        console.log("=== drawtableforprintlabel() STARTED ===");
         let user_id = $('#userid').val();
-        console.log("User ID:", user_id);
         let datajson;
-
         // get data from database
         $.ajax({
             'async': false,
@@ -1628,31 +676,16 @@ if (!$labelPrints) {
                 'user_id': user_id,
             },
             success: function (data) {
-                console.log("=== AJAX SUCCESS from generate_label_get_record.php ===");
-                console.log("Raw response:", data);
-                console.log("Response length:", data ? data.length : 0);
+                console.log(data);//print json string
+                datajson = JSON.parse(data); //convert String to JS Object
+                for (var i in datajson)
+                {
+                    //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
+                    console.log(datajson[i].id);
+                }
 
-                if (!data || data.trim() === '') {
-                    console.log("WARNING: Empty response received");
-                    datajson = [];
-                    return;
-                }
-                try {
-                    datajson = JSON.parse(data);
-                    console.log("Parsed JSON data:", datajson);
-                    console.log("Number of records:", datajson.length);
-                } catch (e) {
-                    console.error("=== ERROR parsing JSON ===");
-                    console.error("Error:", e);
-                    console.error("Data that failed to parse:", data);
-                    datajson = [];
-                }
             },
             error: function (jqxhr, status, exception) {
-                console.error("=== AJAX ERROR from generate_label_get_record.php ===");
-                console.error("Status:", status);
-                console.error("Exception:", exception);
-                console.error("Response:", jqxhr.responseText);
                 alert('Exception:', exception);
             }
         });
@@ -1665,21 +698,13 @@ if (!$labelPrints) {
         // Remove everything inside the table (rows, cells, etc.)
         $tablelabel.empty();
 
-        // Create and append thead with header row
-        let $thead = $("<thead></thead>");
-        $thead.append("<tr> <th>ID</th> <th>User ID</th> <th>SN Number</th> <th>HN Number</th> <th>Pathology</th> <th>Specimen</th> <th>Admit Date</th> <th>Organization</th> </tr>");
-        $tablelabel.append($thead);
-
-        // Create and append tbody
-        let $tbody = $("<tbody></tbody>");
-
-        console.log("=== Building table with " + datajson.length + " rows ===");
-
+        //Append a new row
+        $tablelabel.append("<tr> <th>id</td> <th>User_ID </th> <th>SN_Num</th> <th>HN_Num</th> <th>PathoAbrev</th> <th>SpeciAbrev</th> <th>admit_date</th> <th>Org.</th> </tr>");
         for (var i in datajson)
         {
             let id =datajson[i].id;
             //{"id":"195","userid":"2","sn_num":"CN2501854","hn_num":"","patho_abbreviation":"AC.","speciment_abbreviation":"B1","accept_date":"31\/12\/2025","company_name":"N.B.Pathology","create_date":null},
-            $tbody.append("<tr>"+
+            $tablelabel.append("<tr>"+
                 "<td>"+datajson[i].id+"</td>"+
                 "<td>"+datajson[i].userid+" </td>"+
                 "<td>"+datajson[i].sn_num+"</td>"+
@@ -1689,37 +714,10 @@ if (!$labelPrints) {
                 "<td>"+datajson[i].accept_date+"</td>"+
                 "<td>"+datajson[i].company_name+"</td>"+
                 "</tr>");
+
+            console.log(datajson[i].id);
         }
 
-        $tablelabel.append($tbody);
-
-    console.log("=== Table built successfully ===");
-    console.log("Total rows added:", Object.keys(datajson).length);
-
-        // Initialize DataTable with pagination
-        if ($.fn.DataTable.isDataTable('#tableforprintlabel')) {
-            $('#tableforprintlabel').DataTable().destroy();
-        }
-
-        $("#tableforprintlabel").DataTable({
-            responsive: true,
-            pageLength: 10,
-            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            language: {
-                emptyTable: "No data available"
-            },
-            order: [[0, "desc"]],
-            columnDefs: [
-                { width: "5%", targets: 0 },
-                { width: "5%", targets: 1 },
-                { width: "15%", targets: 2 },
-                { width: "10%", targets: 3 },
-                { width: "10%", targets: 4 },
-                { width: "10%", targets: 5 },
-                { width: "10%", targets: 6 },
-                { width: "15%", targets: 7 }
-            ]
-        });
     }
 
 
@@ -1752,6 +750,21 @@ if (!$labelPrints) {
             let letter = $('#letter').selectize()[0].selectize.getValue();
             let start_num = $('#start_num').selectize()[0].selectize.getValue();
             let end_num = $('#end_num').selectize()[0].selectize.getValue();
+
+            // Print to console
+            console.log("patient_id:", patient_id);
+            console.log("userid:", userid);
+            console.log("sn_num:", sn_num);
+            console.log("hn_num:", hn_num);
+            console.log("patho_abbrev:", patho_abbrev);
+            console.log("accept_date:", accept_date);
+            console.log("company_name:", company_name);
+            console.log("letter:", letter);
+            console.log("start_num:", start_num);
+            console.log("end_num:", end_num);
+
+//            alert("submit");
+
 
             $.ajax({
                 'async': false,
@@ -1788,12 +801,32 @@ if (!$labelPrints) {
         //========Update related input field when pnum_id dropdown list is changed  =====================
         $("#pnum_id").off("change").on("change", function() {
 
+            console.log('\n\n\n===================================================================\n');
+            console.log('==========================pnum_change==============================\n');
+            console.log('===================================================================\n\n\n');
+
             let selectize = $('#pnum_id').selectize()[0].selectize;            // Initialize Selectize
             let pnum_id_selected = selectize.getValue();             // Get value when needed
 
+            console.log('selectizeValue::'+pnum_id_selected)
+//            alert('selectizeValue::'+pnum_id_selected);
 
             targetpatient = resultArray.find(obj => obj.tabindex === pnum_id_selected);
             //console.log("resultArray::"+resultArray);
+
+            //resultArray.forEach(item => { console.log("Tabindex:", item.tabindex, "Pnum:", item.pnum, "HN:", item.hn_num, "Patho:", item.patho_abbreviation, "Date:", item.accept_date); });
+            console.log(JSON.stringify(resultArray, null, 2));
+            console.log("targetpatient::"+targetpatient);
+
+
+//            alert("pause for debug");
+
+            console.log('tabindex::'+targetpatient.tabindex);
+            console.log('pnum::'+targetpatient.pnum);
+            console.log('hn_num::'+targetpatient.hn_num);
+            console.log('patho_abbreviation::'+targetpatient.patho_abbreviation);
+            console.log('accept_date::'+targetpatient.accept_date);
+
 
             // Set values with jQuery
             $('#patho_abbreviation').val(targetpatient.patho_abbreviation);
@@ -1812,12 +845,25 @@ if (!$labelPrints) {
             let start_num = $('#start_num').selectize()[0].selectize.getValue();
             let end_num = $('#end_num').selectize()[0].selectize.getValue();
 
+            // Print to console
+            console.log("patient_id:", patient_id);
+            console.log("userid:", userid);
+            console.log("sn_num:", sn_num);
+            console.log("hn_num:", hn_num);
+            console.log("patho_abbrev:", patho_abbrev);
+            console.log("accept_date:", accept_date);
+            console.log("company_name:", company_name);
+            console.log("letter:", letter);
+            console.log("start_num:", start_num);
+            console.log("end_num:", end_num);
+
+            //alert('pnum_id:'+pnum_id);
+
         });
 
         // First clear any previous change handlers, then add a new one
-        // target_accept_date change event only updates dropdown, not the table
         $("#target_accept_date").off("change").on("change", function() {
-            drawSelectionAndDOM(false); // Pass false to skip table update
+            drawSelectionAndDOM();
         });
 
 
