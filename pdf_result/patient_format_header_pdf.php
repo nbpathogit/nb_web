@@ -16,7 +16,7 @@
         <td width="30%" style="border: 1px solid green;  border-collapse: collapse; vertical-align:top; text-align:right; border-bottom: 1px solid black; border-top: 1px solid black;"><!-- comment -->
             <span style="font-size:10pt;"><b>18/54 Sanambin Rd. Mueng Phitsanulok 65000</b></span><br>
             <span style="font-size:10pt;"><b>Email:nbpathologyplk@gmail.com</b></span><br>
-            <span style="font-size:10pt;"><b></b><b>Tel:064-3545-283</b></span><br>
+            <span style="font-size:10pt;"><b>Line:@Nbpatho</b> <b>Tel:064-3545-283</b></span><br>
 
         </td><!-- comment -->
     </tr>
