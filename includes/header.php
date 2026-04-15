@@ -158,7 +158,7 @@
 
 
                         <div class="nav-item dropdown">
-                            <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง</a>
+                            <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง และ ตั้งค่า</a>
                             <div class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
                                 <a id="user_add" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
                                 <a id="user" class="nav-item nav-link" href="user.php">ดูผู้ใช้งานระบบ</a>
@@ -169,6 +169,7 @@
                                 <a id="price_tab_8c" href="nb_price_8c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
                                 <a id="price_tab_9c" href="nb_price_9c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
                                 <a id="price_tab_view" href="nb_price_view.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
+                                <a id="gross_examination_tab" href="gross_examination_record.php" class="nav-item nav-link">setting gross examination record</a>
                             </div>
                         </div>
                         <div class="nav-item dropdown">
