@@ -207,6 +207,24 @@ class Gross_examination_record {
         return array('success' => true, 'message' => 'Record deleted successfully');
     }
     
+    // DELETE - Delete record by ID
+    public function deleteSubID($subid) {
+        $stmt = $this->conn->prepare("DELETE FROM `$this->table` WHERE `sub_id` = ?");
+        
+        if (!$stmt) {
+            return array('success' => false, 'error' => 'Prepare failed: ' . $this->conn->error);
+        }
+        
+        $stmt->bind_param("i", $subid);
+        
+        if (!$stmt->execute()) {
+            return array('success' => false, 'error' => 'Execute failed: ' . $stmt->error);
+        }
+        
+        $stmt->close();
+        return array('success' => true, 'message' => 'Record deleted successfully');
+    }
+    
     // GET ALL - Get all records with optional limit
     public function getAll($limit = null) {
         $sql = "SELECT * FROM `$this->table` ORDER BY id DESC";

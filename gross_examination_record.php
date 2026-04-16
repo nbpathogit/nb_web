@@ -19,6 +19,30 @@ require 'classes/Gross_examination_record.php';
 $record = new Gross_examination_record($conn);
 
 // Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_record'])) {
+    // Handle delete request
+    $sub_id = isset($_POST['sub_id']) && !empty($_POST['sub_id']) ? intval($_POST['sub_id']) : null;
+    
+    if ($sub_id !== null) {
+        $result = $record->deleteSubID($sub_id);
+        
+        if ($result['success']) {
+            header('Content-Type: application/json');
+            echo json_encode(array('success' => true, 'message' => 'Record deleted successfully'));
+            exit;
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(array('success' => false, 'error' => $result['error']));
+            exit;
+        }
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode(array('success' => false, 'error' => 'No record ID provided'));
+        exit;
+    }
+}
+
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
     //var_dump($_POST); // Debugging line to check POST data
     //die();  
@@ -130,10 +154,11 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
     
     <!-- Sub ID field (for new records) -->
     <div class="form-group">
-<!--      <input type="hidden" id="subId" name="sub_id" value="<?php echo htmlspecialchars($nextSubId); ?>">
+<!--      <input type="hidden" id="subId" name="sub_id" value="<?php //echo htmlspecialchars($nextSubId); ?>">
       <input type="hidden" id="recordId" name="record_id" value="">-->
-      hiddend nextSubID<input type="" id="subId" name="sub_id" readonly value="<?php echo htmlspecialchars($nextSubId); ?>">
+      hidden SubID<input type="" id="subId" name="sub_id" readonly value="">
       hidden record id<input type="" id="recordId" name="record_id" readonly value="">
+      hidden nextSubID<input type="" id="next_sub_id" name="next_sub_id" readonly value="<?php echo htmlspecialchars($nextSubId); ?>">
     </div>
     
     <!-- Prefill editor with latest content -->
@@ -145,6 +170,7 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
     <br>
     <button type="submit" class="btn btn-primary">Save</button>
     <button type="button" class="btn btn-success" id="newRecordBtn">+ New Record</button>
+    <button type="button" class="btn btn-danger" id="deleteRecordBtn" style="display:none;">Delete Record</button>
   </form>
 </div>
 <?php endif; ?>
@@ -272,6 +298,13 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
         $('#subId').val(selectedSubId);
         $('#recordId').val(selectedId || ''); // Store record ID for update
         
+        // Show/hide delete button based on whether a record is selected
+        if (selectedId) {
+          $('#deleteRecordBtn').show();
+        } else {
+          $('#deleteRecordBtn').hide();
+        }
+        
         // Set description to the Summernote editor
         setDescriptionToEditor(selectedContent);
         
@@ -289,6 +322,7 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
         $('#changeHistoryContainer').html(historyHtml).show();
       } else {
         $('#changeHistoryContainer').hide(); // Hide history if no selection
+        $('#deleteRecordBtn').hide();
       }
 //      alert("selection change");
     });
@@ -326,6 +360,62 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
         },
         error: function(xhr, status, error) {
           alert('Error creating new record: ' + error);
+        }
+      });
+    });
+    
+    // Handle Delete Record button
+    $('#deleteRecordBtn').on('click', function() {
+      var subId = $('#subId').val();
+      var selectedDescription = $('#description').val();
+      
+      if (!recordId) {
+        alert('No record selected for deletion.');
+        return;
+      }
+      
+      // Confirm deletion
+      var confirmMsg = 'Are you sure you want to delete this record?';
+      if (selectedDescription) {
+        confirmMsg += '\n' + selectedDescription;
+      }
+      
+      if (!confirm(confirmMsg)) {
+        return;
+      }
+      
+      // Make AJAX call to delete the record
+      $.ajax({
+        url: window.location.href, // Same page
+        type: "POST",
+        data: {
+          'sub_id': subId,
+          'delete_record': true // Flag to indicate delete operation
+        },
+        success: function(response) {
+          var resp = (typeof response === 'object') ? response : JSON.parse(response);
+          
+          if (resp.success) {
+            alert('Record deleted successfully!');
+            
+            // Clear all fields after deletion
+            $('#recordSelect').val(''); // Reset dropdown
+            $('#description').val(''); // Clear description
+            $('#summernote').summernote('code', ''); // Clear editor
+            $('#recordId').val(''); // Clear record ID
+            $('#deleteRecordBtn').hide(); // Hide delete button
+            $('#changeHistoryContainer').hide();
+            
+            // Reload page to refresh dropdown list
+            setTimeout(function() {
+              location.reload();
+            }, 1500);
+          } else {
+            alert('Error: ' + resp.error);
+          }
+        },
+        error: function(xhr, status, error) {
+          alert('Error deleting record: ' + error);
         }
       });
     });
