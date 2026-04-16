@@ -171,6 +171,7 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
     <button type="submit" class="btn btn-primary">Save</button>
     <button type="button" class="btn btn-success" id="newRecordBtn">+ New Record</button>
     <button type="button" class="btn btn-danger" id="deleteRecordBtn" style="display:none;">Delete Record</button>
+    <button type="button" class="btn btn-info" id="viewPdfBtn">PreView PDF</button>
   </form>
 </div>
 <?php endif; ?>
@@ -220,8 +221,8 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
     $('#summernote').summernote({
       height: 200,
       placeholder: 'Write your content here...',
-      fontNames: ['Angsana New', 'Arial', 'Calibri', 'Courier New', 'Tahoma'],
-      fontNamesIgnoreCheck: ['Angsana New', 'Arial', 'Calibri'],
+      fontNames: ['Calibri', 'Angsana', 'Arial'],
+      fontNamesIgnoreCheck: ['Calibri', 'Angsana', 'Arial'],
       toolbar: [
         ['style', ['style']],
         ['color', ['color']], // <-- add this line
@@ -418,6 +419,19 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
           alert('Error deleting record: ' + error);
         }
       });
+    });
+    
+    // Handle View PDF button
+    $('#viewPdfBtn').on('click', function() {
+      var recordId = $('#recordId').val();
+      
+      if (!recordId) {
+        alert('Please select a record first.');
+        return;
+      }
+      
+      var pdfUrl = 'patient_pdf_for_note_v2.php?id=39863&gross_id=' + recordId;
+      window.open(pdfUrl, '_blank');
     });
   });
 
