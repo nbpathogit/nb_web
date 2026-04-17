@@ -32,8 +32,8 @@
             
             <table width="100%" style=" border: 1px solid green;    border-collapse: collapse;">
                 <tr>
-                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Name :</b> <pname></span></td>
-                    <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Surname :</b> <plastname></span></td>
+                    <td width="60%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Name :</b> <pname>  <plastname></span></td>
+                    <td width="1%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b> </b></span></td>
                     <td width="30%" align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Age :</b> <pedge></span></td>
                     <td width=""  align="left" style="border: 1px solid green;  border-collapse: collapse;"><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"></span></td>
                 </tr>
@@ -43,7 +43,7 @@
                 <tr>
                     <td width="15%" align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Sex :</b> <pg></span></td>
                     <td width="18%" align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>HN :</b><phospital_num></span></td>
-                    <td width="38%" align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Hospital :</b><hospital></span></td>
+                    <td width="38%" align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:14pt; line-height: 18pt;"><b>Hospital :</b><hospital></span></td>
                     <td width=""    align="left" style="border: 1px solid green;  border-collapse: collapse; "><span  style="width:100%; font-family:angsana; font-size:18pt; line-height: 18pt;"><b>Clinician :</b><pclinician> </span></td>
                 </tr>
             </table>
