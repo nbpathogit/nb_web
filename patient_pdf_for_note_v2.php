@@ -47,7 +47,100 @@ if (!isset($gross_id)) {
     if (isset($_GET['gross_id'])) {
         $gross_id = $_GET['gross_id'];
     } else {
-        Util::alert("gross_id not avalable");
+
+        // ===== DB CONFIG =====
+
+        $conn = (new Database())->getConnMysqli();
+
+        if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+
+        // Include the Gross_examination_record class
+        require 'classes/Gross_examination_record.php';
+        $record = new Gross_examination_record($conn);
+
+        // Fetch all latest records grouped by sub_id using the class method
+        $latestContent = "";
+        $allRecords = array();
+        $result = $record->getBySubId();
+
+        if ($result['success'] && !empty($result['data'])) {
+            $allRecords = $result['data'];
+            // Get the first record's content for prefilling (sub_id = 1)
+            foreach ($allRecords as $rec) {
+                if ($rec['sub_id'] == 1) {
+                    $latestContent = $rec['content'];
+                    break;
+                }
+            }
+        } else {
+            $latestContent = "";
+        }
+    ?>
+     <!-- Dropdown list to select records -->
+    <div class="form-group">
+      <label for="recordSelect">Select Record by Sub ID:</label>
+      <select id="recordSelect" class="form-control" style="width: 300px;">
+        <option value="">-- Select a content --(If not select will show blank)</option>
+        <?php if (!empty($allRecords)): ?>
+          <?php foreach ($allRecords as $rec): ?>
+            <option value="<?php echo htmlspecialchars($rec['content']); ?>" data-id="<?php echo $rec['id']; ?>" data-subid="<?php echo $rec['sub_id']; ?>" data-description="<?php echo htmlspecialchars($rec['description']); ?>" data-date="<?php echo $rec['create_date']; ?>">
+              Item ID: <?php echo $rec['sub_id']; ?> : <?php echo $rec['description']; ?> 
+            </option>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </select>
+      <br>
+      <button type="button" class="btn btn-primary" id="selectGrossBtn">Load PDF</button>
+      <span id="spancontent"></span>
+    </div>
+    
+
+    <script>
+// Handle Load PDF button and selection change
+document.addEventListener('DOMContentLoaded', function() {
+  var recordSelect = document.getElementById('recordSelect');
+  var spanContent = document.getElementById('spancontent');
+  var selectBtn = document.getElementById('selectGrossBtn');
+  
+  // Update span when selection changes
+  if (recordSelect) {
+    recordSelect.addEventListener('change', function() {
+      var selectedOption = this.options[this.selectedIndex];
+      var contentValue = selectedOption.value;
+      
+      if (spanContent) {
+        spanContent.innerHTML = contentValue;
+      }
+    });
+  }
+  
+  if (selectBtn) {
+    selectBtn.addEventListener('click', function() {
+      var selectedOption = recordSelect.options[recordSelect.selectedIndex];
+      var selectedId = selectedOption.getAttribute('data-id');
+      
+      // Set selectedId to 0 if nothing is selected
+      if (!selectedId) {
+        selectedId = 0;
+      }
+      
+      // Get current patient ID from URL
+      var urlParams = new URLSearchParams(window.location.search);
+      var patientId = urlParams.get('id');
+      
+      if (!patientId) {
+        alert('Patient ID not available');
+        return;
+      }
+      
+      // Reload page with gross_id parameter
+      var newUrl = window.location.pathname + '?id=' + patientId + '&gross_id=' + selectedId;
+      window.location.href = newUrl;
+    });
+  }
+});
+</script>
+    <?php
         die();
     }
 }
@@ -328,7 +421,9 @@ $mpdf->SetHTMLFooter($footer);
 
 
 
-$mpdf->WriteHTML($grossEx->getContent());
+if ($gross_id != 0) {
+    $mpdf->WriteHTML($grossEx->getContent());
+}
 
 //==START PN type =====================================================================================================================================
 //==END PN type =====================================================================================================================================
@@ -363,6 +458,3 @@ $mpdf->Output($reportFileName . '.pdf', $pdfOutputOption);
 
 
 
-<script>
-
-</script>
