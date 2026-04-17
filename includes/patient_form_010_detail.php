@@ -38,7 +38,7 @@ $curStatusAuthEdit = (
     </div>
 
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?> ">
-        <label for="pnum" align="right" class="">เลขที่ผู้ป่วย</label>
+        <label for="pnum" align="right" class="">เลขที่ผู้ป่วย </label> <a class="btn btn-outline-primary btn-sm me-1 "  href="sn_sp_pdf_format1.php?ishideborder&pid=<?= $patient[0]['id'];?>" target="_blank"><i class="fa-solid fa-print"></i></a>
         <input name="pnum" type="text" id="pnum" class="form-control" readonly placeholder=""  <?= $isEditModePageOn && $isEditModePageForPatientInfoDataOn && ($isCurUserAdmin || ($userAuthEdit && $curStatusAuthEdit) ) ? "" : " disabled readonly " ?>  value="<?= $patient[0]['pnum']; ?>">
     </div>
 
