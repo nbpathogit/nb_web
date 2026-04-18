@@ -18,12 +18,9 @@ if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
     $content = $_POST['content'];
-   
-    // Insert into table testtiptap
-    //INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', 'AAA', current_timestamp(), NULL);
-    $stmt = $conn->prepare("INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '2', '".$content."', current_timestamp(), NULL)");
-//    echo "INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', '".$content."', current_timestamp(), NULL)";
-//    die();
+    $subId = 2; // hardcoded sub_id for now
+    $stmt = $conn->prepare("INSERT INTO nbnote (sub_id, content, create_date, rsv) VALUES (?, ?, current_timestamp(), NULL)");
+    $stmt->bind_param("is", $subId, $content);
     $stmt->execute();
     $stmt->close();
 }

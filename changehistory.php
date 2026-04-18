@@ -18,12 +18,10 @@ if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content'])) {
     $content = $_POST['content'];
-   
-    // Insert into table testtiptap
-    //INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', 'AAA', current_timestamp(), NULL);
-    $stmt = $conn->prepare("INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', '".$content."', current_timestamp(), NULL)");
-//    echo "INSERT INTO `nbnote` (`id`, `sub_id`, `content`, `create_date`, `rsv`) VALUES (NULL, '1', '".$content."', current_timestamp(), NULL)";
-//    die();
+    $subId = 1; // hardcoded sub_id for now
+    $stmt = $conn->prepare("INSERT INTO nbnote (sub_id, content, create_date, rsv) VALUES (?, ?, current_timestamp(), NULL)");
+    $stmt->bind_param("is", $subId, $content);
+
     $stmt->execute();
     $stmt->close();
 }
@@ -99,6 +97,24 @@ if ($result && $result->num_rows > 0) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
 <script>
+
+  /**
+   * Escape HTML special characters
+   * @param {string} text - Text to escape
+   * @returns {string} Escaped text
+   */
+  function htmlEscape(text) {
+    var map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+  }
+
+
   $(document).ready(function() {
     $('#summernote').summernote({
       height: 200,
