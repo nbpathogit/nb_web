@@ -257,9 +257,9 @@ $curStatusAuthEdit = (
 
 
     <div align=""  class="mb-3">
-        <label for="p_sp_patho_comment">Comment</label><br>
+        <label for="p_sp_patho_comment">Comment(ยกเลิกช่องคอมเม็นนี้ เพื่อป้องกันการสับสน)</label><br>
 
-        <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment"  ></textarea>
+        <textarea name="p_sp_patho_comment" cols="100" rows="5" class="form-control" id="p_sp_patho_comment" disabled="" ></textarea>
         <?php if (!$isCurUserCust): ?>
         <a hidden class="btn btn-outline-primary btn-sm me-1 " id="edit_sp_patho_comment" onclick="edit_sp_patho_comment();" title="Edit" <?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-marker"></i>Edit</a>
         <a hidden class="btn btn-outline-primary btn-sm me-1 " id="save_sp_patho_comment" onclick="save_sp_patho_comment();" title="Save"<?= (TRUE) ? '' : 'style="display: none;"'; ?> ><i class="fa-solid fa-floppy-disk"></i>Save</a>

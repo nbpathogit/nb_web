@@ -325,7 +325,9 @@ class ReqSpSlideID {
         "    b.number AS b_patient_num,                                                                                  \n".
         "    r.req_date ,                                                                                                \n".
         "    r.finish_date ,                                                                                             \n".
-        "    r.comment,                                                                                                  \n".
+        "    r.comment,                                                                                                  \n". 
+        "    b.comment ,                                                                                                 \n "  . 
+        "    CONCAT(b.comment,' ', r.comment) as comment,                                                             \n".
         "    CONCAT(j4.name,' ', j4.lastname) AS j4owowner,CONCAT(j5.name,' ', j5.lastname) AS pathologist,              \n".
         "    CONCAT(b.code_description,' ', b.description) AS  req_sp_type, GROUP_CONCAT(b.sp_slide_block) AS bjob ,     \n".
         "    DATE(r.req_date) as req_datedate ,                                                                          \n".
@@ -339,7 +341,7 @@ class ReqSpSlideID {
         "LEFT JOIN  job AS j5 ON  r.patient_id = j5.patient_id AND j5.job_role_id = 5                                    \n".
         "WHERE   r.movetotrash = 0                                                                                       \n";
         if ($start != '0') {
-            $sql = $sql .  "    and  date(r.req_date) >= '{$start}'                                                            \n";
+            $sql = $sql .  "    and  date(r.req_date) >= '{$start}'                                                      \n";
         }
     $sql = $sql .  "GROUP by r_id, b.description                                                                                    \n".
         "ORDER by b_patient_num ASC                                                                                      \n";
@@ -348,6 +350,7 @@ class ReqSpSlideID {
 //        $sql2 = $sql;
 //        Util::writeFile('dbg.txt', $sql2);
 //        
+//        Util::writeFile('ReqSpSlideID_getBillandJobTableWithStart_v2.txt', $sql);
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('ReqSpSlideID_getBillandJobTableWithStart_v2.txt', $sql);   
         }
