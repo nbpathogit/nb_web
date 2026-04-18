@@ -170,6 +170,7 @@
                                 <a id="price_tab_9c" href="nb_price_9c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
                                 <a id="price_tab_view" href="nb_price_view.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
                                 <a id="gross_examination_tab" href="gross_examination_record.php" class="nav-item nav-link">setting gross examination record</a>
+                                <a id="note_tab" href="nbnote_record.php" class="nav-item nav-link">Note Memo</a>
                             </div>
                         </div>
                         <div class="nav-item dropdown">
