@@ -183,7 +183,7 @@ class ReqSpSlideID {
         "JOIN job AS j ON j.patient_id = r.patient_id and j.job_role_id = 5                  \n".
         "WHERE   date(b.req_date) >= '{$startdate}' and date(b.req_date) <= '{$enddate}'     \n".
         "  and r.id != 0                                                                     \n".
-        "ORDER BY b.req_date, p.pnum ASC                                                     \n";                
+        "ORDER BY p.pnum, b.req_date ASC                                                     \n";                
   
                 
                 
@@ -344,7 +344,7 @@ class ReqSpSlideID {
         if ($start != '0') {
             $sql = $sql .  "    and  date(r.req_date) >= '{$start}'                                                      \n";
         }
-    $sql = $sql .  "GROUP by r_id, b.description                                                                                    \n".
+    $sql = $sql .  "GROUP by r_id, b.description ,b.id                                                                                     \n".
         "ORDER by b_patient_num ASC                                                                                      \n";
 
 
