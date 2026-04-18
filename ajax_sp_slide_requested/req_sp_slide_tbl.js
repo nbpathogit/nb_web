@@ -73,13 +73,14 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
     strs = strs + '<table  width="100%">';
     strs = strs + '<thead   >';
     strs = strs + '<tr>\n\
-        <th style="font-size: 14pt;width: fit-content;">' + 'Rid' + '</th>\n\
+        <th style="font-size: 14pt;width:fit-content;">' + 'Rid' + '</th>\n\
         <th style="font-size: 14pt;width:fit-content;">' + 'Request' + '</th>\n\
         <th style="font-size: 14pt;width:fit-content;">' + 'SN' + '</th>\n\
         <th style="font-size: 14pt;width:fit-content;">' + 'Pri' + '</th>\n\
-        <th style="font-size: 14pt;width:20%;">' + 'Request' + '</th>\n\
+        <th style="font-size: 14pt;width:18%;">' + 'Request' + '</th>\n\
         <th style="font-size: 14pt;width:fit-content;">' + 'Block' + '</th>\n\
         <th style="font-size: 14pt;width:fit-content;">' + 'Pathologist' + '</th>\n\
+        <th style="font-size: 14pt;width:17%;">' + 'Comment' + '</th>\n\
         <th style="font-size: 14pt;">' + 'Note' + '</th>\n\
         </tr>';
     strs = strs + "</thead>";
@@ -94,6 +95,7 @@ $("#btn_get_sp_slide_rq_by_range").on("click", function (e) {
         <td>' + datajson[i].b_description + '</td>\n\
         <td>' + datajson[i].b_sp_slide_block + '</td>\n\
         <td>' + datajson[i].pathologist + '</td>\n\
+        <td>' + datajson[i].comment + '</td>\n\
         <td>' + '' + '</td>\n\
         </tr>';
 

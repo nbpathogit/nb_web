@@ -174,7 +174,8 @@ class ReqSpSlideID {
         "    b.description AS b_description,                                                 \n".
         "    b.sp_slide_block AS b_sp_slide_block,                                           \n".
         "    j.name as j_name , j.lastname as j_lastname,                                    \n".
-        "    CONCAT(j.name,' ',j.lastname) as pathologist                                    \n".
+        "    CONCAT(j.name,' ',j.lastname) as pathologist,                                    \n".
+        "    CONCAT(b.comment,' ',r.comment) as comment                                    \n".
         "FROM req_id_sp_slide as r                                                           \n".
         "JOIN service_billing as b ON r.id = b.req_id                                        \n".
         "JOIN patient AS p ON p.id = b.patient_id and p.movetotrash = 0                      \n".
