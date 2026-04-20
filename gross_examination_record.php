@@ -125,8 +125,19 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
   <!-- Summernote CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
 
+  <?php
+   $userAuthEdit = (
+        $isCurUserAdmin 
+    || $isCurUserPatho 
+    || $isCurUserPathoAssis 
+    || $isCurUserLabOfficerNB 
+    || $isCurUserAdminStaff 
+    //|| $isCurUserClinicianCust 
+    //|| $isCurUserHospitalCust
+        );
+?>
 
-<?php if ($isCurUserAdmin): ?>
+<?php if ($userAuthEdit): ?>
 <!--<div class="container">-->
 <div class="container-md bg-blue-a">
   <h2>Gross Description Editer</h2>
