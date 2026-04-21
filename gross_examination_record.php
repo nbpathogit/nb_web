@@ -450,7 +450,7 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
     var data = new FormData();
     data.append("file", file);
     $.ajax({
-      url: "changehistoryupload.php",   // PHP script to handle upload
+      url: "gross_examination_record_upload.php",   // PHP script to handle upload
       type: "POST",
       data: data,
       contentType: false,
