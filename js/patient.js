@@ -327,8 +327,8 @@ $(document).ready(function () {
                 else {
                     //show active link
 
-                    //renderdata += '<a href="patient_pdf_for_note.php?id=' + row[18] + '&option=I" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-pen"></i>ใบจด</a>';
-                    renderdata += '<a href="patient_pdf_for_note_v2.php?id=' + row[18] + '" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-pen"></i>ใบจด</a>';
+                    renderdata += '<a href="patient_pdf_for_note.php?id=' + row[18] + '&option=I" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-pen"></i>ใบจด</a>';
+                    renderdata += '<a href="patient_pdf_for_note_v2.php?id=' + row[18] + '" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-pen"></i>ใบจด2</a>';
                     renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=I" class="manage_pdf_' + row[18] + ' btn btn-outline-primary btn-sm me-1 pdf" target="_blank"><i class="fa fa-eye"></i>View</a>';
                     renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=D" class="manage_pdf_' + row[18] + ' btn btn-outline-danger btn-sm me-1 pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i>PDF</a>';
                     renderdata += '<a href="patient_pdf.php?id=' + row[18] + '&option=F&filetype=jpg" class="manage_pdf_' + row[18] + ' btn btn-outline-dark btn-sm me-1 pdf" target="_blank"><i class="fa fa-file-archive"></i>JPG</a>';
