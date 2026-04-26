@@ -240,8 +240,22 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
         ['font', ['fontname', 'fontsize', 'bold', 'italic', 'underline', 'clear']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['insert', ['link', 'picture', 'video', 'table']], // video button enabled
+        ['misc', ['clearFormat']],
         ['view', ['fullscreen', 'codeview']]
       ],
+      buttons: {
+        clearFormat: function(context) {
+          var ui = $.summernote.ui;
+          var button = ui.button({
+            contents: '<i class="note-icon-eraser" aria-hidden="true"></i> Clear',
+            tooltip: 'Clear formatting',
+            click: function() {
+              context.invoke('editor.removeFormat');
+            }
+          });
+          return button.render();
+        }
+      },
       callbacks: {
         onImageUpload: function(files) {
           sendFile(files[0]);
