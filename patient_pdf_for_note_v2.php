@@ -43,11 +43,15 @@ if (!isset($patient_id)) {
     }
 }
 
-if (!isset($gross_id)) {
+if( isset($_GET['show_item_id'])){
+    $show_item_id = $_GET['show_item_id'];
+} 
+
+elseif (!isset($gross_id)) {
     if (isset($_GET['gross_id'])) {
         $gross_id = $_GET['gross_id'];
-    } else {
-
+    }else {
+        
         // ===== DB CONFIG =====
 
         $conn = (new Database())->getConnMysqli();
@@ -254,7 +258,14 @@ require 'user_auth.php';
 $conn2 = (new Database())->getConnMysqli();
 if ($conn2->connect_error) { die("Connection failed: " . $conn2->connect_error); }
 $grossEx = new Gross_examination_record($conn2);
-$content = $grossEx->getById($gross_id);
+
+if (isset($show_item_id)) {
+    $content = $grossEx->getLatestBySubId($show_item_id);
+} else {
+    $content = $grossEx->getById($gross_id);
+}
+
+
 
 class CustomLanguageToFontImplementation extends \Mpdf\Language\LanguageToFont {
 
@@ -421,7 +432,7 @@ $mpdf->SetHTMLFooter($footer);
 
 
 
-if ($gross_id != 0) {
+if ($gross_id != 0 || isset($show_item_id)) {
     $mpdf->WriteHTML($grossEx->getContent());
 }
 

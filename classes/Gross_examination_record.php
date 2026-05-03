@@ -127,6 +127,11 @@ class Gross_examination_record {
         
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
+            $this->id = $row['id'];
+            $this->sub_id = $row['sub_id'];
+            $this->content = $row['content'];
+            $this->create_date = $row['create_date'];
+            $this->rsv = $row['rsv'];
             $stmt->close();
             return array('success' => true, 'data' => $row);
         }
