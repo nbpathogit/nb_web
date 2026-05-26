@@ -889,28 +889,28 @@ if (!$labelPrints) {
                             let defaultTo = (letter === 'A') ? '1' : '';
 
                             letterCheckboxHtml += `
-                                <div class="d-flex align-items-center gap-1">
-                                    <div class="form-check form-check-sm">
-                                        <input class="form-check-input letter-checkbox" type="checkbox"
-                                               value="${letter}" data-pid="${item.pid}" id="letter_${letter}_${index}"${isChecked}>
-                                        <label class="form-check-label" for="letter_${letter}_${index}">${letter}</label>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <div class="form-check form-check-sm">
+                                            <input class="form-check-input letter-checkbox" type="checkbox"
+                                                   value="${letter}" data-pid="${item.pid}" data-hn-num="${item.p_phospital_num}" data-patho-abbrev="${item.ab_patho}" data-accept-date="${item.accept_date}" data-sn-num="${item.p_pnum}" id="letter_${letter}_${index}"${isChecked}>
+                                            <label class="form-check-label" for="letter_${letter}_${index}">${letter}</label>
+                                        </div>
+                                        <select class="form-select form-select-sm start-num-select-${letter}"
+                                                data-pid="${item.pid}"${isDisabled}>
+                                            <option value="">From</option>
+                                            ${numOptions}
+                                        </select>
+                                        <select class="form-select form-select-sm end-num-select-${letter}"
+                                                data-pid="${item.pid}"${isDisabled}>
+                                            <option value="">To</option>
+                                            ${numOptions}
+                                        </select>
                                     </div>
-                                    <select class="form-select form-select-sm start-num-select-${letter}"
-                                            data-pid="${item.pid}"${isDisabled}>
-                                        <option value="">From</option>
-                                        ${numOptions}
-                                    </select>
-                                    <select class="form-select form-select-sm end-num-select-${letter}"
-                                            data-pid="${item.pid}"${isDisabled}>
-                                        <option value="">To</option>
-                                        ${numOptions}
-                                    </select>
-                                </div>
-                            `;
-                        }
-                        letterCheckboxHtml += '</div>';
+                                `;
+                            }
+                            letterCheckboxHtml += '</div>';
 
-                        $("#snDataTable").find("tbody").append(
+                            $("#snDataTable").find("tbody").append(
                             "<tr id='" + rowId + "' class='" + rowClass + "'>" +
                             "<td>" + (index + 1) + "</td>" +
                             "<td>" + item.p_pnum + finishedBadge + "</td>" +
@@ -944,9 +944,9 @@ if (!$labelPrints) {
                             { "width": "5%", "targets": 0 },
                             { "width": "15%", "targets": 1 },
                             { "width": "12%", "targets": 2, "visible": false },
-                            { "width": "20%", "targets": 3, "visible": false },
+                            { "width": "15%", "targets": 3, "visible": false },
                             { "width": "13%", "targets": 4, "visible": false },
-                            { "width": "35%", "targets": 5 }
+                            { "width": "30%", "targets": 5 }
                         ]
                     });
 
@@ -1302,7 +1302,7 @@ if (!$labelPrints) {
                     <div class="d-flex align-items-center gap-1">
                         <div class="form-check form-check-sm">
                             <input class="form-check-input letter-checkbox" type="checkbox"
-                                   value="${letter}" data-pid="${item.pid}" id="letter_${letter}_${index}"${isChecked}>
+                                   value="${letter}" data-pid="${item.pid}" data-hn-num="${item.p_phospital_num}" data-patho-abbrev="${item.ab_patho}" data-accept-date="${item.accept_date}" data-sn-num="${item.p_pnum}" id="letter_${letter}_${index}"${isChecked}>
                             <label class="form-check-label" for="letter_${letter}_${index}">${letter}</label>
                         </div>
                         <select class="form-select form-select-sm start-num-select-${letter}"
@@ -1347,9 +1347,9 @@ if (!$labelPrints) {
                 { "width": "5%", "targets": 0 },
                 { "width": "15%", "targets": 1 },
                 { "width": "12%", "targets": 2, "visible": false },
-                { "width": "20%", "targets": 3, "visible": false },
+                { "width": "15%", "targets": 3, "visible": false },
                 { "width": "13%", "targets": 4, "visible": false },
-                { "width": "35%", "targets": 5 }
+                { "width": "30%", "targets": 5 }
             ]
             });
 
@@ -1420,30 +1420,22 @@ if (!$labelPrints) {
                 return; // Skip this row if no checkboxes are checked
             }
 
-            let pid = $row.find('.letter-checkbox').first().data('pid');
+            let $firstCheckbox = $row.find('.letter-checkbox').first();
+            let pid = $firstCheckbox.data('pid');
 
-            // Get values from table cells - extract only text nodes, not HTML content
-            let $cells = $row.find('td');
-            let sn_num = $cells.eq(1).clone().children().remove().end().text().trim();
-            let hn_num = $cells.eq(2).clone().children().remove().end().text().trim();
-            let patho_full = $cells.eq(3).clone().children().remove().end().text().trim();
-            let accept_date = $cells.eq(4).clone().children().remove().end().text().trim();
+            // Get values from data attributes on the checkbox (reliable regardless of DataTable column visibility)
+            // Use String() because jQuery .data() auto-converts numeric strings to numbers
+            let sn_num = String($firstCheckbox.data('sn-num') || '');
+            let hn_num = String($firstCheckbox.data('hn-num') || '');
+            let patho_abbrev = String($firstCheckbox.data('patho-abbrev') || '');
+            let raw_accept_date = String($firstCheckbox.data('accept-date') || '');
+            let accept_date = convertDateFormat(raw_accept_date);
 
-            // Truncate raw fields to prevent database column length errors
+            // Truncate to prevent database column length errors
             sn_num = sn_num.substring(0, 50);  // VARCHAR(50)
             hn_num = hn_num.substring(0, 20);  // VARCHAR(20)
-            patho_full = patho_full.substring(0, 100);  // VARCHAR(100) for full pathology name
-            accept_date = accept_date.substring(0, 20);  // VARCHAR(20)
-
-            // Extract abbreviation from "Name (AB)"
-            let patho_abbrev = "";
-            let match = patho_full.match(/\(([^)]+)\)/);
-            if (match) {
-                patho_abbrev = match[1];
-            }
-
-            // Truncate patho_abbrev after extraction
             patho_abbrev = patho_abbrev.substring(0, 20);  // VARCHAR(20)
+            accept_date = accept_date.substring(0, 20);  // VARCHAR(20)
 
             // Validate data before adding to array
             if (!pid || !sn_num) {
