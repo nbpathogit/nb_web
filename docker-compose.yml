@@ -4,29 +4,31 @@ services:
       context: ./docker/php
     image: nb_web-app:7.4-apache
     container_name: nb_web-app
-    ports:
-      - "8080:8000"
-    volumes:
-      - ./:/var/www/html
+    # Database.php hardcode db_host = "localhost" แก้ใน compose อย่างเดียวได้ด้วยวิธีนี้:
+    # ใช้ network namespace เดียวกับ db -> "localhost" ใน app = MySQL ใน db
+    network_mode: service:db
     depends_on:
       - db
-    environment:
-      DB_HOST: db
-      DB_NAME: zp12370_abc
-      DB_USER: root
-      DB_PASS: root
+    volumes:
+      - ./:/var/www/html
     restart: unless-stopped
 
   db:
     image: mysql:5.7
     container_name: nb_web-db
     ports:
+      # ต้องเปิดเว็บผ่าน http://localhost (port 80, ไม่มีเลข port ต่อท้าย)
+      # เพราะ Database.php เช็ค $_SERVER['HTTP_HOST'] == "localhost" แบบตรงตัว
+      # ถ้าเข้าผ่าน :8080 ค่า HTTP_HOST จะเป็น "localhost:8080" แล้วจะไม่เข้าเงื่อนไข
+      - "80:80"
       - "3306:3306"
     environment:
+      # ตรงกับเงื่อนไข localhost ใน classes/Database.php:25-37
+      # (subfolder = "" -> db nbpa_data)
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: zp12370_abc
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: nbpa_data
+      MYSQL_USER: nbpa_nbpatho
+      MYSQL_PASSWORD: '@6i3#xdyJusmDfBJ'
     volumes:
       - db_data:/var/lib/mysql
     command: --character-set-server=utf8 --collation-server=utf8_general_ci --sql-mode=""
@@ -36,7 +38,7 @@ services:
     image: phpmyadmin:5.2-apache
     container_name: nb_web-pma
     ports:
-      - "8081:8001"
+      - "8081:80"
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
