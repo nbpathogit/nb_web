@@ -25,12 +25,14 @@ class Database {
         if ($_SERVER['HTTP_HOST'] == "localhost") {
 
             if (Url::getSubfolder() != "") {
-                $this->db_host = "localhost";
+                // NOTE: 127.0.0.1 forces TCP. "localhost" would use unix socket
+                // and fail inside Docker with SQLSTATE[HY000] [2002].
+                $this->db_host = "127.0.0.1";
                 $this->db_name = "nbpa_data" . "_" . Url::getSubfolder();
                 $this->db_user = "nbpa_nbpatho";
                 $this->db_pass = "@6i3#xdyJusmDfBJ";
             } else {
-                $this->db_host = "localhost";
+                $this->db_host = "127.0.0.1";
                 $this->db_name = "nbpa_data";
                 $this->db_user = "nbpa_nbpatho";
                 $this->db_pass = "@6i3#xdyJusmDfBJ";
