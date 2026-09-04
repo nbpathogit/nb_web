@@ -1,0 +1,49 @@
+services:
+  app:
+    build:
+      context: ./docker/php
+    image: nb_web-app:7.4-apache
+    container_name: nb_web-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: zp12370_abc
+      DB_USER: root
+      DB_PASS: root
+    restart: unless-stopped
+
+  db:
+    image: mysql:5.7
+    container_name: nb_web-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: zp12370_abc
+      MYSQL_USER: nbuser
+      MYSQL_PASSWORD: nbpass
+    volumes:
+      - db_data:/var/lib/mysql
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci --sql-mode=""
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:5.2-apache
+    container_name: nb_web-pma
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 256M
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db_data:
