@@ -47,5 +47,20 @@ services:
       - db
     restart: unless-stopped
 
+  ftp:
+    image: stilliard/pure-ftpd:latest
+    container_name: nb_web-ftp
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    environment:
+      PUBLICHOST: localhost
+      FTP_USER_NAME: nbftp
+      FTP_USER_PASS: "ChangeMe_1234"
+      FTP_USER_HOME: /home/nbftp
+    volumes:
+      - ./:/home/nbftp
+    restart: unless-stopped
+
 volumes:
   db_data:
