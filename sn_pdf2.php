@@ -7,6 +7,7 @@ Auth::requireLogin();
 
 $conn = require 'includes/db.php';
 
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "call sn_pdf2.php", "");
 
 
 

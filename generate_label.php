@@ -6,6 +6,8 @@ Auth::requireLogin();
 require "user_auth.php";
 //var_dump($_POST);
 
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "call generate_label.php", "");
+
 //Add record to database
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //    if (isset($_POST['add'])) {
