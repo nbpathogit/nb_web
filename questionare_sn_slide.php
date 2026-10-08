@@ -8,6 +8,9 @@ $conn = require 'includes/db.php';
 require 'user_auth.php';
 
 
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open questionare_sn_slide.php", "");
+
+
 
 
 

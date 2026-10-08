@@ -2,6 +2,7 @@
 require 'includes/init.php';
 $conn = require 'includes/db.php';
 Auth::requireLogin();
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open billing_pdf_2.php", "");
 $isBorder = FALSE;
 $hospitals = Hospital::getAll($conn);
 ?>

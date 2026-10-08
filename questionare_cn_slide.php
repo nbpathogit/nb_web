@@ -10,6 +10,7 @@ require 'user_auth.php';
 
 
 
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open questionare_cn_slide.php", "");
 
 //$ugroups = Ugroup::getAll($conn);
 

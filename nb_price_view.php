@@ -4,6 +4,8 @@
 require 'includes/init.php';
 
 $conn = require 'includes/db.php';
+
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open nb_price_view.php", "");
 ?>
 <?php require 'user_auth.php';
 //$u_cur_group_id = Auth::getUserGroup();

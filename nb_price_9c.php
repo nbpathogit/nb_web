@@ -13,7 +13,7 @@ if (!Auth::isLoggedIn()) {
 }
 
 
-
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open nb_price_9c.php", "");
 
 $hospitals = Hospital::getAll($conn);
 

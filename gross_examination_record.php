@@ -12,6 +12,8 @@ require 'user_auth.php';
 
 $conn = (new Database())->getConnMysqli();
 
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open gross_examination_record.php", "");
+
 if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 
 // Include the Gross_examination_record class

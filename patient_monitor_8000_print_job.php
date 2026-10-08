@@ -3,6 +3,9 @@ require 'includes/init.php';
 
 $conn = require 'includes/db.php';
 require 'user_auth.php';
+
+
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open patient_monitor_8000_print_job.php", "");
 ?>
 <?php if (!Auth::isLoggedIn()) : ?>
     You are not authorized.

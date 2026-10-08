@@ -6,6 +6,7 @@ Auth::requireLogin();
 
 require 'user_auth.php';
 
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open patient_confirm.php", "");
 ?>
 
 <?php require 'includes/header.php'; ?>
