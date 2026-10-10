@@ -1,0 +1,208 @@
+a<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Skills Summary | สรุป Skill ของโปรเจ็กต์</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin: 0;
+      background: #f3f6fb;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 24px;
+      background: #ffffff;
+      border: 1px solid #dfe7f1;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+    h1, h2, h3 {
+      color: #0f172a;
+    }
+    .header {
+      margin-bottom: 24px;
+    }
+    .header .en {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+    .header .th {
+      color: #0f766e;
+      font-size: 1.1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .skill {
+      border: 1px solid #dfe7f1;
+      border-radius: 10px;
+      padding: 16px;
+      background: #f8fafc;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 5px 9px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .en {
+      display: block;
+      color: #0f172a;
+    }
+    .th {
+      display: block;
+      color: #0f766e;
+      margin-top: 6px;
+    }
+    ul {
+      margin: 12px 0 0 18px;
+      padding: 0;
+    }
+    li {
+      margin: 6px 0;
+    }
+    a {
+      color: #0f172a;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="en"><h1>Project Skills Summary</h1></div>
+      <div class="th"><h2>สรุป Skill ของโปรเจ็กต์</h2></div>
+      <div class="en"><p>This page summarizes the workflow skills created for the PHP clinical/pathology application.</p></div>
+      <div class="th"><p>หน้านี้สรุป workflow skill ที่สร้างขึ้นสำหรับแอปพลิเคชัน PHP ด้านคลินิกและพยาธิวิทยา</p></div>
+    </div>
+
+    <div class="grid">
+      <div class="skill">
+        <div class="tag">Patient</div>
+        <h3><a href="skills/patient-add/SKILL.md">patient-add</a></h3>
+        <span class="en">Create new patient records, generate SN numbers, and initialize workflow defaults.</span>
+        <span class="th">สร้างบันทึกผู้ป่วยใหม่ กำหนดเลข SN และตั้งค่าเริ่มต้นของ workflow</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Patient</div>
+        <h3><a href="skills/patient-edit/SKILL.md">patient-edit</a></h3>
+        <span class="en">Edit patient records, move workflow status, and update result/report fields.</span>
+        <span class="th">แก้ไขข้อมูลผู้ป่วย เปลี่ยนสถานะ workflow และอัปเดตข้อมูลผลตรวจ/รายงาน</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Patient</div>
+        <h3><a href="skills/patient-list/SKILL.md">patient-list</a></h3>
+        <span class="en">Display, filter, and manage the patient dashboard and data tables.</span>
+        <span class="th">แสดง กรอง และจัดการ dashboard ผู้ป่วยและตารางข้อมูล</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Label</div>
+        <h3><a href="skills/generate-label/SKILL.md">generate-label</a></h3>
+        <span class="en">Original label generation flow, selection lists, and PDF export logic.</span>
+        <span class="th">ขั้นตอนสร้าง label แบบดั้งเดิม ระบบเลือกข้อมูล และ logic ส่งออก PDF</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Label</div>
+        <h3><a href="skills/generate-label-v2/SKILL.md">generate-label-v2</a></h3>
+        <span class="en">Advanced label generation with SN/date filters, list building, and export print workflow.</span>
+        <span class="th">ขั้นตอนสร้าง label ขั้นสูงด้วยตัวกรอง SN/วันที่ การสร้างรายชื่อ และ workflow พิมพ์ส่งออก</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Billing</div>
+        <h3><a href="skills/billing/SKILL.md">billing</a></h3>
+        <span class="en">Billing reports, date-range filters, service costs, and invoice-style summaries.</span>
+        <span class="th">รายงานบิล ตัวกรองช่วงวันที่ ค่าใช้จ่ายบริการ และสรุปแบบใบแจ้งหนี้</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Admin</div>
+        <h3><a href="skills/hospital/SKILL.md">hospital</a></h3>
+        <span class="en">Hospital master data and role-based admin operations.</span>
+        <span class="th">ข้อมูลโรงพยาบาลและการทำงานของแอดมินตามสิทธิ์</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Admin</div>
+        <h3><a href="skills/labfluid/SKILL.md">labfluid</a></h3>
+        <span class="en">Laboratory fluid definitions and management list screens.</span>
+        <span class="th">ข้อมูล fluid ของห้องปฏิบัติการและหน้าจัดการรายการ</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Admin</div>
+        <h3><a href="skills/specimen/SKILL.md">specimen</a></h3>
+        <span class="en">Specimen master data, CRUD actions, and metadata management.</span>
+        <span class="th">ข้อมูล specimen หลัก การทำ CRUD และการจัดการ metadata</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Admin</div>
+        <h3><a href="skills/job-workflow/SKILL.md">job-workflow</a></h3>
+        <span class="en">Job management dashboard and patient work assignment views.</span>
+        <span class="th">dashboard จัดการงานและมุมมองการมอบหมายงานผู้ป่วย</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Admin</div>
+        <h3><a href="skills/template-report/SKILL.md">template-report</a></h3>
+        <span class="en">Report template listing and formatting configuration.</span>
+        <span class="th">รายการเท็มเพลตรายงานและการตั้งค่าแบบฟอร์มการแสดงผล</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">User</div>
+        <h3><a href="skills/user-add/SKILL.md">user-add</a></h3>
+        <span class="en">Create user accounts with role assignment and hospital linking.</span>
+        <span class="th">สร้างบัญชีผู้ใช้ กำหนดสิทธิ์และผูกโรงพยาบาล</span>
+      </div>
+
+      <div class="skill">
+        <div class="tag">Content</div>
+        <h3><a href="skills/service/SKILL.md">service</a></h3>
+        <span class="en">Public-facing service descriptions and static clinic information pages.</span>
+        <span class="th">หน้าแสดงบริการสาธารณะและข้อมูลข่าวสารของคลินิก</span>
+      </div>
+    </div>
+
+    <div class="header" style="margin-top: 28px;">
+      <div class="en"><h2>Skill Directory</h2></div>
+      <div class="th"><h2>รายการ Skill ทั้งหมด</h2></div>
+    </div>
+
+    <ul>
+      <li><a href="skills/billing/SKILL.md">billing</a> / <span class="th">บิลลิ่ง</span></li>
+      <li><a href="skills/generate-label/SKILL.md">generate-label</a> / <span class="th">สร้าง label</span></li>
+      <li><a href="skills/generate-label-v2/SKILL.md">generate-label-v2</a> / <span class="th">สร้าง label เวอร์ชัน 2</span></li>
+      <li><a href="skills/hospital/SKILL.md">hospital</a> / <span class="th">โรงพยาบาล</span></li>
+      <li><a href="skills/job-workflow/SKILL.md">job-workflow</a> / <span class="th">งาน/Workflow</span></li>
+      <li><a href="skills/labfluid/SKILL.md">labfluid</a> / <span class="th">fluid ห้องปฏิบัติการ</span></li>
+      <li><a href="skills/patient-add/SKILL.md">patient-add</a> / <span class="th">เพิ่มผู้ป่วย</span></li>
+      <li><a href="skills/patient-edit/SKILL.md">patient-edit</a> / <span class="th">แก้ไขผู้ป่วย</span></li>
+      <li><a href="skills/patient-list/SKILL.md">patient-list</a> / <span class="th">รายชื่อผู้ป่วย</span></li>
+      <li><a href="skills/service/SKILL.md">service</a> / <span class="th">บริการ</span></li>
+      <li><a href="skills/specimen/SKILL.md">specimen</a> / <span class="th">specimen</span></li>
+      <li><a href="skills/template-report/SKILL.md">template-report</a> / <span class="th">เท็มเพลตรายงาน</span></li>
+      <li><a href="skills/user-add/SKILL.md">user-add</a> / <span class="th">เพิ่มผู้ใช้งาน</span></li>
+    </ul>
+  </div>
+</body>
+</html>
