@@ -3,6 +3,8 @@ require '../includes/init.php';
 $conn = require '../includes/db.php';
 //Auth::requireLogin("../patient_edit.php", $_GET['cur_patient_id']);
 
+Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open billing_pdf_2.php", "");
+
 //$jobs = Job::getByPatientJobRole($conn, (int) $_POST['cur_patient_id'],6);
 $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn,$_GET['hospital_id'],$_GET['startdate'],$_GET['enddate']);
 

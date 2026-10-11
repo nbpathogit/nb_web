@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "project": "nb_web_dev3",
+  "scope": "clinic_and_pathology_php_workflows",
+  "updatedAt": "2026-10-11",
+  "skills": [
+    {
+      "name": "billing",
+      "title": "Billing",
+      "category": "financial-reporting",
+      "folder": "billing",
+      "description": "Date-range billing reports, service cost tables, and invoice-like patient summaries.",
+      "sourceFiles": [
+        "billing.php",
+        "billing_by_billingdate.php",
+        "ajax_billing/getBillbyHospitalbyDateRange.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "database-schema",
+      "title": "Database Schema",
+      "category": "database-reference",
+      "folder": "database-schema",
+      "description": "Complete 35-table dev3 database catalog, DDL constraints, table relationships, and schema documentation for the PHP application.",
+      "sourceFiles": [
+        ".github/database_schema.md",
+        ".github/database_schema.html",
+        "classes/Database.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "generate-label",
+      "title": "Generate Label",
+      "category": "label-printing",
+      "folder": "generate-label",
+      "description": "Original sticker label workflow for patient SN selection, queue building, and PDF export.",
+      "sourceFiles": [
+        "generate_label.php",
+        "ajax_data/generate_label_add_multiple_record.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "generate-label-v2",
+      "title": "Generate Label v2",
+      "category": "label-printing",
+      "folder": "generate-label-v2",
+      "description": "Advanced label printing flow with date filtering, list management, and export tasks.",
+      "sourceFiles": [
+        "generate_labelv2.php",
+        "ajax_data/*"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "hospital",
+      "title": "Hospital Management",
+      "category": "master-data",
+      "folder": "hospital",
+      "description": "Hospital record listing, editing, and hospital metadata management.",
+      "sourceFiles": [
+        "hospital.php",
+        "hospital_add.php",
+        "hospital_edit.php",
+        "hospital_detail.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "job-workflow",
+      "title": "Job Workflow",
+      "category": "operational-workflow",
+      "folder": "job-workflow",
+      "description": "Job management pages, task scheduling, and patient workflow assignment records.",
+      "sourceFiles": [
+        "job.php",
+        "job_edit.php",
+        "job_daily.php",
+        "job_daily_pdf.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "labfluid",
+      "title": "Lab Fluid",
+      "category": "master-data",
+      "folder": "labfluid",
+      "description": "Laboratory fluid definitions, management list, and maintenance screens.",
+      "sourceFiles": [
+        "labfluid.php",
+        "labfluid_add.php",
+        "labfluid_edit.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "patient-add",
+      "title": "Add Patient",
+      "category": "patient-workflow",
+      "folder": "patient-add",
+      "description": "Create new patient records, generate SN numbers, assign defaults, and save initial patient metadata.",
+      "sourceFiles": [
+        "patient_add.php",
+        "classes/Patient.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "patient-edit",
+      "title": "Edit Patient",
+      "category": "patient-workflow",
+      "folder": "patient-edit",
+      "description": "View and edit patient records, update workflow status, and maintain result/report data.",
+      "sourceFiles": [
+        "patient_edit.php",
+        "patient_detail.php",
+        "classes/Patient.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "patient-list",
+      "title": "Patient List",
+      "category": "patient-workflow",
+      "folder": "patient-list",
+      "description": "List, filter, and manage the patient dashboard and related table views.",
+      "sourceFiles": [
+        "patient.php",
+        "datatable_patient_pn_rev1.php",
+        "patient_confirm.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "service",
+      "title": "Service Content",
+      "category": "content-public",
+      "folder": "service",
+      "description": "Public service pages and static content pages for clinic-related information.",
+      "sourceFiles": [
+        "service.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "specimen",
+      "title": "Specimen Management",
+      "category": "master-data",
+      "folder": "specimen",
+      "description": "Specimen master data, pricing metadata, and editing screens.",
+      "sourceFiles": [
+        "specimen.php",
+        "specimen_add.php",
+        "specimen_edit.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "template-report",
+      "title": "Template Report",
+      "category": "reporting",
+      "folder": "template-report",
+      "description": "Template report management, listing, and configuration of output formatting.",
+      "sourceFiles": [
+        "templateReport.php",
+        "templateReport_add.php",
+        "templateReport_edit.php"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "user-add",
+      "title": "Add User",
+      "category": "user-management",
+      "folder": "user-add",
+      "description": "Create new user accounts with hospital linkage, role assignment, and system credentials.",
+      "sourceFiles": [
+        "user_add.php",
+        "classes/User.php"
+      ],
+      "status": "active"
+    }
+  ]
+}
