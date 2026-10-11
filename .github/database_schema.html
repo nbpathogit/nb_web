@@ -122,6 +122,24 @@
         overflow-x: auto;
       }
 
+      .all-table-entry {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .all-table-diagram {
+        margin-bottom: 8px;
+      }
+
+      .all-table-fields {
+        margin-top: 0;
+      }
+
+      .all-table-fields th:first-child,
+      .all-table-fields td:first-child {
+        width: 24%;
+      }
+
       .fillable-section {
         margin-top: 26px;
       }
@@ -1028,8 +1046,6 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
         return [build(true, true), build(false, false)];
       }
 
-      const baseErDiagramSources = splitErDiagramSource(erDiagramSource);
-
       const STORAGE_KEY = 'database_schema_field_comments_v1';
       const DETAILS_STORAGE_KEY = 'database_schema_table_details_v1';
       let markdownFileHandle = null;
@@ -1073,7 +1089,21 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
       ];
 
       const TABLE_FIELDS = Object.fromEntries(TABLE_CATALOG.map((table) => [table.name, table.fields]));
-      const TABLE_ENTITIES = Object.fromEntries(TABLE_CATALOG.map((table) => [table.name, [table.name.toUpperCase()]]));
+      const TABLE_COLUMN_DETAILS = {"antibody_list":{"id":{"type":"int(11)","key":"PK","comment":""},"name":{"type":"varchar(20)","key":"UK","comment":""}},"changehistory":{"id":{"type":"int(11)","key":"PK","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"rsv":{"type":"int(11)","key":"","comment":""}},"gross_examination_record":{"id":{"type":"int(11)","key":"PK","comment":""},"sub_id":{"type":"int(11)","key":"","comment":""},"description":{"type":"text","key":"","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"rsv":{"type":"int(11)","key":"","comment":""}},"hire_list":{"id":{"type":"int(11)","key":"PK","comment":""},"outside_id":{"type":"int(11)","key":"","comment":"Link to outside_contract"},"patient_id":{"type":"int(11)","key":"","comment":""},"patient_number":{"type":"varchar(10)","key":"","comment":""},"name":{"type":"varchar(50)","key":"","comment":""},"cost":{"type":"float","key":"","comment":""},"comment":{"type":"varchar(70)","key":"","comment":""},"accept_time":{"type":"datetime","key":"","comment":""},"insert_time":{"type":"datetime","key":"","comment":""},"finish_time":{"type":"datetime","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"hospital":{"id":{"type":"int(11)","key":"PK","comment":""},"hospital":{"type":"varchar(64)","key":"","comment":""},"address":{"type":"text","key":"","comment":""},"hdetail":{"type":"text","key":"","comment":""},"user_id":{"type":"int(11)","key":"","comment":"Link to user in case of user for hostpital."},"tax_id":{"type":"varchar(50)","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"create_by":{"type":"varchar(80)","key":"","comment":""},"reportfolder":{"type":"text","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"internal_note":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"note":{"type":"text","key":"","comment":""},"creater":{"type":"text","key":"","comment":""},"editer":{"type":"text","key":"","comment":""},"created_date":{"type":"datetime","key":"","comment":""},"edit_date":{"type":"datetime","key":"","comment":""}},"invoice_list":{"id":{"type":"int(11)","key":"PK","comment":""},"order_list":{"type":"int(11)","key":"","comment":""},"group_type":{"type":"int(11)","key":"","comment":""},"invoice_name":{"type":"varchar(120)","key":"","comment":""},"invoice_name_e":{"type":"varchar(120)","key":"","comment":""},"mapping_rule":{"type":"varchar(256)","key":"","comment":""},"sn_type":{"type":"varchar(2)","key":"","comment":""},"service_type":{"type":"int(11)","key":"","comment":""}},"job":{"id":{"type":"int(11)","key":"PK","comment":""},"req_date":{"type":"datetime","key":"","comment":""},"req_finish_date":{"type":"datetime","key":"","comment":""},"req_id":{"type":"int(11)","key":"INDEX, FK","comment":""},"job_role_id":{"type":"int(11)","key":"INDEX, FK","comment":"ID Link to table Job Role"},"patient_id":{"type":"int(11)","key":"INDEX, FK","comment":"ID of table patient"},"result_id":{"type":"int(11)","key":"INDEX","comment":"UN-USED. this file use only second patho confirm"},"patient_number":{"type":"varchar(10)","key":"","comment":"ex sergical number"},"user_id":{"type":"int(11)","key":"","comment":"id of the Job Owner"},"pre_name":{"type":"varchar(20)","key":"","comment":"pre name Job Owner"},"name":{"type":"varchar(30)","key":"","comment":"Name Of Job Owner"},"lastname":{"type":"varchar(30)","key":"","comment":"Last name Of Job Owner"},"jobname":{"type":"varchar(30)","key":"","comment":"Name of Job"},"pay":{"type":"float","key":"","comment":"Cost to pay for the Job"},"cost_count_per_day":{"type":"int(11)","key":"","comment":""},"comment":{"type":"varchar(50)","key":"","comment":"Comment"},"finish_date":{"type":"datetime","key":"","comment":"Time when Job finish"},"insert_time":{"type":"datetime","key":"","comment":""},"second_patho_review":{"type":"tinyint(4)","key":"","comment":"1 wait for review 2 approved"},"request_sp_slide":{"type":"tinyint(4)","key":"","comment":"1 requested  2 finish"},"qty":{"type":"int(11)","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"job_role":{"id":{"type":"int(11)","key":"PK","comment":""},"name":{"type":"varchar(20)","key":"","comment":""},"name_e":{"type":"varchar(30)","key":"","comment":""},"cost_per_job":{"type":"float","key":"","comment":""},"cost_count_per_day":{"type":"int(11)","key":"","comment":"Pay when count more then the value"},"create_date":{"type":"datetime","key":"","comment":""}},"labelprint_tmp_a":{"id":{"type":"int(11)","key":"PK","comment":""},"userid":{"type":"int(11)","key":"","comment":""},"sn_num":{"type":"varchar(10)","key":"","comment":""},"hn_num":{"type":"varchar(30)","key":"","comment":""},"patho_abbreviation":{"type":"varchar(10)","key":"","comment":""},"speciment_abbreviation":{"type":"varchar(4)","key":"","comment":""},"accept_date":{"type":"varchar(30)","key":"","comment":""},"company_name":{"type":"varchar(15)","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"lab_fluid":{"id":{"type":"int(11)","key":"PK","comment":""},"labname":{"type":"varchar(30)","key":"","comment":""},"lab_des":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"log":{"id":{"type":"int(11)","key":"PK","comment":""},"username":{"type":"char(64)","key":"","comment":""},"name":{"type":"char(64)","key":"","comment":""},"event":{"type":"text","key":"","comment":""},"detail":{"type":"text","key":"","comment":""},"event_date":{"type":"datetime","key":"","comment":""}},"nbnote":{"id":{"type":"int(11)","key":"PK","comment":""},"sub_id":{"type":"int(11)","key":"","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"rsv":{"type":"int(11)","key":"","comment":""}},"nbnotetitle":{"id":{"type":"int(11)","key":"PK","comment":""},"title":{"type":"text","key":"","comment":""},"createdate":{"type":"text","key":"","comment":""}},"nb_note_record":{"id":{"type":"int(11)","key":"PK","comment":""},"sub_id":{"type":"int(11)","key":"","comment":""},"description":{"type":"varchar(255)","key":"","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"timestamp","key":"","comment":""},"rsv":{"type":"varchar(255)","key":"","comment":""}},"outside_contract":{"id":{"type":"int(11)","key":"PK","comment":""},"name":{"type":"varchar(50)","key":"","comment":""},"cost":{"type":"float","key":"","comment":""},"comment":{"type":"varchar(70)","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"patient":{"id":{"type":"int(11)","key":"PK","comment":""},"super_id":{"type":"int(11)","key":"","comment":""},"super_pnum":{"type":"varchar(32)","key":"","comment":""},"sn_type":{"type":"varchar(2)","key":"","comment":"เลขชนิดคนไข้"},"sn_year":{"type":"varchar(4)","key":"","comment":"เลขปีของเลขคนไข้"},"sn_run":{"type":"int(11)","key":"","comment":"เลขรันนิ่งของเลขที่คนไข้"},"pnum":{"type":"varchar(32)","key":"UK","comment":"เลขที่คนไข้ surgical number"},"plabnum":{"type":"text","key":"","comment":"แลปนัมเบอร์ "},"ppre_name":{"type":"varchar(20)","key":"","comment":"คำน้ำหน้าชื่อ นาย นาง นางสาว"},"pname":{"type":"varchar(64)","key":"","comment":"ชื่อคนไข้"},"pgender":{"type":"varchar(10)","key":"","comment":"เพศ"},"plastname":{"type":"varchar(64)","key":"","comment":"นามสกุล"},"pedge":{"type":"int(11)","key":"","comment":"อายุ"},"date_1000":{"type":"datetime","key":"","comment":"วันที่รับเข้า"},"date_2000":{"type":"datetime","key":"","comment":"วันที่วางแผน"},"date_3000":{"type":"datetime","key":"","comment":"วันที่เตรียมชิ้นเนื้อแล้ว"},"date_6000":{"type":"datetime","key":"","comment":"วันที่เตรียมสไลด์แล้ว"},"date_8000":{"type":"datetime","key":"","comment":"วันที่เตรียมชิ้นเนื้อย้อมพิเศษแล้ว"},"date_10000":{"type":"datetime","key":"","comment":"วันที่ทำแลปเซลวิทยาแล้ว"},"date_12000":{"type":"datetime","key":"","comment":"วันที่อ่านผลการวินิจฉัย"},"date_13000":{"type":"datetime","key":"","comment":"วันที่ดับเบิ้ลคอนเฟริ์ม"},"date_14000":{"type":"datetime","key":"","comment":"To be remove"},"date_20000":{"type":"datetime","key":"","comment":"วันที่เสร็จสิ้น"},"date_first_report":{"type":"datetime","key":"","comment":"วันที่ออกรีพอทครั้งแรก"},"tr_time":{"type":"float","key":"","comment":""},"status_id":{"type":"int(11)","key":"","comment":"สถานะงาน"},"priority_id":{"type":"tinyint(4)","key":"","comment":"ความสำคัญ ปกติ ด่วน"},"phospital_id":{"type":"int(11)","key":"INDEX","comment":"เลขที่โรงพยาบาล"},"p_speciment_type":{"type":"varchar(10)","key":"","comment":"ชิ้นเนื้อหรือของเหลว"},"phospital_num":{"type":"text","key":"","comment":"เลขที่โรงพยาบาล"},"ppathologist_id":{"type":"int(11)","key":"INDEX","comment":"to be remove ผู้อ่านผล"},"pspecimen_id":{"type":"int(11)","key":"INDEX","comment":"to be remove ไอดีชนิดชิ้นเนื้อ"},"pclinician_id":{"type":"int(11)","key":"INDEX","comment":"ไอดีลิ้งไปหาแพทย์ผู้ส่ง"},"p_cross_section_id":{"type":"int(11)","key":"INDEX","comment":"to be remove พนักงาน ตัดเนื้อ"},"p_cross_section_ass_id":{"type":"int(11)","key":"INDEX","comment":"to be remove ผู้ช่วยตัดเนื้อ"},"p_slide_prep_id":{"type":"int(11)","key":"INDEX","comment":"to be remove พนักงานเตรียม สไลด์"},"p_slide_prep_sp_id":{"type":"int(11)","key":"INDEX","comment":"พนักงานเตรียมสไลด์พิเศษ"},"p_sp_patho_comment":{"type":"text","key":"","comment":"Patho put comment"},"pprice":{"type":"int(11)","key":"","comment":"ราคาเตรียมชิ้นเนื้อและเตรียมสไลด์"},"pspprice":{"type":"int(11)","key":"","comment":"to be remove ราคาเตรียมสไลดพิเศษ"},"p_rs_specimen":{"type":"text","key":"","comment":"patient result specimen"},"p_slide_lab_id":{"type":"int(11)","key":"INDEX","comment":"แลปน้ำ ไอดี"},"p_slide_lab_price":{"type":"int(11)","key":"","comment":"ราคาค่าตรวจแลปน้ำ"},"p_rs_clinical_diag":{"type":"text","key":"","comment":"patient result clinical dianosis"},"p_rs_gross_desc":{"type":"text","key":"","comment":"patient result gross description"},"p_rs_microscopic_desc":{"type":"text","key":"","comment":"petient result microscopic description"},"iscritical":{"type":"tinyint(4)","key":"","comment":"0:Normal  1:Critical"},"reported_as":{"type":"varchar(30)","key":"","comment":"ยังไม่ออกผล/ออกผลเบื้องต้น/ออกผลแล้ว"},"reported_name":{"type":"varchar(30)","key":"","comment":"ชนิดของการออกผลล่าสุด"},"isautoeditmode":{"type":"varchar(30)","key":"","comment":"Location to set autoedit "},"pautoscroll":{"type":"varchar(30)","key":"","comment":"Location id for auto scroll when require"},"second_patho_review":{"type":"tinyint(4)","key":"","comment":"1 wait for review 2 approved"},"request_sp_slide":{"type":"tinyint(4)","key":"","comment":"1 requested  2 finish"},"create_date":{"type":"datetime","key":"","comment":""},"create_by":{"type":"varchar(80)","key":"","comment":""},"edit_date":{"type":"datetime","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""},"job1qty":{"type":"int(11)","key":"","comment":""},"job2qty":{"type":"int(11)","key":"","comment":""},"job3qty":{"type":"int(11)","key":"","comment":""}},"pdf_attach":{"id":{"type":"int(11)","key":"PK","comment":""},"filelocation":{"type":"text","key":"","comment":""},"rec_create_date":{"type":"datetime","key":"","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"fileName":{"type":"text","key":"","comment":""}},"presultupdate":{"id":{"type":"int(11)","key":"PK","comment":""},"group_type":{"type":"int(11)","key":"","comment":""},"patient_id":{"type":"int(11)","key":"INDEX","comment":""},"result_type":{"type":"varchar(50)","key":"","comment":""},"result_type_id":{"type":"int(11)","key":"","comment":""},"result_message":{"type":"text","key":"","comment":""},"pathologist_id":{"type":"int(11)","key":"INDEX","comment":""},"pathologist2_id":{"type":"int(11)","key":"INDEX","comment":""},"release_time":{"type":"datetime","key":"","comment":""},"release_type":{"type":"varchar(20)","key":"","comment":""},"second_patho_review":{"type":"tinyint(4)","key":"","comment":"1 wait for review 2 approved"},"create_date":{"type":"datetime","key":"","comment":""}},"priority":{"id":{"type":"int(11)","key":"PK","comment":""},"priority":{"type":"varchar(20)","key":"","comment":""}},"questionnaire_quality_cn":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"patient_num":{"type":"varchar(11)","key":"","comment":"cn???"},"score_specimen":{"type":"int(11)","key":"","comment":"1.Specimen Procressing"},"score_staining":{"type":"int(11)","key":"","comment":"2.Staining"},"score_mounting":{"type":"int(11)","key":"","comment":"3.Mounting/Covering"},"score_labeling":{"type":"int(11)","key":"","comment":"4.Labeling"},"note":{"type":"text","key":"","comment":"Note"}},"questionnaire_quality_sn":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"patient_num":{"type":"varchar(11)","key":"","comment":"sn???"},"score_thickness":{"type":"int(11)","key":"","comment":"1.Thickness/Integrity"},"score_staining":{"type":"int(11)","key":"","comment":"2.Staining"},"score_mounting":{"type":"int(11)","key":"","comment":"3.Mounting/Covering"},"score_labeling":{"type":"int(11)","key":"","comment":"4.Labeling"},"score_contaminate":{"type":"int(11)","key":"","comment":"5.Contaminate"},"note":{"type":"text","key":"","comment":"Note"}},"quilljs_test":{"id":{"type":"int(11)","key":"PK","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"timestamp","key":"","comment":""},"rsv":{"type":"text","key":"","comment":""}},"report_type":{"id":{"type":"int(11)","key":"UK","comment":""},"group_type":{"type":"int(11)","key":"","comment":"1 for mandatory require  2 for added later"},"name":{"type":"varchar(50)","key":"","comment":"Name of report type"},"release_type":{"type":"varchar(20)","key":"","comment":"Use for pick up to Patient database"},"options":{"type":"text","key":"","comment":""}},"req_id_sp_slide":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"INDEX, FK","comment":""},"job_id":{"type":"int(11)","key":"INDEX, FK","comment":""},"req_date":{"type":"datetime","key":"","comment":""},"finish_date":{"type":"datetime","key":"","comment":""},"create_user_id":{"type":"int(11)","key":"","comment":""},"comment":{"type":"text","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"service_billing":{"id":{"type":"int(11)","key":"PK","comment":""},"req_date":{"type":"datetime","key":"","comment":""},"req_finish_date":{"type":"datetime","key":"","comment":""},"req_id":{"type":"int(11)","key":"","comment":""},"specimen_id":{"type":"int(11)","key":"","comment":"link for specimen id"},"patient_id":{"type":"int(11)","key":"INDEX, FK","comment":"Link to Patient id"},"number":{"type":"varchar(32)","key":"","comment":"Surgical Number"},"name":{"type":"varchar(120)","key":"","comment":"patient name"},"lastname":{"type":"varchar(120)","key":"","comment":"patient surname"},"slide_type":{"type":"tinyint(4)","key":"","comment":"1 สไลด์ปรกติ 2 ย้อมพิเศษ"},"code_description":{"type":"varchar(10)","key":"","comment":"Ex: 33000"},"code2":{"type":"int(11)","key":"","comment":""},"description":{"type":"text","key":"","comment":"description"},"nm_slide_count":{"type":"int(11)","key":"","comment":"normal slide count"},"sp_slide_block":{"type":"text","key":"","comment":"name of block require"},"sp_slide_count":{"type":"int(11)","key":"","comment":"special slide count"},"import_date":{"type":"datetime","key":"","comment":"วันที่รับเข้า"},"report_date":{"type":"datetime","key":"","comment":"วันที่ออกผล"},"price_hospital":{"type":"varchar(120)","key":"","comment":"ราคาตามโรงพยาบาล"},"hospital_id":{"type":"int(11)","key":"","comment":""},"hn":{"type":"varchar(32)","key":"","comment":"hospital number"},"send_doctor":{"type":"varchar(120)","key":"","comment":"แพทย์ผู้ส่ง"},"pathologist":{"type":"varchar(32)","key":"","comment":"หมอผู้ออกผล"},"cost":{"type":"int(11)","key":"","comment":"ราคา ค่าบริการ"},"comment":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":"วันที่ให้บริการ"}},"service_price_list":{"id":{"type":"int(11)","key":"PK","comment":""},"number":{"type":"int(11)","key":"","comment":"ลำดับ"},"speciment_num":{"type":"int(10)","key":"","comment":"code"},"code2":{"type":"int(11)","key":"","comment":""},"jobtype":{"type":"tinyint(4)","key":"","comment":"1 ชิ้นเนื้อรับเข้า\\r\\n2 ย้อมพิเศษ"},"specimen":{"type":"text","key":"","comment":""},"hospital_id":{"type":"int(11)","key":"","comment":"link to hospital id"},"unit_count":{"type":"varchar(30)","key":"","comment":""},"price":{"type":"int(11)","key":"","comment":""},"comment":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"add_user_id":{"type":"int(11)","key":"","comment":"คนที่สร้างข้อมูลนี้"},"edit_user_id":{"type":"int(11)","key":"","comment":"คนที่แก้ไขข้อมูลนี้"},"service_des":{"type":"varchar(256)","key":"","comment":""}},"service_type":{"id":{"type":"int(11)","key":"PK","comment":""},"order_list":{"type":"int(11)","key":"","comment":""},"group_type":{"type":"int(11)","key":"","comment":""},"service_type":{"type":"varchar(120)","key":"","comment":""},"service_typea_id":{"type":"int(11)","key":"","comment":""},"service_typea_bill":{"type":"varchar(256)","key":"","comment":""},"service_type_bill":{"type":"varchar(256)","key":"","comment":""},"service_type_e":{"type":"varchar(120)","key":"","comment":""},"name_by_spcimen":{"type":"varchar(120)","key":"","comment":""}},"service_type_master":{"id":{"type":"int(11)","key":"PK","comment":""},"code":{"type":"int(11)","key":"","comment":""},"code2":{"type":"int(11)","key":"","comment":""},"description":{"type":"varchar(256)","key":"","comment":""},"service_typeb_id":{"type":"int(11)","key":"","comment":""},"service_typeb_description":{"type":"varchar(256)","key":"","comment":""},"unit_count":{"type":"varchar(256)","key":"","comment":""},"price":{"type":"int(11)","key":"","comment":""}},"sn_prefix":{"id":{"type":"int(11)","key":"PK","comment":""},"order_list":{"type":"int(11)","key":"","comment":""},"name":{"type":"varchar(2)","key":"","comment":"pre-fix name"},"description":{"type":"text","key":"","comment":"description"},"description_e":{"type":"text","key":"","comment":""}},"status":{"id":{"type":"int(11)","key":"PK","comment":""},"des":{"type":"varchar(3000)","key":"","comment":""},"next1":{"type":"int(11)","key":"","comment":""},"next2":{"type":"int(11)","key":"","comment":""},"next3":{"type":"int(11)","key":"","comment":""},"back1":{"type":"int(11)","key":"","comment":""},"back2":{"type":"int(11)","key":"","comment":""}},"template_report":{"id":{"type":"int(11)","key":"PK","comment":""},"user_id":{"type":"int(11)","key":"","comment":""},"reporttype_id":{"type":"int(11)","key":"","comment":""},"name":{"type":"varchar(100)","key":"","comment":""},"description":{"type":"text","key":"","comment":""}},"testtiptap":{"id":{"type":"int(11)","key":"PK","comment":""},"content":{"type":"text","key":"","comment":""}},"user":{"id":{"type":"int(11)","key":"PK","comment":""},"username":{"type":"char(255)","key":"UK","comment":""},"password":{"type":"char(255)","key":"","comment":""},"pre_name":{"type":"varchar(10)","key":"","comment":"คำนำหน้าชื่อภาษาไทย"},"name":{"type":"varchar(128)","key":"","comment":""},"lastname":{"type":"varchar(128)","key":"","comment":""},"pre_name_e":{"type":"varchar(20)","key":"","comment":""},"name_e":{"type":"varchar(20)","key":"","comment":""},"lastname_e":{"type":"varchar(20)","key":"","comment":""},"short_name":{"type":"varchar(16)","key":"","comment":""},"educational_bf":{"type":"varchar(10)","key":"","comment":"วุฒิการศึกษา ex แพทย์ศาสตร์มหาบัณฑิต (Medicinae Doctor/Doctor of Medicine)"},"role":{"type":"varchar(20)","key":"","comment":"Ex: Pathologist"},"role_1":{"type":"tinyint(1)","key":"","comment":"ตัดเนื้อ Cross Section"},"role_2":{"type":"tinyint(1)","key":"","comment":"คนจด Cross Section Assistent"},"role_3":{"type":"tinyint(1)","key":"","comment":"เตรียมสไลด์ Slide Prepareation"},"role_4":{"type":"tinyint(1)","key":"","comment":"Special Slide Prepareation"},"role_5":{"type":"tinyint(1)","key":"","comment":"Pathologist"},"role_6":{"type":"tinyint(1)","key":"","comment":"Second pathologist"},"role_7":{"type":"tinyint(1)","key":"","comment":"Cycologist"},"role_a":{"type":"tinyint(4)","key":"","comment":"จำลอง เจ้าแพทย์ของเคส"},"can_manaage_job":{"type":"tinyint(4)","key":"","comment":""},"udetail":{"type":"text","key":"","comment":""},"umobile":{"type":"text","key":"","comment":""},"uemail":{"type":"text","key":"","comment":""},"ugroup_id":{"type":"int(11)","key":"INDEX","comment":""},"uhospital_id":{"type":"int(11)","key":"INDEX","comment":""},"signature_file":{"type":"varchar(50)","key":"","comment":""},"profile_file":{"type":"varchar(50)","key":"","comment":""},"user_status":{"type":"tinyint(4)","key":"","comment":"0:inActive 1:Active"},"user_type":{"type":"tinyint(4)","key":"","comment":"0 user as person  1 user as hospital"},"create_date":{"type":"datetime","key":"","comment":""},"create_by":{"type":"varchar(80)","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"user_groups":{"id":{"type":"int(11)","key":"PK","comment":""},"ugroup":{"type":"varchar(30)","key":"","comment":""},"ugroup_e":{"type":"varchar(30)","key":"","comment":""}}};
+      const TABLE_ENTITIES = Object.fromEntries(TABLE_CATALOG.map((table, index) => [
+        table.name,
+        [table.name.toUpperCase(), `TABLE_${String(index + 1).padStart(2, '0')}`],
+      ]));
+
+      function buildSingleTableDiagramSource(table, index) {
+        const number = String(index + 1).padStart(2, '0');
+        const lines = ['erDiagram', `TABLE_${number}["${number}. ${table.name}"] {`];
+        table.fields.forEach((field) => lines.push(`  field ${field}`));
+        lines.push('}');
+        return lines.join('\n');
+      }
+
+      const baseErDiagramSources = splitErDiagramSource(erDiagramSource);
 
       function createFieldSelect(table, selectedField = '') {
         const select = document.createElement('select');
@@ -1130,6 +1160,59 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
         row.appendChild(customInput);
         row.appendChild(commentInput);
         return row;
+      }
+
+      function createAllTableEntry(table, index, card) {
+        const entry = document.createElement('div');
+        entry.className = 'all-table-entry';
+
+        const detailsTable = document.createElement('table');
+        detailsTable.className = 'all-table-fields';
+        const header = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        ['Field', 'SQL Type', 'Key', 'Comment'].forEach((title) => {
+          const cell = document.createElement('th');
+          cell.textContent = title;
+          headerRow.appendChild(cell);
+        });
+        header.appendChild(headerRow);
+        detailsTable.appendChild(header);
+
+        const fieldComments = new Map();
+        card.querySelectorAll('.field-comment-list .field-comment-row').forEach((row) => {
+          const field = getFieldName(row);
+          const comment = row.querySelector('.field-comment')?.value?.trim();
+          if (field && comment) fieldComments.set(field, comment);
+        });
+
+        const body = document.createElement('tbody');
+        table.fields.forEach((field) => {
+          const metadata = TABLE_COLUMN_DETAILS[table.name]?.[field] || {};
+          const row = document.createElement('tr');
+          [field, metadata.type || 'Not specified', metadata.key || '', fieldComments.get(field) || metadata.comment || ''].forEach((value, cellIndex) => {
+            const cell = document.createElement('td');
+            if (cellIndex === 0) {
+              const code = document.createElement('code');
+              code.textContent = value;
+              cell.appendChild(code);
+            } else {
+              cell.textContent = value;
+            }
+            row.appendChild(cell);
+          });
+          body.appendChild(row);
+        });
+        detailsTable.appendChild(body);
+        entry.appendChild(detailsTable);
+        return entry;
+      }
+
+      function refreshAllTableEntries() {
+        TABLE_CATALOG.forEach((table, index) => {
+          const card = document.querySelector(`.table-card[data-table="${table.name}"]`);
+          const currentEntry = card?.querySelector(':scope > .all-table-entry');
+          if (card && currentEntry) currentEntry.replaceWith(createAllTableEntry(table, index, card));
+        });
       }
 
       function getFieldName(row) {
@@ -1291,6 +1374,7 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
           addButton.textContent = '+ Add field comment';
           actions.appendChild(addButton);
           card.appendChild(actions);
+          card.appendChild(createAllTableEntry(table, index, card));
 
           container.appendChild(card);
         });
@@ -1332,7 +1416,7 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
 
         let currentEntity = '';
         return baseSource.split('\n').map((line) => {
-          const entityMatch = line.match(/^\s*([A-Z][A-Z0-9_]*)\s*\{\s*$/);
+          const entityMatch = line.match(/^\s*([A-Z][A-Z0-9_]*)(?:\["[^"]*"\])?\s*\{\s*$/);
           if (entityMatch) currentEntity = entityMatch[1];
           if (!currentEntity) return line;
 
@@ -1355,7 +1439,7 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
         erDiagramElements.forEach((element, index) => {
           element.textContent = sources[index];
         });
-        await mermaid.run({ nodes: erDiagramElements });
+        await mermaid.run({ nodes: [...erDiagramElements, ...document.querySelectorAll('.all-table-diagram')] });
       }
 
       function saveTableDetails() {
@@ -1387,6 +1471,7 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
         ];
 
         document.querySelectorAll('.table-card[data-table]').forEach((card, index) => {
+          const table = TABLE_CATALOG[index];
           const title = card.querySelector('h3')?.textContent?.trim().replace(/^\d+\.\s*/, '') || card.dataset.table;
           lines.push(`### ${index + 1}. Table: ${title}`);
 
@@ -1396,14 +1481,25 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
             if (label) lines.push(`- ${label}: ${markdownCell(value)}`);
           });
 
-          lines.push('', '| Field | Comment |', '|---|---|');
+          lines.push('', '| Field | SQL Type | Key | Comment |', '|---|---|---|---|');
+          const commentsByField = new Map();
           card.querySelectorAll('.field-comment-row').forEach((row) => {
             const field = getFieldName(row);
+            const comment = row.querySelector('.field-comment')?.value?.trim();
+            if (field && comment) commentsByField.set(field, comment);
+          });
+
+          table.fields.forEach((field) => {
+            const metadata = TABLE_COLUMN_DETAILS[table.name]?.[field] || {};
+            const comment = commentsByField.get(field) || metadata.comment || '';
+            lines.push(`| \`${field}\` | \`${metadata.type || 'Not specified'}\` | ${metadata.key || ''} | ${markdownCell(comment)} |`);
+          });
+
+          card.querySelectorAll('.field-comment-row').forEach((row) => {
+            const field = getFieldName(row);
+            if (!field || table.fields.includes(field)) return;
             const comment = row.querySelector('.field-comment')?.value || '';
-            if (field || comment) {
-              const safeField = field.replaceAll('`', '\\`');
-              lines.push(`| \`${safeField}\` | ${markdownCell(comment)} |`);
-            }
+            lines.push(`| \`${field.replaceAll('`', '\\`')}\` | Custom |  | ${markdownCell(comment)} |`);
           });
           lines.push('');
         });
@@ -1459,14 +1555,14 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
               });
             }
 
-            if (line.startsWith('| Field | Comment |')) {
+            if (line.startsWith('| Field |')) {
               readingFieldComments = true;
               return;
             }
             if (!readingFieldComments) return;
 
-            const fieldMatch = line.match(/^\|\s*`([^`]+)`\s*\|\s*(.*?)\s*\|$/);
-            if (fieldMatch) tableRows.set(fieldMatch[1], markdownCellValue(fieldMatch[2]));
+            const fieldMatch = line.match(/^\|\s*`([^`]+)`\s*\|(.*)\|\s*(.*?)\s*\|$/);
+            if (fieldMatch) tableRows.set(fieldMatch[1], markdownCellValue(fieldMatch[3]));
           });
 
           tableRows.forEach((comment, field) => {
@@ -1501,10 +1597,10 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
         const oldDiagramSection = sectionIndex >= 0
           ? source.slice(sectionIndex + diagramHeading.length, templateIndex >= 0 ? templateIndex : source.length)
           : '';
-        const explanation = oldDiagramSection
-          .replace(/```mermaid[\s\S]*?```/g, '')
-          .replace(/^### (?:4\.\d+\s+)?(?:Tables with relationships|Remaining tables)\s*$/gm, '')
-          .trim();
+        const firstDiagramHeading = oldDiagramSection.search(/^### (?:9\.1\s+)?Tables with relationships\s*$/m);
+        const explanation = (firstDiagramHeading >= 0
+          ? oldDiagramSection.slice(0, firstDiagramHeading)
+          : oldDiagramSection.replace(/```mermaid[\s\S]*?```/g, '')).trim();
         const diagramSection = [
           diagramHeading,
           '',
@@ -1566,6 +1662,7 @@ $db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
         mergeExistingFillableMarkdown(markdownSource);
         saveComments();
         saveTableDetails();
+        refreshAllTableEntries();
         const diagramSources = baseErDiagramSources.map((baseSource) => buildErDiagramSource(baseSource));
         const updatedDocument = updateMarkdownDocument(markdownSource, diagramSources);
         const writable = await markdownFileHandle.createWritable();
