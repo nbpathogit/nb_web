@@ -18,7 +18,7 @@ The central metadata manifest is kept in [skill-index.json](skill-index.json). I
 ## Categories
 
 - Database reference: [database-schema](database-schema/SKILL.md)
-- Patient workflows: [patient-add](patient-add/SKILL.md), [patient-edit](patient-edit/SKILL.md), [patient-list](patient-list/SKILL.md)
+- Patient workflows: [patient-add](patient-add/SKILL.md), [patient-edit](patient-edit/SKILL.md), [patient-edit-attach-pdf](patient-edit-attach-pdf/SKILL.md), [patient-list](patient-list/SKILL.md)
 - Label generation: [generate-label](generate-label/SKILL.md), [generate-label-v2](generate-label-v2/SKILL.md)
 - Billing and cost reporting: [billing](billing/SKILL.md)
 - Administration and master data: [hospital](hospital/SKILL.md), [labfluid](labfluid/SKILL.md), [specimen](specimen/SKILL.md), [template-report](template-report/SKILL.md), [job-workflow](job-workflow/SKILL.md)
@@ -36,6 +36,7 @@ The central metadata manifest is kept in [skill-index.json](skill-index.json). I
 - [labfluid](labfluid/SKILL.md)
 - [patient-add](patient-add/SKILL.md)
 - [patient-edit](patient-edit/SKILL.md)
+- [patient-edit-attach-pdf](patient-edit-attach-pdf/SKILL.md)
 - [patient-list](patient-list/SKILL.md)
 - [service](service/SKILL.md)
 - [specimen](specimen/SKILL.md)

@@ -121,6 +121,20 @@
       "status": "active"
     },
     {
+      "name": "patient-edit-attach-pdf",
+      "title": "Patient Edit PDF Attachment",
+      "category": "patient-workflow",
+      "folder": "patient-edit-attach-pdf",
+      "description": "PDF attachment upload from patient_edit.php, including the admin-only append form, upload endpoint, and pdf_attach persistence.",
+      "sourceFiles": [
+        "patient_edit.php",
+        "pdf_attach_upload.php",
+        "classes/Pdfattach.php",
+        "user_auth.php"
+      ],
+      "status": "active"
+    },
+    {
       "name": "patient-list",
       "title": "Patient List",
       "category": "patient-workflow",
