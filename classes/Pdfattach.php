@@ -13,6 +13,7 @@ class Pdfattach
      */
     public $id;
     public $filelocation;
+    public $subfolder;
     public $rec_create_date;
     public $patient_id;
     public $fileName;
@@ -40,6 +41,7 @@ class Pdfattach
         
         $pdfat->id=0;
         $pdfat->filelocation="";
+        $pdfat->subfolder="";
         $pdfat->rec_create_date="";
         $pdfat->patient_id=0;
         $pdfat->fileName="";
@@ -60,12 +62,13 @@ class Pdfattach
         $curDateTime = Util::get_curreint_thai_date_time();
         Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "Call Pdfattach::create()", 'PatienID::' . $this->patient_id .' fileLocation::'.$this->filelocation .' fileName::'.$this->fileName , $curDateTime);
 
-        $sql = "INSERT INTO pdf_attach ( id, filelocation,  rec_create_date, patient_id,fileName)
-            VALUES (             null, :filelocation, :rec_create_date, :patient_id, :fileName)";
+        $sql = "INSERT INTO pdf_attach (id, filelocation, subfolder, rec_create_date, patient_id, fileName)
+            VALUES (null, :filelocation, :subfolder, :rec_create_date, :patient_id, :fileName)";
 
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':filelocation', $this->filelocation, PDO::PARAM_STR);
+        $stmt->bindValue(':subfolder', $this->subfolder, PDO::PARAM_STR);
         $stmt->bindValue(':rec_create_date', $curDateTime, PDO::PARAM_STR);
         $stmt->bindValue(':patient_id', $this->patient_id, PDO::PARAM_INT);
         $stmt->bindValue(':fileName', $this->fileName, PDO::PARAM_STR);

@@ -6,18 +6,13 @@ $conn = require 'includes/db.php';
 
 require 'user_auth.php';
 
-$targetDir = "pdf_attach_uploads/";
+$targetRoot = "pdf_attach_uploads/";
 
 $patient_id = $_POST['patient_id'] ?? null;
 Util::writeFile("dbg.txt", $_POST['patient_id'] );
 
-// Create folder if not exists
-if (!is_dir($targetDir)) {
-    mkdir($targetDir, 0777, true);
-}
-
-$targetFile = $targetDir . basename($_FILES["file"]["name"]);
-$fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+$originalFileName = basename($_FILES["file"]["name"]);
+$fileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
 
 // Check if file is a PDF by extension
 if ($fileType !== "pdf") {
@@ -39,9 +34,16 @@ if ($mimeType !== "application/pdf") {
 
 // Move uploaded file to new folder
 $curdatetime=Util::get_curreint_thai_date_time();
+$timestampPrefix = Util::cleanString($curdatetime);
+$subfolder = $targetRoot . substr($timestampPrefix, 0, 16) . "/";
+$targetDir = $subfolder;
+if (!is_dir($targetDir) && !mkdir($targetDir, 0777, true)) {
+    echo "Unable to create the attachment folder.";
+    exit;
+}
+
 $fileName = htmlspecialchars(basename($_FILES["file"]["name"]));
-//Create target file again with htmlspecialchars
-$targetFile = $targetDir .  Util::cleanString($curdatetime . '_' .htmlspecialchars(basename($_FILES["file"]["name"])));
+$targetFile = $targetDir . Util::cleanString($timestampPrefix . '_' . htmlspecialchars($originalFileName));
 
 if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
     echo "The file ". $fileName . " has been uploaded successfully.";
@@ -52,8 +54,9 @@ if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
 //Update file location to database pdf_attach
 $pdfath = Pdfattach::getInitObj();
 $pdfath->filelocation = $targetFile;
+$pdfath->subfolder = $subfolder;
 $pdfath->patient_id = $patient_id;
-$pdfath->fileName = htmlspecialchars(basename($_FILES["file"]["name"]));
+$pdfath->fileName = htmlspecialchars(basename($timestampPrefix."_".$_FILES["file"]["name"]));
 
 if($pdfath->create($conn)){
     echo '';

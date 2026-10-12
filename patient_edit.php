@@ -1316,7 +1316,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                 <form id="uploadAttachPdfForm" enctype="multipart/form-data"> 
                     <input type="file" name="file" id="fileInput" accept="application/pdf" required> 
                     <!-- Hidden input --> <input type="hidden" name="patient_id" value="<?= $patient[0]['id']; ?>">
-                    <button type="submit">Upload</button> 
+                    <button type="submit" class="btn btn-primary">Upload</button> 
                 </form> 
                 <div id="pdfUploadStatus"></div>
             </div>

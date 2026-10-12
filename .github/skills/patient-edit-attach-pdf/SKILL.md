@@ -18,14 +18,18 @@ This skill documents the existing workflow for appending a PDF file to a patient
 1. `patient_edit.php` renders the **PDF File for append** form near the end of the page, inside the `$isCurUserAdmin` condition. This page flag represents user group `1000` (Admin).
 2. The form uses `multipart/form-data`, accepts `application/pdf`, and sends the current patient ID in a hidden `patient_id` field.
 3. A jQuery submit handler sends the form with `FormData` to `pdf_attach_upload.php` and displays the response in `#pdfUploadStatus`.
-4. `pdf_attach_upload.php` includes app initialization, the database connection, and `user_auth.php`; checks the filename extension and detected MIME type; then moves the upload into `pdf_attach_uploads/` using a timestamp-prefixed sanitized filename.
-5. The handler creates a `Pdfattach` object and inserts `filelocation`, `rec_create_date`, `patient_id`, and `fileName` into `pdf_attach`.
+4. `pdf_attach_upload.php` includes app initialization, the database connection, and `user_auth.php`; checks the filename extension and detected MIME type; then moves the upload into a timestamp-prefix subfolder. For example, `2026-10-11 22:37:38` is cleaned to `2026-10-11_223738`; the directory uses its first 16 characters and the filename keeps the full timestamp prefix, producing `pdf_attach_uploads/2026-10-11_22373/2026-10-11_223738_QT-69-04-00681NB.pdf`.
+5. The handler sets `Pdfattach::$subfolder` to the relative directory, such as `pdf_attach_uploads/2026-10-11_22373/`, and stores it with `filelocation`, `rec_create_date`, `patient_id`, and `fileName` in `pdf_attach`.
 6. `Pdfattach::getAll($conn, $patient_id)` retrieves attachment rows for a patient ordered by ID.
+
+## Database Requirement
+
+The original dev3 dump does not include `pdf_attach.subfolder`. Apply `add_pdf_attach_subfolder.sql` once to each database before deploying the updated `Pdfattach::create()` insert.
 
 ## Implementation Guidance
 
 - Keep the upload patient-scoped and preserve the existing AJAX response target unless the UI is intentionally redesigned.
-- Keep the `pdf_attach` schema and `Pdfattach::create()` field names aligned: `filelocation`, `rec_create_date`, `patient_id`, and `fileName`.
+- Keep the `pdf_attach` schema and `Pdfattach::create()` field names aligned: `filelocation`, `subfolder`, `rec_create_date`, `patient_id`, and `fileName`.
 - When adding a display/list or download action, use the stored attachment row for the current patient; do not trust a client-supplied file path.
 - Preserve the Admin-only page gate unless the requested access policy explicitly changes.
 - Do not treat the page gate as server-side authorization. `pdf_attach_upload.php` currently includes `user_auth.php` but has no explicit Admin check of its own; enforce authorization in the endpoint before broadening or relying on its access control.
