@@ -1316,6 +1316,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                 <form id="uploadAttachPdfForm" enctype="multipart/form-data"> 
                     <input type="file" name="file" id="fileInput" accept="application/pdf" required> 
                     <!-- Hidden input --> <input type="hidden" name="patient_id" value="<?= $patient[0]['id']; ?>">
+                    <!-- Hidden input --> <input type="hidden" name="pnum" value="<?= $patient[0]['pnum']; ?>">
                     <button type="submit" class="btn btn-primary">Upload</button> 
                 </form> 
                 <div id="pdfUploadStatus"></div>
@@ -1360,6 +1361,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                     var usergroup = '<?= Auth::getUserGroup()->id; ?>';
                     var patient_id = '<?= $patient[0]['id']; ?>';
                     console.log("patient_id::"+patient_id);
+
                     
 
 
@@ -1377,6 +1379,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                             type: "POST",
                             'async': false,
                             data: formData,
+                            patient_id: patient_id,
                             contentType: false,      // important for file upload
                             processData: false,      // prevent jQuery from processing data
                             success: function(response) {
