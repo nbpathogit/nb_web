@@ -1319,7 +1319,36 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                     <!-- Hidden input --> <input type="hidden" name="pnum" value="<?= $patient[0]['pnum']; ?>">
                     <button type="submit" class="btn btn-primary">Upload</button> 
                 </form> 
+                
                 <div id="pdfUploadStatus"></div>
+
+                <div class="mt-3" id="uploadedPdfListSection">
+                    <b>Uploaded PDF files</b>
+                    <?php
+                    $attachedPdfFiles = [];
+                    try {
+                        $pdfStatement = $conn->prepare("SELECT `filename` AS pdf_file FROM `pdf_attach` WHERE `patient_id` = ? ORDER BY `filename` DESC");
+                        $pdfStatement->execute([$patient[0]['id']]);
+                        $attachedPdfFiles = $pdfStatement->fetchAll(PDO::FETCH_ASSOC);
+                    } catch (Throwable $e) {
+                        $attachedPdfFiles = [];
+                    }
+                    ?>
+                    <?php if ($attachedPdfFiles): ?>
+                        <ul class="mb-0">
+                            <?php foreach ($attachedPdfFiles as $attachedPdf):
+                                $pdfPath = trim((string) $attachedPdf['pdf_file']);
+                                $pdfLabel = basename(parse_url($pdfPath, PHP_URL_PATH) ?: $pdfPath);
+                                $safePdfUrl = htmlspecialchars($pdfPath, ENT_QUOTES, 'UTF-8');
+                                ?>
+                                <li><a href="<?= $safePdfUrl ?>" target="_blank" rel="noopener noreferrer"><?= htmlspecialchars($pdfLabel, ENT_QUOTES, 'UTF-8') ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <div class="text-muted">No PDF files uploaded.</div>
+                    <?php endif; ?>
+                </div>
+
             </div>
         </div>
     <script>
@@ -1384,6 +1413,15 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                             processData: false,      // prevent jQuery from processing data
                             success: function(response) {
                               $("#pdfUploadStatus").html(response);
+                                                            $.get(window.location.href, { _: Date.now() }, function(pageHtml) {
+                                                                var refreshedSection = $("<div>").append($.parseHTML(pageHtml)).find("#uploadedPdfListSection");
+                                                                if (refreshedSection.length) {
+                                                                    $("#uploadedPdfListSection").replaceWith(refreshedSection);
+                                                                    $("#fileInput").val("");
+                                                                }
+                                                            }).fail(function() {
+                                                                $("#pdfUploadStatus").append("<div class=\"text-warning\">Uploaded, but the file list could not be refreshed.</div>");
+                                                            });
                             },
                             error: function() {
                               $("#pdfUploadStatus").html("File upload failed.");
