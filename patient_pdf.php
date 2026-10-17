@@ -874,6 +874,7 @@ if ($pdfOutputOption == 'F') {
             $txt = str_replace("<br>", "\n", $txt);
             Util::writeFileAppend($file_patient_pdf_php, $txt);
         }
+        ob_clean();
         $mpdf->Output($pdffilepath, $pdfOutputOption);
         Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
 
@@ -1322,6 +1323,7 @@ if ($pdfOutputOption == 'F') {
         }
 
             //===================Output PDF file====================================================================
+            ob_clean();
             $mpdf->Output($pdffilepath, $pdfOutputOption);
             Util::writeFileSpecificPath($txtfilepath, $txtWriteOut);
 
@@ -1448,6 +1450,7 @@ if ($pdfOutputOption == 'F') {
     }
 } else {
     //View or download mode
+    ob_clean();
     $mpdf->Output($reportFileName . '.pdf', $pdfOutputOption);
     //Util::writeFile('testWrite.txt', $txtWriteOut);
 }
