@@ -1327,7 +1327,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                     <?php
                     $attachedPdfFiles = [];
                     try {
-                        $pdfStatement = $conn->prepare("SELECT `filename` AS pdf_file FROM `pdf_attach` WHERE `patient_id` = ? ORDER BY `filename` DESC");
+                        $pdfStatement = $conn->prepare("SELECT `subfolder`, `fileName` FROM `pdf_attach` WHERE `patient_id` = ? ORDER BY `id` DESC");
                         $pdfStatement->execute([$patient[0]['id']]);
                         $attachedPdfFiles = $pdfStatement->fetchAll(PDO::FETCH_ASSOC);
                     } catch (Throwable $e) {
@@ -1337,11 +1337,20 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                     <?php if ($attachedPdfFiles): ?>
                         <ul class="mb-0">
                             <?php foreach ($attachedPdfFiles as $attachedPdf):
-                                $pdfPath = trim((string) $attachedPdf['pdf_file']);
-                                $pdfLabel = basename(parse_url($pdfPath, PHP_URL_PATH) ?: $pdfPath);
-                                $safePdfUrl = htmlspecialchars($pdfPath, ENT_QUOTES, 'UTF-8');
+                                $pdfSubfolder = trim(str_replace('\\', '/', (string) $attachedPdf['subfolder']), '/');
+                                $pdfFileName = basename(str_replace('\\', '/', (string) $attachedPdf['fileName']));
+                                $pdfPathParts = array_values(array_filter(explode('/', $pdfSubfolder), 'strlen'));
+                                if ($pdfFileName === '' || in_array('.', $pdfPathParts, true) || in_array('..', $pdfPathParts, true)) {
+                                    continue;
+                                }
+                                $pdfPathParts[] = $pdfFileName;
+                                $safePdfUrl = htmlspecialchars(
+                                    rtrim(Url::getSubFolder1(), '/') . '/' . implode('/', array_map('rawurlencode', $pdfPathParts)),
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                );
                                 ?>
-                                <li><a href="<?= $safePdfUrl ?>" target="_blank" rel="noopener noreferrer"><?= htmlspecialchars($pdfLabel, ENT_QUOTES, 'UTF-8') ?></a></li>
+                                <li><a href="<?= $safePdfUrl ?>" target="_blank" rel="noopener noreferrer"><?= htmlspecialchars($pdfFileName, ENT_QUOTES, 'UTF-8') ?></a></li>
                             <?php endforeach; ?>
                         </ul>
                     <?php else: ?>
