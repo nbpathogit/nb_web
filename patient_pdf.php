@@ -719,6 +719,82 @@ if ($patient[0]['sn_type'] == 'PN' || $patient[0]['sn_type'] == 'LN') {
 
 
 
+//=============================================================================
+// Append PDFs attached to this patient after the generated report pages.======
+//=============================================================================
+$pdfAttachments = Pdfattach::getAll($conn, $patient_id);
+
+$attachmentRoot = realpath(__DIR__ . DIRECTORY_SEPARATOR . 'pdf_attach_uploads');
+
+if (!empty($pdfAttachments)) {
+    $mpdf->SetHTMLHeader('', 'O');
+    $mpdf->SetHTMLHeader('', 'E');
+    $mpdf->SetHTMLFooter('', 'O');
+    $mpdf->SetHTMLFooter('', 'E');
+}
+
+foreach ($pdfAttachments as $pdfAttachment) {
+    $attachmentId = isset($pdfAttachment['id']) ? $pdfAttachment['id'] : 'unknown';
+    $fileLocation = isset($pdfAttachment['filelocation']) ? $pdfAttachment['filelocation'] : '';
+
+    if ($attachmentRoot === false || $fileLocation === '') {
+        error_log('Skipping patient PDF attachment id=' . $attachmentId
+            . ': attachment directory or filelocation is unavailable.');
+        continue;
+    }
+
+    $normalizedFileLocation = str_replace(
+        ['/', '\\'],
+        DIRECTORY_SEPARATOR,
+        $fileLocation
+    );
+    $resolvedFilePath = realpath(
+        __DIR__ . DIRECTORY_SEPARATOR . ltrim($normalizedFileLocation, DIRECTORY_SEPARATOR)
+    );
+    if ($resolvedFilePath === false || !is_file($resolvedFilePath)) {
+        error_log('Skipping patient PDF attachment id=' . $attachmentId
+            . ': file does not exist at ' . __DIR__ . DIRECTORY_SEPARATOR
+            . $normalizedFileLocation);
+        continue;
+    }
+
+    $attachmentRootPrefix = rtrim($attachmentRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    $isWithinAttachmentRoot = DIRECTORY_SEPARATOR === '\\'
+        ? strncasecmp($resolvedFilePath, $attachmentRootPrefix, strlen($attachmentRootPrefix)) === 0
+        : strpos($resolvedFilePath, $attachmentRootPrefix) === 0;
+    if (!$isWithinAttachmentRoot) {
+        error_log('Skipping patient PDF attachment id=' . $attachmentId
+            . ': resolved file is outside the attachment directory: ' . $resolvedFilePath);
+        continue;
+    }
+
+    try {
+        $attachmentPageCount = $mpdf->setSourceFile($resolvedFilePath);
+
+        for ($attachmentPage = 1; $attachmentPage <= $attachmentPageCount; $attachmentPage++) {
+            $mpdf->AddPage();
+            $templateId = $mpdf->importPage($attachmentPage);
+            $mpdf->useTemplate($templateId, 0, 0, null, null, true);
+        }
+    } catch (\Throwable $e) {
+        error_log(
+            'Failed while appending patient PDF attachment id=' . $attachmentId
+            . ': ' . $e->getMessage()
+        );
+    }
+}
+//=============================================================================
+//======END section for========================================================
+// Append PDFs attached to this patient after the generated report pages.======
+//=============================================================================
+
+
+
+
+
+
+
+
 
 
 

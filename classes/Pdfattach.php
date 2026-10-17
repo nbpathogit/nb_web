@@ -26,13 +26,14 @@ class Pdfattach
     {
         $sql = "SELECT *
                 FROM pdf_attach
-                WHERE patient_id  = ". $patient_id ;
+                WHERE patient_id = :patient_id
+                ORDER BY id";
 
-        $sql = $sql . " ORDER BY id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':patient_id', $patient_id, PDO::PARAM_INT);
+        $stmt->execute();
 
-        $results = $conn->query($sql);
-
-        return  $results->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     

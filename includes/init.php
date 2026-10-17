@@ -9,7 +9,10 @@
 $root= $_SERVER['DOCUMENT_ROOT']."../../../../";
 
 spl_autoload_register(function ($class){
-    require dirname(__DIR__)."/classes/{$class}.php";
+    $classFile = dirname(__DIR__) . "/classes/{$class}.php";
+    if (is_file($classFile)) {
+        require_once $classFile;
+    }
 });
 
 session_start();
