@@ -33,9 +33,9 @@ RUN set -eux; \
     fi; \
     apt-get install -y --no-install-recommends ghostscript zip curl ca-certificates; \
     curl -fsSL -o /tmp/im7.tar.gz \
-      https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.1-38.tar.gz; \
+      https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.2-34.tar.gz; \
     tar -xzf /tmp/im7.tar.gz -C /tmp; \
-    cd /tmp/ImageMagick-7.1.1-38; \
+    cd /tmp/ImageMagick-7.1.2-34; \
     ./configure --prefix=/usr/local --with-magick-plus-plus=no --disable-docs --disable-hdri; \
     make -j"$(nproc)"; \
     make install; \
