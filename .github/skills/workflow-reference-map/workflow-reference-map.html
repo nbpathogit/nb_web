@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workflow and Billing Reference Map</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #203047;
+      --muted: #5d6b7d;
+      --line: #d9e2ec;
+      --paper: #ffffff;
+      --canvas: #f3f7fb;
+      --blue: #087fc1;
+      --blue-soft: #eaf6fd;
+      --amber: #8a5800;
+      --amber-soft: #fff5dc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font: 16px/1.65 "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 36px auto;
+    }
+
+    header, section, footer {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 5px 20px rgba(32, 48, 71, .045);
+    }
+
+    header {
+      padding: 30px;
+      border-top: 5px solid var(--blue);
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3 { line-height: 1.3; }
+    h1 { margin: 0 0 12px; font-size: clamp(1.75rem, 3vw, 2.35rem); }
+    h2 { margin: 0 0 16px; font-size: 1.4rem; }
+    h3 { margin: 22px 0 10px; font-size: 1.08rem; }
+    p { margin: 10px 0; }
+    section { padding: 24px; margin: 18px 0; }
+    .lede { max-width: 900px; color: var(--muted); margin: 0; }
+    .callout {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-left: 4px solid #e0a228;
+      background: var(--amber-soft);
+      border-radius: 8px;
+    }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; }
+    th, td {
+      padding: 12px 13px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+    th { background: var(--blue-soft); color: #174c6b; font-weight: 700; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:nth-child(even) { background: #fafcfe; }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #eef2f6;
+      color: #263b53;
+      font: .93em Consolas, "Courier New", monospace;
+      overflow-wrap: anywhere;
+    }
+
+    a { color: #056da6; text-underline-offset: 3px; }
+    a:hover { color: #034e78; }
+    .tag {
+      display: inline-block;
+      padding: 2px 9px;
+      margin-right: 5px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: #075a88;
+      font-size: .88rem;
+      font-weight: 650;
+    }
+    ol, ul { padding-left: 24px; }
+    li { margin: 7px 0; }
+    footer { padding: 20px 24px; color: var(--muted); }
+    @media (max-width: 640px) {
+      main { width: min(100% - 20px, 1180px); margin: 10px auto; }
+      header, section { padding: 19px; border-radius: 10px; }
+      th, td { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Workflow and Billing Reference Map</h1>
+    <p class="lede">
+      เอกสารสรุปความสัมพันธ์ระหว่าง Service Type, Surgical Number, invoice_list,
+      User Group และ Job Role จาก schema, ภาพอ้างอิง และโค้ดของ NB Patho
+    </p>
+    <div class="callout">
+      เอกสารนี้เป็นแผนที่อ้างอิง ไม่ได้สร้างตารางฐานข้อมูลใหม่ และไม่ได้หมายความว่าทั้งห้าตาราง
+      มีความสัมพันธ์โดยตรงกันทั้งหมด
+    </div>
+  </header>
+
+  <section>
+    <h2>ภาพรวมความสัมพันธ์</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>แนวคิด</th>
+            <th>ตาราง / ฟิลด์</th>
+            <th>เชื่อมกับ</th>
+            <th>สถานะและหน้าที่ของความสัมพันธ์</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Service Type</strong></td>
+            <td><code>service_type.id</code>, <code>service_type.group_type</code>, <code>service_type.service_typea_id</code></td>
+            <td><code>service_billing.slide_type</code>; <code>service_price_list.jobtype</code>; อาจเกี่ยวข้องกับหมวด invoice</td>
+            <td>Billing query join <code>service_billing.slide_type</code> กับ <code>service_type.id</code> และ pricing code join <code>service_price_list.jobtype</code> กับ <code>service_type.id</code> เป็นความสัมพันธ์จากโค้ด ไม่มี FK ที่ประกาศไว้ใน dev3 schema สำหรับคู่นี้</td>
+          </tr>
+          <tr>
+            <td><strong>Surgical Number type</strong></td>
+            <td><code>patient.sn_type</code>; คำนิยาม prefix อยู่ใน <code>sn_prefix</code></td>
+            <td><code>invoice_list.sn_type</code> โดยเทียบ prefix</td>
+            <td>ชนิดของเคสถูกเก็บแยกจากเลขผู้ป่วยที่ประกอบเต็มแล้ว ภาพแสดงค่าที่ดูเหมือนใช้ prefix จับคู่กับ invoice แต่ไม่มี FK และไม่พบ PHP query ของ <code>invoice_list</code> โดยตรง</td>
+          </tr>
+          <tr>
+            <td><strong>Invoice configuration</strong></td>
+            <td><code>invoice_list.sn_type</code>, <code>invoice_list.service_type</code>, <code>invoice_list.group_type</code></td>
+            <td>Surgical Number prefix และหมวด Service Type ที่คาดว่าเกี่ยวข้อง</td>
+            <td>ภาพชี้ว่ารายการถูกกำหนดตาม prefix และหมวดบริการ แต่การจับคู่ <code>invoice_list.service_type</code> กับ <code>service_type.service_typea_id</code> ยังเป็นข้อสันนิษฐานจากค่าที่เห็น ไม่พบ query ยืนยันในโค้ดปัจจุบัน</td>
+          </tr>
+          <tr>
+            <td><strong>User Group</strong></td>
+            <td><code>user_groups.id</code>; <code>user.ugroup_id</code></td>
+            <td>บัญชีผู้ใช้และการตรวจสิทธิ์</td>
+            <td><code>user.ugroup_id</code> ใช้โหลดกลุ่มและเป็นฐานของ authorization ในโค้ด แต่ dev3 schema ไม่ได้ประกาศ foreign key</td>
+          </tr>
+          <tr>
+            <td><strong>Job Role</strong></td>
+            <td><code>job_role.id</code>; <code>job.job_role_id</code></td>
+            <td>งานและการมอบหมาย workflow ของผู้ป่วย</td>
+            <td><code>job.job_role_id</code> อ้างถึง <code>job_role.id</code> และมี FK ใน dev3 schema; role หมายถึงประเภทงาน ไม่ใช่หมวด service หรือ invoice</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Mapping หมวด Invoice และ Service Type จากภาพ</h2>
+    <p>
+      <code>invoice_list.service_type</code> ค่า 1 และ 2 ดูเหมือนสอดคล้องกับ
+      <code>service_type.service_typea_id</code> ค่า 1 และ 2 ตามภาพเท่านั้น
+      โปรดยืนยันข้อมูลและ implementation จริงก่อนใช้เป็นเงื่อนไข JOIN หรือ logic ที่รันได้
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Surgical Number (<code>sn_type</code>)</th>
+            <th>กลุ่ม / ชื่อ Invoice ที่เห็น</th>
+            <th><code>invoice_list.service_type</code></th>
+            <th>หมวด Service ที่คาดว่าเกี่ยว (<code>service_typea_id</code>)</th>
+            <th>ตัวอย่าง Service Type จากภาพ</th>
+            <th>หมายเหตุ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>SN</code>, <code>IN</code></td>
+            <td>กลุ่ม 1 — ตรวจชิ้นเนื้อศัลยพยาธิวิทยา</td>
+            <td>1</td><td>1</td>
+            <td>ID 1: SN or IN</td>
+            <td>invoice rows 1–2</td>
+          </tr>
+          <tr>
+            <td><code>CN</code></td>
+            <td>กลุ่ม 2 — ตรวจเซลล์วิทยา</td>
+            <td>1</td><td>1</td>
+            <td>ID 4: CN</td>
+            <td>invoice row 3</td>
+          </tr>
+          <tr>
+            <td><code>PN</code>, <code>LN</code></td>
+            <td>กลุ่ม 3 — ตรวจเซลล์มะเร็งปากมดลูก</td>
+            <td>1</td><td>1</td>
+            <td>ID 5: PN or LN</td>
+            <td>invoice rows 4–5</td>
+          </tr>
+          <tr>
+            <td><code>FN</code></td>
+            <td>กลุ่ม 4 — ตรวจชิ้นเนื้อโดยอุณหภูมิเยือกแข็ง</td>
+            <td>2</td><td>2</td>
+            <td>ID 6: Frozen Staining</td>
+            <td>invoice row 6</td>
+          </tr>
+          <tr>
+            <td><code>SN</code>, <code>CN</code>, <code>LN</code>, <code>PN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code></td>
+            <td>กลุ่ม 5 — ตรวจพิเศษ</td>
+            <td>2</td><td>2</td>
+            <td>IDs 2, 3, 6, 7: กลุ่ม special staining</td>
+            <td>invoice rows 7–13; การจัดหมวดจริงอาจพิจารณา service ของ billing line ด้วย ไม่ใช่ดู prefix ผู้ป่วยอย่างเดียว</td>
+          </tr>
+          <tr>
+            <td>ภาพดูเหมือน <code>IN</code>; mapping text ระบุ <code>DN</code></td>
+            <td>กลุ่ม 5 — ตรวจพิเศษอณูชีววิทยา / Molecular Staining</td>
+            <td>2</td><td>2</td>
+            <td>ID 7: Molecular Staining</td>
+            <td>invoice row 14 ข้อมูลในภาพขัดแย้งกัน ให้ตรวจในฐานข้อมูลจริง</td>
+          </tr>
+          <tr>
+            <td><code>ZN</code></td>
+            <td>Forensic slide service</td>
+            <td>1</td><td>1</td>
+            <td>ID 8: สไลด์นิติเวช</td>
+            <td>ภาพ invoice ไม่มีแถว ZN อย่าสรุป mapping จากแถว service type เพียงอย่างเดียว</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="callout">
+      <code>group_type</code>, <code>service_type</code>, <code>service_typea_id</code> และ
+      <code>sn_type</code> เป็นคนละฟิลด์/ความหมาย ตัวเลขที่เหมือนกันไม่ได้แปลว่าใช้แทนกันได้
+      ภาพ invoice แสดง <code>order_list = 0</code> ในแถวที่เห็น
+    </p>
+  </section>
+
+  <section>
+    <h2>User Group และ Job Role</h2>
+    <p>ข้อมูลสองส่วนนี้เป็นบริบทการปฏิบัติงาน ไม่ใช่มิติสำหรับจับคู่ invoice</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>ส่วน</th><th>การอ้างอิง</th><th>ตัวอย่าง</th><th>หน้าที่</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>User-group identity</td>
+            <td><code>user.ugroup_id</code> → <code>user_groups.id</code> ผ่านโค้ด</td>
+            <td>1000 Admin, 1900 Pathologist Admin, 2000 Pathologist, 5000 Clinician customer, 5100 Hospital customer</td>
+            <td>ระบุประเภทผู้ใช้และใช้คำนวณ authorization ไม่ได้กำหนดชื่อ invoice หรือหมวด service</td>
+          </tr>
+          <tr>
+            <td>Workflow role</td>
+            <td><code>job.job_role_id</code> → <code>job_role.id</code> (มี FK)</td>
+            <td>1 Cross Section, 4 Special Slide Preparation, 5 Pathologist, 7 Cytologist</td>
+            <td>ระบุชนิดงาน/การมอบหมายบน job ของผู้ป่วย ไม่ได้กำหนดชื่อ invoice หรือหมวด service</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      ไม่ควรสร้าง Cartesian product โดยจับทุก User Group และ Job Role เข้ากับทุก invoice row
+      เพราะไม่มีตารางหรือโค้ดที่ยืนยันความสัมพันธ์เช่นนั้น หากรายงาน invoice ต้องแสดง pathologist
+      หรือ cytologist ให้ใช้ JOIN และตัวกรอง role จาก billing query จริง
+    </p>
+  </section>
+
+  <section>
+    <h2>แนวทางไล่ความสัมพันธ์เมื่อแก้ Billing</h2>
+    <ol>
+      <li>เริ่มจาก <code>service_billing.slide_type</code> แล้ว resolve ไปยัง <code>service_type.id</code> ตาม billing query</li>
+      <li>อ่าน <code>patient.sn_type</code> แยกต่างหาก เป็นมิติของ prefix/ประเภทเคส</li>
+      <li>เปรียบเทียบสองค่านี้กับ <code>invoice_list</code> หลังยืนยัน mapping จากฐานข้อมูลจริงหรือ implementation เนื่องจากไม่พบ direct query ปัจจุบัน</li>
+      <li>หากต้องแสดงข้อมูลผู้ทำงาน ให้ไล่ <code>job</code> ด้วย <code>patient_id</code> และ <code>job_role_id</code>; การตรวจสิทธิ์บัญชีผู้ใช้ไล่ผ่าน <code>user.ugroup_id</code> ทั้งสองอย่างไม่ใช่หมวด invoice</li>
+      <li>ตรวจผลลัพธ์ invoice ที่สร้างจริง ปัจจุบัน template <code>pdf_invoice/billingletterinvoice.php</code> ใช้หัวข้อ “ใบแจ้งหนี้” แบบ literal และไม่พบว่าอ่าน <code>invoice_list.invoice_name</code></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>เอกสารและไฟล์อ้างอิง</h2>
+    <ul>
+      <li><a href="../service-type/SKILL.md">Service Type KB</a> — ข้อมูล service type และการใช้งานกับราคา/บิล</li>
+      <li><a href="../surgical-number/SKILL.md">Surgical Number KB</a> — ความหมาย prefix และการสร้างเลขผู้ป่วย</li>
+      <li><a href="../invoice-list/SKILL.md">Invoice List KB</a> — แถว mapping จากภาพ</li>
+      <li><a href="../user-groups/SKILL.md">User Groups KB</a> — group IDs และ authorization</li>
+      <li><a href="../job-role/SKILL.md">Job Role KB</a> — role งาน ต้นทุน และการใช้งานใน workflow</li>
+      <li><a href="../../database_schema.md">Database schema reference</a> — schema dev3 และรายการ FK ที่ประกาศไว้</li>
+      <li><a href="../../../classes/ServiceBilling.php"><code>classes/ServiceBilling.php</code></a> — billing joins กับ service type และ patient jobs ตาม role</li>
+      <li><a href="../../../classes/Job.php"><code>classes/Job.php</code></a> และ <a href="../../../classes/JobRole.php"><code>classes/JobRole.php</code></a> — job assignments และการอ่าน job roles</li>
+      <li><a href="../../../classes/Auth.php"><code>classes/Auth.php</code></a>, <a href="../../../classes/Ugroup.php"><code>classes/Ugroup.php</code></a> และ <a href="../../../user_auth.php"><code>user_auth.php</code></a> — โหลดกลุ่มผู้ใช้และ authorization</li>
+    </ul>
+  </section>
+
+  <footer>
+    Static HTML reference generated from
+    <a href="SKILL.md">workflow-reference-map/SKILL.md</a>.
+    โปรดยืนยัน mapping ที่ยังเป็นข้อสันนิษฐานกับฐานข้อมูลและโค้ดจริงก่อนใช้เปลี่ยนพฤติกรรมการออกบิล
+  </footer>
+</main>
+</body>
+</html>
