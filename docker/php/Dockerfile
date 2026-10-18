@@ -25,8 +25,7 @@ RUN printf '<Directory /var/www/html>\n\tOptions Indexes FollowSymLinks\n\tAllow
 #    ถ้าวันหนึ่ง main ถูกย้ายไป archive.debian.org ให้สลับ mirror เป็น archive
 # libpng/libjpeg/freetype dev ติดตั้งไว้แล้วใน layer แรก -> IM7 build coder JPEG/PNG ให้อัตโนมัติ
 RUN set -eux; \
-    suite="$(awk '/^deb /{print $3; exit}' /etc/apt/sources.list)"; \
-    echo "deb http://deb.debian.org/debian $$suite main" > /etc/apt/sources.list; \
+    echo "deb http://deb.debian.org/debian $(awk '/^deb /{print $3; exit}' /etc/apt/sources.list) main" > /etc/apt/sources.list; \
     if ! apt-get update -o Acquire::Check-Valid-Until=false; then \
         echo '!! deb.debian.org main failed - switch to archive.debian.org'; \
         sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list; \
