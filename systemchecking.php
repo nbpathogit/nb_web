@@ -37,6 +37,42 @@ function systemcheckingFindCommand($command)
     return false;
 }
 
+function systemcheckingIniValueMeetsExample($directive, $actualValue, $exampleValue, $isSize)
+{
+    if ($actualValue === false || !preg_match('/^\s*(-?\d+)\s*([KMG]?)\s*$/i', $actualValue, $matches)) {
+        return false;
+    }
+
+    $actualNumber = (int) $matches[1];
+    if (($directive === 'memory_limit' && $actualNumber === -1)
+        || ($directive === 'max_input_time' && $actualNumber === -1)
+        || ($directive === 'max_execution_time' && $actualNumber === 0)) {
+        return true;
+    }
+
+    if ($actualNumber < 0) {
+        return false;
+    }
+
+    if ($isSize) {
+        $unitMultipliers = [
+            '' => 1,
+            'K' => 1024,
+            'M' => 1024 * 1024,
+            'G' => 1024 * 1024 * 1024,
+        ];
+        $actualBytes = $actualNumber * $unitMultipliers[strtoupper($matches[2])];
+        $exampleMatches = [];
+        if (!preg_match('/^(\d+)\s*([KMG]?)$/i', $exampleValue, $exampleMatches)) {
+            return false;
+        }
+        $exampleBytes = (int) $exampleMatches[1] * $unitMultipliers[strtoupper($exampleMatches[2])];
+        return $actualBytes >= $exampleBytes;
+    }
+
+    return $actualNumber >= (int) $exampleValue;
+}
+
 $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 $currentOs = PHP_OS_FAMILY === 'Windows' ? 'Windows'
     : (PHP_OS_FAMILY === 'Linux' ? 'Linux' : PHP_OS_FAMILY);
@@ -72,6 +108,25 @@ $commandChecks = [
         'purpose' => 'ImageMagick CLI (magick' . (!$isWindows ? ' or convert' : '') . ')',
     ],
 ];
+
+$phpIniExamples = [
+    ['name' => 'max_execution_time', 'example' => '120', 'isSize' => false],
+    ['name' => 'max_input_time', 'example' => '60', 'isSize' => false],
+    ['name' => 'memory_limit', 'example' => '512M', 'isSize' => true],
+    ['name' => 'post_max_size', 'example' => '40M', 'isSize' => true],
+    ['name' => 'upload_max_filesize', 'example' => '40M', 'isSize' => true],
+];
+
+foreach ($phpIniExamples as &$phpIniExample) {
+    $phpIniExample['current'] = ini_get($phpIniExample['name']);
+    $phpIniExample['meetsExample'] = systemcheckingIniValueMeetsExample(
+        $phpIniExample['name'],
+        $phpIniExample['current'],
+        $phpIniExample['example'],
+        $phpIniExample['isSize']
+    );
+}
+unset($phpIniExample);
 
 require 'includes/header.php';
 ?>
@@ -121,6 +176,42 @@ require 'includes/header.php';
                                         <?php endif; ?>
                                     </td>
                                     <td><?= htmlspecialchars($check['purpose'], ENT_QUOTES, 'UTF-8') ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="mt-4">PHP Configuration Check</h4>
+                <p>Current effective PHP settings compared with the requested example values. Values at or above the example pass.</p>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>php.ini directive</th>
+                                <th>Status</th>
+                                <th>Current value</th>
+                                <th>Example minimum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($phpIniExamples as $setting) : ?>
+                                <tr>
+                                    <td><code><?= htmlspecialchars($setting['name'], ENT_QUOTES, 'UTF-8') ?></code></td>
+                                    <td>
+                                        <?php if ($setting['meetsExample']) : ?>
+                                            <span class="text-success">Meets example</span>
+                                        <?php elseif ($setting['current'] === false) : ?>
+                                            <span class="text-danger">Unavailable</span>
+                                        <?php else : ?>
+                                            <span class="text-danger">Below example</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-dark">
+                                        <?= $setting['current'] === false
+                                            ? 'Unavailable'
+                                            : htmlspecialchars($setting['current'], ENT_QUOTES, 'UTF-8') ?>
+                                    </td>
+                                    <td><?= htmlspecialchars($setting['example'], ENT_QUOTES, 'UTF-8') ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
