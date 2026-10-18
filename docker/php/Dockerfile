@@ -36,17 +36,19 @@ RUN set -eux; \
       https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.1-38.tar.gz; \
     tar -xzf /tmp/im7.tar.gz -C /tmp; \
     cd /tmp/ImageMagick-7.1.1-38; \
-    ./configure --prefix=/usr/local --with-magick-plus-plus=no --disable-docs; \
+    ./configure --prefix=/usr/local --with-magick-plus-plus=no --disable-docs --disable-hdri; \
     make -j"$(nproc)"; \
     make install; \
     ldconfig; \
     magick -version; \
     gs --version; \
-    gs -q -sDEVICE=pdfwrite -o /tmp/im7test.pdf -c "0 0 moveto 100 100 lineto 100 0 lineto closepath fill showpage"; \
+    gs -q -sDEVICE=pdfwrite -o /tmp/im7test.pdf -c "0 0 moveto 100 100 lineto 100 0 lineto closepath fill 72 700 moveto /Helvetica findfont 24 scalefont setfont (NB Patho smoke test) show showpage"; \
+    magick -density 96 /tmp/im7test.pdf /tmp/im7test.png; \
+    test -s /tmp/im7test.png; \
     magick -density 96 /tmp/im7test.pdf /tmp/im7test.jpg; \
     test -s /tmp/im7test.jpg; \
     cd /tmp; \
-    rm -rf /tmp/im7.tar.gz /tmp/ImageMagick-7.1.1-38 /tmp/im7test.pdf /tmp/im7test.jpg; \
+    rm -rf /tmp/im7.tar.gz /tmp/ImageMagick-7.1.1-38 /tmp/im7test.pdf /tmp/im7test.png /tmp/im7test.jpg; \
     rm -rf /var/lib/apt/lists/*
 
 COPY php.ini /usr/local/etc/php/conf.d/nb-web.ini
