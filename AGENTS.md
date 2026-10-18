@@ -40,12 +40,20 @@ nb_web/
 ├── css/ js/ lib/ scss/    # assets
 ├── fonts/                 # ฟอนต์ไทยสำหรับ mPDF/TCPDF
 ├── docker/                # Dockerfile + config สำหรับ docker compose
-├── docs/                  # design-system.md, design-system-css-reference.md
+├── docs/                  # เอกสาร (ดูสารบัญด้านล่าง)
 ├── vendor/                # composer (ห้ามแก้)
 ├── sandbox/ sandbox2/     # พื้นที่ทดลองโค้ด
 ├── release1/ dbg/         # release/debug scratch — ห้ามแตะ
 └── nbproject/             # NetBeans project meta — ห้ามแตะ
 ```
+
+## เอกสาร (สารบัญ docs/)
+
+| ไฟล์ | เนื้อหา |
+|---|---|
+| `docs/imagemagick-install.md` | การติดตั้ง ImageMagick 7 + Ghostscript + zip ใน container `app` สำหรับแปลง PDF→JPG — **อ่านก่อนแก้ `docker/php/Dockerfile`** (มี gotchas เรื่อง bullseye EOL และบั๊ก IM 7.1.1-3x ที่เอาคืนไม่ได้) |
+| `docs/design-system.md` | Design system ของ UI |
+| `docs/design-system-css-reference.md` | อ้างอิง CSS ของ design system |
 
 ## Convention ที่ต้องถือ
 
@@ -85,6 +93,7 @@ $conn = require '../includes/db.php'; // คืน PDO connection
 5. **PDF มี 2 ไลบรารี:** mPDF (composer) และ TCPDF — ดูไฟล์เดิมก่อนว่าใช้ตัวไหน แล้วตามตัวนั้น อย่าสลับในไฟล์เดียวกัน
 6. **Flag กลาง:** `$GLOBALS['isBillByAcceptDate']` / `$GLOBALS['isBillByServiceDate']` ใน `init.php` คุมตรรกะการรวมบิล (ตามวันที่รับ vs วันที่ทำ service)
 7. **Datatables CSS local:** `cssdatatablesdotnet/` เก็บ CSS ที่เคยโหลดจาก CDN แบบ mirror — เลือกใช้ให้ตรงกับ version ที่ header ดึง
+8. **แปลง PDF→JPG ใน container:** PHP เรียก `/usr/local/bin/magick` (IM7 build จาก source) + `gs` + `zip` ซึ่งติดตั้งใน image `app` — ก่อนแก้ `docker/php/Dockerfile` ให้อ่าน `docs/imagemagick-install.md` ก่อน เพราะมี workaround หลายชั้น (bullseye EOL apt, IM 7.1.1-3x crash) ถ้าลบออกจะกลับไปเจอบั๊กเดิม
 
 ## สิ่งที่ห้ามทำ
 
