@@ -20,12 +20,25 @@ RUN printf '<Directory /var/www/html>\n\tOptions Indexes FollowSymLinks\n\tAllow
 # apt ของ base (buster/bullseye) มีแต่ ImageMagick 6 (คำสั่ง convert) ไม่มี magick ของ IM7
 # -> ต้อง build IM7 จาก source ; ghostscript = delegate อ่าน PDF (ขาดไม่ได้)
 # zip = command2 ใน patient_pdf.php (zip รายงาน jpg+pdf+txt)
-# base image EOL แล้ว ถ้า deb.debian.org ถอด suite ออก ให้ fallback ไป archive.debian.org
+# base image EOL แล้ว ถ้า apt ล้ม เดินตามขั้น: (1) mirror ปกติ (2) ตัด repo -updates/-security
+# ที่ปลดระวางแล้วให้เหลือ main บน deb.debian.org (3) archive.debian.org
+
 # libpng/libjpeg/freetype dev ติดตั้งไว้แล้วใน layer แรก -> IM7 build coder JPEG/PNG ให้อัตโนมัติ
+
 RUN set -eux; \
-    if ! apt-get update; then \
-        sed -i 's|deb.debian.org|archive.debian.org|g; /-updates/d; /security.debian.org/d' /etc/apt/sources.list; \
-        apt-get update -o Acquire::Check-Valid-Until=false; \
+
+    if ! apt-get update -o Acquire::Retries=3; then \
+
+        echo '!! apt-get update failed - base suite EOL, retry with main repo only'; \
+        cat /etc/os-release; \
+        sed -i '/-updates/d; /security.debian.org/d' /etc/apt/sources.list; \
+
+        if ! apt-get update -o Acquire::Check-Valid-Until=false; then \
+            echo '!! still failing - switch to archive.debian.org'; \
+            sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list; \
+            apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Retries=5; \
+
+        fi; \
     fi; \
     apt-get install -y --no-install-recommends ghostscript zip curl ca-certificates; \
     curl -fsSL -o /tmp/im7.tar.gz \
