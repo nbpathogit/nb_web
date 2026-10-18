@@ -17,28 +17,18 @@ RUN printf '<Directory /var/www/html>\n\tOptions Indexes FollowSymLinks\n\tAllow
 # ImageMagick 7 (/usr/local/bin/magick) + Ghostscript สำหรับแปลง PDF -> JPG จาก PHP
 # ใช้กับ patient_pdf.php / pdf_attach_upload.php เช่น
 #   /usr/local/bin/magick -density 300 ./cus/xxx.pdf -density 300 ./cus/xxx.jpg
-# apt ของ base (buster/bullseye) มีแต่ ImageMagick 6 (คำสั่ง convert) ไม่มี magick ของ IM7
-# -> ต้อง build IM7 จาก source ; ghostscript = delegate อ่าน PDF (ขาดไม่ได้)
-# zip = command2 ใน patient_pdf.php (zip รายงาน jpg+pdf+txt)
-# base image EOL แล้ว ถ้า apt ล้ม เดินตามขั้น: (1) mirror ปกติ (2) ตัด repo -updates/-security
-# ที่ปลดระวางแล้วให้เหลือ main บน deb.debian.org (3) archive.debian.org
-
+# apt ของ base (bullseye) มีแต่ ImageMagick 6 (convert) ไม่มี magick ของ IM7 -> build จาก source
+# ghostscript = delegate อ่าน PDF (ขาดไม่ได้), zip = command2 ใน patient_pdf.php
+# bullseye EOL แล้ว: repo -updates/-security เหลือ index แต่ pool ไฟล์ .deb ถูกลบ (โหลดแล้ว 404)
+# -> ตัดออกก่อน update เสมอให้เหลือ main บน deb.debian.org
+#    ถ้าวันหนึ่ง main ถูกย้ายไป archive.debian.org ให้สลับ mirror เป็น archive
 # libpng/libjpeg/freetype dev ติดตั้งไว้แล้วใน layer แรก -> IM7 build coder JPEG/PNG ให้อัตโนมัติ
-
 RUN set -eux; \
-
-    if ! apt-get update -o Acquire::Retries=3; then \
-
-        echo '!! apt-get update failed - base suite EOL, retry with main repo only'; \
-        cat /etc/os-release; \
-        sed -i '/-updates/d; /security.debian.org/d' /etc/apt/sources.list; \
-
-        if ! apt-get update -o Acquire::Check-Valid-Until=false; then \
-            echo '!! still failing - switch to archive.debian.org'; \
-            sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list; \
-            apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Retries=5; \
-
-        fi; \
+    sed -i '/-updates/d; /security.debian.org/d' /etc/apt/sources.list; \
+    if ! apt-get update -o Acquire::Check-Valid-Until=false; then \
+        echo '!! deb.debian.org main failed - switch to archive.debian.org'; \
+        sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list; \
+        apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Retries=5; \
     fi; \
     apt-get install -y --no-install-recommends ghostscript zip curl ca-certificates; \
     curl -fsSL -o /tmp/im7.tar.gz \
