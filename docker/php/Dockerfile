@@ -20,11 +20,13 @@ RUN printf '<Directory /var/www/html>\n\tOptions Indexes FollowSymLinks\n\tAllow
 # apt ของ base (bullseye) มีแต่ ImageMagick 6 (convert) ไม่มี magick ของ IM7 -> build จาก source
 # ghostscript = delegate อ่าน PDF (ขาดไม่ได้), zip = command2 ใน patient_pdf.php
 # bullseye EOL แล้ว: repo -updates/-security เหลือ index แต่ pool ไฟล์ .deb ถูกลบ (โหลดแล้ว 404)
-# -> ตัดออกก่อน update เสมอให้เหลือ main บน deb.debian.org
+# แถม security repo ของ image นี้อยู่บน host deb.debian.org/debian-security ด้วย
+# -> เขียน sources.list ทับให้เหลือ "main บน deb.debian.org" บรรทัดเดียว (suite ดึงจากไฟล์เดิม)
 #    ถ้าวันหนึ่ง main ถูกย้ายไป archive.debian.org ให้สลับ mirror เป็น archive
 # libpng/libjpeg/freetype dev ติดตั้งไว้แล้วใน layer แรก -> IM7 build coder JPEG/PNG ให้อัตโนมัติ
 RUN set -eux; \
-    sed -i '/-updates/d; /security.debian.org/d' /etc/apt/sources.list; \
+    suite="$(awk '/^deb /{print $3; exit}' /etc/apt/sources.list)"; \
+    echo "deb http://deb.debian.org/debian $$suite main" > /etc/apt/sources.list; \
     if ! apt-get update -o Acquire::Check-Valid-Until=false; then \
         echo '!! deb.debian.org main failed - switch to archive.debian.org'; \
         sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list; \
