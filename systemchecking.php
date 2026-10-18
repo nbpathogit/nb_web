@@ -127,6 +127,8 @@ foreach ($phpIniExamples as &$phpIniExample) {
     );
 }
 unset($phpIniExample);
+$loadedPhpIniFile = php_ini_loaded_file();
+$scannedPhpIniFiles = php_ini_scanned_files();
 
 require 'includes/header.php';
 ?>
@@ -183,6 +185,27 @@ require 'includes/header.php';
                 </div>
                 <h4 class="mt-4">PHP Configuration Check</h4>
                 <p>Current effective PHP settings compared with the requested example values. Values at or above the example pass.</p>
+                <div class="alert alert-info">
+                    <strong>How these values are obtained:</strong>
+                    Each current value is read from the running PHP process using <code>ini_get()</code>.
+                    These are effective values and may include overrides from the web server, a per-directory
+                    <code>.user.ini</code>, or other PHP configuration.
+                    <br>
+                    <strong>Loaded php.ini:</strong>
+                    <?php if ($loadedPhpIniFile !== false && $loadedPhpIniFile !== '') : ?>
+                        <code><?= htmlspecialchars($loadedPhpIniFile, ENT_QUOTES, 'UTF-8') ?></code>
+                    <?php else : ?>
+                        No php.ini file reported as loaded.
+                    <?php endif; ?>
+                    <?php if ($scannedPhpIniFiles !== false && trim($scannedPhpIniFiles) !== '') : ?>
+                        <br>
+                        <strong>Additional scanned ini files:</strong>
+                        <code><?= htmlspecialchars(trim($scannedPhpIniFiles), ENT_QUOTES, 'UTF-8') ?></code>
+                    <?php endif; ?>
+                    <br>
+                    To check the PHP configuration file used by the web application, view this page through the
+                    web server. CLI output from <code>php --ini</code> may show a different configuration.
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-striped">
                         <thead>

@@ -48,35 +48,35 @@ if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
 
 echo 'The file ' . $fileName . ' has been uploaded successfully.';
 
-$os = PHP_OS;
-if ($os === 'WINNT') {
-    $magickCommand = 'magick';
-} elseif ($os === 'Linux' && is_executable('/usr/bin/magick')) {
-    $magickCommand = '/usr/bin/magick';
-} elseif ($os === 'Linux' && is_executable('/usr/local/bin/magick')) {
-    $magickCommand = '/usr/local/bin/magick';
-} else {
-    $magickCommand = null;
-}
+// $os = PHP_OS;
+// if ($os === 'WINNT') {
+//     $magickCommand = 'magick';
+// } elseif ($os === 'Linux' && is_executable('/usr/bin/magick')) {
+//     $magickCommand = '/usr/bin/magick';
+// } elseif ($os === 'Linux' && is_executable('/usr/local/bin/magick')) {
+//     $magickCommand = '/usr/local/bin/magick';
+// } else {
+//     $magickCommand = null;
+// }
 
-if ($magickCommand !== null) {
-    $pdfPath = __DIR__ . DIRECTORY_SEPARATOR . $targetFile;
-    $jpgPath = __DIR__ . DIRECTORY_SEPARATOR . $targetDir . pathinfo($targetFile, PATHINFO_FILENAME) . '.jpg';
-    $command = $magickCommand . ' -density 300 '
-        . escapeshellarg($pdfPath)
-        . ' ' . escapeshellarg($jpgPath)
-        . ' 2>&1';
-    echo "Executing command: $command\n"; // Debugging line
+// if ($magickCommand !== null) {
+//     $pdfPath = __DIR__ . DIRECTORY_SEPARATOR . $targetFile;
+//     $jpgPath = __DIR__ . DIRECTORY_SEPARATOR . $targetDir . pathinfo($targetFile, PATHINFO_FILENAME) . '.jpg';
+//     $command = $magickCommand . ' -density 300 '
+//         . escapeshellarg($pdfPath)
+//         . ' ' . escapeshellarg($jpgPath)
+//         . ' 2>&1';
+//     echo "Executing command: $command\n"; // Debugging line
 
-    $output = [];
-    exec($command, $output, $returnCode);
-    if ($returnCode !== 0 || !is_file($jpgPath)) {
-        error_log('PDF-to-JPG conversion failed: ' . implode("\n", $output));
-        echo ' JPG conversion failed; check the PHP error log for details.';
-    }
-} else {
-    echo ' JPG conversion is not configured for this operating system.';
-}
+//     $output = [];
+//     exec($command, $output, $returnCode);
+//     if ($returnCode !== 0 || !is_file($jpgPath)) {
+//         error_log('PDF-to-JPG conversion failed: ' . implode("\n", $output));
+//         echo ' JPG conversion failed; check the PHP error log for details.';
+//     }
+// } else {
+//     echo ' JPG conversion is not configured for this operating system.';
+// }
 
 // Save the attachment details to pdf_attach.
 $pdfAttach = Pdfattach::getInitObj();

@@ -1298,7 +1298,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
     
     
  <?php if ($isCurUserNB) : ?>
-    <div id="finish_section" class="container-fluid pt-4 px-4">
+    <div id="" class="container-fluid pt-4 px-4">
         <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
             <!--hr noshade="noshade" width="" size="8" -->
             <h4 align="center"><b>Internal Note</b><span style="color:green;"></span></h4>
@@ -1308,18 +1308,21 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 <?php endif; ?>
     
     
- <?php if ($isCurUserAdmin) : ?>
-    <div id="finish_section" class="container-fluid pt-4 px-4">
+
+    <div id="attach_pdf_section" class="container-fluid pt-4 px-4">
             <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
                 <!--hr noshade="noshade" width="" size="8" -->
-                <h4 align="center"><b>PDF File for append</b><span style="color:green;"></span></h4>
+
+                <h4 align="center"><b>PDF File for append in report</b><span style="color:green;"></span></h4>
+                <?php if ($isCurrentPathoIsOwnerThisCase) : ?>
                 <form id="uploadAttachPdfForm" enctype="multipart/form-data"> 
                     <input type="file" name="file" id="fileInput" accept="application/pdf" required> 
                     <!-- Hidden input --> <input type="hidden" name="patient_id" value="<?= $patient[0]['id']; ?>">
                     <!-- Hidden input --> <input type="hidden" name="pnum" value="<?= $patient[0]['pnum']; ?>">
                     <button type="submit" class="btn btn-primary">Upload</button> 
                 </form> 
-                
+                <?php endif; ?>
+
                 <div id="pdfUploadStatus"></div>
 
                 <div class="mt-3" id="uploadedPdfListSection">
@@ -1365,7 +1368,7 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
 
     </script>
     
-<?php endif; ?>
+
 
 <span id="end_section">    </span>
 
