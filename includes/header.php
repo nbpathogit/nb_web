@@ -108,6 +108,7 @@
                                 <a id="user_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
                                 <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
                                 <a id="chart_data_tab" href="chart_data.php" class="nav-item nav-link">chart data</a>
+                                <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="nav-item nav-link">ออกใบแจ้งหนี้ V3(PDF)</a>
                                 <a id="systemchecking_tab" href="systemchecking.php" class="nav-item nav-link">ตรวจสอบคำสั่งระบบ</a>
 
                             </div>
@@ -179,6 +180,7 @@
                             <div class="dropdown-menu bg-transparent border-0 " id="manage_bill_dropdown">
                                 <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
                                 <a id="billing_pdf_tab_2" href="billing_pdf_2.php" class="nav-item nav-link">ออกใบแจ้งหนี้ V2(PDF)</a>
+                                
                                 <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
                                 <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="nav-item nav-link">กรองข้อมูลตามนักเซลล์(PDF)</a>
                                 <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
