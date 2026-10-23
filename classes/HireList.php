@@ -14,12 +14,14 @@
 class HireList {
 
     public $id; //          int(11)		
+    public $outside_id; //      int(11)
     public $patient_id; //          int(11)		
     public $patient_number; //          varchar(10)	
     public $name; //          varchar(50)	
     public $cost; //          float		
     public $comment; //         	varchar(70)	
     public $accept_date;
+    public $accept_time;
     public $insert_time;
     public $finish_time;
 

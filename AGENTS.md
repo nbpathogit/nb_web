@@ -6,7 +6,7 @@
 
 **NB Patho (nb_web)** — ระบบ Laboratory Information System (LIS) สำหรับห้องปฏิบัติการ Pathology / Cytology
 
-- **ภาษา:** PHP 7.4+ (มี typed properties) — **ไม่ใช้ framework** เป็น vanilla PHP
+- **ภาษา:** PHP 8.5 (migrate จาก 7.4 แล้ว — vendor ของ composer ต้องการ PHP >= 8.0) — **ไม่ใช้ framework** เป็น vanilla PHP
 - **ฐานข้อมูล:** MySQL 5.7 (utf8) ผ่าน PDO (บางจุดใช้ mysqli)
 - **Frontend:** Bootstrap 5, jQuery, DataTables (CDN + local), Font Awesome, Selectize, Tempus Dominus
 - **PDF:** mPDF และ TCPDF (สองตัวใช้คู่กัน ผ่าน composer)
@@ -20,7 +20,7 @@ docker compose up -d
 
 | Service | URL / Port | หมายเหตุ |
 |---|---|---|
-| app (PHP 7.4 + Apache) | http://localhost (**ต้อง port 80 เท่านั้น**) | เข้าผ่าน `:8080` ไม่ได้ เพราะ `Database.php` เช็ค `HTTP_HOST == "localhost"` แบบตรงตัว |
+| app (PHP 8.5 + Apache) | http://localhost (**ต้อง port 80 เท่านั้น**) | เข้าผ่าน `:8080` ไม่ได้ เพราะ `Database.php` เช็ค `HTTP_HOST == "localhost"` แบบตรงตัว |
 | db (MySQL 5.7) | 3306 | db: `nbpa_data`, user: `nbpa_nbpatho` |
 | phpMyAdmin | http://localhost:8081 | |
 | ftp | 21 | |
@@ -93,7 +93,7 @@ $conn = require '../includes/db.php'; // คืน PDO connection
 5. **PDF มี 2 ไลบรารี:** mPDF (composer) และ TCPDF — ดูไฟล์เดิมก่อนว่าใช้ตัวไหน แล้วตามตัวนั้น อย่าสลับในไฟล์เดียวกัน
 6. **Flag กลาง:** `$GLOBALS['isBillByAcceptDate']` / `$GLOBALS['isBillByServiceDate']` ใน `init.php` คุมตรรกะการรวมบิล (ตามวันที่รับ vs วันที่ทำ service)
 7. **Datatables CSS local:** `cssdatatablesdotnet/` เก็บ CSS ที่เคยโหลดจาก CDN แบบ mirror — เลือกใช้ให้ตรงกับ version ที่ header ดึง
-8. **แปลง PDF→JPG ใน container:** PHP เรียก `/usr/local/bin/magick` (IM7 build จาก source) + `gs` + `zip` ซึ่งติดตั้งใน image `app` — ก่อนแก้ `docker/php/Dockerfile` ให้อ่าน `docs/imagemagick-install.md` ก่อน เพราะมี workaround หลายชั้น (bullseye EOL apt, IM 7.1.1-3x crash) ถ้าลบออกจะกลับไปเจอบั๊กเดิม
+8. **แปลง PDF→JPG ใน container:** PHP เรียก `/usr/local/bin/magick` (IM7 build จาก source) + `gs` + `zip` ซึ่งติดตั้งใน image `app` — ก่อนแก้ `docker/php/Dockerfile` ให้อ่าน `docs/imagemagick-install.md` ก่อน เพราะมี workaround หลายชั้น (บั๊ก IM 7.1.1-3x crash ตอนอ่าน PDF ที่เอาคืนไม่ได้) ถ้าลบออกจะกลับไปเจอบั๊กเดิม
 
 ## สิ่งที่ห้ามทำ
 
@@ -111,3 +111,4 @@ $conn = require '../includes/db.php'; // คืน PDO connection
 
 - ไม่มี test suite / linter ติดตั้งไว้ — ตรวจ syntax ด้วย `php -l <file>` ได้ (หรือรันใน container: `docker exec nb_web-app php -l /var/www/html/<file>`)
 - ทดสอบจริงผ่าน http://localhost หลัง `docker compose up -d`
+- ถ้าแก้ `composer.json` ต้องรัน `composer update --ignore-platform-req=ext-gd --ignore-platform-req=ext-mbstring` ใน container ที่มี composer (เช่น image `composer:2`) แล้ว lock/vendor จะอัปเดตให้เอง — `composer.json` ตั้ง `config.platform.php = 8.5.99` ไว้แล้ว resolution จะออกมาสำหรับ PHP 8.5 เสมอ
