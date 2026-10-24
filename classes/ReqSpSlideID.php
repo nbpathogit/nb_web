@@ -344,7 +344,7 @@ class ReqSpSlideID {
         if ($start != '0') {
             $sql = $sql .  "    and  date(r.req_date) >= '{$start}'                                                      \n";
         }
-    $sql = $sql .  "GROUP by r_id, b.description ,b.id                                                                                     \n".
+    $sql = $sql .  "GROUP by r_id, b.description ,b.id, j4.id, j5.id                                                                       \n".
         "ORDER by b_patient_num ASC                                                                                      \n";
 
 

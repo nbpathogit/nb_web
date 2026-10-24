@@ -105,6 +105,7 @@ class Database {
         try {
             $db = new PDO($dsn, $this->db_user, $this->db_pass);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //$db->exec("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
             return $db;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -116,6 +117,7 @@ class Database {
 
         try {
             $conn = new mysqli($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
+            //$conn->query("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
             return $conn;
         } catch (PDOException $e) {
             echo $e->getMessage();
