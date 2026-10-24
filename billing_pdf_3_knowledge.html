@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing PDF V3 (billing_pdf_3.php) — Complete System Knowledge Base</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --muted: #475569;
+            --border: #e2e8f0;
+            --primary: #1d4ed8;
+            --primary-light: #eff6ff;
+            --accent: #059669;
+            --accent-light: #ecfdf5;
+            --warn: #d97706;
+            --warn-light: #fffbeb;
+            --danger: #dc2626;
+            --code-bg: #1e293b;
+            --code-text: #f8fafc;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", "Sarabun", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+        }
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #fff;
+            padding: 2.5rem 2rem;
+            border-bottom: 4px solid #3b82f6;
+        }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+        }
+        header p {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+        .badge-row {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        nav.toc {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+        nav.toc ul {
+            list-style: none;
+            margin: 0;
+            padding: 0.75rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.25rem;
+        }
+        nav.toc a {
+            text-decoration: none;
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+        nav.toc a:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        main {
+            padding: 2rem 0 4rem;
+        }
+        section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        section h2 {
+            margin-top: 0;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--border);
+            color: #0f172a;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        section h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.6rem;
+            color: #1e3a8a;
+            font-size: 1.12rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.92rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.65rem 0.85rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #f1f5f9;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+        code {
+            font-family: "JetBrains Mono", Consolas, Monaco, monospace;
+            font-size: 0.86em;
+            background: #f1f5f9;
+            color: #be123c;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.1rem 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.55;
+        }
+        pre code {
+            background: transparent;
+            color: inherit;
+            border: none;
+            padding: 0;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.25rem;
+        }
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.15rem 1.25rem;
+            background: #fcfdff;
+        }
+        .card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary);
+            font-size: 1.02rem;
+        }
+        .callout {
+            border-left: 4px solid var(--primary);
+            background: var(--primary-light);
+            padding: 0.9rem 1.15rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+        }
+        .callout.warn {
+            border-left-color: var(--warn);
+            background: var(--warn-light);
+        }
+        .callout.success {
+            border-left-color: var(--accent);
+            background: var(--accent-light);
+        }
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .step-box {
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+        }
+        .step-box .step-num {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            margin-bottom: 0.4rem;
+        }
+        .step-box h4 {
+            margin: 0.25rem 0 0.5rem;
+            color: #1e3a8a;
+        }
+        .tag-v3 {
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 700;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.78rem;
+        }
+        .tag-shared {
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: 700;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.78rem;
+        }
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 2rem;
+            font-size: 0.88rem;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>Billing PDF V3 System — <code>billing_pdf_3.php</code></h1>
+        <p>Complete Architecture, Page Structure, DOM Map, AJAX Workflow &amp; mPDF Reference for NB Pathology Center</p>
+        <div class="badge-row">
+            <span class="badge">Workspace: C:\anuchit2\nb_web\dev3</span>
+            <span class="badge">Main UI: billing_pdf_3.php (1,671 lines)</span>
+            <span class="badge">PDF Engine: billing_pdf_show_3.php (mPDF)</span>
+            <span class="badge">Templates: pdf_invoice/*_3.php</span>
+        </div>
+    </div>
+</header>
+
+<nav class="toc">
+    <div class="container">
+        <ul>
+            <li><a href="#summary">0. Executive Summary &amp; File Separation</a></li>
+            <li><a href="#overview">1. Overview &amp; File Map</a></li>
+            <li><a href="#page-structure">2. Page Structure (Top-to-Bottom)</a></li>
+            <li><a href="#workflow">3. 4-Step User &amp; AJAX Flow</a></li>
+            <li><a href="#pdf-pages">4. PDF Templates &amp; Placeholders</a></li>
+            <li><a href="#js-functions">5. JS Draw Functions &amp; Modal</a></li>
+            <li><a href="#mpdf">6. mPDF Engine (billing_pdf_show_3.php)</a></li>
+            <li><a href="#rules">7. Rules, Extending &amp; Validation</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container">
+
+    <!-- 0. EXECUTIVE SUMMARY & V3 FILE SEPARATION -->
+    <section id="summary">
+        <h2>0. Executive Summary &amp; V3 Isolated File Separation</h2>
+        <div class="callout success">
+            <strong>100% Isolated V3 Architecture:</strong> Every UI page, PDF generator, invoice template, and AJAX endpoint called by <code>billing_pdf_3.php</code> now resides in its own V3-exclusive <code>*_3.php</code> file, ensuring zero impact on V1 (<code>billing_pdf.php</code>) and V2 (<code>billing_pdf_2.php</code>).
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>Core Components (18 V3-Exclusive Files)</h4>
+                <ul>
+                    <li><strong>1 Main UI Page:</strong> <code>billing_pdf_3.php</code></li>
+                    <li><strong>1 mPDF Generator:</strong> <code>billing_pdf_show_3.php</code></li>
+                    <li><strong>5 Invoice &amp; Table Templates:</strong> <code>pdf_invoice/*_3.php</code></li>
+                    <li><strong>11 Dedicated AJAX Endpoints:</strong> <code>ajax_billing_v3/*_3.php</code></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>End-to-End Flow Summary</h4>
+                <ol>
+                    <li><strong>Filter &amp; Load (Button 1):</strong> Queries 10 AJAX endpoints in <code>ajax_billing_v3/</code> to populate form inputs, DataTable, and Group 2/3/4 tables.</li>
+                    <li><strong>Edit Details:</strong> User fills invoice numbers, Thai dates, or double-clicks DataTable <code>โค้ด2</code> (saved via <code>serviceBillingSetCode_3.php</code>).</li>
+                    <li><strong>Web Preview (Button 2):</strong> Injects form values and service summary tables into <code>#bill_page1</code>..<code>#bill_page6</code>.</li>
+                    <li><strong>PDF Export (Buttons 3 &amp; 4):</strong> POSTs <code>#bill_page1</code>..<code>#bill_page5</code> HTML to <code>billing_pdf_show_3.php</code> (mPDF).</li>
+                </ol>
+            </div>
+        </div>
+
+        <h3>Separated AJAX Endpoints Mapping (<code>ajax_billing_v3/</code>)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 6%;">#</th>
+                    <th style="width: 38%;">Original Shared File</th>
+                    <th style="width: 40%;">New V3-Exclusive File (<code>ajax_billing_v3/</code>)</th>
+                    <th>Line in <code>billing_pdf_3.php</code></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><code>ajax_billing/getBillbyHospitalbyDateRange.php</code></td>
+                    <td><code>ajax_billing_v3/getBillbyHospitalbyDateRange_3.php</code></td>
+                    <td>Line 481 (DataTable)</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>ajax_billing/getBillbyHospitalbyDateRangeSumPrice.php</code></td>
+                    <td><code>ajax_billing_v3/getBillbyHospitalbyDateRangeSumPrice_3.php</code></td>
+                    <td>Line 621</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><code>ajax_billing/getCostGroupbyServiceTyoebyHospitalbyDateRange.php</code></td>
+                    <td><code>ajax_billing_v3/getCostGroupbyServiceTyoebyHospitalbyDateRange_3.php</code></td>
+                    <td>Line 656</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><code>ajax_billing/getBillingGroupBySN_3.php</code></td>
+                    <td><code>ajax_billing_v3/getBillingGroupBySN_3.php</code></td>
+                    <td>Line 714 (Group 2)</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><code>ajax_billing/getBillingGroupBySNCount.php</code></td>
+                    <td><code>ajax_billing_v3/getBillingGroupBySNCount_3.php</code></td>
+                    <td>Line 749</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><code>ajax_billing/getBillingGroupByCode.php</code></td>
+                    <td><code>ajax_billing_v3/getBillingGroupByCode_3.php</code></td>
+                    <td>Line 791 (Group 3)</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><code>ajax_billing/getBillingGroupByCodeCount.php</code></td>
+                    <td><code>ajax_billing_v3/getBillingGroupByCodeCount_3.php</code></td>
+                    <td>Line 827</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><code>ajax_billing/getBillingHospitalOneByOne.php</code></td>
+                    <td><code>ajax_billing_v3/getBillingHospitalOneByOne_3.php</code></td>
+                    <td>Line 864 (Group 4)</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td><code>ajax_billing/getHospital.php</code></td>
+                    <td><code>ajax_billing_v3/getHospital_3.php</code></td>
+                    <td>Line 917</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td><code>ajax_billing/getCostSpelling.php</code></td>
+                    <td><code>ajax_billing_v3/getCostSpelling_3.php</code></td>
+                    <td>Line 968</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td><code>ajax_ServiceBilling/serviceBillingSetCode2.php</code></td>
+                    <td><code>ajax_billing_v3/serviceBillingSetCode_3.php</code></td>
+                    <td>Line 430 (Code2 Modal)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 1. OVERVIEW & FILE MAP -->
+    <section id="overview">
+        <h2>1. System Overview &amp; Complete File Map</h2>
+        <p>
+            The <strong>Billing PDF V3</strong> system generates official hospital invoices (ใบแจ้งหนี้) and itemized pathology service summaries for NB Pathology Center (ห้างหุ้นส่วนจำกัด ศูนย์พยาธิวิทยา เอ็น.บี.).
+            It is completely isolated from V1 (<code>billing_pdf.php</code>) and V2 (<code>billing_pdf_2.php</code>) via its own dedicated <code>_3</code> files and <code>ajax_billing_v3/</code> endpoints.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 38%;">File Path (relative to <code>C:\anuchit2\nb_web\dev3\</code>)</th>
+                    <th style="width: 14%;">Scope</th>
+                    <th>Role &amp; Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>billing_pdf_3.php</code></td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>Main UI page (1,671 lines) — select hospital &amp; date range, edit invoice details, preview 6 sections on web, edit <code>b_code2</code> in DataTable, and submit HTML to mPDF.</td>
+                </tr>
+                <tr>
+                    <td><code>billing_pdf_show_3.php</code></td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>POST receiver (395 lines) — receives <code>page1</code>..<code>page5</code> and optional <code>layout</code> flag, renders PDF using mPDF with Angsana/Sarabun fonts in 1MB chunks.</td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>ajax_billing_v3/getBillbyHospitalbyDateRange_3.php</code><br>
+                        <code>ajax_billing_v3/getBillbyHospitalbyDateRangeSumPrice_3.php</code><br>
+                        <code>ajax_billing_v3/getCostGroupbyServiceTyoebyHospitalbyDateRange_3.php</code><br>
+                        <code>ajax_billing_v3/getBillingGroupBySN_3.php</code><br>
+                        <code>ajax_billing_v3/getBillingGroupBySNCount_3.php</code><br>
+                        <code>ajax_billing_v3/getBillingGroupByCode_3.php</code><br>
+                        <code>ajax_billing_v3/getBillingGroupByCodeCount_3.php</code><br>
+                        <code>ajax_billing_v3/getBillingHospitalOneByOne_3.php</code><br>
+                        <code>ajax_billing_v3/getHospital_3.php</code><br>
+                        <code>ajax_billing_v3/getCostSpelling_3.php</code><br>
+                        <code>ajax_billing_v3/serviceBillingSetCode_3.php</code>
+                    </td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>All 11 dedicated V3 AJAX endpoints in <code>ajax_billing_v3/</code> for DataTable loading, SN grouping (with nested <code>subarray</code>), totals, counts, service-type breakdowns, hospital address/Tax ID, Thai Baht text spelling, and updating <code>b_code2</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>pdf_invoice/billingletter1_3.php</code></td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>Template for <strong>Page 1</strong>: Cover Letter (หนังสือนำและใบแจ้งหนี้ 1).</td>
+                </tr>
+                <tr>
+                    <td><code>pdf_invoice/billingletterinvoice_3.php</code></td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>Template for <strong>Page 2 &amp; Page 3</strong>: Official Invoice (ต้นฉบับ &amp; สำเนา via <code>str_replace("ต้นฉบับ_สำเนา", ...)</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>pdf_invoice/billinngListAll_g2_3.php</code></td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>Template for <strong>Page 4 (Group 2)</strong>: Itemized list grouped by SN (<code>#bill_list_all_g2</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>pdf_invoice/billinngListAll_g3_3.php</code></td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>Template for <strong>Page 5 (Group 3)</strong>: Summary grouped by billing code / รหัสกรมบัญชีกลาง (<code>#bill_list_all_g3</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>pdf_invoice/billinngListAll_g4_3.php</code></td>
+                    <td><span class="tag-v3">V3 Exclusive</span></td>
+                    <td>Template for <strong>Page 6 (Group 4)</strong>: Full itemized service breakdown (<code>#bill_list_all_g4</code>, collapsible web preview).</td>
+                </tr>
+                <tr>
+                    <td><code>includes/header.php</code></td>
+                    <td><span class="tag-shared">Shared</span></td>
+                    <td>Contains navigation link <code>&lt;a id="billing_pdf_tab_3" href="billing_pdf_3.php"&gt;ออกใบแจ้งหนี้ V3(PDF)&lt;/a&gt;</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 2. PAGE STRUCTURE -->
+    <section id="page-structure">
+        <h2>2. Page Structure of <code>billing_pdf_3.php</code> (Top-to-Bottom DOM Layout)</h2>
+        <p>
+            <code>billing_pdf_3.php</code> is organized into a PHP initialization header, <strong>9 UI containers</strong> (each wrapped in <code>includes/opencontainer.php</code> and <code>includes/closecontainer.php</code>), a hidden form holder (<code>#tempform</code>), and JavaScript handlers at the bottom.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 18%;">Section / Container</th>
+                    <th style="width: 11%;">Lines</th>
+                    <th style="width: 28%;">Key DOM IDs &amp; Classes</th>
+                    <th>Description &amp; Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>PHP Init &amp; Auth</strong></td>
+                    <td>L1–L44</td>
+                    <td><code>$conn</code>, <code>$hospitals</code>, <code>$isBorder</code></td>
+                    <td>Loads <code>includes/init.php</code>, <code>includes/db.php</code>, <code>Auth::requireLogin()</code>, logs page open via <code>Log::add()</code>, checks permissions in <code>user_auth.php</code>, and renders <code>includes/header.php</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Container 1:<br>Hospital &amp; Date Filter</strong></td>
+                    <td>L52–L84</td>
+                    <td>
+                        <code>#phospital_id_bill</code><br>
+                        <code>#startdate_billing</code><br>
+                        <code>#enddate_billing</code><br>
+                        <code>#btn_get_bill_by_range</code>
+                    </td>
+                    <td>
+                        Dropdown of all hospitals (plus <code>value="-1"</code> for <em>"รวมของทุกโรงพยาบาล"</em>), jQuery UI Datepickers (<code>yy-mm-dd</code>), and button <strong>1) preview bill by date range</strong>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 2:<br>Invoice Details &amp; Action Buttons</strong></td>
+                    <td>L88–L145</td>
+                    <td>
+                        <code>#bill_invoice_sub_number</code><br>
+                        <code>#bill_hospital_invoice_number</code><br>
+                        <code>#bill_todaydate_thai</code><br>
+                        <code>#bill_issuedate_thai</code><br>
+                        <code>#bill_startdate_thai</code><br>
+                        <code>#bill_enddate_thai</code><br>
+                        <code>#bill_pre_hospitalname</code><br>
+                        <code>#bill_hospitalname</code><br>
+                        <code>#bill_hospital_taxid</code><br>
+                        <code>#bill_hospital_address</code><br>
+                        <code>#bill_hospital_by_service_price</code><br>
+                        <code>#bill_hospital_net_price</code><br>
+                        <code>#bill_hospital_net_price_spell</code><br>
+                        <code>#bill_count_all_list</code><br>
+                        <code>#bill_count_bysn_list</code><br>
+                        <code>#bill_count_bycode_list</code><br>
+                        <code>#bill_manager</code><br>
+                        <code>#btn_bill_preview_web</code><br>
+                        <code>#btn_export_bill_pdf_layout</code><br>
+                        <code>#btn_export_bill_pdf</code>
+                    </td>
+                    <td>
+                        Holds all editable text inputs for the invoice header/footer and an editable dynamic table inside <code>#bill_hospital_by_service_price</code> (columns: <code>sid</code>, <code>service_type</code>, <code>bcost_count</code>, <code>bcost_sum</code>).<br><br>
+                        Provides buttons <strong>2) Preview on web page</strong>, <strong>3) preview pdf with layout</strong>, and <strong>4) Generate official pdf</strong>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 3:<br>Page 1 Preview</strong></td>
+                    <td>L153–L164</td>
+                    <td>
+                        <code>#bill_page1</code><br>
+                        <code>#bill_by_service_tbl1</code>
+                    </td>
+                    <td>
+                        <strong>1. หนังสือนำและใบแจ้งหนี้ (1)</strong> — Loads <code>pdf_invoice/billingletter1_3.php</code> and strips green borders on initial load.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 4:<br>Page 2 Preview</strong></td>
+                    <td>L173–L185</td>
+                    <td>
+                        <code>#bill_page2</code><br>
+                        <code>.bill_by_service_tbl2</code>
+                    </td>
+                    <td>
+                        <strong>1. หนังสือนำและใบแจ้งหนี้ "ต้นฉบับ"</strong> — Loads <code>pdf_invoice/billingletterinvoice_3.php</code> with <code>ต้นฉบับ_สำเนา</code> replaced by <code>ต้นฉบับ</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 5:<br>Page 3 Preview</strong></td>
+                    <td>L193–L205</td>
+                    <td>
+                        <code>#bill_page3</code><br>
+                        <code>.bill_by_service_tbl2</code>
+                    </td>
+                    <td>
+                        <strong>1. หนังสือนำและใบแจ้งหนี้ "สำเนา"</strong> — Loads <code>pdf_invoice/billingletterinvoice_3.php</code> with <code>ต้นฉบับ_สำเนา</code> replaced by <code>สำเนา</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 6:<br>Page 4 Preview (G2)</strong></td>
+                    <td>L212–L222</td>
+                    <td>
+                        <code>#bill_page4</code><br>
+                        <code>#bill_list_all_g2</code><br>
+                        <code>#price_by_service_footer</code>
+                    </td>
+                    <td>
+                        <strong>2. List รายการตรวจเรียงตาม surgical number (SN, IN, CN, FN, DN, PN, LN)</strong> — Loads <code>pdf_invoice/billinngListAll_g2_3.php</code>. Rendered as Landscape A4 in PDF.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 7:<br>Page 5 Preview (G3)</strong></td>
+                    <td>L225–L234</td>
+                    <td>
+                        <code>#bill_page5</code><br>
+                        <code>#bill_list_all_g3</code>
+                    </td>
+                    <td>
+                        <strong>3. สรุปจำนวนแต่ละรายการสิ่งส่งตรวจและย้อมพิเศษในช่วงนั้น (นับตามรหัสกรมบัญชีกลาง)</strong> — Loads <code>pdf_invoice/billinngListAll_g3_3.php</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 8:<br>Page 6 Preview (G4)</strong></td>
+                    <td>L237–L251</td>
+                    <td>
+                        <code>#group4_section_collapse</code><br>
+                        <code>#bill_page6</code><br>
+                        <code>#bill_list_all_g4</code>
+                    </td>
+                    <td>
+                        <strong>4. แจกแจงทุกรายการบริการ โดย ศูนย์พยาธิวิทยา เอ็น.บี.</strong> — Wrapped in a Bootstrap collapse toggled by button <em>"4) ซ่อน/แสดง"</em>. Loads <code>pdf_invoice/billinngListAll_g4_3.php</code>. (Web-only preview; not sent to mPDF).
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Container 9:<br>Reference DataTable &amp; Modal</strong></td>
+                    <td>L255–L331</td>
+                    <td>
+                        <code>#billing_table_span</code><br>
+                        <code>#billing_table</code><br>
+                        <code>#editNumberModal</code><br>
+                        <code>#modal_number_input</code><br>
+                        <code>#save_modal_number_input</code>
+                    </td>
+                    <td>
+                        19-column DataTable showing all billing records for verification, with Excel/CSV/PDF export buttons. Column 14 (<code>โค้ด2</code>) has <code>ondblclick="setCode2(bid)"</code> to open <code>#editNumberModal</code> and save changes via AJAX.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Temp Form &amp; Scripts</strong></td>
+                    <td>L332–L1671</td>
+                    <td><code>#tempform</code>, <code>skey</code></td>
+                    <td>Holds dynamically constructed <code>&lt;form method="post" target="_blank" action="billing_pdf_show_3.php"&gt;</code> and all jQuery event listeners and table-rendering functions.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 3. WORKFLOW -->
+    <section id="workflow">
+        <h2>3. Step-by-Step User &amp; AJAX Workflow</h2>
+
+        <div class="flow-steps">
+            <div class="step-box">
+                <span class="step-num">STEP 1</span>
+                <h4>Fetch &amp; Populate by Date Range</h4>
+                <p>Click <code>#btn_get_bill_by_range</code>. Fires DataTable AJAX + 9 synchronous AJAX requests to populate inputs and draw G2, G3, G4 tables.</p>
+            </div>
+            <div class="step-box">
+                <span class="step-num">STEP 2</span>
+                <h4>Review / Edit Form Inputs</h4>
+                <p>User enters <code>invoice_sub_number</code> &amp; <code>invoice_number</code>, and can tweak Thai dates, hospital info, or service-type rows in <code>#bill_hospital_by_service_price</code>.</p>
+            </div>
+            <div class="step-box">
+                <span class="step-num">STEP 3</span>
+                <h4>Preview on Web Page</h4>
+                <p>Click <code>#btn_bill_preview_web</code>. Reads editable service table &amp; inputs and injects values into all <code>.bill_*</code> spans and Page 1–3 tables.</p>
+            </div>
+            <div class="step-box">
+                <span class="step-num">STEP 4</span>
+                <h4>Export PDF (Layout or Official)</h4>
+                <p>Click <code>#btn_export_bill_pdf_layout</code> or <code>#btn_export_bill_pdf</code>. Submits HTML of <code>#bill_page1</code>–<code>#bill_page5</code> to <code>billing_pdf_show_3.php</code>.</p>
+            </div>
+        </div>
+
+        <h3>Detailed Sequence of AJAX Calls in Step 1 (<code>#btn_get_bill_by_range</code>, L464–L993)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 6%;">#</th>
+                    <th style="width: 38%;">AJAX Endpoint</th>
+                    <th style="width: 20%;">Request Params</th>
+                    <th>DOM / JS Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><code>ajax_billing_v3/getBillbyHospitalbyDateRange_3.php</code></td>
+                    <td><code>GET: skey, hospital_id, startdate, enddate</code></td>
+                    <td>Populates 19-column DataTable <code>#billing_table</code>.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>ajax_billing_v3/getBillbyHospitalbyDateRangeSumPrice_3.php</code></td>
+                    <td><code>POST: hospital_id, startdate, enddate</code></td>
+                    <td>Returns <code>[{bcost, bcount}]</code> → sets <code>#bill_hospital_net_price</code> and <code>#bill_count_all_list</code>.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><code>ajax_billing_v3/getCostGroupbyServiceTyoebyHospitalbyDateRange_3.php</code></td>
+                    <td><code>POST: hospital_id, startdate, enddate</code></td>
+                    <td>Builds editable <code>&lt;table&gt;</code> inside <code>#bill_hospital_by_service_price</code> with columns <code>sid</code>, <code>service_type</code>, <code>bcost_count</code>, <code>bcost_sum</code>.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><code>ajax_billing_v3/getBillingGroupBySN_3.php</code></td>
+                    <td><code>POST: hospital_id, startdate, enddate</code></td>
+                    <td>Calls <code>drawbill_list_all_page_g2(datajson)</code> to render Group 2 table inside <code>#bill_list_all_g2</code> (Page 4).</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><code>ajax_billing_v3/getBillingGroupBySNCount_3.php</code></td>
+                    <td><code>POST: hospital_id, startdate, enddate</code></td>
+                    <td>Sets <code>#bill_count_bysn_list</code> (total distinct SN count).</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><code>ajax_billing_v3/getBillingGroupByCode_3.php</code></td>
+                    <td><code>POST: hospital_id, startdate, enddate</code></td>
+                    <td>Calls <code>drawbill_list_all_page_g3(datajson)</code> to render Group 3 summary table inside <code>#bill_list_all_g3</code> (Page 5).</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><code>ajax_billing_v3/getBillingGroupByCodeCount_3.php</code></td>
+                    <td><code>POST: hospital_id, startdate, enddate</code></td>
+                    <td>Sets <code>#bill_count_bycode_list</code> (total item count across billing codes).</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><code>ajax_billing_v3/getBillingHospitalOneByOne_3.php</code></td>
+                    <td><code>POST: hospital_id, startdate, enddate</code></td>
+                    <td>Calls <code>drawbill_list_all_page_g4(datajson)</code> to render Group 4 full itemized table inside <code>#bill_list_all_g4</code> (Page 6).</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td><code>ajax_billing_v3/getHospital_3.php</code></td>
+                    <td><code>POST: hospital_id</code></td>
+                    <td>Sets <code>#bill_hospitalname</code>, <code>#bill_hospital_taxid</code>, <code>#bill_hospital_address</code>, and formats Thai dates via <code>toLocaleDateString('th-TH', ...)</code>.</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td><code>ajax_billing_v3/getCostSpelling_3.php</code></td>
+                    <td><code>POST: cost</code></td>
+                    <td>Converts net price into Thai Baht text and sets <code>#bill_hospital_net_price_spell</code>; sets <code>#bill_manager</code> to <code>"นาย อนุสรณ์ ชุมทอง"</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 4. PDF PAGES & PLACEHOLDERS -->
+    <section id="pdf-pages">
+        <h2>4. PDF Pages Structure &amp; Dynamic Placeholders</h2>
+        <p>
+            When <strong>2) Preview on web page</strong> (<code>#btn_bill_preview_web</code>, L1008–L1160) is clicked, JavaScript updates two sets of DOM targets across the loaded templates:
+        </p>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>A. Service Summary Tables (Pages 1, 2, 3)</h4>
+                <ul>
+                    <li>Reads every row of <code>&lt;td&gt;&lt;input&gt;</code> inside <code>#bill_hospital_by_service_price table tbody</code> into the <code>pricebyservice</code> array.</li>
+                    <li><strong>Page 1 (<code>#bill_by_service_tbl1</code>):</strong> Replaces inner table with a borderless/green-bordered summary row per service type: <code>{service_type} {bcost_count} รายการ | {bcost_sum} บาท</code>.</li>
+                    <li><strong>Pages 2 &amp; 3 (<code>.bill_by_service_tbl2</code>):</strong> Replaces inner table with a 4-column black-bordered invoice table (<code>ลำดับ | รายการบริการตรวจทางพยาธิวิทยา | จำนวน(รายการ) | จำนวนเงิน</code>) plus total count, Thai Baht spelling, and net price rows.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>B. Span Class Bindings (<code>#bill_*</code> → <code>.bill_*</code>)</h4>
+                <ul>
+                    <li><code>#bill_todaydate_thai</code> → <code>.bill_todaydate_thai</code></li>
+                    <li><code>#bill_issuedate_thai</code> → <code>.bill_issuedate_thai</code></li>
+                    <li><code>#bill_startdate_thai</code> → <code>.bill_startdate_thai</code></li>
+                    <li><code>#bill_enddate_thai</code> → <code>.bill_enddate_thai</code></li>
+                    <li><code>#bill_pre_hospitalname</code> → <code>.bill_pre_hospitalname</code></li>
+                    <li><code>#bill_hospitalname</code> → <code>.bill_hospitalname</code></li>
+                    <li><code>#bill_hospital_taxid</code> → <code>.bill_hospital_taxid</code></li>
+                    <li><code>#bill_hospital_address</code> → <code>.bill_hospital_address</code></li>
+                    <li><code>#bill_invoice_sub_number</code> → <code>.bill_invoice_sub_number</code></li>
+                    <li><code>#bill_hospital_invoice_number</code> → <code>.bill_hospital_invoice_number</code></li>
+                    <li><code>#bill_hospital_net_price</code> → <code>.bill_hospital_net_price</code></li>
+                    <li><code>#bill_hospital_net_price_spell</code> → <code>.bill_hospital_net_price_spell</code></li>
+                    <li><code>#bill_manager</code> → <code>.bill_manager</code></li>
+                    <li><code>#bill_count_bysn_list</code> → <code>.bill_count_bysn_list_class</code></li>
+                    <li><code>#bill_count_bycode_list</code> → <code>.bill_count_bycode_list_class</code></li>
+                    <li><code>#bill_count_all_list</code> → <code>.bill_count_all_list_class</code> &amp; <code>.bill_count_all_list</code></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. JS FUNCTIONS & MODAL -->
+    <section id="js-functions">
+        <h2>5. Key JavaScript Draw Functions &amp; Code2 Modal</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 28%;">Function / Handler</th>
+                    <th style="width: 14%;">Lines</th>
+                    <th>Behavior &amp; Table Structure</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>drawbill_list_all_page_g2(datajson)</code></td>
+                    <td>L1249–L1419</td>
+                    <td>
+                        Renders <strong>Page 4 (Group 2)</strong> inside <code>#bill_list_all_g2</code>.<br>
+                        <strong>10 Columns:</strong> <code>ลำดับที่ | เลขที่งาน | วันที่รับ | ผู้ป่วย | เลขที่โรงพยาบาล | แพทย์ผู้ส่งตรวจ | รายการ | ค่าบริการ | ค่าตรวจพิเศษ | รวม</code>.<br>
+                        Uses <code>rowspan="subarray.length"</code> on the first 6 columns so multiple billing items under the same SN share one patient/SN header row, while columns 7–10 render one sub-row per item in <code>datajson[i].subarray</code>. Sums <code>b_cost_sum_nm</code>, <code>b_cost_sum_sp</code>, and <code>b_cost_sum_all</code> in <code>#price_by_service_footer</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>drawbill_list_all_page_g3(datajson)</code></td>
+                    <td>L1423–L1473</td>
+                    <td>
+                        Renders <strong>Page 5 (Group 3)</strong> inside <code>#bill_list_all_g3</code>.<br>
+                        <strong>6 Columns:</strong> <code>ลำดับที่ | รหัส (b_code) | รายการส่งตรวจ (b_description) | ราคาต่อหน่วย(บาท) (b_cost) | จำนวนครั้งที่ส่งตรวจ(ครั้ง) (bcost_count) | จำนวนเงิน(บาท) (bcost_sum)</code>.<br>
+                        Footer shows <code>.bill_count_bycode_list_class</code> and <code>.bill_hospital_net_price</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>drawbill_list_all_page_g4(datajson)</code></td>
+                    <td>L1476–L1551</td>
+                    <td>
+                        Renders <strong>Page 6 (Group 4)</strong> inside <code>#bill_list_all_g4</code> (collapsible web reference).<br>
+                        <strong>14 Columns:</strong> <code>ลำดับที่, p_sn, patient_name, admit_date, hospital_num, clinicien_name, h_hospital, cytologist_name, pathologist_name, b_code, b_description, b_cost, s_service_type, s_service_typea_bill</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>setCode2(billing_id)</code> &amp;<br><code>#save_modal_number_input</code></td>
+                    <td>L413–L460</td>
+                    <td>
+                        Double-clicking <code>&lt;span id="code2_{bid}"&gt;</code> in DataTable column 14 opens <code>#editNumberModal</code>. Clicking <strong>Save changes</strong> POSTs <code>{id: billing_id, code2: code2}</code> to <code>ajax_billing_v3/serviceBillingSetCode_3.php</code> and updates <code>.code2_{bid}</code> in the DOM.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>drawbill_list_all_page(datajson)</code> &amp;<br><code>drawbillingTable(datajson)</code></td>
+                    <td>L1165–L1219<br>L1557–L1646</td>
+                    <td>Legacy helper functions retained from earlier versions (currently unused in V3 active flow).</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 6. MPDF ENGINE -->
+    <section id="mpdf">
+        <h2>6. mPDF Generator Engine (<code>billing_pdf_show_3.php</code>)</h2>
+        <ul>
+            <li><strong>Font Configuration:</strong> Uses custom <code>CustomLanguageToFontImplementation</code> defaulting to <code>angsana</code> (<code>angsau.ttf</code> with <code>useOTL =&gt; 0xFF</code> and <code>useKashida =&gt; 75</code> to prevent Thai vowel overlapping) and <code>sarabun</code> (<code>THSarabunNew.ttf</code>).</li>
+            <li><strong>Layout Mode Flag:</strong> Checks <code>isset($_POST['layout'])</code>:
+                <ul>
+                    <li><strong>Official PDF (<code>#btn_export_bill_pdf</code>):</strong> <code>$hideLayout = true</code> → strips <code>border: 1px solid green;</code> and <code>color:red</code> from all pages before rendering.</li>
+                    <li><strong>Layout Preview (<code>#btn_export_bill_pdf_layout</code>):</strong> <code>$hideLayout = false</code> → keeps green table cell borders and red dynamic text highlights visible for layout inspection.</li>
+                </ul>
+            </li>
+            <li><strong>Page Orientations &amp; Margins:</strong>
+                <ul>
+                    <li><code>page1</code>, <code>page2</code>, <code>page3</code>, <code>page5</code>: Portrait A4 (margins: left/right/top/bottom = 25mm).</li>
+                    <li><code>page4</code> (Group 2 SN table): Landscape A4 via <code>$mpdf-&gt;AddPage('L','','','','',15,15,17,17,0,0)</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Large HTML Chunking:</strong> Splits each page's HTML string into 1,000,000-byte chunks before calling <code>$mpdf-&gt;WriteHTML()</code> to avoid mPDF PCRE backtrack limits on large hospital bills.</li>
+        </ul>
+    </section>
+
+    <!-- 7. RULES & VALIDATION -->
+    <section id="rules">
+        <h2>7. Modification Rules, Extending &amp; Validation Checklist</h2>
+
+        <div class="callout warn">
+            <strong>Critical Isolation Rule:</strong> Never modify V1 (<code>billing_pdf.php</code>) or V2 (<code>billing_pdf_2.php</code>) files when working on V3. All V3 template and generator changes must stay in <code>*_3.php</code> files. Take care when touching shared AJAX files in <code>ajax_billing/</code> that do not have a <code>_3</code> suffix.
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>How to Add a New PDF Page (e.g., <code>page6</code> / <code>page7</code>)</h4>
+                <ol>
+                    <li>Create template <code>pdf_invoice/newtemplate_3.php</code>.</li>
+                    <li>Load it in <code>billing_pdf_3.php</code> via <code>file_get_contents('pdf_invoice/newtemplate_3.php')</code> inside a new <code>&lt;span id="bill_pageX"&gt;</code> container.</li>
+                    <li>In <code>#btn_export_bill_pdf</code> and <code>#btn_export_bill_pdf_layout</code> click handlers, read <code>$('#bill_pageX').html()</code> and append <code>&lt;textarea hidden name="pageX"&gt;</code> to <code>frm</code>.</li>
+                    <li>In <code>billing_pdf_show_3.php</code>, add <code>$mpdf-&gt;AddPage(...)</code> and write <code>$_POST['pageX']</code> before <code>$mpdf-&gt;Output()</code>.</li>
+                </ol>
+            </div>
+            <div class="card">
+                <h4>How to Clone V3 into V4 (<code>billing_pdf_4.php</code>)</h4>
+                <ol>
+                    <li>Copy <code>billing_pdf_3.php</code> → <code>billing_pdf_4.php</code> and <code>billing_pdf_show_3.php</code> → <code>billing_pdf_show_4.php</code>.</li>
+                    <li>Copy <code>ajax_billing/getBillingGroupBySN_3.php</code> → <code>getBillingGroupBySN_4.php</code>.</li>
+                    <li>Copy all 5 templates in <code>pdf_invoice/*_3.php</code> → <code>pdf_invoice/*_4.php</code>.</li>
+                    <li>Update internal references in <code>billing_pdf_4.php</code> and <code>billing_pdf_show_4.php</code> from <code>_3</code> to <code>_4</code>.</li>
+                    <li>Add <code>#billing_pdf_tab_4</code> link in <code>includes/header.php</code>.</li>
+                </ol>
+            </div>
+        </div>
+
+        <h3>PowerShell Syntax Validation Checklist</h3>
+        <pre><code># Run after modifying any V3 PHP file:
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\billing_pdf_3.php"
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\billing_pdf_show_3.php"
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\ajax_billing\getBillingGroupBySN_3.php"
+Get-ChildItem "C:\anuchit2\nb_web\dev3\ajax_billing_v3\*_3.php" | ForEach-Object { &amp; "C:\xampp\php\php.exe" -l $_.FullName }
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\pdf_invoice\billingletter1_3.php"
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\pdf_invoice\billingletterinvoice_3.php"
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\pdf_invoice\billinngListAll_g2_3.php"
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\pdf_invoice\billinngListAll_g3_3.php"
+&amp; "C:\xampp\php\php.exe" -l "C:\anuchit2\nb_web\dev3\pdf_invoice\billinngListAll_g4_3.php"</code></pre>
+    </section>
+
+</main>
+
+<footer>
+    NB Pathology Center — Billing PDF V3 System Knowledge Base (<code>C:\anuchit2\nb_web\dev3\billing_pdf_3.php</code>)
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How login.php Works - NB Patho</title>
+    <style>
+        :root {
+            --primary: #009CFF;
+            --primary-dark: #007acc;
+            --bg: #f4f7fb;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #009CFF 0%, #0056b3 100%);
+            color: #fff;
+            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 156, 255, 0.2);
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.9rem;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.6rem;
+            font-size: 1.35rem;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0.75rem 0 1rem 0;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .step-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .flow-node {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 0.85rem 1.2rem;
+            border-radius: 6px;
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .flow-node.success {
+            border-left-color: var(--success);
+        }
+
+        .flow-node.error {
+            border-left-color: var(--danger);
+        }
+
+        .flow-node.warn {
+            border-left-color: var(--warning);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.75rem;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .file-item strong {
+            display: block;
+            color: var(--primary-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .file-item span {
+            font-size: 0.88rem;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>NB Patho — How <code>login.php</code> Works</h1>
+        <p>Technical documentation for the authentication and session management flow in <code>C:\anuchit2\nb_web\dev3\login.php</code></p>
+    </header>
+
+    <!-- 1. Architecture & Related Files -->
+    <div class="card">
+        <h2>1. Related Files &amp; Dependencies</h2>
+        <p><code>login.php</code> handles both rendering the login form (<code>GET</code>) and authenticating user credentials (<code>POST</code>). It relies on the following core files:</p>
+        <div class="file-list">
+            <div class="file-item">
+                <strong><code>login.php</code></strong>
+                <span>Main login controller and HTML form view.</span>
+            </div>
+            <div class="file-item">
+                <strong><code>includes/init.php</code></strong>
+                <span>Registers the class autoloader (<code>classes/*.php</code>) and starts the PHP session (<code>session_start()</code>).</span>
+            </div>
+            <div class="file-item">
+                <strong><code>includes/db.php</code></strong>
+                <span>Creates and returns the PDO database connection (<code>$conn</code>).</span>
+            </div>
+            <div class="file-item">
+                <strong><code>classes/Auth.php</code></strong>
+                <span>Manages session state, 20-minute timeout, user group permissions, and login/logout audit logging.</span>
+            </div>
+            <div class="file-item">
+                <strong><code>classes/User.php</code></strong>
+                <span>Queries the <code>user</code> table, checks active status, and verifies password hashes.</span>
+            </div>
+            <div class="file-item">
+                <strong><code>classes/Url.php</code></strong>
+                <span>Builds subfolder-aware redirect URLs (<code>Url::redirect()</code>).</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. High-Level Flow -->
+    <div class="card">
+        <h2>2. High-Level Authentication Flow</h2>
+        <div class="flow-diagram">
+            <div class="flow-node">
+                <strong>1. Request Arrives at <code>login.php</code></strong><br>
+                Loads <code>includes/init.php</code> &rarr; starts session &amp; detects deployment <code>$subfolder</code> from <code>$_SERVER['PHP_SELF']</code>.
+            </div>
+            <div class="flow-node warn">
+                <strong>2. Check <code>Auth::isLoggedIn()</code></strong><br>
+                If the session already has a logged-in user &rarr; immediately redirects to <code>/patient.php</code>.
+            </div>
+            <div class="flow-node">
+                <strong>3. If <code>POST</code> Request (Form Submitted)</strong><br>
+                Connects to the database via <code>require 'includes/db.php'</code>.
+            </div>
+            <div class="flow-node error">
+                <strong>4. Check <code>User::isUserNameActive($conn, $username)</code></strong><br>
+                Queries <code>SELECT * FROM user WHERE username = :username</code> and checks <code>user_status == 1</code>.<br>
+                If false &rarr; shows error: <em>"Not found username or username is in active"</em>.
+            </div>
+            <div class="flow-node error">
+                <strong>5. Check <code>User::authenticate($conn, $username, $password)</code></strong><br>
+                Uses PHP <code>password_verify($password, $user->password)</code>.<br>
+                If false &rarr; shows error: <em>"Passward is incorrect,Please try again"</em> and preserves <code>page_name</code>, <code>page_id</code>, and <code>subfolder</code>.
+            </div>
+            <div class="flow-node success">
+                <strong>6. Call <code>Auth::login($conn, $username, $subfolder)</code></strong><br>
+                Regenerates session ID, stores <code>User</code> &amp; <code>Ugroup</code> objects in <code>$_SESSION</code>, sets 20-minute timeout timer, and writes a <code>"login"</code> entry to the audit log via <code>Log::add()</code>.
+            </div>
+            <div class="flow-node success">
+                <strong>7. Post-Login Redirect</strong><br>
+                &bull; If password is still <code>"changeme"</code> &rarr; redirects to <code>/user_change_password.php</code>.<br>
+                &bull; Else if <code>$_POST['page_name']</code> is set &rarr; redirects to <code>/{page_name}?id={page_id}</code>.<br>
+                &bull; Otherwise &rarr; redirects to <code>/patient.php</code>.
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Detailed Step-by-Step Code Breakdown -->
+    <div class="card">
+        <h2>3. Step-by-Step Code Breakdown</h2>
+
+        <h3><span class="step-badge">Step 1</span> Initialization &amp; Subfolder Detection (Lines 1–15)</h3>
+        <p><code>login.php</code> first loads <code>includes/init.php</code> and extracts the application subfolder name (e.g., <code>dev2</code> or <code>dev3</code>) from <code>$_SERVER['PHP_SELF']</code> so redirects stay inside the right subfolder:</p>
+<pre><code>require 'includes/init.php';
+
+$subfolder = str_replace("/","",$_SERVER['PHP_SELF']);
+$subfolder = str_replace("login.php","",$subfolder);
+
+// replace file name itself
+$pieces = explode("/", $_SERVER['PHP_SELF']);
+$subfolder = str_replace($pieces[sizeof($pieces)-1],"",$subfolder);</code></pre>
+
+        <h3><span class="step-badge">Step 2</span> Redirect Already-Authenticated Users (Lines 16–18)</h3>
+        <p>If the user already has a valid session, they skip the login screen and go straight to <code>/patient.php</code>:</p>
+<pre><code>if (Auth::isLoggedIn()) {
+    Url::redirect("/patient.php");
+}</code></pre>
+
+        <h3><span class="step-badge">Step 3</span> Verify Active Status &amp; Password on POST (Lines 20–28)</h3>
+        <p>When the form is submitted via <code>POST</code>:</p>
+        <ul>
+            <li><code>User::isUserNameActive()</code> checks that the username exists in the <code>user</code> table and has <code>user_status == 1</code>.</li>
+            <li><code>User::authenticate()</code> verifies the submitted password against the stored bcrypt hash using <code>password_verify()</code>.</li>
+            <li><code>Auth::login()</code> initializes the session and logs the event.</li>
+        </ul>
+<pre><code>if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $conn = require 'includes/db.php';
+    if (User::isUserNameActive($conn, $_POST['username'])) {
+        if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
+            Auth::login($conn, $_POST['username'], $_POST['subfolder']);</code></pre>
+
+        <h3><span class="step-badge">Step 4</span> Post-Login Redirect Logic (Lines 29–36)</h3>
+        <p>After logging in, <code>login.php</code> determines where to send the user:</p>
+        <ol>
+            <li><strong>Forced Password Change:</strong> Checks if the user's password is the default reset password (<code>"changeme"</code>). If so, redirects to <code>/user_change_password.php</code>.</li>
+            <li><strong>Deep-Link Redirect:</strong> When an unauthenticated user tries to visit a protected page that calls <code>Auth::requireLogin($page_name, $page_id)</code>, they are sent to <code>login.php?page_name=...&amp;page_id=...</code>. Upon login, they are redirected back to that exact page and ID.</li>
+            <li><strong>Default Landing Page:</strong> Redirects to <code>/patient.php</code>.</li>
+        </ol>
+<pre><code>            if (User::authenticate($conn, $_POST['username'], "changeme")) {
+                Url::redirect('/user_change_password.php');
+            }
+            if (isset($_POST['page_name']) && $_POST['page_name'] != "") {
+                Url::redirect('/' . $_POST['page_name'] . '?id=' . $_POST['page_id']);
+            } else {
+                Url::redirect('/patient.php');
+            }</code></pre>
+
+        <h3><span class="step-badge">Step 5</span> Error Handling &amp; Form State Preservation (Lines 37–45)</h3>
+        <p>If authentication fails, an error message is set in <code>$error</code> and rendered in a Bootstrap <code>.alert-danger</code> box. When the password is wrong, the hidden redirect fields (<code>page_name</code>, <code>page_id</code>, <code>subfolder</code>) are copied back from <code>$_POST</code> to <code>$_GET</code> so they are not lost if the user tries again:</p>
+<pre><code>        } else {
+            $error = "Passward is incorrect,Please try again";
+            $_GET['page_name'] = $_POST['page_name'];
+            $_GET['page_id'] = $_POST['page_id'];
+            $_GET['subfolder'] = $_POST['subfolder'];
+        }
+    } else {
+        $error = "Not found username or username is in active";
+    }</code></pre>
+
+        <h3><span class="step-badge">Step 6</span> HTML Form &amp; Hidden Inputs (Lines 108–129)</h3>
+        <p>The HTML form collects <code>username</code> and <code>password</code> along with three hidden fields:</p>
+<pre><code>&lt;form method="post"&gt;
+    &lt;div class="form-floating mb-3"&gt;
+        &lt;input class="form-control" id="username" name="username" placeholder="username" required&gt;
+        &lt;label for="username"&gt;Username&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="form-floating mb-4"&gt;
+        &lt;input type="password" class="form-control" id="password" name="password" placeholder="Password" required&gt;
+        &lt;label for="password"&gt;Password&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;input type="hidden" id="subfolder" name="subfolder" value="&lt;?= $subfolder; ?&gt;"&gt;
+    &lt;input type="hidden" id="page_name" name="page_name" value="&lt;?= isset($_GET['page_name']) ? $_GET['page_name'] : ""; ?&gt;"&gt;
+    &lt;input type="hidden" id="page_id" name="page_id" value="&lt;?= isset($_GET['page_id']) ? $_GET['page_id'] : ""; ?&gt;"&gt;
+    &lt;button type="submit" class="btn btn-primary py-3 w-100 mb-4"&gt;เข้าสู่ระบบ&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+    </div>
+
+    <!-- 4. Session Variables Set During Auth::login() -->
+    <div class="card">
+        <h2>4. Session Variables Created by <code>Auth::login()</code></h2>
+        <p>When <code>Auth::login($conn, $username, $subfolder)</code> runs inside <code>classes/Auth.php</code>, it populates <code>$_SESSION</code> with the following keys:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Session Key</th>
+                    <th>Value / Type</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>$_SESSION['is_logged_in']</code></td>
+                    <td><code>true</code> (boolean)</td>
+                    <td>Marks the session as authenticated.</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['username']</code></td>
+                    <td><code>string</code></td>
+                    <td>Logged-in user's username.</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['user']</code></td>
+                    <td><code>User</code> object</td>
+                    <td>Full record from the <code>user</code> table (name, hospital ID, roles, etc.).</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['userid']</code></td>
+                    <td><code>int</code></td>
+                    <td>Primary key (<code>id</code>) of the user in the <code>user</code> table.</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['usergroup']</code></td>
+                    <td><code>Ugroup</code> object</td>
+                    <td>User group record from <code>user_groups</code> (controls permissions like <code>presult</code>, <code>ppatient</code>, <code>pnbcenter</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['subfolder']</code></td>
+                    <td><code>string</code></td>
+                    <td>Subfolder path used by <code>Url::redirect()</code> and <code>Url::currentURL()</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['skey']</code></td>
+                    <td><code>string</code> (10 chars)</td>
+                    <td>Random alphanumeric security key generated via <code>Auth::randomString()</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['setSrvTimeLimitIntSecs']</code></td>
+                    <td><code>1200</code> (int)</td>
+                    <td>Server-side idle session timeout limit (1200 seconds = 20 minutes).</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['curSrvTimeIntSecs']</code></td>
+                    <td><code>int</code> (timestamp)</td>
+                    <td>Unix timestamp of the user's login or last activity.</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['targetSrvTimeOutIntSecs']</code></td>
+                    <td><code>int</code> (timestamp)</td>
+                    <td>Expiration timestamp (<code>curTime + 1200</code>). Checked on every protected page via <code>Auth::requireLogin()</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>$_SESSION['log_username']</code> &amp; <code>$_SESSION['log_name']</code></td>
+                    <td><code>string</code></td>
+                    <td>Used to record audit trail entries in <code>Log::add()</code> on both login and logout.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

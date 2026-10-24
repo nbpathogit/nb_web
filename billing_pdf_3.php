@@ -427,7 +427,7 @@ $('#save_modal_number_input').on("click", function (e) {
             type: 'POST',
             // make sure you respect the same origin policy with this url:
             // http://en.wikipedia.org/wiki/Same_origin_policy
-            url: 'ajax_ServiceBilling/serviceBillingSetCode2.php',
+            url: 'ajax_billing_v3/serviceBillingSetCode_3.php',
             data: {
                 'id': billing_id,
                 'code2': code2,
@@ -478,7 +478,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 // datatable
     var table = $('#billing_table').DataTable({
         destroy: true,
-        "ajax": "ajax_billing/getBillbyHospitalbyDateRange.php?skey=" + skey + "&hospital_id="+hospital_id+"&startdate="+startdate+"&enddate="+enddate,
+        "ajax": "ajax_billing_v3/getBillbyHospitalbyDateRange_3.php?skey=" + skey + "&hospital_id="+hospital_id+"&startdate="+startdate+"&enddate="+enddate,
         responsive: true,
         dom: 'BP<"toolbar">lfritp',
 
@@ -618,7 +618,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getBillbyHospitalbyDateRangeSumPrice.php',
+        url: 'ajax_billing_v3/getBillbyHospitalbyDateRangeSumPrice_3.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -653,7 +653,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getCostGroupbyServiceTyoebyHospitalbyDateRange.php',
+        url: 'ajax_billing_v3/getCostGroupbyServiceTyoebyHospitalbyDateRange_3.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -711,7 +711,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getBillingGroupBySN_3.php',
+        url: 'ajax_billing_v3/getBillingGroupBySN_3.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -746,7 +746,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getBillingGroupBySNCount.php',
+        url: 'ajax_billing_v3/getBillingGroupBySNCount_3.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -788,7 +788,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getBillingGroupByCode.php',
+        url: 'ajax_billing_v3/getBillingGroupByCode_3.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -824,7 +824,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getBillingGroupByCodeCount.php',
+        url: 'ajax_billing_v3/getBillingGroupByCodeCount_3.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -861,7 +861,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getBillingHospitalOneByOne.php',
+        url: 'ajax_billing_v3/getBillingHospitalOneByOne_3.php',
         data: {
             'hospital_id': hospital_id,
             'startdate': startdate,
@@ -914,7 +914,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getHospital.php',
+        url: 'ajax_billing_v3/getHospital_3.php',
         data: {
             'hospital_id': hospital_id,
         },
@@ -965,7 +965,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         'async': false,
         type: 'POST',
         'global': false,
-        url: 'ajax_billing/getCostSpelling.php',
+        url: 'ajax_billing_v3/getCostSpelling_3.php',
         data: {
             'cost': cost,
         },

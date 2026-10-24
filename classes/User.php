@@ -5,6 +5,7 @@
  *
  * A person or entity that can log in to the site
  */
+#[\AllowDynamicProperties]
 class User
 {
 
@@ -30,6 +31,7 @@ class User
     public $role_5;
     public $role_6;
     public $role_7;
+    public $role_a;
     public $can_manaage_job;
     
     public $udetail;
@@ -44,6 +46,9 @@ class User
     public $errors = [];
     public $create_date;
     public $create_by;
+    public $user_status;
+    public $user_type;
+    public $movetotrash;
 
     /**
      * Authenticate a user by username and password

@@ -5,6 +5,7 @@
  *
  * A person or entity that can log in to the site
  */
+#[\AllowDynamicProperties]
 class Ugroup {
 
     /**
@@ -20,6 +21,7 @@ class Ugroup {
     public $ugroup;
     
     public $ugroupe;
+    public $ugroup_e;
     
     public $ppatient;
     
