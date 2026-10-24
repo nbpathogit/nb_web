@@ -1253,16 +1253,16 @@ class Patient {
                 DATE(p.date_1000) as p_accept,
                 CONCAT(p.ppre_name,  p.pname, ' ', p.plastname) AS p_patient ,
 
-                j.id as j_id , 
-                j.patient_id as j_patient_id, 
-                j.user_id as j_user_id, 
-                j.job_role_id as j_job_role_id, 
-                j.jobname as j_jobname,
-                j.qty as j_qty,
+                MAX(j.id) as j_id , 
+                MAX(j.patient_id) as j_patient_id, 
+                MAX(j.user_id) as j_user_id, 
+                MAX(j.job_role_id) as j_job_role_id, 
+                MAX(j.jobname) as j_jobname,
+                MAX(j.qty) as j_qty,
                 p.job1qty as p_job1qty,
 
                 GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
-                DATE(j.finish_date) as j_finish_date
+                MAX(DATE(j.finish_date)) as j_finish_date
 
                         FROM patient as p
                         LEFT JOIN (select * from job where job.job_role_id=1) as j
@@ -1277,12 +1277,47 @@ class Patient {
         $sql .= " GROUP by p.id ";
         $sql .= " ORDER BY p.id DESC ";
         
-//        $myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
-//        fwrite($myfile,  $sql);
-//        fclose($myfile);
+        //$myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
+        //fwrite($myfile,  $sql);
+        //fclose($myfile);
 //        Util::writeFile('dbg.txt', $sql);
-        
-
+			//**** example sql output from print log ***** 
+			/*
+			SELECT p.id AS pid
+				,p.pnum AS p_pnum
+				,p.phospital_num AS p_hn
+				,DATE (p.date_1000) AS p_accept
+				,CONCAT (
+					p.ppre_name
+					,p.pname
+					,' '
+					,p.plastname
+					) AS p_patient
+				,MAX(j.id) AS j_id
+				,MAX(j.patient_id) AS j_patient_id
+				,MAX(j.user_id) AS j_user_id
+				,MAX(j.job_role_id) AS j_job_role_id
+				,MAX(j.jobname) AS j_jobname
+				,MAX(j.qty) AS j_qty
+				,p.job1qty AS p_job1qty
+				,GROUP_CONCAT(CONCAT (
+						j.pre_name
+						,j.name
+						,' '
+						,j.lastname
+						) SEPARATOR ',') AS j_owners
+				,MAX(DATE (j.finish_date)) AS j_finish_date
+			FROM patient AS p
+			LEFT JOIN (
+				SELECT *
+				FROM job
+				WHERE job.job_role_id = 1
+				) AS j ON j.patient_id = p.id
+			WHERE p.date_1000 > '2026-09-24'
+				AND p.movetotrash = 0
+			GROUP BY p.id
+			ORDER BY p.id DESC
+		*/
         $results = $conn->query($sql);
         $rs = $results->fetchAll(PDO::FETCH_ASSOC);
         return  $rs;
@@ -1300,16 +1335,16 @@ class Patient {
                 DATE(p.date_1000) as p_accept,
                 CONCAT(p.ppre_name,  p.pname, ' ', p.plastname) AS p_patient ,
 
-                j.id as j_id , 
-                j.patient_id as j_patient_id, 
-                j.user_id as j_user_id, 
-                j.job_role_id as j_job_role_id, 
-                j.jobname as j_jobname,
-                j.qty as j_qty,
+                MAX(j.id) as j_id , 
+                MAX(j.patient_id) as j_patient_id, 
+                MAX(j.user_id) as j_user_id, 
+                MAX(j.job_role_id) as j_job_role_id, 
+                MAX(j.jobname) as j_jobname,
+                MAX(j.qty) as j_qty,
                 p.job2qty as p_job2qty,
 
                 GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
-                DATE(j.finish_date) as j_finish_date
+                MAX(DATE(j.finish_date)) as j_finish_date
 
                         FROM patient as p
                         LEFT JOIN (select * from job where job.job_role_id=2) as j
@@ -1324,9 +1359,47 @@ class Patient {
         $sql .= " GROUP by p.id ";
         $sql .= " ORDER BY p.id DESC ";
         
-//        $myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
-//        fwrite($myfile,  $sql);
-//        fclose($myfile);
+        //$myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
+        //fwrite($myfile,  $sql);
+        //fclose($myfile);
+
+		//***Example SQL from print log***
+		/*
+			SELECT p.id AS pid
+				,p.pnum AS p_pnum
+				,p.phospital_num AS p_hn
+				,DATE (p.date_1000) AS p_accept
+				,CONCAT (
+					p.ppre_name
+					,p.pname
+					,' '
+					,p.plastname
+					) AS p_patient
+				,MAX(j.id) AS j_id
+				,MAX(j.patient_id) AS j_patient_id
+				,MAX(j.user_id) AS j_user_id
+				,MAX(j.job_role_id) AS j_job_role_id
+				,MAX(j.jobname) AS j_jobname
+				,MAX(j.qty) AS j_qty
+				,p.job2qty AS p_job2qty
+				,GROUP_CONCAT(CONCAT (
+						j.pre_name
+						,j.name
+						,' '
+						,j.lastname
+						) SEPARATOR ',') AS j_owners
+				,MAX(DATE (j.finish_date)) AS j_finish_date
+			FROM patient AS p
+			LEFT JOIN (
+				SELECT *
+				FROM job
+				WHERE job.job_role_id = 2
+				) AS j ON j.patient_id = p.id
+			WHERE p.date_1000 > '2026-09-24'
+				AND p.movetotrash = 0
+			GROUP BY p.id
+			ORDER BY p.id DESC
+		*/
         
 
         $results = $conn->query($sql);
@@ -1346,16 +1419,16 @@ class Patient {
                 DATE(p.date_1000) as p_accept,
                 CONCAT(p.ppre_name,  p.pname, ' ', p.plastname) AS p_patient ,
 
-                j.id as j_id , 
-                j.patient_id as j_patient_id, 
-                j.user_id as j_user_id, 
-                j.job_role_id as j_job_role_id, 
-                j.jobname as j_jobname,
-                j.qty as j_qty,
+                MAX(j.id) as j_id , 
+                MAX(j.patient_id) as j_patient_id, 
+                MAX(j.user_id) as j_user_id, 
+                MAX(j.job_role_id) as j_job_role_id, 
+                MAX(j.jobname) as j_jobname,
+                MAX(j.qty) as j_qty,
                 p.job3qty as p_job3qty,
 
                 GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
-                DATE(j.finish_date) as j_finish_date
+                MAX(DATE(j.finish_date)) as j_finish_date
 
                         FROM patient as p
                         LEFT JOIN (select * from job where job.job_role_id=3) as j
@@ -1370,10 +1443,47 @@ class Patient {
         $sql .= " GROUP by p.id ";
         $sql .= " ORDER BY p.id DESC ";
         
-//        $myfile = fopen("Patient_job2_finish.txt", "w") or die("Unable to open file!");
-//        fwrite($myfile,  $sql);
-//        fclose($myfile);
-        
+        //$myfile = fopen("Patient_job3_finish.txt", "w") or die("Unable to open file!");
+        //fwrite($myfile,  $sql);
+        //fclose($myfile);
+		
+		//***Example SQL from print log***
+        /*
+			SELECT p.id AS pid
+			,p.pnum AS p_pnum
+			,p.phospital_num AS p_hn
+			,DATE (p.date_1000) AS p_accept
+			,CONCAT (
+				p.ppre_name
+				,p.pname
+				,' '
+				,p.plastname
+				) AS p_patient
+			,MAX(j.id) AS j_id
+			,MAX(j.patient_id) AS j_patient_id
+			,MAX(j.user_id) AS j_user_id
+			,MAX(j.job_role_id) AS j_job_role_id
+			,MAX(j.jobname) AS j_jobname
+			,MAX(j.qty) AS j_qty
+			,p.job3qty AS p_job3qty
+			,GROUP_CONCAT(CONCAT (
+					j.pre_name
+					,j.name
+					,' '
+					,j.lastname
+					) SEPARATOR ',') AS j_owners
+			,MAX(DATE (j.finish_date)) AS j_finish_date
+		FROM patient AS p
+		LEFT JOIN (
+			SELECT *
+			FROM job
+			WHERE job.job_role_id = 3
+			) AS j ON j.patient_id = p.id
+		WHERE p.date_1000 > '2026-09-24'
+			AND p.movetotrash = 0
+		GROUP BY p.id
+		ORDER BY p.id DESC
+		*/
 
         $results = $conn->query($sql);
         $rs = $results->fetchAll(PDO::FETCH_ASSOC);
