@@ -201,7 +201,7 @@ class Patient {
 
     
         public static function getAllJoin_v2($conn, $id = 0, $start = '0') {
-        $sql = "SELECT * ,.
+        $sql = "SELECT * ,
         p.id as pid,
         p.sn_type as p_sn_type,
         p.pnum as p_pnum,
