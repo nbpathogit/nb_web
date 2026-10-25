@@ -35,8 +35,9 @@ services:
     restart: unless-stopped
 
   phpmyadmin:
-    # phpMyAdmin 6 — ถ้าเครื่อง build pull ไม่เจอ ลอง phpmyadmin:6.0-apache หรือ phpmyadmin:latest
-    image: phpmyadmin:6-apache
+    # phpMyAdmin 6 ยังไม่มีบน Docker Hub (เช็ค 2026-10-25: ไม่มี tag 6.x เลย ล่าสุดคือสาย 5.2.x)
+    # 5.2-apache = alias ล่าสุดของสาย 5.2 (ตอนนี้ชี้ที่ 5.2.3) พอมี 6 จริง ค่อยเปลี่ยน
+    image: phpmyadmin:5.2-apache
     container_name: nb_web-pma
     ports:
       - "8081:80"
