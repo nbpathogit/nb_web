@@ -1030,9 +1030,9 @@ if (isset($curstatus[0]['next3'])) {
 
     </div>
 </div>
-    
 
-    
+<?php //========================================History report======================================================================================================== ?>
+<?php require 'includes/patient_form_prev_report.php'; ?>
 <?php
     $userAuthEdit = ($isCurUserAdmin || $isCurUserPatho || $isCurUserPathoAssis || $isCurUserLabOfficerNB || $isCurUserAdminStaff
         //|| $isCurUserClinicianCust 

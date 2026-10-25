@@ -370,6 +370,31 @@
             <li><strong>Step Log Table:</strong> Per-row badge summary with detailed action history and direct links to each case.</li>
         </ul>
     </div>
+
+    <!-- Section 6: History Report Section in patient_edit.php -->
+    <div class="card mb-4">
+        <h2><i class="fa-solid fa-clock-rotate-left" style="color: #0284c7;"></i> 6. History Report Section (<code>patient_edit.php</code>)</h2>
+        <p>A dedicated retrospective section placed immediately after <strong>รับเข้า/ใส่ข้อมูลผู้ป่วย</strong> (<code>#patient_detail_section</code>) and before <strong>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</strong> (<code>#patient_plan_section</code>).</p>
+        
+        <h3>A. Specification &amp; Placement</h3>
+        <ul>
+            <li><strong>File Included:</strong> <code>includes/patient_form_prev_report.php</code></li>
+            <li><strong>Container:</strong> <code>&lt;div id="history_report_section" class="container-fluid pt-4 px-4"&gt;</code></li>
+            <li><strong>Section Title:</strong> <code>History report</code> with dynamic count badge and patient full name summary.</li>
+            <li><strong>Purpose:</strong> Automatically scans and displays all past cases sharing the exact same patient first name (<code>pname</code>) and last name (<code>plastname</code>), excluding the active case itself.</li>
+        </ul>
+
+        <h3>B. Key Capabilities &amp; Privacy</h3>
+        <ul>
+            <li><strong>Direct SN Links:</strong> Surgical numbers are rendered as links to <code>patient_edit.php?id={id}</code> with <code>target="_blank"</code>, allowing pathologists and staff to examine prior history in a new tab without navigating away or losing unsaved edits.</li>
+            <li><strong>Previous Report Badge:</strong> In the <strong>วันที่รับเข้า</strong> column, if a case's intake date is earlier than the currently opened report (<code>date_1000 &lt; current date_1000</code>), it displays a blue <code>previous report</code> badge (<code>badge bg-primary</code>).</li>
+            <li><strong>Batch Diagnosis Extraction:</strong> Efficiently extracts the latest <code>Pathological Diagnosis</code> (or group 2) snippet from <code>presultupdate</code> for all matched cases.</li>
+            <li><strong>Customer Isolation:</strong> Customer accounts (groups 5000 / 5100) are strictly scoped to cases from their own hospital (<code>phospital_id = $_SESSION['user']->uhospital_id</code>), preserving hospital patient confidentiality.</li>
+            <li><strong>Columns Displayed:</strong> <code>#</code>, <code>Surgical Number (SN)</code>, <code>วันที่รับเข้า (with previous report badge)</code>, <code>วันที่ออกผล</code>, <code>โรงพยาบาล / HN</code>, <code>พยาธิแพทย์</code>, <code>ผลการวินิจฉัย (Diagnosis Preview)</code>, <code>สถานะ (Status)</code>, and <code>เปิดดู (Action Button)</code>.</li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
+
+
