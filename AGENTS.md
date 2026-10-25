@@ -94,6 +94,7 @@ $conn = require '../includes/db.php'; // คืน PDO connection
 6. **Flag กลาง:** `$GLOBALS['isBillByAcceptDate']` / `$GLOBALS['isBillByServiceDate']` ใน `init.php` คุมตรรกะการรวมบิล (ตามวันที่รับ vs วันที่ทำ service)
 7. **Datatables CSS local:** `cssdatatablesdotnet/` เก็บ CSS ที่เคยโหลดจาก CDN แบบ mirror — เลือกใช้ให้ตรงกับ version ที่ header ดึง
 8. **แปลง PDF→JPG ใน container:** PHP เรียก `/usr/local/bin/magick` (IM7 build จาก source) + `gs` + `zip` ซึ่งติดตั้งใน image `app` — ก่อนแก้ `docker/php/Dockerfile` ให้อ่าน `docs/imagemagick-install.md` ก่อน เพราะมี workaround หลายชั้น (bullseye EOL apt, IM 7.1.1-3x crash) ถ้าลบออกจะกลับไปเจอบั๊กเดิม
+9. **หน้า PDF หลายไฟล์เริ่มด้วย HTML ก่อน `<?php`** (patient_pdf.php, patient_pdf_for_note.php, patient_pdf_for_note_v2.php, patient_internal_note.php) — ระบบต้องเปิด `output_buffering=4096` ใน `docker/php/php.ini` เหมือน hosting/XAMPP ไม่งั้น `session_start()`/`header()` พัง ("headers already sent") และ PDF คอร์รัปต์ — อย่าลบ `ob_clean()` ก่อน `$mpdf->Output()` เพราะมันทำงานคู่กับ buffer นี้
 
 ## สิ่งที่ห้ามทำ
 
