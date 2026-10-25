@@ -76,6 +76,14 @@ function systemcheckingIniValueMeetsExample($directive, $actualValue, $exampleVa
 $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 $currentOs = PHP_OS_FAMILY === 'Windows' ? 'Windows'
     : (PHP_OS_FAMILY === 'Linux' ? 'Linux' : PHP_OS_FAMILY);
+
+$phpVersionMinimum = '7.3.0';
+$phpVersionRecommended = '8.2.0';
+$phpVersionMeetsMin = version_compare(PHP_VERSION, $phpVersionMinimum, '>=');
+$phpVersionMeetsRec = version_compare(PHP_VERSION, $phpVersionRecommended, '>=');
+$phpArchitecture = PHP_INT_SIZE === 8 ? '64-bit' : '32-bit';
+$phpSapi = PHP_SAPI;
+
 $imageMagickPath = systemcheckingFindCommand('magick');
 if ($imageMagickPath === false && !$isWindows) {
     $imageMagickPath = systemcheckingFindCommand('convert');
@@ -200,8 +208,44 @@ require 'includes/header.php';
             <div class="col-12">
                 <h3>System Command Check</h3>
                 <p>Checks whether each command can be found in the PHP process PATH. No system commands are executed.</p>
-                <p>Current OS: <strong><?= htmlspecialchars($currentOs, ENT_QUOTES, 'UTF-8') ?></strong>
-                    (PHP_OS: <?= htmlspecialchars(PHP_OS, ENT_QUOTES, 'UTF-8') ?>)</p>
+                <div class="row g-2 mb-3">
+                    <div class="col-md-3">
+                        <div class="p-2 bg-light border rounded">
+                            <small class="text-muted d-block">PHP Version</small>
+                            <strong class="fs-6"><?= htmlspecialchars(PHP_VERSION, ENT_QUOTES, 'UTF-8') ?></strong>
+                            <?php if ($phpVersionMeetsMin): ?>
+                                <span class="badge bg-success ms-1">Passed (&ge; <?= $phpVersionMinimum ?>)</span>
+                            <?php else: ?>
+                                <span class="badge bg-danger ms-1">Below Min (&lt; <?= $phpVersionMinimum ?>)</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-2 bg-light border rounded">
+                            <small class="text-muted d-block">PHP SAPI &amp; Architecture</small>
+                            <strong><?= htmlspecialchars($phpSapi, ENT_QUOTES, 'UTF-8') ?></strong>
+                            <span class="badge bg-secondary ms-1"><?= $phpArchitecture ?></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-2 bg-light border rounded">
+                            <small class="text-muted d-block">Operating System</small>
+                            <strong><?= htmlspecialchars($currentOs, ENT_QUOTES, 'UTF-8') ?></strong>
+                            <small class="text-muted">(<?= htmlspecialchars(PHP_OS, ENT_QUOTES, 'UTF-8') ?>)</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-2 bg-light border rounded">
+                            <small class="text-muted d-block">ZipArchive Extension</small>
+                            <?php if (class_exists('ZipArchive')): ?>
+                                <span class="text-success fw-bold"><i class="fa-solid fa-check-circle me-1"></i>Available</span>
+                                <small class="text-muted">(v<?= htmlspecialchars(phpversion('zip') ?: '1.0', ENT_QUOTES, 'UTF-8') ?>)</small>
+                            <?php else: ?>
+                                <span class="text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation me-1"></i>Not Loaded</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-striped">
                         <thead>
@@ -244,6 +288,10 @@ require 'includes/header.php';
                     These are effective values and may include overrides from the web server, a per-directory
                     <code>.user.ini</code>, or other PHP configuration.
                     <br>
+                    <strong>PHP Version:</strong>
+                    <code><?= htmlspecialchars(PHP_VERSION, ENT_QUOTES, 'UTF-8') ?></code>
+                    (<?= $phpArchitecture ?>, SAPI: <code><?= htmlspecialchars($phpSapi, ENT_QUOTES, 'UTF-8') ?></code>)
+                    <br>
                     <strong>Loaded php.ini:</strong>
                     <?php if ($loadedPhpIniFile !== false && $loadedPhpIniFile !== '') : ?>
                         <code><?= htmlspecialchars($loadedPhpIniFile, ENT_QUOTES, 'UTF-8') ?></code>
@@ -263,13 +311,28 @@ require 'includes/header.php';
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>php.ini directive</th>
+                                <th>Setting / Directive</th>
                                 <th>Status</th>
                                 <th>Current value</th>
-                                <th>Example minimum</th>
+                                <th>Requirement / Example</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td><strong>PHP Version</strong></td>
+                                <td>
+                                    <?php if ($phpVersionMeetsMin): ?>
+                                        <span class="text-success"><i class="fa-solid fa-check-circle me-1"></i>Meets requirement</span>
+                                    <?php else : ?>
+                                        <span class="text-danger"><i class="fa-solid fa-triangle-exclamation me-1"></i>Below minimum</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="text-dark">
+                                    <strong><?= htmlspecialchars(PHP_VERSION, ENT_QUOTES, 'UTF-8') ?></strong>
+                                    <small class="text-muted">(<?= $phpArchitecture ?>, <?= htmlspecialchars($phpSapi, ENT_QUOTES, 'UTF-8') ?>)</small>
+                                </td>
+                                <td>&ge; <?= $phpVersionMinimum ?> (<?= $phpVersionRecommended ?>+ recommended)</td>
+                            </tr>
                             <?php foreach ($phpIniExamples as $setting) : ?>
                                 <tr>
                                     <td><code><?= htmlspecialchars($setting['name'], ENT_QUOTES, 'UTF-8') ?></code></td>
