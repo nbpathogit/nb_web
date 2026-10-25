@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Schema (35 Tables) — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; display: flex; justify-content: space-between; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 0.6rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a>
+        <a href="database_schema_full.html">View Full DDL Schema Snapshot &rarr;</a>
+    </div>
+    <header>
+        <h1>Database Schema Catalog (35 Tables in <code>nbpa_data_dev3</code>)</h1>
+        <p>Complete table inventory, declared foreign keys, and unique indexes</p>
+    </header>
+
+    <div class="card">
+        <h2>1. Complete 35-Table Catalog</h2>
+        <table>
+            <thead>
+                <tr><th>No.</th><th>Table Name</th><th>Scope / Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td><code>antibody_list</code></td><td>Antibody name lookup (unique index on <code>name</code>).</td></tr>
+                <tr><td>2</td><td><code>changehistory</code></td><td>Change-history content and timestamp.</td></tr>
+                <tr><td>3</td><td><code>gross_examination_record</code></td><td>Gross examination descriptions and content.</td></tr>
+                <tr><td>4</td><td><code>hire_list</code></td><td>Outsourced work records linked to a contract and patient.</td></tr>
+                <tr><td>5</td><td><code>hospital</code></td><td>Hospital details, tax ID, address, and report-folder settings.</td></tr>
+                <tr><td>6</td><td><code>internal_note</code></td><td>Internal patient notes and edit metadata.</td></tr>
+                <tr><td>7</td><td><code>invoice_list</code></td><td>Invoice names, grouping, mapping rules, <code>sn_type</code>, and <code>service_type</code>.</td></tr>
+                <tr><td>8</td><td><code>job</code></td><td>Patient workflow assignments, <code>job_role_id</code>, owner, payment, and completion.</td></tr>
+                <tr><td>9</td><td><code>job_role</code></td><td>Job role names (1–7) and per-job/day cost settings.</td></tr>
+                <tr><td>10</td><td><code>labelprint_tmp_a</code></td><td>Temporary label-print queue scoped by <code>userid</code>.</td></tr>
+                <tr><td>11</td><td><code>lab_fluid</code></td><td>Laboratory fluid definitions.</td></tr>
+                <tr><td>12</td><td><code>log</code></td><td>User login/logout and event audit log.</td></tr>
+                <tr><td>13</td><td><code>nbnote</code></td><td>Rich-text note content.</td></tr>
+                <tr><td>14</td><td><code>nbnotetitle</code></td><td>Note title records.</td></tr>
+                <tr><td>15</td><td><code>nb_note_record</code></td><td>Note records with description and content.</td></tr>
+                <tr><td>16</td><td><code>outside_contract</code></td><td>External contract names and costs.</td></tr>
+                <tr><td>17</td><td><code>patient</code></td><td>Pathology case identity (<code>pnum</code>, <code>sn_type</code>), workflow dates/status, job quantities, assignments, and result text.</td></tr>
+                <tr><td>18</td><td><code>pdf_attach</code></td><td>Patient-related PDF attachment path (<code>filelocation</code>, <code>subfolder</code>, <code>fileName</code>) and metadata.</td></tr>
+                <tr><td>19</td><td><code>presultupdate</code></td><td>Patient result updates, result type, pathologists, and release metadata.</td></tr>
+                <tr><td>20</td><td><code>priority</code></td><td>Case priority labels (<code>10</code> = ด่วน).</td></tr>
+                <tr><td>21</td><td><code>questionnaire_quality_cn</code></td><td>CN specimen quality questionnaire scores and notes.</td></tr>
+                <tr><td>22</td><td><code>questionnaire_quality_sn</code></td><td>SN slide quality questionnaire scores and notes.</td></tr>
+                <tr><td>23</td><td><code>quilljs_test</code></td><td>Rich-text editor test content.</td></tr>
+                <tr><td>24</td><td><code>report_type</code></td><td>Report groups, release type, and options.</td></tr>
+                <tr><td>25</td><td><code>req_id_sp_slide</code></td><td>Special-slide request and completion tracking.</td></tr>
+                <tr><td>26</td><td><code>service_billing</code></td><td>Patient service/billing line items, <code>slide_type</code>, <code>code_description</code>, <code>code2</code>, <code>sp_slide_block</code>, and <code>cost</code>.</td></tr>
+                <tr><td>27</td><td><code>service_price_list</code></td><td>Hospital/service pricing and specimen metadata (<code>jobtype</code> &rarr; <code>service_type.id</code>).</td></tr>
+                <tr><td>28</td><td><code>service_type</code></td><td>Service type labels, <code>group_type</code>, <code>service_typea_id</code>, and billing mappings.</td></tr>
+                <tr><td>29</td><td><code>service_type_master</code></td><td>Service codes, descriptions, units, and prices.</td></tr>
+                <tr><td>30</td><td><code>sn_prefix</code></td><td>Surgical-number prefix (<code>SN</code>, <code>CN</code>, <code>LN</code>, <code>PN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code>, <code>ZN</code>) and descriptions.</td></tr>
+                <tr><td>31</td><td><code>status</code></td><td>Workflow status descriptions (<code>1000</code> to <code>20000</code>) and next/back transitions.</td></tr>
+                <tr><td>32</td><td><code>template_report</code></td><td>User-owned report template name and description.</td></tr>
+                <tr><td>33</td><td><code>testtiptap</code></td><td>Rich-text editor test content.</td></tr>
+                <tr><td>34</td><td><code>user</code></td><td>Staff/customer identity, <code>role_1</code>–<code>role_7</code>, <code>role_a</code>, credentials, <code>user_status</code>, <code>movetotrash</code>, <code>ugroup_id</code>, and <code>uhospital_id</code>.</td></tr>
+                <tr><td>35</td><td><code>user_groups</code></td><td>User group names (<code>id</code>, <code>ugroup</code>, <code>ugroup_e</code>, <code>ppatient</code>, <code>pnbcenter</code>, <code>presult</code>).</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>2. Declared Foreign Keys &amp; Unique Indexes</h2>
+        <h3>Declared Foreign Keys (<code>ON DELETE CASCADE ON UPDATE CASCADE</code>)</h3>
+        <ul>
+            <li><code>job.patient_id</code> &rarr; <code>patient.id</code></li>
+            <li><code>job.job_role_id</code> &rarr; <code>job_role.id</code></li>
+            <li><code>job.req_id</code> &rarr; <code>req_id_sp_slide.id</code></li>
+            <li><code>req_id_sp_slide.patient_id</code> &rarr; <code>patient.id</code></li>
+            <li><code>req_id_sp_slide.job_id</code> &rarr; <code>job.id</code></li>
+            <li><code>service_billing.patient_id</code> &rarr; <code>patient.id</code></li>
+        </ul>
+        <h3>Notable Unique Indexes</h3>
+        <ul>
+            <li><code>patient.pnum</code></li>
+            <li><code>user.username</code></li>
+            <li><code>antibody_list.name</code></li>
+            <li><code>report_type.id</code></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

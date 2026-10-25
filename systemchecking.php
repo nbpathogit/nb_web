@@ -130,6 +130,59 @@ unset($phpIniExample);
 $loadedPhpIniFile = php_ini_loaded_file();
 $scannedPhpIniFiles = php_ini_scanned_files();
 
+$phpExtensionChecks = [
+    [
+        'name' => 'ZipArchive',
+        'extension' => 'zip',
+        'class' => 'ZipArchive',
+        'purpose' => 'Excel (.xlsx) batch result upload (patient_edit_by_excel.php) and ZIP operations',
+        'required' => true,
+    ],
+    [
+        'name' => 'SimpleXML',
+        'extension' => 'SimpleXML',
+        'class' => 'SimpleXMLElement',
+        'purpose' => 'XML parsing for .xlsx worksheets, Word documents, and report templates',
+        'required' => true,
+    ],
+    [
+        'name' => 'PDO MySQL',
+        'extension' => 'pdo_mysql',
+        'class' => 'PDO',
+        'purpose' => 'MySQL database connectivity (nbpa_data)',
+        'required' => true,
+    ],
+    [
+        'name' => 'GD',
+        'extension' => 'gd',
+        'class' => null,
+        'purpose' => 'Image processing, barcode generation, specimen label printing, and thumbnails',
+        'required' => false,
+    ],
+    [
+        'name' => 'mbstring',
+        'extension' => 'mbstring',
+        'class' => null,
+        'purpose' => 'Multibyte string support for Thai language processing and UTF-8 encoding',
+        'required' => true,
+    ],
+    [
+        'name' => 'cURL',
+        'extension' => 'curl',
+        'class' => null,
+        'purpose' => 'HTTP client for external API communication (e.g. Winmed webhook)',
+        'required' => false,
+    ],
+];
+
+foreach ($phpExtensionChecks as &$extCheck) {
+    $isExtLoaded = extension_loaded($extCheck['extension']);
+    $isClassExists = $extCheck['class'] !== null ? class_exists($extCheck['class']) : true;
+    $extCheck['loaded'] = $isExtLoaded && $isClassExists;
+    $extCheck['version'] = $isExtLoaded ? (phpversion($extCheck['extension']) ?: 'Loaded') : false;
+}
+unset($extCheck);
+
 require 'includes/header.php';
 ?>
 
@@ -235,6 +288,48 @@ require 'includes/header.php';
                                             : htmlspecialchars($setting['current'], ENT_QUOTES, 'UTF-8') ?>
                                     </td>
                                     <td><?= htmlspecialchars($setting['example'], ENT_QUOTES, 'UTF-8') ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="mt-4">PHP Extension Check</h4>
+                <p>Checks whether essential PHP extensions (including <strong>ZipArchive</strong> for Excel upload) are installed and enabled in the running PHP engine.</p>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Extension / Class</th>
+                                <th>Status</th>
+                                <th>Version</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($phpExtensionChecks as $ext) : ?>
+                                <tr>
+                                    <td>
+                                        <strong><?= htmlspecialchars($ext['name'], ENT_QUOTES, 'UTF-8') ?></strong>
+                                        <?php if ($ext['class'] !== null) : ?>
+                                            <br><small class="text-muted">Class: <code><?= htmlspecialchars($ext['class'], ENT_QUOTES, 'UTF-8') ?></code></small>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($ext['loaded']) : ?>
+                                            <span class="text-success"><i class="fa-solid fa-check-circle me-1"></i>Available</span>
+                                        <?php else : ?>
+                                            <span class="text-danger"><i class="fa-solid fa-triangle-exclamation me-1"></i>Not loaded</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-dark">
+                                        <?php if ($ext['version'] !== false) : ?>
+                                            <code><?= htmlspecialchars($ext['version'], ENT_QUOTES, 'UTF-8') ?></code>
+                                        <?php else : ?>
+                                            <span class="text-danger">&mdash;</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= htmlspecialchars($ext['purpose'], ENT_QUOTES, 'UTF-8') ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

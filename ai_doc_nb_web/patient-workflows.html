@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Workflows — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        h3 { color: #0369a1; margin-top: 1.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
+    <header>
+        <h1>Patient Workflows Reference</h1>
+        <p><code>patient.php</code>, <code>patient_add.php</code>, <code>patient_edit.php</code> (Status <code>1000</code>&rarr;<code>20000</code>), and PDF Attachments</p>
+    </header>
+
+    <div class="card">
+        <h2>1. Patient List (<code>patient.php</code> &amp; <code>data/patient.php</code>)</h2>
+        <ul>
+            <li><strong>DataTable Feed:</strong> <code>js/patient.js</code> requests JSON from <code>data/patient.php</code>, which calls <code>Patient::getAllJoin_v2($conn, 0, $range)</code>.</li>
+            <li><strong>Customer Filtering:</strong> For customer groups <code>5000</code> and <code>5100</code>, <code>data/patient.php</code> only returns rows matching <code>$_SESSION['user']-&gt;uhospital_id == $patient['phospital_id']</code> and excludes <code>IN</code> and <code>ZN</code> prefixes.</li>
+            <li><strong>POST Management Actions:</strong> <code>trash_id</code> calls <code>Patient::movetotrash()</code>; <code>delete_id</code> calls <code>Patient::delete2()</code>.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>2. Patient Add (<code>patient_add.php</code> &amp; <code>includes/patient_form_005_add_pat_num.php</code>)</h2>
+        <h3>A. Authentication &amp; Role Restrictions</h3>
+        <ul>
+            <li><strong>Session Gate:</strong> Calls <code>Auth::isLoggedIn()</code> and redirects unauthenticated users to <code>/login.php</code>.</li>
+            <li><strong>Role Restriction:</strong> Loads <code>user_auth.php</code> and blocks customer user groups (<code>$isCurUserClinicianCust</code> / <code>5000</code> and <code>$isCurUserHospitalCust</code> / <code>5100</code>) from viewing or submitting the form.</li>
+            <li><strong>Initial Flags:</strong> Sets <code>$isAddPage = true</code>, <code>$isEditModePageOn = true</code>, <code>$isEditModePageForPatientInfoDataOn = true</code>, and <code>$curstatus[0]['id'] = 1000</code> (<code>includes/status_cur.php</code>).</li>
+        </ul>
+
+        <h3>B. Surgical Number (<code>pnum</code>) Generation Modes (<code>POST</code> Handler)</h3>
+        <ul>
+            <li><strong>Auto Mode (<code>$_POST['is_autogen'] == "yes"</code>):</strong>
+                <ul>
+                    <li>Reads prefix <code>$sn_type = $_POST['snprefix']</code> (from <code>SnPrefix::getAll($conn)</code>: <code>SN</code>, <code>CN</code>, <code>PN</code>, <code>LN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code>, <code>ZN</code>).</li>
+                    <li>Gets 2-digit year via <code>Util::get_curreint_year()</code>.</li>
+                    <li>Checks <code>Patient::get_count_sn_year($conn, $curyear)</code>: if <code>0</code>, sets <code>$runnum = 1</code>; otherwise queries <code>Patient::get_max_sn_run_by_year($conn, $curyear, $sn_type)</code> (<code>WHERE sn_year = :sn_year AND sn_type = :sn_type AND movetotrash = 0</code>) and increments <code>max_sn_run</code> by <code>1</code>.</li>
+                    <li>Zero-pads to 5 digits via <code>Util::prepend_string_with_zero(5, $runnum)</code> to form <code>$patientNumber = $sn_type . $curyear . $runstr</code> (e.g., <code>SN2600001</code>).</li>
+                </ul>
+            </li>
+            <li><strong>Manual Mode (<code>$_POST['is_autogen'] == "no"</code>):</strong> Concatenates <code>$_POST['prenum']</code> (2 chars), <code>$_POST['yearnum']</code> (2 digits), and zero-padded <code>(int)$_POST['runnum']</code> (5 digits).</li>
+        </ul>
+
+        <h3>C. Model Initialization, Sub-Patient Cloning (<code>super_id</code>) &amp; Persistence</h3>
+        <ul>
+            <li><strong>Default Template vs. Sub-Patient:</strong>
+                <ul>
+                    <li>For a new root case, loads defaults from <code>Patient::getInit()</code> (<code>status_id = 1000</code>, <code>priority_id = 5</code>, <code>p_speciment_type = "lump"</code>, <code>pedge = -1</code>, <code>isautoeditmode = "patient_detail_section"</code>, <code>pautoscroll = "patient_detail_section"</code>).</li>
+                    <li>If <code>$_POST['super_id']</code> is present (when creating a linked sub-case from <code>patient_edit.php</code>), fetches the parent case via <code>Patient::getAll($conn, $_POST['super_id'])</code> for fallback defaults and clears <code>isautoeditmode = ""</code> and <code>pautoscroll = ""</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Database Insert:</strong> Calls <code>$patient-&gt;create($conn)</code>, stamping <code>create_date</code> and <code>date_1000</code> with <code>Util::get_curreint_thai_date_time()</code>, recording <code>create_by</code>, and logging via <code>Log::add()</code>.</li>
+        </ul>
+
+        <h3>D. Post-Create Dependent Records &amp; Redirect</h3>
+        <ul>
+            <li><strong>Initial Report Sections (<code>presultupdate</code>):</strong>
+                <ul>
+                    <li>If <code>$sn_type == 'PN' || $sn_type == 'LN'</code>, creates <code>Presultupdate</code> rows from <code>ReportType::getAllbyGroup3($conn)</code>.</li>
+                    <li>Otherwise (<code>SN</code>, <code>CN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code>, <code>ZN</code>), creates <code>Presultupdate</code> rows from <code>ReportType::getAllbyGroup1($conn)</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Quality Questionnaires:</strong> Creates a blank <code>QuesSN</code> row (<code>q_sn</code>) when <code>$sn_type == 'SN'</code>, or a blank <code>QuesCN</code> row (<code>q_cn</code>) when <code>$sn_type == 'CN'</code>.</li>
+            <li><strong>Redirect:</strong> Redirects to <code>/patient_edit.php?id=$patient-&gt;id</code>.</li>
+        </ul>
+
+        <h3>E. <code>ReportType</code> &amp; <code>Presultupdate</code> Groups (<code>Group 1</code>, <code>Group 2</code>, <code>Group 3</code>)</h3>
+        <p style="margin-bottom: 0.75rem;">👉 <strong>Comprehensive Architecture Guide:</strong> <a href="patient-report-groups.html" style="color: #0284c7; font-weight: 600;">Deep Dive: ReportType Groups 1, 2, 3 &amp; UResult Architecture &rarr;</a></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Group (<code>group_type</code>)</th>
+                    <th>Model Method (<code>classes/ReportType.php</code>)</th>
+                    <th>Purpose &amp; Hardcoded Sections</th>
+                    <th>Used By (<code>sn_type</code>)</th>
+                    <th>Behavior in <code>patient_edit.php</code> &amp; <code>patient_pdf.php</code></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong><code>Group 1</code></strong> (<code>1</code>)</td>
+                    <td><code>ReportType::getAllbyGroup1($conn)</code></td>
+                    <td>
+                        <strong>Mandatory base descriptive sections</strong> pre-created in <code>patient_add.php</code> (<code>release_type = 'ยังไม่ออกผล'</code>):
+                        <ul style="margin: 0.35rem 0; padding-left: 1.25rem;">
+                            <li><code>1</code>: Specimen</li>
+                            <li><code>2</code>: Clinical Diagnosis <em>(skipped on PDF)</em></li>
+                            <li><code>3</code>: Gross Description</li>
+                            <li><code>4</code>: Microscopic Description</li>
+                        </ul>
+                        <em>Query: <code>SELECT * FROM report_type WHERE group_type = 1 ORDER BY id;</code></em>
+                    </td>
+                    <td><code>SN</code>, <code>CN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code>, <code>ZN</code></td>
+                    <td>
+                        &bull; <strong>Cannot be deleted</strong> in UI (<code>Delete</code> button only shows for <code>group_type == 2</code>).<br>
+                        &bull; Editable &amp; template-enabled before release.<br>
+                        &bull; No Second Pathologist (Role 6) block attached.<br>
+                        &bull; In <code>patient_pdf.php</code>, printed <strong>below</strong> <code>Group 2</code> sections in <code>ASC</code> order using <code>18pt</code> template (<code>patient_format_result_pdf_1.php</code>); <code>result_type_id == 2</code> (<em>Clinical Diagnosis</em>) is skipped on PDF output.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong><code>Group 2</code></strong> (<code>2</code>)</td>
+                    <td><code>ReportType::getAllbyGroup2($conn)</code></td>
+                    <td>
+                        <strong>Diagnostic / Release sections added on-demand</strong> in <code>patient_edit.php</code> via Modal (<strong>NOT</strong> called in <code>patient_add.php</code>):
+                        <ul style="margin: 0.35rem 0; padding-left: 1.25rem;">
+                            <li><code>11</code>: Provisional Diagnosis <em>(ออกผลเบื้องต้น)</em></li>
+                            <li><code>12</code>: Pathological Diagnosis <em>(ออกผลแล้ว)</em></li>
+                            <li><code>13</code>: Addendum <em>(ออกผลแล้ว)</em></li>
+                            <li><code>14</code>: Revised <em>(ออกผลแล้ว)</em></li>
+                        </ul>
+                        <em>Query: <code>SELECT * FROM report_type WHERE group_type = 2 ORDER BY id;</code></em>
+                    </td>
+                    <td>Non-<code>PN</code>/<code>LN</code> cases</td>
+                    <td>
+                        &bull; <strong>Can be deleted</strong> before release (<code>group_type == 2</code>).<br>
+                        &bull; Holds Second Pathologist (Role 6) confirmation &amp; release timestamp.<br>
+                        &bull; In <code>patient_pdf.php</code>, printed <strong>first</strong> (at the top of the report) in <code>DESC</code> order using <code>22pt</code> template (<code>patient_format_result_pdf_2.php</code>).
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong><code>Group 3</code></strong> (<code>3</code>)</td>
+                    <td><code>ReportType::getAllbyGroup3($conn)</code></td>
+                    <td>
+                        <strong>Mandatory cervical cytology sections</strong> pre-created in <code>patient_add.php</code> (<code>release_type = 'ออกผลแล้ว'</code>):
+                        <ul style="margin: 0.35rem 0; padding-left: 1.25rem;">
+                            <li><code>21</code>: SPECIMEN TYPE</li>
+                            <li><code>22</code>: SOURCE</li>
+                            <li><code>23</code>: SPECIMEN ADEQUACY</li>
+                            <li><code>24</code>: INTERPRETATION</li>
+                            <li><code>25</code>: EDUCATIONAL NOTES AND SUGGESTION</li>
+                        </ul>
+                        <em>Query: <code>SELECT * FROM report_type WHERE group_type = 3 ORDER BY id;</code></em>
+                    </td>
+                    <td><code>PN</code>, <code>LN</code></td>
+                    <td>
+                        &bull; Rendered in <code>includes/patient_form_080_job7_result.php</code> (Cytologist Role 7 / Pathologist Role 5).<br>
+                        &bull; Cannot be deleted (<code>group_type != 2</code>).<br>
+                        &bull; Second Pathologist review attaches to the last <code>Group 3</code> entry (id 25).<br>
+                        &bull; In <code>patient_pdf.php</code>, printed in <code>ASC</code> order using <code>22pt</code> template (<code>patient_format_result_pdf_3.php</code>).
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>F. Form Partial (<code>includes/patient_form_005_add_pat_num.php</code>) &amp; Auto-Gender JS</h3>
+        <ul>
+            <li>Renders <code>#formAddPatient</code> with three cards: (1) Auto-generate SN selector (<code>#autogen</code>, <code>#snprefix</code>), (2) Manual SN inputs (<code>#manualgen</code>, <code>#prenum</code>, <code>#yearnum</code>, <code>#runnum</code>), and (3) Optional initial patient name &amp; gender fields (<code>#ppre_name_add</code>, <code>#pname</code>, <code>#plastname</code>, <code>#pgender_add</code>, hidden <code>create_by</code>).</li>
+            <li><strong>Auto-Gender Selection:</strong> On <code>#ppre_name_add</code> change, JS matches the selected Thai/English title against <code>&lt;datalist id="pre_name_list_add"&gt;</code> (<code>includes/prenameOption.php</code>) and automatically selects the option's <code>pgender</code> attribute (<code>Male</code>, <code>Female</code>, <code>NA</code>) on <code>#pgender_add</code>.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>3. Patient Edit (<code>patient_edit.php</code>) — Status &amp; Section Map</h2>
+        <table>
+            <thead>
+                <tr><th>Status ID</th><th>Section Anchor</th><th>Workflow Stage &amp; Partials</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>1000</code></td><td><code>patient_detail_section</code></td><td>Patient Intake &amp; Detail (<code>includes/patient_form_010_detail.php</code>)</td></tr>
+                <tr><td><code>2000</code></td><td><code>patient_plan_section</code></td><td>Planning, Specimen &amp; Clinician Assignment</td></tr>
+                <tr><td><code>3000</code></td><td><code>specimen_prep_section</code></td><td>Specimen Preparation — Job 1 (<code>patient_form_030_job1_prepare_specimen.php</code>) &amp; Job 2 (<code>patient_form_035_job2_prepare_specimen.php</code>)</td></tr>
+                <tr><td><code>6000</code></td><td><code>slide_prep_section</code></td><td>Slide Preparation — Job 3 (<code>patient_form_040_job3_prepare_slide.php</code>) &amp; Special Slide Job 4 (<code>patient_form_050_slide2_prepare_sp_slide.php</code>)</td></tr>
+                <tr><td><code>10000</code></td><td><code>lab_fluid_section_section</code></td><td>Lab Fluid Preparation (for non-<code>lump</code> specimens)</td></tr>
+                <tr><td><code>11000</code></td><td><code>interim_result_section</code></td><td>Interim Result</td></tr>
+                <tr><td><code>12000</code></td><td><code>diag_result_section</code></td><td>Diagnostic Result (<code>patient_form_080_job6_result.php</code> or <code>patient_form_080_job7_result.php</code> for <code>PN</code>/<code>LN</code>)</td></tr>
+                <tr><td><code>13000</code></td><td><code>confirm_result_section</code></td><td>Second Pathologist Confirmation (Role 6)</td></tr>
+                <tr><td><code>20000</code></td><td><code>finish_section</code></td><td>Final Released Report (<code>patient_form_100_pdf.php</code> / <code>patient_pdf.php</code>)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Diagnostic Result Action Buttons (<code>patient_form_080_job6_result.php</code> &amp; <code>job7_result.php</code>)</h3>
+        <p style="margin-bottom: 0.75rem;">👉 <strong>Dedicated Action Buttons Guide:</strong> <a href="patient-edit-buttons.html" style="color: #0284c7; font-weight: 600;">Deep Dive: Start Diagnostic, Add Section, 2nd Review &amp; Release Report Buttons &rarr;</a></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Button</th>
+                    <th>Element ID</th>
+                    <th>Target Status / Action</th>
+                    <th>Enable Conditions</th>
+                    <th>Core Handlers &amp; Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Start Diagnostic</strong></td>
+                    <td><code>#btnmove12000</code></td>
+                    <td>Status <code>12000</code></td>
+                    <td>Status != <code>12000</code>, Case Owner, Non-customer</td>
+                    <td>Submits POST <code>status=12000</code>, stamps <code>date_12000</code>, auto-scrolls to <code>confirm_result_section_bottom</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Add New Report Section</strong></td>
+                    <td><code>#add_new_report_section_btn</code></td>
+                    <td>Add Group 2 Section</td>
+                    <td>Status == <code>12000</code>, Owner, Last section released</td>
+                    <td>Opens modal <code>#add_result_type_modal</code>, calls AJAX <code>new_result.php</code>, creates <code>presultupdate</code> (Group 2) row.</td>
+                </tr>
+                <tr>
+                    <td><strong>Request 2nd Review</strong></td>
+                    <td><code>#btn2review13000</code></td>
+                    <td>Status <code>13000</code></td>
+                    <td>Status == <code>12000</code>, Owner, 2nd Patho selected</td>
+                    <td>Calls AJAX <code>set_second_patho_review.php</code> (<code>second_patho_review=1</code>), submits POST <code>status=13000</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Release Report</strong></td>
+                    <td><code>#btn_release</code></td>
+                    <td>Status <code>20000</code> + PDF</td>
+                    <td>Status == <code>12000</code>, Owner, Specimen price &gt; 0, 2nd review approved</td>
+                    <td>Stamps <code>release_time</code>, updates <code>second_patho_review=2</code>, submits POST <code>status=20000</code>, compiles PDF via <code>patient_pdf.php</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Result Textarea Action Buttons (<code>&lt;label for="result_message"&gt;</code>)</h3>
+        <p style="margin-bottom: 0.75rem;">👉 <strong>Textarea Buttons Guide:</strong> <a href="patient-edit-result-buttons.html" style="color: #0284c7; font-weight: 600;">Deep Dive: Edit, Save, Delete, and Reload Page Buttons for result_message &rarr;</a></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Button</th>
+                    <th>Element ID / Selector</th>
+                    <th>Visibility &amp; Rules</th>
+                    <th>Behavior &amp; Handlers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Edit</strong></td>
+                    <td><code>#edit_result_{id}</code></td>
+                    <td>Unreleased &amp; Case Owner</td>
+                    <td>Hides Edit, displays Save, sets textarea <code>readonly=false</code>, sets <code>is_diag_editeing_mode=true</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Save</strong></td>
+                    <td><code>#save_result_{id}</code></td>
+                    <td>Active during edit mode</td>
+                    <td>Saves via AJAX <code>save_get_result_message.php</code>, locks textarea (<code>readonly=true</code>), clears edit mode.</td>
+                </tr>
+                <tr>
+                    <td><strong>Delete</strong></td>
+                    <td><code>#delete_result_{id}</code></td>
+                    <td><strong>Group 2 Only</strong> (Unreleased)</td>
+                    <td>Confirms and calls AJAX <code>delete_result.php</code> to delete row from <code>presultupdate</code>, refreshes page.</td>
+                </tr>
+                <tr>
+                    <td><strong>Reload Page</strong></td>
+                    <td>Dynamic in <code>append2page()</code></td>
+                    <td>Appended Group 2 blocks</td>
+                    <td>Full page reload with auto-scroll to bind Second Pathologist PHP modals and data tables for the new block ID.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>POST Action Map in <code>patient_edit.php</code></h3>
+        <table>
+            <thead>
+                <tr><th>POST Key</th><th>Behavior</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>status</code></td><td>Calls <code>Patient::updateStatusWithMoveDATE()</code>. On transition from <code>12000</code> or <code>13000</code> to <code>20000</code>, updates <code>reported_as</code> and runs <code>patient_pdf.php</code> to save the PDF report.</td></tr>
+                <tr><td><code>save_patient_detail</code> / <code>save_patient_detail_next</code></td><td>Saves intake details; <code>_next</code> moves status <code>1000</code> &rarr; <code>2000</code> and sets <code>pautoscroll</code> to <code>patient_plan_section</code>.</td></tr>
+                <tr><td><code>save_patient_plan</code> / <code>save_patient_plan_next</code></td><td>Saves planning details; <code>_next</code> moves status <code>2000</code> &rarr; <code>3000</code> (<code>lump</code>) or <code>10000</code> (other).</td></tr>
+                <tr><td><code>add_u_result</code> / <code>save_u_result</code></td><td>Creates or updates <code>Presultupdate</code> rows and updates critical-report flag.</td></tr>
+                <tr><td><code>save_sp_prep_slide</code></td><td>Updates special-slide fields via <code>updateSpcialSlide()</code>.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>4. Patient PDF Attachments (<code>pdf_attach_upload.php</code> &amp; <code>classes/Pdfattach.php</code>)</h2>
+        <ul>
+            <li><strong>Upload Form:</strong> Rendered inside <code>attach_pdf_section</code> in <code>patient_edit.php</code>. Submits <code>file</code>, <code>patient_id</code>, and <code>pnum</code> via <code>FormData</code> AJAX to <code>pdf_attach_upload.php</code>.</li>
+            <li><strong>Storage &amp; Conversion:</strong> Moves the uploaded PDF into <code>pdf_attach_uploads/&lt;pnum&gt;_&lt;timestamp&gt;/</code>, attempts 300-dpi PDF-to-JPG conversion via ImageMagick, and persists the record in <code>pdf_attach</code> via <code>Pdfattach::create()</code>.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>5. Batch Result Import by Excel (<code>patient_edit_by_excel.php</code>)</h2>
+        <p>A specialized utility allowing authorized pathologists (Group <code>2000</code> / <code>1900</code>) and system administrators (Group <code>1000</code>) to upload an Excel file (<code>.xlsx</code>) and update diagnosis results across multiple surgical numbers in batch.</p>
+        
+        <h3>A. Column Specification (Learned from <code>C:\anuchit2\example upload result NB.xlsx</code>)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Database Field</th>
+                    <th>Target Section / Result Type</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>sn</code></td>
+                    <td><code>patient.pnum</code></td>
+                    <td>Primary key for lookup</td>
+                    <td>Matches surgical number (e.g., <code>CN2601596</code>, <code>SN2612105</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>Specimen</code></td>
+                    <td><code>presultupdate.result_message</code></td>
+                    <td><code>Specimen</code> (Group 1, ID: 1)</td>
+                    <td>Case-insensitive direct match</td>
+                </tr>
+                <tr>
+                    <td><code>Clinical diagnosis</code></td>
+                    <td><code>presultupdate.result_message</code></td>
+                    <td><code>Clinical Diagnosis</code> (Group 1, ID: 2)</td>
+                    <td>Excluded from 'Diag' matching</td>
+                </tr>
+                <tr>
+                    <td><code>Gross</code></td>
+                    <td><code>presultupdate.result_message</code></td>
+                    <td><code>Gross Description</code> (Group 1, ID: 3)</td>
+                    <td>Smart synonym match for macroscopic / gross</td>
+                </tr>
+                <tr>
+                    <td><code>Micro</code></td>
+                    <td><code>presultupdate.result_message</code></td>
+                    <td><code>Microscopic Description</code> (Group 1, ID: 4)</td>
+                    <td>Smart synonym match for microscopic / micro</td>
+                </tr>
+                <tr>
+                    <td><code>Diag</code></td>
+                    <td><code>presultupdate.result_message</code></td>
+                    <td><code>Pathological Diagnosis</code> (Group 2, ID: 12)</td>
+                    <td>Strictly resolves to Pathological Diagnosis</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>B. Execution Pipeline per Row</h3>
+        <ol style="line-height: 1.8;">
+            <li><strong>Select SN:</strong> Queries <code>patient</code> by <code>pnum = :sn</code> and verifies active state (<code>movetotrash = 0</code>). Retrieves <code>patient.id</code>.</li>
+            <li><strong>Validate Ownership:</strong> Checks <code>patient.ppathologist_id</code> and Job Role 5 (<code>job_role_id = 5</code>). If current logged-in pathologist is <strong>not the owner</strong>, skips row with explanatory warning. (Admin override toggle available).</li>
+            <li><strong>Fetch Existing uresult:</strong> Queries all rows from <code>presultupdate</code> for the retrieved <code>patient_id</code>.</li>
+            <li><strong>Loop Columns &amp; Update:</strong> Matches each Excel column to <code>uresult.result_type</code>:
+                <ul>
+                    <li>If matched and changed &rarr; updates <code>result_message</code> and logs audit history via <code>Log::add()</code>.</li>
+                    <li>If matched and identical &rarr; logs <code>UNCHANGED</code> (no update needed).</li>
+                    <li>If empty &rarr; logs <code>EMPTY_SKIPPED</code> (preserves existing text).</li>
+                    <li>If not matched &rarr; prints explicit error note explaining why it cannot be inserted.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>C. Interactive Tools</h3>
+        <ul>
+            <li><strong>Dry Run (Simulation Mode):</strong> Preview row matching, character counts, and diffs without committing changes to MySQL.</li>
+            <li><strong>Sample Download:</strong> Direct download endpoint for <code>example upload result NB.xlsx</code>.</li>
+            <li><strong>Step Log Table:</strong> Per-row badge summary with detailed action history and direct links to each case.</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

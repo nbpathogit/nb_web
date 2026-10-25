@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surgical Numbers, Service Types &amp; Invoice Map — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
+    <header>
+        <h1>Surgical Numbers, Service Types &amp; Invoice Mapping</h1>
+        <p>Reference for <code>sn_prefix</code> (<code>patient.sn_type</code>), <code>service_type</code>, and <code>invoice_list</code></p>
+    </header>
+
+    <div class="card">
+        <h2>1. Surgical Number Prefixes (<code>sn_prefix</code> / <code>patient.sn_type</code>)</h2>
+        <p>Patient numbers are formatted as <code>prefix + 2-digit year + 5-digit run</code> (e.g., <code>SN2600001</code>) using <code>Patient::get_max_sn_run_by_year()</code> and <code>Util::prepend_string_with_zero(5, $runnum)</code>.</p>
+        <table>
+            <thead>
+                <tr><th>Prefix</th><th>Meaning (Thai)</th><th>English Description</th><th>Workflow Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>SN</code></td><td>ตรวจชิ้นเนื้อศัลยพยาธิวิทยา</td><td>Surgical pathology</td><td>Standard tissue workflow; SN quality questionnaire</td></tr>
+                <tr><td><code>CN</code></td><td>ตรวจเซลล์วิทยา</td><td>Cytology</td><td>Cytology workflow; CN quality questionnaire</td></tr>
+                <tr><td><code>LN</code></td><td>ตรวจเซลล์มะเร็งปากมดลูกแบบใหม่ (Liquid base cytology)</td><td>Liquid-based cervical cytology</td><td>Uses <code>patient_form_080_job7_result.php</code> (Cytologist role 7)</td></tr>
+                <tr><td><code>PN</code></td><td>ตรวจเซลล์มะเร็งปากมดลูกแบบเก่า (conventional cervical cytology)</td><td>Conventional cervical cytology</td><td>Uses <code>patient_form_080_job7_result.php</code> (Cytologist role 7)</td></tr>
+                <tr><td><code>FN</code></td><td>ตรวจชิ้นเนื้อโดยอุณหภูมิเยือกแข็ง</td><td>Frozen-section tissue examination</td><td>Frozen staining category</td></tr>
+                <tr><td><code>DN</code></td><td>ตรวจพิเศษอณูชีววิทยา</td><td>Special molecular biology examination</td><td>Molecular staining category</td></tr>
+                <tr><td><code>IN</code></td><td>ตรวจชิ้นเนื้อศัลยพยาธิ (กรณีเรียกเก็บเงินแล้ว)</td><td>Surgical pathology (internal/billed)</td><td>Filtered out from customer view in <code>data/patient.php</code></td></tr>
+                <tr><td><code>ZN</code></td><td>ตรวจ นิติเวช สไลด์</td><td>Forensic slide examination</td><td>Filtered out from customer view in <code>data/patient.php</code></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>2. Service Types (<code>service_type</code> Table)</h2>
+        <p><code>service_billing.slide_type</code> and <code>service_price_list.jobtype</code> reference <code>service_type.id</code>. Keep <code>id</code>, <code>group_type</code>, and <code>service_typea_id</code> distinct.</p>
+        <table>
+            <thead>
+                <tr><th><code>id</code></th><th><code>order_list</code></th><th><code>group_type</code></th><th><code>service_type</code></th><th><code>service_typea_id</code></th><th><code>service_typea_bill</code></th><th><code>service_type_e</code></th><th><code>name_by_spcimen</code></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>1</td><td>1</td><td>1 ตรวจชิ้นเนื้อศัลยพยาธิวิทยา (SN or IN)</td><td>1</td><td>ค่าตรวจ</td><td>—</td><td>สิ่งส่งตรวจ (SN or IN) with group type 1</td></tr>
+                <tr><td>2</td><td>5</td><td>2</td><td>5 ตรวจพิเศษ (Special Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>Special Staining</td><td>ย้อมพิเศษ group type 2</td></tr>
+                <tr><td>3</td><td>6</td><td>2</td><td>6 ตรวจพิเศษ (Immuno Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>Immuno Staining</td><td>ย้อมพิเศษ group type 2</td></tr>
+                <tr><td>4</td><td>2</td><td>1</td><td>2 ตรวจเซลล์วิทยา (CN)</td><td>1</td><td>ค่าตรวจ</td><td>—</td><td>สิ่งส่งตรวจ CN group type 1</td></tr>
+                <tr><td>5</td><td>3</td><td>1</td><td>3 ตรวจเซลล์มะเร็งปากมดลูก (PN or LN)</td><td>1</td><td>ค่าตรวจ</td><td>—</td><td>สิ่งส่งตรวจ PN LN group type 1</td></tr>
+                <tr><td>6</td><td>4</td><td>2</td><td>4 ตรวจชิ้นเนื้อโดยอุณหภูมิเยือกแข็ง (Frozen Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>Frozen Staining</td><td>FN with group type 2</td></tr>
+                <tr><td>7</td><td>7</td><td>2</td><td>7 ตรวจพิเศษอณูชีววิทยา (Molecular Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>Molecular Staining</td><td>DN with group type 2</td></tr>
+                <tr><td>8</td><td>8</td><td>2</td><td>8 สไลด์นิติเวช</td><td>1</td><td>สไลด์นิติเวช</td><td>—</td><td>ZN สไลด์นิติเวช</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>3. Invoice List Configuration (<code>invoice_list</code> Table)</h2>
+        <table>
+            <thead>
+                <tr><th>ID</th><th><code>group_type</code></th><th><code>invoice_name</code></th><th><code>invoice_name_e</code></th><th><code>mapping_rule</code></th><th><code>sn_type</code></th><th><code>service_type</code></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>1</td><td>ตรวจชิ้นเนื้อศัลยพยาธิวิทยา</td><td>—</td><td>สิ่งส่งตรวจ (SN or IN) with group type 1</td><td><code>SN</code></td><td>1</td></tr>
+                <tr><td>2</td><td>1</td><td>ตรวจชิ้นเนื้อศัลยพยาธิวิทยา</td><td>—</td><td>สิ่งส่งตรวจ (SN or IN) with group type 1</td><td><code>IN</code></td><td>1</td></tr>
+                <tr><td>3</td><td>2</td><td>ตรวจเซลล์วิทยา</td><td>—</td><td>สิ่งส่งตรวจ CN group type 1</td><td><code>CN</code></td><td>1</td></tr>
+                <tr><td>4</td><td>3</td><td>ตรวจเซลล์มะเร็งปากมดลูก</td><td>—</td><td>สิ่งส่งตรวจ PN or LN group type 1</td><td><code>PN</code></td><td>1</td></tr>
+                <tr><td>5</td><td>3</td><td>ตรวจเซลล์มะเร็งปากมดลูก</td><td>—</td><td>สิ่งส่งตรวจ PN or LN group type 1</td><td><code>LN</code></td><td>1</td></tr>
+                <tr><td>6</td><td>4</td><td>ตรวจชิ้นเนื้อโดยอุณหภูมิเยือกแข็ง</td><td>—</td><td>FN with group type 2</td><td><code>FN</code></td><td>2</td></tr>
+                <tr><td>7–13</td><td>5</td><td>ตรวจพิเศษ</td><td>—</td><td>ย้อมพิเศษ group type 2</td><td><code>SN,CN,LN,PN,FN,DN,IN</code></td><td>2</td></tr>
+                <tr><td>14</td><td>5</td><td>ตรวจพิเศษอณูชีววิทยา</td><td>Molecular Staining</td><td>DN with group type 2</td><td><code>IN</code> / <code>DN</code></td><td>2</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

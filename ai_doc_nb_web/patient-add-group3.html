@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group 3 UResult Initialization (patient_add.php) — NB Patho AI Docs</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #6366f1;
+            --secondary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f8fafc;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+            --accent-cyan: #06b6d4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            margin: 0;
+            padding: 2rem 1.25rem;
+        }
+
+        .container {
+            max-width: 1060px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.92rem;
+        }
+
+        .top-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: color 0.15s ease;
+        }
+
+        .top-nav a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0284c7 0%, #312e81 60%, #0f172a 100%);
+            color: #ffffff;
+            padding: 2.25rem 2.5rem;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header .badge-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            color: #e0f2fe;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.85rem;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.92;
+            font-size: 1rem;
+            max-width: 800px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.85rem 2.25rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.65rem;
+            font-size: 1.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Flow Diagram Cards */
+        .flow-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .flow-step {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem 1.15rem;
+            position: relative;
+        }
+
+        .flow-step.accent {
+            border-top-color: var(--secondary);
+            background: #faf5ff;
+        }
+
+        .flow-step.success {
+            border-top-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .flow-step .step-number {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+
+        .flow-step h4 {
+            margin: 0 0 0.35rem 0;
+            font-size: 0.95rem;
+            color: #0f172a;
+        }
+
+        .flow-step p {
+            margin: 0;
+            font-size: 0.83rem;
+            color: var(--muted);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem 0.9rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .badge-id {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+
+        .badge-group {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .badge-status {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .badge-sn {
+            background: #ede9fe;
+            color: #5b21b6;
+            border: 1px solid #ddd6fe;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.15rem 1.35rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            line-height: 1.5;
+            margin: 0.85rem 0 1.25rem 0;
+            border: 1px solid #1e293b;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit;
+        }
+
+        /* Syntax colors inside pre */
+        .kw { color: #f43f5e; font-weight: 600; }
+        .fn { color: #38bdf8; }
+        .st { color: #a3e635; }
+        .cm { color: #64748b; font-style: italic; }
+        .vr { color: #fbbf24; }
+
+        /* Callout Box */
+        .callout {
+            border-left: 4px solid var(--primary);
+            background: var(--primary-light);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.25rem 0;
+            font-size: 0.92rem;
+        }
+
+        .callout.warning {
+            border-left-color: var(--warning);
+            background: var(--warning-light);
+        }
+
+        .callout.success {
+            border-left-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: #0f172a;
+        }
+
+        .mapping-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 1rem;
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin: 1.25rem 0;
+        }
+
+        .mapping-box {
+            background: #ffffff;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .mapping-box h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .mapping-arrow {
+            font-size: 1.5rem;
+            color: var(--muted);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-nav">
+        <a href="index.html">&larr; Back to AI Docs Index</a>
+        <span>&bull;</span>
+        <a href="patient-workflows.html">Patient Workflows Reference</a>
+        <span>&bull;</span>
+        <a href="patient-report-groups.html">All ReportType Groups (1, 2, 3)</a>
+    </div>
+
+    <header>
+        <div class="badge-tag">Database Architecture &bull; Group 3</div>
+        <h1>Group 3 (Cervical Cytology) UResult Initialization</h1>
+        <p>การทำงานของ <code>patient_add.php</code> ในการอ่านตารางฮาร์ดโค้ด <code>report_type</code> (group_type = 3) แล้ววนลูปสร้างเรคคอร์ด <code>uresult</code> (ในตาราง <code>presultupdate</code>) สำหรับเคส <code>PN</code> และ <code>LN</code></p>
+    </header>
+
+    <!-- SECTION 1: WORKFLOW OVERVIEW -->
+    <div class="card">
+        <h2>1. ภาพรวมการทำงาน (Workflow Overview)</h2>
+        <p>เมื่อมีการเพิ่มเคสผู้ป่วยใหม่ในระบบผ่าน <code>patient_add.php</code> และเลือกหรือระบุประเภท <strong>Surgical Number (<code>sn_type</code>)</strong> เป็นประเภทเซลล์วิทยาปากมดลูก (<strong><code>PN</code></strong> หรือ <strong><code>LN</code></strong>) ระบบจะทำการตั้งต้นโครงสร้างผลตรวจทางพยาธิวิทยา (Report Sections) โดยอัตโนมัติ</p>
+
+        <div class="flow-container">
+            <div class="flow-step">
+                <div class="step-number">Step 1: Check Prefix</div>
+                <h4>เงื่อนไข SN Prefix</h4>
+                <p>ตรวจสอบ <code>$sn_type == 'PN' || $sn_type == 'LN'</code> หลังบันทึกเคสคนไข้สำเร็จ</p>
+            </div>
+            <div class="flow-step accent">
+                <div class="step-number">Step 2: Read DB</div>
+                <h4>คิวรี Group 3</h4>
+                <p>อ่านข้อมูลฮาร์ดโค้ดจาก <code>report_type</code> ด้วย <code>group_type = 3</code> (5 รายการ)</p>
+            </div>
+            <div class="flow-step">
+                <div class="step-number">Step 3: Foreach Loop</div>
+                <h4>วนลูปสร้าง Record</h4>
+                <p>นำค่า <code>name</code> ไปเป็นหัวข้อหลัก และผูกกับ <code>patient_id</code> ล่าสุด</p>
+            </div>
+            <div class="flow-step success">
+                <div class="step-number">Step 4: Ready for Edit</div>
+                <h4>พร้อมให้ลงผลตรวจ</h4>
+                <p>บันทึกเข้าตาราง <code>presultupdate</code> (DOM uresult) เพื่อแสดงใน <code>patient_edit.php</code></p>
+            </div>
+        </div>
+
+        <div class="callout">
+            <strong>ความหมายของประเภทเคส PN และ LN:</strong>
+            &bull; <span class="badge badge-sn">PN</span> = ตรวจเซลล์มะเร็งปากมดลูกแบบเก่า (Conventional cervical cytology)<br>
+            &bull; <span class="badge badge-sn">LN</span> = ตรวจเซลล์มะเร็งปากมดลูกแบบใหม่ (Liquid-based cervical cytology)
+        </div>
+    </div>
+
+    <!-- SECTION 2: DATABASE CONFIGURATION -->
+    <div class="card">
+        <h2>2. ตารางข้อมูลฮาร์ดโค้ดในฐานข้อมูล (Hardcoded Database Table)</h2>
+        <p>คอนดิชั่นของ Group 3 ถูกกำหนดและฮาร์ดโค้ดไว้ในตาราง <code>report_type</code> บนฐานข้อมูล โดยมีฟิลด์ <code>group_type = 3</code> ซึ่งอ่านผ่าน SQL ต่อไปนี้:</p>
+
+        <pre><code><span class="kw">SELECT</span> *
+<span class="kw">FROM</span> `report_type`
+<span class="kw">WHERE</span> group_type = 3 
+<span class="kw">ORDER BY</span> id;</code></pre>
+
+        <h3>ตารางข้อมูล Group 3 (5 เรคคอร์ดมาตรฐาน):</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 70px;">id</th>
+                    <th style="width: 110px;">group_type</th>
+                    <th>name (ชื่อหัวข้อหลัก)</th>
+                    <th style="width: 130px;">release_type</th>
+                    <th>options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge badge-id">21</span></td>
+                    <td><span class="badge badge-group">3</span></td>
+                    <td><strong>SPECIMEN TYPE</strong></td>
+                    <td><span class="badge badge-status">ออกผลแล้ว</span></td>
+                    <td><em style="color: var(--muted);">(NULL/ว่าง)</em></td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-id">22</span></td>
+                    <td><span class="badge badge-group">3</span></td>
+                    <td><strong>SOURCE</strong></td>
+                    <td><span class="badge badge-status">ออกผลแล้ว</span></td>
+                    <td><em style="color: var(--muted);">(NULL/ว่าง)</em></td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-id">23</span></td>
+                    <td><span class="badge badge-group">3</span></td>
+                    <td><strong>SPECIMEN ADEQUACY</strong></td>
+                    <td><span class="badge badge-status">ออกผลแล้ว</span></td>
+                    <td><em style="color: var(--muted);">(NULL/ว่าง)</em></td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-id">24</span></td>
+                    <td><span class="badge badge-group">3</span></td>
+                    <td><strong>INTERPRETATION</strong></td>
+                    <td><span class="badge badge-status">ออกผลแล้ว</span></td>
+                    <td><em style="color: var(--muted);">(NULL/ว่าง)</em></td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-id">25</span></td>
+                    <td><span class="badge badge-group">3</span></td>
+                    <td><strong>EDUCATIONAL NOTES AND SUGGESTION</strong></td>
+                    <td><span class="badge badge-status">ออกผลแล้ว</span></td>
+                    <td><em style="color: var(--muted);">(NULL/ว่าง)</em></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 3: CODE LOGIC -->
+    <div class="card">
+        <h2>3. การวนลูปสร้าง Record ใน <code>patient_add.php</code></h2>
+        <p>เมื่อ <code>$patient-&gt;create($conn)</code> สำเร็จ โค้ดใน <code>patient_add.php</code> (บรรทัด 213–225) จะดึงข้อมูลผ่านคลาส <code>ReportType::getAllbyGroup3($conn)</code> แล้วทำการวนลูปสร้างเรคคอร์ด <code>Presultupdate</code> (หรือที่ในฝั่ง UI/DOM เรียกว่า <strong><code>uresult</code></strong>):</p>
+
+        <pre><code><span class="cm">//==Create Presultupdate (uresult) สำหรับเคส PN และ LN =====================</span>
+<span class="kw">if</span> (<span class="vr">$sn_type</span> == <span class="st">'PN'</span> || <span class="vr">$sn_type</span> == <span class="st">'LN'</span>) {
+    <span class="vr">$cur_patient_id</span> = <span class="vr">$patient</span>-&gt;id;
+    <span class="vr">$typelists</span> = <span class="fn">ReportType::getAllbyGroup3</span>(<span class="vr">$conn</span>);
+
+    <span class="kw">foreach</span> (<span class="vr">$typelists</span> <span class="kw">as</span> <span class="vr">$typelist</span>) {
+        <span class="vr">$resultreport</span> = <span class="fn">Presultupdate::getInitObj</span>();
+        <span class="vr">$resultreport</span>-&gt;group_type = <span class="vr">$typelist</span>[<span class="st">'group_type'</span>];     <span class="cm">// 3</span>
+        <span class="vr">$resultreport</span>-&gt;patient_id = <span class="vr">$cur_patient_id</span>;             <span class="cm">// ผูกกับคนไข้เคสนี้</span>
+        <span class="vr">$resultreport</span>-&gt;result_type = <span class="vr">$typelist</span>[<span class="st">'name'</span>];          <span class="cm">// นำ name ไปเป็นชื่อหัวข้อหลัก</span>
+        <span class="vr">$resultreport</span>-&gt;result_type_id = <span class="vr">$typelist</span>[<span class="st">'id'</span>];         <span class="cm">// ID อ้างอิงตาราง report_type (21-25)</span>
+        <span class="vr">$resultreport</span>-&gt;release_type = <span class="vr">$typelist</span>[<span class="st">'release_type'</span>]; <span class="cm">// 'ออกผลแล้ว'</span>
+        <span class="vr">$resultreport</span>-&gt;<span class="fn">create</span>(<span class="vr">$conn</span>);
+    }
+}
+<span class="cm">//==End of Create Presultupdate =========================================</span></code></pre>
+
+        <h3>การจับคู่ข้อมูล (Field Mapping):</h3>
+        <div class="mapping-grid">
+            <div class="mapping-box">
+                <h4>แหล่งข้อมูล: <code>report_type</code></h4>
+                <div>&bull; <code>id</code> (21 to 25)</div>
+                <div>&bull; <code>group_type</code> (3)</div>
+                <div>&bull; <code>name</code> (เช่น SPECIMEN TYPE)</div>
+                <div>&bull; <code>release_type</code> ('ออกผลแล้ว')</div>
+            </div>
+            <div class="mapping-arrow">&rarr;</div>
+            <div class="mapping-box">
+                <h4>ตารางปลายทาง: <code>presultupdate</code> (uresult)</h4>
+                <div>&bull; <code>result_type_id</code> = <code>id</code></div>
+                <div>&bull; <code>group_type</code> = <code>group_type</code></div>
+                <div>&bull; <strong><code>result_type</code></strong> = <strong><code>name</code></strong> <em style="color:var(--primary);">(ชื่อหัวข้อ)</em></div>
+                <div>&bull; <code>release_type</code> = <code>release_type</code></div>
+                <div>&bull; <strong><code>patient_id</code></strong> = <strong><code>$patient-&gt;id</code></strong></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4: DOWNSTREAM BEHAVIOR -->
+    <div class="card">
+        <h2>4. พฤติกรรมในขั้นตอนถัดไป (Downstream Behaviors)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 200px;">ขั้นตอน / หน้าจอ</th>
+                    <th>ไฟล์ที่เกี่ยวข้อง</th>
+                    <th>พฤติกรรมและการทำงาน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>DOM Binding</strong></td>
+                    <td><code>includes/data2DOM.php</code></td>
+                    <td>
+                        ส่งออกลิสต์ของ Group 3 สู่ DOM ภายใต้คลาส <code>.uresultinxlist3</code> และ <code>.uresultReleaseSetlistGroup3</code> เพื่อให้ JavaScript จัดการสถานะการออกผล
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>การแสดงผลหน้า Edit</strong></td>
+                    <td><code>includes/patient_form_080_job7_result.php</code></td>
+                    <td>
+                        เรนเดอร์ฟอร์มใส่ผลตรวจสำหรับนักเซลล์วิทยา (Cytologist / Job Role 7) และพยาธิแพทย์ (Pathologist / Job Role 5) โดยแสดงเรียงตามลำดับ ID (21&rarr;25)
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>สิทธิ์การลบ (Delete Gate)</strong></td>
+                    <td><code>patient_edit.php</code></td>
+                    <td>
+                        <strong>ไม่สามารถลบได้:</strong> ปุ่มลบ (Delete) ในระบบจะอนุญาตให้ลบเฉพาะ <code>group_type == 2</code> เท่านั้น สำหรับ <code>group_type == 3</code> ถือเป็น Mandatory Section ห้ามลบ
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>การดับเบิ้ลคอนเฟิร์ม (Role 6)</strong></td>
+                    <td><code>patient_edit.php</code> (Status 13000)</td>
+                    <td>
+                        บล็อกแพทย์ผู้คอนเฟิร์มผล (Second Pathologist) จะถูกผูกเข้ากับเรคคอร์ดสุดท้ายของ Group 3 คือ <strong>id = 25 (EDUCATIONAL NOTES AND SUGGESTION)</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>การพิมพ์รายงาน PDF</strong></td>
+                    <td><code>patient_pdf.php</code> / <code>patient_format_result_pdf_3.php</code></td>
+                    <td>
+                        จัดพิมพ์ผลตรวจเรียงลำดับแบบ <code>ASC</code> (ตาม id 21 ถึง 25) โดยใช้เทมเพลตฟอนต์ขนาด <code>22pt</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 5: COMPARISON -->
+    <div class="card">
+        <h2>5. เปรียบเทียบ Report Groups ทั้ง 3 กลุ่ม</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Group</th>
+                    <th>คลาส &amp; ฟังก์ชัน</th>
+                    <th>Surgical Number ที่ใช้</th>
+                    <th>การลบ (Delete)</th>
+                    <th>การพิมพ์ PDF</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Group 1</strong></td>
+                    <td><code>ReportType::getAllbyGroup1()</code></td>
+                    <td><code>SN</code>, <code>CN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code>, <code>ZN</code></td>
+                    <td><span style="color:var(--muted);">&#10006; ห้ามลบ</span></td>
+                    <td>พิมพ์ด้านล่าง Group 2 เรียงแบบ <code>ASC</code> (18pt)</td>
+                </tr>
+                <tr>
+                    <td><strong>Group 2</strong></td>
+                    <td><code>ReportType::getAllbyGroup2()</code></td>
+                    <td>ทุกเคสทั่วไป (เพิ่มตามต้องการ)</td>
+                    <td><span style="color:var(--success);">&#10004; ลบได้ก่อน release</span></td>
+                    <td>พิมพ์ด้านบนสุดของรายงาน เรียงแบบ <code>DESC</code> (22pt)</td>
+                </tr>
+                <tr>
+                    <td><strong>Group 3</strong></td>
+                    <td><code>ReportType::getAllbyGroup3()</code></td>
+                    <td><code>PN</code>, <code>LN</code> (Cervical Cytology)</td>
+                    <td><span style="color:var(--muted);">&#10006; ห้ามลบ</span></td>
+                    <td>พิมพ์เรียงแบบ <code>ASC</code> (id 21&rarr;25) ใช้เทมเพลต 22pt</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>NB Patho (dev3) AI Documentation System &bull; Generated for <code>patient_add.php</code> &amp; <code>report_type</code> Group 3</p>
+    </footer>
+
+</div>
+</body>
+</html>

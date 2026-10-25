@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing &amp; Billing PDF V3 System — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        h3 { color: #0369a1; margin-top: 1.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
+    <header>
+        <h1>Billing &amp; Billing PDF V3 System Reference</h1>
+        <p>Standard billing reports (<code>billing.php</code>) and the self-contained Billing PDF V3 system (<code>billing_pdf_3.php</code>)</p>
+    </header>
+
+    <div class="card">
+        <h2>1. Standard Billing Report (<code>billing.php</code> &amp; <code>js/billing_a.js</code>)</h2>
+        <ul>
+            <li><strong>Purpose:</strong> Date-range billing reports and service cost tables per patient, clinician, hospital, or pathologist.</li>
+            <li><strong>Touchpoints:</strong> <code>billing.php</code>, <code>billing_by_billingdate.php</code>, <code>js/billing_a.js</code>, and <code>classes/ServiceBilling.php</code>.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>2. Billing PDF V3 System (<code>billing_pdf_3.php</code>)</h2>
+        <p>The <strong>Billing PDF V3</strong> system generates invoice documents (ใบแจ้งหนี้) for NB Pathology Center. All V3 files use the <code>_3</code> suffix and are completely independent of V1 (<code>billing_pdf.php</code>) and V2 (<code>billing_pdf_2.php</code>).</p>
+
+        <h3>A. Main UI &amp; PDF Generator</h3>
+        <table>
+            <thead>
+                <tr><th>File</th><th>Role</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>billing_pdf_3.php</code></td><td>Main UI page — select hospital, date range, fill invoice details, preview on web, and export PDF</td></tr>
+                <tr><td><code>billing_pdf_show_3.php</code></td><td>Receives POST from <code>billing_pdf_3.php</code> and renders PDF via <strong>mPDF</strong></td></tr>
+                <tr><td><code>includes/header.php</code></td><td>Navigation link: <code>&lt;a id="billing_pdf_tab_3" href="billing_pdf_3.php"&gt;ออกใบแจ้งหนี้ V3(PDF)&lt;/a&gt;</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3>B. V3-Exclusive AJAX Endpoints (<code>ajax_billing_v3/</code>)</h3>
+        <table>
+            <thead>
+                <tr><th>Endpoint File</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>ajax_billing_v3/getBillbyHospitalbyDateRange_3.php</code></td><td>Fetch billing records for DataTable <code>#billing_table</code></td></tr>
+                <tr><td><code>ajax_billing_v3/getBillbyHospitalbyDateRangeSumPrice_3.php</code></td><td>Get total net price (<code>#bill_hospital_net_price</code>)</td></tr>
+                <tr><td><code>ajax_billing_v3/getCostGroupbyServiceTyoebyHospitalbyDateRange_3.php</code></td><td>Get cost grouped by service type (<code>#bill_hospital_by_service_price</code>)</td></tr>
+                <tr><td><code>ajax_billing_v3/getBillingGroupBySN_3.php</code></td><td>Fetch billing records grouped by SN for Group 2</td></tr>
+                <tr><td><code>ajax_billing_v3/getBillingGroupBySNCount_3.php</code></td><td>Count records grouped by SN (<code>#bill_count_bysn_list</code>)</td></tr>
+                <tr><td><code>ajax_billing_v3/getBillingGroupByCode_3.php</code></td><td>Get records grouped by billing code for Group 3</td></tr>
+                <tr><td><code>ajax_billing_v3/getBillingGroupByCodeCount_3.php</code></td><td>Count records grouped by billing code (<code>#bill_count_bycode_list</code>)</td></tr>
+                <tr><td><code>ajax_billing_v3/getBillingHospitalOneByOne_3.php</code></td><td>Get itemized records for Group 4 (<code>drawbill_list_all_page_g4</code>)</td></tr>
+                <tr><td><code>ajax_billing_v3/getHospital_3.php</code></td><td>Fetch hospital name, tax ID, and address</td></tr>
+                <tr><td><code>ajax_billing_v3/getCostSpelling_3.php</code></td><td>Convert numeric cost to Thai baht text (<code>#bill_hospital_net_price_spell</code>)</td></tr>
+                <tr><td><code>ajax_billing_v3/serviceBillingSetCode_3.php</code></td><td>Update <code>b_code2</code> field on a billing record</td></tr>
+            </tbody>
+        </table>
+
+        <h3>C. PDF Invoice Templates (<code>pdf_invoice/</code>)</h3>
+        <table>
+            <thead>
+                <tr><th>Span ID</th><th>Section</th><th>Template File</th><th>Inner Table Target</th><th>PDF Export</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>#bill_page1</code></td><td>1. หนังสือนำและใบแจ้งหนี้ (1)</td><td><code>pdf_invoice/billingletter1_3.php</code></td><td><code>#bill_by_service_tbl1</code></td><td>Portrait A4 (<code>page1</code>)</td></tr>
+                <tr><td><code>#bill_page2</code></td><td>1. ใบแจ้งหนี้ "ต้นฉบับ"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td><code>.bill_by_service_tbl2</code></td><td>Portrait A4 (<code>page2</code>)</td></tr>
+                <tr><td><code>#bill_page3</code></td><td>1. ใบแจ้งหนี้ "สำเนา"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td><code>.bill_by_service_tbl2</code></td><td>Portrait A4 (<code>page3</code>)</td></tr>
+                <tr><td><code>#bill_page4</code></td><td>2. List รายการตรวจเรียงตาม SN</td><td><code>pdf_invoice/billinngListAll_g2_3.php</code></td><td><code>#bill_list_all_g2</code></td><td>Landscape A4 (<code>page4</code>)</td></tr>
+                <tr><td><code>#bill_page5</code></td><td>3. สรุปจำนวนรายการตรวจ (by code)</td><td><code>pdf_invoice/billinngListAll_g3_3.php</code></td><td><code>#bill_list_all_g3</code></td><td>Portrait A4 (<code>page5</code>)</td></tr>
+                <tr><td><code>#bill_page6</code></td><td>4. แจกแจงทุกรายการบริการ (Group 4)</td><td><code>pdf_invoice/billinngListAll_g4_3.php</code></td><td><code>#bill_list_all_g4</code></td><td>Web-only collapsible</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

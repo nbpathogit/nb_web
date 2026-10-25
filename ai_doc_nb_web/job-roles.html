@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Roles &amp; Job Workflow — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        h3 { color: #0369a1; margin-top: 1.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.92rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #0f172a; color: #f1f5f9; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; }
+        pre code { background: transparent; color: inherit; padding: 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
+    <header>
+        <h1>Job Roles (1–7) &amp; Job Workflow Reference</h1>
+        <p>Official Thai &amp; English Job/Role mapping, <code>job_role</code> schema, and Job Finish / Special Slide workflows</p>
+    </header>
+
+    <div class="card">
+        <h2>1. Official Job / Role Mapping by ID (Thai &amp; English)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ภาษาไทย (Thai)</th>
+                    <th>ภาษาอังกฤษ (English)</th>
+                    <th>Cost per Job</th>
+                    <th>Related Patient / Workflow Column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>1</strong></td><td>ตัดเนื้อ</td><td>Cross Section</td><td><code>2.7</code></td><td><code>patient.job1qty</code>, <code>p_cross_section_id</code></td></tr>
+                <tr><td><strong>2</strong></td><td>คนช่วยตัดนื้อ(คนจด)</td><td>Cross Section Assistent</td><td><code>1.1</code></td><td><code>patient.job2qty</code>, <code>p_cross_section_ass_id</code></td></tr>
+                <tr><td><strong>3</strong></td><td>เตรียมสใลด์</td><td>Slide Prepareation</td><td><code>4.2</code></td><td><code>patient.job3qty</code>, <code>p_slide_prep_id</code></td></tr>
+                <tr><td><strong>4</strong></td><td>เตรียมสไลด์พิเศษ</td><td>Special Slide Prepareation</td><td><code>5.6</code></td><td><code>req_id_sp_slide</code> (<code>job.req_id</code>), <code>p_slide_prep_sp_id</code></td></tr>
+                <tr><td><strong>5</strong></td><td>แพทย์ผู้ออกผล</td><td>Pathologist</td><td><code>0</code></td><td><code>patient.ppathologist_id</code> (Case owner)</td></tr>
+                <tr><td><strong>6</strong></td><td>แพทย์ผู้คอนเฟริ์มผล</td><td>Second pathologist</td><td><code>0</code></td><td><code>patient.second_patho_review</code></td></tr>
+                <tr><td><strong>7</strong></td><td>นักเซลด์วิทยา</td><td>Cycologist</td><td><code>0</code></td><td><code>user.role_7 = 1</code> (Cytologist capability)</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>2. <code>job_role</code> Table Schema &amp; Model Usage</h2>
+        <table>
+            <thead>
+                <tr><th>Field</th><th>Type</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>id</code></td><td><code>int(11)</code></td><td>Primary key / role ID (<code>job.job_role_id</code> has a declared FK to <code>job_role.id</code>)</td></tr>
+                <tr><td><code>name</code></td><td><code>varchar(20)</code></td><td>Thai role name</td></tr>
+                <tr><td><code>name_e</code></td><td><code>varchar(30)</code></td><td>English role name</td></tr>
+                <tr><td><code>cost_per_job</code></td><td><code>float</code></td><td>Cost per job/task</td></tr>
+                <tr><td><code>cost_count_per_day</code></td><td><code>int(11)</code></td><td>Count threshold ("Pay when count more than the value")</td></tr>
+                <tr><td><code>create_date</code></td><td><code>datetime</code></td><td>Record creation date</td></tr>
+            </tbody>
+        </table>
+        <ul>
+            <li><strong><code>classes/JobRole.php</code>:</strong> <code>JobRole::getAll($conn, $id = 0)</code> retrieves rows ordered by <code>id</code>.</li>
+            <li><strong><code>classes/Job.php</code>:</strong> Stores individual patient work assignments (<code>job.job_role_id</code>, <code>job.patient_id</code>, <code>job.user_id</code>, <code>job.req_id</code>, <code>job.qty</code>, <code>job.finish_date</code>).</li>
+            <li><strong><code>classes/ServiceBilling.php</code>:</strong> Filters pathologist and cytologist assignments using <code>job_role_id = 5</code> and <code>job_role_id = 7</code>.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>3. Job Finish Endpoints &amp; Queries (Roles 1, 2, 3, 4, 5)</h2>
+        <h3>A. Roles 1, 2, 3 Finish Pages</h3>
+        <ul>
+            <li><strong>Role 1 (ตัดเนื้อ / Cross Section):</strong> <code>ajax_job1_finish/job1_finish.php</code> &rarr; <code>Patient::getAllJob1FinishPhp($conn, $id, $start, $end)</code></li>
+            <li><strong>Role 2 (คนช่วยตัดนื้อ(คนจด) / Cross Section Assistent):</strong> <code>ajax_job2_finish/job2_finish.php</code> &rarr; <code>Patient::getAllJob2FinishPhp($conn, $id, $start, $end)</code></li>
+            <li><strong>Role 3 (เตรียมสใลด์ / Slide Prepareation):</strong> <code>ajax_job3_finish/job3_finish.php</code> &rarr; <code>Patient::getAllJob3FinishPhp($conn, $id, $start, $end)</code></li>
+        </ul>
+<pre><code>// SQL pattern in Patient::getAllJob1/2/3FinishPhp (ONLY_FULL_GROUP_BY compliant):
+SELECT 
+    p.id as pid,
+    p.pnum as p_pnum, 
+    p.phospital_num as p_hn, 
+    DATE(p.date_1000) as p_accept,
+    CONCAT(p.ppre_name, p.pname, ' ', p.plastname) AS p_patient,
+    MAX(j.id) as j_id, 
+    MAX(j.patient_id) as j_patient_id, 
+    MAX(j.user_id) as j_user_id, 
+    MAX(j.job_role_id) as j_job_role_id, 
+    MAX(j.jobname) as j_jobname,
+    MAX(j.qty) as j_qty,
+    p.job1qty as p_job1qty,
+    GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ', j.lastname) SEPARATOR ',') AS j_owners,
+    MAX(DATE(j.finish_date)) as j_finish_date
+FROM patient as p
+LEFT JOIN (select * from job where job.job_role_id=1) as j ON j.patient_id = p.id
+WHERE p.date_1000 &gt; '{$start}' AND p.movetotrash = 0
+GROUP BY p.id
+ORDER BY p.id DESC</code></pre>
+
+        <h3>B. Special Slide Requests (Role 4 &amp; Role 5)</h3>
+        <ul>
+            <li><strong>Endpoint:</strong> <code>data/patientSpSlReq.php</code></li>
+            <li><strong>Model Method:</strong> <code>ReqSpSlideID::getBillandJobTableWithStart_v2($conn, $start)</code> in <code>classes/ReqSpSlideID.php</code> (joins <code>job AS j4</code> on <code>job_role_id = 4</code> and <code>job AS j5</code> on <code>job_role_id = 5</code>, grouped by <code>r_id, b.description, b.id, j4.id, j5.id</code>).</li>
+        </ul>
+
+        <h3>C. Job Queue &amp; Daily Summary (<code>job.php</code>, <code>job_daily.php</code>)</h3>
+        <ul>
+            <li><code>job.php</code> + <code>js/job.js</code>: DataTable listing of all job assignments.</li>
+            <li><code>job_daily.php</code> / <code>job_daily_pdf.php</code> + <code>Job::getJobCountByDaily()</code>: Daily job sum (<code>SUM(j.qty)</code>) grouped by <code>owner_name, accept_date, job_role_name</code>.</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

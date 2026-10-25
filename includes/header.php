@@ -110,9 +110,11 @@
                                 <a id="chart_data_tab" href="chart_data.php" class="nav-item nav-link">chart data</a>
                                 <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="nav-item nav-link">ออกใบแจ้งหนี้ V3(PDF)</a>
                                 <a id="systemchecking_tab" href="systemchecking.php" class="nav-item nav-link">ตรวจสอบคำสั่งระบบ</a>
-
+                                <a id="patient_edit_by_excel_tab" href="patient_edit_by_excel.php" class="nav-item nav-link">อัปโหลดผลด้วย Excel</a>
                             </div>
                         </div>
+                    <?php elseif ($isCurUserPatho || $isCurUserPathoAdmin || (isset($_SESSION['user']->role_5) && $_SESSION['user']->role_5 == 1)): ?>
+                        <a id="patient_edit_by_excel_tab" class="nav-item nav-link" href="patient_edit_by_excel.php"><i class="fa-solid fa-file-excel"></i>อัปโหลดผลด้วย Excel</a>
                     <?php endif; ?>
 
 

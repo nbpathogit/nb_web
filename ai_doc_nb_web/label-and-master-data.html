@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Label Printing &amp; Master Data — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        h3 { color: #0369a1; margin-top: 1.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
+    <header>
+        <h1>Sticker Label Printing &amp; Master Data Reference</h1>
+        <p><code>generate_label.php</code> (V1 &amp; V2) and Master Data CRUD screens</p>
+    </header>
+
+    <div class="card">
+        <h2>1. Sticker Label Printing (<code>generate_label.php</code> &amp; <code>generate_labelv2.php</code>)</h2>
+        <ul>
+            <li><strong>Queue Table:</strong> <code>labelprint_tmp_a</code> via <code>LabelPrint::getAllbyUserID()</code> (scoped per user via <code>$_SESSION['userid']</code>).</li>
+            <li><strong>V1 (<code>generate_label.php</code>):</strong> Single-patient SN selection by accept date &rarr; assigns <code>letter</code>, <code>start_num</code>, and <code>end_num</code> &rarr; posts to <code>ajax_data/generate_label_add_record.php</code>.</li>
+            <li><strong>V2 (<code>generate_labelv2.php</code>):</strong> Multi-row batch selection with checkboxes for letters <code>A</code>–<code>E</code> &rarr; posts JSON batch to <code>ajax_data/generate_label_add_multiple_record.php</code>. Marks existing queued SNs as <code>Finish</code> to prevent duplicates.</li>
+            <li><strong>Shared AJAX Endpoints:</strong> <code>ajax_data/generate_label_get_record.php</code> and <code>ajax_data/generate_label_get_SN_by_date.php</code>.</li>
+            <li><strong>PDF Export Templates:</strong> <code>sn_pdf1.php</code>, <code>sn_pdf2.php</code>, <code>sn_sp_pdf1.php</code>, and <code>sn_sp_pdf2.php</code> (A4 sticker sheet, 76mm × 20mm sticker sheet, specimen labels with/without grid).</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>2. Master Data &amp; Content Screens</h2>
+        <table>
+            <thead>
+                <tr><th>Feature Area</th><th>PHP Pages</th><th>Data Feed / JS</th><th>Model Class</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Hospital Management</strong></td><td><code>hospital.php</code>, <code>hospital_add.php</code>, <code>hospital_edit.php</code>, <code>hospital_detail.php</code></td><td><code>data/hospital.php</code></td><td><code>classes/Hospital.php</code></td></tr>
+                <tr><td><strong>Specimen &amp; Pricing</strong></td><td><code>specimen.php</code>, <code>specimen_add.php</code>, <code>specimen_edit.php</code>, <code>specimen_del.php</code>, <code>nb_price*.php</code></td><td><code>data/specimen.php</code></td><td><code>classes/ServicePriceList.php</code></td></tr>
+                <tr><td><strong>Lab Fluid Definitions</strong></td><td><code>labfluid.php</code>, <code>labfluid_add.php</code>, <code>labfluid_edit.php</code>, <code>labfluid_del.php</code></td><td><code>data/labfluid.php</code></td><td><code>classes/LabFluid.php</code></td></tr>
+                <tr><td><strong>Report Templates</strong></td><td><code>templateReport.php</code>, <code>templateReport_add.php</code>, <code>templateReport_edit.php</code></td><td><code>js/template_report.js</code></td><td><code>classes/TemplateReport.php</code></td></tr>
+                <tr><td><strong>Public Service Page</strong></td><td><code>service.php</code></td><td>Static HTML + nav state (<code>#about_main</code>, <code>#service</code>)</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

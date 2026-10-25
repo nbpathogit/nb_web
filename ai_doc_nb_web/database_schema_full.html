@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Database Schema Overview</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --panel: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --head: #0f172a;
+        --accent: #2563eb;
+        --soft: #eff6ff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 32px auto;
+        padding: 24px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+        padding: 24px;
+      }
+
+      h1, h2, h3 {
+        color: var(--head);
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        margin-top: 24px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      p, li {
+        color: var(--text);
+      }
+
+      code {
+        background: #f3f4f6;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+
+      pre {
+        background: linear-gradient(135deg, #eaf3ff 0%, #dfeeff 100%);
+        color: #0f172a;
+        border: 1px solid #b9d4ff;
+        padding: 18px 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+      }
+
+      pre code {
+        background: transparent;
+        color: #0f172a;
+        padding: 0;
+        font-size: 0.95em;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        border: 1px solid var(--line);
+      }
+
+      th, td {
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--soft);
+      }
+
+      ul {
+        padding-left: 22px;
+      }
+
+      .note {
+        background: #f8fafc;
+        border-left: 4px solid var(--accent);
+        padding: 12px 14px;
+        border-radius: 6px;
+        margin-top: 16px;
+      }
+
+      .mermaid {
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+        overflow-x: auto;
+      }
+
+      .all-table-entry {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .all-table-diagram {
+        margin-bottom: 8px;
+      }
+
+      .all-table-fields {
+        margin-top: 0;
+      }
+
+      .all-table-fields th:first-child,
+      .all-table-fields td:first-child {
+        width: 24%;
+      }
+
+      .fillable-section {
+        margin-top: 26px;
+      }
+
+      .save-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+      }
+
+      .save-template {
+        border: 1px solid #14532d;
+        background: #166534;
+        color: #ffffff;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .save-template:hover {
+        background: #14532d;
+      }
+
+      .save-status {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .table-card {
+        background: #f8fbff;
+        border: 1px solid #d7e8ff;
+        border-radius: 12px;
+        padding: 18px;
+        margin-top: 14px;
+      }
+
+      .table-card h3 {
+        margin-bottom: 12px;
+        font-size: 1.15rem;
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 12px;
+        align-items: start;
+        margin-bottom: 12px;
+      }
+
+      .field-row label {
+        font-weight: 600;
+        color: #1e3a8a;
+        padding-top: 8px;
+      }
+
+      .field-row input,
+      .field-row textarea {
+        width: 100%;
+        border: 1px solid #cfe0ff;
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--text);
+        padding: 10px 12px;
+        font: inherit;
+      }
+
+      .field-row textarea {
+        min-height: 82px;
+        resize: vertical;
+      }
+
+      .field-row input::placeholder,
+      .field-row textarea::placeholder {
+        color: #7c8aa5;
+      }
+
+      .field-comment-list {
+        margin-top: 18px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .field-comment-details {
+        margin-top: 16px;
+        border-top: 1px solid #d7e8ff;
+        padding-top: 12px;
+      }
+
+      .field-comment-details summary {
+        color: #1e3a8a;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .field-comment-row {
+        display: grid;
+        grid-template-columns: minmax(130px, 180px) minmax(160px, 240px) minmax(200px, 1fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      .field-comment-row input,
+      .field-comment-row select,
+      .field-comment-row textarea {
+        width: 100%;
+        border: 1px solid #d0dffb;
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--text);
+        padding: 10px 12px;
+        font: inherit;
+      }
+
+      .field-comment-row textarea {
+        min-height: 76px;
+        resize: vertical;
+      }
+
+      .field-comment-row input::placeholder,
+      .field-comment-row textarea::placeholder {
+        color: #7c8aa5;
+      }
+
+      .field-comment-actions {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .add-field-comment {
+        border: 1px solid #bfd7ff;
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        color: #1d4ed8;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .add-field-comment:hover {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      }
+
+      @media (max-width: 760px) {
+        .field-comment-row {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Database Schema Overview</h1>
+        <p>
+          This document summarizes the database structure used by this project, based on the
+          application source code and SQL statements found in the PHP classes.
+        </p>
+
+        <h2>1. Database connection</h2>
+        <p>
+          The application connects to MySQL through the class <code>Database</code>.
+        </p>
+        <ul>
+          <li>Localhost / local environment uses MySQL host <code>127.0.0.1</code></li>
+          <li>Database name is usually <code>nbpa_data</code> or <code>nbpa_data_&lt;subfolder&gt;</code></li>
+          <li>Default credentials are defined in the code and vary by environment</li>
+        </ul>
+
+        <pre><code>$dsn = 'mysql:host=' . $this->db_host . ';dbname=' . $this->db_name . ';charset=utf8';
+$db = new PDO($dsn, $this->db_user, $this->db_pass);</code></pre>
+
+        <h2>2. All database tables (35)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Table name</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><code>antibody_list</code></td><td>Antibody name lookup.</td></tr>
+            <tr><td>2</td><td><code>changehistory</code></td><td>Change-history content and timestamp.</td></tr>
+            <tr><td>3</td><td><code>gross_examination_record</code></td><td>Gross examination descriptions and content.</td></tr>
+            <tr><td>4</td><td><code>hire_list</code></td><td>Outsourced work records linked to a contract and patient.</td></tr>
+            <tr><td>5</td><td><code>hospital</code></td><td>Hospital details and report-folder settings.</td></tr>
+            <tr><td>6</td><td><code>internal_note</code></td><td>Internal patient notes and edit metadata.</td></tr>
+            <tr><td>7</td><td><code>invoice_list</code></td><td>Invoice names, grouping, mapping rules, and service type.</td></tr>
+            <tr><td>8</td><td><code>job</code></td><td>Patient workflow assignments, role, owner, payment, and completion.</td></tr>
+            <tr><td>9</td><td><code>job_role</code></td><td>Job role names and per-job/day cost settings.</td></tr>
+            <tr><td>10</td><td><code>labelprint_tmp_a</code></td><td>Temporary label-print queue.</td></tr>
+            <tr><td>11</td><td><code>lab_fluid</code></td><td>Laboratory fluid definitions.</td></tr>
+            <tr><td>12</td><td><code>log</code></td><td>User event and detail log.</td></tr>
+            <tr><td>13</td><td><code>nbnote</code></td><td>Rich-text note content.</td></tr>
+            <tr><td>14</td><td><code>nbnotetitle</code></td><td>Note title records.</td></tr>
+            <tr><td>15</td><td><code>nb_note_record</code></td><td>Note records with description and content.</td></tr>
+            <tr><td>16</td><td><code>outside_contract</code></td><td>External contract names and costs.</td></tr>
+            <tr><td>17</td><td><code>patient</code></td><td>Pathology case identity, workflow dates/status, assignments, and result text.</td></tr>
+            <tr><td>18</td><td><code>pdf_attach</code></td><td>Patient-related PDF attachment path and metadata.</td></tr>
+            <tr><td>19</td><td><code>presultupdate</code></td><td>Patient result updates, result type, pathologists, and release metadata.</td></tr>
+            <tr><td>20</td><td><code>priority</code></td><td>Case priority labels.</td></tr>
+            <tr><td>21</td><td><code>questionnaire_quality_cn</code></td><td>CN specimen quality questionnaire scores and notes.</td></tr>
+            <tr><td>22</td><td><code>questionnaire_quality_sn</code></td><td>SN slide quality questionnaire scores and notes.</td></tr>
+            <tr><td>23</td><td><code>quilljs_test</code></td><td>Rich-text editor test content.</td></tr>
+            <tr><td>24</td><td><code>report_type</code></td><td>Report groups, release type, and options.</td></tr>
+            <tr><td>25</td><td><code>req_id_sp_slide</code></td><td>Special-slide request and completion tracking.</td></tr>
+            <tr><td>26</td><td><code>service_billing</code></td><td>Patient service/billing line items and costs.</td></tr>
+            <tr><td>27</td><td><code>service_price_list</code></td><td>Hospital/service pricing and specimen metadata.</td></tr>
+            <tr><td>28</td><td><code>service_type</code></td><td>Service type labels and billing mappings.</td></tr>
+            <tr><td>29</td><td><code>service_type_master</code></td><td>Service codes, descriptions, units, and prices.</td></tr>
+            <tr><td>30</td><td><code>sn_prefix</code></td><td>Surgical-number prefix and descriptions.</td></tr>
+            <tr><td>31</td><td><code>status</code></td><td>Workflow status descriptions and next/back transitions.</td></tr>
+            <tr><td>32</td><td><code>template_report</code></td><td>User-owned report template name and description.</td></tr>
+            <tr><td>33</td><td><code>testtiptap</code></td><td>Rich-text editor test content.</td></tr>
+            <tr><td>34</td><td><code>user</code></td><td>Staff identity, roles, credentials, and hospital/group assignment.</td></tr>
+            <tr><td>35</td><td><code>user_groups</code></td><td>User group names.</td></tr>
+          </tbody>
+        </table>
+
+        <h2>3. Core entity relationships</h2>
+        <ul>
+          <li><code>patient</code> belongs to a <code>hospital</code> via <code>phospital_id</code></li>
+          <li><code>patient</code> is assigned to a <code>status_id</code> and <code>priority_id</code></li>
+          <li><code>patient</code> has multiple workflow/job records in <code>job</code></li>
+          <li><code>patient</code> can have billing records in <code>service_billing</code></li>
+          <li><code>user</code> links to <code>hospital</code> via <code>uhospital_id</code></li>
+          <li><code>user</code> links to <code>user_groups</code> via <code>ugroup_id</code></li>
+        </ul>
+
+        <h2>4. ER Diagram</h2>
+        <h3>4.1 Tables with relationships</h3>
+        <div class="mermaid" id="er-relationships"></div>
+        <h3>4.2 Remaining tables</h3>
+        <div class="mermaid" id="er-remaining"></div>
+        <pre id="er-diagram-source" hidden>
+          erDiagram
+            HOSPITAL ||--o{ USER : has
+            HOSPITAL ||--o{ PATIENT : receives
+            USER ||--o{ JOB : handles
+            PATIENT ||--o{ JOB : has
+            PATIENT ||--o{ SERVICE_BILLING : billed
+            PATIENT ||--o{ INTERNAL_NOTE : notes
+            PATIENT ||--o{ PDF_ATTACH : files
+            PATIENT ||--o{ PRESULTUPDATE : updates
+            USER ||--o{ TEMPLATE_REPORT : creates
+            USER_GROUPS ||--o{ USER : groups
+            SERVICE_PRICE_LIST ||--o{ SERVICE_BILLING : pricing
+            JOB_ROLE ||--o{ JOB : assigns
+            PATIENT ||--o{ REQ_ID_SP_SLIDE : requests
+            JOB ||--o{ REQ_ID_SP_SLIDE : creates
+
+            HOSPITAL {
+              int id PK
+              string hospital
+              string address
+              text hdetail
+              string tax_id
+              string comment
+            }
+
+            USER_GROUPS {
+              int id PK
+              string name
+              string comment
+            }
+
+            USER {
+              int id PK
+              string username
+              string password
+              string name
+              string lastname
+              int ugroup_id
+              int uhospital_id
+              string role
+              string comment
+            }
+
+            PATIENT {
+              int id PK
+              int super_id
+              string super_pnum
+              string sn_type
+              string sn_year
+              int sn_run
+              string pnum
+              string plabnum
+              string pname
+              string plastname
+              int phospital_id
+              int status_id
+              int priority_id
+              int pspecimen_id
+              int ppathologist_id
+              int pclinician_id
+              datetime create_date
+              string comment
+            }
+
+            JOB {
+              int id PK
+              datetime req_date
+              int job_role_id FK
+              int patient_id FK
+              int user_id
+              string patient_number
+              string jobname
+              decimal pay
+              datetime finish_date
+              string comment
+            }
+
+            SERVICE_BILLING {
+              int id PK
+              int patient_id FK
+              int specimen_id
+              int hospital_id
+              string number
+              string name
+              string lastname
+              string hn
+              decimal cost
+              text description
+              datetime create_date
+              string comment
+            }
+
+            INTERNAL_NOTE {
+              int id PK
+              int patient_id
+              int creator_id
+              text note
+              datetime created_date
+              string comment
+            }
+
+            PDF_ATTACH {
+              int id PK
+              int patient_id
+              string filelocation
+              string fileName
+              datetime rec_create_date
+              string comment
+            }
+
+            PRESULTUPDATE {
+              int id PK
+              int patient_id
+              int pathologist_id
+              int pathologist2_id
+              string result_type
+              string result_message
+              datetime release_time
+              string comment
+            }
+
+            TEMPLATE_REPORT {
+              int id PK
+              int user_id
+              int reporttype_id
+              string name
+              text description
+              string comment
+            }
+
+            SERVICE_PRICE_LIST {
+              int id PK
+              int speciment_num
+              string specimen
+              decimal price
+              string comment
+            }
+
+            JOB_ROLE {
+              int id PK
+              string name
+              string name_e
+              float cost_per_job
+              int cost_count_per_day
+            }
+
+            ANTIBODY_LIST {
+              int id PK
+              string name
+            }
+
+            CHANGEHISTORY {
+              int id PK
+              string content
+              datetime create_date
+              int rsv
+            }
+
+            GROSS_EXAMINATION_RECORD {
+              int id PK
+              int sub_id
+              text description
+              text content
+            }
+
+            HIRE_LIST {
+              int id PK
+              int outside_id
+              int patient_id
+              string patient_number
+              float cost
+            }
+
+            INVOICE_LIST {
+              int id PK
+              int order_list
+              int group_type
+              string invoice_name
+              string mapping_rule
+            }
+
+            LABELPRINT_TMP_A {
+              int id PK
+              int userid
+              string sn_num
+              string hn_num
+              string accept_date
+            }
+
+            LAB_FLUID {
+              int id PK
+              string labname
+              text lab_des
+            }
+
+            LOG {
+              int id PK
+              string username
+              text event
+              text detail
+              datetime event_date
+            }
+
+            NBNOTE {
+              int id PK
+              int sub_id
+              text content
+              datetime create_date
+            }
+
+            NBNOTETITLE {
+              int id PK
+              text title
+              text createdate
+            }
+
+            NB_NOTE_RECORD {
+              int id PK
+              int sub_id
+              string description
+              text content
+              timestamp create_date
+            }
+
+            OUTSIDE_CONTRACT {
+              int id PK
+              string name
+              float cost
+              string comment
+            }
+
+            PRIORITY {
+              int id PK
+              string priority
+            }
+
+            QUESTIONNAIRE_QUALITY_CN {
+              int id PK
+              int patient_id
+              string patient_num
+              int score_specimen
+              text note
+            }
+
+            QUESTIONNAIRE_QUALITY_SN {
+              int id PK
+              int patient_id
+              string patient_num
+              int score_thickness
+              text note
+            }
+
+            QUILLJS_TEST {
+              int id PK
+              text content
+              timestamp create_date
+            }
+
+            REPORT_TYPE {
+              int id UK
+              int group_type
+              string name
+              string release_type
+              text options
+            }
+
+            REQ_ID_SP_SLIDE {
+              int id PK
+              int patient_id FK
+              int job_id FK
+              datetime req_date
+              datetime finish_date
+              int create_user_id
+            }
+
+            SERVICE_TYPE {
+              int id PK
+              string service_type
+              int group_type
+              string service_type_e
+            }
+
+            SERVICE_TYPE_MASTER {
+              int id PK
+              int code
+              int code2
+              string description
+              int price
+            }
+
+            SN_PREFIX {
+              int id PK
+              int order_list
+              string name
+              text description
+            }
+
+            STATUS {
+              int id PK
+              string des
+              int next1
+              int next2
+              int next3
+            }
+
+            TESTTIPTAP {
+              int id PK
+              text content
+            }
+        </pre>
+
+        <div class="note">
+          Field comments appear beside their attributes inside each entity. This is a conceptual diagram based on application usage, not a map of only database-enforced foreign keys; see the dev3 DDL notes for the six declared constraints. Add or edit field comments in the fillable template, then save to update this diagram and the Markdown document.
+        </div>
+
+        <h2>Verified real tables from the SQL dump</h2>
+        <p>
+          The numbered catalog in section 2 is the complete list of 35 tables from <code>CREATE TABLE</code>
+          statements in <code>nbpa_data_dev3.sql</code>, a MariaDB 10.4.22 dump generated on 2026-10-11.
+        </p>
+        <p>
+          This confirms the project includes not only patient and billing modules, but also pathology workflow,
+          label queue logic, audit logs, user administration, and report metadata.
+        </p>
+        <h3>DDL details confirmed in the dev3 dump</h3>
+        <ul>
+          <li>All 35 tables use InnoDB. Character sets are mixed: most use <code>utf8mb4</code>, while some use <code>utf8</code>.</li>
+          <li>All tables declare a primary key except <code>report_type</code>, which declares a unique index on <code>id</code>.</li>
+          <li>Additional unique indexes exist on <code>antibody_list.name</code>, <code>patient.pnum</code>, and <code>user.username</code>.</li>
+          <li>The dump declares six foreign keys, all with <code>ON DELETE CASCADE ON UPDATE CASCADE</code>:
+            <ul>
+              <li><code>job.patient_id</code> to <code>patient.id</code></li>
+              <li><code>job.job_role_id</code> to <code>job_role.id</code></li>
+              <li><code>job.req_id</code> to <code>req_id_sp_slide.id</code></li>
+              <li><code>req_id_sp_slide.patient_id</code> to <code>patient.id</code></li>
+              <li><code>req_id_sp_slide.job_id</code> to <code>job.id</code></li>
+              <li><code>service_billing.patient_id</code> to <code>patient.id</code></li>
+            </ul>
+          </li>
+          <li>Other columns may be indexed without being declared as foreign keys. The dump declares no foreign keys for the inferred hospital/user, patient/status, patient/specimen, result, note, or attachment links.</li>
+          <li>Column comments include Thai workflow descriptions on patient date/status fields, role descriptions on <code>user.role_1</code> through <code>user.role_7</code>, and billing descriptions on <code>service_billing</code>.</li>
+          <li><code>specimen</code> is not a table in this dump. <code>service_price_list</code> stores pricing, and <code>patient.pspecimen_id</code> is not constrained by a declared foreign key.</li>
+        </ul>
+        <p>This is the schema of the dev3 dump, not proof that every deployed environment has the same schema. Re-check a fresh dump before migrations or production changes. This review used DDL only and did not use patient data rows.</p>
+
+        <section class="fillable-section">
+          <h2>10. Fillable template for real data entry</h2>
+          <p>Fill in table notes and add comments for columns across all 35 tables in the dev3 database snapshot.</p>
+          <div class="save-actions">
+            <button type="button" class="save-template">Save to database_schema.md</button>
+            <span class="save-status" role="status" aria-live="polite">Choose the Markdown file when prompted.</span>
+          </div>
+          <div class="fillable-tables" id="fillable-tables"></div>
+
+          <div class="table-card" data-table="hospital">
+            <h3>1. hospital</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: master hospital data for patient referral and billing." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, hospital, address, tax_id, create_date" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: linked to patient.phospital_id and user.uhospital_id"></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: hospital code used for reporting and invoice grouping."></textarea></div>
+
+            <div class="field-comment-list" data-table="hospital">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="hospital" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: official hospital name</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="address" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: hospital location</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="user">
+            <h3>2. user</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: staff and clinician identity and access control." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, username, password, ugroup_id, uhospital_id, role" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: links to user_groups and hospital for permission handling."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: used for login, workflows, and report ownership."></textarea></div>
+
+            <div class="field-comment-list" data-table="user">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: user primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="username" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: login account name</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="uhospital_id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: linked hospital</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="patient">
+            <h3>3. patient</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: central patient case record for clinical workflow and pathology processing." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, pnum, sn_year, sn_run, phospital_id, status_id, priority_id" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: linked to job, service_billing, and result update tables."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: main operational record for each specimen case."></textarea></div>
+
+            <div class="field-comment-list" data-table="patient">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: patient primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="pnum" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: patient case number</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="phospital_id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: hospital assignment</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="job">
+            <h3>4. job</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: task/workflow assignment record for each case." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, patient_id, user_id, job_role_id, req_date, finish_date" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: tracks who works on the case and what role is assigned."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: supports routing and review workflows."></textarea></div>
+
+            <div class="field-comment-list" data-table="job">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: job primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="patient_id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: target patient</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="finish_date" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: completion date</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="service_billing">
+            <h3>5. service_billing</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: service cost and billing detail linked to each patient and specimen." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, patient_id, specimen_id, hospital_id, cost, description, req_id" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: used for billing calculations and report summaries."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: invoice-like item lines for pathology services."></textarea></div>
+
+            <div class="field-comment-list" data-table="service_billing">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: billing item primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="cost" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: total service cost</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="patient_id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: related patient</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="service_price_list">
+            <h3>6. service_price_list</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: price master for specimen and service rates." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, specimen, price, speciment_num" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: supplies cost values used by billing workflows."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: master data for service pricing."></textarea></div>
+
+            <div class="field-comment-list" data-table="service_price_list">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: pricing row primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="specimen" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: specimen type or service name</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="price" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: unit price</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="template_report">
+            <h3>7. template_report</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: report templates for output formatting and standard message layout." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, user_id, reporttype_id, name, description" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: linked to system report generation and formatting configuration."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: defines reusable report structure."></textarea></div>
+
+            <div class="field-comment-list" data-table="template_report">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: template primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="name" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: template display name</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="description" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: report layout notes</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="labelprint_tmp_a">
+            <h3>8. labelprint_tmp_a</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: temporary queue for label export and sticker printing work." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, userid, sn_num, hn_num, patho_abbreviation, accept_date" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: transient table used before final printing is executed."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: holds label data before PDF or sheet print generation."></textarea></div>
+
+            <div class="field-comment-list" data-table="labelprint_tmp_a">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: print queue row id</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="sn_num" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: specimen number</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="accept_date" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: accepted date for print</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="result_update">
+            <h3>9. result / result update</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: captures pathology result updates and final diagnoses." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, patient_id, result_type, result_message, pathologist_id, release_time" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: used for diagnostic result tracking and release events."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: critical table for final report status and release notes."></textarea></div>
+
+            <div class="field-comment-list" data-table="result_update">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: result update primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="patient_id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: result target patient</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="result_message" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: final pathology result text</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="internal_note">
+            <h3>10. internal_note / nbnote</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: free-text or rich text notes for case discussion and internal records." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, patient_id, note, content, created_date, editer" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: supports comments, internal observations, and addenda."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: stores narrative notes used during review and reporting."></textarea></div>
+
+            <div class="field-comment-list" data-table="internal_note">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: note primary key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="patient_id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: associated patient</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="note" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: internal case note</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+
+          <div class="table-card" data-table="lookup_tables">
+            <h3>11. user_groups / status / priority / job_role</h3>
+            <div class="field-row"><label>Purpose</label><input type="text" placeholder="Example: lookup tables for permissions, case status, and workflow roles." /></div>
+            <div class="field-row"><label>Key fields</label><input type="text" placeholder="Example: id, name, status_id, priority_id, job_role_id" /></div>
+            <div class="field-row"><label>Important notes</label><textarea placeholder="Example: reference data used to classify users, cases, and jobs."></textarea></div>
+            <div class="field-row"><label>Comment</label><textarea placeholder="Example: defines state and role metadata used across the application."></textarea></div>
+
+            <div class="field-comment-list" data-table="lookup_tables">
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="id" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: lookup key</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="name" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: display label</textarea>
+              </div>
+              <div class="field-comment-row">
+                <input type="text" class="field-name" placeholder="field_name" value="comment" />
+                <textarea class="field-comment" placeholder="Comment for this field">Example: free-form description</textarea>
+              </div>
+            </div>
+            <div class="field-comment-actions"><button type="button" class="add-field-comment">+ Add field comment</button></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      const erDiagramElements = [
+        document.querySelector('#er-relationships'),
+        document.querySelector('#er-remaining'),
+      ];
+      const erDiagramSource = document.querySelector('#er-diagram-source').textContent.trim();
+      mermaid.initialize({ startOnLoad: false, theme: 'default' });
+
+      function splitErDiagramSource(source) {
+        const lines = source.split(/\r?\n/);
+        const relationships = lines.filter((line) => /^\s*[A-Z][A-Z0-9_]*\s+\S+\s+[A-Z][A-Z0-9_]*\s*:/.test(line));
+        const relatedEntities = new Set();
+        relationships.forEach((line) => {
+          const match = line.match(/^\s*([A-Z][A-Z0-9_]*)\s+\S+\s+([A-Z][A-Z0-9_]*)\s*:/);
+          if (match) {
+            relatedEntities.add(match[1]);
+            relatedEntities.add(match[2]);
+          }
+        });
+
+        const entities = [];
+        for (let index = 0; index < lines.length; index += 1) {
+          const entityMatch = lines[index].match(/^\s*([A-Z][A-Z0-9_]*)\s*\{/);
+          if (!entityMatch) continue;
+
+          const block = [lines[index]];
+          while (++index < lines.length) {
+            block.push(lines[index]);
+            if (/^\s*}\s*$/.test(lines[index])) break;
+          }
+          entities.push({ name: entityMatch[1], lines: block });
+        }
+
+        const build = (includeRelationships, includeRelatedEntities) => [
+          'erDiagram',
+          ...(includeRelationships ? relationships : []),
+          ...entities
+            .filter((entity) => relatedEntities.has(entity.name) === includeRelatedEntities)
+            .flatMap((entity) => ['', ...entity.lines]),
+        ].join('\n');
+
+        return [build(true, true), build(false, false)];
+      }
+
+      const STORAGE_KEY = 'database_schema_field_comments_v1';
+      const DETAILS_STORAGE_KEY = 'database_schema_table_details_v1';
+      let markdownFileHandle = null;
+
+      const TABLE_CATALOG = [
+        { name: 'antibody_list', purpose: 'Antibody name lookup.', fields: ['id', 'name'] },
+        { name: 'changehistory', purpose: 'Change-history content and timestamp.', fields: ['id', 'content', 'create_date', 'rsv'] },
+        { name: 'gross_examination_record', purpose: 'Gross examination descriptions and content.', fields: ['id', 'sub_id', 'description', 'content', 'create_date', 'rsv'] },
+        { name: 'hire_list', purpose: 'Outsourced work records linked to a contract and patient.', fields: ['id', 'outside_id', 'patient_id', 'patient_number', 'name', 'cost', 'comment', 'accept_time', 'insert_time', 'finish_time', 'create_date'] },
+        { name: 'hospital', purpose: 'Hospital details and report-folder settings.', fields: ['id', 'hospital', 'address', 'hdetail', 'user_id', 'tax_id', 'create_date', 'create_by', 'reportfolder', 'movetotrash'] },
+        { name: 'internal_note', purpose: 'Internal patient notes and edit metadata.', fields: ['id', 'patient_id', 'note', 'creater', 'editer', 'created_date', 'edit_date'] },
+        { name: 'invoice_list', purpose: 'Invoice names, grouping, mapping rules, and service type.', fields: ['id', 'order_list', 'group_type', 'invoice_name', 'invoice_name_e', 'mapping_rule', 'sn_type', 'service_type'] },
+        { name: 'job', purpose: 'Patient workflow assignments, role, owner, payment, and completion.', fields: ['id', 'req_date', 'req_finish_date', 'req_id', 'job_role_id', 'patient_id', 'result_id', 'patient_number', 'user_id', 'pre_name', 'name', 'lastname', 'jobname', 'pay', 'cost_count_per_day', 'comment', 'finish_date', 'insert_time', 'second_patho_review', 'request_sp_slide', 'qty', 'movetotrash'] },
+        { name: 'job_role', purpose: 'Job role names and per-job/day cost settings.', fields: ['id', 'name', 'name_e', 'cost_per_job', 'cost_count_per_day', 'create_date'] },
+        { name: 'labelprint_tmp_a', purpose: 'Temporary label-print queue.', fields: ['id', 'userid', 'sn_num', 'hn_num', 'patho_abbreviation', 'speciment_abbreviation', 'accept_date', 'company_name', 'create_date'] },
+        { name: 'lab_fluid', purpose: 'Laboratory fluid definitions.', fields: ['id', 'labname', 'lab_des', 'create_date'] },
+        { name: 'log', purpose: 'User event and detail log.', fields: ['id', 'username', 'name', 'event', 'detail', 'event_date'] },
+        { name: 'nbnote', purpose: 'Rich-text note content.', fields: ['id', 'sub_id', 'content', 'create_date', 'rsv'] },
+        { name: 'nbnotetitle', purpose: 'Note title records.', fields: ['id', 'title', 'createdate'] },
+        { name: 'nb_note_record', purpose: 'Note records with description and content.', fields: ['id', 'sub_id', 'description', 'content', 'create_date', 'rsv'] },
+        { name: 'outside_contract', purpose: 'External contract names and costs.', fields: ['id', 'name', 'cost', 'comment', 'create_date'] },
+        { name: 'patient', purpose: 'Pathology case identity, workflow dates/status, assignments, and result text.', fields: ['id', 'super_id', 'super_pnum', 'sn_type', 'sn_year', 'sn_run', 'pnum', 'plabnum', 'ppre_name', 'pname', 'pgender', 'plastname', 'pedge', 'date_1000', 'date_2000', 'date_3000', 'date_6000', 'date_8000', 'date_10000', 'date_12000', 'date_13000', 'date_14000', 'date_20000', 'date_first_report', 'tr_time', 'status_id', 'priority_id', 'phospital_id', 'p_speciment_type', 'phospital_num', 'ppathologist_id', 'pspecimen_id', 'pclinician_id', 'p_cross_section_id', 'p_cross_section_ass_id', 'p_slide_prep_id', 'p_slide_prep_sp_id', 'p_sp_patho_comment', 'pprice', 'pspprice', 'p_rs_specimen', 'p_slide_lab_id', 'p_slide_lab_price', 'p_rs_clinical_diag', 'p_rs_gross_desc', 'p_rs_microscopic_desc', 'iscritical', 'reported_as', 'reported_name', 'isautoeditmode', 'pautoscroll', 'second_patho_review', 'request_sp_slide', 'create_date', 'create_by', 'edit_date', 'movetotrash', 'job1qty', 'job2qty', 'job3qty'] },
+        { name: 'pdf_attach', purpose: 'Patient-related PDF attachment path and metadata.', fields: ['id', 'filelocation', 'rec_create_date', 'patient_id', 'fileName'] },
+        { name: 'presultupdate', purpose: 'Patient result updates, result type, pathologists, and release metadata.', fields: ['id', 'group_type', 'patient_id', 'result_type', 'result_type_id', 'result_message', 'pathologist_id', 'pathologist2_id', 'release_time', 'release_type', 'second_patho_review', 'create_date'] },
+        { name: 'priority', purpose: 'Case priority labels.', fields: ['id', 'priority'] },
+        { name: 'questionnaire_quality_cn', purpose: 'CN specimen quality questionnaire scores and notes.', fields: ['id', 'patient_id', 'patient_num', 'score_specimen', 'score_staining', 'score_mounting', 'score_labeling', 'note'] },
+        { name: 'questionnaire_quality_sn', purpose: 'SN slide quality questionnaire scores and notes.', fields: ['id', 'patient_id', 'patient_num', 'score_thickness', 'score_staining', 'score_mounting', 'score_labeling', 'score_contaminate', 'note'] },
+        { name: 'quilljs_test', purpose: 'Rich-text editor test content.', fields: ['id', 'content', 'create_date', 'rsv'] },
+        { name: 'report_type', purpose: 'Report groups, release type, and options.', fields: ['id', 'group_type', 'name', 'release_type', 'options'] },
+        { name: 'req_id_sp_slide', purpose: 'Special-slide request and completion tracking.', fields: ['id', 'patient_id', 'job_id', 'req_date', 'finish_date', 'create_user_id', 'comment', 'movetotrash'] },
+        { name: 'service_billing', purpose: 'Patient service/billing line items and costs.', fields: ['id', 'req_date', 'req_finish_date', 'req_id', 'specimen_id', 'patient_id', 'number', 'name', 'lastname', 'slide_type', 'code_description', 'code2', 'description', 'nm_slide_count', 'sp_slide_block', 'sp_slide_count', 'import_date', 'report_date', 'price_hospital', 'hospital_id', 'hn', 'send_doctor', 'pathologist', 'cost', 'comment', 'create_date'] },
+        { name: 'service_price_list', purpose: 'Hospital/service pricing and specimen metadata.', fields: ['id', 'number', 'speciment_num', 'code2', 'jobtype', 'specimen', 'hospital_id', 'unit_count', 'price', 'comment', 'create_date', 'add_user_id', 'edit_user_id', 'service_des'] },
+        { name: 'service_type', purpose: 'Service type labels and billing mappings.', fields: ['id', 'order_list', 'group_type', 'service_type', 'service_typea_id', 'service_typea_bill', 'service_type_bill', 'service_type_e', 'name_by_spcimen'] },
+        { name: 'service_type_master', purpose: 'Service codes, descriptions, units, and prices.', fields: ['id', 'code', 'code2', 'description', 'service_typeb_id', 'service_typeb_description', 'unit_count', 'price'] },
+        { name: 'sn_prefix', purpose: 'Surgical-number prefix and descriptions.', fields: ['id', 'order_list', 'name', 'description', 'description_e'] },
+        { name: 'status', purpose: 'Workflow status descriptions and next/back transitions.', fields: ['id', 'des', 'next1', 'next2', 'next3', 'back1', 'back2'] },
+        { name: 'template_report', purpose: 'User-owned report template name and description.', fields: ['id', 'user_id', 'reporttype_id', 'name', 'description'] },
+        { name: 'testtiptap', purpose: 'Rich-text editor test content.', fields: ['id', 'content'] },
+        { name: 'user', purpose: 'Staff identity, roles, credentials, and hospital/group assignment.', fields: ['id', 'username', 'password', 'pre_name', 'name', 'lastname', 'pre_name_e', 'name_e', 'lastname_e', 'short_name', 'educational_bf', 'role', 'role_1', 'role_2', 'role_3', 'role_4', 'role_5', 'role_6', 'role_7', 'role_a', 'can_manaage_job', 'udetail', 'umobile', 'uemail', 'ugroup_id', 'uhospital_id', 'signature_file', 'profile_file', 'user_status', 'user_type', 'create_date', 'create_by', 'movetotrash'] },
+        { name: 'user_groups', purpose: 'User group names.', fields: ['id', 'ugroup', 'ugroup_e'] },
+      ];
+
+      const TABLE_FIELDS = Object.fromEntries(TABLE_CATALOG.map((table) => [table.name, table.fields]));
+      const TABLE_COLUMN_DETAILS = {"antibody_list":{"id":{"type":"int(11)","key":"PK","comment":""},"name":{"type":"varchar(20)","key":"UK","comment":""}},"changehistory":{"id":{"type":"int(11)","key":"PK","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"rsv":{"type":"int(11)","key":"","comment":""}},"gross_examination_record":{"id":{"type":"int(11)","key":"PK","comment":""},"sub_id":{"type":"int(11)","key":"","comment":""},"description":{"type":"text","key":"","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"rsv":{"type":"int(11)","key":"","comment":""}},"hire_list":{"id":{"type":"int(11)","key":"PK","comment":""},"outside_id":{"type":"int(11)","key":"","comment":"Link to outside_contract"},"patient_id":{"type":"int(11)","key":"","comment":""},"patient_number":{"type":"varchar(10)","key":"","comment":""},"name":{"type":"varchar(50)","key":"","comment":""},"cost":{"type":"float","key":"","comment":""},"comment":{"type":"varchar(70)","key":"","comment":""},"accept_time":{"type":"datetime","key":"","comment":""},"insert_time":{"type":"datetime","key":"","comment":""},"finish_time":{"type":"datetime","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"hospital":{"id":{"type":"int(11)","key":"PK","comment":""},"hospital":{"type":"varchar(64)","key":"","comment":""},"address":{"type":"text","key":"","comment":""},"hdetail":{"type":"text","key":"","comment":""},"user_id":{"type":"int(11)","key":"","comment":"Link to user in case of user for hostpital."},"tax_id":{"type":"varchar(50)","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"create_by":{"type":"varchar(80)","key":"","comment":""},"reportfolder":{"type":"text","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"internal_note":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"note":{"type":"text","key":"","comment":""},"creater":{"type":"text","key":"","comment":""},"editer":{"type":"text","key":"","comment":""},"created_date":{"type":"datetime","key":"","comment":""},"edit_date":{"type":"datetime","key":"","comment":""}},"invoice_list":{"id":{"type":"int(11)","key":"PK","comment":""},"order_list":{"type":"int(11)","key":"","comment":""},"group_type":{"type":"int(11)","key":"","comment":""},"invoice_name":{"type":"varchar(120)","key":"","comment":""},"invoice_name_e":{"type":"varchar(120)","key":"","comment":""},"mapping_rule":{"type":"varchar(256)","key":"","comment":""},"sn_type":{"type":"varchar(2)","key":"","comment":""},"service_type":{"type":"int(11)","key":"","comment":""}},"job":{"id":{"type":"int(11)","key":"PK","comment":""},"req_date":{"type":"datetime","key":"","comment":""},"req_finish_date":{"type":"datetime","key":"","comment":""},"req_id":{"type":"int(11)","key":"INDEX, FK","comment":""},"job_role_id":{"type":"int(11)","key":"INDEX, FK","comment":"ID Link to table Job Role"},"patient_id":{"type":"int(11)","key":"INDEX, FK","comment":"ID of table patient"},"result_id":{"type":"int(11)","key":"INDEX","comment":"UN-USED. this file use only second patho confirm"},"patient_number":{"type":"varchar(10)","key":"","comment":"ex sergical number"},"user_id":{"type":"int(11)","key":"","comment":"id of the Job Owner"},"pre_name":{"type":"varchar(20)","key":"","comment":"pre name Job Owner"},"name":{"type":"varchar(30)","key":"","comment":"Name Of Job Owner"},"lastname":{"type":"varchar(30)","key":"","comment":"Last name Of Job Owner"},"jobname":{"type":"varchar(30)","key":"","comment":"Name of Job"},"pay":{"type":"float","key":"","comment":"Cost to pay for the Job"},"cost_count_per_day":{"type":"int(11)","key":"","comment":""},"comment":{"type":"varchar(50)","key":"","comment":"Comment"},"finish_date":{"type":"datetime","key":"","comment":"Time when Job finish"},"insert_time":{"type":"datetime","key":"","comment":""},"second_patho_review":{"type":"tinyint(4)","key":"","comment":"1 wait for review 2 approved"},"request_sp_slide":{"type":"tinyint(4)","key":"","comment":"1 requested  2 finish"},"qty":{"type":"int(11)","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"job_role":{"id":{"type":"int(11)","key":"PK","comment":""},"name":{"type":"varchar(20)","key":"","comment":""},"name_e":{"type":"varchar(30)","key":"","comment":""},"cost_per_job":{"type":"float","key":"","comment":""},"cost_count_per_day":{"type":"int(11)","key":"","comment":"Pay when count more then the value"},"create_date":{"type":"datetime","key":"","comment":""}},"labelprint_tmp_a":{"id":{"type":"int(11)","key":"PK","comment":""},"userid":{"type":"int(11)","key":"","comment":""},"sn_num":{"type":"varchar(10)","key":"","comment":""},"hn_num":{"type":"varchar(30)","key":"","comment":""},"patho_abbreviation":{"type":"varchar(10)","key":"","comment":""},"speciment_abbreviation":{"type":"varchar(4)","key":"","comment":""},"accept_date":{"type":"varchar(30)","key":"","comment":""},"company_name":{"type":"varchar(15)","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"lab_fluid":{"id":{"type":"int(11)","key":"PK","comment":""},"labname":{"type":"varchar(30)","key":"","comment":""},"lab_des":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"log":{"id":{"type":"int(11)","key":"PK","comment":""},"username":{"type":"char(64)","key":"","comment":""},"name":{"type":"char(64)","key":"","comment":""},"event":{"type":"text","key":"","comment":""},"detail":{"type":"text","key":"","comment":""},"event_date":{"type":"datetime","key":"","comment":""}},"nbnote":{"id":{"type":"int(11)","key":"PK","comment":""},"sub_id":{"type":"int(11)","key":"","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"rsv":{"type":"int(11)","key":"","comment":""}},"nbnotetitle":{"id":{"type":"int(11)","key":"PK","comment":""},"title":{"type":"text","key":"","comment":""},"createdate":{"type":"text","key":"","comment":""}},"nb_note_record":{"id":{"type":"int(11)","key":"PK","comment":""},"sub_id":{"type":"int(11)","key":"","comment":""},"description":{"type":"varchar(255)","key":"","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"timestamp","key":"","comment":""},"rsv":{"type":"varchar(255)","key":"","comment":""}},"outside_contract":{"id":{"type":"int(11)","key":"PK","comment":""},"name":{"type":"varchar(50)","key":"","comment":""},"cost":{"type":"float","key":"","comment":""},"comment":{"type":"varchar(70)","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""}},"patient":{"id":{"type":"int(11)","key":"PK","comment":""},"super_id":{"type":"int(11)","key":"","comment":""},"super_pnum":{"type":"varchar(32)","key":"","comment":""},"sn_type":{"type":"varchar(2)","key":"","comment":"เลขชนิดคนไข้"},"sn_year":{"type":"varchar(4)","key":"","comment":"เลขปีของเลขคนไข้"},"sn_run":{"type":"int(11)","key":"","comment":"เลขรันนิ่งของเลขที่คนไข้"},"pnum":{"type":"varchar(32)","key":"UK","comment":"เลขที่คนไข้ surgical number"},"plabnum":{"type":"text","key":"","comment":"แลปนัมเบอร์ "},"ppre_name":{"type":"varchar(20)","key":"","comment":"คำน้ำหน้าชื่อ นาย นาง นางสาว"},"pname":{"type":"varchar(64)","key":"","comment":"ชื่อคนไข้"},"pgender":{"type":"varchar(10)","key":"","comment":"เพศ"},"plastname":{"type":"varchar(64)","key":"","comment":"นามสกุล"},"pedge":{"type":"int(11)","key":"","comment":"อายุ"},"date_1000":{"type":"datetime","key":"","comment":"วันที่รับเข้า"},"date_2000":{"type":"datetime","key":"","comment":"วันที่วางแผน"},"date_3000":{"type":"datetime","key":"","comment":"วันที่เตรียมชิ้นเนื้อแล้ว"},"date_6000":{"type":"datetime","key":"","comment":"วันที่เตรียมสไลด์แล้ว"},"date_8000":{"type":"datetime","key":"","comment":"วันที่เตรียมชิ้นเนื้อย้อมพิเศษแล้ว"},"date_10000":{"type":"datetime","key":"","comment":"วันที่ทำแลปเซลวิทยาแล้ว"},"date_12000":{"type":"datetime","key":"","comment":"วันที่อ่านผลการวินิจฉัย"},"date_13000":{"type":"datetime","key":"","comment":"วันที่ดับเบิ้ลคอนเฟริ์ม"},"date_14000":{"type":"datetime","key":"","comment":"To be remove"},"date_20000":{"type":"datetime","key":"","comment":"วันที่เสร็จสิ้น"},"date_first_report":{"type":"datetime","key":"","comment":"วันที่ออกรีพอทครั้งแรก"},"tr_time":{"type":"float","key":"","comment":""},"status_id":{"type":"int(11)","key":"","comment":"สถานะงาน"},"priority_id":{"type":"tinyint(4)","key":"","comment":"ความสำคัญ ปกติ ด่วน"},"phospital_id":{"type":"int(11)","key":"INDEX","comment":"เลขที่โรงพยาบาล"},"p_speciment_type":{"type":"varchar(10)","key":"","comment":"ชิ้นเนื้อหรือของเหลว"},"phospital_num":{"type":"text","key":"","comment":"เลขที่โรงพยาบาล"},"ppathologist_id":{"type":"int(11)","key":"INDEX","comment":"to be remove ผู้อ่านผล"},"pspecimen_id":{"type":"int(11)","key":"INDEX","comment":"to be remove ไอดีชนิดชิ้นเนื้อ"},"pclinician_id":{"type":"int(11)","key":"INDEX","comment":"ไอดีลิ้งไปหาแพทย์ผู้ส่ง"},"p_cross_section_id":{"type":"int(11)","key":"INDEX","comment":"to be remove พนักงาน ตัดเนื้อ"},"p_cross_section_ass_id":{"type":"int(11)","key":"INDEX","comment":"to be remove ผู้ช่วยตัดเนื้อ"},"p_slide_prep_id":{"type":"int(11)","key":"INDEX","comment":"to be remove พนักงานเตรียม สไลด์"},"p_slide_prep_sp_id":{"type":"int(11)","key":"INDEX","comment":"พนักงานเตรียมสไลด์พิเศษ"},"p_sp_patho_comment":{"type":"text","key":"","comment":"Patho put comment"},"pprice":{"type":"int(11)","key":"","comment":"ราคาเตรียมชิ้นเนื้อและเตรียมสไลด์"},"pspprice":{"type":"int(11)","key":"","comment":"to be remove ราคาเตรียมสไลดพิเศษ"},"p_rs_specimen":{"type":"text","key":"","comment":"patient result specimen"},"p_slide_lab_id":{"type":"int(11)","key":"INDEX","comment":"แลปน้ำ ไอดี"},"p_slide_lab_price":{"type":"int(11)","key":"","comment":"ราคาค่าตรวจแลปน้ำ"},"p_rs_clinical_diag":{"type":"text","key":"","comment":"patient result clinical dianosis"},"p_rs_gross_desc":{"type":"text","key":"","comment":"patient result gross description"},"p_rs_microscopic_desc":{"type":"text","key":"","comment":"petient result microscopic description"},"iscritical":{"type":"tinyint(4)","key":"","comment":"0:Normal  1:Critical"},"reported_as":{"type":"varchar(30)","key":"","comment":"ยังไม่ออกผล/ออกผลเบื้องต้น/ออกผลแล้ว"},"reported_name":{"type":"varchar(30)","key":"","comment":"ชนิดของการออกผลล่าสุด"},"isautoeditmode":{"type":"varchar(30)","key":"","comment":"Location to set autoedit "},"pautoscroll":{"type":"varchar(30)","key":"","comment":"Location id for auto scroll when require"},"second_patho_review":{"type":"tinyint(4)","key":"","comment":"1 wait for review 2 approved"},"request_sp_slide":{"type":"tinyint(4)","key":"","comment":"1 requested  2 finish"},"create_date":{"type":"datetime","key":"","comment":""},"create_by":{"type":"varchar(80)","key":"","comment":""},"edit_date":{"type":"datetime","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""},"job1qty":{"type":"int(11)","key":"","comment":""},"job2qty":{"type":"int(11)","key":"","comment":""},"job3qty":{"type":"int(11)","key":"","comment":""}},"pdf_attach":{"id":{"type":"int(11)","key":"PK","comment":""},"filelocation":{"type":"text","key":"","comment":""},"rec_create_date":{"type":"datetime","key":"","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"fileName":{"type":"text","key":"","comment":""}},"presultupdate":{"id":{"type":"int(11)","key":"PK","comment":""},"group_type":{"type":"int(11)","key":"","comment":""},"patient_id":{"type":"int(11)","key":"INDEX","comment":""},"result_type":{"type":"varchar(50)","key":"","comment":""},"result_type_id":{"type":"int(11)","key":"","comment":""},"result_message":{"type":"text","key":"","comment":""},"pathologist_id":{"type":"int(11)","key":"INDEX","comment":""},"pathologist2_id":{"type":"int(11)","key":"INDEX","comment":""},"release_time":{"type":"datetime","key":"","comment":""},"release_type":{"type":"varchar(20)","key":"","comment":""},"second_patho_review":{"type":"tinyint(4)","key":"","comment":"1 wait for review 2 approved"},"create_date":{"type":"datetime","key":"","comment":""}},"priority":{"id":{"type":"int(11)","key":"PK","comment":""},"priority":{"type":"varchar(20)","key":"","comment":""}},"questionnaire_quality_cn":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"patient_num":{"type":"varchar(11)","key":"","comment":"cn???"},"score_specimen":{"type":"int(11)","key":"","comment":"1.Specimen Procressing"},"score_staining":{"type":"int(11)","key":"","comment":"2.Staining"},"score_mounting":{"type":"int(11)","key":"","comment":"3.Mounting/Covering"},"score_labeling":{"type":"int(11)","key":"","comment":"4.Labeling"},"note":{"type":"text","key":"","comment":"Note"}},"questionnaire_quality_sn":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"","comment":""},"patient_num":{"type":"varchar(11)","key":"","comment":"sn???"},"score_thickness":{"type":"int(11)","key":"","comment":"1.Thickness/Integrity"},"score_staining":{"type":"int(11)","key":"","comment":"2.Staining"},"score_mounting":{"type":"int(11)","key":"","comment":"3.Mounting/Covering"},"score_labeling":{"type":"int(11)","key":"","comment":"4.Labeling"},"score_contaminate":{"type":"int(11)","key":"","comment":"5.Contaminate"},"note":{"type":"text","key":"","comment":"Note"}},"quilljs_test":{"id":{"type":"int(11)","key":"PK","comment":""},"content":{"type":"text","key":"","comment":""},"create_date":{"type":"timestamp","key":"","comment":""},"rsv":{"type":"text","key":"","comment":""}},"report_type":{"id":{"type":"int(11)","key":"UK","comment":""},"group_type":{"type":"int(11)","key":"","comment":"1 for mandatory require  2 for added later"},"name":{"type":"varchar(50)","key":"","comment":"Name of report type"},"release_type":{"type":"varchar(20)","key":"","comment":"Use for pick up to Patient database"},"options":{"type":"text","key":"","comment":""}},"req_id_sp_slide":{"id":{"type":"int(11)","key":"PK","comment":""},"patient_id":{"type":"int(11)","key":"INDEX, FK","comment":""},"job_id":{"type":"int(11)","key":"INDEX, FK","comment":""},"req_date":{"type":"datetime","key":"","comment":""},"finish_date":{"type":"datetime","key":"","comment":""},"create_user_id":{"type":"int(11)","key":"","comment":""},"comment":{"type":"text","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"service_billing":{"id":{"type":"int(11)","key":"PK","comment":""},"req_date":{"type":"datetime","key":"","comment":""},"req_finish_date":{"type":"datetime","key":"","comment":""},"req_id":{"type":"int(11)","key":"","comment":""},"specimen_id":{"type":"int(11)","key":"","comment":"link for specimen id"},"patient_id":{"type":"int(11)","key":"INDEX, FK","comment":"Link to Patient id"},"number":{"type":"varchar(32)","key":"","comment":"Surgical Number"},"name":{"type":"varchar(120)","key":"","comment":"patient name"},"lastname":{"type":"varchar(120)","key":"","comment":"patient surname"},"slide_type":{"type":"tinyint(4)","key":"","comment":"1 สไลด์ปรกติ 2 ย้อมพิเศษ"},"code_description":{"type":"varchar(10)","key":"","comment":"Ex: 33000"},"code2":{"type":"int(11)","key":"","comment":""},"description":{"type":"text","key":"","comment":"description"},"nm_slide_count":{"type":"int(11)","key":"","comment":"normal slide count"},"sp_slide_block":{"type":"text","key":"","comment":"name of block require"},"sp_slide_count":{"type":"int(11)","key":"","comment":"special slide count"},"import_date":{"type":"datetime","key":"","comment":"วันที่รับเข้า"},"report_date":{"type":"datetime","key":"","comment":"วันที่ออกผล"},"price_hospital":{"type":"varchar(120)","key":"","comment":"ราคาตามโรงพยาบาล"},"hospital_id":{"type":"int(11)","key":"","comment":""},"hn":{"type":"varchar(32)","key":"","comment":"hospital number"},"send_doctor":{"type":"varchar(120)","key":"","comment":"แพทย์ผู้ส่ง"},"pathologist":{"type":"varchar(32)","key":"","comment":"หมอผู้ออกผล"},"cost":{"type":"int(11)","key":"","comment":"ราคา ค่าบริการ"},"comment":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":"วันที่ให้บริการ"}},"service_price_list":{"id":{"type":"int(11)","key":"PK","comment":""},"number":{"type":"int(11)","key":"","comment":"ลำดับ"},"speciment_num":{"type":"int(10)","key":"","comment":"code"},"code2":{"type":"int(11)","key":"","comment":""},"jobtype":{"type":"tinyint(4)","key":"","comment":"1 ชิ้นเนื้อรับเข้า\\r\\n2 ย้อมพิเศษ"},"specimen":{"type":"text","key":"","comment":""},"hospital_id":{"type":"int(11)","key":"","comment":"link to hospital id"},"unit_count":{"type":"varchar(30)","key":"","comment":""},"price":{"type":"int(11)","key":"","comment":""},"comment":{"type":"text","key":"","comment":""},"create_date":{"type":"datetime","key":"","comment":""},"add_user_id":{"type":"int(11)","key":"","comment":"คนที่สร้างข้อมูลนี้"},"edit_user_id":{"type":"int(11)","key":"","comment":"คนที่แก้ไขข้อมูลนี้"},"service_des":{"type":"varchar(256)","key":"","comment":""}},"service_type":{"id":{"type":"int(11)","key":"PK","comment":""},"order_list":{"type":"int(11)","key":"","comment":""},"group_type":{"type":"int(11)","key":"","comment":""},"service_type":{"type":"varchar(120)","key":"","comment":""},"service_typea_id":{"type":"int(11)","key":"","comment":""},"service_typea_bill":{"type":"varchar(256)","key":"","comment":""},"service_type_bill":{"type":"varchar(256)","key":"","comment":""},"service_type_e":{"type":"varchar(120)","key":"","comment":""},"name_by_spcimen":{"type":"varchar(120)","key":"","comment":""}},"service_type_master":{"id":{"type":"int(11)","key":"PK","comment":""},"code":{"type":"int(11)","key":"","comment":""},"code2":{"type":"int(11)","key":"","comment":""},"description":{"type":"varchar(256)","key":"","comment":""},"service_typeb_id":{"type":"int(11)","key":"","comment":""},"service_typeb_description":{"type":"varchar(256)","key":"","comment":""},"unit_count":{"type":"varchar(256)","key":"","comment":""},"price":{"type":"int(11)","key":"","comment":""}},"sn_prefix":{"id":{"type":"int(11)","key":"PK","comment":""},"order_list":{"type":"int(11)","key":"","comment":""},"name":{"type":"varchar(2)","key":"","comment":"pre-fix name"},"description":{"type":"text","key":"","comment":"description"},"description_e":{"type":"text","key":"","comment":""}},"status":{"id":{"type":"int(11)","key":"PK","comment":""},"des":{"type":"varchar(3000)","key":"","comment":""},"next1":{"type":"int(11)","key":"","comment":""},"next2":{"type":"int(11)","key":"","comment":""},"next3":{"type":"int(11)","key":"","comment":""},"back1":{"type":"int(11)","key":"","comment":""},"back2":{"type":"int(11)","key":"","comment":""}},"template_report":{"id":{"type":"int(11)","key":"PK","comment":""},"user_id":{"type":"int(11)","key":"","comment":""},"reporttype_id":{"type":"int(11)","key":"","comment":""},"name":{"type":"varchar(100)","key":"","comment":""},"description":{"type":"text","key":"","comment":""}},"testtiptap":{"id":{"type":"int(11)","key":"PK","comment":""},"content":{"type":"text","key":"","comment":""}},"user":{"id":{"type":"int(11)","key":"PK","comment":""},"username":{"type":"char(255)","key":"UK","comment":""},"password":{"type":"char(255)","key":"","comment":""},"pre_name":{"type":"varchar(10)","key":"","comment":"คำนำหน้าชื่อภาษาไทย"},"name":{"type":"varchar(128)","key":"","comment":""},"lastname":{"type":"varchar(128)","key":"","comment":""},"pre_name_e":{"type":"varchar(20)","key":"","comment":""},"name_e":{"type":"varchar(20)","key":"","comment":""},"lastname_e":{"type":"varchar(20)","key":"","comment":""},"short_name":{"type":"varchar(16)","key":"","comment":""},"educational_bf":{"type":"varchar(10)","key":"","comment":"วุฒิการศึกษา ex แพทย์ศาสตร์มหาบัณฑิต (Medicinae Doctor/Doctor of Medicine)"},"role":{"type":"varchar(20)","key":"","comment":"Ex: Pathologist"},"role_1":{"type":"tinyint(1)","key":"","comment":"ตัดเนื้อ Cross Section"},"role_2":{"type":"tinyint(1)","key":"","comment":"คนจด Cross Section Assistent"},"role_3":{"type":"tinyint(1)","key":"","comment":"เตรียมสไลด์ Slide Prepareation"},"role_4":{"type":"tinyint(1)","key":"","comment":"Special Slide Prepareation"},"role_5":{"type":"tinyint(1)","key":"","comment":"Pathologist"},"role_6":{"type":"tinyint(1)","key":"","comment":"Second pathologist"},"role_7":{"type":"tinyint(1)","key":"","comment":"Cycologist"},"role_a":{"type":"tinyint(4)","key":"","comment":"จำลอง เจ้าแพทย์ของเคส"},"can_manaage_job":{"type":"tinyint(4)","key":"","comment":""},"udetail":{"type":"text","key":"","comment":""},"umobile":{"type":"text","key":"","comment":""},"uemail":{"type":"text","key":"","comment":""},"ugroup_id":{"type":"int(11)","key":"INDEX","comment":""},"uhospital_id":{"type":"int(11)","key":"INDEX","comment":""},"signature_file":{"type":"varchar(50)","key":"","comment":""},"profile_file":{"type":"varchar(50)","key":"","comment":""},"user_status":{"type":"tinyint(4)","key":"","comment":"0:inActive 1:Active"},"user_type":{"type":"tinyint(4)","key":"","comment":"0 user as person  1 user as hospital"},"create_date":{"type":"datetime","key":"","comment":""},"create_by":{"type":"varchar(80)","key":"","comment":""},"movetotrash":{"type":"tinyint(4)","key":"","comment":""}},"user_groups":{"id":{"type":"int(11)","key":"PK","comment":""},"ugroup":{"type":"varchar(30)","key":"","comment":""},"ugroup_e":{"type":"varchar(30)","key":"","comment":""}}};
+      const TABLE_ENTITIES = Object.fromEntries(TABLE_CATALOG.map((table, index) => [
+        table.name,
+        [table.name.toUpperCase(), `TABLE_${String(index + 1).padStart(2, '0')}`],
+      ]));
+
+      function buildSingleTableDiagramSource(table, index) {
+        const number = String(index + 1).padStart(2, '0');
+        const lines = ['erDiagram', `TABLE_${number}["${number}. ${table.name}"] {`];
+        table.fields.forEach((field) => lines.push(`  field ${field}`));
+        lines.push('}');
+        return lines.join('\n');
+      }
+
+      const baseErDiagramSources = splitErDiagramSource(erDiagramSource);
+
+      function createFieldSelect(table, selectedField = '') {
+        const select = document.createElement('select');
+        select.className = 'field-name';
+
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Select a field';
+        select.appendChild(placeholder);
+
+        const fields = [...(TABLE_FIELDS[table] || [])];
+        if (selectedField && !fields.includes(selectedField)) fields.unshift(selectedField);
+
+        fields.forEach((field) => {
+          const option = document.createElement('option');
+          option.value = field;
+          option.textContent = field;
+          select.appendChild(option);
+        });
+
+        const otherOption = document.createElement('option');
+        otherOption.value = '__other__';
+        otherOption.textContent = 'Other (enter manually)';
+        select.appendChild(otherOption);
+
+        select.value = selectedField;
+        return select;
+      }
+
+      function createCustomFieldInput(value = '') {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'custom-field-name';
+        input.placeholder = 'Enter field name';
+        input.value = value;
+        input.hidden = !value;
+        return input;
+      }
+
+      function createFieldRow(table, fieldName = '', comment = '') {
+        const row = document.createElement('div');
+        row.className = 'field-comment-row';
+
+        const nameSelect = createFieldSelect(table, fieldName);
+        const customInput = createCustomFieldInput(fieldName && !TABLE_FIELDS[table]?.includes(fieldName) ? fieldName : '');
+        if (customInput.value) nameSelect.value = '__other__';
+
+        const commentInput = document.createElement('textarea');
+        commentInput.className = 'field-comment';
+        commentInput.placeholder = 'Comment for this field';
+        commentInput.value = comment;
+
+        row.appendChild(nameSelect);
+        row.appendChild(customInput);
+        row.appendChild(commentInput);
+        return row;
+      }
+
+      function createAllTableEntry(table, index, card) {
+        const entry = document.createElement('div');
+        entry.className = 'all-table-entry';
+
+        const detailsTable = document.createElement('table');
+        detailsTable.className = 'all-table-fields';
+        const header = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        ['Field', 'SQL Type', 'Key', 'Comment'].forEach((title) => {
+          const cell = document.createElement('th');
+          cell.textContent = title;
+          headerRow.appendChild(cell);
+        });
+        header.appendChild(headerRow);
+        detailsTable.appendChild(header);
+
+        const fieldComments = new Map();
+        card.querySelectorAll('.field-comment-list .field-comment-row').forEach((row) => {
+          const field = getFieldName(row);
+          const comment = row.querySelector('.field-comment')?.value?.trim();
+          if (field && comment) fieldComments.set(field, comment);
+        });
+
+        const body = document.createElement('tbody');
+        table.fields.forEach((field) => {
+          const metadata = TABLE_COLUMN_DETAILS[table.name]?.[field] || {};
+          const row = document.createElement('tr');
+          [field, metadata.type || 'Not specified', metadata.key || '', fieldComments.get(field) || metadata.comment || ''].forEach((value, cellIndex) => {
+            const cell = document.createElement('td');
+            if (cellIndex === 0) {
+              const code = document.createElement('code');
+              code.textContent = value;
+              cell.appendChild(code);
+            } else {
+              cell.textContent = value;
+            }
+            row.appendChild(cell);
+          });
+          body.appendChild(row);
+        });
+        detailsTable.appendChild(body);
+        entry.appendChild(detailsTable);
+        return entry;
+      }
+
+      function refreshAllTableEntries() {
+        TABLE_CATALOG.forEach((table, index) => {
+          const card = document.querySelector(`.table-card[data-table="${table.name}"]`);
+          const currentEntry = card?.querySelector(':scope > .all-table-entry');
+          if (card && currentEntry) currentEntry.replaceWith(createAllTableEntry(table, index, card));
+        });
+      }
+
+      function getFieldName(row) {
+        const select = row.querySelector('.field-name');
+        if (select?.value === '__other__') {
+          return row.querySelector('.custom-field-name')?.value?.trim() || '';
+        }
+        return select?.value?.trim() || '';
+      }
+
+      function readStoredObject(key) {
+        try {
+          return JSON.parse(localStorage.getItem(key) || '{}');
+        } catch (error) {
+          console.warn(`Unable to read saved schema data for ${key}:`, error);
+          return {};
+        }
+      }
+
+      function getLegacyComments(table, storedComments) {
+        const aliases = {
+          presultupdate: ['result_update'],
+          nbnote: ['internal_note'],
+          user_groups: ['lookup_tables'],
+          status: ['lookup_tables'],
+          priority: ['lookup_tables'],
+          job_role: ['lookup_tables'],
+        };
+        const rows = [...(storedComments[table] || [])];
+        (aliases[table] || []).forEach((alias) => {
+          (storedComments[alias] || []).forEach((row) => {
+            if (table === 'lookup_tables') return;
+            if (TABLE_FIELDS[table]?.includes(row.field) || table === 'user_groups' && row.field === 'id') {
+              if (!rows.some((saved) => saved.field === row.field)) rows.push(row);
+            }
+          });
+        });
+
+        (storedComments.lookup_tables || []).forEach((row) => {
+          if (table === 'lookup_tables') return;
+          const targetByLegacyField = {
+            id: 'user_groups',
+            name: 'job_role',
+            comment: 'outside_contract',
+            status_id: 'patient',
+            priority_id: 'patient',
+            job_role_id: 'job',
+          };
+          const target = targetByLegacyField[row.field];
+          if (target === table && !rows.some((saved) => saved.field === row.field)) rows.push(row);
+        });
+
+        return rows;
+      }
+
+      function getLegacyDetails(table, storedDetails) {
+        if (storedDetails[table]) return storedDetails[table];
+        const aliases = {
+          presultupdate: 'result_update',
+          nbnote: 'internal_note',
+          user_groups: 'lookup_tables',
+          status: 'lookup_tables',
+          priority: 'lookup_tables',
+          job_role: 'lookup_tables',
+        };
+        return storedDetails[aliases[table]] || {};
+      }
+
+      function renderFillableTables() {
+        const container = document.querySelector('#fillable-tables');
+        const storedDetails = readStoredObject(DETAILS_STORAGE_KEY);
+        const storedComments = readStoredObject(STORAGE_KEY);
+        const legacyCards = [...document.querySelectorAll('.fillable-section > .table-card')];
+
+        legacyCards.forEach((card) => {
+          const table = card.dataset.table;
+          storedDetails[table] = storedDetails[table] || {};
+          card.querySelectorAll(':scope > .field-row').forEach((row) => {
+            const label = row.querySelector('label')?.textContent?.trim();
+            const control = row.querySelector('input, textarea');
+            if (label && control?.value && !storedDetails[table][label]) {
+              storedDetails[table][label] = control.value;
+            }
+          });
+
+          const existingRows = storedComments[table] || [];
+          if (!existingRows.length) {
+            storedComments[table] = [...card.querySelectorAll('.field-comment-row')].map((row) => ({
+              field: getFieldName(row),
+              comment: row.querySelector('.field-comment')?.value?.trim() || '',
+            })).filter((item) => item.field || item.comment);
+          }
+        });
+
+        legacyCards.forEach((card) => card.remove());
+
+        TABLE_CATALOG.forEach((table, index) => {
+          const details = getLegacyDetails(table.name, storedDetails);
+          const comments = getLegacyComments(table.name, storedComments);
+          const commentsByField = new Map(comments.map((item) => [item.field, item.comment]));
+          const card = document.createElement('div');
+          card.className = 'table-card';
+          card.dataset.table = table.name;
+
+          const heading = document.createElement('h3');
+          heading.textContent = `${index + 1}. ${table.name}`;
+          card.appendChild(heading);
+
+          const fields = [
+            { label: 'Purpose', value: details.Purpose || '', saved: Boolean(details.Purpose), placeholder: table.purpose, multiline: false },
+            { label: 'Key fields', value: details['Key fields'] || table.fields.join(', '), saved: Boolean(details['Key fields']), placeholder: table.fields.join(', '), multiline: true },
+            { label: 'Important notes', value: details['Important notes'] || '', saved: Boolean(details['Important notes']), placeholder: 'Add important relationships, workflow behavior, or usage notes.', multiline: true },
+            { label: 'Comment', value: details.Comment || '', saved: Boolean(details.Comment), placeholder: 'Add a general comment about this table.', multiline: true },
+          ];
+
+          fields.forEach((item) => {
+            const row = document.createElement('div');
+            row.className = 'field-row';
+            const label = document.createElement('label');
+            label.textContent = item.label;
+            const control = document.createElement(item.multiline ? 'textarea' : 'input');
+            control.placeholder = item.placeholder;
+            control.value = item.value;
+            if (item.saved) control.dataset.savedValue = 'true';
+            row.appendChild(label);
+            row.appendChild(control);
+            card.appendChild(row);
+          });
+
+          const detailsElement = document.createElement('details');
+          detailsElement.className = 'field-comment-details';
+          const summary = document.createElement('summary');
+          summary.textContent = `Column comments (${table.fields.length})`;
+          detailsElement.appendChild(summary);
+
+          const list = document.createElement('div');
+          list.className = 'field-comment-list';
+          list.dataset.table = table.name;
+          table.fields.forEach((field) => {
+            const row = createFieldRow(table.name, field, commentsByField.get(field) || '');
+            if (commentsByField.has(field)) row.querySelector('.field-comment').dataset.savedValue = 'true';
+            list.appendChild(row);
+          });
+          comments.forEach(({ field, comment }) => {
+            if (field && !table.fields.includes(field)) {
+              const row = createFieldRow(table.name, field, comment);
+              row.querySelector('.field-comment').dataset.savedValue = 'true';
+              list.appendChild(row);
+            }
+          });
+          detailsElement.appendChild(list);
+          card.appendChild(detailsElement);
+
+          const actions = document.createElement('div');
+          actions.className = 'field-comment-actions';
+          const addButton = document.createElement('button');
+          addButton.type = 'button';
+          addButton.className = 'add-field-comment';
+          addButton.textContent = '+ Add field comment';
+          actions.appendChild(addButton);
+          card.appendChild(actions);
+          card.appendChild(createAllTableEntry(table, index, card));
+
+          container.appendChild(card);
+        });
+
+        localStorage.setItem(DETAILS_STORAGE_KEY, JSON.stringify(storedDetails));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(storedComments));
+      }
+
+      function saveComments() {
+        const data = {};
+
+        document.querySelectorAll('.field-comment-list').forEach((list) => {
+          const table = list.dataset.table || 'unknown';
+          const rows = [...list.querySelectorAll('.field-comment-row')].map((row) => ({
+            field: getFieldName(row),
+            comment: row.querySelector('.field-comment')?.value?.trim() || '',
+          })).filter((item) => item.field || item.comment);
+
+          data[table] = rows;
+        });
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }
+
+      function buildErDiagramSource(baseSource) {
+        const commentsByEntity = {};
+
+        document.querySelectorAll('.field-comment-list').forEach((list) => {
+          const entities = TABLE_ENTITIES[list.dataset.table] || [];
+          entities.forEach((entity) => {
+            commentsByEntity[entity] = commentsByEntity[entity] || {};
+            list.querySelectorAll('.field-comment-row').forEach((row) => {
+              const field = getFieldName(row);
+              const comment = row.querySelector('.field-comment')?.value?.trim();
+              if (field && comment) commentsByEntity[entity][field] = comment;
+            });
+          });
+        });
+
+        let currentEntity = '';
+        return baseSource.split('\n').map((line) => {
+          const entityMatch = line.match(/^\s*([A-Z][A-Z0-9_]*)(?:\["[^"]*"\])?\s*\{\s*$/);
+          if (entityMatch) currentEntity = entityMatch[1];
+          if (!currentEntity) return line;
+
+          const attributeMatch = line.match(/^(\s*)([\w\[\]]+)\s+([\w]+)(\s+(?:(?:PK|FK|UK)(?:,\s*)?)+)?(?:\s+"([^"]*)")?\s*$/);
+          if (!attributeMatch) {
+            if (/^\s*}\s*$/.test(line)) currentEntity = '';
+            return line;
+          }
+
+          const [, indentation, type, field, keys = '', existingComment = ''] = attributeMatch;
+          const comment = commentsByEntity[currentEntity]?.[field] || existingComment;
+          if (!comment) return line;
+
+          const safeComment = comment.replace(/"/g, "'").replace(/\r?\n/g, ' ');
+          return `${indentation}${type} ${field}${keys} "${safeComment}"`;
+        }).join('\n');
+      }
+
+      async function renderErDiagrams(sources) {
+        erDiagramElements.forEach((element, index) => {
+          element.textContent = sources[index];
+        });
+        await mermaid.run({ nodes: [...erDiagramElements, ...document.querySelectorAll('.all-table-diagram')] });
+      }
+
+      function saveTableDetails() {
+        const data = {};
+
+        document.querySelectorAll('.table-card[data-table]').forEach((card) => {
+          const table = card.dataset.table;
+          data[table] = {};
+          card.querySelectorAll(':scope > .field-row').forEach((row) => {
+            const label = row.querySelector('label')?.textContent?.trim();
+            const control = row.querySelector('input, textarea');
+            if (label && control) data[table][label] = control.value;
+          });
+        });
+
+        localStorage.setItem(DETAILS_STORAGE_KEY, JSON.stringify(data));
+      }
+
+      function markdownCell(value) {
+        return value.trim().replaceAll('|', '\\|').replace(/\r?\n/g, '<br>');
+      }
+
+      function buildFillableMarkdown() {
+        const lines = [
+          '## 10. Fillable template for real data entry',
+          '',
+          'Use this section to record the actual meanings of tables and fields as you learn more from the project.',
+          '',
+        ];
+
+        document.querySelectorAll('.table-card[data-table]').forEach((card, index) => {
+          const table = TABLE_CATALOG[index];
+          const title = card.querySelector('h3')?.textContent?.trim().replace(/^\d+\.\s*/, '') || card.dataset.table;
+          lines.push(`### ${index + 1}. Table: ${title}`);
+
+          card.querySelectorAll(':scope > .field-row').forEach((row) => {
+            const label = row.querySelector('label')?.textContent?.trim();
+            const value = row.querySelector('input, textarea')?.value || '';
+            if (label) lines.push(`- ${label}: ${markdownCell(value)}`);
+          });
+
+          lines.push('', '| Field | SQL Type | Key | Comment |', '|---|---|---|---|');
+          const commentsByField = new Map();
+          card.querySelectorAll('.field-comment-row').forEach((row) => {
+            const field = getFieldName(row);
+            const comment = row.querySelector('.field-comment')?.value?.trim();
+            if (field && comment) commentsByField.set(field, comment);
+          });
+
+          table.fields.forEach((field) => {
+            const metadata = TABLE_COLUMN_DETAILS[table.name]?.[field] || {};
+            const comment = commentsByField.get(field) || metadata.comment || '';
+            lines.push(`| \`${field}\` | \`${metadata.type || 'Not specified'}\` | ${metadata.key || ''} | ${markdownCell(comment)} |`);
+          });
+
+          card.querySelectorAll('.field-comment-row').forEach((row) => {
+            const field = getFieldName(row);
+            if (!field || table.fields.includes(field)) return;
+            const comment = row.querySelector('.field-comment')?.value || '';
+            lines.push(`| \`${field.replaceAll('`', '\\`')}\` | Custom |  | ${markdownCell(comment)} |`);
+          });
+          lines.push('');
+        });
+
+        return lines.join('\n').trimEnd() + '\n';
+      }
+
+      function markdownCellValue(value) {
+        return value.replace(/<br\s*\/?>/gi, '\n').replace(/\\\|/g, '|').trim();
+      }
+
+      function getLegacyMarkdownTables(title) {
+        const normalized = title.trim().toLowerCase();
+        if (normalized === 'result / result update') return ['presultupdate'];
+        if (normalized === 'internal_note / nbnote') return ['internal_note', 'nbnote'];
+        if (normalized === 'user_groups / status / priority / job_role') return ['user_groups', 'status', 'priority', 'job_role'];
+        return TABLE_FIELDS[normalized] ? [normalized] : [];
+      }
+
+      function shouldImportMarkdownValue(control, markdownValue) {
+        if (!control || control.dataset.userEdited || !markdownValue) return false;
+        if (!control.dataset.savedValue) return true;
+        return control.value.trim().startsWith('Example:') && !markdownValue.trim().startsWith('Example:');
+      }
+
+      function mergeExistingFillableMarkdown(source) {
+        const sectionStart = source.indexOf('## 10. Fillable template for real data entry');
+        if (sectionStart < 0) return;
+
+        const section = source.slice(sectionStart);
+        const blocks = section.split(/^### \d+\. Table:\s*/m).slice(1);
+        const cards = new Map([...document.querySelectorAll('.table-card[data-table]')].map((card) => [card.dataset.table, card]));
+
+        blocks.forEach((block) => {
+          const lines = block.split('\n');
+          const title = lines[0].trim();
+          const targetTables = getLegacyMarkdownTables(title);
+          if (!targetTables.length) return;
+
+          const tableRows = new Map();
+          let readingFieldComments = false;
+          lines.slice(1).forEach((line) => {
+            const detailMatch = line.match(/^- (Purpose|Key fields|Important notes|Comment):\s*(.*)$/);
+            if (detailMatch) {
+              targetTables.forEach((table) => {
+                const control = [...(cards.get(table)?.querySelectorAll(':scope > .field-row') || [])]
+                  .find((row) => row.querySelector('label')?.textContent?.trim() === detailMatch[1])
+                  ?.querySelector('input, textarea');
+                const markdownValue = markdownCellValue(detailMatch[2]);
+                if (shouldImportMarkdownValue(control, markdownValue)) {
+                  control.value = markdownValue;
+                }
+              });
+            }
+
+            if (line.startsWith('| Field |')) {
+              readingFieldComments = true;
+              return;
+            }
+            if (!readingFieldComments) return;
+
+            const fieldMatch = line.match(/^\|\s*`([^`]+)`\s*\|(.*)\|\s*(.*?)\s*\|$/);
+            if (fieldMatch) tableRows.set(fieldMatch[1], markdownCellValue(fieldMatch[3]));
+          });
+
+          tableRows.forEach((comment, field) => {
+            let targets = targetTables.filter((table) => TABLE_FIELDS[table]?.includes(field));
+            if (!targets.length && title.toLowerCase().includes('user_groups / status / priority / job_role')) {
+              const legacyFieldTargets = {
+                id: ['user_groups'],
+                name: ['job_role'],
+                status_id: ['patient'],
+                priority_id: ['patient'],
+                job_role_id: ['job'],
+              };
+              targets = legacyFieldTargets[field] || [];
+            }
+
+            targets.forEach((table) => {
+              const list = cards.get(table)?.querySelector('.field-comment-list');
+              const row = [...(list?.querySelectorAll('.field-comment-row') || [])]
+                .find((item) => getFieldName(item) === field);
+              const control = row?.querySelector('.field-comment');
+              if (shouldImportMarkdownValue(control, comment)) control.value = comment;
+            });
+          });
+        });
+      }
+
+      function updateMarkdownDocument(source, diagramSources) {
+        const diagramHeading = '## 9. ER Diagram';
+        const sectionIndex = source.indexOf(diagramHeading);
+        const templateIndex = source.indexOf('## 10. Fillable template for real data entry');
+        const prefix = sectionIndex >= 0 ? source.slice(0, sectionIndex).trimEnd() : source.trimEnd();
+        const oldDiagramSection = sectionIndex >= 0
+          ? source.slice(sectionIndex + diagramHeading.length, templateIndex >= 0 ? templateIndex : source.length)
+          : '';
+        const firstDiagramHeading = oldDiagramSection.search(/^### (?:9\.1\s+)?Tables with relationships\s*$/m);
+        const explanation = (firstDiagramHeading >= 0
+          ? oldDiagramSection.slice(0, firstDiagramHeading)
+          : oldDiagramSection.replace(/```mermaid[\s\S]*?```/g, '')).trim();
+        const diagramSection = [
+          diagramHeading,
+          '',
+          explanation,
+          '',
+          '### Tables with relationships',
+          '',
+          '```mermaid',
+          diagramSources[0],
+          '```',
+          '',
+          '### Remaining tables',
+          '',
+          '```mermaid',
+          diagramSources[1],
+          '```',
+        ].filter((line, index, lines) => line !== '' || lines[index - 1] !== '').join('\n');
+        const documentWithDiagram = `${prefix}\n\n${diagramSection}\n\n`;
+        const heading = '## 10. Fillable template for real data entry';
+        const sectionIndex10 = source.indexOf(heading);
+        const templateTail = sectionIndex10 >= 0 ? source.slice(sectionIndex10) : '';
+        const fullDocument = `${documentWithDiagram}${templateTail}`;
+        const fillableIndex = fullDocument.indexOf(heading);
+        const prefixWithDiagram = fillableIndex >= 0 ? fullDocument.slice(0, fillableIndex).trimEnd() : fullDocument.trimEnd();
+        return `${prefixWithDiagram}\n\n${buildFillableMarkdown()}`;
+      }
+
+      async function saveToMarkdownFile() {
+        if (!markdownFileHandle) {
+          if (!window.showOpenFilePicker) {
+            throw new Error('This browser cannot write directly to files. Use a recent version of Chrome or Edge.');
+          }
+
+          const [handle] = await window.showOpenFilePicker({
+            id: 'database-schema-markdown',
+            multiple: false,
+            excludeAcceptAllOption: true,
+            types: [{
+              description: 'Markdown file',
+              accept: { 'text/markdown': ['.md'] },
+            }],
+          });
+
+          if (handle.name.toLowerCase() !== 'database_schema.md') {
+            throw new Error('Please select the database_schema.md file.');
+          }
+          markdownFileHandle = handle;
+        }
+
+        if (markdownFileHandle.requestPermission) {
+          const permission = await markdownFileHandle.requestPermission({ mode: 'readwrite' });
+          if (permission !== 'granted') {
+            throw new Error('Write permission was not granted for database_schema.md.');
+          }
+        }
+
+        const file = await markdownFileHandle.getFile();
+        const markdownSource = await file.text();
+        mergeExistingFillableMarkdown(markdownSource);
+        saveComments();
+        saveTableDetails();
+        refreshAllTableEntries();
+        const diagramSources = baseErDiagramSources.map((baseSource) => buildErDiagramSource(baseSource));
+        const updatedDocument = updateMarkdownDocument(markdownSource, diagramSources);
+        const writable = await markdownFileHandle.createWritable();
+        await writable.write(updatedDocument);
+        await writable.close();
+        await renderErDiagrams(diagramSources);
+      }
+
+      function loadTableDetails() {
+        const raw = localStorage.getItem(DETAILS_STORAGE_KEY);
+        if (!raw) return;
+
+        try {
+          const data = JSON.parse(raw);
+          document.querySelectorAll('.table-card[data-table]').forEach((card) => {
+            const values = data[card.dataset.table] || {};
+            card.querySelectorAll(':scope > .field-row').forEach((row) => {
+              const label = row.querySelector('label')?.textContent?.trim();
+              const control = row.querySelector('input, textarea');
+              if (label && control && Object.hasOwn(values, label)) control.value = values[label];
+            });
+          });
+        } catch (error) {
+          console.warn('Unable to restore table details:', error);
+        }
+      }
+
+      function loadComments() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+
+        try {
+          const data = JSON.parse(raw);
+          document.querySelectorAll('.field-comment-list').forEach((list) => {
+            const table = list.dataset.table || 'unknown';
+            const rows = data[table] || [];
+
+            if (!rows.length) return;
+
+            list.innerHTML = '';
+            rows.forEach(({ field, comment }) => {
+              list.appendChild(createFieldRow(table, field, comment));
+            });
+          });
+        } catch (error) {
+          console.warn('Unable to restore field comments:', error);
+        }
+      }
+
+      function initializeFieldDropdowns() {
+        document.querySelectorAll('.field-comment-list').forEach((list) => {
+          const table = list.dataset.table || 'unknown';
+          list.querySelectorAll('.field-name').forEach((input) => {
+            const select = createFieldSelect(table, input.value);
+            input.replaceWith(select);
+            select.after(createCustomFieldInput());
+          });
+        });
+      }
+
+      renderFillableTables();
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.add-field-comment');
+        if (!button) return;
+
+        const list = button.closest('.table-card').querySelector('.field-comment-list');
+        list.appendChild(createFieldRow(list.dataset.table));
+        saveComments();
+      });
+
+      document.addEventListener('input', (event) => {
+        if (event.target.matches('.field-name, .field-comment')) {
+          event.target.dataset.userEdited = 'true';
+          saveComments();
+        }
+
+        if (event.target.matches('.table-card > .field-row input, .table-card > .field-row textarea')) {
+          event.target.dataset.userEdited = 'true';
+        }
+      });
+
+      document.addEventListener('change', (event) => {
+        if (event.target.matches('.field-name')) {
+          event.target.dataset.userEdited = 'true';
+          const customInput = event.target.closest('.field-comment-row').querySelector('.custom-field-name');
+          customInput.hidden = event.target.value !== '__other__';
+          if (!customInput.hidden) customInput.focus();
+          saveComments();
+        }
+      });
+
+      document.addEventListener('input', (event) => {
+        if (event.target.matches('.custom-field-name')) {
+          event.target.dataset.userEdited = 'true';
+          saveComments();
+        }
+      });
+
+      document.querySelector('.save-template').addEventListener('click', async () => {
+        const status = document.querySelector('.save-status');
+        try {
+          saveComments();
+          saveTableDetails();
+          await saveToMarkdownFile();
+          status.textContent = `Saved to database_schema.md at ${new Date().toLocaleTimeString()}.`;
+        } catch (error) {
+          status.textContent = error.name === 'AbortError'
+            ? 'Save cancelled.'
+            : error.message || 'Could not save the Markdown file.';
+          console.error('Unable to save schema notes:', error);
+        }
+      });
+
+      loadTableDetails();
+      renderErDiagrams(baseErDiagramSources.map((baseSource) => buildErDiagramSource(baseSource)));
+    </script>
+  </body>
+</html>

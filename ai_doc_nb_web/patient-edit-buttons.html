@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Action Buttons — patient_edit.php — NB Patho AI Docs</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #6366f1;
+            --secondary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f8fafc;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            margin: 0;
+            padding: 2rem 1.25rem;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.92rem;
+            flex-wrap: wrap;
+        }
+
+        .top-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: color 0.15s ease;
+        }
+
+        .top-nav a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0284c7 0%, #1e1b4b 60%, #0f172a 100%);
+            color: #ffffff;
+            padding: 2.25rem 2.5rem;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header .badge-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            color: #e0f2fe;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.85rem;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.92;
+            font-size: 1rem;
+            max-width: 820px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.85rem 2.25rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.65rem;
+            font-size: 1.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Interactive Buttons Showcase */
+        .btn-preview-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.25rem 0 1.5rem 0;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .mock-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            cursor: default;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .mock-btn-primary {
+            background-color: #0d6efd;
+            color: #ffffff;
+            border-color: #0d6efd;
+        }
+
+        .mock-btn-secondary {
+            background-color: #6c757d;
+            color: #ffffff;
+        }
+
+        /* Flow Process Cards */
+        .lifecycle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .lifecycle-step {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.15rem 1.25rem;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .lifecycle-step.s1 { border-top: 4px solid var(--primary); }
+        .lifecycle-step.s2 { border-top: 4px solid var(--secondary); }
+        .lifecycle-step.s3 { border-top: 4px solid var(--warning); }
+        .lifecycle-step.s4 { border-top: 4px solid var(--success); }
+
+        .lifecycle-step .step-badge {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .lifecycle-step h4 {
+            margin: 0 0 0.4rem 0;
+            font-size: 1rem;
+            color: #0f172a;
+        }
+
+        .lifecycle-step p {
+            margin: 0;
+            font-size: 0.83rem;
+            color: var(--muted);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem 0.9rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .badge-status { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+        .badge-success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .badge-warning { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .badge-danger { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.15rem 1.35rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            line-height: 1.5;
+            margin: 0.85rem 0 1.25rem 0;
+            border: 1px solid #1e293b;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit;
+        }
+
+        .kw { color: #f43f5e; font-weight: 600; }
+        .fn { color: #38bdf8; }
+        .st { color: #a3e635; }
+        .cm { color: #64748b; font-style: italic; }
+        .vr { color: #fbbf24; }
+
+        .callout {
+            border-left: 4px solid var(--primary);
+            background: var(--primary-light);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.25rem 0;
+            font-size: 0.92rem;
+        }
+
+        .callout.warning { border-left-color: var(--warning); background: var(--warning-light); }
+        .callout.danger { border-left-color: var(--danger); background: var(--danger-light); }
+        .callout.success { border-left-color: var(--success); background: var(--success-light); }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: #0f172a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="top-nav">
+        <a href="index.html">&larr; Back to AI Docs Index</a>
+        <span>&bull;</span>
+        <a href="patient-workflows.html">Patient Workflows Reference</a>
+        <span>&bull;</span>
+        <a href="patient-report-groups.html">ReportType Groups 1, 2, 3</a>
+    </div>
+
+    <header>
+        <div class="badge-tag">patient_edit.php &bull; Action Buttons</div>
+        <h1>Diagnostic Action Buttons Architecture</h1>
+        <p>คู่มือศึกษาปุ่มควบคุมการวินิจฉัยและออกผลตรวจ 4 ปุ่มหลักใน <code>patient_edit.php</code> (รวมถึง <code>job6_result.php</code> และ <code>job7_result.php</code>) พร้อมเงื่อนไขการแสดงผล, เหตุการณ์ Client JS, AJAX endpoints, และกระบวนการเปลี่ยนสถานะ</p>
+    </header>
+
+    <!-- SECTION 1: BUTTONS PREVIEW -->
+    <div class="card">
+        <h2>1. ปุ่มควบคุมผลตรวจทั้ง 4 ปุ่ม (Visual Preview)</h2>
+        <p>ปุ่มควบคุมหลักชุดนี้จะอยู่ที่ด้านล่างของส่วนรายงานผลตรวจทางพยาธิวิทยา (เรนเดอร์ใน <code>includes/patient_form_080_job6_result.php</code> สำหรับเคสชิ้นเนื้อทั่วไป และ <code>patient_form_080_job7_result.php</code> สำหรับเคสเซลล์วิทยาปากมดลูก):</p>
+
+        <div class="btn-preview-bar">
+            <span class="mock-btn mock-btn-primary">Start Diagnostic</span>
+            <span class="mock-btn mock-btn-primary">Add New Report Section.</span>
+            <span class="mock-btn mock-btn-primary">Request Second Pathologist Review</span>
+            <span class="mock-btn mock-btn-primary">Release Report</span>
+        </div>
+
+        <div class="lifecycle-grid">
+            <div class="lifecycle-step s1">
+                <div class="step-badge">Stage 1 &bull; Status 12000</div>
+                <h4>Start Diagnostic</h4>
+                <p>เลื่อนสถานะเคสเข้าสู่การวินิจฉัย (12000) สำหรับแพทย์เจ้าของเคส</p>
+            </div>
+            <div class="lifecycle-step s2">
+                <div class="step-badge">Stage 2 &bull; On-Demand</div>
+                <h4>Add New Section</h4>
+                <p>เปิด Modal เพิ่มกล่องข้อความ Group 2 (Provisional, Diag, Addendum, Revised)</p>
+            </div>
+            <div class="lifecycle-step s3">
+                <div class="step-badge">Stage 3 &bull; Status 13000</div>
+                <h4>Request 2nd Review</h4>
+                <p>ส่งต่อให้ Second Pathologist (Role 6) ดับเบิ้ลคอนเฟิร์มผลตรวจ</p>
+            </div>
+            <div class="lifecycle-step s4">
+                <div class="step-badge">Stage 4 &bull; Status 20000</div>
+                <h4>Release Report</h4>
+                <p>ปิดเคส (20000), ประทับเวลาออกผล, และ Compile PDF อัตโนมัติ</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2: BUTTON 1 - START DIAGNOSTIC -->
+    <div class="card">
+        <h2>2. ปุ่มที่ 1: Start Diagnostic (<code>#btnmove12000</code>)</h2>
+        <p><strong>จุดประสงค์:</strong> ใช้เมื่อแพทย์ผู้อ่านผล (Primary Pathologist) หรือนักเซลล์วิทยา (Cytologist) พร้อมเริ่มบันทึกผลการวินิจฉัย โดยจะเปลี่ยนสถานะจากขั้นตอนก่อนหน้า (เช่น เตรียมสไลด์แล้ว <code>6000</code> หรือทำแลปน้ำ <code>10000</code>) เข้าสู่สถานะ <strong><code>12000</code> (อ่านผลการวินิจฉัย)</strong></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 200px;">หัวข้อ</th>
+                    <th>รายละเอียด</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Element HTML</strong></td>
+                    <td><code>&lt;button name="btnmove12000" id="btnmove12000" type="submit" class="btn btn-primary"&gt;Start Diagnostic&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>เงื่อนไขแสดง/เปิดใช้ (Enable)</strong></td>
+                    <td>
+                        <code>$curstatusid != "12000" &amp;&amp; ($isCurrentPathoIsOwnerThisCase || $isPersonOwnThisCase) &amp;&amp; !$isCurUserCust</code><br>
+                        &bull; สถานะปัจจุบันต้องยังไม่ใช่ <code>12000</code><br>
+                        &bull; ผู้ใช้งานที่ล็อกอินอยู่ต้องเป็นเจ้าของเคส (Primary Pathologist/Cytologist)<br>
+                        &bull; ต้องไม่ใช่กลุ่มลูกค้า (Customer)
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Client JavaScript</strong></td>
+                    <td>
+                        ไฟล์ <code>ajax_patient_diax_result/patient_status_control.js</code> (บรรทัด 501–524):<br>
+                        สร้าง Form บน DOM แล้ว Submit POST:
+                        <pre><code>status = 12000
+cur_status = &lt;cur_status&gt;
+isset_date_first_report = &lt;val&gt;
+pautoscroll = "confirm_result_section_bottom"
+isautoeditmode = "NA"</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Backend PHP</strong></td>
+                    <td>
+                        ใน <code>patient_edit.php</code> (บรรทัด 62):<br>
+                        &bull; เรียก <code>Patient::updateStatusWithMoveDATE()</code> เพื่อเปลี่ยน <code>status_id = 12000</code> และประทับเวลา <code>date_12000 = NOW()</code><br>
+                        &bull; เซ็ต <code>pautoscroll = "confirm_result_section_bottom"</code> เพื่อให้หน้าจอกระโดดไปยังส่วนลงผลทันทีหลังรีเฟรช
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 3: BUTTON 2 - ADD NEW REPORT SECTION -->
+    <div class="card">
+        <h2>3. ปุ่มที่ 2: Add New Report Section (<code>#add_new_report_section_btn</code>)</h2>
+        <p><strong>จุดประสงค์:</strong> ใช้สำหรับเพิ่มกล่องข้อความรายงานผลเพิ่มเติม (Group 2) เช่น <em>Pathological Diagnosis</em>, <em>Provisional Diagnosis</em>, <em>Addendum</em>, หรือ <em>Revised Report</em></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 200px;">หัวข้อ</th>
+                    <th>รายละเอียด</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Element HTML</strong></td>
+                    <td><code>&lt;button class="btn btn-primary" id="add_new_report_section_btn" data-bs-toggle="modal" data-bs-target="#add_result_type_modal"&gt;Add New Report Section.&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>เงื่อนไขแสดง/เปิดใช้ (Enable)</strong></td>
+                    <td>
+                        <code>$curstatusid == "12000" &amp;&amp; $isCurrentPathoIsOwnerThisCase &amp;&amp; !$isLastReleaseGroup2DateNull</code><br>
+                        &bull; สถานะเคสต้องอยู่ที่ <code>12000</code><br>
+                        &bull; <strong>บล็อกสำคัญ:</strong> กล่องผลตรวจ Group 2 ก่อนหน้านี้<strong>ต้องถูก Release ไปแล้วเรียบร้อย</strong> (<code>!$isLastReleaseGroup2DateNull</code>) ถึงจะอนุญาตให้เพิ่มกล่องใหม่ได้ เพื่อป้องกันการเปิดกล่องซ้อนกันโดยยังไม่ออกผลกล่องเดิม
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Modal &amp; การทำงาน</strong></td>
+                    <td>
+                        เปิด Modal <code>#add_result_type_modal</code> (<code>includes/patient_form_080_job6__select_rs_modal.php</code>) ให้เลือกจากรายการ Group 2 (IDs 11–14):
+                        <br>&bull; เมื่อกดยืนยัน <code>#add_u_result</code> จะส่ง AJAX POST ไปยัง <code>ajax_patient_diax_result/new_result.php</code>
+                        <br>&bull; ส่งพารามิเตอร์: <code>cur_patient_id</code>, <code>group_type = 2</code>, <code>result_type_id</code>, <code>result_type</code>, <code>release_type</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>ผลลัพธ์ในฐานข้อมูล &amp; DOM</strong></td>
+                    <td>
+                        &bull; เพิ่มเรคคอร์ดใหม่ลงตาราง <code>presultupdate</code><br>
+                        &bull; ฟังก์ชัน <code>append2page(data)</code> ใน <code>diagresult.js</code> นำ HTML กล่องใหม่มาแทรกในหน้าจอทันทีโดยไม่ต้องโหลดใหม่ทั้งหน้า<br>
+                        &bull; ปิดปุ่ม (disable) <code>#add_new_report_section_btn</code> ชั่วคราว และเปิดปุ่ม <code>#btn_release</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 4: BUTTON 3 - REQUEST SECOND PATHOLOGIST REVIEW -->
+    <div class="card">
+        <h2>4. ปุ่มที่ 3: Request Second Pathologist Review (<code>#btn2review13000</code>)</h2>
+        <p><strong>จุดประสงค์:</strong> ส่งเคสให้แพทย์ผู้ช่วยคอนเฟิร์มผล (Second Pathologist / Job Role 6) ตรวจสอบและให้ความเห็นชอบก่อนการออกผลจริง โดยเลื่อนสถานะเคสเข้าสู่ <strong><code>13000</code> (วินิจฉัยคอนเฟิร์ม)</strong></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 200px;">หัวข้อ</th>
+                    <th>รายละเอียด</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Element HTML</strong></td>
+                    <td><code>&lt;button name="btn2review13000" id="btn2review13000" class="btn btn-primary"&gt;Request Second Pathologist Review&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>เงื่อนไขแสดง/เปิดใช้ (Enable)</strong></td>
+                    <td>
+                        <code>$isCurrentPathoIsOwnerThisCase &amp;&amp; $isLastReleaseGroup2SecondPathoAval &amp;&amp; $isLastedResultReleaseDateNULL &amp;&amp; $curstatus[0]['id'] == 12000</code><br>
+                        &bull; สถานะต้องเป็น <code>12000</code><br>
+                        &bull; ต้องเป็นแพทย์เจ้าของเคส (Primary Pathologist)<br>
+                        &bull; <strong>ต้องมีการเลือกแพทย์ Second Pathologist</strong> ใน Dropdown ของกล่องผลตรวจแล้ว (<code>$isLastReleaseGroup2SecondPathoAval</code>)<br>
+                        &bull; ผลตรวจกล่องล่าสุดต้องยังไม่ได้ถูก Release
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Client AJAX &amp; Submit</strong></td>
+                    <td>
+                        ใน <code>patient_status_control.js</code> (บรรทัด 595–666):<br>
+                        1. ส่ง AJAX ไปที่ <code>ajax_patient_diax_result/set_second_patho_review.php</code> เซ็ต <strong><code>second_patho_review = 1</code></strong> (1 = wait for review)<br>
+                        2. อัปเดตทั้งในตาราง <code>job</code>, <code>presultupdate</code>, และ <code>patient</code><br>
+                        3. Submit POST Form: <code>status = 13000</code>, <code>pautoscroll = "confirm_result_section"</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>พฤติกรรมในสถานะ 13000 (สำหรับ Second Patho)</strong></td>
+                    <td>
+                        เมื่อ Second Pathologist เข้าดูเคส จะพบปุ่มควบคุมพิเศษ 2 ปุ่ม:
+                        <br>&bull; <span class="badge badge-danger">btnrejto12000</span> <strong>Reject to originator:</strong> รีเซ็ต <code>second_patho_review = 0</code> ส่งสถานะกลับไปเป็น <code>12000</code> ให้แพทย์คนแรกแก้ไข
+                        <br>&bull; <span class="badge badge-success">btnagreeto20000</span> <strong>Agree with result and release report:</strong> เซ็ต <code>second_patho_review = 2</code> (approved) และส่งเคสไปออกผลที่สถานะ <code>20000</code> ทันที
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 5: BUTTON 4 - RELEASE REPORT -->
+    <div class="card">
+        <h2>5. ปุ่มที่ 4: Release Report (<code>#btn_release</code>)</h2>
+        <p><strong>จุดประสงค์:</strong> ทำการอนุมัติและออกผลการตรวจทางพยาธิวิทยาขั้นสุดท้าย เปลี่ยนสถานะเคสเป็น <strong><code>20000</code> (ออกผลแล้ว / เสร็จสิ้น)</strong> ประทับเวลาออกผลอย่างเป็นทางการ และสั่งสร้างไฟล์รายงาน <strong>PDF</strong> โดยอัตโนมัติ</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 200px;">หัวข้อ</th>
+                    <th>รายละเอียด</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Element HTML</strong></td>
+                    <td><code>&lt;button name="btn_release" id="btn_release" type="submit" class="btn btn-primary"&gt;Release Report&lt;/button&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>เงื่อนไขแสดง/เปิดใช้ (Enable)</strong></td>
+                    <td>
+                        <code>$isCurrentPathoIsOwnerThisCase &amp;&amp; $curstatus[0]['id'] == 12000 &amp;&amp; $isLastReleaseGroup2DateNull</code><br>
+                        &bull; อยู่ในสถานะ <code>12000</code> และเป็นแพทย์เจ้าของเคส<br>
+                        &bull; ผลตรวจกล่องล่าสุดยังไม่มีการประทับเวลา Release
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Security &amp; Validation Checks ก่อนส่ง</strong></td>
+                    <td>
+                        ระบบใน <code>patient_status_control.js</code> (บรรทัด 676–753) จะทำการตรวจสอบ:
+                        <br>1. <code>!is_diag_editeing_mode</code> &rarr; ต้องบันทึกข้อความที่กำลังพิมพ์ให้เสร็จก่อน
+                        <br>2. <code>get_spcimen_list1_count() &gt; 0</code> &rarr; <strong>ต้องมีการคิดราคาชิ้นเนื้อ (Specimen Price) อย่างน้อย 1 รายการ</strong>
+                        <br>3. <strong>Second Patho Gate:</strong> หากมีการเลือกแพทย์ Second Pathologist ไว้ (<code>lastest_SecondPatho_userid != '0'</code>) ระบบจะแจ้งเตือน <em>"Second patho need to be agree first!"</em> และไม่อนุญาตให้ออกผลตรง ต้องส่งให้ Second Patho ตรวจก่อน
+                        <br>4. กล่องยืนยัน: <em>"คุณกำลังจะออกผลถึงลูกค้า! หากออกผลแล้วคุณจะไม่สามารถแก้ไขผลที่ออกไปแล้วได้"</em>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>กระบวนการ Release (AJAX &amp; Backend)</strong></td>
+                    <td>
+                        1. ส่ง AJAX ไปที่ <code>ajax_patient_diax_result/setReleaseTimeIfNull.php</code> ประทับเวลา <code>release_time = NOW()</code> ลงในเรคคอร์ด <code>presultupdate</code> ทุกรายการที่ยังไม่มีเวลาออกผล<br>
+                        2. ประทับ <code>date_first_report</code> (หากเป็นการออกผลครั้งแรก)<br>
+                        3. Submit POST: <code>status = 20000</code>, <code>reported_as = 'ออกผลแล้ว'</code> (หรือ <code>'ออกผลเบื้องต้น'</code>), <code>pautoscroll = "finish_section"</code>, <code>auto_release_pdf = 1</code><br>
+                        4. <code>patient_edit.php</code> รัน <code>Patient::updateStatusWithMoveDATE()</code> บันทึก <code>date_20000 = NOW()</code><br>
+                        5. <strong>Auto PDF Generation:</strong> โค้ดเรียก <code>require 'patient_pdf.php'</code> อัตโนมัติด้วย <code>$pdfOutputOption = 'F'</code> เพื่อสร้างไฟล์ PDF บนเซิร์ฟเวอร์
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 6: SUMMARY MATRIX -->
+    <div class="card">
+        <h2>6. ตารางสรุปเปรียบเทียบทั้ง 4 ปุ่ม (Summary Matrix)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ปุ่ม</th>
+                    <th>Element ID</th>
+                    <th>สถานะเริ่มต้น</th>
+                    <th>สถานะปลายทาง</th>
+                    <th>ผู้มีสิทธิ์กด</th>
+                    <th>ผลลัพธ์หลัก</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Start Diagnostic</strong></td>
+                    <td><code>#btnmove12000</code></td>
+                    <td><code>6000</code> / <code>10000</code> / อื่น ๆ</td>
+                    <td><span class="badge badge-status">12000</span></td>
+                    <td>Primary Pathologist / Cytologist</td>
+                    <td>เริ่มขั้นตอนการวินิจฉัย บันทึก <code>date_12000</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Add New Report Section</strong></td>
+                    <td><code>#add_new_report_section_btn</code></td>
+                    <td><code>12000</code></td>
+                    <td>คงเดิม (<code>12000</code>)</td>
+                    <td>Primary Pathologist / Cytologist</td>
+                    <td>เพิ่มแถว Group 2 ใน <code>presultupdate</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Request 2nd Review</strong></td>
+                    <td><code>#btn2review13000</code></td>
+                    <td><code>12000</code></td>
+                    <td><span class="badge badge-warning">13000</span></td>
+                    <td>Primary Pathologist</td>
+                    <td>ส่งให้หมอคนที่สอง, เซ็ต <code>second_patho_review = 1</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Release Report</strong></td>
+                    <td><code>#btn_release</code></td>
+                    <td><code>12000</code> / <code>13000</code></td>
+                    <td><span class="badge badge-success">20000</span></td>
+                    <td>Primary Patho (หรือ 2nd Patho ที่ 13000)</td>
+                    <td>ออกผลเป็นทางการ, ประทับ <code>release_time</code>, สร้าง PDF</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>NB Patho (dev3) AI Documentation System &bull; Diagnostic Action Buttons Reference</p>
+    </footer>
+
+</div>
+</body>
+</html>

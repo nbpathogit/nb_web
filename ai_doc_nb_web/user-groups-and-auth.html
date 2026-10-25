@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Groups, Access Control &amp; Login — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        h3 { color: #0369a1; margin-top: 1.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.92rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #0f172a; color: #f1f5f9; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; }
+        pre code { background: transparent; color: inherit; padding: 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
+    <header>
+        <h1>User Groups, Access Control &amp; <code>login.php</code> Reference</h1>
+        <p>User group IDs (1000–5100), <code>user_auth.php</code> flags, per-user capabilities, and full authentication flow</p>
+    </header>
+
+    <div class="card">
+        <h2>1. User Group IDs (<code>user_groups</code> / <code>user.ugroup_id</code>)</h2>
+        <table>
+            <thead>
+                <tr><th>Group ID</th><th>ภาษาไทย (Thai)</th><th>English Name</th><th><code>user_auth.php</code> Flag &amp; Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>1000</strong></td><td>ผู้ดูแลระบบ</td><td><code>admin</code></td><td><code>$isCurUserAdmin</code>; in <code>$isCurUserNB</code></td></tr>
+                <tr><td><strong>1900</strong></td><td>พยาธิ_แอดมิน</td><td><code>pathologist_admin</code></td><td><code>$isCurUserPathoAdmin</code>; in <code>$isCurUserNB</code></td></tr>
+                <tr><td><strong>2000</strong></td><td>พยาธิแพทย์</td><td><code>pathologist</code></td><td><code>$isCurUserPatho</code>; in <code>$isCurUserNB</code> &amp; <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><strong>2100</strong></td><td>ผู้ช่วยพยาธิแพทย์</td><td><code>pathologist assistant</code></td><td><code>$isCurUserPathoAssis</code>; in <code>$isCurUserNB</code> &amp; <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><strong>2200</strong></td><td>เจ้าหน้าที่แลป</td><td><code>Lab officer (NB)</code></td><td><code>$isCurUserLabOfficerNB</code>; in <code>$isCurUserNB</code> &amp; <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><strong>2500</strong></td><td>เจ้าหน้าที่ธุรการ</td><td><code>AdminStaff</code></td><td><code>$isCurUserAdminStaff</code>; in <code>$isCurUserNB</code> &amp; <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><strong>2600</strong></td><td>เจ้าหน้าที่การตลาด</td><td><code>Draft</code></td><td>Marketing Staff (no dedicated flag in <code>user_auth.php</code>)</td></tr>
+                <tr><td><strong>2700</strong></td><td>เจ้าหน้าที่งานคุณภาพ</td><td><code>Draft</code></td><td>Quality Assurance Staff (no dedicated flag in <code>user_auth.php</code>)</td></tr>
+                <tr><td><strong>5000</strong></td><td>แพทย์ผู้ส่งตรวจ (ลูกค้า)</td><td><code>Clinician (Customer)</code></td><td><code>$isCurUserClinicianCust</code>; in <code>$isCurUserCust</code></td></tr>
+                <tr><td><strong>5100</strong></td><td>โรงพยาบาล (ลูกค้า)</td><td><code>Lab officer (Customer)</code></td><td><code>$isCurUserHospitalCust</code>; in <code>$isCurUserCust</code>. Linked via <code>Hospital::setUserID()</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3>Per-User Capability Flags vs Group IDs</h3>
+        <ul>
+            <li><strong><code>user.role_a</code>:</strong> Super-pathologist ownership flag. Checked in <code>$isCurrentPathoIsOwnerThisCase</code> (<code>$u_cur_group_id-&gt;id == 2000 &amp;&amp; ($_SESSION['user']-&gt;id == $job5s[0]['user_id'] || $_SESSION['user']-&gt;role_a == 1)</code>).</li>
+            <li><strong><code>user.role_7</code>:</strong> Cytologist capability flag (<code>User::getAllbyCytologist()</code> selects <code>role_7 = 1</code>). Cytologist case ownership (<code>$isCurrentCytologistIsOwnerThisCase</code>) checks <code>$_SESSION['user']-&gt;id == $job7s[0]['user_id']</code>.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>2. Step-by-Step <code>login.php</code> Execution Flow</h2>
+        <ol>
+            <li><strong>Initialization &amp; Subfolder Detection (Lines 1–15):</strong> Loads <code>includes/init.php</code> (registers autoloader for <code>classes/*.php</code> and calls <code>session_start()</code>) and extracts <code>$subfolder</code> (e.g., <code>dev3</code>) from <code>$_SERVER['PHP_SELF']</code>.</li>
+            <li><strong>Already-Logged-In Check (Lines 16–18):</strong> Calls <code>Auth::isLoggedIn()</code>. If already authenticated, redirects immediately to <code>/patient.php</code>.</li>
+            <li><strong>POST Authentication (Lines 20–28):</strong>
+                <ul>
+                    <li>Checks <code>User::isUserNameActive($conn, $_POST['username'])</code> (<code>user_status == 1</code>).</li>
+                    <li>Checks <code>User::authenticate($conn, $_POST['username'], $_POST['password'])</code> via <code>password_verify()</code>.</li>
+                    <li>Calls <code>Auth::login($conn, $_POST['username'], $_POST['subfolder'])</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Post-Login Redirects (Lines 29–36):</strong>
+                <ul>
+                    <li>If password is still <code>"changeme"</code> &rarr; redirects to <code>/user_change_password.php</code>.</li>
+                    <li>Else if <code>$_POST['page_name']</code> is non-empty &rarr; redirects to <code>/{page_name}?id={page_id}</code>.</li>
+                    <li>Otherwise &rarr; redirects to <code>/patient.php</code>.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>3. Session Variables Created by <code>Auth::login()</code></h2>
+        <table>
+            <thead>
+                <tr><th>Session Key</th><th>Value / Type</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>$_SESSION['is_logged_in']</code></td><td><code>true</code> (bool)</td><td>Marks session as authenticated</td></tr>
+                <tr><td><code>$_SESSION['username']</code></td><td><code>string</code></td><td>Logged-in username</td></tr>
+                <tr><td><code>$_SESSION['user']</code></td><td><code>User</code> object</td><td>Full record from <code>user</code> table</td></tr>
+                <tr><td><code>$_SESSION['userid']</code></td><td><code>int</code></td><td><code>user.id</code> primary key</td></tr>
+                <tr><td><code>$_SESSION['usergroup']</code></td><td><code>Ugroup</code> object</td><td>Record from <code>user_groups</code> table</td></tr>
+                <tr><td><code>$_SESSION['subfolder']</code></td><td><code>string</code></td><td>Subfolder path used by <code>Url::redirect()</code></td></tr>
+                <tr><td><code>$_SESSION['skey']</code></td><td><code>string</code> (10 chars)</td><td>Random security token verified by AJAX endpoints</td></tr>
+                <tr><td><code>$_SESSION['setSrvTimeLimitIntSecs']</code></td><td><code>1200</code> (int)</td><td>20-minute idle timeout limit</td></tr>
+                <tr><td><code>$_SESSION['targetSrvTimeOutIntSecs']</code></td><td><code>int</code></td><td>Expiration timestamp (<code>curTime + 1200</code>)</td></tr>
+                <tr><td><code>$_SESSION['log_username']</code> / <code>$_SESSION['log_name']</code></td><td><code>string</code></td><td>Used by <code>Log::add()</code> on login and logout</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

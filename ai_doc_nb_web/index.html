@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NB Patho (nb_web / dev3) — AI Knowledge Base &amp; Skill Documentation</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --bg: #f8fafc;
+            --sidebar-bg: #0f172a;
+            --sidebar-text: #cbd5e1;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f1f5f9;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 290px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 1.5rem 1.25rem;
+            border-right: 1px solid #1e293b;
+            z-index: 100;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .sidebar .subtitle {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 1.25rem;
+            display: block;
+        }
+
+        .sidebar-section {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            margin: 1.25rem 0 0.4rem 0;
+            font-weight: 700;
+        }
+
+        .sidebar a {
+            display: block;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            padding: 0.45rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            margin-bottom: 0.15rem;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar a:hover {
+            background: #1e293b;
+            color: #38bdf8;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 290px;
+            flex: 1;
+            padding: 2rem 2.5rem;
+            max-width: 1200px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0284c7 0%, #0f172a 100%);
+            color: #fff;
+            padding: 2rem 2.25rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
+        }
+
+        .hero h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.85rem;
+        }
+
+        .hero p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.98rem;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 10px;
+            padding: 1.15rem 1.25rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: transform 0.15s, box-shadow 0.15s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+        }
+
+        .nav-card h3 {
+            margin: 0 0 0.4rem 0;
+            font-size: 1.02rem;
+            color: var(--primary-dark);
+        }
+
+        .nav-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+            scroll-margin-top: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.35rem;
+            color: #0f172a;
+        }
+
+        .btn-page {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+        }
+
+        .btn-page:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.35rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.08rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0 1.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        tr:hover td {
+            background: #f8fafc;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.12rem 0.38rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0.75rem 0 1rem 0;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .callout {
+            border-left: 4px solid var(--primary);
+            background: #f8fafc;
+            padding: 0.85rem 1.15rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 0.92rem;
+        }
+
+        .callout.warn { border-left-color: var(--warning); background: #fffbeb; }
+        .callout.success { border-left-color: var(--success); background: #f0fdf4; }
+
+        .badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { position: static; width: 100%; height: auto; }
+            body { flex-direction: column; }
+            .main { margin-left: 0; padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <h2>NB Patho (nb_web)</h2>
+    <span class="subtitle">AI Skill &amp; Architecture Docs (dev3)</span>
+
+    <div class="sidebar-section">Quick Jump (This Page)</div>
+    <a href="#sec-job-roles">1. Job / Role IDs (1–7)</a>
+    <a href="#sec-user-groups">2. User Groups &amp; Login Flow</a>
+    <a href="#sec-compat">3. PHP 7.3 + 8.2+ &amp; MySQL 8.4</a>
+    <a href="#sec-sn-service">4. SN Prefixes &amp; Service Types</a>
+    <a href="#sec-patient">5. Patient Workflows &amp; Status</a>
+    <a href="#sec-billing-v3">6. Billing &amp; Billing PDF V3</a>
+    <a href="#sec-labels">7. Label Printing &amp; Master Data</a>
+    <a href="#sec-schema">8. Database Schema (35 Tables)</a>
+
+    <div class="sidebar-section">Dedicated Topic Pages</div>
+    <a href="job-roles.html">📄 Job Roles &amp; Workflows</a>
+    <a href="user-groups-and-auth.html">📄 User Groups &amp; Auth / Login</a>
+    <a href="php-mysql-compatibility.html">📄 PHP &amp; MySQL Compatibility</a>
+    <a href="workflow-reference-map.html">📄 SN, Service Type &amp; Invoice Map</a>
+    <a href="patient-workflows.html">📄 Patient Add / Edit / PDF Attach</a>
+    <a href="patient-report-groups.html">📄 ReportType Groups 1, 2, 3 (UResult)</a>
+    <a href="patient-edit-buttons.html">📄 Diagnostic Action Buttons (Edit)</a>
+    <a href="patient-edit-result-buttons.html">📄 Textarea Controls (Edit/Save/Del)</a>
+    <a href="billing-pdf-v3.html">📄 Billing &amp; Billing PDF V3</a>
+    <a href="label-and-master-data.html">📄 Label Print &amp; Master Data</a>
+    <a href="database-schema.html">📄 35-Table Schema Reference</a>
+    <a href="database_schema_full.html">📄 Full DDL Schema Snapshot</a>
+</nav>
+
+<main class="main">
+    <div class="hero">
+        <h1>NB Patho (<code>nb_web / dev3</code>) — Master AI Skill Documentation</h1>
+        <p>Complete reference combining all <code>nb-web</code> skills, <code>.github/skills</code> workflows, database schema catalog, and PHP 7.3 / PHP 8.2+ / MySQL 8.4 compatibility guidelines.</p>
+    </div>
+
+    <!-- Topic Cards -->
+    <div class="grid-cards">
+        <a class="nav-card" href="job-roles.html">
+            <div>
+                <h3>1. Job Roles (1–7) &amp; Workflows</h3>
+                <p>Thai &amp; English Job/Role ID mapping (1–7), cost fields, Job 1/2/3 finish pages, and Special Slide requests.</p>
+            </div>
+        </a>
+        <a class="nav-card" href="user-groups-and-auth.html">
+            <div>
+                <h3>2. User Groups &amp; Login</h3>
+                <p>User groups (1000–5100), <code>user_auth.php</code> flags, <code>role_a</code> / <code>role_7</code>, and how <code>login.php</code> works.</p>
+            </div>
+        </a>
+        <a class="nav-card" href="php-mysql-compatibility.html">
+            <div>
+                <h3>3. PHP 7.3 + 8.2+ &amp; MySQL 8.4</h3>
+                <p>Dynamic property fixes (<code>#[\AllowDynamicProperties]</code>) and <code>ONLY_FULL_GROUP_BY</code> (Error 1055) SQL rules.</p>
+            </div>
+        </a>
+        <a class="nav-card" href="workflow-reference-map.html">
+            <div>
+                <h3>4. SN, Service Types &amp; Invoices</h3>
+                <p>Surgical Number prefixes (<code>SN</code>, <code>CN</code>, <code>LN</code>, <code>PN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code>, <code>ZN</code>), <code>service_type</code>, and <code>invoice_list</code>.</p>
+            </div>
+        </a>
+        <a class="nav-card" href="patient-workflows.html">
+            <div>
+                <h3>5. Patient Workflows</h3>
+                <p><code>patient.php</code>, <code>patient_add.php</code>, <code>patient_edit.php</code> (status <code>1000</code>&rarr;<code>20000</code>), and PDF attachments.</p>
+            </div>
+        </a>
+        <a class="nav-card" href="billing-pdf-v3.html">
+            <div>
+                <h3>6. Billing &amp; Billing PDF V3</h3>
+                <p>Standard billing reports (<code>billing.php</code>) and the self-contained Billing PDF V3 system (<code>billing_pdf_3.php</code>).</p>
+            </div>
+        </a>
+        <a class="nav-card" href="label-and-master-data.html">
+            <div>
+                <h3>7. Labels &amp; Master Data</h3>
+                <p>Sticker label queues (<code>generate_label.php</code> V1 &amp; V2) and CRUD screens for Hospital, Specimen, Lab Fluid, and Templates.</p>
+            </div>
+        </a>
+        <a class="nav-card" href="database-schema.html">
+            <div>
+                <h3>8. Database Schema (35 Tables)</h3>
+                <p>Complete 35-table catalog for <code>nbpa_data_dev3</code>, 6 declared foreign keys, and unique indexes.</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- SECTION 1: JOB ROLES -->
+    <section id="sec-job-roles" class="section-card">
+        <div class="section-header">
+            <h2>1. Job / Role Mapping by ID (Thai &amp; English)</h2>
+            <a class="btn-page" href="job-roles.html">Open Full Page &rarr;</a>
+        </div>
+        <p>Stored in <code>job_role</code> (referenced by <code>job.job_role_id</code>). Always use these exact Thai and English names when referring to Job/Role IDs:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ภาษาไทย (Thai)</th>
+                    <th>ภาษาอังกฤษ (English)</th>
+                    <th>Cost/Job</th>
+                    <th>Related Patient / Workflow Column &amp; Endpoint</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge">1</span></td>
+                    <td><strong>ตัดเนื้อ</strong></td>
+                    <td><strong>Cross Section</strong></td>
+                    <td><code>2.7</code></td>
+                    <td><code>patient.job1qty</code>, <code>ajax_job1_finish/job1_finish.php</code> (<code>Patient::getAllJob1FinishPhp</code>)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge">2</span></td>
+                    <td><strong>คนช่วยตัดนื้อ(คนจด)</strong></td>
+                    <td><strong>Cross Section Assistent</strong></td>
+                    <td><code>1.1</code></td>
+                    <td><code>patient.job2qty</code>, <code>ajax_job2_finish/job2_finish.php</code> (<code>Patient::getAllJob2FinishPhp</code>)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge">3</span></td>
+                    <td><strong>เตรียมสใลด์</strong></td>
+                    <td><strong>Slide Prepareation</strong></td>
+                    <td><code>4.2</code></td>
+                    <td><code>patient.job3qty</code>, <code>ajax_job3_finish/job3_finish.php</code> (<code>Patient::getAllJob3FinishPhp</code>)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge">4</span></td>
+                    <td><strong>เตรียมสไลด์พิเศษ</strong></td>
+                    <td><strong>Special Slide Prepareation</strong></td>
+                    <td><code>5.6</code></td>
+                    <td><code>req_id_sp_slide</code> (<code>job.req_id</code>), <code>data/patientSpSlReq.php</code> (<code>ReqSpSlideID::getBillandJobTableWithStart_v2</code>)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge">5</span></td>
+                    <td><strong>แพทย์ผู้ออกผล</strong></td>
+                    <td><strong>Pathologist</strong></td>
+                    <td><code>0</code></td>
+                    <td><code>patient.ppathologist_id</code> (Case owner in <code>user_auth.php</code>)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge">6</span></td>
+                    <td><strong>แพทย์ผู้คอนเฟริ์มผล</strong></td>
+                    <td><strong>Second pathologist</strong></td>
+                    <td><code>0</code></td>
+                    <td><code>patient.second_patho_review</code> (Status <code>13000</code> confirm result)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge">7</span></td>
+                    <td><strong>นักเซลด์วิทยา</strong></td>
+                    <td><strong>Cycologist</strong></td>
+                    <td><code>0</code></td>
+                    <td><code>user.role_7 = 1</code> (Cytologist capability; <code>PN</code>/<code>LN</code> result entry)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION 2: USER GROUPS & LOGIN -->
+    <section id="sec-user-groups" class="section-card">
+        <div class="section-header">
+            <h2>2. User Groups (1000–5100) &amp; Login Architecture</h2>
+            <a class="btn-page" href="user-groups-and-auth.html">Open Full Page &rarr;</a>
+        </div>
+        <h3>A. User Group IDs (<code>user_groups</code> / <code>user.ugroup_id</code>)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Group ID</th>
+                    <th>ภาษาไทย (Thai)</th>
+                    <th>English Name</th>
+                    <th><code>user_auth.php</code> Flag</th>
+                    <th>Group Scope</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>1000</code></td><td>ผู้ดูแลระบบ</td><td><code>admin</code></td><td><code>$isCurUserAdmin</code></td><td><code>$isCurUserNB</code></td></tr>
+                <tr><td><code>1900</code></td><td>พยาธิ_แอดมิน</td><td><code>pathologist_admin</code></td><td><code>$isCurUserPathoAdmin</code></td><td><code>$isCurUserNB</code></td></tr>
+                <tr><td><code>2000</code></td><td>พยาธิแพทย์</td><td><code>pathologist</code></td><td><code>$isCurUserPatho</code></td><td><code>$isCurUserNB</code>, <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><code>2100</code></td><td>ผู้ช่วยพยาธิแพทย์</td><td><code>pathologist assistant</code></td><td><code>$isCurUserPathoAssis</code></td><td><code>$isCurUserNB</code>, <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><code>2200</code></td><td>เจ้าหน้าที่แลป</td><td><code>Lab officer (NB)</code></td><td><code>$isCurUserLabOfficerNB</code></td><td><code>$isCurUserNB</code>, <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><code>2500</code></td><td>เจ้าหน้าที่ธุรการ</td><td><code>AdminStaff</code></td><td><code>$isCurUserAdminStaff</code></td><td><code>$isCurUserNB</code>, <code>$isCurUserGeneralNB</code></td></tr>
+                <tr><td><code>2600</code></td><td>เจ้าหน้าที่การตลาด</td><td><code>Draft</code></td><td>—</td><td>Marketing Staff</td></tr>
+                <tr><td><code>2700</code></td><td>เจ้าหน้าที่งานคุณภาพ</td><td><code>Draft</code></td><td>—</td><td>Quality Staff</td></tr>
+                <tr><td><code>5000</code></td><td>แพทย์ผู้ส่งตรวจ (ลูกค้า)</td><td><code>Clinician (Customer)</code></td><td><code>$isCurUserClinicianCust</code></td><td><code>$isCurUserCust</code></td></tr>
+                <tr><td><code>5100</code></td><td>โรงพยาบาล (ลูกค้า)</td><td><code>Lab officer (Customer)</code></td><td><code>$isCurUserHospitalCust</code></td><td><code>$isCurUserCust</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3>B. How <code>login.php</code> Works</h3>
+        <ol>
+            <li><strong>Init &amp; Subfolder:</strong> Loads <code>includes/init.php</code> (starts session + class autoloader) and detects <code>$subfolder</code> (e.g., <code>dev3</code>) from <code>$_SERVER['PHP_SELF']</code>.</li>
+            <li><strong>Already Logged In:</strong> If <code>Auth::isLoggedIn()</code> is true, redirects immediately to <code>/patient.php</code>.</li>
+            <li><strong>Active &amp; Password Check (POST):</strong> Calls <code>User::isUserNameActive($conn, $username)</code> (<code>user_status == 1</code>) and <code>User::authenticate($conn, $username, $password)</code> (<code>password_verify()</code>).</li>
+            <li><strong>Session Creation:</strong> Calls <code>Auth::login($conn, $username, $subfolder)</code>, which stores <code>User</code>, <code>Ugroup</code>, <code>skey</code>, and a 20-minute timeout (<code>1200</code>s) in <code>$_SESSION</code>, and logs the login via <code>Log::add()</code>.</li>
+            <li><strong>Redirects:</strong> If password is <code>"changeme"</code> &rarr; <code>/user_change_password.php</code>; else if <code>page_name</code> is set &rarr; <code>/{page_name}?id={page_id}</code>; otherwise &rarr; <code>/patient.php</code>.</li>
+        </ol>
+    </section>
+
+    <!-- SECTION 3: PHP & MYSQL COMPATIBILITY -->
+    <section id="sec-compat" class="section-card">
+        <div class="section-header">
+            <h2>3. PHP 7.3 + PHP 8.2+ &amp; MySQL 8.4 Compatibility Rules</h2>
+            <a class="btn-page" href="php-mysql-compatibility.html">Open Full Page &rarr;</a>
+        </div>
+        <div class="callout success">
+            <strong>Rule 1 — Dynamic Properties (PHP 7.3 &amp; PHP 8.2+):</strong> Declare all database columns explicitly on classes hydrated via <code>PDO::FETCH_CLASS</code> (<code>User</code>, <code>Ugroup</code>) and place <code>#[\AllowDynamicProperties]</code> on its own line right above <code>class ClassName</code>. PHP 8.2+ reads it as an Attribute; PHP 7.3 ignores it as a <code>#</code> comment.
+        </div>
+        <div class="callout warn">
+            <strong>Rule 2 — <code>ONLY_FULL_GROUP_BY</code> (MySQL 8.4 Error 1055):</strong> Always fix the SQL query directly in the PHP model class rather than disabling <code>sql_mode</code> in <code>Database.php</code>. Use standard SQL <code>MAX(...)</code> on non-aggregated joined columns when grouping by a parent key (e.g. <code>GROUP BY p.id</code>). Never use <code>ANY_VALUE()</code> because MariaDB (PHP 7.3) does not support it.
+        </div>
+<pre><code>// Example in Patient::getAllJob1/2/3FinishPhp (classes/Patient.php):
+MAX(j.id) as j_id , 
+MAX(j.patient_id) as j_patient_id, 
+MAX(j.user_id) as j_user_id, 
+MAX(j.job_role_id) as j_job_role_id, 
+MAX(j.jobname) as j_jobname,
+MAX(j.qty) as j_qty,
+p.job1qty as p_job1qty,
+GROUP_CONCAT(CONCAT(j.pre_name, j.name, ' ',j.lastname) SEPARATOR ',') AS j_owners,
+MAX(DATE(j.finish_date)) as j_finish_date</code></pre>
+    </section>
+
+    <!-- SECTION 4: SN PREFIXES & SERVICE TYPES -->
+    <section id="sec-sn-service" class="section-card">
+        <div class="section-header">
+            <h2>4. Surgical Numbers (<code>sn_type</code>) &amp; Service Types (<code>service_type</code>)</h2>
+            <a class="btn-page" href="workflow-reference-map.html">Open Full Page &rarr;</a>
+        </div>
+        <h3>A. Surgical Number Prefixes (<code>sn_prefix</code> / <code>patient.sn_type</code>)</h3>
+        <table>
+            <thead>
+                <tr><th>Prefix</th><th>Thai Meaning</th><th>English Description</th><th>Format Example</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>SN</code></td><td>ตรวจชิ้นเนื้อศัลยพยาธิวิทยา</td><td>Surgical pathology</td><td><code>SN2600001</code></td></tr>
+                <tr><td><code>CN</code></td><td>ตรวจเซลล์วิทยา</td><td>Cytology</td><td><code>CN2600001</code></td></tr>
+                <tr><td><code>LN</code></td><td>ตรวจเซลล์มะเร็งปากมดลูกแบบใหม่ (Liquid base cytology)</td><td>Liquid-based cervical cytology</td><td><code>LN2600001</code></td></tr>
+                <tr><td><code>PN</code></td><td>ตรวจเซลล์มะเร็งปากมดลูกแบบเก่า (conventional cervical cytology)</td><td>Conventional cervical cytology</td><td><code>PN2600001</code></td></tr>
+                <tr><td><code>FN</code></td><td>ตรวจชิ้นเนื้อโดยอุณหภูมิเยือกแข็ง</td><td>Frozen-section tissue examination</td><td><code>FN2600001</code></td></tr>
+                <tr><td><code>DN</code></td><td>ตรวจพิเศษอณูชีววิทยา</td><td>Special molecular biology examination</td><td><code>DN2600001</code></td></tr>
+                <tr><td><code>IN</code></td><td>ตรวจชิ้นเนื้อศัลยพยาธิ (กรณีเรียกเก็บเงินแล้ว)</td><td>Surgical pathology (internal/billed; hidden from customers)</td><td><code>IN2600001</code></td></tr>
+                <tr><td><code>ZN</code></td><td>ตรวจ นิติเวช สไลด์</td><td>Forensic slide examination (hidden from customers)</td><td><code>ZN2600001</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3>B. Service Types (<code>service_type</code> Table)</h3>
+        <table>
+            <thead>
+                <tr><th>ID</th><th><code>order_list</code></th><th><code>group_type</code></th><th><code>service_type</code></th><th><code>service_typea_id</code></th><th><code>service_typea_bill</code></th><th><code>name_by_spcimen</code></th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>1</code></td><td>1</td><td>1</td><td>1 ตรวจชิ้นเนื้อศัลยพยาธิวิทยา (SN or IN)</td><td>1</td><td>ค่าตรวจ</td><td>สิ่งส่งตรวจ (SN or IN) with group type 1</td></tr>
+                <tr><td><code>2</code></td><td>5</td><td>2</td><td>5 ตรวจพิเศษ (Special Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>ย้อมพิเศษ group type 2</td></tr>
+                <tr><td><code>3</code></td><td>6</td><td>2</td><td>6 ตรวจพิเศษ (Immuno Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>ย้อมพิเศษ group type 2</td></tr>
+                <tr><td><code>4</code></td><td>2</td><td>1</td><td>2 ตรวจเซลล์วิทยา (CN)</td><td>1</td><td>ค่าตรวจ</td><td>สิ่งส่งตรวจ CN group type 1</td></tr>
+                <tr><td><code>5</code></td><td>3</td><td>1</td><td>3 ตรวจเซลล์มะเร็งปากมดลูก (PN or LN)</td><td>1</td><td>ค่าตรวจ</td><td>สิ่งส่งตรวจ PN LN group type 1</td></tr>
+                <tr><td><code>6</code></td><td>4</td><td>2</td><td>4 ตรวจชิ้นเนื้อโดยอุณหภูมิเยือกแข็ง (Frozen Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>FN with group type 2</td></tr>
+                <tr><td><code>7</code></td><td>7</td><td>2</td><td>7 ตรวจพิเศษอณูชีววิทยา (Molecular Staining)</td><td>2</td><td>ตรวจพิเศษ</td><td>DN with group type 2</td></tr>
+                <tr><td><code>8</code></td><td>8</td><td>2</td><td>8 สไลด์นิติเวช</td><td>1</td><td>สไลด์นิติเวช</td><td>ZN สไลด์นิติเวช</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION 5: PATIENT WORKFLOWS -->
+    <section id="sec-patient" class="section-card">
+        <div class="section-header">
+            <h2>5. Patient Workflows (<code>patient.php</code>, <code>patient_add.php</code>, <code>patient_edit.php</code>)</h2>
+            <a class="btn-page" href="patient-workflows.html">Open Full Page &rarr;</a>
+        </div>
+        <h3>A. Patient Add (<code>patient_add.php</code> &amp; <code>ReportType</code> Groups 1–3)</h3>
+        <ul>
+            <li><strong>SN Generation:</strong> Auto mode (<code>is_autogen == "yes"</code>) queries <code>Patient::get_max_sn_run_by_year($conn, $curyear, $sn_type)</code> and zero-pads to 5 digits; Manual mode (<code>is_autogen == "no"</code>) combines <code>prenum + yearnum + runnum</code>.</li>
+            <li><strong>Sub-Patient Cloning (<code>super_id</code>):</strong> Defaults to <code>Patient::getInit()</code>, or copies parent case fields via <code>Patient::getAll($conn, $_POST['super_id'])</code> when creating a sub-case.</li>
+            <li><strong>Post-Create <code>Presultupdate</code> &amp; Questionnaire Initialization:</strong>
+                    <li><strong><code>Group 1</code> (<code>ReportType::getAllbyGroup1</code>):</strong> Pre-created mandatory descriptive sections in <code>patient_add.php</code> (<code>result_type_id</code> <code>1</code>–<code>4</code>: <em>Specimen</em>, <em>Clinical Diagnosis</em> [skipped on PDF], <em>Gross Description</em>, <em>Microscopic Description</em>) from hardcoded DB table <code>report_type</code> (<code>release_type = 'ยังไม่ออกผล'</code>) for non-<code>PN</code>/<code>LN</code> cases. Cannot be deleted in UI; printed below Group 2 on PDF.</li>
+                    <li><strong><code>Group 2</code> (<code>ReportType::getAllbyGroup2</code>):</strong> Diagnostic &amp; Revision sections (<code>result_type_id</code> <code>11</code>–<code>14</code>: <em>Provisional Diagnosis</em> [ออกผลเบื้องต้น], <em>Pathological Diagnosis</em>, <em>Addendum</em>, <em>Revised</em>) added <strong>on-demand</strong> via Modal in <code>patient_edit.php</code> (<strong>NOT</strong> called in <code>patient_add.php</code>). Deletable before release; holds Second Pathologist confirmation; printed at top of PDF (<code>22pt</code>).</li>
+                    <li><strong><code>Group 3</code> (<code>ReportType::getAllbyGroup3</code>):</strong> Pre-created mandatory cervical cytology sections in <code>patient_add.php</code> (<code>result_type_id</code> <code>21</code>–<code>25</code>: <em>SPECIMEN TYPE</em>, <em>SOURCE</em>, <em>SPECIMEN ADEQUACY</em>, <em>INTERPRETATION</em>, <em>EDUCATIONAL NOTES AND SUGGESTION</em>) from hardcoded DB table (<code>release_type = 'ออกผลแล้ว'</code>) for <code>PN</code> and <code>LN</code> cases. Foreach loop assigns <code>name</code> as the main section header for the case's <code>patient_id</code>. (<a href="patient-report-groups.html" style="color:var(--primary); font-weight:600;">Deep Dive: ReportType Groups 1, 2, 3 Guide &rarr;</a>)</li>
+            </li>
+            <li><strong>Auto-Gender JS:</strong> Selecting a title in <code>#ppre_name_add</code> (from <code>includes/prenameOption.php</code>) auto-selects <code>#pgender_add</code> (<code>Male</code>, <code>Female</code>, <code>NA</code>).</li>
+        </ul>
+
+        <h3>B. Patient Edit Status Workflow (<code>patient_edit.php</code>)</h3>
+        <table>
+            <thead>
+                <tr><th>Status ID</th><th>Section Anchor in <code>patient_edit.php</code></th><th>Workflow Stage &amp; Form Partials</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>1000</code></td><td><code>patient_detail_section</code></td><td>Patient Intake &amp; Detail (<code>includes/patient_form_010_detail.php</code>)</td></tr>
+                <tr><td><code>2000</code></td><td><code>patient_plan_section</code></td><td>Planning, Specimen &amp; Clinician Assignment</td></tr>
+                <tr><td><code>3000</code></td><td><code>specimen_prep_section</code></td><td>Specimen Prep — Job 1 (<code>patient_form_030_job1_prepare_specimen.php</code>) &amp; Job 2 (<code>patient_form_035_job2_prepare_specimen.php</code>)</td></tr>
+                <tr><td><code>6000</code></td><td><code>slide_prep_section</code></td><td>Slide Prep — Job 3 (<code>patient_form_040_job3_prepare_slide.php</code>) &amp; Special Slide Job 4 (<code>patient_form_050_slide2_prepare_sp_slide.php</code>)</td></tr>
+                <tr><td><code>10000</code></td><td><code>lab_fluid_section_section</code></td><td>Lab Fluid Preparation (non-<code>lump</code> specimens)</td></tr>
+                <tr><td><code>11000</code></td><td><code>interim_result_section</code></td><td>Interim Result</td></tr>
+                <tr><td><code>12000</code></td><td><code>diag_result_section</code></td><td>Diagnostic Result (<code>patient_form_080_job6_result.php</code> or <code>patient_form_080_job7_result.php</code> for <code>PN</code>/<code>LN</code>)</td></tr>
+                <tr><td><code>13000</code></td><td><code>confirm_result_section</code></td><td>Second Pathologist Confirmation (Role 6)</td></tr>
+                <tr><td><code>20000</code></td><td><code>finish_section</code></td><td>Released Report &amp; PDF (<code>patient_form_100_pdf.php</code> / <code>patient_pdf.php</code>)</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 1rem;">👉 <strong>Diagnostic Action Buttons Architecture:</strong> Complete guide for <code>Start Diagnostic</code>, <code>Add New Report Section</code>, <code>Request Second Pathologist Review</code>, and <code>Release Report</code> (<a href="patient-edit-buttons.html" style="color:var(--primary); font-weight:600;">Action Buttons Guide &rarr;</a>)<br>
+        👉 <strong>Result Textarea Controls:</strong> Complete guide for <code>Edit</code>, <code>Save</code>, <code>Delete</code>, and <code>Reload Page</code> buttons on <code>&lt;label for="result_message"&gt;</code> (<a href="patient-edit-result-buttons.html" style="color:var(--primary); font-weight:600;">Textarea Buttons Guide &rarr;</a>)<br>
+        👉 <strong>Batch Result Upload by Excel (<code>patient_edit_by_excel.php</code>):</strong> Batch import diagnosis results (<code>Specimen</code>, <code>Clinical diagnosis</code>, <code>Gross</code>, <code>Micro</code>, <code>Diag</code>) with pathologist ownership enforcement and step-by-step logs (<a href="patient-workflows.html" style="color:var(--primary); font-weight:600;">Excel Batch Import Guide &rarr;</a>)</p>
+    </section>
+
+    <!-- SECTION 6: BILLING & BILLING PDF V3 -->
+    <section id="sec-billing-v3" class="section-card">
+        <div class="section-header">
+            <h2>6. Billing &amp; Billing PDF V3 System (<code>billing_pdf_3.php</code>)</h2>
+            <a class="btn-page" href="billing-pdf-v3.html">Open Full Page &rarr;</a>
+        </div>
+        <p>The <strong>Billing PDF V3</strong> system generates official invoices (ใบแจ้งหนี้) using dedicated <code>_3</code> files, completely independent of V1 and V2:</p>
+        <table>
+            <thead>
+                <tr><th>Span ID</th><th>Section Title</th><th>Template File</th><th>PDF Export Mode</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>#bill_page1</code></td><td>1. หนังสือนำและใบแจ้งหนี้ (1)</td><td><code>pdf_invoice/billingletter1_3.php</code></td><td>Portrait A4 (<code>page1</code>)</td></tr>
+                <tr><td><code>#bill_page2</code></td><td>1. หนังสือนำและใบแจ้งหนี้ "ต้นฉบับ"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td>Portrait A4 (<code>page2</code>)</td></tr>
+                <tr><td><code>#bill_page3</code></td><td>1. หนังสือนำและใบแจ้งหนี้ "สำเนา"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td>Portrait A4 (<code>page3</code>)</td></tr>
+                <tr><td><code>#bill_page4</code></td><td>2. List รายการตรวจเรียงตาม SN (Group 2)</td><td><code>pdf_invoice/billinngListAll_g2_3.php</code></td><td>Landscape A4 (<code>page4</code>)</td></tr>
+                <tr><td><code>#bill_page5</code></td><td>3. สรุปจำนวนรายการตรวจตามรหัส (Group 3)</td><td><code>pdf_invoice/billinngListAll_g3_3.php</code></td><td>Portrait A4 (<code>page5</code>)</td></tr>
+                <tr><td><code>#bill_page6</code></td><td>4. แจกแจงทุกรายการบริการ (Group 4)</td><td><code>pdf_invoice/billinngListAll_g4_3.php</code></td><td>Web-only collapsible reference</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION 7: LABEL PRINTING & MASTER DATA -->
+    <section id="sec-labels" class="section-card">
+        <div class="section-header">
+            <h2>7. Sticker Label Printing &amp; Master Data CRUD</h2>
+            <a class="btn-page" href="label-and-master-data.html">Open Full Page &rarr;</a>
+        </div>
+        <ul>
+            <li><strong>Sticker Label V1 (<code>generate_label.php</code>):</strong> Single-patient SN selection by accept date &rarr; adds letter/number range to user-scoped queue (<code>labelprint_tmp_a</code>) via <code>ajax_data/generate_label_add_record.php</code>.</li>
+            <li><strong>Sticker Label V2 (<code>generate_labelv2.php</code>):</strong> Batch selection with checkboxes <code>A</code>–<code>E</code> &rarr; posts JSON to <code>ajax_data/generate_label_add_multiple_record.php</code> and exports A4 or 76×20mm sticker PDFs (<code>sn_pdf1.php</code>, <code>sn_pdf2.php</code>, <code>sn_sp_pdf1.php</code>, <code>sn_sp_pdf2.php</code>).</li>
+            <li><strong>Master Data Screens:</strong> <code>hospital.php</code>, <code>specimen.php</code>, <code>labfluid.php</code>, <code>templateReport.php</code>, and <code>service.php</code>.</li>
+        </ul>
+    </section>
+
+    <!-- SECTION 8: DATABASE SCHEMA -->
+    <section id="sec-schema" class="section-card">
+        <div class="section-header">
+            <h2>8. Database Schema Summary (35 Tables in <code>nbpa_data_dev3</code>)</h2>
+            <a class="btn-page" href="database-schema.html">Open Full Page &rarr;</a>
+        </div>
+        <p>The database contains <strong>35 InnoDB tables</strong> with <strong>6 declared foreign keys</strong> (<code>ON DELETE CASCADE ON UPDATE CASCADE</code>):</p>
+        <ul>
+            <li><code>job.patient_id &rarr; patient.id</code></li>
+            <li><code>job.job_role_id &rarr; job_role.id</code></li>
+            <li><code>job.req_id &rarr; req_id_sp_slide.id</code></li>
+            <li><code>req_id_sp_slide.patient_id &rarr; patient.id</code></li>
+            <li><code>req_id_sp_slide.job_id &rarr; job.id</code></li>
+            <li><code>service_billing.patient_id &rarr; patient.id</code></li>
+        </ul>
+        <p>See <a href="database-schema.html">database-schema.html</a> for the 35-table catalog and <a href="database_schema_full.html">database_schema_full.html</a> for full column-level DDL details.</p>
+    </section>
+</main>
+
+</body>
+</html>
