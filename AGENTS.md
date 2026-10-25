@@ -6,7 +6,7 @@
 
 **NB Patho (nb_web)** — ระบบ Laboratory Information System (LIS) สำหรับห้องปฏิบัติการ Pathology / Cytology
 
-- **ภาษา:** PHP 7.4+ (มี typed properties) — **ไม่ใช้ framework** เป็น vanilla PHP
+- **ภาษา:** PHP 7.4+ (มี typed properties) — **ไม่ใช้ framework** เป็น vanilla PHP (รันบน PHP 8.5 ใน Docker)
 - **ฐานข้อมูล:** MySQL 5.7 (utf8) ผ่าน PDO (บางจุดใช้ mysqli)
 - **Frontend:** Bootstrap 5, jQuery, DataTables (CDN + local), Font Awesome, Selectize, Tempus Dominus
 - **PDF:** mPDF และ TCPDF (สองตัวใช้คู่กัน ผ่าน composer)
@@ -20,7 +20,7 @@ docker compose up -d
 
 | Service | URL / Port | หมายเหตุ |
 |---|---|---|
-| app (PHP 7.4 + Apache) | http://localhost (**ต้อง port 80 เท่านั้น**) | เข้าผ่าน `:8080` ไม่ได้ เพราะ `Database.php` เช็ค `HTTP_HOST == "localhost"` แบบตรงตัว |
+| app (PHP 8.5 + Apache) | http://localhost (**ต้อง port 80 เท่านั้น**) | เข้าผ่าน `:8080` ไม่ได้ เพราะ `Database.php` เช็ค `HTTP_HOST == "localhost"` แบบตรงตัว |
 | db (MySQL 5.7) | 3306 | db: `nbpa_data`, user: `nbpa_nbpatho` |
 | phpMyAdmin | http://localhost:8081 | |
 | ftp | 21 | |
@@ -97,6 +97,7 @@ $conn = require '../includes/db.php'; // คืน PDO connection
 
 ## สิ่งที่ห้ามทำ
 
+- **ห้ามรันคำสั่ง docker เอง** (ทุกคำสั่ง เช่น `docker compose` / `build` / `pull` / `push` / `run` / `exec` / `rmi` / `manifest`) ถ้าผู้ใช้ไม่ได้สั่งให้รันโดยตรง — ให้แก้แต่ไฟล์ แล้วแนะนำคำสั่งให้ผู้ใช้เป็นคนรันเอง
 - ห้ามแก้/ลบ `vendor/`, `nbproject/`, `release1/`, `dbg/`
 - ห้ามลบ `.htaccess` ใน `classes/`, `includes/`, และ root
 - ห้าม commit ไฟล์ scratch ใน `sandbox/`, `tmp/`, `customerfile*/` ถ้าไม่จำเป็น
@@ -109,5 +110,5 @@ $conn = require '../includes/db.php'; // คืน PDO connection
 
 ## การตรวจสอบงาน
 
-- ไม่มี test suite / linter ติดตั้งไว้ — ตรวจ syntax ด้วย `php -l <file>` ได้ (หรือรันใน container: `docker exec nb_web-app php -l /var/www/html/<file>`)
-- ทดสอบจริงผ่าน http://localhost หลัง `docker compose up -d`
+- ไม่มี test suite / linter ติดตั้งไว้ — ตรวจ syntax ด้วย `php -l <file>` ได้ (ใน container: `docker exec nb_web-app php -l /var/www/html/<file>` — แต่ห้ามรัน docker เอง ตามกฎใน "สิ่งที่ห้ามทำ")
+- ทดสอบจริงผ่าน http://localhost หลัง `docker compose up -d` — ผู้ใช้เป็นคนสั่งรัน

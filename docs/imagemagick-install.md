@@ -2,6 +2,13 @@
 
 > ติดตั้งเมื่อ 2026-10-20 — ผลลัพธ์: image `nb_web-app` มี `/usr/local/bin/magick`
 > (ImageMagick 7.1.2-34), `gs` (Ghostscript 9.53.3) และ `zip` พร้อมเรียกจาก PHP `exec()`
+>
+> **อัปเดต 2026-10-25 (ย้าย base เป็น `php:8.5-apache`):** base ใหม่ (bookworm/trixie)
+> apt ใช้ได้ปกติ → **ตัด workaround เขียน sources.list ทับ + fallback archive.debian.org
+> ออกจาก Dockerfile แล้ว** (gotcha ข้อ 1, 2, 5 เป็นของ bullseye เท่านั้น) — ยังคง build
+> IM 7.1.2-34 จาก source เหมือนเดิม (gotcha ข้อ 4 ยังบังคับอยู่) + เพิ่ม CFLAGS กัน gcc
+> รุ่นใหม่ (trixie) ยก warning เป็น error; Ghostscript จะเป็นรุ่นตาม base ใหม่
+> (สูงกว่า 9.53.3 — ตรวจด้วย `gs --version`)
 
 ## ทำไมต้องทำ
 

@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: ./docker/php
-    image: nb_web-app:7.4-apache
+    image: nb_web-app:8.5-apache
     container_name: nb_web-app
     # Database.php hardcode db_host = "localhost" แก้ใน compose อย่างเดียวได้ด้วยวิธีนี้:
     # ใช้ network namespace เดียวกับ db -> "localhost" ใน app = MySQL ใน db
@@ -35,7 +35,8 @@ services:
     restart: unless-stopped
 
   phpmyadmin:
-    image: phpmyadmin:5.2-apache
+    # phpMyAdmin 6 — ถ้าเครื่อง build pull ไม่เจอ ลอง phpmyadmin:6.0-apache หรือ phpmyadmin:latest
+    image: phpmyadmin:6-apache
     container_name: nb_web-pma
     ports:
       - "8081:80"
