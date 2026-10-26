@@ -291,7 +291,7 @@
     <a href="#sec-user-groups">2. User Groups &amp; Login Flow</a>
     <a href="#sec-compat">3. PHP 7.3 + 8.2+ &amp; MySQL 8.4</a>
     <a href="#sec-sn-service">4. SN Prefixes &amp; Service Types</a>
-    <a href="#sec-patient">5. Patient Workflows &amp; Status</a>
+    <a href="#sec-patient">5. Patient Workflows &amp; Analytics</a>
     <a href="#sec-billing-v3">6. Billing &amp; Billing PDF V3</a>
     <a href="#sec-labels">7. Label Printing &amp; Master Data</a>
     <a href="#sec-schema">8. Database Schema (35 Tables)</a>
@@ -301,7 +301,7 @@
     <a href="user-groups-and-auth.html">📄 User Groups &amp; Auth / Login</a>
     <a href="php-mysql-compatibility.html">📄 PHP &amp; MySQL Compatibility</a>
     <a href="workflow-reference-map.html">📄 SN, Service Type &amp; Invoice Map</a>
-    <a href="patient-workflows.html">📄 Patient Add / Edit / PDF Attach</a>
+    <a href="patient-workflows.html">📄 Patient Workflows &amp; Analytics Dashboards</a>
     <a href="patient-report-groups.html">📄 ReportType Groups 1, 2, 3 (UResult)</a>
     <a href="patient-edit-buttons.html">📄 Diagnostic Action Buttons (Edit)</a>
     <a href="patient-edit-result-buttons.html">📄 Textarea Controls (Edit/Save/Del)</a>
@@ -345,8 +345,8 @@
         </a>
         <a class="nav-card" href="patient-workflows.html">
             <div>
-                <h3>5. Patient Workflows</h3>
-                <p><code>patient.php</code>, <code>patient_add.php</code>, <code>patient_edit.php</code> (status <code>1000</code>&rarr;<code>20000</code>), and PDF attachments.</p>
+                <h3>5. Patient Workflows &amp; Analytics Dashboards</h3>
+                <p><code>patient.php</code>, <code>patient_add.php</code>, <code>patient_edit.php</code> (status <code>1000</code>&rarr;<code>20000</code>), Excel import, and Executive Dashboards (<code>patient_global_dashboard*.php</code>, <code>classes/Patientdash.php</code>).</p>
             </div>
         </a>
         <a class="nav-card" href="billing-pdf-v3.html">
@@ -583,7 +583,8 @@ MAX(DATE(j.finish_date)) as j_finish_date</code></pre>
         </table>
         <p style="margin-top: 1rem;">👉 <strong>Diagnostic Action Buttons Architecture:</strong> Complete guide for <code>Start Diagnostic</code>, <code>Add New Report Section</code>, <code>Request Second Pathologist Review</code>, and <code>Release Report</code> (<a href="patient-edit-buttons.html" style="color:var(--primary); font-weight:600;">Action Buttons Guide &rarr;</a>)<br>
         👉 <strong>Result Textarea Controls:</strong> Complete guide for <code>Edit</code>, <code>Save</code>, <code>Delete</code>, and <code>Reload Page</code> buttons on <code>&lt;label for="result_message"&gt;</code> (<a href="patient-edit-result-buttons.html" style="color:var(--primary); font-weight:600;">Textarea Buttons Guide &rarr;</a>)<br>
-        👉 <strong>Batch Result Upload by Excel (<code>patient_edit_by_excel.php</code>):</strong> Batch import diagnosis results (<code>Specimen</code>, <code>Clinical diagnosis</code>, <code>Gross</code>, <code>Micro</code>, <code>Diag</code>) with pathologist ownership enforcement and step-by-step logs (<a href="patient-workflows.html" style="color:var(--primary); font-weight:600;">Excel Batch Import Guide &rarr;</a>)</p>
+        👉 <strong>Batch Result Upload by Excel (<code>patient_edit_by_excel.php</code>):</strong> Batch import diagnosis results (<code>Specimen</code>, <code>Clinical diagnosis</code>, <code>Gross</code>, <code>Micro</code>, <code>Diag</code>) with pathologist ownership enforcement and step-by-step logs (<a href="patient-workflows.html" style="color:var(--primary); font-weight:600;">Excel Batch Import Guide &rarr;</a>)<br>
+        👉 <strong>Executive &amp; Operational Analytics Dashboards:</strong> Turn Around Time (TAT), Incoming &amp; Reported volumes, Pathologist caseloads, customer hospital isolation, and Fullscreen presentation modes in <code>patient_global_dashboard.php</code> &amp; <code>patient_global_dashboard_main.php</code> powered by <code>classes/Patientdash.php</code> (<a href="patient-workflows.html" style="color:var(--primary); font-weight:600;">Analytics Dashboards Architecture &rarr;</a>)</p>
     </section>
 
     <!-- SECTION 6: BILLING & BILLING PDF V3 -->

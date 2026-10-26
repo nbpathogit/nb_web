@@ -1,3 +1,26 @@
+<?php
+$cur_user_hosp_id = isset($_SESSION['user']->uhospital_id) ? intval($_SESSION['user']->uhospital_id) : 0;
+$cur_user_hosp_name = "ศูนย์พยาธิวิทยา เอ็น.บี.";
+if ($cur_user_hosp_id > 0) {
+    if (!empty($_SESSION['user_hospital_name']) && isset($_SESSION['user_hospital_id']) && $_SESSION['user_hospital_id'] === $cur_user_hosp_id) {
+        $cur_user_hosp_name = $_SESSION['user_hospital_name'];
+    } else {
+        try {
+            $h_conn = isset($conn) && ($conn instanceof PDO) ? $conn : (require __DIR__ . '/db.php');
+            $h_stmt = $h_conn->prepare("SELECT hospital FROM hospital WHERE id = :id LIMIT 1");
+            $h_stmt->execute([':id' => $cur_user_hosp_id]);
+            $h_name = $h_stmt->fetchColumn();
+            if ($h_name) {
+                $cur_user_hosp_name = trim($h_name);
+                $_SESSION['user_hospital_name'] = $cur_user_hosp_name;
+                $_SESSION['user_hospital_id'] = $cur_user_hosp_id;
+            }
+        } catch (Exception $e) {
+            // fallback
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="th">
 
@@ -88,6 +111,10 @@
                         }  ?>
                         <h6 class="mb-0"><?= $_SESSION['username'] ?></h6>
                         <span><?= isset($_SESSION['usergroup']->ugroup) ? $_SESSION['usergroup']->ugroup : "" ?></span>
+                        <div class="small mt-1 text-truncate" style="max-width: 175px;" title="<?= htmlspecialchars($cur_user_hosp_name) ?>">
+                            <i class="fa-solid fa-hospital me-1 <?= ($cur_user_hosp_id != 15 ? 'text-success' : 'text-primary') ?>"></i>
+                            <span class="<?= ($cur_user_hosp_id != 15 ? 'text-success fw-bold' : 'text-muted') ?>"><?= htmlspecialchars($cur_user_hosp_name) ?></span>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex align-items-center ms-4 mb-4">
@@ -100,6 +127,13 @@
                     <a id="addpatienttab" class="nav-item nav-link" href="patient_add.php"><i class="fa-solid fa-bed"></i>เพิ่มข้อมูลผู้รักษา</a>
                     <?php endif; ?>
                     <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed"></i>ข้อมูลผู้รักษา</a>
+                    <div class="nav-item dropdown">
+                    <a href="" id="dashbroad_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-gauge-high"></i>แดชบอร์ด</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a id="globaldashboard_main_tab" class="nav-item nav-link" href="patient_global_dashboard_main.php">Main แดชบอร์ด (1ปี)</a>
+                        <a id="globaldashboardtab" class="nav-item nav-link" href="patient_global_dashboard.php">Global แดชบอร์ด</a>
+                    </div>
+                    </div>
                     <?php if ($isCurUserAdmin): ?>
                         <div class="nav-item dropdown">
                             <a href="" id="admin_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แอดมินเมนู</a>
@@ -113,12 +147,11 @@
                                 <a id="patient_edit_by_excel_tab" href="patient_edit_by_excel.php" class="nav-item nav-link">อัปโหลดผลด้วย Excel</a>
                             </div>
                         </div>
-                    <?php elseif ($isCurUserPatho || $isCurUserPathoAdmin || (isset($_SESSION['user']->role_5) && $_SESSION['user']->role_5 == 1)): ?>
-                        <a id="patient_edit_by_excel_tab" class="nav-item nav-link" href="patient_edit_by_excel.php"><i class="fa-solid fa-file-excel"></i>อัปโหลดผลด้วย Excel</a>
                     <?php endif; ?>
 
 
                     <?php if ($isCurUserNB): ?>
+                        <a id="patient_edit_by_excel_tab" class="nav-item nav-link" href="patient_edit_by_excel.php"><i class="fa-solid fa-file-excel"></i>อัปโหลดผลด้วย Excel</a>
                         <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ตรวจพิเศษ</a>
                         <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>Double check by second pathologist</a>
 
@@ -228,6 +261,23 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
+
+                <!-- Top bar hospital indicator (แถบแสดงโรงพยาบาลที่กำลังล็อกอิน) -->
+                <div class="d-flex align-items-center ms-2 ms-md-3 me-auto">
+                    <div class="bg-white rounded-pill px-3 py-1 border shadow-sm d-flex align-items-center" style="font-size: 0.95rem;">
+                        <i class="fa-solid fa-hospital <?= ($cur_user_hosp_id != 15 ? 'text-success' : 'text-primary') ?> me-2 fs-5"></i>
+                        <span class="text-secondary d-none d-sm-inline me-1">ล็อกอินด้วย:</span>
+                        <strong class="<?= ($cur_user_hosp_id != 15 ? 'text-success' : 'text-primary') ?> text-truncate" style="max-width: 320px;" title="<?= htmlspecialchars($cur_user_hosp_name) ?>">
+                            <?= htmlspecialchars($cur_user_hosp_name) ?>
+                        </strong>
+                        <?php if ($cur_user_hosp_id != 15 && (!isset($isCurUserNB) || !$isCurUserNB)): ?>
+                            <span class="badge bg-success ms-2 d-none d-md-inline-block">รพ.ลูกค้า</span>
+                        <?php else: ?>
+                            <span class="badge bg-primary ms-2 d-none d-md-inline-block">NB Patho</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
                 <!-- <form class="d-none d-md-flex ms-4">
                         <input class="form-control border-0" type="search" placeholder="Search">
                     </form> -->
@@ -304,7 +354,13 @@
                             <i class="fa-solid fa-hospital fa-lg"></i>
                             <span class="d-none d-lg-inline-flex"><?= $_SESSION['username'] ?></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-nb bg-blue-a border-0 rounded-0 rounded-bottom m-0">
+                        <div class="dropdown-menu dropdown-menu-end bg-nb bg-blue-a border-0 rounded-0 rounded-bottom m-0 shadow">
+                            <div class="px-3 py-2 border-bottom bg-light">
+                                <small class="text-muted d-block">โรงพยาบาล:</small>
+                                <strong class="small d-block text-truncate <?= ($cur_user_hosp_id != 15 ? 'text-success' : 'text-primary') ?>" style="max-width: 200px;" title="<?= htmlspecialchars($cur_user_hosp_name) ?>">
+                                    <?= htmlspecialchars($cur_user_hosp_name) ?>
+                                </strong>
+                            </div>
                             <a href="user_edit.php?id=<?= $_SESSION['user']->id ?>" class="dropdown-item">My Profile</a>
                             <a href="user_change_password.php" class="dropdown-item">Change Password.</a>
                             <!--   <a href="#" class="dropdown-item">Settings</a> -->

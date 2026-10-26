@@ -395,6 +395,82 @@
             <li><strong>Columns Displayed:</strong> <code>#</code>, <code>Surgical Number (SN)</code>, <code>วันที่รับเข้า (with previous report badge)</code>, <code>วันที่ออกผล</code>, <code>โรงพยาบาล / HN</code>, <code>พยาธิแพทย์</code>, <code>ผลการวินิจฉัย (Diagnosis Preview)</code>, <code>สถานะ (Status)</code>, and <code>เปิดดู (Action Button)</code>.</li>
         </ul>
     </div>
+
+    <!-- Section 7: Patient Global Analytics Dashboards & Architecture -->
+    <div class="card mb-4">
+        <h2>7. Patient Global Analytics Dashboards &amp; Architecture (<code>patient_global_dashboard*.php</code>)</h2>
+        <p>Executive and operational business intelligence dashboards designed for tracking laboratory throughput, Turn Around Time (TAT), case intake, sign-out volume, and pathologist caseload balance.</p>
+
+        <h3>A. Isolation Architecture (<code>classes/Patientdash.php</code>)</h3>
+        <ul>
+            <li><strong>Core Files Untouched:</strong> Strictly preserves <code>patient.php</code>, <code>classes/Patient.php</code>, and <code>data/patient.php</code> without modification.</li>
+            <li><strong>Encapsulated Class:</strong> All data aggregation queries, bucket generators, and hospital isolation logic reside cleanly in <code>classes/Patientdash.php</code> (autoloaded via <code>spl_autoload_register</code> in <code>includes/init.php</code> with <code>Patientdash</code> / <code>PatientDash</code> alias).</li>
+            <li><strong>Endpoints:</strong>
+                <ul>
+                    <li><code>patient_global_dashboard.php</code>: Full-featured interactive dashboard with period selector (weeks/months, 6/12/24 periods, calendar years), collapsible combination breakdown tables, real-time table search, and CSV export.</li>
+                    <li><code>patient_global_dashboard_main.php</code>: Executive 12-month summary dashboard (2 charts per row compact grid, fixed 12 rolling months, default color-coded by hospital).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>B. Customer Hospital Isolation &amp; Privacy (<code>Patientdash::getUserHospitalFilter()</code>)</h3>
+        <ul>
+            <li><strong>NB Pathology Center &amp; Admin:</strong> When user belongs to NB Pathology Center (<code>uhospital_id == 15</code> or internal groups <code>1000</code>, <code>1900</code>, <code>2000</code>, <code>2100</code>, <code>2200</code>, <code>2500</code>), filter is <code>null</code>. They have unrestricted access across all client hospitals.</li>
+            <li><strong>Customer Hospitals:</strong> Users belonging to external client hospitals (Groups <code>5000</code>, <code>5100</code>, or <code>uhospital_id != 15</code>) are strictly constrained to their own hospital ID: <code>WHERE p.phospital_id = :filter_hospital_id AND (p.sn_type NOT IN ('IN', 'ZN') OR p.sn_type IS NULL)</code>.</li>
+            <li><strong>Top Navbar &amp; Header Indicators:</strong> Active hospital name is displayed on the sticky top navigation bar (<code>#nb_navbar_top</code> in <code>includes/header.php</code>) and marked with a prominent badge on the dashboard header banner.</li>
+        </ul>
+
+        <h3>C. The 4 Analytics Charts</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Chart</th>
+                    <th>Metric &amp; Calculation</th>
+                    <th>Grouping Units</th>
+                    <th>Color Dimension Options</th>
+                    <th>Statistical KPIs</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Turn Around Time (TAT)</strong></td>
+                    <td>Mean calendar days from specimen intake (<code>p.date_1000</code>) to initial report sign-out (<code>p.date_first_report</code>).</td>
+                    <td>Weeks (<code>W01</code>–<code>W52</code>) or Months (<code>Y-m</code>).</td>
+                    <td>Hospital (Default in Main), Pathologist, Ordering Clinician, Intake Staff, Single Color.</td>
+                    <td>Mean (&mu;), Std Dev (&sigma;), Min, Max, Peak Period.</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Incoming Case Volume</strong></td>
+                    <td>Total case intake volume registered per time bucket based on <code>p.date_1000</code>.</td>
+                    <td>Weeks or Months.</td>
+                    <td>Hospital (Default in Main), Pathologist, Ordering Clinician, Intake Staff, Single Color.</td>
+                    <td>Total Cases, Mean/period, Std Dev, Peak Period.</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Reported Case Volume</strong></td>
+                    <td>Total diagnostic reports signed out per time bucket based on <code>p.date_first_report</code>.</td>
+                    <td>Weeks or Months.</td>
+                    <td>Hospital (Default in Main), Pathologist, Ordering Clinician, Intake Staff, Single Color.</td>
+                    <td>Total Reported, Mean/period, Std Dev, Peak Period.</td>
+                </tr>
+                <tr>
+                    <td><strong>4. Pathologist Caseload</strong></td>
+                    <td>Comparative workload distribution: one bar per pathologist (<code>name_patho</code>), sorted descending by volume.</td>
+                    <td>Selected Period Scope (6/12/24 periods or 12 months).</td>
+                    <td>Sorted by total caseload.</td>
+                    <td>Pathologist Count, Mean Cases/Doctor, Std Dev, Top Pathologist.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>D. Fullscreen Presentation &amp; Card Maximize Mode</h3>
+        <ul>
+            <li><strong>Page Fullscreen (<code>#pgd-fullscreen-btn</code> / <code>#pgdm-fullscreen-btn</code>):</strong> Uses HTML5 Fullscreen API with fallback overlay CSS. Automatically hides the sidebar and top navbar for kiosk, boardroom, and TV presentation displays.</li>
+            <li><strong>Card Maximize (<code>.pgd-card-max-btn</code> / <code>.pgdm-card-max-btn</code>):</strong> Clicking the <code>fa-maximize</code> button on any chart card pops it into an elevated modal focus overlay with backdrop blur for detailed inspection.</li>
+            <li><strong>Dynamic Canvas Resizing:</strong> Automatic listener on <code>fullscreenchange</code> and card maximize events calls <code>chart.resize()</code> for instant sharp rendering across all display resolutions.</li>
+            <li><strong>Dual Theme (Dark / Light):</strong> Native high-contrast Dark theme (default) and Light theme, toggleable and persisted in <code>localStorage</code>.</li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
