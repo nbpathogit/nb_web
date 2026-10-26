@@ -355,10 +355,12 @@
             <li><strong>Fetch Existing uresult:</strong> Queries all rows from <code>presultupdate</code> for the retrieved <code>patient_id</code>.</li>
             <li><strong>Loop Columns &amp; Update:</strong> Matches each Excel column to <code>uresult.result_type</code>:
                 <ul>
+                    <li><strong>Release Status Check:</strong> If status is <code>ออกผลเบื้องต้น</code> or <code>ออกผลแล้ว</code> (case <code>reported_as</code>, <code>status_id = 20000</code>, or result <code>release_time</code> set), skips update with <code>RELEASED_SKIPPED</code> to protect signed-out reports.</li>
+                    <li><strong>Auto-create 'Diag':</strong> If looping through <code>uresult</code> does not find a match for column <code>Diag</code>, automatically creates a new <code>Pathological Diagnosis</code> record (Group 2, ID: 12) in <code>presultupdate</code> and inserts the diagnosis text.</li>
                     <li>If matched and changed &rarr; updates <code>result_message</code> and logs audit history via <code>Log::add()</code>.</li>
                     <li>If matched and identical &rarr; logs <code>UNCHANGED</code> (no update needed).</li>
                     <li>If empty &rarr; logs <code>EMPTY_SKIPPED</code> (preserves existing text).</li>
-                    <li>If not matched &rarr; prints explicit error note explaining why it cannot be inserted.</li>
+                    <li>If not matched (and non-Diag) &rarr; prints explicit error note explaining why it cannot be inserted.</li>
                 </ul>
             </li>
         </ol>
