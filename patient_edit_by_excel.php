@@ -10,11 +10,14 @@ $isAuthorizedPatho = ($isCurUserAdmin || $isCurUserPathoAdmin || $isCurUserPatho
 
 // Handle sample file download
 if (isset($_GET['action']) && $_GET['action'] === 'download_example') {
-    $examplePath = 'C:/anuchit2/example upload result NB.xlsx';
+    $examplePath = __DIR__ . '/file/ตัวอย่างไฟล์uploadผลNB.xlsx';
+    if (!file_exists($examplePath)) {
+        $examplePath = 'C:/anuchit2/example upload result NB.xlsx';
+    }
     if (file_exists($examplePath)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="example_upload_result_NB.xlsx"');
+        header('Content-Disposition: attachment; filename="ตัวอย่างไฟล์uploadผลNB.xlsx"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
@@ -679,7 +682,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
         </div>
         <div class="col-md-4 text-end">
             <a href="patient.php" class="btn btn-outline-secondary me-2"><i class="fa-solid fa-arrow-left me-1"></i>กลับหน้ารายชื่อผู้ป่วย</a>
-            <a href="patient_edit_by_excel.php?action=download_example" class="btn btn-outline-success"><i class="fa-solid fa-download me-1"></i>ดาวน์โหลดไฟล์ตัวอย่าง</a>
+            <a href="file/ตัวอย่างไฟล์uploadผลNB.xlsx" class="btn btn-outline-success" download><i class="fa-solid fa-download me-1"></i>ดาวน์โหลดไฟล์ตัวอย่าง</a>
         </div>
     </div>
 
@@ -741,7 +744,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                             <label for="excel_file" class="form-label fw-bold">เลือกไฟล์ Excel (.xlsx) ที่มีคอลัมน์ผลตรวจ:</label>
                             <input class="form-control form-control-lg" type="file" id="excel_file" name="excel_file" accept=".xlsx" required>
                             <div class="form-text">
-                                ตัวอย่างโครงสร้างไฟล์: <code>C:\anuchit2\example upload result NB.xlsx</code> (ระบบรองรับ multiline, text carriage returns ในแต่ละช่อง)
+                                ตัวอย่างโครงสร้างไฟล์: <code>file/ตัวอย่างไฟล์uploadผลNB.xlsx</code> (ระบบรองรับ multiline, text carriage returns ในแต่ละช่อง)
                             </div>
                         </div>
 
