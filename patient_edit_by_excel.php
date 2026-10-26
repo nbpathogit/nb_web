@@ -169,6 +169,21 @@ function matchExcelColumnToResultType($excelColName, $uresultType) {
     return false;
 }
 
+/**
+ * Check if an Excel column header represents 'Diag' / Pathological Diagnosis
+ */
+function isDiagColumn($colName) {
+    $c = strtolower(trim((string)$colName));
+    if ($c === '') {
+        return false;
+    }
+    // Clinical diagnosis must NOT match
+    if (strpos($c, 'clinical') !== false) {
+        return false;
+    }
+    return in_array($c, ['diag', 'diagnosis', 'pathological diagnosis', 'patho diagnosis', 'pathological diag', 'patho diag', 'pathology diagnosis']) || strpos($c, 'diag') !== false || strpos($c, 'pathological') !== false;
+}
+
 // Processing state
 $processResults = null;
 $uploadError = null;
@@ -257,7 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                         }
 
                         // STEP 1: Select SN from table patient
-                        $stmtP = $conn->prepare("SELECT id, pnum, ppre_name, pname, plastname, ppathologist_id, status_id, movetotrash, phospital_id FROM patient WHERE pnum = :sn LIMIT 1");
+                        $stmtP = $conn->prepare("SELECT id, pnum, ppre_name, pname, plastname, ppathologist_id, status_id, movetotrash, phospital_id, reported_as FROM patient WHERE pnum = :sn LIMIT 1");
                         $stmtP->execute([':sn' => $snValue]);
                         $patient = $stmtP->fetch(PDO::FETCH_ASSOC);
 
@@ -275,6 +290,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
 
                         $patientId = (int)$patient['id'];
                         $patientFullName = trim($patient['ppre_name'] . $patient['pname'] . ' ' . $patient['plastname']);
+                        $patientReportedAs = trim((string)($patient['reported_as'] ?? ''));
+                        $patientStatusId = (int)($patient['status_id'] ?? 0);
                         $rowReport['patient_id'] = $patientId;
                         $rowReport['patient_name'] = $patientFullName;
 
@@ -290,10 +307,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                             continue;
                         }
 
+                        $reportedAsText = $patientReportedAs ?: 'ยังไม่ออกผล';
                         $rowReport['steps'][] = [
                             'step' => '1. ตรวจสอบหมายเลข SN ในฐานข้อมูล',
                             'status' => 'SUCCESS',
-                            'msg' => "พบข้อมูลผู้ป่วย ID: {$patientId}, ชื่อ: {$patientFullName}, สถานะปัจจุบัน: {$patient['status_id']}"
+                            'msg' => "พบข้อมูลผู้ป่วย ID: {$patientId}, ชื่อ: {$patientFullName}, สถานะปัจจุบัน: {$patient['status_id']}, การออกผล: {$reportedAsText}"
                         ];
 
                         // STEP 2: Check Pathologist Ownership
@@ -358,26 +376,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                         $uresultRows = $stmtU->fetchAll(PDO::FETCH_ASSOC);
 
                         if (empty($uresultRows)) {
-                            $rowReport['status'] = 'NO_URESULT';
+                            // Check if Excel has Diag column to create
+                            $hasDiagHeader = false;
+                            foreach ($colHeaders as $cIdx => $cHName) {
+                                if ($cIdx !== $snColIndex && isDiagColumn($cHName)) {
+                                    $hasDiagHeader = true;
+                                    break;
+                                }
+                            }
+                            if ($hasDiagHeader) {
+                                $rowReport['steps'][] = [
+                                    'step' => '3. ดึงข้อมูลตาราง uresult (presultupdate)',
+                                    'status' => 'WARNING',
+                                    'msg' => "ไม่พบรายการผลตรวจเดิมในระบบ แต่พบคอลัมน์ Diag ในไฟล์ Excel ระบบจะเตรียมสร้างหัวข้อใหม่ให้อัตโนมัติ"
+                                ];
+                            } else {
+                                $rowReport['status'] = 'NO_URESULT';
+                                $rowReport['steps'][] = [
+                                    'step' => '3. ดึงข้อมูลตาราง uresult (presultupdate)',
+                                    'status' => 'ERROR',
+                                    'msg' => "ไม่พบรายการหัวข้อผลตรวจ (uresult) ของผู้ป่วย ID: {$patientId} ในฐานข้อมูล"
+                                ];
+                                $processResults['error_rows']++;
+                                $processResults['rows'][] = $rowReport;
+                                continue;
+                            }
+                        } else {
+                            $availableTypes = array_map(function($r) {
+                                return $r['result_type'] . " (ID: " . $r['id'] . ")";
+                            }, $uresultRows);
+
                             $rowReport['steps'][] = [
                                 'step' => '3. ดึงข้อมูลตาราง uresult (presultupdate)',
-                                'status' => 'ERROR',
-                                'msg' => "ไม่พบรายการหัวข้อผลตรวจ (uresult) ของผู้ป่วย ID: {$patientId} ในฐานข้อมูล"
+                                'status' => 'SUCCESS',
+                                'msg' => "ดึงข้อมูล uresult สำเร็จ พบ " . count($uresultRows) . " รายการ: [" . implode(', ', $availableTypes) . "]"
                             ];
-                            $processResults['error_rows']++;
-                            $processResults['rows'][] = $rowReport;
-                            continue;
                         }
-
-                        $availableTypes = array_map(function($r) {
-                            return $r['result_type'] . " (ID: " . $r['id'] . ")";
-                        }, $uresultRows);
-
-                        $rowReport['steps'][] = [
-                            'step' => '3. ดึงข้อมูลตาราง uresult (presultupdate)',
-                            'status' => 'SUCCESS',
-                            'msg' => "ดึงข้อมูล uresult สำเร็จ พบ " . count($uresultRows) . " รายการ: [" . implode(', ', $availableTypes) . "]"
-                        ];
 
                         // STEP 4: Loop check columns from Excel against uresult rows
                         $hasAnyUpdate = false;
@@ -409,19 +443,142 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                                 }
                             }
 
+                            // If not matched, check if it's 'Diag' to create new result
                             if ($matchedURow === null) {
-                                // Explain why cannot insert
+                                if (isDiagColumn($colName)) {
+                                    // Check if case is already released / provisional
+                                    if ($patientReportedAs === 'ออกผลเบื้องต้น' || $patientReportedAs === 'ออกผลแล้ว' || $patientStatusId == 20000) {
+                                        $colAction['status'] = 'RELEASED_SKIPPED';
+                                        $colAction['matched_result_type'] = 'Pathological Diagnosis (สร้างใหม่)';
+                                        $colAction['message'] = "เคสนี้มีสถานะเป็น '" . ($patientReportedAs ?: 'ออกผลแล้ว') . "' ไม่สามารถสร้างหรือใส่ข้อมูล 'Diag' ได้ (ข้ามการใส่ข้อมูล)";
+                                        $rowReport['column_actions'][] = $colAction;
+                                        continue;
+                                    }
+
+                                    // If Excel text is empty
+                                    if ($excelTrimmed === '') {
+                                        $colAction['status'] = 'EMPTY_SKIPPED';
+                                        $colAction['matched_result_type'] = 'Pathological Diagnosis (สร้างใหม่)';
+                                        $colAction['message'] = "ไม่พบหัวข้อ Diag เดิมในระบบ และค่าใน Excel ว่างเปล่า จึงข้ามการสร้าง";
+                                        $rowReport['column_actions'][] = $colAction;
+                                        continue;
+                                    }
+
+                                    $hasAnyMatch = true;
+
+                                    if ($isDryRun) {
+                                        $colAction['status'] = 'SIMULATED';
+                                        $colAction['matched_result_type'] = 'Pathological Diagnosis (สร้างใหม่)';
+                                        $colAction['message'] = "[จำลอง] ไม่พบหัวข้อ Diag เดิม -> พร้อมสร้างหัวข้อใหม่ 'Pathological Diagnosis' (Group 2, ID: 12) และใส่ค่าข้อความ (จำนวน " . mb_strlen($excelTrimmed, 'UTF-8') . " ตัวอักษร)";
+                                        $hasAnyUpdate = true;
+                                        $processResults['updated_fields']++;
+                                    } else {
+                                        // Retrieve report_type info for Pathological Diagnosis
+                                        $stmtRT = $conn->prepare("SELECT id, name, group_type, release_type FROM report_type WHERE (name = 'Pathological Diagnosis' OR id = 12) AND group_type = 2 LIMIT 1");
+                                        $stmtRT->execute();
+                                        $diagReportType = $stmtRT->fetch(PDO::FETCH_ASSOC);
+
+                                        $diagTypeId = $diagReportType ? (int)$diagReportType['id'] : 12;
+                                        $diagTypeName = $diagReportType ? $diagReportType['name'] : 'Pathological Diagnosis';
+                                        $diagReleaseType = $diagReportType ? $diagReportType['release_type'] : 'ออกผลแล้ว';
+
+                                        // Create new presultupdate record
+                                        $newPrsu = Presultupdate::getInitObj();
+                                        $newPrsu->group_type = 2;
+                                        $newPrsu->patient_id = $patientId;
+                                        $newPrsu->result_type = $diagTypeName;
+                                        $newPrsu->result_type_id = $diagTypeId;
+                                        $newPrsu->release_type = $diagReleaseType;
+
+                                        if ($newPrsu->create($conn)) {
+                                            $newRsuId = (int)$newPrsu->id;
+                                            Presultupdate::setTxtResult($conn, $newRsuId, $excelTrimmed);
+
+                                            if ($assignedPathoId > 0) {
+                                                $conn->query("UPDATE presultupdate SET pathologist_id = " . (int)$assignedPathoId . " WHERE id = " . (int)$newRsuId);
+                                            }
+
+                                            $curDateTime = Util::get_curreint_thai_date_time();
+                                            Log::add(
+                                                $conn,
+                                                $_SESSION['username'] ?? '',
+                                                $_SESSION['user']->name ?? '',
+                                                "patient_edit_by_excel",
+                                                "Created new Diag (uresult ID {$newRsuId}, {$diagTypeName}) for SN: {$snValue} (Patient ID: {$patientId}) with text from Excel",
+                                                $curDateTime
+                                            );
+
+                                            // Add to in-memory list
+                                            $uresultRows[] = [
+                                                'id' => $newRsuId,
+                                                'group_type' => 2,
+                                                'result_type' => $diagTypeName,
+                                                'result_type_id' => $diagTypeId,
+                                                'result_message' => $excelTrimmed,
+                                                'release_time' => null,
+                                                'release_type' => $diagReleaseType,
+                                                'pathologist_id' => $assignedPathoId,
+                                                'pathologist2_id' => 0
+                                            ];
+
+                                            $colAction['matched_uresult_id'] = $newRsuId;
+                                            $colAction['matched_result_type'] = $diagTypeName . ' (สร้างใหม่)';
+                                            $colAction['status'] = 'UPDATED';
+                                            $colAction['message'] = "สร้างหัวข้อใหม่ '{$diagTypeName}' (ID: {$newRsuId}) และใส่ค่าข้อความสำเร็จ (จำนวน " . mb_strlen($excelTrimmed, 'UTF-8') . " ตัวอักษร)";
+                                            $hasAnyUpdate = true;
+                                            $processResults['updated_fields']++;
+                                        } else {
+                                            $colAction['status'] = 'DB_ERROR';
+                                            $colAction['message'] = "เกิดข้อผิดพลาดในการสร้างหัวข้อ Diag ใหม่ในฐานข้อมูล";
+                                        }
+                                    }
+
+                                    $rowReport['column_actions'][] = $colAction;
+                                    continue;
+                                }
+
+                                // Explain why cannot insert non-Diag column
                                 $colAction['status'] = 'NO_MATCH';
                                 $colAction['message'] = "ไม่พบคอลัมน์/หัวข้อที่ตรงกันในตาราง uresult ของผู้ป่วยรายนี้ (หัวข้อที่มีในระบบ: " . implode(', ', array_column($uresultRows, 'result_type')) . ")";
                                 $rowReport['column_actions'][] = $colAction;
                                 continue;
                             }
 
+                            // Matched an existing uresult row
                             $hasAnyMatch = true;
                             $rsuId = (int)$matchedURow['id'];
                             $rsuType = $matchedURow['result_type'];
                             $colAction['matched_uresult_id'] = $rsuId;
                             $colAction['matched_result_type'] = $rsuType;
+
+                            // CHECK STATUS: If 'ออกผลเบื้องต้น' or 'ออกผลแล้ว' -> SKIP!
+                            $isItemReleased = false;
+                            $releaseReason = '';
+
+                            $uReleaseTime = $matchedURow['release_time'] ?? null;
+                            $uReleaseType = trim((string)($matchedURow['release_type'] ?? ''));
+
+                            if (!empty($uReleaseTime)) {
+                                $isItemReleased = true;
+                                $statusText = ($uReleaseType !== '' && $uReleaseType !== 'ยังไม่ออกผล') ? $uReleaseType : ($patientReportedAs ?: 'ออกผลแล้ว');
+                                $releaseReason = "สถานะเป็น '{$statusText}' (ออกผลแล้วเมื่อ [{$uReleaseTime}]) ไม่สามารถใส่หรือแก้ไขข้อมูลได้ (ข้ามการใส่ข้อมูล)";
+                            } elseif ($patientReportedAs === 'ออกผลเบื้องต้น' || $patientReportedAs === 'ออกผลแล้ว') {
+                                $isItemReleased = true;
+                                $releaseReason = "เคสนี้มีสถานะเป็น '{$patientReportedAs}' ไม่สามารถใส่หรือแก้ไขข้อมูลได้ (ข้ามการใส่ข้อมูล)";
+                            } elseif ($uReleaseType === 'ออกผลเบื้องต้น') {
+                                $isItemReleased = true;
+                                $releaseReason = "หัวข้อนี้มีสถานะเป็น 'ออกผลเบื้องต้น' ไม่สามารถใส่หรือแก้ไขข้อมูลได้ (ข้ามการใส่ข้อมูล)";
+                            } elseif ($patientStatusId == 20000) {
+                                $isItemReleased = true;
+                                $releaseReason = "เคสนี้เสร็จสิ้นการออกผลแล้ว (status_id: 20000) ไม่สามารถใส่หรือแก้ไขข้อมูลได้ (ข้ามการใส่ข้อมูล)";
+                            }
+
+                            if ($isItemReleased) {
+                                $colAction['status'] = 'RELEASED_SKIPPED';
+                                $colAction['message'] = $releaseReason;
+                                $rowReport['column_actions'][] = $colAction;
+                                continue;
+                            }
 
                             // If Excel text is empty
                             if ($excelTrimmed === '') {
@@ -481,7 +638,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                             $rowReport['status'] = $isDryRun ? 'SIMULATION_OK' : 'SUCCESS';
                             $processResults['success_rows']++;
                         } elseif ($hasAnyMatch) {
-                            $rowReport['status'] = 'NO_CHANGES_NEEDED';
+                            // Check if all actions were skipped due to release
+                            $allReleased = true;
+                            foreach ($rowReport['column_actions'] as $ca) {
+                                if ($ca['status'] !== 'RELEASED_SKIPPED' && $ca['status'] !== 'EMPTY_SKIPPED') {
+                                    $allReleased = false;
+                                    break;
+                                }
+                            }
+                            if ($allReleased && !empty($rowReport['column_actions'])) {
+                                $rowReport['status'] = 'RELEASED_SKIPPED';
+                            } else {
+                                $rowReport['status'] = 'NO_CHANGES_NEEDED';
+                            }
                             $processResults['skipped_rows']++;
                         } else {
                             $rowReport['status'] = 'NO_COLUMNS_MATCHED';
@@ -622,8 +791,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                                     <li><strong>ดึงรายการผลตรวจ (uresult):</strong> ค้นหาทุกแถวในตาราง <code>presultupdate</code> ที่มี <code>patient_id = :id</code></li>
                                     <li><strong>วนลูปตรวจสอบคอลัมน์:</strong> เปรียบเทียบชื่อคอลัมน์ใน Excel กับ <code>result_type</code> ในตาราง <code>uresult</code>
                                         <ul>
-                                            <li>หากตรงกัน -> ทำการบันทึกข้อความจาก Excel ลงฐานข้อมูล</li>
-                                            <li>หากไม่ตรงหรือไม่สามารถบันทึกได้ -> แสดงข้อความชี้แจงสาเหตุอย่างละเอียด</li>
+                                            <li><strong>ตรวจสอบสถานะการออกผล:</strong> หากหัวข้อหรือเคสมีสถานะเป็น <code>ออกผลเบื้องต้น</code> หรือ <code>ออกผลแล้ว</code> จะไม่สามารถใส่ข้อมูลได้ ระบบจะ <strong>ข้ามการใส่ข้อมูลทันที</strong> เพื่อรักษาความปลอดภัยของเวชระเบียน</li>
+                                            <li><strong>คอลัมน์ Diag (สร้างใหม่อัตโนมัติ):</strong> หากในระบบยังไม่มีหัวข้อ Diag (ไม่เจอคู่) ระบบจะ <strong>สร้างหัวข้อ Pathological Diagnosis (Group 2, ID: 12) ใหม่ขึ้นมาให้อัตโนมัติ</strong> แล้วใส่ค่าผลตรวจจาก Excel</li>
+                                            <li>หากตรงกันและยังไม่ออกผล -> ทำการบันทึกข้อความจาก Excel ลงฐานข้อมูล</li>
                                         </ul>
                                     </li>
                                 </ol>
@@ -668,7 +838,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                                             <tr>
                                                 <td><code>Diag</code></td>
                                                 <td><code>Pathological Diagnosis</code></td>
-                                                <td>Group 2 (id: 12) หรือส่วนผลวินิจฉัย</td>
+                                                <td>Group 2 (id: 12) *หากไม่พบคู่จะสร้างใหม่อัตโนมัติ*</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -755,6 +925,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                                     } elseif ($r['status'] === 'NOT_OWNER_SKIPPED') {
                                         $rowBadgeClass = 'bg-warning text-dark';
                                         $rowStatusLabel = 'ข้าม (ไม่ใช่เจ้าของ)';
+                                    } elseif ($r['status'] === 'RELEASED_SKIPPED') {
+                                        $rowBadgeClass = 'bg-danger text-white';
+                                        $rowStatusLabel = 'ออกผลแล้ว (ข้าม)';
                                     } elseif ($r['status'] === 'SKIPPED') {
                                         $rowBadgeClass = 'bg-secondary';
                                         $rowStatusLabel = 'ข้าม';
@@ -821,6 +994,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
                                                                 if ($ca['status'] === 'UNCHANGED') $caBadge = 'bg-primary';
                                                                 if ($ca['status'] === 'EMPTY_SKIPPED') $caBadge = 'bg-secondary';
                                                                 if ($ca['status'] === 'NO_MATCH') $caBadge = 'bg-danger';
+                                                                if ($ca['status'] === 'RELEASED_SKIPPED') $caBadge = 'bg-warning text-dark';
                                                                 ?>
                                                                 <tr>
                                                                     <td class="fw-bold"><?= htmlspecialchars($ca['column']) ?></td>
