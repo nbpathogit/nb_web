@@ -66,5 +66,28 @@ services:
       - ./:/home/nbftp
     restart: unless-stopped
 
+  # FTP เฉพาะลูกค้า pathokph — chroot อยู่ที่ customerfileb/pathokph เท่านั้น
+  # (login แล้วเห็นรายงานตัวเอง ไม่เห็น source code / ลูกค้ารายอื่นเหมือน user nbftp หลัก)
+  # เชื่อมต่อ: ftp://localhost:2121 user pathokph
+  # FTP_USER_UID=33 = www-data ของ container app เพื่อให้ไฟล์ที่ FTP upload มา
+  # เจ้าของตรงกับไฟล์ที่ PHP เขียน (เปลี่ยนถ้าจะให้ download อย่างเดียวก็ตั้งได้)
+  ftp_pathokph:
+    image: stilliard/pure-ftpd:latest
+    container_name: nb_web-ftp-pathokph
+    ports:
+      # port 21 หลักถูก container ftp ของ nbftp ใช้อยู่ -> ใช้ 2121 แทน
+      - "2121:21"
+      # passive range ต้องไม่ชนกับ 30000-30009 ของ container ftp หลัก
+      - "30010-30019:30000-30009"
+    environment:
+      PUBLICHOST: localhost
+      FTP_USER_NAME: pathokph
+      FTP_USER_PASS: "ChangeMe_pathokph"
+      FTP_USER_HOME: /home/pathokph
+      FTP_USER_UID: 33
+    volumes:
+      - ./customerfileb/pathokph:/home/pathokph
+    restart: unless-stopped
+
 volumes:
   db_data:
