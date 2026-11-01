@@ -213,7 +213,8 @@ class Patient {
         p.pname as p_pname,
         p.plastname as p_plastname,
         h.hospital as h_hospitial,
-        CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+        CONCAT(jobpatho.name,' ',jobpatho.lastname) as name_patho,
+        #CONCAT(upatho.name,'',upatho.lastname) as name_patho,
         DATE(p.date_1000) as p_date_1000,
         DATE(p.date_first_report) as p_date_first_report,
         s.des as s_des,
@@ -225,7 +226,7 @@ class Patient {
         p.create_by as p_create_by,
         CONCAT(uclinician.name,' ',uclinician.lastname) as u_clinician
                 FROM patient as p
-                LEFT JOIN user as upatho ON p.ppathologist_id = upatho.id
+                LEFT JOIN job as jobpatho ON jobpatho.patient_id = p.id and jobpatho.job_role_id = 5
                 LEFT JOIN user as uclinician ON p.pclinician_id = uclinician.id
                 LEFT JOIN hospital as h ON p.phospital_id = h.id
                 LEFT JOIN priority as pri ON p.priority_id = pri.id
@@ -248,7 +249,7 @@ class Patient {
         $sql .= " ORDER BY  p.id DESC;";
         
 
-//====Example Ouput========        
+//====Example Ouput========       
 //        SELECT 
 //            
 //        #*,
@@ -261,7 +262,8 @@ class Patient {
 //        p.pname as p_pname,
 //        p.plastname as p_plastname,
 //        h.hospital as h_hospitial,
-//        CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+//        CONCAT(jobpatho.name,' ',jobpatho.lastname) as name_patho,
+//        #CONCAT(upatho.name,'',upatho.lastname) as name_patho,
 //        DATE(p.date_1000) as p_date_1000,
 //        DATE(p.date_first_report) as p_date_first_report,
 //        s.des as s_des,
@@ -273,7 +275,7 @@ class Patient {
 //        p.create_by as p_create_by,
 //        CONCAT(uclinician.name,' ',uclinician.lastname) as u_clinician
 //                FROM patient as p
-//                LEFT JOIN user as upatho ON p.ppathologist_id = upatho.id
+//                LEFT JOIN job as jobpatho ON jobpatho.patient_id = p.id and jobpatho.job_role_id = 5
 //                LEFT JOIN user as uclinician ON p.pclinician_id = uclinician.id
 //                LEFT JOIN hospital as h ON p.phospital_id = h.id
 //                LEFT JOIN priority as pri ON p.priority_id = pri.id
