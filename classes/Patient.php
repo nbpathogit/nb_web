@@ -201,7 +201,12 @@ class Patient {
 
     
         public static function getAllJoin_v2($conn, $id = 0, $start = '0') {
-        $sql = "SELECT * ,
+        $sql = "SELECT 
+            
+        #*,
+        p.edit_date as edit_date,
+        p.phospital_id as phospital_id,
+        
         p.id as pid,
         p.sn_type as p_sn_type,
         p.pnum as p_pnum,
@@ -209,7 +214,8 @@ class Patient {
         p.pname as p_pname,
         p.plastname as p_plastname,
         h.hospital as h_hospitial,
-        CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+        CONCAT(jobpatho.name,' ',jobpatho.lastname) as name_patho,
+        #CONCAT(upatho.name,'',upatho.lastname) as name_patho,
         DATE(p.date_1000) as p_date_1000,
         DATE(p.date_first_report) as p_date_first_report,
         s.des as s_des,
@@ -221,7 +227,7 @@ class Patient {
         p.create_by as p_create_by,
         CONCAT(uclinician.name,' ',uclinician.lastname) as u_clinician
                 FROM patient as p
-                LEFT JOIN user as upatho ON p.ppathologist_id = upatho.id
+                LEFT JOIN job as jobpatho ON jobpatho.patient_id = p.id and jobpatho.job_role_id = 5
                 LEFT JOIN user as uclinician ON p.pclinician_id = uclinician.id
                 LEFT JOIN hospital as h ON p.phospital_id = h.id
                 LEFT JOIN priority as pri ON p.priority_id = pri.id
@@ -243,26 +249,41 @@ class Patient {
         $sql .= " and p.movetotrash = 0";
         $sql .= " ORDER BY  p.id DESC;";
         
-//        Util::writeFile('sql_dbg.txt', $sql);
-        
-        
-//        $sql_dbg = $sql;
-//        $myfile = fopen("Patient_getAllJoin.txt", "w") or die("Unable to open file!");
-//        fwrite($myfile, $sql_dbg);
-//        fclose($myfile);
-        
-//        SELECT * ,p.id as pid,p.create_by as pcreate_by
-//                FROM patient as p
-//                JOIN user as u
-//                JOIN hospital as h
-//                JOIN priority as pri
-//                JOIN status as s
-//                WHERE p.ppathologist_id = u.id
-//                and p.phospital_id = h.id
-//                and p.priority_id = pri.id
-//                and p.status_id = s.id and date(p.date_1000) >= '2023-10-17' and p.movetotrash = 0 ORDER BY  p.id DESC;
 
-        
+//====Example Ouput========       
+//        SELECT 
+//            
+//        #*,
+//        p.edit_date as edit_date,
+//        
+//        p.id as pid,
+//        p.sn_type as p_sn_type,
+//        p.pnum as p_pnum,
+//        p.phospital_num as p_phospital_num,
+//        p.pname as p_pname,
+//        p.plastname as p_plastname,
+//        h.hospital as h_hospitial,
+//        CONCAT(jobpatho.name,' ',jobpatho.lastname) as name_patho,
+//        #CONCAT(upatho.name,'',upatho.lastname) as name_patho,
+//        DATE(p.date_1000) as p_date_1000,
+//        DATE(p.date_first_report) as p_date_first_report,
+//        s.des as s_des,
+//        p.reported_as as p_reported_as,
+//        pri.priority as pri_priority,
+//        p.second_patho_review as p_second_patho_review,
+//        p.request_sp_slide as p_request_sp_slide,
+//        p.tr_time as p_tr_time,
+//        p.create_by as p_create_by,
+//        CONCAT(uclinician.name,' ',uclinician.lastname) as u_clinician
+//                FROM patient as p
+//                LEFT JOIN job as jobpatho ON jobpatho.patient_id = p.id and jobpatho.job_role_id = 5
+//                LEFT JOIN user as uclinician ON p.pclinician_id = uclinician.id
+//                LEFT JOIN hospital as h ON p.phospital_id = h.id
+//                LEFT JOIN priority as pri ON p.priority_id = pri.id
+//                LEFT JOIN status as s ON p.status_id = s.id 
+//                WHERE 1  and date(p.date_1000) >= '2026-09-01' and p.movetotrash = 0 ORDER BY  p.id DESC;
+
+//        Util::writeFile('Patient_getAllJoin_v2.txt', $sql);   
         if($GLOBALS['isSqlWriteFileForDBG']){
             Util::writeFile('Patient_getAllJoin_v2.txt', $sql);   
         }

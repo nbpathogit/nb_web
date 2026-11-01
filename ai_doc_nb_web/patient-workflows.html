@@ -16,9 +16,24 @@
         h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
         h3 { color: #0369a1; margin-top: 1.25rem; }
         table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
-        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
         th { background: #f1f5f9; font-weight: 600; }
         code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
+        pre code { background: transparent; color: inherit; padding: 0; }
+        .badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; line-height: 1; }
+        .badge-success { background: #16a34a; color: #fff; }
+        .badge-danger { background: #dc2626; color: #fff; }
+        .badge-warning { background: #f59e0b; color: #000; }
+        .badge-info { background: #0ea5e9; color: #fff; }
+        .badge-secondary { background: #64748b; color: #fff; }
+        .badge-dark { background: #1e293b; color: #fff; }
+        .callout { border-left: 4px solid #0284c7; background: #f0f9ff; padding: 0.85rem 1.15rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; }
+        .callout.warn { border-left-color: #f59e0b; background: #fffbeb; }
+        .callout.success { border-left-color: #16a34a; background: #f0fdf4; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .mini-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; }
+        .mini-card h4 { margin: 0 0 0.5rem 0; color: #0369a1; font-size: 0.95rem; }
     </style>
 </head>
 <body>
@@ -30,11 +45,272 @@
     </header>
 
     <div class="card">
-        <h2>1. Patient List (<code>patient.php</code> &amp; <code>data/patient.php</code>)</h2>
+        <h2>1. Patient List &amp; Dashboard (<code>patient.php</code>, <code>data/patient.php</code>, <code>js/patient.js</code>)</h2>
+        
+        <p><code>patient.php</code> is the central operational command center for viewing, searching, and managing all pathology patient cases. It uses a three-tier architecture connecting the presentation controller, a CSRF-protected AJAX data endpoint, and a DataTables client-side engine.</p>
+
+        <div class="grid-3">
+            <div class="mini-card">
+                <h4>1. Presentation Tier (<code>patient.php</code>)</h4>
+                <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.85rem;">
+                    <li>Enforces session via <code>Auth::requireLogin()</code></li>
+                    <li>Loads role flags via <code>user_auth.php</code></li>
+                    <li>Renders 19-column table <code>#patient_table</code></li>
+                    <li>Injects <code>skey</code>, <code>ugroup_id</code>, <code>domain</code>, <code>isCurUserAdmin</code>, <code>isCurUserCust</code> into JS</li>
+                    <li>Handles POST <code>trash_id</code> and <code>delete_id</code></li>
+                </ul>
+            </div>
+            <div class="mini-card">
+                <h4>2. Secure Data Feed (<code>data/patient.php</code>)</h4>
+                <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.85rem;">
+                    <li><strong>Triple Security Gate:</strong> X-Requested-With, HTTP_REFERER whitelist, and session key <code>skey</code></li>
+                    <li>Executes <code>Patient::getAllJoin_v2($conn, 0, $range)</code></li>
+                    <li>Filters out <code>movetotrash = 0</code></li>
+                    <li><strong>Customer Isolation:</strong> matches <code>uhospital_id</code>; masks <code>IN</code> and <code>ZN</code> prefixes</li>
+                </ul>
+            </div>
+            <div class="mini-card">
+                <h4>3. UI &amp; DataTables Engine (<code>js/patient.js</code>)</h4>
+                <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.85rem;">
+                    <li>Row coloring: <span class="badge badge-success">ออกผลแล้ว</span> green, <span class="badge badge-danger">ด่วน</span> red</li>
+                    <li>Dynamic re-indexing of column 0 (<code>1..N</code>)</li>
+                    <li>SearchPanes multi-facet filters</li>
+                    <li>Export to Excel, CSV (BOM), PDF (with Thai Angsana New fonts via <code>processDoc()</code>)</li>
+                    <li>AJAX Soft Delete, Permanent Delete &amp; PDF Resend</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>A. Triple Security Gate (<code>data/patient.php</code>)</h3>
+        <p>Before any patient rows are retrieved from MySQL, <code>data/patient.php</code> validates three distinct security criteria:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Check #</th>
+                    <th>Security Rule</th>
+                    <th>Implementation in <code>data/patient.php</code></th>
+                    <th>Failure Consequence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td><strong>AJAX Request Header</strong></td>
+                    <td><code>$_SERVER["HTTP_X_REQUESTED_WITH"] == "xmlhttprequest"</code></td>
+                    <td><code>Auth::block("HTTP/1.1 403 Forbidden C")</code></td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td><strong>Referer Whitelist</strong></td>
+                    <td><code>$_SERVER["HTTP_REFERER"]</code> must contain <code>/patient.php</code>, <code>/patient_monitor_8000.php</code>, or <code>/patient_confirm.php</code></td>
+                    <td><code>Auth::block("HTTP/1.1 403 Forbidden B")</code></td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td><strong>CSRF Session Key Match</strong></td>
+                    <td><code>!empty($_SESSION["skey"]) &amp;&amp; $_SESSION["skey"] == $_REQUEST["skey"]</code></td>
+                    <td><code>Auth::block("HTTP/1.1 403 Forbidden A")</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>B. Backend Data Array vs. DataTable Display Column Mapping</h3>
+        <p><code>data/patient.php</code> outputs an array of 20 elements (indices <code>0</code>–<code>19</code>). <code>js/patient.js</code> maps and renders these into the 19 visible/hidden DataTables columns (indices <code>0</code>–<code>18</code>):</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Backend Array Index</th>
+                    <th>Source DB Column / Expression</th>
+                    <th>UI Column</th>
+                    <th>Header Title</th>
+                    <th>Display &amp; Role-Based Rendering Logic</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>[0]</code></td>
+                    <td><code>patient.pid</code></td>
+                    <td><code>0</code></td>
+                    <td><strong>#</strong></td>
+                    <td>Consecutive counter generated dynamically in JS via <code>cells(null, 0).every(...)</code>; non-sortable &amp; non-searchable.</td>
+                </tr>
+                <tr>
+                    <td><code>[1]</code></td>
+                    <td><code>patient.sn_type</code></td>
+                    <td><code>1</code></td>
+                    <td><strong>type</strong></td>
+                    <td>Specimen prefix (<code>SN</code>, <code>CN</code>, <code>LN</code>, <code>PN</code>, <code>FN</code>, <code>DN</code>, <code>IN</code>, <code>ZN</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[2]</code></td>
+                    <td><code>patient.pnum</code></td>
+                    <td><code>2</code></td>
+                    <td><strong>เลขที่ผู้ป่วย</strong></td>
+                    <td>Clickable link to <code>patient_edit.php?id={row[18]}&amp;pnum={row[2]}</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>[3]</code></td>
+                    <td><code>patient.phospital_num</code></td>
+                    <td><code>3</code></td>
+                    <td><strong>HN</strong></td>
+                    <td>Hospital patient ID / HN.</td>
+                </tr>
+                <tr>
+                    <td><code>[4]</code></td>
+                    <td><code>patient.pname</code></td>
+                    <td><code>4</code></td>
+                    <td><strong>ชื่อผู้ป่วย</strong></td>
+                    <td>Combined full name: <code>row[4] + ' ' + row[5]</code> (<code>text-nowrap</code>, <code>responsivePriority: 0</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[5]</code></td>
+                    <td><code>patient.plastname</code></td>
+                    <td><code>5</code></td>
+                    <td><strong>นามสกุลผู้ป่วย</strong></td>
+                    <td><span class="badge badge-secondary">Hidden</span> (merged into column 4 via <code>targets: [5], visible: false</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[6]</code></td>
+                    <td><code>hospital.hospital</code></td>
+                    <td><code>6</code></td>
+                    <td><strong>โรงพยาบาล</strong></td>
+                    <td>Sending hospital name (joined from <code>hospital as h</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[7]</code></td>
+                    <td><code>CONCAT(upatho.name, upatho.lastname)</code></td>
+                    <td><code>7</code></td>
+                    <td><strong>พยาธิแพทย์</strong></td>
+                    <td>Assigned pathologist full name (joined from <code>user as upatho</code>, <code>text-nowrap</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[8]</code></td>
+                    <td><code>DATE(patient.date_1000)</code></td>
+                    <td><code>8</code></td>
+                    <td><strong>วันที่รับ</strong></td>
+                    <td>Specimen received date (Format: <code>YYYY-MM-DD</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[9]</code></td>
+                    <td><code>DATE(patient.date_first_report)</code></td>
+                    <td><code>9</code></td>
+                    <td><strong>วันที่รายงาน</strong></td>
+                    <td>First diagnostic report release date (Format: <code>YYYY-MM-DD</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[10]</code></td>
+                    <td><code>status.s_des</code></td>
+                    <td><code>10</code></td>
+                    <td><strong>สถานะ</strong></td>
+                    <td>
+                        Workflow stage badge:<br>
+                        &bull; <code>รับเข้า</code> / <code>วางแผนงาน</code> &rarr; <span class="badge badge-dark">รับเข้า</span><br>
+                        &bull; <code>เตรียมชิ้นเนื้อ</code> / <code>เตรียมสไลด์</code> &rarr; <span class="badge badge-info">เตรียมชิ้นเนื้อ</span><br>
+                        &bull; <code>วินิจฉัย(อ่านไสลด์)</code> &rarr; <span class="badge badge-secondary">วินิจฉัย</span><br>
+                        &bull; <code>เสร็จสิ้น</code> &rarr; <span class="badge badge-success">เสร็จสิ้น</span><br>
+                        &bull; If Priority = <code>ด่วน</code> &rarr; prepends <span class="badge badge-danger">ด่วน</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[11]</code></td>
+                    <td><code>patient.reported_as</code></td>
+                    <td><code>11</code></td>
+                    <td><strong>สถานะอื่นๆ</strong></td>
+                    <td>
+                        <span class="badge badge-warning">Hidden for Customers</span><br>
+                        Shows status description + <span class="badge badge-success">รับเข้าโดย: {row[16]}</span><br>
+                        &bull; <strong>รอคอนเฟิร์ม (Second Patho):</strong> 1 = <span class="badge badge-warning">ร้องขอ</span>, 2 = <span class="badge badge-success">เสร็จสิ้น</span><br>
+                        &bull; <strong>ย้อมพิเศษ (Special Slide):</strong> 1 = <span class="badge badge-warning">ร้องขอ</span>, 2 = <span class="badge badge-success">เสร็จสิ้น</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[12]</code></td>
+                    <td><code>priority.pri_priority</code></td>
+                    <td><code>12</code></td>
+                    <td><strong>การออกผล</strong></td>
+                    <td>
+                        Release state (<code>p_reported_as</code>):<br>
+                        &bull; <code>ยังไม่ออกผล</code> &rarr; <span class="badge badge-secondary">ยังไม่ออกผล</span><br>
+                        &bull; <code>ออกผลเบื้องต้น</code> &rarr; <span class="badge badge-info">ออกผลเบื้องต้น</span><br>
+                        &bull; <code>ออกผลแล้ว</code> &rarr; <span class="badge badge-success">ออกผลแล้ว</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[13]</code></td>
+                    <td><code>patient.second_patho_review</code></td>
+                    <td><code>13</code></td>
+                    <td><strong>ความสำคัญ</strong></td>
+                    <td>Priority text (<code>ปกติ</code>, <code>ด่วน</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[14]</code></td>
+                    <td><code>patient.request_sp_slide</code></td>
+                    <td><code>14</code></td>
+                    <td><strong>PDF</strong></td>
+                    <td>
+                        <strong>Staff / Internal:</strong><br>
+                        <code>ใบจด</code> (<code>patient_pdf_for_note.php</code>), <code>ใบจดCN</code> (<code>patient_pdf_for_note_v2.php?show_item_id=1</code>), <code>ใบจด2</code> (<code>patient_pdf_for_note_v2.php</code>), <code>View</code> (<code>patient_pdf.php?option=I</code>), <code>PDF</code> (<code>option=D</code>), <code>JPG</code> (<code>option=F&amp;filetype=jpg</code>), <code>PDF/JPG</code> (<code>option=F&amp;filetype=zip</code>).<br>
+                        <strong>Customers (<code>5000</code>/<code>5100</code>):</strong><br>
+                        Disabled grey button if <code>ยังไม่ออกผล</code>; active <code>View</code>, <code>PDF</code>, <code>JPG</code>, <code>PDF/JPG</code> links once released.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[15]</code></td>
+                    <td><code>patient.tr_time</code></td>
+                    <td><code>15</code></td>
+                    <td><strong>จัดการ</strong></td>
+                    <td>
+                        <strong>Customers:</strong> Hidden column (<code>table.column(15).visible(false)</code>).<br>
+                        <strong>Staff:</strong> <code>Edit</code> (&rarr; <code>patient_edit.php</code>), <code>Trash</code> (<code>movePatient2Trash()</code>).<br>
+                        <strong>Admin (<code>1000</code>):</strong> <code>ReSendPdf</code> (<code>regenpdftocustomer()</code>), <code>Edit</code>, <code>Trash</code>, <code>Delete</code> (<code>deletePatientPermanent()</code>).
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[16]</code></td>
+                    <td><code>patient.create_by</code></td>
+                    <td><code>16</code></td>
+                    <td><strong>แพทย์ผู้ส่ง</strong></td>
+                    <td>Doctor / Clinician full name (<code>CONCAT(uclinician.name, ' ', uclinician.lastname)</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[17]</code></td>
+                    <td><code>u_clinician</code></td>
+                    <td><code>17</code></td>
+                    <td><strong>edit date</strong></td>
+                    <td>Last edit timestamp; hidden for customer user groups.</td>
+                </tr>
+                <tr>
+                    <td><code>[18]</code></td>
+                    <td><code>patient.pid</code></td>
+                    <td><code>18</code></td>
+                    <td><strong>tr</strong></td>
+                    <td>Turnaround time in days (<code>patient.tr_time</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>[19]</code></td>
+                    <td><code>patient.edit_date</code></td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>Passed in array for edit audit timestamps and row rendering.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>C. Case Management &amp; AJAX Endpoints</h3>
+        <div class="callout">
+            <strong>Key Distinction: Soft Delete vs. Permanent Delete</strong>
+            <ul>
+                <li><strong>Move to Trash (Soft Delete):</strong> Executed by staff &amp; admin via <code>ajax_patient/move2trash.php</code>. Updates <code>patient</code>, <code>job</code>, and <code>req_sp_slide_id</code> to <code>movetotrash = 1</code>. Crucially, it appends <code>_{thai_datetime}</code> to <code>patient.pnum</code> so the original Surgical Number can be reused if needed without duplicate key conflicts.</li>
+                <li><strong>Permanent Delete (Hard Delete):</strong> Restricted to <code>isCurUserAdmin == 1</code> via <code>ajax_patient/deletePatient.php</code>. Calls <code>Patient::delete2()</code>, writing to <code>Log::add()</code> and executing a permanent <code>DELETE FROM patient WHERE id = :id</code>.</li>
+                <li><strong>Customer Report Regeneration:</strong> Triggered by admin via <code>ajax_updateCusReport.php</code>. Executes <code>patient_pdf.php</code> with <code>$pdfOutputOption = 'F'</code> to regenerate customer report PDFs/ZIPs while showing a button spinner indicator.</li>
+            </ul>
+        </div>
+
+        <h3>D. Client-Side Features &amp; Custom Thai Font Rendering</h3>
         <ul>
-            <li><strong>DataTable Feed:</strong> <code>js/patient.js</code> requests JSON from <code>data/patient.php</code>, which calls <code>Patient::getAllJoin_v2($conn, 0, $range)</code>.</li>
-            <li><strong>Customer Filtering:</strong> For customer groups <code>5000</code> and <code>5100</code>, <code>data/patient.php</code> only returns rows matching <code>$_SESSION['user']-&gt;uhospital_id == $patient['phospital_id']</code> and excludes <code>IN</code> and <code>ZN</code> prefixes.</li>
-            <li><strong>POST Management Actions:</strong> <code>trash_id</code> calls <code>Patient::movetotrash()</code>; <code>delete_id</code> calls <code>Patient::delete2()</code>.</li>
+            <li><strong>PDF Export Thai Font Fix:</strong> When exporting table data via DataTable's <code>extend: 'pdf'</code>, the default Roboto font cannot render Thai characters. <code>js/patient.js</code> configures <code>pdfMake.fonts</code> inside <code>processDoc(doc)</code> to load <code>angsau.ttf</code> (Angsana New) and sets <code>doc.defaultStyle.font = "angsa"</code>.</li>
+            <li><strong>Dynamic Year Range Selector:</strong> The time filter button dynamically builds year choices from <code>2024</code> up to <code>new Date().getFullYear()</code>, triggering <code>data/patient.php?range={year}</code>.</li>
+            <li><strong>Column Visibility Toolbar:</strong> Located above the table (<code>div.toolbar</code>), allows users to click toggle links (<code>a.toggle-vis</code>) to instantly show/hide any column on demand.</li>
         </ul>
     </div>
 
@@ -284,6 +560,23 @@
                 <tr><td><code>save_sp_prep_slide</code></td><td>Updates special-slide fields via <code>updateSpcialSlide()</code>.</td></tr>
             </tbody>
         </table>
+
+        <h3>Pathologist Assignment (Job Role 5) Modal Workflow (พยาธิแพทย์ผู้ออกผล: <code>#add_modal_job5</code>)</h3>
+        <p>In section <strong>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</strong> (<code>#patient_plan_section</code>, Status <code>2000</code>), included via <code>includes/patient_form_065_job5_assigned_patho.php</code>, assigning the primary pathologist executes the following client-server pipeline:</p>
+        <ol style="line-height: 1.8;">
+            <li><strong>Trigger Button:</strong> Clicking <code>data-bs-toggle="modal" data-bs-target="#add_modal_job5"</code> opens the modal popup window <code>#add_modal_job5</code>.</li>
+            <li><strong>Popup Window:</strong> Contains dropdown <code>&lt;select name="select_job5" id="select_job5"&gt;</code> listing active pathologists (<code>$userPathos</code> with <code>user_status == 1</code>) with rich HTML attributes (<code>user_id</code>, <code>job_role_id="5"</code>, <code>patient_id</code>, <code>patient_number</code>, <code>jobname="แพทย์ผู้ออกผล"</code>, <code>pay="0"</code>).</li>
+            <li><strong>Add Button (<code>#add_job_list5</code>):</strong> Clicking <code>&lt;button id="add_job_list5"&gt;</code> triggers <code>$("#add_job_list5").on("click")</code> in <code>ajax_job5_patho/job5.js</code>.</li>
+            <li><strong>Validation &amp; AJAX Request:</strong> Checks if a pathologist is already assigned to prevent duplicates (<code>$('#owner_job5 span').length &gt; 0</code>), then issues an AJAX POST to <code>ajax_job5_patho/createJobList5.php</code>.</li>
+            <li><strong>Backend Execution (<code>createJobList5.php</code>):</strong>
+                <ul>
+                    <li><code>$job-&gt;create($conn);</code> &mdash; Creates a new work record in table <code>job</code> (with <code>job_role_id = 5</code>).</li>
+                    <li><code>Patient::setPathoID($conn, $_POST['patient_id'], $_POST['user_id']);</code> &mdash; Stamped directly onto <code>patient.ppathologist_id</code> to establish official case ownership.</li>
+                    <li><code>$jobs = Job::getByPatientJobRole($conn, (int)$_POST['patient_id'], 5);</code> &mdash; Retrieves updated Job 5 records and returns JSON.</li>
+                </ul>
+            </li>
+            <li><strong>UI Repaint:</strong> Calls <code>repaintTbljob5(data)</code> to update the badge in <code>#owner_job5</code> and the record table in <code>#table_body_job5</code>.</li>
+        </ol>
     </div>
 
     <div class="card">
