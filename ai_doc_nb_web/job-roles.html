@@ -118,6 +118,23 @@ ORDER BY p.id DESC</code></pre>
             <li><code>job.php</code> + <code>js/job.js</code>: DataTable listing of all job assignments.</li>
             <li><code>job_daily.php</code> / <code>job_daily_pdf.php</code> + <code>Job::getJobCountByDaily()</code>: Daily job sum (<code>SUM(j.qty)</code>) grouped by <code>owner_name, accept_date, job_role_name</code>.</li>
         </ul>
+
+        <h3>D. Pathologist Assignment Workflow (Role 5 / แพทย์ผู้ออกผล: <code>#add_modal_job5</code>)</h3>
+        <p>In <code>patient_edit.php</code> (section <strong>สิ่งส่งตรวจ และ แพทย์ผู้ตรวจ</strong> / <code>#patient_plan_section</code>), assigning the primary pathologist (Job Role 5) follows this full execution chain:</p>
+        <ol style="line-height: 1.8;">
+            <li><strong>Trigger:</strong> User clicks <code>&lt;a data-bs-toggle="modal" data-bs-target="#add_modal_job5"&gt;</code> in <code>includes/patient_form_065_job5_assigned_patho.php</code>.</li>
+            <li><strong>Popup Window:</strong> Modal <code>#add_modal_job5</code> displays a dropdown <code>&lt;select name="select_job5" id="select_job5"&gt;</code> of active pathologists (<code>$userPathos</code> where <code>user_status == 1</code>) and an <strong>Add</strong> button (<code>&lt;button id="add_job_list5"&gt;</code>).</li>
+            <li><strong>JavaScript Trigger:</strong> Clicking <code>#add_job_list5</code> executes <code>$("#add_job_list5").on("click")</code> in <code>ajax_job5_patho/job5.js</code>.</li>
+            <li><strong>AJAX Request:</strong> Posts parameters to <code>ajax_job5_patho/createJobList5.php</code> with <code>job_role_id = 5</code>, <code>patient_id</code>, <code>patient_number</code>, <code>user_id</code>, and name attributes.</li>
+            <li><strong>Backend Controller (<code>createJobList5.php</code>):</strong>
+                <ul>
+                    <li><code>$job-&gt;create($conn);</code> &mdash; Inserts assignment record into table <code>job</code>.</li>
+                    <li><code>Patient::setPathoID($conn, $_POST['patient_id'], $_POST['user_id']);</code> &mdash; Stamped onto <code>patient.ppathologist_id</code> to set the primary case owner.</li>
+                    <li><code>$jobs = Job::getByPatientJobRole($conn, (int)$_POST['patient_id'], 5);</code> &mdash; Queries updated Job 5 records and returns JSON.</li>
+                </ul>
+            </li>
+            <li><strong>Client Response:</strong> Calls <code>repaintTbljob5(data)</code> to update the pathologist badges on `#owner_job5` and alerts <em>"Finish Added."</em>.</li>
+        </ol>
     </div>
 </div>
 </body>

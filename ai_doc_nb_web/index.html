@@ -552,7 +552,24 @@ MAX(DATE(j.finish_date)) as j_finish_date</code></pre>
             <h2>5. Patient Workflows (<code>patient.php</code>, <code>patient_add.php</code>, <code>patient_edit.php</code>)</h2>
             <a class="btn-page" href="patient-workflows.html">Open Full Page &rarr;</a>
         </div>
-        <h3>A. Patient Add (<code>patient_add.php</code> &amp; <code>ReportType</code> Groups 1–3)</h3>
+
+        <h3>A. Patient List &amp; Dashboard (<code>patient.php</code>, <code>data/patient.php</code>, <code>js/patient.js</code>)</h3>
+        <ul>
+            <li><strong>3-Tier Architecture:</strong> <code>patient.php</code> (container controller &amp; role variables) &rarr; <code>data/patient.php</code> (AJAX JSON feed via <code>Patient::getAllJoin_v2</code>) &rarr; <code>js/patient.js</code> (DataTables presentation layer).</li>
+            <li><strong>Triple Security Gate (<code>data/patient.php</code>):</strong> Validates (1) <code>HTTP_X_REQUESTED_WITH == 'xmlhttprequest'</code>, (2) <code>HTTP_REFERER</code> whitelist (<code>patient.php</code>, <code>patient_monitor_8000.php</code>, <code>patient_confirm.php</code>), and (3) CSRF session key <code>$_SESSION['skey'] == $_REQUEST['skey']</code>. Returns HTTP 403 Forbidden if any check fails.</li>
+            <li><strong>Customer Isolation &amp; Prefix Masking (Groups <code>5000</code> &amp; <code>5100</code>):</strong> Strictly restricts rows to <code>$_SESSION['user']->uhospital_id == $patient['phospital_id']</code> and hides internal/forensic prefixes (<code>IN</code> and <code>ZN</code>). Customer users also have management column 15 and edit date column 17 hidden, and PDF download is disabled until the case is marked <code>ออกผลแล้ว</code>.</li>
+            <li><strong>19-Column Responsive DataTable:</strong> Dynamic row indexing (#, 1..N), Surgical Number link (<code>เลขที่ผู้ป่วย</code>), HN, full name, hospital, pathologist, received date, report date, workflow status badge, other status/review badges, release status badge (<span class="badge" style="background:#16a34a;">ออกผลแล้ว</span>, <span class="badge" style="background:#0ea5e9;">ออกผลเบื้องต้น</span>, <span class="badge" style="background:#64748b;">ยังไม่ออกผล</span>), priority (<span class="badge" style="background:#dc2626;">ด่วน</span> row styling), PDF action buttons, management actions (Edit, Trash, Permanent Delete, ReSendPdf), referring clinician, and TAT.</li>
+            <li><strong>Action Endpoints:</strong>
+                <ul>
+                    <li><strong>Move to Trash (Soft Delete):</strong> <code>ajax_patient/move2trash.php</code> marks <code>patient</code>, <code>job</code>, and <code>req_sp_slide_id</code> with <code>movetotrash = 1</code> and appends <code>_{thai_datetime}</code> to <code>patient.pnum</code> to prevent unique index collisions.</li>
+                    <li><strong>Permanent Delete (Hard Delete):</strong> Admin-only via <code>ajax_patient/deletePatient.php</code> (<code>Patient::delete2()</code>).</li>
+                    <li><strong>Customer Report Re-generation:</strong> Admin-only via <code>ajax_updateCusReport.php</code>, re-executing <code>patient_pdf.php</code> with option <code>F</code> with button spinner state.</li>
+                </ul>
+            </li>
+            <li><strong>Client-Side Features:</strong> PDF export customized with Thai Angsana New fonts (<code>angsau.ttf</code> / <code>angsaub.ttf</code> via <code>processDoc()</code>), multi-facet SearchPanes, dynamic calendar year filters (2024 to current year), and interactive column visibility toggle toolbar (<code>div.toolbar</code>).</li>
+        </ul>
+
+        <h3>B. Patient Add (<code>patient_add.php</code> &amp; <code>ReportType</code> Groups 1–3)</h3>
         <ul>
             <li><strong>SN Generation:</strong> Auto mode (<code>is_autogen == "yes"</code>) queries <code>Patient::get_max_sn_run_by_year($conn, $curyear, $sn_type)</code> and zero-pads to 5 digits; Manual mode (<code>is_autogen == "no"</code>) combines <code>prenum + yearnum + runnum</code>.</li>
             <li><strong>Sub-Patient Cloning (<code>super_id</code>):</strong> Defaults to <code>Patient::getInit()</code>, or copies parent case fields via <code>Patient::getAll($conn, $_POST['super_id'])</code> when creating a sub-case.</li>
@@ -564,7 +581,7 @@ MAX(DATE(j.finish_date)) as j_finish_date</code></pre>
             <li><strong>Auto-Gender JS:</strong> Selecting a title in <code>#ppre_name_add</code> (from <code>includes/prenameOption.php</code>) auto-selects <code>#pgender_add</code> (<code>Male</code>, <code>Female</code>, <code>NA</code>).</li>
         </ul>
 
-        <h3>B. Patient Edit Status Workflow (<code>patient_edit.php</code>)</h3>
+        <h3>C. Patient Edit Status Workflow (<code>patient_edit.php</code>)</h3>
         <table>
             <thead>
                 <tr><th>Status ID</th><th>Section Anchor in <code>patient_edit.php</code></th><th>Workflow Stage &amp; Form Partials</th></tr>
