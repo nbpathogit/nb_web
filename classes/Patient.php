@@ -205,6 +205,7 @@ class Patient {
             
         #*,
         p.edit_date as edit_date,
+        p.phospital_id as phospital_id,
         
         p.id as pid,
         p.sn_type as p_sn_type,
