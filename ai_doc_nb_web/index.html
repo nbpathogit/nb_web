@@ -293,8 +293,9 @@
     <a href="#sec-sn-service">4. SN Prefixes &amp; Service Types</a>
     <a href="#sec-patient">5. Patient Workflows &amp; Analytics</a>
     <a href="#sec-billing-v3">6. Billing &amp; Billing PDF V3</a>
-    <a href="#sec-labels">7. Label Printing &amp; Master Data</a>
-    <a href="#sec-schema">8. Database Schema (35 Tables)</a>
+    <a href="#sec-service-price">7. Service Pricing (nb_price_8c.php)</a>
+    <a href="#sec-labels">8. Label Printing &amp; Master Data</a>
+    <a href="#sec-schema">9. Database Schema (35 Tables)</a>
 
     <div class="sidebar-section">Dedicated Topic Pages</div>
     <a href="job-roles.html">📄 Job Roles &amp; Workflows</a>
@@ -306,6 +307,7 @@
     <a href="patient-edit-buttons.html">📄 Diagnostic Action Buttons (Edit)</a>
     <a href="patient-edit-result-buttons.html">📄 Textarea Controls (Edit/Save/Del)</a>
     <a href="billing-pdf-v3.html">📄 Billing &amp; Billing PDF V3</a>
+    <a href="service-price-8c.html">📄 Service Pricing (nb_price_8c.php)</a>
     <a href="label-and-master-data.html">📄 Label Print &amp; Master Data</a>
     <a href="database-schema.html">📄 35-Table Schema Reference</a>
     <a href="database_schema_full.html">📄 Full DDL Schema Snapshot</a>
@@ -626,23 +628,40 @@ MAX(DATE(j.finish_date)) as j_finish_date</code></pre>
         </table>
     </section>
 
-    <!-- SECTION 7: LABEL PRINTING & MASTER DATA -->
+    <!-- SECTION 7: SERVICE PRICING (NB_PRICE_8C.PHP) -->
+    <section id="sec-service-price" class="section-card">
+        <div class="section-header">
+            <h2>7. Hospital Service Pricing System (<code>nb_price_8c.php</code>) — ใส่ราคาค่าบริการเพื่อคิดบิลภายหลัง</h2>
+            <a class="btn-page" href="service-price-8c.html">Open Full Page &rarr;</a>
+        </div>
+        <p><code>nb_price_8c.php</code> (<strong>"ดูและจัดการรายการค่าบริการ8คอลั่ม"</strong>) เป็นกลุ่มฟังก์ชันเฉพาะทาง มีจุดประสงค์เพื่อ<strong>ใส่และจัดการราคาค่าบริการ (Service Pricing)</strong> สำหรับโรงพยาบาลลูกค้าแต่ละแห่งและราคามาตรฐานส่วนกลาง (<code>hospital_id = 0</code>) เพื่อนำราคาเหล่านี้ไปคำนวณบิลในตาราง <code>service_billing</code> และออกใบแจ้งหนี้ (Billing PDF V3) ภายหลัง:</p>
+        <ul>
+            <li><strong>8-Column TSV Format (Paste from Excel):</strong>
+                <code>ลำดับ &rarr; code &rarr; รายการ &rarr; หน่วยนับ &rarr; ราคา &rarr; comment &rarr; service_id &rarr; service_description</code>
+            </li>
+            <li><strong>Multi-Row Batch Insert:</strong> <code>ajax_nb_price_8c/addMultRecordiSpecimen_8c.php</code> แปลงข้อมูล Tab-Separated ตัดจุลภาคออกจากราคา และประกอบคำสั่ง Multi-Row <code>INSERT INTO service_price_list</code> รันผ่าน <code>ServicePriceList::createBySQL()</code> ในรอบเดียว</li>
+            <li><strong>Billing Pipeline Connection:</strong> ส่งต่อราคาไปยังการเลือกสิ่งส่งตรวจใน Slide 1 (<code>ajax_slide1_specimen</code>, jobtypes 1, 4, 5, 8) และการสั่งย้อมพิเศษใน Slide 2 (<code>ajax_slide2__special</code>, jobtypes 2, 3, 6, 7) ซึ่งจะบันทึกลง <code>service_billing</code> เพื่อนำไปออกใบแจ้งหนี้</li>
+            <li><strong>Pricing Screen Family:</strong> <code>nb_price.php</code> (6 คอลัมน์, ปิดใช้งาน), <code>nb_price_8c.php</code> (8 คอลัมน์, ใช้งานหลัก), <code>nb_price_9c.php</code> (9 คอลัมน์, เพิ่มรหัสคู่ขนาน <code>code2</code>), และ <code>nb_price_view.php</code> (ดูภาพรวมทุกโรงพยาบาล)</li>
+        </ul>
+    </section>
+
+    <!-- SECTION 8: LABEL PRINTING & MASTER DATA -->
     <section id="sec-labels" class="section-card">
         <div class="section-header">
-            <h2>7. Sticker Label Printing &amp; Master Data CRUD</h2>
+            <h2>8. Sticker Label Printing &amp; Master Data CRUD</h2>
             <a class="btn-page" href="label-and-master-data.html">Open Full Page &rarr;</a>
         </div>
         <ul>
             <li><strong>Sticker Label V1 (<code>generate_label.php</code>):</strong> Single-patient SN selection by accept date &rarr; adds letter/number range to user-scoped queue (<code>labelprint_tmp_a</code>) via <code>ajax_data/generate_label_add_record.php</code>.</li>
             <li><strong>Sticker Label V2 (<code>generate_labelv2.php</code>):</strong> Batch selection with checkboxes <code>A</code>–<code>E</code> &rarr; posts JSON to <code>ajax_data/generate_label_add_multiple_record.php</code> and exports A4 or 76×20mm sticker PDFs (<code>sn_pdf1.php</code>, <code>sn_pdf2.php</code>, <code>sn_sp_pdf1.php</code>, <code>sn_sp_pdf2.php</code>).</li>
-            <li><strong>Master Data Screens:</strong> <code>hospital.php</code>, <code>specimen.php</code>, <code>labfluid.php</code>, <code>templateReport.php</code>, and <code>service.php</code>.</li>
+            <li><strong>Master Data CRUD Screens:</strong> <code>hospital.php</code>, <code>specimen.php</code>, <code>labfluid.php</code>, <code>templateReport.php</code>, and <code>service.php</code>.</li>
         </ul>
     </section>
 
-    <!-- SECTION 8: DATABASE SCHEMA -->
+    <!-- SECTION 9: DATABASE SCHEMA -->
     <section id="sec-schema" class="section-card">
         <div class="section-header">
-            <h2>8. Database Schema Summary (35 Tables in <code>nbpa_data_dev3</code>)</h2>
+            <h2>9. Database Schema Summary (35 Tables in <code>nbpa_data_dev3</code>)</h2>
             <a class="btn-page" href="database-schema.html">Open Full Page &rarr;</a>
         </div>
         <p>The database contains <strong>35 InnoDB tables</strong> with <strong>6 declared foreign keys</strong> (<code>ON DELETE CASCADE ON UPDATE CASCADE</code>):</p>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Service Pricing (8 Columns) — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        h3 { color: #0369a1; margin-top: 1.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
+        pre code { background: transparent; color: inherit; padding: 0; }
+        .badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; line-height: 1; }
+        .badge-primary { background: #0284c7; color: #fff; }
+        .badge-success { background: #16a34a; color: #fff; }
+        .badge-warning { background: #f59e0b; color: #000; }
+        .badge-danger { background: #dc2626; color: #fff; }
+        .badge-secondary { background: #64748b; color: #fff; }
+        .callout { border-left: 4px solid #0284c7; background: #f0f9ff; padding: 0.85rem 1.15rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; }
+        .callout.warn { border-left-color: #f59e0b; background: #fffbeb; }
+        .callout.success { border-left-color: #16a34a; background: #f0fdf4; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .mini-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; }
+        .mini-card h4 { margin: 0 0 0.5rem 0; color: #0369a1; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
+    <header>
+        <h1>Hospital Service Pricing (8 Columns) — <code>nb_price_8c.php</code></h1>
+        <p>ระบบตั้งและจัดการราคาค่าบริการสิ่งส่งตรวจและค่าย้อมพิเศษ เพื่อนำไปคำนวณบิลและออกใบแจ้งหนี้ภายหลัง</p>
+    </header>
+
+    <div class="card">
+        <h2>1. วัตถุประสงค์และภาพรวมของระบบ (Purpose &amp; System Overview)</h2>
+        <div class="callout success">
+            <strong>🎯 จุดประสงค์หลักของหน้านี้ (Core Purpose):</strong><br>
+            <code>nb_price_8c.php</code> (<strong>"ดูและจัดการรายการค่าบริการ8คอลั่ม"</strong>) ถูกแยกเป็น<strong>กลุ่มฟังก์ชันเฉพาะทางต่างหาก</strong> ไม่จัดรวมอยู่ในงานฉลากสติกเกอร์หรือมาสเตอร์ดาต้าทั่วไป โดยมีหน้าที่โดยตรงคือ:
+            <ul style="margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
+                <li><strong>กำหนดอัตราค่าบริการ (Service Pricing):</strong> บันทึกราคาค่าตรวจชิ้นเนื้อและค่าย้อมพิเศษลงในตาราง <code>service_price_list</code> สำหรับแต่ละโรงพยาบาลลูกค้า รวมถึงราคามาตรฐานส่วนกลาง (<code>hospital_id = 0</code>)</li>
+                <li><strong>นำไปคิดบิลภายหลัง (Subsequent Billing Calculation):</strong> เป็นฐานข้อมูลราคาต้นทาง เมื่อเจ้าหน้าที่บันทึกการส่งตรวจชิ้นเนื้อ (Slide 1) หรือส่งย้อมพิเศษ (Slide 2) ระบบจะดึงราคาจากตารางนี้ไปคำนวณยอดเงินในตาราง <code>service_billing</code> เพื่อนำไปออกใบแจ้งหนี้ (Billing Invoice PDF V3) ต่อไป</li>
+            </ul>
+        </div>
+
+        <p><strong>เมนูการเข้าถึง:</strong> แถบเมนูด้านบน &rarr; <code>จัดการตาราง และ ตั้งค่า</code> (<code>#manage_table</code>) &rarr; <code>ดูและจัดการรายการค่าบริการ8คอลั่ม</code> (<code>#price_tab_8c</code>)</p>
+        <p><strong>การควบคุมสิทธิ์:</strong> ต้องผ่านการล็อกอิน (<code>Auth::requireLogin()</code>) บล็อกผู้ใช้กลุ่มลูกค้า (กลุ่ม <code>5000</code> แพทย์ลูกค้า และ <code>5100</code> โรงพยาบาลลูกค้า) อนุญาตเฉพาะเจ้าหน้าที่ห้องแลปและผู้ดูแลระบบเท่านั้น พร้อมทั้งบันทึกการเข้าใช้งานลงตาราง <code>log</code></p>
+    </div>
+
+    <div class="card">
+        <h2>2. รูปแบบการ Paste ข้อมูลจาก Excel (8 คอลัมน์แบบ Tab-Separated)</h2>
+        <p>ผู้ใช้งานสามารถ Copy ข้อมูลจากตาราง Microsoft Excel หรือ Google Sheets แล้ววางลงในกล่องข้อความ <code>#nb_price_add_txt_area_8c</code> ได้ทันที โดยระบบกำหนดรูปแบบ 8 คอลัมน์ดังนี้:</p>
+        
+        <p style="font-weight: 700; color: #0369a1; font-size: 1.05rem; background: #e0f2fe; padding: 0.65rem 1rem; border-radius: 6px;">
+            ลำดับ &rarr; code &rarr; รายการ &rarr; หน่วยนับ &rarr; ราคา &rarr; comment &rarr; service_id &rarr; service_description
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>คอลัมน์ (Index)</th>
+                    <th>ชื่อหัวตาราง</th>
+                    <th>ฟิลด์ใน DB</th>
+                    <th>ชนิดข้อมูล</th>
+                    <th>คำอธิบายและตัวอย่าง</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>line[0]</code></td>
+                    <td><strong>ลำดับ</strong></td>
+                    <td><code>number</code></td>
+                    <td><code>int(11)</code></td>
+                    <td>ลำดับที่ในใบราคา เช่น <code>1</code>, <code>2</code>, <code>3</code></td>
+                </tr>
+                <tr>
+                    <td><code>line[1]</code></td>
+                    <td><strong>code</strong></td>
+                    <td><code>speciment_num</code></td>
+                    <td><code>int(10)</code></td>
+                    <td>รหัสหัตถการหรือสิ่งส่งตรวจ เช่น <code>33000</code>, <code>38001</code></td>
+                </tr>
+                <tr>
+                    <td><code>line[2]</code></td>
+                    <td><strong>รายการ</strong></td>
+                    <td><code>specimen</code></td>
+                    <td><code>text</code></td>
+                    <td>ชื่อและรายละเอียดการตรวจ เช่น <code>Biopsy or small specimen</code></td>
+                </tr>
+                <tr>
+                    <td><code>line[3]</code></td>
+                    <td><strong>หน่วยนับ</strong></td>
+                    <td><code>unit_count</code></td>
+                    <td><code>varchar(30)</code></td>
+                    <td>หน่วยนับ เช่น <code>ชิ้น</code>, <code>ตัวอย่าง</code>, <code>สไลด์</code></td>
+                </tr>
+                <tr>
+                    <td><code>line[4]</code></td>
+                    <td><strong>ราคา</strong></td>
+                    <td><code>price</code></td>
+                    <td><code>int(11)</code></td>
+                    <td>ราคาเป็นบาท ระบบจะตัดเครื่องหมายจุลภาค <code>,</code> ออกให้อัตโนมัติ (เช่น <code>1,200</code> &rarr; <code>1200</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>line[5]</code></td>
+                    <td><strong>comment</strong></td>
+                    <td><code>comment</code></td>
+                    <td><code>text</code></td>
+                    <td>หมายเหตุ เช่น <code>ราคามาตรฐาน</code>, <code>เหมาจ่าย</code></td>
+                </tr>
+                <tr>
+                    <td><code>line[6]</code></td>
+                    <td><strong>service_id</strong></td>
+                    <td><code>jobtype</code></td>
+                    <td><code>tinyint(4)</code></td>
+                    <td>รหัสชนิดบริการ ผูกกับ <code>service_type.id</code> (1–8)</td>
+                </tr>
+                <tr>
+                    <td><code>line[7]</code></td>
+                    <td><strong>service_description</strong></td>
+                    <td><code>service_des</code></td>
+                    <td><code>varchar(256)</code></td>
+                    <td>คำอธิบายชนิดบริการ เช่น <code>ตรวจชิ้นเนื้อศัลยพยาธิวิทยา</code>, <code>ตรวจพิเศษ</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout">
+            <strong>ตัวอย่างข้อมูล TSV ดิบที่วางจาก Excel:</strong>
+            <pre><code>1	33000	Biopsy or small specimen	ชิ้น	400	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา
+2	33001	Appendix	ชิ้น	500	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา
+3	34000	Special Stain (AFB)	สไลด์	200	ราคามาตรฐาน	2	ตรวจพิเศษ</code></pre>
+            <p style="margin-top: 0.5rem; font-size: 0.88rem;"><strong>ไฟล์ตัวอย่างอ้างอิง (Reference Sheet):</strong> ด้านล่างของหน้าจอมีลิงก์ดาวน์โหลดไฟล์ตัวอย่างค่าบริการ: <code>file/ตัวอย่างค่าตรวจ Update  3 มี.ค. 67 .xlsx</code></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>3. สถาปัตยกรรมและ AJAX Endpoints (<code>ajax_nb_price_8c/</code>)</h2>
+        
+        <div class="grid-2">
+            <div class="mini-card">
+                <h4>1. ดึงข้อมูลแสดงผล (Query &amp; Render)</h4>
+                <p style="font-size: 0.88rem;"><strong>ไฟล์:</strong> <code>ajax_nb_price_8c/get_specimen_8c.php</code><br>
+                รับพารามิเตอร์ <code>hospital_id</code> และ <code>type_id</code> เรียก <code>ServicePriceList::getSpecimenByHospitalID()</code> หากเลือก <code>type_id = 0</code> จะแสดงผลทุกชนิดบริการของโรงพยาบาลนั้น และวาดตารางลงใน <code>#nb_price_tbl_8c</code></p>
+            </div>
+            <div class="mini-card">
+                <h4>2. ลบข้อมูลยกชุด (Bulk Delete)</h4>
+                <p style="font-size: 0.88rem;"><strong>ไฟล์:</strong> <code>ajax_nb_price_8c/delSpecimen_8c.php</code><br>
+                เมื่อกดปุ่ม <code>#nb_price_del_btn_8c</code> ระบบจะยืนยันกับผู้ใช้แล้วเรียก <code>ServicePriceList::delSpecimenByHospitalID()</code> สั่ง <code>DELETE FROM service_price_list WHERE hospital_id = :h_id [AND jobtype = :type_id]</code></p>
+            </div>
+        </div>
+
+        <div class="mini-card" style="margin-top: 1rem;">
+            <h4>3. บันทึกข้อมูลแบบชุดใหญ่ (Batch Multi-Insert)</h4>
+            <p style="font-size: 0.88rem;"><strong>ไฟล์:</strong> <code>ajax_nb_price_8c/addMultRecordiSpecimen_8c.php</code><br>
+            <code>nb_price_8c.js</code> จะแยกบรรทัดและคอลัมน์ จัดทำเป็น JSON Array ส่งผ่าน AJAX POST จากนั้นสคริปต์ PHP จะตัดจุลภาคออกจากราคา, ป้องกัน SQL Injection ด้วย <code>addslashes()</code>, ผูกรหัส <code>hospital_id</code> และ <code>add_user_id</code> แล้วประกอบเป็นคำสั่ง Multi-Row <code>INSERT INTO service_price_list VALUES (...), (...)</code> รันผ่าน <code>ServicePriceList::createBySQL()</code> ในคิวรีเดียว</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>4. การเชื่อมโยงไปยังระบบคิดบิลและออกใบแจ้งหนี้ (Billing Pipeline)</h2>
+        <p>ข้อมูลราคาที่จัดการผ่าน <code>nb_price_8c.php</code> เป็นหัวใจสำคัญของวงจรคิดเงินในระบบ NB Patho:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ขั้นตอนการทำงาน</th>
+                    <th>ไฟล์ที่เรียกใช้</th>
+                    <th>ฟังก์ชันของ <code>ServicePriceList</code></th>
+                    <th>การส่งต่อไปยังระบบบิล</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. เลือกสิ่งส่งตรวจ (Slide 1)</strong></td>
+                    <td><code>ajax_slide1_specimen/getSpecimenList1.php</code></td>
+                    <td><code>getSpecimenByHospitalIDJoptypeSpecimen()</code></td>
+                    <td>ดึงรายการราคาที่มี <code>jobtype IN (1, 4, 5, 8)</code> ตามโรงพยาบาลของเคสคนไข้</td>
+                </tr>
+                <tr>
+                    <td><strong>2. เลือกย้อมพิเศษ (Slide 2)</strong></td>
+                    <td><code>ajax_slide2__special/getSpecimenList2.php</code></td>
+                    <td><code>getSpecimenByHospitalIDJoptypeSpecialStainging()</code></td>
+                    <td>ดึงรายการย้อมพิเศษที่มี <code>jobtype IN (2, 3, 6, 7)</code> ตามโรงพยาบาลและชนิดบริการ</td>
+                </tr>
+                <tr>
+                    <td><strong>3. บันทึกลงตารางบิล</strong></td>
+                    <td>ระบบลงทะเบียนเคสและบันทึกผล</td>
+                    <td>บันทึกลงตาราง <code>service_billing</code></td>
+                    <td>คัดลอก <code>specimen_id</code>, <code>code_description</code>, <code>description</code>, และ <code>cost</code> ไปเก็บไว้ในตาราง <code>service_billing</code></td>
+                </tr>
+                <tr>
+                    <td><strong>4. คำนวณและพิมพ์ใบแจ้งหนี้</strong></td>
+                    <td><code>billing.php</code> และ <code>billing_pdf_3.php</code></td>
+                    <td>ระบบ <strong>Billing PDF V3</strong></td>
+                    <td>รวบรวมรายการจาก <code>service_billing</code> มาคำนวณยอดเงินรวม สรุปกลุ่มบริการ และพิมพ์ใบแจ้งหนี้ทางการแบบ A4 (Page 1–6)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>5. ตารางเปรียบเทียบในตระกูลหน้าจัดการราคา (<code>nb_price*.php</code>)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ไฟล์หน้าจอ</th>
+                    <th>จำนวนคอลัมน์</th>
+                    <th>สถานะการใช้งาน</th>
+                    <th>ความสามารถหลักและข้อแตกต่าง</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>nb_price.php</code></td>
+                    <td>6</td>
+                    <td><span class="badge badge-secondary">ปิดใช้งาน (Comment ไว้)</span></td>
+                    <td>ระบบเดิม ต้องเลือกชนิดบริการจาก Dropdown ก่อน วางได้ทีละชนิด</td>
+                </tr>
+                <tr>
+                    <td><code>nb_price_8c.php</code></td>
+                    <td>8</td>
+                    <td><span class="badge badge-success">เปิดใช้งาน (หน้าหลัก Standard)</span></td>
+                    <td>วางได้หลายชนิดบริการพร้อมกันในรอบเดียว โดยมี <code>service_id</code> กำกับในแต่ละแถว</td>
+                </tr>
+                <tr>
+                    <td><code>nb_price_9c.php</code></td>
+                    <td>9</td>
+                    <td><span class="badge badge-primary">เปิดใช้งาน (ขั้นสูง Advanced)</span></td>
+                    <td>เพิ่มคอลัมน์ <code>code2</code> สำหรับรหัสตรวจเบิกจ่ายคู่ขนานของโรงพยาบาล</td>
+                </tr>
+                <tr>
+                    <td><code>nb_price_view.php</code></td>
+                    <td>13</td>
+                    <td><span class="badge badge-primary">เปิดใช้งาน (ดูอย่างเดียว Viewer)</span></td>
+                    <td>DataTable กรองดูราคาของทุกโรงพยาบาลพร้อม SearchPanes หลายมิติ</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

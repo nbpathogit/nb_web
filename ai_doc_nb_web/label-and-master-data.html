@@ -19,6 +19,19 @@
         th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
         th { background: #f1f5f9; font-weight: 600; }
         code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
+        pre code { background: transparent; color: inherit; padding: 0; }
+        .badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; line-height: 1; }
+        .badge-primary { background: #0284c7; color: #fff; }
+        .badge-success { background: #16a34a; color: #fff; }
+        .badge-warning { background: #f59e0b; color: #000; }
+        .badge-danger { background: #dc2626; color: #fff; }
+        .badge-secondary { background: #64748b; color: #fff; }
+        .callout { border-left: 4px solid #0284c7; background: #f0f9ff; padding: 0.85rem 1.15rem; border-radius: 6px; margin: 1rem 0; font-size: 0.92rem; }
+        .callout.warn { border-left-color: #f59e0b; background: #fffbeb; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .mini-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; }
+        .mini-card h4 { margin: 0 0 0.5rem 0; color: #0369a1; font-size: 0.95rem; }
     </style>
 </head>
 <body>
@@ -26,7 +39,7 @@
     <div class="top-nav"><a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a></div>
     <header>
         <h1>Sticker Label Printing &amp; Master Data Reference</h1>
-        <p><code>generate_label.php</code> (V1 &amp; V2) and Master Data CRUD screens</p>
+        <p><code>generate_label.php</code> (V1 &amp; V2), Master Data CRUD screens, and 8-Column Pricing (<code>nb_price_8c.php</code>)</p>
     </header>
 
     <div class="card">
@@ -48,12 +61,22 @@
             </thead>
             <tbody>
                 <tr><td><strong>Hospital Management</strong></td><td><code>hospital.php</code>, <code>hospital_add.php</code>, <code>hospital_edit.php</code>, <code>hospital_detail.php</code></td><td><code>data/hospital.php</code></td><td><code>classes/Hospital.php</code></td></tr>
-                <tr><td><strong>Specimen &amp; Pricing</strong></td><td><code>specimen.php</code>, <code>specimen_add.php</code>, <code>specimen_edit.php</code>, <code>specimen_del.php</code>, <code>nb_price*.php</code></td><td><code>data/specimen.php</code></td><td><code>classes/ServicePriceList.php</code></td></tr>
+                <tr><td><strong>Specimen &amp; Pricing</strong></td><td><code>specimen.php</code>, <code>specimen_add.php</code>, <code>specimen_edit.php</code>, <code>specimen_del.php</code>, <code>nb_price_8c.php</code>, <code>nb_price_9c.php</code>, <code>nb_price_view.php</code></td><td><code>ajax_nb_price_8c/</code></td><td><code>classes/ServicePriceList.php</code></td></tr>
                 <tr><td><strong>Lab Fluid Definitions</strong></td><td><code>labfluid.php</code>, <code>labfluid_add.php</code>, <code>labfluid_edit.php</code>, <code>labfluid_del.php</code></td><td><code>data/labfluid.php</code></td><td><code>classes/LabFluid.php</code></td></tr>
                 <tr><td><strong>Report Templates</strong></td><td><code>templateReport.php</code>, <code>templateReport_add.php</code>, <code>templateReport_edit.php</code></td><td><code>js/template_report.js</code></td><td><code>classes/TemplateReport.php</code></td></tr>
                 <tr><td><strong>Public Service Page</strong></td><td><code>service.php</code></td><td>Static HTML + nav state (<code>#about_main</code>, <code>#service</code>)</td><td>—</td></tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="card">
+        <h2>3. Hospital Service Pricing System (<code>nb_price_8c.php</code>)</h2>
+        <div class="callout success">
+            <strong>แยกเป็นกลุ่มฟังก์ชันเฉพาะทางต่างหาก (Dedicated Architecture Group):</strong><br>
+            หน้านี้มีจุดประสงค์หลักเพื่อ<strong>ใส่และจัดการราคาค่าบริการ (Service Pricing) สำหรับนำไปคำนวณบิล (Billing) และออกใบแจ้งหนี้ภายหลัง</strong> ได้รับการแยกเป็นหน้าเอกสารเฉพาะทาง ดูรายละเอียดทั้งหมดได้ที่:
+            <br><br>
+            👉 <a href="service-price-8c.html" style="font-weight: 700; color: #0284c7; font-size: 1.05rem;">เปิดคู่มือระบบตั้งราคาค่าบริการ 8 คอลัมน์ (Hospital Service Pricing — <code>nb_price_8c.php</code>) &rarr;</a>
+        </div>
     </div>
 </div>
 </body>
