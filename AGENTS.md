@@ -24,6 +24,7 @@ docker compose up -d
 | db (MySQL 5.7) | 3306 | db: `nbpa_data`, user: `nbpa_nbpatho` |
 | phpMyAdmin | http://localhost:8081 | |
 | ftp | 21 | |
+| beszel (monitoring) | http://localhost:8090 | hub + agent เก็บ metrics — ต้องใส่ `KEY`/`TOKEN` ใน compose ก่อน agent ถึงจะทำงาน (ดู comment ใน `docker-compose.yml`) |
 
 - app กับ db ใช้ network namespace เดียวกัน (`network_mode: service:db`) เพื่อให้ `localhost` ใน container ชี้มาที่ MySQL
 - Volume mount ทั้ง repo ไปที่ `/var/www/html` — แก้โค้ดแล้วรีเฟรชได้เลย ไม่ต้อง rebuild (ยกเว้นแก้ `docker/php/`)
