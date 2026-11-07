@@ -249,6 +249,8 @@ $(document).ready(function () {
     });
 
     // set active tab
+    $("#manage_table_dropdown").addClass("show");
+    $("#manage_table").addClass("active");
     $("#patientconfirmtab").addClass("active");
 
 

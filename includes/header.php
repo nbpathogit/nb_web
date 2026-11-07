@@ -144,17 +144,15 @@ if ($cur_user_hosp_id > 0) {
                                 <a id="chart_data_tab" href="chart_data.php" class="dropdown-item">chart data</a>
                                 <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="dropdown-item">ออกใบแจ้งหนี้ V3(PDF)</a>
                                 <a id="systemchecking_tab" href="systemchecking.php" class="dropdown-item">ตรวจสอบคำสั่งระบบ</a>
-                                <a id="admin_patient_edit_by_excel_tab" href="patient_edit_by_excel.php" class="dropdown-item">อัปโหลดผลด้วย Excel</a>
+                                
                             </div>
                         </div>
                     <?php endif; ?>
 
 
                     <?php if ($isCurUserNB): ?>
-                        <a id="patient_edit_by_excel_tab" class="nav-item nav-link" href="patient_edit_by_excel.php"><i class="fa-solid fa-file-excel"></i>อัปโหลดผลด้วย Excel</a>
                         <a id="patienttab_8000" class="nav-item nav-link" href="patient_monitor_8000.php"><i class="fa-solid fa-bed-pulse"></i>ตรวจพิเศษ</a>
-                        <a id="patientconfirmtab" class="nav-item nav-link" href="patient_confirm.php"><i class="fa-solid fa-cart-flatbed-suitcase"></i>Double check by second pathologist</a>
-
+                        
                         <div class="nav-item dropdown">
                             <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แบบสอบถาม</a>
                             <div id="view_qn_dropdown" class="dropdown-menu bg-transparent border-0 view_qn_dropdown finish_job_table_dropdown">
@@ -199,23 +197,25 @@ if ($cur_user_hosp_id > 0) {
                             <div id="manage_table_dropdown" class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
                                 <a id="user_add" class="dropdown-item" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
                                 <a id="user" class="dropdown-item" href="user.php">ดูผู้ใช้งานระบบ</a>
-                                <a class="dropdown-item" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
                                 <a class="dropdown-item" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
-                                <a id="fluid" href="labfluid.php" class="dropdown-item">ดูแลปเซลล์วิทยา</a>
+                                <a class="dropdown-item" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
+                                <a id="patient_edit_by_excel_tab" href="patient_edit_by_excel.php" class="dropdown-item">อัปโหลดผลด้วย Excel</a>
+                                <a id="patientconfirmtab" class="dropdown-item" href="patient_confirm.php">Double check by second pathologist</a>
+
+                                <!--<a id="fluid" href="labfluid.php" class="dropdown-item">ดูแลปเซลล์วิทยา</a>-->
                                 <!--<a id="price_tab" href="nb_price.php" class="dropdown-item">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>-->
-                                <a id="price_tab_8c" href="nb_price_8c.php" class="dropdown-item">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
-                                <a id="price_tab_9c" href="nb_price_9c.php" class="dropdown-item">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
-                                <a id="price_tab_view" href="nb_price_view.php" class="dropdown-item">ดูรายการค่าบริการ</a>
-                                <a id="gross_examination_tab" href="gross_examination_record.php" class="dropdown-item">setting gross examination record</a>
+                                <a id="price_tab_8c" href="nb_price_8c.php" class="dropdown-item">รายการค่าบริการ</a>
+                                <!--<a id="price_tab_9c" href="nb_price_9c.php" class="dropdown-item">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>-->
+                                <!--<a id="price_tab_view" href="nb_price_view.php" class="dropdown-item">ดูรายการค่าบริการ</a>-->
+                                <a id="gross_examination_tab" href="gross_examination_record.php" class="dropdown-item">ต้งค่าใบจด Setting gross examination record</a>
                                 <a id="note_tab" href="nbnote_record.php" class="dropdown-item">Note Memo</a>
                             </div>
                         </div>
                         <div class="nav-item dropdown">
                             <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
                             <div class="dropdown-menu bg-transparent border-0 manage_bill_dropdown" id="manage_bill_dropdown">
-                                <a id="billing_pdf_tab" href="billing_pdf.php" class="dropdown-item">ออกใบแจ้งหนี้(PDF)</a>
+                                <!--<a id="billing_pdf_tab" href="billing_pdf.php" class="dropdown-item">ออกใบแจ้งหนี้(PDF)</a>-->
                                 <a id="billing_pdf_tab_2" href="billing_pdf_2.php" class="dropdown-item">ออกใบแจ้งหนี้ V2(PDF)</a>
-                                
                                 <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="dropdown-item">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
                                 <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="dropdown-item">กรองข้อมูลตามนักเซลล์(PDF)</a>
                                 <a id="billing_tab" href="billing.php" class="dropdown-item">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>

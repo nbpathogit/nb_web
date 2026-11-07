@@ -71,4 +71,4 @@ Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open patient_
         var isCurUserAdmin = 0;
     <?php endif; ?>
 </script>
-<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient_confirm.js?v=2"></script>
+<script type="text/javascript" src="<?= Url::getSubFolder1() ?>/js/patient_confirm.js?v=3"></script>
