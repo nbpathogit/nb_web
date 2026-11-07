@@ -104,17 +104,38 @@ class Log
         }
     }
     
-    public static function getAllLogInLogOut($conn)
+    public static function getAllLogInLogOut($conn, $range = "0", $start_date = "", $end_date = "")
     {
+        $where = " WHERE (`event`= 'login' or `event`= 'logout') ";
+        $params = [];
+
+        if ($start_date !== "" && $end_date !== "") {
+            $where .= " AND `event_date` >= :start_date AND `event_date` <= :end_date ";
+            $params[':start_date'] = $start_date;
+            $params[':end_date'] = $end_date;
+        } elseif ($range !== "0" && $range !== "") {
+            if (preg_match('/^\d{4}$/', $range)) {
+                $where .= " AND YEAR(`event_date`) = :yr ";
+                $params[':yr'] = (int)$range;
+            } else {
+                $where .= " AND `event_date` >= :range_date ";
+                $params[':range_date'] = $range . " 00:00:00";
+            }
+        }
+
         $sql = "SELECT "
                 . " `id`,`username`,`name`,`event`,`detail`,`event_date` "
-                . " FROM `log`  "
-                . " WHERE (`event`= 'login' or `event`= 'logout') "
+                . " FROM `log` "
+                . $where
                 . " ORDER BY id DESC ";
 
-        $results = $conn->query($sql);
+        $stmt = $conn->prepare($sql);
+        foreach ($params as $k => $v) {
+            $stmt->bindValue($k, $v);
+        }
+        $stmt->execute();
 
-        return  $results->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     

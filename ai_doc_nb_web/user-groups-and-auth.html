@@ -100,6 +100,30 @@
             </tbody>
         </table>
     </div>
+
+    <div class="card">
+        <h2>4. Sidebar Navigation Unique IDs &amp; Active Tab Standard (<code>includes/header.php</code>)</h2>
+        <p>Every dropdown menu container and submenu item in <code>includes/header.php</code> has a unique HTML <code>id</code>, and all submenu links inside <code>&lt;div class="dropdown-menu"&gt;</code> use <code>class="dropdown-item"</code>. All submenu pages follow the 3-line active tab pattern from <code>billing_pdf.php</code>:</p>
+<pre><code>$("#&lt;dropdown_id&gt;").addClass("show");
+$("#&lt;parent_tab_id&gt;").addClass("active");
+$("#&lt;sub_tab_id&gt;").addClass("active");</code></pre>
+        <table>
+            <thead>
+                <tr><th>Dropdown Container ID</th><th>Parent Toggle ID</th><th>Submenu Item IDs (<code>.dropdown-item</code>)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>#dashbroad_dropdown</code></td><td><code>#dashbroad_tab</code></td><td><code>#globaldashboard_main_tab</code>, <code>#globaldashboardtab</code></td></tr>
+                <tr><td><code>#admin_dropdown</code></td><td><code>#admin_tab</code></td><td><code>#user_sim_admin_tab</code>, <code>#curdate_sim_admin_tab</code>, <code>#datatable_patient_pn_rev1</code>, <code>#chart_data_tab</code>, <code>#billing_pdf_tab_3</code>, <code>#systemchecking_tab</code></td></tr>
+                <tr><td><code>#view_qn_dropdown</code></td><td><code>#view_qn_table</code></td><td><code>#qn_sn_tab</code>, <code>#qn_cn_tab</code></td></tr>
+                <tr><td><code>#view_log_dropdown</code></td><td><code>#view_log_table</code></td><td><code>#log_login_logout_tab</code></td></tr>
+                <tr><td><code>#view_job_dropdown</code></td><td><code>#view_job_table</code></td><td><code>#job_tab</code>, <code>#job_tab_jobdaily</code></td></tr>
+                <tr><td><code>#finish_job_dropdown</code></td><td><code>#finish_job_table</code></td><td><code>#job1_finish_tab</code>, <code>#job2_finish_tab</code>, <code>#job3_finish_tab</code></td></tr>
+                <tr><td><code>#manage_table_dropdown</code></td><td><code>#manage_table</code></td><td><code>#user_add</code>, <code>#user</code>, <code>#hospital_add</code>, <code>#hospital</code>, <code>#patient_edit_by_excel_tab</code>, <code>#patientconfirmtab</code>, <code>#price_tab_8c</code>, <code>#gross_examination_tab</code>, <code>#note_tab</code></td></tr>
+                <tr><td><code>#manage_bill_dropdown</code></td><td><code>#manage_bill</code></td><td><code>#billing_pdf_tab_2</code>, <code>#billing_pdf_patho_tab</code>, <code>#billing_pdf_cyto_tab</code>, <code>#billing_tab</code>, <code>#billing_by_billingdate_tab</code></td></tr>
+                <tr><td><code>#about_dropdown</code></td><td><code>#about_main</code></td><td><code>#about</code>, <code>#webfeature</code>, <code>#featurehistory_tab</code>, <code>#printersetting_tab</code>, <code>#docdownload_tab</code>, <code>#stuff</code>, <code>#service</code>, <code>#learning_clip</code></td></tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

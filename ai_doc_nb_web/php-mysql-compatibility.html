@@ -135,6 +135,19 @@ MAX(DATE(j.finish_date)) as j_finish_date</code></pre>
             <strong>Enabling in Laragon / PHP:</strong> Ensure <code>extension=zip</code> is uncommented in <code>php.ini</code>. You can verify whether it is loaded by navigating to <code>แอดมินเมนู &rarr; ตรวจสอบคำสั่งระบบ (systemchecking.php)</code>.
         </div>
     </div>
+
+    <div class="card">
+        <h2>4. <code>Log::add()</code> PDO vs <code>mysqli</code> Guard (<code>classes/Log.php</code>)</h2>
+        <p>Pages such as <code>gross_examination_record.php</code> instantiate <code>$conn = (new Database())-&gt;getConnMysqli();</code> while <code>Log::add()</code> uses PDO named parameters (<code>:username, :name, :event, :detail, :event_date</code>). <code>Log::add()</code> automatically checks <code>if (!($conn instanceof PDO))</code> and obtains a PDO connection via <code>(new Database())-&gt;getConn()</code> so passing a <code>mysqli</code> instance never causes a fatal SQL syntax error.</p>
+    </div>
+
+    <div class="card">
+        <h2>5. mPDF PHP 8.3+ <code>unserialize()</code> &amp; Output Buffering (<code>Mpdf.php</code> &amp; <code>patient_pdf_for_note_v2.php</code>)</h2>
+        <ul>
+            <li><strong><code>vendor/mpdf/mpdf/src/Mpdf.php</code> (line 9076, <code>_getObjAttr</code>):</strong> Changed <code>$c = explode("\xbb\xa4\xac", $t, 2);</code> to <code>$c = explode("\xbb\xa4\xac", $t);</code> so the trailing 3-byte delimiter <code>\xbb\xa4\xac</code> is stripped before <code>unserialize($sp['objattr'])</code>, preventing PHP 8.3+ <code>Warning: unserialize(): Extra data starting at offset ...</code> while remaining 100% compatible with PHP 7.3.</li>
+            <li><strong><code>patient_pdf_for_note_v2.php</code>:</strong> Added <code>ob_start();</code> at top, moved <code>&lt;link href="css/bootstrap.min.css" rel="stylesheet"&gt;</code> into the HTML dropdown form <code>else</code> branch, and added <code>if (ob_get_length()) { ob_clean(); }</code> right before <code>$mpdf-&gt;Output()</code>.</li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

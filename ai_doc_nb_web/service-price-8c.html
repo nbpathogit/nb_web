@@ -166,6 +166,14 @@
             <p style="font-size: 0.88rem;"><strong>ไฟล์:</strong> <code>ajax_nb_price_8c/addMultRecordiSpecimen_8c.php</code><br>
             <code>nb_price_8c.js</code> จะแยกบรรทัดและคอลัมน์ จัดทำเป็น JSON Array ส่งผ่าน AJAX POST จากนั้นสคริปต์ PHP จะตัดจุลภาคออกจากราคา, ป้องกัน SQL Injection ด้วย <code>addslashes()</code>, ผูกรหัส <code>hospital_id</code> และ <code>add_user_id</code> แล้วประกอบเป็นคำสั่ง Multi-Row <code>INSERT INTO service_price_list VALUES (...), (...)</code> รันผ่าน <code>ServicePriceList::createBySQL()</code> ในคิวรีเดียว</p>
         </div>
+
+        <div class="mini-card" style="margin-top: 1rem;">
+            <h4>4. ระบบ Download &amp; Upload Excel + ประวัติไฟล์ (<code>upload_excel_8c.php</code>, <code>get_excel_history_8c.php</code>, <code>download_excel_8c.php</code>)</h4>
+            <p style="font-size: 0.88rem;">
+            &bull; <strong>Download Excel (<code>#nb_price_excel_btn_8c</code>):</strong> ส่งออกข้อมูลในตาราง <code>#nb_price_tbl_8c</code> เป็นไฟล์ <code>.xlsx</code> 8 คอลัมน์ (<code>ลำดับ(number)</code>, <code>โค้ด(code)</code>, <code>รายการ(detail)</code>, <code>ต่อหน่วย(unit)</code>, <code>ราคา(price)</code>, <code>คอมเม้นท์(comment)</code>, <code>ไอดีชนิด(type)</code>, <code>ชนิดของรายการ(type Description)</code>) โดยซ่อนคอลัมน์ดีบัก <code>row_id</code>, <code>hospital</code>, <code>create date</code> ด้วย <code>style="display:none;"</code><br>
+            &bull; <strong>Upload Excel (<code>#nb_price_upload_btn_8c</code>):</strong> อ่านไฟล์ <code>.xlsx</code>/<code>.xls</code> ด้วย SheetJS และตรวจสอบความถูกต้องทั้งฝั่ง Client และ Server (ลำดับ/โค้ด/ราคา ต้องเป็นตัวเลขและห้ามว่าง, รายการห้ามว่าง, ไอดีชนิดต้องเป็นตัวเลขที่มีอยู่ในตาราง <code>service_type.id</code> เท่านั้น พร้อมแสดงตารางอ้างอิง <code>service_type</code> บนหน้าเว็บ)<br>
+            &bull; <strong>เก็บไฟล์และประวัติ (<code>classes/ServicePriceExcelFile.php</code>):</strong> บันทึกไฟล์จริงไว้ใน <code>nb_price_8c_uploads/</code> (มี <code>.gitkeep</code>) และบันทึกประวัติลงตาราง <code>service_price_excel_file</code> พร้อมระบบ JSON Fallback (<code>history_index.json</code>) กรณีที่ DB User บนเซิร์ฟเวอร์จริงไม่มีสิทธิ์ <code>CREATE TABLE</code></p>
+        </div>
     </div>
 
     <div class="card">

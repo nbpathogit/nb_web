@@ -39,8 +39,35 @@ if (isset($_GET['id'])) {
     <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
 
 
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex flex-wrap align-items-center justify-content-between w-100 gap-2">
+            <h1 class="mb-0">แบบสอบถาม(SN)</h1>
+            <span id="BTN_SELECTION_MESSAGE" class="badge bg-primary fs-6">แสดงจากข้อมูลย้อนหลัง 2 เดือน</span>
+        </div>
 
+        <hr class="my-3">
+
+        <div class="d-flex flex-wrap align-items-end gap-3 w-100">
+            <div>
+                <label for="qn_start_month" class="form-label mb-1 fw-bold">ตั้งแต่เดือน:</label>
+                <input type="month" id="qn_start_month" class="form-control form-control-sm" value="<?= date('Y-m', strtotime('-1 month')) ?>">
+            </div>
+            <div>
+                <label for="qn_end_month" class="form-label mb-1 fw-bold">ถึงเดือน:</label>
+                <input type="month" id="qn_end_month" class="form-control form-control-sm" value="<?= date('Y-m') ?>">
+            </div>
+            <div>
+                <button type="button" id="btn_filter_month_range" class="btn btn-sm btn-primary">
+                    <i class="fa-solid fa-calendar-days me-1"></i>ดูข้อมูลตามช่วงเดือน
+                </button>
+            </div>
+            <div class="ms-auto d-flex flex-wrap gap-1">
+                <button type="button" class="btn btn-sm btn-outline-primary qn-quick-range" data-range="1m" data-label="แสดงจากข้อมูลย้อนหลัง 1 เดือน">1 เดือนล่าสุด</button>
+                <button type="button" class="btn btn-sm btn-primary qn-quick-range" data-range="2m" data-label="แสดงจากข้อมูลย้อนหลัง 2 เดือน">2 เดือนล่าสุด (ค่าเริ่มต้น)</button>
+                <button type="button" class="btn btn-sm btn-outline-primary qn-quick-range" data-range="3m" data-label="แสดงจากข้อมูลย้อนหลัง 3 เดือน">3 เดือนล่าสุด</button>
+                <button type="button" class="btn btn-sm btn-outline-primary qn-quick-range" data-range="6m" data-label="แสดงจากข้อมูลย้อนหลัง 6 เดือน">6 เดือนล่าสุด</button>
+                <button type="button" class="btn btn-sm btn-outline-primary qn-quick-range" data-range="1y" data-label="แสดงจากข้อมูลย้อนหลัง 1 ปี">1 ปีล่าสุด</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary qn-quick-range" data-range="all" data-label="แสดงจากข้อมูลทั้งหมด">ทั้งหมด</button>
+            </div>
         </div>
 
     </div>
@@ -112,10 +139,11 @@ if (isset($_GET['id'])) {
 
             ],
             
-            "ajax": "data/questionare_sn_slide_ajax.php?skey="+skey+"",
+            "ajax": "data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=2m",
             responsive: true,
             dom: 'BP<"toolbar">lfritip',
             pageLength: 100,
+            processing: true,
             buttons: [
             {
                 text: 'export excel',
@@ -144,47 +172,68 @@ if (isset($_GET['id'])) {
                 extend: 'collection',
                 text: 'ระยะเวลาย้อนหลัง',
                 autoClose: true,
-                buttons: [{
+                buttons: [
+                {
+                    text: '1 เดือนล่าสุด',
+                    action: function (e, dt, node, config) {
+                        $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=1m").load(function () {
+                            $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 1 เดือน');
+                        });
+                    }
+                },
+                {
                     text: '2 เดือนล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=2m").load();
-                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 2 เดือน');
-
+                        $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=2m").load(function () {
+                            $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 2 เดือน');
+                        });
                     }
                 },
                 {
                     text: '3 เดือนล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=3m").load();
-                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 3 เดือน');
+                        $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=3m").load(function () {
+                            $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 3 เดือน');
+                        });
                     }
                 },
                 {
                     text: '6 เดือนล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=6m").load();
-                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 6 เดือน');
+                        $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=6m").load(function () {
+                            $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 6 เดือน');
+                        });
                     }
                 },
                 {
                     text: '1 ปีล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=1y").load();
-                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 1 ปี');
+                        $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=1y").load(function () {
+                            $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 1 ปี');
+                        });
                     }
                 },
                 {
                     text: '2 ปีล่าสุด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=2y").load();
-                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 2 ปี');
+                        $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=2y").load(function () {
+                            $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลย้อนหลัง 2 ปี');
+                        });
                     }
                 },
                 {
                     text: 'ทั้งหมด',
                     action: function (e, dt, node, config) {
-                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "").load();
-                        $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลทั้งหมด');
+                        $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+                        dt.ajax.url("data/questionare_sn_slide_ajax.php?skey=" + skey + "&range=all").load(function () {
+                            $('#BTN_SELECTION_MESSAGE').text('แสดงจากข้อมูลทั้งหมด');
+                        });
                     }
                 }]
             },],
@@ -258,6 +307,49 @@ if (isset($_GET['id'])) {
 
 
 
+
+        // Filter by custom month range
+        $('#btn_filter_month_range').on('click', function () {
+            var startMonth = $('#qn_start_month').val();
+            var endMonth = $('#qn_end_month').val();
+            if (!startMonth || !endMonth) {
+                alert('กรุณาเลือกทั้งเดือนเริ่มต้นและเดือนสิ้นสุด');
+                return;
+            }
+            if (startMonth > endMonth) {
+                var tmp = startMonth;
+                startMonth = endMonth;
+                endMonth = tmp;
+                $('#qn_start_month').val(startMonth);
+                $('#qn_end_month').val(endMonth);
+            }
+            $('.qn-quick-range').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+            var url = "data/questionare_sn_slide_ajax.php?skey=" + encodeURIComponent(skey)
+                + "&start_month=" + encodeURIComponent(startMonth)
+                + "&end_month=" + encodeURIComponent(endMonth);
+            table.ajax.url(url).load(function () {
+                if (startMonth === endMonth) {
+                    $('#BTN_SELECTION_MESSAGE').text('แสดงข้อมูลประจำเดือน ' + startMonth);
+                } else {
+                    $('#BTN_SELECTION_MESSAGE').text('แสดงข้อมูลช่วงเดือน ' + startMonth + ' ถึง ' + endMonth);
+                }
+            });
+        });
+
+        // Quick lookback buttons
+        $('.qn-quick-range').on('click', function () {
+            var $btn = $(this);
+            var range = $btn.data('range');
+            var label = $btn.data('label');
+            $('.qn-quick-range').removeClass('btn-primary').addClass('btn-outline-primary');
+            $btn.removeClass('btn-outline-primary btn-outline-secondary').addClass('btn-primary');
+            $('#BTN_SELECTION_MESSAGE').text('กำลังโหลดข้อมูล...');
+            var url = "data/questionare_sn_slide_ajax.php?skey=" + encodeURIComponent(skey) + "&range=" + encodeURIComponent(range);
+            table.ajax.url(url).load(function () {
+                $('#BTN_SELECTION_MESSAGE').text(label);
+            });
+        });
 
         // set active tab
         $("#view_qn_dropdown").addClass("show");

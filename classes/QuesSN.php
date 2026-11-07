@@ -122,9 +122,8 @@ class QuesSN {
     }
     
     
-    public static function getAllbyDaterange($conn,$range= '0'){
+    public static function getAllbyDaterange($conn, $range = '0', $start_date = '', $end_date = '') {
         $sql = "SELECT 
-                #*,
                 s.id as id, 
                 s.patient_id AS patient_id, 
                 p.pnum as patient_num ,
@@ -137,22 +136,29 @@ class QuesSN {
                 s.note AS note
                 FROM `questionnaire_quality_sn` AS s
                 JOIN patient as p ON p.id = s.patient_id and p.movetotrash = 0
-                WHERE 1  ";
+                WHERE 1 ";
 
-        
-        if ($range != '0') {
-            $sql .= " and date(p.date_1000) >= '{$range}' ";
+        $params = [];
+        if ($start_date !== '' && $end_date !== '') {
+            $sql .= " AND p.date_1000 >= :start_date AND p.date_1000 <= :end_date ";
+            $params[':start_date'] = $start_date;
+            $params[':end_date'] = $end_date;
+        } elseif ($range !== '0' && $range !== '') {
+            $sql .= " AND p.date_1000 >= :range_date ";
+            $params[':range_date'] = $range . " 00:00:00";
         }
 
-        if($GLOBALS['isSqlWriteFileForDBG']){
-//        if(TRUE){
-            Util::writeFile('QuesSN_getAllbydaterange.txt', $sql);   
+        if ($GLOBALS['isSqlWriteFileForDBG']) {
+            Util::writeFile('QuesSN_getAllbydaterange.txt', $sql);
         }
-        
-        $results = $conn->query($sql);
 
-        return $results->fetchAll(PDO::FETCH_ASSOC);
-        
+        $stmt = $conn->prepare($sql);
+        foreach ($params as $k => $v) {
+            $stmt->bindValue($k, $v);
+        }
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function getAllbyPatientID($conn, $id) {
