@@ -117,10 +117,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script type="text/javascript">
     $(document).ready(function() {
         //set active tab
-        $("#user_add").addClass("active");
+        $("#manage_table_dropdown").addClass("show");
         $("#manage_table").addClass("active");
-        $("#manage_table").addClass("show");
-        $(".manage_table_dropdown").addClass("show");
+        $("#user_add").addClass("active");
 
         // prevent from unsave
         function onNosave(e) {

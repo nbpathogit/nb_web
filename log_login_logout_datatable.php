@@ -245,7 +245,8 @@ if (isset($_GET['id'])) {
 
 
         // set active tab
-        $("#SIDE_tab").addClass("active");
-        $("#SUBSIDEBAR_tab").addClass("active");
+        $("#view_log_dropdown").addClass("show");
+        $("#view_log_table").addClass("active");
+        $("#log_login_logout_tab").addClass("active");
     });
 </script>

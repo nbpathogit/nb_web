@@ -253,8 +253,7 @@ if ($hide) {
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="<?= Url::getSubFolder1() ?>/ajax_nb_price_8c/nb_price_8c.js?v10x"></script>
 <script>
+    $("#manage_table_dropdown").addClass("show");
     $("#manage_table").addClass("active");
     $("#price_tab_8c").addClass("active");
-    $("#manage_table").addClass("show");
-    $(".manage_table_dropdown").addClass("show");
 </script>

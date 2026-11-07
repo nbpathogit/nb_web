@@ -158,6 +158,10 @@ $patient[0]['pnum'] = "TBD";
     
     $(document).ready(function () {
 
+    // set active tab
+    $("#finish_job_dropdown").addClass("show");
+    $("#finish_job_table").addClass("active");
+    $("#job1_finish_tab").addClass("active");
 
     console.log('isCurUserAdmin::'+isCurUserAdmin);
     console.log('cur_user_can_manaage_job::'+cur_user_can_manaage_job);

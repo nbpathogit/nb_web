@@ -155,10 +155,9 @@ if ($hide) {
 <?php require 'includes/footer.php'; ?>
 
 <script>
+    $("#manage_table_dropdown").addClass("show");
     $("#manage_table").addClass("active");
     $("#price_tab_9c").addClass("active");
-    $("#manage_table").addClass("show");
-    $(".manage_table_dropdown").addClass("show");
     
     
     

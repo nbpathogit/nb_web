@@ -580,10 +580,8 @@ if (isset($_GET['id'])) {
 
 
         // set active tab
-        $("#chart_data_tab").addClass("active");
+        $("#admin_dropdown").addClass("show");
         $("#admin_tab").addClass("active");
-        $("#admin_tab").attr('aria-expanded', 'true');
-        $("#SIDE_tab").addClass("active");
-        $("#SUBSIDEBAR_tab").addClass("active");
+        $("#chart_data_tab").addClass("active");
     });
 </script>

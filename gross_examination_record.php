@@ -223,10 +223,9 @@ $nextSubId = ($nextSubIdResult['success']) ? $nextSubIdResult['next_subid'] : 1;
 
 <script>
     
+    $("#manage_table_dropdown").addClass("show");
     $("#manage_table").addClass("active");
     $("#gross_examination_tab").addClass("active");
-    $("#manage_table").addClass("show");
-    $(".manage_table_dropdown").addClass("show");
   /**
    * Initialize Summernote editor with configuration
    */

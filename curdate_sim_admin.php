@@ -70,5 +70,9 @@ if (!$isCurUserAdmin) {
             dateFormat: 'yy-mm-dd'
         });
 
+        // set active tab
+        $("#admin_dropdown").addClass("show");
+        $("#admin_tab").addClass("active");
+        $("#curdate_sim_admin_tab").addClass("active");
     });
 </script>

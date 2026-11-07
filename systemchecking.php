@@ -404,3 +404,11 @@ require 'includes/header.php';
 <?php endif; ?>
 
 <?php require 'includes/footer.php'; ?>
+<script>
+    $(function() {
+        // set active tab
+        $("#admin_dropdown").addClass("show");
+        $("#admin_tab").addClass("active");
+        $("#systemchecking_tab").addClass("active");
+    });
+</script>

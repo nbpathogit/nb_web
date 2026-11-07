@@ -250,7 +250,10 @@ $(document).ready(function () {
 
     $('#nb_navbar_top').removeClass("sticky-top");
 
-
+    // set active tab
+    $("#view_job_dropdown").addClass("show");
+    $("#view_job_table").addClass("active");
+    $("#job_tab_jobdaily").addClass("active");
 
 });
     

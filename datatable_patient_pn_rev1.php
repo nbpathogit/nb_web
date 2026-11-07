@@ -443,10 +443,8 @@ if (isset($_GET['id'])) {
 
 
         // set active tab
-        $("#datatable_patient_pn_rev1").addClass("active");
+        $("#admin_dropdown").addClass("show");
         $("#admin_tab").addClass("active");
-        $("#admin_tab").attr('aria-expanded', 'true');
-        $("#SIDE_tab").addClass("active");
-        $("#SUBSIDEBAR_tab").addClass("active");
+        $("#datatable_patient_pn_rev1").addClass("active");
     });
 </script>

@@ -116,6 +116,11 @@ if ($result && $result->num_rows > 0) {
 
 
   $(document).ready(function() {
+    // set active tab
+    $("#about_dropdown").addClass("show");
+    $("#about_main").addClass("active");
+    $("#featurehistory_tab").addClass("active");
+
     $('#summernote').summernote({
       height: 200,
       placeholder: 'Write your content here...',

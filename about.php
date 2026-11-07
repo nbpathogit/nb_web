@@ -39,6 +39,7 @@ require 'includes/init.php';
 
 <script type="text/javascript">
     //set active tab
+    $("#about_dropdown").addClass("show");
     $("#about_main").addClass("active");
     $("#about").addClass("active");
 </script>

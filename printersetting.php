@@ -97,7 +97,9 @@ if ($result && $result->num_rows > 0) {
 
 <script>
   $(document).ready(function() {
-    //set active tab
+    // set active tab
+    $("#about_dropdown").addClass("show");
+    $("#about_main").addClass("active");
     $("#printersetting_tab").addClass("active");
     
     $('#summernote').summernote({

@@ -166,7 +166,9 @@ $(document).ready(function () {
         var i = 1;
     }
 
-    //set active tab
+    // set active tab
+    $("#view_job_dropdown").addClass("show");
+    $("#view_job_table").addClass("active");
     $("#job_tab").addClass("active");
 
 });

@@ -193,6 +193,7 @@ if (isset($_GET['id'])) {
 
 
         // set active tab
+        $("#admin_dropdown").addClass("show");
         $("#admin_tab").addClass("active");
         $("#user_sim_admin_tab").addClass("active");
     });

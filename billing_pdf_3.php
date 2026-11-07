@@ -337,8 +337,9 @@ echo '</span>';
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
     var skey = "<?= $_SESSION['skey']; ?>";
-    $("#manage_bill_dropdown").addClass("show");
-    $("#manage_bill").addClass("active");
+    // set active tab
+    $("#admin_dropdown").addClass("show");
+    $("#admin_tab").addClass("active");
     $("#billing_pdf_tab_3").addClass("active");
     
     $(function() {

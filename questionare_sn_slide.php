@@ -260,7 +260,8 @@ if (isset($_GET['id'])) {
 
 
         // set active tab
-//        $("#SIDE_tab").addClass("active");
-//        $("#SUBSIDEBAR_tab").addClass("active");
+        $("#view_qn_dropdown").addClass("show");
+        $("#view_qn_table").addClass("active");
+        $("#qn_sn_tab").addClass("active");
     });
 </script>

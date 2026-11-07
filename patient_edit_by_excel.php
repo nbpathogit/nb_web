@@ -1040,3 +1040,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
 </div>
 
 <?php require 'includes/footer.php'; ?>
+<script>
+    $(function() {
+        // set active tab
+        $("#admin_dropdown").addClass("show");
+        $("#admin_tab").addClass("active");
+        $("#admin_patient_edit_by_excel_tab").addClass("active");
+        $("#patient_edit_by_excel_tab").addClass("active");
+    });
+</script>

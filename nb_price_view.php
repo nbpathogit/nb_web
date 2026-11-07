@@ -119,10 +119,9 @@ $patient[0]['pnum'] = "TBD";
 
 <script type="text/javascript">
     
+    $("#manage_table_dropdown").addClass("show");
     $("#manage_table").addClass("active");
     $("#price_tab_view").addClass("active");
-    $("#manage_table").addClass("show");
-    $(".manage_table_dropdown").addClass("show");
     
     var skey = "<?= $_SESSION["skey"] ?>";
     let cur_user_id = "<?= $_SESSION["userid"] ?>";

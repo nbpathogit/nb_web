@@ -2228,3 +2228,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <?php require 'includes/footer.php'; ?>
+<script>
+    $(function() {
+        // set active tab
+        $("#dashbroad_dropdown").addClass("show");
+        $("#dashbroad_tab").addClass("active");
+        $("#globaldashboardtab").addClass("active");
+    });
+</script>
