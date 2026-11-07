@@ -1,6 +1,3 @@
-<!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 if (!isset($inited)) {
@@ -80,6 +77,8 @@ elseif (!isset($gross_id)) {
             $latestContent = "";
         }
     ?>
+     <!-- Customized Bootstrap Stylesheet -->
+     <link href="css/bootstrap.min.css" rel="stylesheet">
      <!-- Dropdown list to select records -->
     <div class="form-group">
       <label for="recordSelect">Select Record by Sub ID:</label>
