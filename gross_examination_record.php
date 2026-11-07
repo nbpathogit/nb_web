@@ -10,9 +10,10 @@ require 'user_auth.php';
 
 // ===== DB CONFIG =====
 
-$conn = (new Database())->getConnMysqli();
+$conn_pdo = require 'includes/db.php';
+Log::add($conn_pdo, $_SESSION['log_username'], $_SESSION['log_name'], "open gross_examination_record.php", "");
 
-Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "open gross_examination_record.php", "");
+$conn = (new Database())->getConnMysqli();
 
 if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
 

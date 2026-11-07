@@ -76,6 +76,9 @@ class Log
     
     public static function add($conn,$username,$name,$event,$detail,$event_date="")
     {
+        if (!($conn instanceof PDO)) {
+            $conn = (new Database())->getConn();
+        }
         if($event_date == ""){
            $event_date = Util::get_curreint_thai_date_time();
         }
