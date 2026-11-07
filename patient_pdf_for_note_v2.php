@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once __DIR__ . '/vendor/autoload.php';
 if (!isset($inited)) {
     require 'includes/init.php';
@@ -462,6 +463,9 @@ $reportFileName = str_replace(' ', '-', $reportFileName);
 $reportFileNameFormat2 = str_replace(' ', '-', $reportFileNameFormat2);
 
 //View or download mode
+if (ob_get_length()) {
+    ob_clean();
+}
 $mpdf->Output($reportFileName . '.pdf', $pdfOutputOption);
 
 ?>
