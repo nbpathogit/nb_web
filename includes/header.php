@@ -130,21 +130,21 @@ if ($cur_user_hosp_id > 0) {
                     <div class="nav-item dropdown">
                     <a href="" id="dashbroad_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-gauge-high"></i>แดชบอร์ด</a>
                     <div id="dashbroad_dropdown" class="dropdown-menu bg-transparent border-0 dashbroad_dropdown">
-                        <a id="globaldashboard_main_tab" class="nav-item nav-link" href="patient_global_dashboard_main.php">Main แดชบอร์ด (1ปี)</a>
-                        <a id="globaldashboardtab" class="nav-item nav-link" href="patient_global_dashboard.php">Global แดชบอร์ด</a>
+                        <a id="globaldashboard_main_tab" class="dropdown-item" href="patient_global_dashboard_main.php">Main แดชบอร์ด (1ปี)</a>
+                        <a id="globaldashboardtab" class="dropdown-item" href="patient_global_dashboard.php">Global แดชบอร์ด</a>
                     </div>
                     </div>
                     <?php if ($isCurUserAdmin): ?>
                         <div class="nav-item dropdown">
                             <a href="" id="admin_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แอดมินเมนู</a>
                             <div id="admin_dropdown" class="dropdown-menu bg-transparent border-0 admin_dropdown">
-                                <a id="user_sim_admin_tab" href="user_sim_admin.php" class="nav-item nav-link">จำลองผู้ใช้</a>
-                                <a id="curdate_sim_admin_tab" href="curdate_sim_admin.php" class="nav-item nav-link">จำลองวันที่ปัจจุบัน</a>
-                                <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="nav-item nav-link">ดึงสรุปข้อมูลการออกผลPN</a>
-                                <a id="chart_data_tab" href="chart_data.php" class="nav-item nav-link">chart data</a>
-                                <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="nav-item nav-link">ออกใบแจ้งหนี้ V3(PDF)</a>
-                                <a id="systemchecking_tab" href="systemchecking.php" class="nav-item nav-link">ตรวจสอบคำสั่งระบบ</a>
-                                <a id="admin_patient_edit_by_excel_tab" href="patient_edit_by_excel.php" class="nav-item nav-link">อัปโหลดผลด้วย Excel</a>
+                                <a id="user_sim_admin_tab" href="user_sim_admin.php" class="dropdown-item">จำลองผู้ใช้</a>
+                                <a id="curdate_sim_admin_tab" href="curdate_sim_admin.php" class="dropdown-item">จำลองวันที่ปัจจุบัน</a>
+                                <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="dropdown-item">ดึงสรุปข้อมูลการออกผลPN</a>
+                                <a id="chart_data_tab" href="chart_data.php" class="dropdown-item">chart data</a>
+                                <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="dropdown-item">ออกใบแจ้งหนี้ V3(PDF)</a>
+                                <a id="systemchecking_tab" href="systemchecking.php" class="dropdown-item">ตรวจสอบคำสั่งระบบ</a>
+                                <a id="admin_patient_edit_by_excel_tab" href="patient_edit_by_excel.php" class="dropdown-item">อัปโหลดผลด้วย Excel</a>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -158,15 +158,15 @@ if ($cur_user_hosp_id > 0) {
                         <div class="nav-item dropdown">
                             <a href="" id="view_qn_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>แบบสอบถาม</a>
                             <div id="view_qn_dropdown" class="dropdown-menu bg-transparent border-0 view_qn_dropdown finish_job_table_dropdown">
-                                <a id="qn_sn_tab" href="questionare_sn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(SN)</a>
-                                <a id="qn_cn_tab" href="questionare_cn_slide.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(CN)</a>
+                                <a id="qn_sn_tab" href="questionare_sn_slide.php" class="dropdown-item"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(SN)</a>
+                                <a id="qn_cn_tab" href="questionare_cn_slide.php" class="dropdown-item"><i class="fa-solid fa-table-list"></i>แบบสอบถาม(CN)</a>
                             </div>
                         </div>
 
                         <div class="nav-item dropdown">
                             <a href="" id="view_log_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ดูประวัติการเข้าใช้</a>
                             <div id="view_log_dropdown" class="dropdown-menu bg-transparent border-0 view_log_dropdown finish_job_table_dropdown">
-                                <a id="log_login_logout_tab" href="log_login_logout_datatable.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ประวัติการล็อกอินล็อกเอ้าท์</a>
+                                <a id="log_login_logout_tab" href="log_login_logout_datatable.php" class="dropdown-item"><i class="fa-solid fa-table-list"></i>ประวัติการล็อกอินล็อกเอ้าท์</a>
                             </div>
                         </div>
 
@@ -175,8 +175,8 @@ if ($cur_user_hosp_id > 0) {
                         <div class="nav-item dropdown">
                             <a href="" id="view_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>รายการงาน</a>
                             <div id="view_job_dropdown" class="dropdown-menu bg-transparent border-0 view_job_dropdown finish_job_table_dropdown">
-                                <a id="job_tab" href="job.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>ดูรายการงาน</a>
-                                <a id="job_tab_jobdaily" href="job_daily.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>จำนวนงานแต่ละวัน</a>
+                                <a id="job_tab" href="job.php" class="dropdown-item"><i class="fa-solid fa-table-list"></i>ดูรายการงาน</a>
+                                <a id="job_tab_jobdaily" href="job_daily.php" class="dropdown-item"><i class="fa-solid fa-table-list"></i>จำนวนงานแต่ละวัน</a>
                             </div>
                         </div>
 
@@ -187,9 +187,9 @@ if ($cur_user_hosp_id > 0) {
                         <div class="nav-item dropdown">
                             <a href="" id="finish_job_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ลงเวลางานเสร็จสิ้น</a>
                             <div id="finish_job_dropdown" class="dropdown-menu bg-transparent border-0 finish_job_table_dropdown">
-                                <a id="job1_finish_tab" class="nav-item nav-link" href="job1_finish.php">ลงเวลาตัดเนื้อเสร็จ</a>
-                                <a id="job2_finish_tab" class="nav-item nav-link" href="job2_finish.php">ลงเวลาผู้ช่วยตัดเนื้อเสร็จ</a>
-                                <a id="job3_finish_tab" class="nav-item nav-link" href="job3_finish.php">ลงเวลาเตรียมสไลด์เสร็จ</a>
+                                <a id="job1_finish_tab" class="dropdown-item" href="job1_finish.php">ลงเวลาตัดเนื้อเสร็จ</a>
+                                <a id="job2_finish_tab" class="dropdown-item" href="job2_finish.php">ลงเวลาผู้ช่วยตัดเนื้อเสร็จ</a>
+                                <a id="job3_finish_tab" class="dropdown-item" href="job3_finish.php">ลงเวลาเตรียมสไลด์เสร็จ</a>
                             </div>
                         </div>
 
@@ -197,29 +197,29 @@ if ($cur_user_hosp_id > 0) {
                         <div class="nav-item dropdown">
                             <a href="" id="manage_table" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>จัดการตาราง และ ตั้งค่า</a>
                             <div id="manage_table_dropdown" class="dropdown-menu bg-transparent border-0 manage_table_dropdown">
-                                <a id="user_add" class="nav-item nav-link" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
-                                <a id="user" class="nav-item nav-link" href="user.php">ดูผู้ใช้งานระบบ</a>
-                                <a class="nav-item nav-link" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
-                                <a class="nav-item nav-link" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
-                                <a id="fluid" href="labfluid.php" class="nav-item nav-link">ดูแลปเซลล์วิทยา</a>
-                                <!--<a id="price_tab" href="nb_price.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>-->
-                                <a id="price_tab_8c" href="nb_price_8c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
-                                <a id="price_tab_9c" href="nb_price_9c.php" class="nav-item nav-link">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
-                                <a id="price_tab_view" href="nb_price_view.php" class="nav-item nav-link">ดูรายการค่าบริการ</a>
-                                <a id="gross_examination_tab" href="gross_examination_record.php" class="nav-item nav-link">setting gross examination record</a>
-                                <a id="note_tab" href="nbnote_record.php" class="nav-item nav-link">Note Memo</a>
+                                <a id="user_add" class="dropdown-item" href="user_add.php">เพื่มผู้ใช้งานระบบ</a>
+                                <a id="user" class="dropdown-item" href="user.php">ดูผู้ใช้งานระบบ</a>
+                                <a class="dropdown-item" id="hospital" href="hospital.php">ดูโรงพยาบาล</a>
+                                <a class="dropdown-item" id="hospital_add" href="hospital_add.php">เพิ่มโรงพยาบาล</a>
+                                <a id="fluid" href="labfluid.php" class="dropdown-item">ดูแลปเซลล์วิทยา</a>
+                                <!--<a id="price_tab" href="nb_price.php" class="dropdown-item">ดูและจัดการรายการค่าบริการ6คอลั่ม</a>-->
+                                <a id="price_tab_8c" href="nb_price_8c.php" class="dropdown-item">ดูและจัดการรายการค่าบริการ8คอลั่ม</a>
+                                <a id="price_tab_9c" href="nb_price_9c.php" class="dropdown-item">ดูและจัดการรายการค่าบริการ9คอลั่ม</a>
+                                <a id="price_tab_view" href="nb_price_view.php" class="dropdown-item">ดูรายการค่าบริการ</a>
+                                <a id="gross_examination_tab" href="gross_examination_record.php" class="dropdown-item">setting gross examination record</a>
+                                <a id="note_tab" href="nbnote_record.php" class="dropdown-item">Note Memo</a>
                             </div>
                         </div>
                         <div class="nav-item dropdown">
                             <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
                             <div class="dropdown-menu bg-transparent border-0 manage_bill_dropdown" id="manage_bill_dropdown">
-                                <a id="billing_pdf_tab" href="billing_pdf.php" class="nav-item nav-link">ออกใบแจ้งหนี้(PDF)</a>
-                                <a id="billing_pdf_tab_2" href="billing_pdf_2.php" class="nav-item nav-link">ออกใบแจ้งหนี้ V2(PDF)</a>
+                                <a id="billing_pdf_tab" href="billing_pdf.php" class="dropdown-item">ออกใบแจ้งหนี้(PDF)</a>
+                                <a id="billing_pdf_tab_2" href="billing_pdf_2.php" class="dropdown-item">ออกใบแจ้งหนี้ V2(PDF)</a>
                                 
-                                <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="nav-item nav-link">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
-                                <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="nav-item nav-link">กรองข้อมูลตามนักเซลล์(PDF)</a>
-                                <a id="billing_tab" href="billing.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
-                                <a id="billing_by_billingdate_tab" href="billing_by_billingdate.php" class="nav-item nav-link">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันให้บริการ)</a>
+                                <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="dropdown-item">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
+                                <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="dropdown-item">กรองข้อมูลตามนักเซลล์(PDF)</a>
+                                <a id="billing_tab" href="billing.php" class="dropdown-item">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
+                                <a id="billing_by_billingdate_tab" href="billing_by_billingdate.php" class="dropdown-item">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันให้บริการ)</a>
                             </div>
                         </div>
                         <a id="template_report" href="templateReport.php" class="nav-item nav-link"><i class="fa-solid fa-table-list"></i>เท็มเพลต</a>
@@ -233,8 +233,8 @@ if ($cur_user_hosp_id > 0) {
                             <a class="dropdown-item" id="about" href="about.php">เกียวกับเรา</a>
                             <a class="dropdown-item" id="webfeature" href="webfeature.php">เกียวกับเว็บแอฟฟลิเคชั่น</a>
                             <?php if ($isCurUserNB): ?>
-                            <a id="featurehistory_tab" href="changehistory.php" class="nav-item nav-link">Web Change History</a>
-                            <a id="printersetting_tab" href="printersetting.php" class="nav-item nav-link">Printer Setting</a>
+                            <a id="featurehistory_tab" href="changehistory.php" class="dropdown-item">Web Change History</a>
+                            <a id="printersetting_tab" href="printersetting.php" class="dropdown-item">Printer Setting</a>
                             <?php endif; ?>
                             <a class="dropdown-item" id="docdownload_tab" href="doc_download.php">ดาวน์โหลดเอกสาร</a>
                             <a class="dropdown-item" id="stuff" href="stuff.php">บุคลากร</a>
