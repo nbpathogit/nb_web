@@ -96,6 +96,18 @@
             <li><code>report_type.id</code></li>
         </ul>
     </div>
+
+    <div class="card">
+        <h2>3. กฎบังคับเมื่อสร้างตารางใหม่ (Mandatory Backup Timestamp Columns)</h2>
+        <div class="alert alert-warning">
+            <strong>สำคัญ:</strong> ทุกครั้งที่มีการสร้างตารางใหม่ในฐานข้อมูล (<code>CREATE TABLE</code>) จะต้องเพิ่ม 2 คอลัมน์นี้ไว้เสมอ เพื่อใช้สำหรับการทำระบบสำรองข้อมูล (Database Backup)
+        </div>
+        <pre><code>CREATE TABLE `table_name` (
+  ...
+  `stampdatecreate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `stampdateedit` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+)</code></pre>
+    </div>
 </div>
 </body>
 </html>

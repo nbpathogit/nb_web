@@ -144,6 +144,7 @@ if ($cur_user_hosp_id > 0) {
                                 <a id="chart_data_tab" href="chart_data.php" class="dropdown-item">chart data</a>
                                 <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="dropdown-item">ออกใบแจ้งหนี้ V3(PDF)</a>
                                 <a id="systemchecking_tab" href="systemchecking.php" class="dropdown-item">ตรวจสอบคำสั่งระบบ</a>
+                                <a id="dbtosqlfile_tab" href="dbtosqlfile.php" class="dropdown-item">แบคอัพฐานข้อมูล (SQL)</a>
                                 
                             </div>
                         </div>

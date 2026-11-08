@@ -14,6 +14,8 @@ class ServicePriceExcelFile {
     public $upload_user_id;
     public $upload_user_name;
     public $upload_date;
+    public $stampdatecreate;
+    public $stampdateedit;
 
     private static $tableChecked = false;
     private static $tableAvailable = false;
@@ -75,6 +77,8 @@ class ServicePriceExcelFile {
             `upload_user_id` int(11) DEFAULT NULL COMMENT 'user.id ผู้อัปโหลด',
             `upload_user_name` varchar(255) DEFAULT NULL COMMENT 'ชื่อผู้อัปโหลด',
             `upload_date` datetime DEFAULT NULL COMMENT 'วันที่และเวลาที่อัปโหลด',
+            `stampdatecreate` timestamp NOT NULL DEFAULT current_timestamp(),
+            `stampdateedit` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
             PRIMARY KEY (`id`),
             KEY `idx_hospital_id` (`hospital_id`),
             KEY `idx_upload_date` (`upload_date`)
