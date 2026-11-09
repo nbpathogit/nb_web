@@ -1,0 +1,20 @@
+{
+    "trigger_url": "https://aaa.com/xxx.php",
+    "trigger_minute": 10,
+    "trigger_enabled": true,
+    "download_minute": 20,
+    "download_enabled": true,
+    "ftp_host": "<server_address>",
+    "ftp_port": 21,
+    "ftp_user": "<username>",
+    "ftp_pass": "<password>",
+    "ftp_remote_dir": "/",
+    "local_download_dir": "downloaded_sql",
+    "db_host": "<DBServer>",
+    "db_port": 3306,
+    "db_user": "<dbuser>",
+    "db_pass": "<dbpassword>",
+    "db_name": "<dbname>",
+    "mysql_bin_path": "C:\\<path>\\mysql.exe",
+    "auto_import_after_download": true
+}
