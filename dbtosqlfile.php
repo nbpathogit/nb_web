@@ -879,6 +879,30 @@ foreach ($initialFiles as $f) {
         $initialUniqueHours[$f['hour_key']] = true;
     }
 }
+
+// Fetch database schema metadata for display
+$currentDbName = $conn->query("SELECT DATABASE()")->fetchColumn();
+$schemaTables = [];
+try {
+    $tblStmt = $conn->query("SHOW TABLE STATUS");
+    $rawTables = $tblStmt ? $tblStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+    foreach ($rawTables as $r) {
+        $tName = $r['Name'];
+        $colsStmt = $conn->query("SHOW FULL COLUMNS FROM `{$tName}`");
+        $cols = $colsStmt ? $colsStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        $schemaTables[] = [
+            'name' => $tName,
+            'engine' => $r['Engine'] ?? 'InnoDB',
+            'rows' => (int)($r['Rows'] ?? 0),
+            'data_length' => (int)($r['Data_length'] ?? 0),
+            'index_length' => (int)($r['Index_length'] ?? 0),
+            'comment' => $r['Comment'] ?? '',
+            'columns' => $cols,
+        ];
+    }
+} catch (Exception $e) {
+    // Fallback if permission issue
+}
 ?>
 <?php require 'includes/header.php'; ?>
 
@@ -1080,6 +1104,126 @@ foreach ($initialFiles as $f) {
     </div>
 </div>
 
+<!-- Database Structure Section -->
+<div class="container-fluid pt-4 px-4 pb-4">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1">
+        <div class="d-flex flex-wrap align-items-center justify-content-between w-100 mb-3 gap-2">
+            <div>
+                <h4 class="mb-0"><i class="fa-solid fa-sitemap text-info me-2"></i>โครงสร้างฐานข้อมูลปัจจุบัน (Database Schema Structure): <code><?= htmlspecialchars($currentDbName) ?></code></h4>
+                <span class="text-muted small">แสดงรายชื่อตารางทั้งหมด (<?= number_format(count($schemaTables)) ?> ตาราง) พร้อมคอลัมน์ ชนิดข้อมูล Primary Key และสถานะการแบคอัพ</span>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="dbtosqlfile.php?action=download_schema" class="btn btn-sm btn-warning text-dark fw-bold">
+                    <i class="fa-solid fa-download me-1"></i>Download Schema SQL
+                </a>
+            </div>
+        </div>
+
+        <div class="w-100 mb-3">
+            <div class="input-group">
+                <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" id="schema_search_input" class="form-control" placeholder="พิมพ์ชื่อตาราง หรือชื่อคอลัมน์ เพื่อค้นหาโครงสร้างแบบเร็ว...">
+            </div>
+        </div>
+
+        <div class="accordion w-100" id="dbSchemaAccordion">
+            <?php foreach ($schemaTables as $tIdx => $t): ?>
+                <?php
+                    $tColCount = count($t['columns']);
+                    $hasStampCreate = false;
+                    $hasStampEdit = false;
+                    foreach ($t['columns'] as $c) {
+                        if ($c['Field'] === 'stampdatecreate') $hasStampCreate = true;
+                        if ($c['Field'] === 'stampdateedit') $hasStampEdit = true;
+                    }
+                ?>
+                <div class="accordion-item mb-2 border rounded shadow-sm schema-table-item" data-table-name="<?= htmlspecialchars(strtolower($t['name'])) ?>">
+                    <h2 class="accordion-header" id="heading_schema_<?= $tIdx ?>">
+                        <button class="accordion-button collapsed py-2 px-3 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_schema_<?= $tIdx ?>" aria-expanded="false" aria-controls="collapse_schema_<?= $tIdx ?>">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100 me-3 gap-2">
+                                <div>
+                                    <i class="fa-solid fa-table text-primary me-2"></i>
+                                    <span class="text-dark fs-6 font-monospace fw-bold"><?= htmlspecialchars($t['name']) ?></span>
+                                    <?php if (!empty($t['comment'])): ?>
+                                        <span class="text-muted small ms-2">(<?= htmlspecialchars($t['comment']) ?>)</span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-secondary"><?= $tColCount ?> คอลัมน์</span>
+                                    <span class="badge bg-light text-dark border"><?= number_format($t['rows']) ?> แถว</span>
+                                    <?php if ($hasStampCreate && $hasStampEdit): ?>
+                                        <span class="badge bg-success" title="รองรับ Incremental Backup ทั้ง INSERT และ UPDATE"><i class="fa-solid fa-check me-1"></i>Auto Backup (C+E)</span>
+                                    <?php elseif ($hasStampCreate): ?>
+                                        <span class="badge bg-info text-dark" title="มี stampdatecreate"><i class="fa-solid fa-plus me-1"></i>Backup (Create)</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-warning text-dark" title="ไม่มี stampdatecreate/edit (อยู่ใน Full Schema เท่านั้น)">Static Table</span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse_schema_<?= $tIdx ?>" class="accordion-collapse collapse" aria-labelledby="heading_schema_<?= $tIdx ?>" data-bs-parent="#dbSchemaAccordion">
+                        <div class="accordion-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped table-hover mb-0 font-monospace small align-middle">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th style="width: 50px;">#</th>
+                                            <th>Column Field</th>
+                                            <th>Data Type</th>
+                                            <th>Null</th>
+                                            <th>Key</th>
+                                            <th>Default</th>
+                                            <th>Extra</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($t['columns'] as $cIdx => $c): ?>
+                                            <?php
+                                                $isPk = ($c['Key'] === 'PRI');
+                                                $isStamp = ($c['Field'] === 'stampdatecreate' || $c['Field'] === 'stampdateedit');
+                                                $rowHighlight = $isPk ? 'table-warning fw-bold' : ($isStamp ? 'table-info fw-bold' : '');
+                                            ?>
+                                            <tr class="<?= $rowHighlight ?>">
+                                                <td><?= $cIdx + 1 ?></td>
+                                                <td>
+                                                    <?php if ($isPk): ?>
+                                                        <i class="fa-solid fa-key text-warning me-1" title="Primary Key"></i>
+                                                    <?php elseif ($isStamp): ?>
+                                                        <i class="fa-solid fa-clock text-info me-1" title="Timestamp Column"></i>
+                                                    <?php endif; ?>
+                                                    <strong><?= htmlspecialchars($c['Field']) ?></strong>
+                                                </td>
+                                                <td><span class="text-primary"><?= htmlspecialchars($c['Type']) ?></span></td>
+                                                <td><?= $c['Null'] === 'YES' ? '<span class="badge bg-light text-dark border">NULL</span>' : '<span class="text-danger fw-bold">NO</span>' ?></td>
+                                                <td>
+                                                    <?php if ($c['Key'] === 'PRI'): ?>
+                                                        <span class="badge bg-warning text-dark">PRI</span>
+                                                    <?php elseif ($c['Key'] === 'UNI'): ?>
+                                                        <span class="badge bg-success">UNI</span>
+                                                    <?php elseif ($c['Key'] === 'MUL'): ?>
+                                                        <span class="badge bg-secondary">MUL</span>
+                                                    <?php else: ?>
+                                                        -
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><code><?= $c['Default'] !== null ? htmlspecialchars($c['Default']) : 'NULL' ?></code></td>
+                                                <td><span class="text-muted"><?= htmlspecialchars($c['Extra'] ?? '') ?></span></td>
+                                                <td class="text-secondary"><?= htmlspecialchars($c['Comment'] ?? '') ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
 <?php require 'includes/footer.php'; ?>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -1090,6 +1234,23 @@ foreach ($initialFiles as $f) {
             language: {
                 emptyTable: "ยังไม่มีไฟล์แบคอัพในโฟลเดอร์ db_bk_sql"
             }
+        });
+
+        // Search in database schema accordion
+        $('#schema_search_input').on('keyup input', function () {
+            var q = $(this).val().toLowerCase().trim();
+            if (q === '') {
+                $('.schema-table-item').show();
+                return;
+            }
+            $('.schema-table-item').each(function () {
+                var text = $(this).text().toLowerCase();
+                if (text.indexOf(q) !== -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         });
 
         // Quick lookback day buttons
