@@ -114,6 +114,24 @@ if ($hide) {
                         <th> edit<br>(by) </th>
                         <th> วันที่บันทึกระบบ<br>(stampdatecreate) </th>
                     </tr>
+                    <tr class="filters">
+                        <th> row_id </th>
+                        <th> hospital </th>
+                        <th> ลำดับ </th>
+                        <th> โค้ด </th>
+                        <th> รายการ </th>
+                        <th> ต่อหน่วย </th>
+                        <th> ราคา </th>
+                        <th> วันที่มีผล </th>
+                        <th> price id </th>
+                        <th> คอมเม้นท์ </th>
+                        <th> ไอดีชนิด </th>
+                        <th> ชนิดของรายการ </th>
+                        <th> create date </th>
+                        <th> add by </th>
+                        <th> edit by </th>
+                        <th> วันที่บันทึกระบบ </th>
+                    </tr>
                 </thead>
                 <tbody id="">
                     <?php if ($hide) : ?>
@@ -252,7 +270,7 @@ if ($hide) {
     var isCurUserAdmin = <?= $isCurUserAdmin ? 'true' : 'false' ?>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_nb_price_8c/nb_price_8c.js?v26_fix_restore_event"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_nb_price_8c/nb_price_8c.js?v27_fix_restore_event"></script>
 <script>
     $("#manage_table_dropdown").addClass("show");
     $("#manage_table").addClass("active");

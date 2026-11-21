@@ -44,12 +44,14 @@ function drawPriceTable_sub(datajson){
     }
 
     const searchPanesCol = {
-        show: [5, 6, 7, 8, 11, 13, 14, 15],
-        hide: [0, 1, 2, 3, 4, 9, 10, 12]
+        show: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15],
+        hide: [0, 1, 12]
     };
 
     nb_price_8c_dt = $('#nb_price_tbl_8c').DataTable({
         responsive: true,
+        orderCellsTop: true,
+        fixedHeader: true,
         dom: 'BP<"toolbar">lfritp',
         pageLength: 25,
         lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "ทั้งหมด (All)"]],
@@ -76,6 +78,39 @@ function drawPriceTable_sub(datajson){
             { targets: [2, 3, 6, 8, 10, 13, 14], className: 'text-center' },
             { targets: [7, 8, 15], className: 'text-nowrap' }
         ],
+        initComplete: function () {
+            var api = this.api();
+
+            api.columns().every(function (colIdx) {
+                var column = this;
+                var $headerCell = $('#nb_price_tbl_8c thead tr.filters th').eq(colIdx);
+                var title = $headerCell.text().trim();
+
+                // Skip invisible or system columns
+                if (colIdx === 0 || colIdx === 1 || colIdx === 12) {
+                    $headerCell.empty();
+                    return;
+                }
+
+                // Add search input to each header cell in filter row
+                var input = document.createElement('input');
+                input.className = 'form-control form-control-sm text-center';
+                input.placeholder = title;
+                input.style.width = '100%';
+                input.style.minWidth = '65px';
+                input.style.fontSize = '0.78rem';
+                input.style.padding = '2px 4px';
+                $headerCell.html(input);
+
+                $(input).on('keyup change clear', function () {
+                    if (column.search() !== this.value) {
+                        column.search(this.value).draw();
+                    }
+                }).on('click', function (e) {
+                    e.stopPropagation();
+                });
+            });
+        },
         language: {
             search: "ค้นหา (Search):",
             lengthMenu: "แสดง _MENU_ รายการต่อหน้า",
