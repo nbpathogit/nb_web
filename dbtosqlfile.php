@@ -536,6 +536,56 @@ function dbBkDiscoverActiveHours($conn, $backupDir, $daysLookback)
     ];
 }
 
+/**
+ * Helper: Generate and write a_initial_table.sql to backupDir
+ */
+function dbBkGenerateInitialTableFile($conn, $backupDir)
+{
+    @ini_set('memory_limit', '512M');
+    $tables = $conn->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+    $dbName = $conn->query("SELECT DATABASE()")->fetchColumn();
+    $genTime = date('Y-m-d H:i:s');
+    $targetFile = $backupDir . DIRECTORY_SEPARATOR . 'a_initial_table.sql';
+
+    $sqlOut = "-- ============================================================================\n"
+            . "-- NB Patho Initial Database Schema (CREATE TABLE IF NOT EXISTS Script)\n"
+            . "-- File Name    : a_initial_table.sql\n"
+            . "-- Database     : {$dbName}\n"
+            . "-- Total Tables : " . count($tables) . "\n"
+            . "-- Generated At : {$genTime}\n"
+            . "-- Purpose      : Run this file FIRST on the backup server to create/update tables\n"
+            . "--                before inserting or updating data from hourly backup files.\n"
+            . "-- ============================================================================\n"
+            . "SET NAMES utf8mb4;\n"
+            . "SET FOREIGN_KEY_CHECKS = 0;\n"
+            . "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n\n";
+
+    foreach ($tables as $t) {
+        $stmt = $conn->query("SHOW CREATE TABLE `{$t}`");
+        $row = $stmt ? $stmt->fetch(PDO::FETCH_ASSOC) : null;
+        if (!$row) {
+            continue;
+        }
+        $createSql = isset($row['Create Table']) ? $row['Create Table'] : (isset($row['Create View']) ? $row['Create View'] : '');
+        if ($createSql === '') {
+            continue;
+        }
+        // Ensure CREATE TABLE IF NOT EXISTS
+        $createSql = preg_replace('/^CREATE TABLE\s+/i', 'CREATE TABLE IF NOT EXISTS ', $createSql, 1);
+
+        $sqlOut .= "-- ----------------------------------------------------------------------------\n"
+                 . "-- Table structure for `{$t}`\n"
+                 . "-- ----------------------------------------------------------------------------\n"
+                 . $createSql . ";\n\n";
+    }
+
+    $sqlOut .= "SET FOREIGN_KEY_CHECKS = 1;\n"
+             . "-- End of a_initial_table.sql\n";
+
+    @file_put_contents($targetFile, $sqlOut);
+    return is_file($targetFile) && filesize($targetFile) > 0;
+}
+
 // ============================================================================
 // Handle Download Create Table Script Action (?action=download_schema)
 // ============================================================================
@@ -791,9 +841,12 @@ if (isset($_REQUEST['ajax_action'])) {
     try {
         if ($ajaxAction === 'plan') {
             $days = isset($_POST['days']) ? (int)$_POST['days'] : 10;
+            // Always generate/update a_initial_table.sql every time a backup run is triggered
+            dbBkGenerateInitialTableFile($conn, $backupDir);
             $discovery = dbBkDiscoverActiveHours($conn, $backupDir, $days);
             echo json_encode([
                 'ok' => true,
+                'initial_table_created' => true,
                 'discovery' => $discovery,
             ], JSON_UNESCAPED_UNICODE);
             exit;
@@ -852,6 +905,21 @@ if (isset($_REQUEST['ajax_action'])) {
             }
             @unlink($fullPath);
             echo json_encode(['ok' => true, 'deleted' => $reqFile], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        if ($ajaxAction === 'delete_all_files') {
+            $files = glob($backupDir . DIRECTORY_SEPARATOR . '*.sql');
+            $deletedCount = 0;
+            if ($files) {
+                foreach ($files as $filePath) {
+                    if (is_file($filePath)) {
+                        @unlink($filePath);
+                        $deletedCount++;
+                    }
+                }
+            }
+            echo json_encode(['ok' => true, 'deleted_count' => $deletedCount], JSON_UNESCAPED_UNICODE);
             exit;
         }
 
@@ -1053,6 +1121,9 @@ try {
                 <a href="dbtosqlfile.php?action=download_zip" id="btn_download_all_zip_table" class="btn btn-sm btn-primary fw-bold <?= empty($initialFiles) ? 'disabled' : '' ?>">
                     <i class="fa-solid fa-file-zipper me-1"></i>Download All as ZIP
                 </a>
+                <button type="button" id="btn_delete_all_files" class="btn btn-sm btn-danger fw-bold <?= empty($initialFiles) ? 'disabled' : '' ?>" title="ลบไฟล์แบคอัพ .sql ทั้งหมดในโฟลเดอร์ db_bk_sql/">
+                    <i class="fa-solid fa-trash-can me-1"></i>Delete All Files
+                </button>
             </div>
         </div>
 
@@ -1290,9 +1361,9 @@ try {
                 bkTable.clear();
                 var files = res.files || [];
                 if (files.length > 0) {
-                    $('#btn_download_all_zip, #btn_download_all_zip_table').removeClass('disabled');
+                    $('#btn_download_all_zip, #btn_download_all_zip_table, #btn_delete_all_files').removeClass('disabled').prop('disabled', false);
                 } else {
-                    $('#btn_download_all_zip, #btn_download_all_zip_table').addClass('disabled');
+                    $('#btn_download_all_zip, #btn_download_all_zip_table, #btn_delete_all_files').addClass('disabled').prop('disabled', true);
                 }
                 for (var i = 0; i < files.length; i++) {
                     var f = files[i];
@@ -1340,6 +1411,29 @@ try {
                     alert('ไม่สามารถลบไฟล์ได้: ' + (res && res.error ? res.error : 'Unknown error'));
                 }
             }, 'json');
+        });
+
+        // Delete all backup files
+        $('#btn_delete_all_files').on('click', function () {
+            if ($(this).hasClass('disabled') || $(this).prop('disabled')) return;
+            var totalFilesText = $('#stat_total_files').text();
+            if (!confirm('ยืนยันลบไฟล์แบคอัพทั้งหมดในโฟลเดอร์ db_bk_sql/ ใช่หรือไม่?\n(' + totalFilesText + ')\n\nคำเตือน:\n- ไฟล์ .sql ทั้งหมดจะถูกลบถาวรจากดิสก์\n- เมื่อกดแบคอัพใหม่ ระบบจะเริ่มสร้างไฟล์ตั้งแต่ต้นตามช่วงวันที่เลือก')) {
+                return;
+            }
+            var $btn = $(this);
+            $btn.prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin me-1"></i>กำลังลบ...');
+            $.post('dbtosqlfile.php', { ajax_action: 'delete_all_files' }, function (res) {
+                $btn.prop('disabled', false).html('<i class="fa-solid fa-trash-can me-1"></i>Delete All Files');
+                if (res && res.ok) {
+                    alert('ลบไฟล์แบคอัพทั้งหมดเรียบร้อยแล้ว (จำนวน ' + res.deleted_count + ' ไฟล์)');
+                    refreshFilesTable();
+                } else {
+                    alert('เกิดข้อผิดพลาดในการลบไฟล์: ' + (res && res.error ? res.error : 'Unknown error'));
+                }
+            }, 'json').fail(function (xhr) {
+                $btn.prop('disabled', false).html('<i class="fa-solid fa-trash-can me-1"></i>Delete All Files');
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
+            });
         });
 
         // Start Incremental Hourly Backup

@@ -422,6 +422,40 @@ $startTimeExec = microtime(true);
 $cutoffTime = date('Y-m-d 00:00:00', strtotime("-{$daysLookback} days"));
 $nowTime    = date('Y-m-d H:59:59');
 
+// Always generate/update a_initial_table.sql every time a backup run is triggered
+$schemaTablesList = $conn->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+$schemaDbName = $conn->query("SELECT DATABASE()")->fetchColumn();
+$schemaGenTime = date('Y-m-d H:i:s');
+$initTableTarget = $backupDir . DIRECTORY_SEPARATOR . 'a_initial_table.sql';
+
+$schemaSqlOut = "-- ============================================================================\n"
+        . "-- NB Patho Initial Database Schema (CREATE TABLE IF NOT EXISTS Script)\n"
+        . "-- File Name    : a_initial_table.sql\n"
+        . "-- Database     : {$schemaDbName}\n"
+        . "-- Total Tables : " . count($schemaTablesList) . "\n"
+        . "-- Generated At : {$schemaGenTime}\n"
+        . "-- Purpose      : Run this file FIRST on the backup server to create/update tables\n"
+        . "--                before inserting or updating data from hourly backup files.\n"
+        . "-- ============================================================================\n"
+        . "SET NAMES utf8mb4;\n"
+        . "SET FOREIGN_KEY_CHECKS = 0;\n"
+        . "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n\n";
+
+foreach ($schemaTablesList as $t) {
+    $stmt = $conn->query("SHOW CREATE TABLE `{$t}`");
+    $row = $stmt ? $stmt->fetch(PDO::FETCH_ASSOC) : null;
+    if (!$row) continue;
+    $createSql = isset($row['Create Table']) ? $row['Create Table'] : (isset($row['Create View']) ? $row['Create View'] : '');
+    if ($createSql === '') continue;
+    $createSql = preg_replace('/^CREATE TABLE\s+/i', 'CREATE TABLE IF NOT EXISTS ', $createSql, 1);
+    $schemaSqlOut .= "-- ----------------------------------------------------------------------------\n"
+             . "-- Table structure for `{$t}`\n"
+             . "-- ----------------------------------------------------------------------------\n"
+             . $createSql . ";\n\n";
+}
+$schemaSqlOut .= "SET FOREIGN_KEY_CHECKS = 1;\n";
+@file_put_contents($initTableTarget, $schemaSqlOut);
+
 try {
     $tablesMeta = dbBkAutoGetTablesMetadata($conn);
     $hoursMap = [];

@@ -478,11 +478,16 @@ class BackupSyncApp(tk.Tk):
                 local_path = os.path.join(local_dir, fname)
 
                 # If file already exists locally and size is non-zero, skip
-                if os.path.isfile(local_path) and os.path.getsize(local_path) > 0:
+                # BUT always download and overwrite 'a_initial_table.sql' to get the latest table schema
+                is_initial_table = (fname.lower() == "a_initial_table.sql")
+                if not is_initial_table and os.path.isfile(local_path) and os.path.getsize(local_path) > 0:
                     skipped_count += 1
                     continue
 
-                self.log_console(f"กำลังดาวน์โหลด: {fname} ...", "INFO")
+                if is_initial_table:
+                    self.log_console(f"กำลังดาวน์โหลดและอัปเดตสคีมา: {fname} (Overwrite)...", "INFO")
+                else:
+                    self.log_console(f"กำลังดาวน์โหลด: {fname} ...", "INFO")
                 self.set_status_text(f"กำลังโหลด {fname}...", "#0284c7")
 
                 tmp_path = local_path + ".tmp"
@@ -546,12 +551,48 @@ class BackupSyncApp(tk.Tk):
         all_sql_files = [f for f in os.listdir(local_dir) if f.lower().endswith(".sql")]
         all_sql_files.sort()  # Oldest to newest: e.g. 2026-11-01 -> 2026-11-08
 
+        # 1. ALWAYS run a_initial_table.sql first if it exists locally to ensure tables/columns are created/updated
+        init_file = "a_initial_table.sql"
+        init_path = os.path.join(local_dir, init_file)
+        if os.path.isfile(init_path) and os.path.getsize(init_path) > 0:
+            self.log_console(f"กำลังรันโครงสร้างตารางเริ่มต้น: {init_file} ...", "INFO")
+            self.set_status_text(f"กำลังเตรียมโครงสร้างตาราง ({init_file})...", "#7c3aed")
+            cmd_init = [
+                mysql_bin,
+                f"--host={db_host}",
+                f"--port={db_port}",
+                f"--user={db_user}",
+                f"--database={db_name}",
+                "--default-character-set=utf8mb4"
+            ]
+            if db_pass:
+                cmd_init.append(f"--password={db_pass}")
+            try:
+                start_init_t = time.time()
+                with open(init_path, "rb") as sql_in:
+                    proc_init = subprocess.run(
+                        cmd_init,
+                        stdin=sql_in,
+                        capture_output=True,
+                        text=True,
+                        timeout=300
+                    )
+                elapsed_init = round(time.time() - start_init_t, 2)
+                if proc_init.returncode == 0:
+                    self.log_console(f"เตรียมโครงสร้างตารางสำเร็จ: {init_file} ({elapsed_init}s)", "SUCCESS")
+                else:
+                    err_init = proc_init.stderr.strip() or proc_init.stdout.strip()
+                    self.log_console(f"คำเตือนในการรัน {init_file}: {err_init}", "WARNING")
+            except Exception as ex_init:
+                self.log_console(f"เกิดข้อผิดพลาดในการรัน {init_file}: {ex_init}", "ERROR")
+
+        # Exclude a_initial_table.sql from pending import files list (as it was already executed above)
         imported_set = get_imported_set()
-        pending_files = [f for f in all_sql_files if f not in imported_set]
+        pending_files = [f for f in all_sql_files if f not in imported_set and f.lower() != "a_initial_table.sql"]
 
         total_pending = len(pending_files)
         if total_pending == 0:
-            self.log_console("ไม่มีไฟล์ SQL ค้างการอัปเดตเข้าฐานข้อมูล (อัปเดตครบทั้งหมดแล้ว)", "MUTED")
+            self.log_console("ไม่มีไฟล์ SQL รายชั่วโมงค้างการอัปเดตเข้าฐานข้อมูล (อัปเดตครบทั้งหมดแล้ว)", "MUTED")
             ts_now = datetime.now().strftime("%H:%M:%S")
             self.after(0, lambda: self.lbl_last_import_status.config(text=f"GOOD (0 pending, {ts_now})", fg="#4ade80"))
             return 0
