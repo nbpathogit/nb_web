@@ -267,22 +267,21 @@ Data stored in `service_price_list` directly fuels patient specimen entry and bi
 1. **Slide 1 / Specimen Selection (`ajax_slide1_specimen/getSpecimenList1.php` & `specimenlist1.js`):**
    Calls `ServicePriceList::getSpecimenByHospitalIDJoptypeSpecimen($conn, $hospital_id, $effective_date)` to populate the gross examination specimen dropdown where `jobtype IN (1, 4, 5, 8)`. 
    - **Hospital isolation:** Queries exclusively for the specified `hospital_id` (does not automatically fallback to standard price `hospital_id = 0` if the hospital lacks updated rates).
-   - **Pricing Grouping & Max Price ID (Pure SQL):** Groups by specimen item (`speciment_num`) and selects the record with the maximum `price_id` (excel id) processed 100% inside SQL via MariaDB Window Functions:
+   - **Pricing Grouping & Max Price ID (Pure SQL):** ดึงรายการราคาทั้งหมดในรอบที่มี `price_id` สูงสุดของโรงพยาบาลนั้น ณ วันที่มีผลบังคับใช้ (ไม่ตัดรายการที่ใช้ code รหัสเดียวกันทิ้ง เช่น 38003 หรือ 0 ที่มีหลายหัตถการ):
      ```sql
      SELECT *
-     FROM (
-         SELECT *,
-                ROW_NUMBER() OVER (
-                    PARTITION BY speciment_num
-                    ORDER BY price_id DESC, effective_date DESC, id DESC
-                ) AS rn
-         FROM service_price_list
-         WHERE hospital_id = :hospital_id
-           AND (jobtype = 1 OR jobtype = 4 OR jobtype = 5 OR jobtype = 8)
-           AND effective_date <= :effective_date
-     ) AS t
-     WHERE t.rn = 1
-     ORDER BY t.id;
+     FROM service_price_list
+     WHERE hospital_id = :hospital_id
+       AND (movetotrash = 0 OR movetotrash IS NULL)
+       AND (jobtype = 1 OR jobtype = 4 OR jobtype = 5 OR jobtype = 8)
+       AND price_id = (
+           SELECT MAX(price_id)
+           FROM service_price_list
+           WHERE hospital_id = :hospital_id_sub
+             AND (movetotrash = 0 OR movetotrash IS NULL)
+             AND effective_date <= :effective_date
+       )
+     ORDER BY id;
      ```
    - **Dropdown display format:** `<specimen>[<speciment_num>][price_<cost>][priceid_<id>][<effective_date>]` using square brackets `[]` (e.g. `Thyroidectomy...(lobectomy or subtotal or total)[38030][price_1200][priceid_7][2026-11-21]`).
    - On adding a specimen, `price_id` is passed to `createBillingSpecimen1.php` and recorded in `service_billing.price_id`.
@@ -290,24 +289,23 @@ Data stored in `service_price_list` directly fuels patient specimen entry and bi
 2. **Slide 2 / Special Slide Selection (`ajax_slide2__special/getSpecimenList2.php` & `specialslide2.js`):**
    Calls `ServicePriceList::getSpecimenByHospitalIDJoptypeSpecialStainging($conn, $hospital_id, $service_id, $effective_date)` to populate special stains dropdown where `jobtype IN (2, 3, 6, 7)`. 
    - **Hospital isolation:** Queries exclusively for the specified `hospital_id`.
-   - **Pricing Grouping & Max Price ID (Pure SQL):** Groups by `jobtype` + `speciment_num` and selects the record with the maximum `price_id` processed 100% inside SQL via MariaDB Window Functions:
+   - **Pricing Grouping & Max Price ID (Pure SQL):** ดึงรายการย้อมพิเศษทั้งหมดในรอบที่มี `price_id` สูงสุดของโรงพยาบาลนั้น ณ วันที่มีผลบังคับใช้:
      ```sql
      SELECT *
-     FROM (
-         SELECT *,
-                ROW_NUMBER() OVER (
-                    PARTITION BY jobtype, speciment_num
-                    ORDER BY price_id DESC, effective_date DESC, id DESC
-                ) AS rn
-         FROM service_price_list
-         WHERE hospital_id = :hospital_id
-           -- if service_id == 0:
-           AND (jobtype = 2 OR jobtype = 3 OR jobtype = 6 OR jobtype = 7)
-           -- or if service_id != 0: AND (jobtype = :service_id)
-           AND effective_date <= :effective_date
-     ) AS t
-     WHERE t.rn = 1
-     ORDER BY t.id;
+     FROM service_price_list
+     WHERE hospital_id = :hospital_id 
+       AND (movetotrash = 0 OR movetotrash IS NULL)
+       -- if service_id == 0:
+       AND (jobtype = 2 OR jobtype = 3 OR jobtype = 6 OR jobtype = 7)
+       -- or if service_id != 0: AND (jobtype = :service_id)
+       AND price_id = (
+           SELECT MAX(price_id)
+           FROM service_price_list
+           WHERE hospital_id = :hospital_id_sub
+             AND (movetotrash = 0 OR movetotrash IS NULL)
+             AND effective_date <= :effective_date
+       )
+     ORDER BY id;
      ```
    - **Dropdown display format:** `<specimen>[<speciment_num>][price_<cost>][priceid_<id>][<effective_date>]` using square brackets `[]`.
    - On adding a special stain, `price_id` is passed to `createBillingSpecimen2.php` and recorded in `service_billing.price_id`.

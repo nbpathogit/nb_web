@@ -115,25 +115,33 @@ class ServicePriceList {
     {
         $hospIdInt = (int)$hospital_id;
         $sql = "SELECT *
-                FROM (
-                    SELECT *,
-                           ROW_NUMBER() OVER (
-                               PARTITION BY speciment_num
-                               ORDER BY price_id DESC, effective_date DESC, id DESC
-                           ) AS rn
-                    FROM service_price_list
-                    WHERE hospital_id = :hospital_id
-                      AND (movetotrash = 0 OR movetotrash IS NULL)
-                      AND (jobtype = 1 OR jobtype = 4 OR jobtype = 5 OR jobtype = 8) "; // service id 1, 4, 5, 8
+                FROM service_price_list
+                WHERE hospital_id = :hospital_id
+                  AND (movetotrash = 0 OR movetotrash IS NULL)
+                  AND (jobtype = 1 OR jobtype = 4 OR jobtype = 5 OR jobtype = 8) "; // service id 1, 4, 5, 8
+
         if (!empty($effective_date)) {
-            $sql .= " AND effective_date <= :effective_date ";
+            $sql .= " AND price_id = (
+                        SELECT MAX(price_id)
+                        FROM service_price_list
+                        WHERE hospital_id = :hospital_id_sub
+                          AND (movetotrash = 0 OR movetotrash IS NULL)
+                          AND effective_date <= :effective_date
+                      ) ";
+        } else {
+            $sql .= " AND price_id = (
+                        SELECT MAX(price_id)
+                        FROM service_price_list
+                        WHERE hospital_id = :hospital_id_sub
+                          AND (movetotrash = 0 OR movetotrash IS NULL)
+                      ) ";
         }
-        $sql .= " ) AS t
-                WHERE t.rn = 1
-                ORDER BY t.id;";
+
+        $sql .= " ORDER BY id;";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':hospital_id', $hospIdInt, PDO::PARAM_INT);
+        $stmt->bindValue(':hospital_id_sub', $hospIdInt, PDO::PARAM_INT);
         if (!empty($effective_date)) {
             $stmt->bindValue(':effective_date', substr((string)$effective_date, 0, 10), PDO::PARAM_STR);
         }
@@ -147,30 +155,37 @@ class ServicePriceList {
         $hospIdInt = (int)$hospital_id;
         $serviceIdInt = (int)$service_id;
         $sql = "SELECT *
-                FROM (
-                    SELECT *,
-                           ROW_NUMBER() OVER (
-                               PARTITION BY jobtype, speciment_num
-                               ORDER BY price_id DESC, effective_date DESC, id DESC
-                           ) AS rn
-                    FROM service_price_list
-                    WHERE hospital_id = :hospital_id 
-                      AND (movetotrash = 0 OR movetotrash IS NULL) ";
+                FROM service_price_list
+                WHERE hospital_id = :hospital_id 
+                  AND (movetotrash = 0 OR movetotrash IS NULL) ";
         if ($serviceIdInt == 0) {
             $sql .= " AND (jobtype = 2 OR jobtype = 3 OR jobtype = 6 OR jobtype = 7) "; // service id 2, 3, 6, 7
         } else {
             $sql .= " AND (jobtype = :service_id )";
         }
+
         if (!empty($effective_date)) {
-            $sql .= " AND effective_date <= :effective_date ";
+            $sql .= " AND price_id = (
+                        SELECT MAX(price_id)
+                        FROM service_price_list
+                        WHERE hospital_id = :hospital_id_sub
+                          AND (movetotrash = 0 OR movetotrash IS NULL)
+                          AND effective_date <= :effective_date
+                      ) ";
+        } else {
+            $sql .= " AND price_id = (
+                        SELECT MAX(price_id)
+                        FROM service_price_list
+                        WHERE hospital_id = :hospital_id_sub
+                          AND (movetotrash = 0 OR movetotrash IS NULL)
+                      ) ";
         }
 
-        $sql .= " ) AS t
-                WHERE t.rn = 1
-                ORDER BY t.id;";
+        $sql .= " ORDER BY id;";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':hospital_id', $hospIdInt, PDO::PARAM_INT);
+        $stmt->bindValue(':hospital_id_sub', $hospIdInt, PDO::PARAM_INT);
         if ($serviceIdInt != 0) {
             $stmt->bindValue(':service_id', $serviceIdInt, PDO::PARAM_INT);
         }
