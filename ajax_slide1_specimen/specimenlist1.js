@@ -18,9 +18,24 @@ function refreshSpecimenList1(isAlert) {
 
 }
 
+function getCurEffectiveDate1() {
+    var effDate = '';
+    if ($('.cur_date_1000').length && $('.cur_date_1000').attr('tabindex')) {
+        effDate = $('.cur_date_1000').attr('tabindex');
+    } else if ($('#date_1000_id').length && $('#date_1000_id').val()) {
+        effDate = $('#date_1000_id').val();
+    } else if ($('input[name="date_1000"]').length && $('input[name="date_1000"]').val()) {
+        effDate = $('input[name="date_1000"]').val();
+    } else if ($('#date_1000').length && $('#date_1000').val()) {
+        effDate = $('#date_1000').val();
+    }
+    return effDate ? String(effDate).trim().substring(0, 10) : '';
+}
+
 //update drop down list of specimen
 function updateSelectionSpeceman1(isalert) {
     var hospital_id = $('#phospital_select_for_price1 option').filter(':selected').val();
+    var effective_date = getCurEffectiveDate1();
 //    alert("hospital_id"+hospital_id);
     $.ajax({
         type: 'POST',
@@ -28,7 +43,8 @@ function updateSelectionSpeceman1(isalert) {
         // http://en.wikipedia.org/wiki/Same_origin_policy
         url: 'ajax_slide1_specimen/getSpecimenList1.php',
         data: {
-            'hospital_id': hospital_id
+            'hospital_id': hospital_id,
+            'effective_date': effective_date
         },
         success: function (data) {
             if(data[0] != "["){
@@ -53,8 +69,13 @@ function updateSelectionSpeceman1(isalert) {
                 $('#pspecimen_for_select1').append('<option value="' + '' + '" >กรุณาเลือก</option>');
                 for (var i in datajson)
                 {
-
-                    $('#pspecimen_for_select1').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '" jobtype="'+datajson[i].jobtype+'" >' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
+                    var effDate = (datajson[i].effective_date || datajson[i].start_date || '').trim();
+                    var priceCost = (datajson[i].price !== undefined && datajson[i].price !== null) ? datajson[i].price : 0;
+                    var priceId = (datajson[i].price_id !== undefined && datajson[i].price_id !== null) ? datajson[i].price_id : 0;
+                    var priceCostLabel = '[price_' + priceCost + ']';
+                    var priceIdLabel = '[priceid_' + priceId + ']';
+                    var effDateLabel = effDate ? '[' + effDate + ']' : '';
+                    $('#pspecimen_for_select1').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" price_id="' + priceId + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '" jobtype="'+datajson[i].jobtype+'" >' + datajson[i].specimen + '[' + datajson[i].speciment_num + ']' + priceCostLabel + priceIdLabel + effDateLabel + '</option>');
 
                 }
 //                if (isalert) {
@@ -149,6 +170,7 @@ $("#add_spcimen_list1").on("click", function () {
     var e = document.getElementById("pspecimen_for_select1");
     var specimen_id = e.value;
     var specimen_text_selected = e.options[e.selectedIndex].text;
+    var price_id = (e.selectedIndex >= 0 && e.options[e.selectedIndex]) ? (e.options[e.selectedIndex].getAttribute('price_id') || 0) : 0;
 
     var specimen_text = document.getElementById("specimen_for_specimen1").value;
     var specimen_num = document.getElementById("specimen_num1").value;
@@ -194,6 +216,7 @@ $("#add_spcimen_list1").on("click", function () {
             'patient_id': cur_patient_id,
             'cur_pnum': cur_pnum,
             'specimen_id': specimen_id,
+            'price_id': price_id,
             'specimen_num': specimen_num,//specimen code
             'specimen_text': specimen_text,
             'price_for_specimen': price_for_specimen,
@@ -312,7 +335,11 @@ $('#pspecimen_for_select1').on('change', function () {
     $('#specimen_num1').val($('#pspecimen_for_select1 option').filter(':selected').attr('specimen_num'));
     $('#specimen_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('specimen'));
     $('#price_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('price'));
-    $('#comment_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('comment'));
+    var rawComment = $('#pspecimen_for_select1 option').filter(':selected').attr('comment') || '';
+    var priceIdAttr = $('#pspecimen_for_select1 option').filter(':selected').attr('price_id');
+    var priceId = (priceIdAttr !== undefined && priceIdAttr !== null && priceIdAttr !== '') ? priceIdAttr : 0;
+    var finalComment = (rawComment ? rawComment + ' ' : '') + '[priceid_' + priceId + ']';
+    $('#comment_for_specimen1').val(finalComment);
     $('#jobtype_for_specimen1').val($('#pspecimen_for_select1 option').filter(':selected').attr('jobtype'));
 
 });

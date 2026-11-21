@@ -6,7 +6,10 @@ $conn = require '../includes/db.php';
 
 //            'hospital_id': hospital_id,
 //            'service_id': service_id
-$billings = ServicePriceList::getSpecimenByHospitalIDJoptypeSpecialStainging($conn, $_POST['hospital_id'], $_POST['service_id']);
+$hospital_id = isset($_POST['hospital_id']) ? (int)$_POST['hospital_id'] : 0;
+$service_id = isset($_POST['service_id']) ? (int)$_POST['service_id'] : 0;
+$effective_date = !empty($_POST['effective_date']) ? substr(trim($_POST['effective_date']), 0, 10) : null;
+$billings = ServicePriceList::getSpecimenByHospitalIDJoptypeSpecialStainging($conn, $hospital_id, $service_id, $effective_date);
 
 echo json_encode($billings);
 

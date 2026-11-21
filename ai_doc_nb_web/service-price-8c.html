@@ -133,14 +133,21 @@
                     <td><code>varchar(256)</code></td>
                     <td>คำอธิบายชนิดบริการ เช่น <code>ตรวจชิ้นเนื้อศัลยพยาธิวิทยา</code>, <code>ตรวจพิเศษ</code></td>
                 </tr>
+                <tr>
+                    <td><code>line[8]</code></td>
+                    <td><strong>วันที่มีผล(effective date)</strong></td>
+                    <td><code>start_date</code></td>
+                    <td><code>date</code></td>
+                    <td>วันที่มีผลบังคับใช้ (เช่น <code>2024-01-01</code>) หากเว้นว่างจะใช้ค่าจาก Date Picker บนหน้าจอ หรือ Default <code>2020-01-01</code></td>
+                </tr>
             </tbody>
         </table>
 
         <div class="callout">
             <strong>ตัวอย่างข้อมูล TSV ดิบที่วางจาก Excel:</strong>
-            <pre><code>1	33000	Biopsy or small specimen	ชิ้น	400	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา
-2	33001	Appendix	ชิ้น	500	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา
-3	34000	Special Stain (AFB)	สไลด์	200	ราคามาตรฐาน	2	ตรวจพิเศษ</code></pre>
+            <pre><code>1	33000	Biopsy or small specimen	ชิ้น	400	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา	2024-01-01
+2	33001	Appendix	ชิ้น	500	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา	2024-01-01
+3	34000	Special Stain (AFB)	สไลด์	200	ราคามาตรฐาน	2	ตรวจพิเศษ	2024-01-01</code></pre>
             <p style="margin-top: 0.5rem; font-size: 0.88rem;"><strong>ไฟล์ตัวอย่างอ้างอิง (Reference Sheet):</strong> ด้านล่างของหน้าจอมีลิงก์ดาวน์โหลดไฟล์ตัวอย่างค่าบริการ: <code>file/ตัวอย่างค่าตรวจ Update  3 มี.ค. 67 .xlsx</code></p>
         </div>
     </div>
@@ -186,7 +193,7 @@
                     <th>ขั้นตอนการทำงาน</th>
                     <th>ไฟล์ที่เรียกใช้</th>
                     <th>ฟังก์ชันของ <code>ServicePriceList</code></th>
-                    <th>การส่งต่อไปยังระบบบิล</th>
+                    <th>การประมวลผลและการส่งต่อไปยังระบบบิล</th>
                 </tr>
             </thead>
             <tbody>
@@ -194,19 +201,55 @@
                     <td><strong>1. เลือกสิ่งส่งตรวจ (Slide 1)</strong></td>
                     <td><code>ajax_slide1_specimen/getSpecimenList1.php</code></td>
                     <td><code>getSpecimenByHospitalIDJoptypeSpecimen()</code></td>
-                    <td>ดึงรายการราคาที่มี <code>jobtype IN (1, 4, 5, 8)</code> ตามโรงพยาบาลของเคสคนไข้</td>
+                    <td>
+                        ดึงรายการราคาที่มี <code>jobtype IN (1, 4, 5, 8)</code> ตามโรงพยาบาลของเคสคนไข้ และกรอง <code>effective_date &le; :effective_date</code><br>
+                        <strong>ประมวลผลด้วย SQL 100% (Window Function):</strong>
+                        <pre><code>SELECT *
+FROM (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY speciment_num
+               ORDER BY price_id DESC, effective_date DESC, id DESC
+           ) AS rn
+    FROM service_price_list
+    WHERE hospital_id = :hospital_id
+      AND (jobtype = 1 OR jobtype = 4 OR jobtype = 5 OR jobtype = 8)
+      AND effective_date &lt;= :effective_date
+) AS t
+WHERE t.rn = 1
+ORDER BY t.id;</code></pre>
+                        แสดงผลใน Dropdown รูปแบบ: <code>&lt;specimen&gt;[&lt;speciment_num&gt;][price_&lt;cost&gt;][priceid_&lt;id&gt;][&lt;effective_date&gt;]</code>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>2. เลือกย้อมพิเศษ (Slide 2)</strong></td>
                     <td><code>ajax_slide2__special/getSpecimenList2.php</code></td>
                     <td><code>getSpecimenByHospitalIDJoptypeSpecialStainging()</code></td>
-                    <td>ดึงรายการย้อมพิเศษที่มี <code>jobtype IN (2, 3, 6, 7)</code> ตามโรงพยาบาลและชนิดบริการ</td>
+                    <td>
+                        ดึงรายการย้อมพิเศษที่มี <code>jobtype IN (2, 3, 6, 7)</code> (หรือตาม <code>service_id</code>) และกรอง <code>effective_date &le; :effective_date</code><br>
+                        <strong>ประมวลผลด้วย SQL 100% (Window Function):</strong>
+                        <pre><code>SELECT *
+FROM (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY jobtype, speciment_num
+               ORDER BY price_id DESC, effective_date DESC, id DESC
+           ) AS rn
+    FROM service_price_list
+    WHERE hospital_id = :hospital_id
+      AND (jobtype = 2 OR jobtype = 3 OR jobtype = 6 OR jobtype = 7)
+      AND effective_date &lt;= :effective_date
+) AS t
+WHERE t.rn = 1
+ORDER BY t.id;</code></pre>
+                        แสดงผลใน Dropdown รูปแบบ: <code>&lt;specimen&gt;[&lt;speciment_num&gt;][price_&lt;cost&gt;][priceid_&lt;id&gt;][&lt;effective_date&gt;]</code>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>3. บันทึกลงตารางบิล</strong></td>
                     <td>ระบบลงทะเบียนเคสและบันทึกผล</td>
                     <td>บันทึกลงตาราง <code>service_billing</code></td>
-                    <td>คัดลอก <code>specimen_id</code>, <code>code_description</code>, <code>description</code>, และ <code>cost</code> ไปเก็บไว้ในตาราง <code>service_billing</code></td>
+                    <td>คัดลอก <code>specimen_id</code>, <code>code_description</code>, <code>description</code>, <code>cost</code>, และ <strong><code>price_id</code></strong> (excel id) ไปเก็บไว้ในตาราง <code>service_billing</code></td>
                 </tr>
                 <tr>
                     <td><strong>4. คำนวณและพิมพ์ใบแจ้งหนี้</strong></td>
@@ -219,7 +262,53 @@
     </div>
 
     <div class="card">
-        <h2>5. ตารางเปรียบเทียบในตระกูลหน้าจัดการราคา (<code>nb_price*.php</code>)</h2>
+        <h2>5. การจัดการประวัติไฟล์ Excel และถังขยะ (Move to Trash, Restore &amp; Permanent Delete)</h2>
+        <p>ในตารางล่างสุด <strong>"ประวัติไฟล์ Excel ที่อัปโหลด"</strong> มีการควบคุมสถานะของชุดข้อมูลราคาผ่านคอลัมน์ <code>movetotrash</code> (3 ระดับ):</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>ค่า <code>movetotrash</code></th>
+                    <th>สถานะ</th>
+                    <th>ผลต่อราคาใน <code>service_price_list</code></th>
+                    <th>ผลต่อไฟล์ Excel (.xlsx)</th>
+                    <th>ปุ่มที่สามารถใช้งานได้</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>0</code></td>
+                    <td><span class="badge badge-success">ใช้งานปกติ</span></td>
+                    <td>นำข้อมูลราคาไปคำนวณในหน้าคนไข้และบิลตามปกติ</td>
+                    <td>เก็บไว้ปกติ</td>
+                    <td>ทุกสิทธิ์เห็นปุ่ม <strong>Move to Trash</strong></td>
+                </tr>
+                <tr>
+                    <td><code>1</code></td>
+                    <td><span class="badge badge-warning">อยู่ในถังขยะ</span></td>
+                    <td>เซ็ต <code>movetotrash = 1</code> ระบบคนไข้ไม่ดึงราคานี้มาใช้</td>
+                    <td>เก็บไว้ปกติ</td>
+                    <td><strong>Admin</strong> เห็นปุ่ม <strong>Restore</strong> และ <strong>Delete</strong></td>
+                </tr>
+                <tr>
+                    <td><code>2</code></td>
+                    <td><span class="badge badge-danger">Permanent Deleted</span></td>
+                    <td><strong>ลบรายการราคาออกจาก DB ถาวร</strong> (<code>DELETE FROM service_price_list WHERE price_id = :id</code>)</td>
+                    <td><strong>ยังคงเก็บไฟล์ไว้บน Server</strong> เพื่อเป็น Backup</td>
+                    <td>ปุ่มดาวน์โหลดไฟล์ Backup</td>
+                </tr>
+                <tr>
+                    <td><code>Legacy</code></td>
+                    <td><span class="badge badge-secondary">Legacy Data (price_id = 0)</span></td>
+                    <td>แถวพิเศษล่างสุดสำหรับข้อมูลเดิมที่ไม่มีไฟล์ Excel (จะแสดงเฉพาะเมื่อโรงพยาบาลนั้นมีรายการ <code>price_id = 0</code>)</td>
+                    <td>ไม่มีไฟล์ Excel</td>
+                    <td><strong>Delete (Admin)</strong> สำหรับลบรายการเดิมออกจาก <code>service_price_list</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>6. ตารางเปรียบเทียบในตระกูลหน้าจัดการราคา (<code>nb_price*.php</code>)</h2>
         <table>
             <thead>
                 <tr>

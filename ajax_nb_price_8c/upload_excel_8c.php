@@ -115,6 +115,34 @@ if (!in_array($ext, ['xlsx', 'xls'], true)) {
 $hospital_id = isset($_POST['hospital_id']) ? (int)$_POST['hospital_id'] : 0;
 $type_id = isset($_POST['type_id']) ? (int)$_POST['type_id'] : 0;
 $replace_existing = !empty($_POST['replace_existing']) && $_POST['replace_existing'] == '1';
+$start_date_post = isset($_POST['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', trim($_POST['start_date'])) ? trim($_POST['start_date']) : '';
+if (empty($start_date_post)) {
+    echo json_encode(['status' => 'error', 'message' => 'กรุณาระบุวันที่มีผลบังคับใช้ของราคา (Effective Date) ก่อนอัปโหลดไฟล์'], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+function parseRowStartDate8c($val, $fallback) {
+    $str = trim((string)$val);
+    if ($str === '' || $str === '-') {
+        return $fallback;
+    }
+    // YYYY-MM-DD
+    if (preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})/', $str, $m)) {
+        return sprintf('%04d-%02d-%02d', (int)$m[1], (int)$m[2], (int)$m[3]);
+    }
+    // DD/MM/YYYY or D/M/YYYY
+    if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $str, $m)) {
+        return sprintf('%04d-%02d-%02d', (int)$m[3], (int)$m[2], (int)$m[1]);
+    }
+    // Excel serial number (e.g. 44927 ~ 2023)
+    if (is_numeric($str) && (float)$str > 30000 && (float)$str < 80000) {
+        $timestamp = ((float)$str - 25569) * 86400;
+        if ($timestamp > 0) {
+            return gmdate('Y-m-d', (int)$timestamp);
+        }
+    }
+    return $fallback;
+}
 
 // Resolve Hospital Name
 $hospital_name = isset($_POST['hospital_name']) ? trim($_POST['hospital_name']) : '';
@@ -132,9 +160,6 @@ $cur_thai_time = Util::get_curreint_thai_date_time(); // YYYY-MM-DD HH:mm:ss
 $dateForFilename = str_replace([':', ' '], ['-', '_'], trim($cur_thai_time));
 $cleanHospForName = preg_replace('/[\\\\\/:*?"<>|\s]+/u', '_', $hospital_name);
 
-// Friendly filename named after hospital and upload date
-$savedDisplayFilename = $cleanHospForName . '_' . $dateForFilename . '.' . $ext;
-
 // Physical path inside nb_price_8c_uploads/
 $uploadFolderRel = 'nb_price_8c_uploads';
 $uploadFolderAbs = dirname(__DIR__) . '/' . $uploadFolderRel;
@@ -143,9 +168,9 @@ if (!is_dir($uploadFolderAbs) && !mkdir($uploadFolderAbs, 0777, true)) {
     exit;
 }
 
-$physicalFilename = 'hosp' . $hospital_id . '_' . preg_replace('/[^0-9_]/', '', $dateForFilename) . '_' . substr(md5(uniqid('', true)), 0, 6) . '.' . $ext;
-$fileRelPath = $uploadFolderRel . '/' . $physicalFilename;
-$fileAbsPath = $uploadFolderAbs . '/' . $physicalFilename;
+// Save initially as temporary file until validation passes and excel_id is generated
+$tempPhysicalFilename = 'temp_hosp' . $hospital_id . '_' . preg_replace('/[^0-9_]/', '', $dateForFilename) . '_' . substr(md5(uniqid('', true)), 0, 6) . '.' . $ext;
+$fileAbsPath = $uploadFolderAbs . '/' . $tempPhysicalFilename;
 
 if (!move_uploaded_file($_FILES['excel_file']['tmp_name'], $fileAbsPath)) {
     echo json_encode(['status' => 'error', 'message' => 'ไม่สามารถบันทึกไฟล์ลงในโฟลเดอร์ได้'], JSON_UNESCAPED_UNICODE);
@@ -207,9 +232,10 @@ foreach ($rows as $rowIndex => $r) {
     $col5 = isset($r[5]) ? trim((string)$r[5]) : '';
     $col6 = isset($r[6]) ? trim((string)$r[6]) : '';
     $col7 = isset($r[7]) ? trim((string)$r[7]) : '';
+    $col8 = isset($r[8]) ? trim((string)$r[8]) : '';
 
     // Skip completely empty rows
-    if ($col0 === '' && $col1 === '' && $col2 === '' && $col3 === '' && $col4 === '' && $col5 === '' && $col6 === '' && $col7 === '') {
+    if ($col0 === '' && $col1 === '' && $col2 === '' && $col3 === '' && $col4 === '' && $col5 === '' && $col6 === '' && $col7 === '' && $col8 === '') {
         continue;
     }
 
@@ -273,6 +299,9 @@ foreach ($rows as $rowIndex => $r) {
     $comment = $col5;
     $jobtype = (int)$col6;
     $service_des = ($col7 !== '') ? $col7 : $typeIdToName[$jobtype];
+    // ใช้ Effective Date ที่เลือกจากหน้าเว็บตอนอัปโหลด ($start_date_post) เป็นหลัก
+    // เพื่อให้วันที่มีผลของทุกรายการตรงกับวันที่ระบุตอนกดอัปโหลดเสมอ
+    $row_start_date = !empty($start_date_post) ? $start_date_post : parseRowStartDate8c($col8, '2020-01-01');
 
     $validRecords[] = [
         'number' => $number,
@@ -282,6 +311,8 @@ foreach ($rows as $rowIndex => $r) {
         'hospital_id' => $hospital_id,
         'unit_count' => $unit_count,
         'price' => $price,
+        'effective_date' => $row_start_date,
+        'start_date' => $row_start_date,
         'comment' => $comment,
         'create_date' => $cur_thai_time,
         'add_user_id' => $upload_user_id,
@@ -309,27 +340,63 @@ if (empty($validRecords)) {
     exit;
 }
 
-// Optionally replace existing price records for this hospital (and service type if selected)
-if ($replace_existing && !empty($validRecords)) {
-    $delSql = "DELETE FROM `service_price_list` WHERE hospital_id = :hospital_id";
-    if ($type_id > 0) {
-        $delSql .= " AND jobtype = :type_id";
-    }
-    $delStmt = $conn->prepare($delSql);
-    $delStmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
-    if ($type_id > 0) {
-        $delStmt->bindValue(':type_id', $type_id, PDO::PARAM_INT);
-    }
-    $delStmt->execute();
+// 1. Record the uploaded Excel file in service_price_excel_file first to obtain auto-increment ID (excel_id / price_id)
+$excelFileRecord = new ServicePriceExcelFile();
+$excelFileRecord->hospital_id = $hospital_id;
+$excelFileRecord->hospital_name = $hospital_name;
+$excelFileRecord->service_type_id = $type_id;
+$excelFileRecord->original_filename = $originalName;
+$excelFileRecord->saved_filename = '';
+$excelFileRecord->file_path = '';
+$excelFileRecord->row_count = count($validRecords);
+$excelFileRecord->effective_date = $start_date_post;
+$excelFileRecord->upload_user_id = $upload_user_id;
+$excelFileRecord->upload_user_name = $upload_user_name;
+$excelFileRecord->upload_date = $cur_thai_time;
+$excelFileRecord->create($conn);
+
+$excel_id = (int)$excelFileRecord->id;
+
+// Append _excelid_<id> to saved_filename and physical filename
+$savedDisplayFilename = $cleanHospForName . '_' . $dateForFilename . '_excelid_' . $excel_id . '.' . $ext;
+$physicalFilename = 'hosp' . $hospital_id . '_' . preg_replace('/[^0-9_]/', '', $dateForFilename) . '_excelid_' . $excel_id . '_' . substr(md5(uniqid('', true)), 0, 6) . '.' . $ext;
+$fileRelPath = $uploadFolderRel . '/' . $physicalFilename;
+$finalFileAbsPath = $uploadFolderAbs . '/' . $physicalFilename;
+
+if (file_exists($fileAbsPath)) {
+    rename($fileAbsPath, $finalFileAbsPath);
 }
 
-// Insert valid records into service_price_list
+$upStmt = $conn->prepare("UPDATE `service_price_excel_file` SET `saved_filename` = :saved, `file_path` = :path WHERE `id` = :id");
+$upStmt->execute([
+    ':saved' => $savedDisplayFilename,
+    ':path' => $fileRelPath,
+    ':id' => $excel_id
+]);
+
+// 2. Optionally replace existing price records for this hospital for the same effective date(s)
+if ($replace_existing && !empty($validRecords)) {
+    $targetDates = array_values(array_unique(array_filter(array_column($validRecords, 'effective_date'))));
+    if (!empty($targetDates)) {
+        $inPlaceholders = implode(',', array_fill(0, count($targetDates), '?'));
+        $delSql = "DELETE FROM `service_price_list` WHERE hospital_id = ? AND effective_date IN ($inPlaceholders)";
+        $params = array_merge([(int)$hospital_id], $targetDates);
+        if ($type_id > 0) {
+            $delSql .= " AND jobtype = ?";
+            $params[] = (int)$type_id;
+        }
+        $delStmt = $conn->prepare($delSql);
+        $delStmt->execute($params);
+    }
+}
+
+// 3. Insert valid records into service_price_list with price_id = excel_id
 $insertedCount = 0;
 if (!empty($validRecords)) {
     $insSql = "INSERT INTO `service_price_list`
-        (`number`, `speciment_num`, `jobtype`, `specimen`, `hospital_id`, `unit_count`, `price`, `comment`, `create_date`, `add_user_id`, `edit_user_id`, `service_des`)
+        (`number`, `speciment_num`, `jobtype`, `specimen`, `hospital_id`, `unit_count`, `price`, `price_id`, `effective_date`, `comment`, `create_date`, `add_user_id`, `edit_user_id`, `service_des`)
         VALUES
-        (:number, :speciment_num, :jobtype, :specimen, :hospital_id, :unit_count, :price, :comment, :create_date, :add_user_id, :edit_user_id, :service_des)";
+        (:number, :speciment_num, :jobtype, :specimen, :hospital_id, :unit_count, :price, :price_id, :effective_date, :comment, :create_date, :add_user_id, :edit_user_id, :service_des)";
     $insStmt = $conn->prepare($insSql);
     foreach ($validRecords as $rec) {
         $insStmt->execute([
@@ -340,6 +407,8 @@ if (!empty($validRecords)) {
             ':hospital_id' => $rec['hospital_id'],
             ':unit_count' => $rec['unit_count'],
             ':price' => $rec['price'],
+            ':price_id' => $excel_id,
+            ':effective_date' => $rec['effective_date'],
             ':comment' => $rec['comment'],
             ':create_date' => $rec['create_date'],
             ':add_user_id' => $rec['add_user_id'],
@@ -350,26 +419,12 @@ if (!empty($validRecords)) {
     }
 }
 
-// Record the uploaded Excel file in service_price_excel_file
-$excelFileRecord = new ServicePriceExcelFile();
-$excelFileRecord->hospital_id = $hospital_id;
-$excelFileRecord->hospital_name = $hospital_name;
-$excelFileRecord->service_type_id = $type_id;
-$excelFileRecord->original_filename = $originalName;
-$excelFileRecord->saved_filename = $savedDisplayFilename;
-$excelFileRecord->file_path = $fileRelPath;
-$excelFileRecord->row_count = $insertedCount;
-$excelFileRecord->upload_user_id = $upload_user_id;
-$excelFileRecord->upload_user_name = $upload_user_name;
-$excelFileRecord->upload_date = $cur_thai_time;
-$excelFileRecord->create($conn);
-
 Log::add(
     $conn,
     $_SESSION['log_username'] ?? '',
     $_SESSION['log_name'] ?? '',
     "upload excel nb_price_8c.php",
-    "hospital_id={$hospital_id}, file={$savedDisplayFilename}, rows={$insertedCount}"
+    "hospital_id={$hospital_id}, file={$savedDisplayFilename}, rows={$insertedCount}, excel_id={$excel_id}"
 );
 
 $specimens = ServicePriceList::getSpecimenByHospitalID($conn, $hospital_id, $type_id);
@@ -378,6 +433,8 @@ $history = ServicePriceExcelFile::getAll($conn, -1);
 echo json_encode([
     'status' => 'success',
     'message' => "อัปโหลดไฟล์ {$savedDisplayFilename} และนำเข้าข้อมูล {$insertedCount} รายการเรียบร้อยแล้ว",
+    'excel_id' => $excel_id,
+    'price_id' => $excel_id,
     'row_count' => $insertedCount,
     'saved_filename' => $savedDisplayFilename,
     'specimens' => $specimens,

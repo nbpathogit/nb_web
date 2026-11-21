@@ -29,6 +29,7 @@ $conn = require '../includes/db.php';
     
     $billing->send_doctor = $_POST['pclinician_text'];
     $billing->cost = (int) $_POST['price_for_specimen'];
+    $billing->price_id = isset($_POST['price_id']) ? (int)$_POST['price_id'] : (isset($specimens[0]['price_id']) ? (int)$specimens[0]['price_id'] : 0);
     $billing->comment = $_POST['comment_for_specimen'];
 
 

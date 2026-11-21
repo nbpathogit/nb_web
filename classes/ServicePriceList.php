@@ -14,14 +14,24 @@
 class ServicePriceList {
 
     public $id;
+    public $number;
     public $speciment_num;
+    public $code2;
     public $jobtype;
-    
     public $specimen;
     public $hospital_id;
+    public $unit_count;
     public $price;
+    public $price_id = 0; // excel id
+    public $effective_date;
+    public $start_date; // Backward compatibility alias
     public $comment;
     public $create_date;
+    public $add_user_id;
+    public $edit_user_id;
+    public $service_des;
+    public $stampdatecreate;
+    public $stampdateedit;
 
     public static function getAll($conn,$id= -1)
     {
@@ -101,42 +111,74 @@ class ServicePriceList {
 
     }
     
-    public static function getSpecimenByHospitalIDJoptypeSpecimen($conn,$hospital_id)
+    public static function getSpecimenByHospitalIDJoptypeSpecimen($conn,$hospital_id, $effective_date = null)
     {
+        $hospIdInt = (int)$hospital_id;
         $sql = "SELECT *
-                FROM service_price_list";
-        $sql = $sql." WHERE hospital_id = :hospital_id ";
-        $sql = $sql." and (jobtype = 1 or jobtype = 4 or jobtype = 5 or jobtype = 8)  "; // service id 1 ,4, 5, 8
-        $sql = $sql." ORDER BY id;";
+                FROM (
+                    SELECT *,
+                           ROW_NUMBER() OVER (
+                               PARTITION BY speciment_num
+                               ORDER BY price_id DESC, effective_date DESC, id DESC
+                           ) AS rn
+                    FROM service_price_list
+                    WHERE hospital_id = :hospital_id
+                      AND (movetotrash = 0 OR movetotrash IS NULL)
+                      AND (jobtype = 1 OR jobtype = 4 OR jobtype = 5 OR jobtype = 8) "; // service id 1, 4, 5, 8
+        if (!empty($effective_date)) {
+            $sql .= " AND effective_date <= :effective_date ";
+        }
+        $sql .= " ) AS t
+                WHERE t.rn = 1
+                ORDER BY t.id;";
 
         $stmt = $conn->prepare($sql);
-
-        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
+        $stmt->bindValue(':hospital_id', $hospIdInt, PDO::PARAM_INT);
+        if (!empty($effective_date)) {
+            $stmt->bindValue(':effective_date', substr((string)$effective_date, 0, 10), PDO::PARAM_STR);
+        }
 
         $stmt->execute();
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public static function getSpecimenByHospitalIDJoptypeSpecialStainging($conn,$hospital_id=0,$service_id=0)
+    public static function getSpecimenByHospitalIDJoptypeSpecialStainging($conn,$hospital_id=0,$service_id=0, $effective_date = null)
     {
+        $hospIdInt = (int)$hospital_id;
+        $serviceIdInt = (int)$service_id;
         $sql = "SELECT *
-                FROM service_price_list";
-        $sql = $sql." WHERE hospital_id = :hospital_id ";
-        if($service_id == 0){
-            $sql = $sql." and (jobtype = 2 or jobtype = 3 or jobtype = 6 or jobtype = 7)  "; // service id 2, 3, 6, 7
-        }else{
-            $sql = $sql." and (jobtype = $service_id )";
+                FROM (
+                    SELECT *,
+                           ROW_NUMBER() OVER (
+                               PARTITION BY jobtype, speciment_num
+                               ORDER BY price_id DESC, effective_date DESC, id DESC
+                           ) AS rn
+                    FROM service_price_list
+                    WHERE hospital_id = :hospital_id 
+                      AND (movetotrash = 0 OR movetotrash IS NULL) ";
+        if ($serviceIdInt == 0) {
+            $sql .= " AND (jobtype = 2 OR jobtype = 3 OR jobtype = 6 OR jobtype = 7) "; // service id 2, 3, 6, 7
+        } else {
+            $sql .= " AND (jobtype = :service_id )";
+        }
+        if (!empty($effective_date)) {
+            $sql .= " AND effective_date <= :effective_date ";
         }
 
-        $sql = $sql." ORDER BY id;";
+        $sql .= " ) AS t
+                WHERE t.rn = 1
+                ORDER BY t.id;";
 
         $stmt = $conn->prepare($sql);
-
-        $stmt->bindValue(':hospital_id', $hospital_id, PDO::PARAM_INT);
+        $stmt->bindValue(':hospital_id', $hospIdInt, PDO::PARAM_INT);
+        if ($serviceIdInt != 0) {
+            $stmt->bindValue(':service_id', $serviceIdInt, PDO::PARAM_INT);
+        }
+        if (!empty($effective_date)) {
+            $stmt->bindValue(':effective_date', substr((string)$effective_date, 0, 10), PDO::PARAM_STR);
+        }
 
         $stmt->execute();
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     

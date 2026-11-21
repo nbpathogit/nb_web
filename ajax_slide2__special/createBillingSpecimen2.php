@@ -33,6 +33,13 @@ try {
 
         $billing->send_doctor = $_POST['pclinician_text'];
         $billing->cost = (int) $_POST['price_for_specimen'];
+        $billing->price_id = isset($_POST['price_id']) ? (int)$_POST['price_id'] : 0;
+        if (empty($billing->price_id) && !empty($_POST['specimen_id'])) {
+            $specLookup = ServicePriceList::getAll($conn, $_POST['specimen_id']);
+            if (!empty($specLookup[0]['price_id'])) {
+                $billing->price_id = (int)$specLookup[0]['price_id'];
+            }
+        }
         $billing->comment = $_POST['comment_for_specimen'];
 
 //        echo var_dump($_POST);

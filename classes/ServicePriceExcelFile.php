@@ -11,6 +11,8 @@ class ServicePriceExcelFile {
     public $saved_filename;
     public $file_path;
     public $row_count;
+    public $effective_date;
+    public $movetotrash;
     public $upload_user_id;
     public $upload_user_name;
     public $upload_date;
@@ -60,6 +62,15 @@ class ServicePriceExcelFile {
         try {
             $conn->query("SELECT 1 FROM `service_price_excel_file` LIMIT 1");
             self::$tableAvailable = true;
+            // Ensure effective_date column exists
+            try {
+                $colStmt = $conn->query("SHOW COLUMNS FROM `service_price_excel_file` LIKE 'effective_date'");
+                if (!$colStmt->fetch()) {
+                    $conn->exec("ALTER TABLE `service_price_excel_file` ADD COLUMN `effective_date` DATE DEFAULT NULL COMMENT 'วันที่มีผลบังคับใช้ (effective date)' AFTER `row_count`");
+                }
+            } catch (Exception $ce) {
+                // Ignore alter error if permission is restricted
+            }
             return true;
         } catch (Exception $e) {
             // Table does not exist yet; try CREATE TABLE if user has privilege
@@ -74,6 +85,7 @@ class ServicePriceExcelFile {
             `saved_filename` varchar(255) DEFAULT NULL COMMENT 'ชื่อไฟล์ตามโรงพยาบาลและวันที่อัปโหลด',
             `file_path` varchar(500) DEFAULT NULL COMMENT 'พาธไฟล์ที่เก็บในโฟลเดอร์',
             `row_count` int(11) NOT NULL DEFAULT 0 COMMENT 'จำนวนรายการที่นำเข้า',
+            `effective_date` date DEFAULT NULL COMMENT 'วันที่มีผลบังคับใช้ (effective date)',
             `upload_user_id` int(11) DEFAULT NULL COMMENT 'user.id ผู้อัปโหลด',
             `upload_user_name` varchar(255) DEFAULT NULL COMMENT 'ชื่อผู้อัปโหลด',
             `upload_date` datetime DEFAULT NULL COMMENT 'วันที่และเวลาที่อัปโหลด',
@@ -100,9 +112,9 @@ class ServicePriceExcelFile {
         if (self::ensureTable($conn)) {
             try {
                 $sql = "INSERT INTO `service_price_excel_file`
-                        (`hospital_id`, `hospital_name`, `service_type_id`, `original_filename`, `saved_filename`, `file_path`, `row_count`, `upload_user_id`, `upload_user_name`, `upload_date`)
+                        (`hospital_id`, `hospital_name`, `service_type_id`, `original_filename`, `saved_filename`, `file_path`, `row_count`, `effective_date`, `upload_user_id`, `upload_user_name`, `upload_date`)
                         VALUES
-                        (:hospital_id, :hospital_name, :service_type_id, :original_filename, :saved_filename, :file_path, :row_count, :upload_user_id, :upload_user_name, :upload_date)";
+                        (:hospital_id, :hospital_name, :service_type_id, :original_filename, :saved_filename, :file_path, :row_count, :effective_date, :upload_user_id, :upload_user_name, :upload_date)";
 
                 $stmt = $conn->prepare($sql);
                 $stmt->bindValue(':hospital_id', (int)$this->hospital_id, PDO::PARAM_INT);
@@ -112,6 +124,7 @@ class ServicePriceExcelFile {
                 $stmt->bindValue(':saved_filename', (string)$this->saved_filename, PDO::PARAM_STR);
                 $stmt->bindValue(':file_path', (string)$this->file_path, PDO::PARAM_STR);
                 $stmt->bindValue(':row_count', (int)$this->row_count, PDO::PARAM_INT);
+                $stmt->bindValue(':effective_date', !empty($this->effective_date) ? (string)$this->effective_date : null, PDO::PARAM_STR);
                 $stmt->bindValue(':upload_user_id', (int)$this->upload_user_id, PDO::PARAM_INT);
                 $stmt->bindValue(':upload_user_name', (string)$this->upload_user_name, PDO::PARAM_STR);
                 $stmt->bindValue(':upload_date', (string)$this->upload_date, PDO::PARAM_STR);
@@ -144,6 +157,7 @@ class ServicePriceExcelFile {
             'saved_filename' => (string)$this->saved_filename,
             'file_path' => (string)$this->file_path,
             'row_count' => (int)$this->row_count,
+            'effective_date' => !empty($this->effective_date) ? (string)$this->effective_date : '',
             'upload_user_id' => (int)$this->upload_user_id,
             'upload_user_name' => (string)$this->upload_user_name,
             'resolved_user_name' => (string)$this->upload_user_name,
@@ -221,5 +235,63 @@ class ServicePriceExcelFile {
             }
         }
         return false;
+    }
+
+    public static function moveToTrash($conn, $id)
+    {
+        $id = (int)$id;
+        if ($id <= 0) return false;
+        
+        $sql1 = "UPDATE `service_price_excel_file` SET `movetotrash` = 1 WHERE `id` = :id";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->bindValue(':id', $id, PDO::PARAM_INT);
+        $res1 = $stmt1->execute();
+
+        // Also update matching records in service_price_list
+        $sql2 = "UPDATE `service_price_list` SET `movetotrash` = 1 WHERE `price_id` = :id";
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt2->execute();
+
+        return $res1;
+    }
+
+    public static function restore($conn, $id)
+    {
+        $id = (int)$id;
+        if ($id <= 0) return false;
+
+        $sql1 = "UPDATE `service_price_excel_file` SET `movetotrash` = 0 WHERE `id` = :id";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->bindValue(':id', $id, PDO::PARAM_INT);
+        $res1 = $stmt1->execute();
+
+        // Also restore matching records in service_price_list
+        $sql2 = "UPDATE `service_price_list` SET `movetotrash` = 0 WHERE `price_id` = :id";
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt2->execute();
+
+        return $res1;
+    }
+
+    public static function permanentDelete($conn, $id)
+    {
+        $id = (int)$id;
+        if ($id <= 0) return false;
+
+        // 1. Mark excel file as permanent deleted (movetotrash = 2) to preserve record history and keep excel file on disk
+        $sql1 = "UPDATE `service_price_excel_file` SET `movetotrash` = 2 WHERE `id` = :id";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->bindValue(':id', $id, PDO::PARAM_INT);
+        $res1 = $stmt1->execute();
+
+        // 2. Permanently delete all service_price_list records associated with this price_id
+        $sql2 = "DELETE FROM `service_price_list` WHERE `price_id` = :id";
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt2->execute();
+
+        return $res1;
     }
 }

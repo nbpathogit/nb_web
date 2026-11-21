@@ -306,6 +306,7 @@
     <a href="patient-report-groups.html">📄 ReportType Groups 1, 2, 3 (UResult)</a>
     <a href="patient-edit-buttons.html">📄 Diagnostic Action Buttons (Edit)</a>
     <a href="patient-edit-result-buttons.html">📄 Textarea Controls (Edit/Save/Del)</a>
+    <a href="billing-pdf-v2.html">📄 Billing &amp; Billing PDF V2</a>
     <a href="billing-pdf-v3.html">📄 Billing &amp; Billing PDF V3</a>
     <a href="service-price-8c.html">📄 Service Pricing (nb_price_8c.php)</a>
     <a href="label-and-master-data.html">📄 Label Print &amp; Master Data</a>
@@ -351,9 +352,15 @@
                 <p><code>patient.php</code>, <code>patient_add.php</code>, <code>patient_edit.php</code> (status <code>1000</code>&rarr;<code>20000</code>), Excel import, and Executive Dashboards (<code>patient_global_dashboard*.php</code>, <code>classes/Patientdash.php</code>).</p>
             </div>
         </a>
+        <a class="nav-card" href="billing-pdf-v2.html">
+            <div>
+                <h3>6.1. Billing &amp; Billing PDF V2</h3>
+                <p>Invoice generation system V2 (<code>billing_pdf_2.php</code>) featuring nested SN sub-arrays and unit price in Group 3.</p>
+            </div>
+        </a>
         <a class="nav-card" href="billing-pdf-v3.html">
             <div>
-                <h3>6. Billing &amp; Billing PDF V3</h3>
+                <h3>6.2. Billing &amp; Billing PDF V3</h3>
                 <p>Standard billing reports (<code>billing.php</code>) and the self-contained Billing PDF V3 system (<code>billing_pdf_3.php</code>).</p>
             </div>
         </a>
@@ -606,24 +613,31 @@ MAX(DATE(j.finish_date)) as j_finish_date</code></pre>
         👉 <strong>Executive &amp; Operational Analytics Dashboards:</strong> Turn Around Time (TAT), Incoming &amp; Reported volumes, Pathologist caseloads, customer hospital isolation, and Fullscreen presentation modes in <code>patient_global_dashboard.php</code> &amp; <code>patient_global_dashboard_main.php</code> powered by <code>classes/Patientdash.php</code> (<a href="patient-workflows.html" style="color:var(--primary); font-weight:600;">Analytics Dashboards Architecture &rarr;</a>)</p>
     </section>
 
-    <!-- SECTION 6: BILLING & BILLING PDF V3 -->
+    <!-- SECTION 6: BILLING & BILLING PDF V2 / V3 -->
     <section id="sec-billing-v3" class="section-card">
         <div class="section-header">
-            <h2>6. Billing &amp; Billing PDF V3 System (<code>billing_pdf_3.php</code>)</h2>
-            <a class="btn-page" href="billing-pdf-v3.html">Open Full Page &rarr;</a>
+            <h2>6. Billing &amp; Billing PDF Systems (V2 &amp; V3)</h2>
+            <div>
+                <a class="btn-page" href="billing-pdf-v2.html" style="margin-right: 0.5rem;">Billing PDF V2 &rarr;</a>
+                <a class="btn-page" href="billing-pdf-v3.html">Billing PDF V3 &rarr;</a>
+            </div>
         </div>
-        <p>The <strong>Billing PDF V3</strong> system generates official invoices (ใบแจ้งหนี้) using dedicated <code>_3</code> files, completely independent of V1 and V2:</p>
+        <p>The NB Patho billing generation suite includes two active PDF generation versions:</p>
+        <ul>
+            <li><strong>Billing PDF V2 (<code>billing_pdf_2.php</code>):</strong> Active under <code>#manage_bill_dropdown</code> ("ออกใบแจ้งหนี้ V2(PDF)"). Introduces multi-row hierarchical <code>subarray</code> grouping per SN in Group 2 (<code>ajax_billing/getBillingGroupBySN_2.php</code>) and explicit unit price column in Group 3 (<a href="billing-pdf-v2.html" style="color:var(--primary); font-weight:600;">Open V2 Documentation &rarr;</a>).</li>
+            <li><strong>Billing PDF V3 (<code>billing_pdf_3.php</code>):</strong> Active under <code>#admin_dropdown</code> ("ออกใบแจ้งหนี้ V3(PDF)"). A completely self-contained architecture with dedicated <code>ajax_billing_v3/</code>, <code>pdf_invoice/*_3.php</code>, and <code>billing_pdf_show_3.php</code> (<a href="billing-pdf-v3.html" style="color:var(--primary); font-weight:600;">Open V3 Documentation &rarr;</a>).</li>
+        </ul>
         <table>
             <thead>
-                <tr><th>Span ID</th><th>Section Title</th><th>Template File</th><th>PDF Export Mode</th></tr>
+                <tr><th>Span ID</th><th>Section Title</th><th>Template File (V3)</th><th>Template File (V2)</th><th>PDF Export Mode</th></tr>
             </thead>
             <tbody>
-                <tr><td><code>#bill_page1</code></td><td>1. หนังสือนำและใบแจ้งหนี้ (1)</td><td><code>pdf_invoice/billingletter1_3.php</code></td><td>Portrait A4 (<code>page1</code>)</td></tr>
-                <tr><td><code>#bill_page2</code></td><td>1. หนังสือนำและใบแจ้งหนี้ "ต้นฉบับ"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td>Portrait A4 (<code>page2</code>)</td></tr>
-                <tr><td><code>#bill_page3</code></td><td>1. หนังสือนำและใบแจ้งหนี้ "สำเนา"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td>Portrait A4 (<code>page3</code>)</td></tr>
-                <tr><td><code>#bill_page4</code></td><td>2. List รายการตรวจเรียงตาม SN (Group 2)</td><td><code>pdf_invoice/billinngListAll_g2_3.php</code></td><td>Landscape A4 (<code>page4</code>)</td></tr>
-                <tr><td><code>#bill_page5</code></td><td>3. สรุปจำนวนรายการตรวจตามรหัส (Group 3)</td><td><code>pdf_invoice/billinngListAll_g3_3.php</code></td><td>Portrait A4 (<code>page5</code>)</td></tr>
-                <tr><td><code>#bill_page6</code></td><td>4. แจกแจงทุกรายการบริการ (Group 4)</td><td><code>pdf_invoice/billinngListAll_g4_3.php</code></td><td>Web-only collapsible reference</td></tr>
+                <tr><td><code>#bill_page1</code></td><td>1. หนังสือนำและใบแจ้งหนี้ (1)</td><td><code>pdf_invoice/billingletter1_3.php</code></td><td><code>pdf_invoice/billingletter1.php</code></td><td>Portrait A4 (<code>page1</code>)</td></tr>
+                <tr><td><code>#bill_page2</code></td><td>1. หนังสือนำและใบแจ้งหนี้ "ต้นฉบับ"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td><code>pdf_invoice/billingletterinvoice.php</code></td><td>Portrait A4 (<code>page2</code>)</td></tr>
+                <tr><td><code>#bill_page3</code></td><td>1. หนังสือนำและใบแจ้งหนี้ "สำเนา"</td><td><code>pdf_invoice/billingletterinvoice_3.php</code></td><td><code>pdf_invoice/billingletterinvoice.php</code></td><td>Portrait A4 (<code>page3</code>)</td></tr>
+                <tr><td><code>#bill_page4</code></td><td>2. List รายการตรวจเรียงตาม SN (Group 2)</td><td><code>pdf_invoice/billinngListAll_g2_3.php</code></td><td><code>pdf_invoice/billinngListAll_g2.php</code></td><td>Landscape A4 (<code>page4</code>)</td></tr>
+                <tr><td><code>#bill_page5</code></td><td>3. สรุปจำนวนรายการตรวจตามรหัส (Group 3)</td><td><code>pdf_invoice/billinngListAll_g3_3.php</code></td><td><code>pdf_invoice/billinngListAll_g3.php</code></td><td>Portrait A4 (<code>page5</code>)</td></tr>
+                <tr><td><code>#bill_page6</code></td><td>4. แจกแจงทุกรายการบริการ (Group 4)</td><td><code>pdf_invoice/billinngListAll_g4_3.php</code></td><td><code>pdf_invoice/billinngListAll_g4.php</code></td><td>Web-only collapsible reference</td></tr>
             </tbody>
         </table>
     </section>

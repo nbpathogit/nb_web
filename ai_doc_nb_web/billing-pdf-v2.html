@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing &amp; Billing PDF V2 System — NB Patho AI Docs</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem 1rem; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .top-nav { margin-bottom: 1.5rem; }
+        .top-nav a { color: #0284c7; text-decoration: none; font-weight: 600; }
+        header { background: linear-gradient(135deg, #0284c7, #0f172a); color: #fff; padding: 1.75rem 2rem; border-radius: 12px; margin-bottom: 1.5rem; }
+        header h1 { margin: 0 0 0.35rem 0; font-size: 1.65rem; }
+        header p { margin: 0; opacity: 0.9; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+        h2 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; color: #0f172a; }
+        h3 { color: #0369a1; margin-top: 1.25rem; }
+        table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+        th, td { text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        code { font-family: Consolas, monospace; background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        .badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8em; font-weight: 600; }
+        .badge-active { background: #dcfce7; color: #15803d; }
+        .badge-shared { background: #fef3c7; color: #b45309; }
+        .badge-exclusive { background: #e0f2fe; color: #0369a1; }
+        .alert { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 0.85rem 1.25rem; margin: 1rem 0; border-radius: 4px; font-size: 0.92rem; }
+        .alert-warning { background: #fffbeb; border-left-color: #f59e0b; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a>
+        <div style="font-size: 0.9rem;">
+            <span style="color: #64748b;">Related:</span>
+            <a href="billing-pdf-v3.html" style="margin-left: 0.5rem; color: #0284c7; text-decoration: none; font-weight: 600;">Billing PDF V3 &rarr;</a>
+        </div>
+    </div>
+    <header>
+        <h1>Billing &amp; Billing PDF V2 System Reference</h1>
+        <p>Standard billing reports and the Billing PDF V2 system (<code>billing_pdf_2.php</code>)</p>
+    </header>
+
+    <div class="card">
+        <h2>1. Overview &amp; Comparison (V1 vs V2 vs V3)</h2>
+        <p>The <strong>Billing PDF V2</strong> system (<code>billing_pdf_2.php</code>) generates official invoice documents (ใบแจ้งหนี้) for NB Pathology Center. It represents the second generation of invoice generation, sitting between legacy V1 (<code>billing_pdf.php</code>) and modern V3 (<code>billing_pdf_3.php</code>).</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Characteristic</th>
+                    <th>V1 (Legacy)</th>
+                    <th>V2 (This System)</th>
+                    <th>V3 (Current Production)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Main UI File</strong></td>
+                    <td><code>billing_pdf.php</code></td>
+                    <td><code>billing_pdf_2.php</code></td>
+                    <td><code>billing_pdf_3.php</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Menu Status</strong></td>
+                    <td>Commented out in <code>header.php</code></td>
+                    <td><span class="badge badge-active">Active</span> (เมนู "ออกใบแจ้งหนี้ V2(PDF)")</td>
+                    <td><span class="badge badge-active">Active</span> (เมนู "ออกใบแจ้งหนี้ V3(PDF)" ในแอดมิน)</td>
+                </tr>
+                <tr>
+                    <td><strong>Active Menu ID</strong></td>
+                    <td><code>#manage_bill_dropdown</code> &rarr; <code>#billing_pdf_tab</code></td>
+                    <td><code>#manage_bill_dropdown</code> &rarr; <code>#billing_pdf_tab_2</code></td>
+                    <td><code>#admin_dropdown</code> &rarr; <code>#billing_pdf_tab_3</code></td>
+                </tr>
+                <tr>
+                    <td><strong>PDF Output Generator</strong></td>
+                    <td><code>billing_pdf_show.php</code></td>
+                    <td><code>billing_pdf_show.php</code> (Shared with V1)</td>
+                    <td><code>billing_pdf_show_3.php</code> (Exclusive to V3)</td>
+                </tr>
+                <tr>
+                    <td><strong>AJAX Directory</strong></td>
+                    <td><code>ajax_billing/</code></td>
+                    <td><code>ajax_billing/</code> + <code>ajax_ServiceBilling/</code></td>
+                    <td><code>ajax_billing_v3/</code> (Self-contained)</td>
+                </tr>
+                <tr>
+                    <td><strong>Group 2 Query (by SN)</strong></td>
+                    <td><code>getBillingGroupBySN.php</code> (flat concat)</td>
+                    <td><code>getBillingGroupBySN_2.php</code> (hierarchical subarray)</td>
+                    <td><code>getBillingGroupBySN_3.php</code> (V3-scoped)</td>
+                </tr>
+                <tr>
+                    <td><strong>Group 3 Unit Price</strong></td>
+                    <td>Disabled/Commented out column</td>
+                    <td><strong>Enabled</strong> ("ราคาต่อหน่วย(บาท)")</td>
+                    <td>Enabled</td>
+                </tr>
+                <tr>
+                    <td><strong>Template Files</strong></td>
+                    <td><code>pdf_invoice/*</code> (base without suffix)</td>
+                    <td><code>pdf_invoice/*</code> (base without suffix)</td>
+                    <td><code>pdf_invoice/*_3.php</code> (Exclusive to V3)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>2. Architecture &amp; File Structure</h2>
+        <p>Unlike V3 which is completely self-contained in its own directories and suffixed files, <strong>V2</strong> is a hybrid system that uses <code>billing_pdf_2.php</code> as its UI, but shares the base PDF templates (<code>pdf_invoice/</code>) and shared generator (<code>billing_pdf_show.php</code>), while introducing exclusive subarray logic in <code>ajax_billing/getBillingGroupBySN_2.php</code>.</p>
+
+        <h3>A. Main UI &amp; PDF Generator</h3>
+        <table>
+            <thead>
+                <tr><th>File</th><th>Role</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>billing_pdf_2.php</code></td>
+                    <td>Main UI Controller</td>
+                    <td>Hospital selector, date range picker, DOM parameters, preview tables, inline modal editor for <code>code2</code>, and PDF form submission.</td>
+                </tr>
+                <tr>
+                    <td><code>billing_pdf_show.php</code></td>
+                    <td>Shared mPDF Generator</td>
+                    <td>Receives POST containing HTML strings for <code>page1</code>, <code>page2</code>, <code>page3</code>, <code>page4</code>, and <code>page5</code>, rendering Portrait A4 (pages 1–3, 5) and Landscape A4 (page 4).</td>
+                </tr>
+                <tr>
+                    <td><code>includes/header.php</code></td>
+                    <td>Navigation Link</td>
+                    <td><code>&lt;a id="billing_pdf_tab_2" href="billing_pdf_2.php" class="dropdown-item"&gt;ออกใบแจ้งหนี้ V2(PDF)&lt;/a&gt;</code> under <code>#manage_bill_dropdown</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>B. AJAX Endpoints Used by Billing PDF V2</h3>
+        <table>
+            <thead>
+                <tr><th>Endpoint File</th><th>Scope</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>ajax_billing/getBillbyHospitalbyDateRange.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Populates the main DataTables <code>#billing_table</code> with line-item billing details for the selected hospital and date range.</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getBillbyHospitalbyDateRangeSumPrice.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Calculates net billing total and sets <code>#bill_hospital_net_price</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getCostGroupbyServiceTyoebyHospitalbyDateRange.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Groups total cost by service type to populate cover letter breakdown.</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getBillingGroupBySN_2.php</code></td>
+                    <td><span class="badge badge-exclusive">V2-Specific</span></td>
+                    <td><strong>Key Innovation in V2:</strong> Groups by Surgical Number (SN) and queries separate sub-arrays for normal (NM) and special (SP) stains via <code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2()</code>, merging them into <code>subarray</code> for nested table rows.</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getBillingGroupBySNCount.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Counts unique SNs in the period (<code>#bill_count_bysn_list</code>).</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getBillingGroupByCode.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Aggregates billings by Ministry of Finance code (กรมบัญชีกลาง) for Group 3.</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getBillingGroupByCodeCount.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Counts unique billing codes for Group 3 summary.</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getBillingHospitalOneByOne.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Generates the itemized case breakdown (Group 4).</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getHospital.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Retrieves hospital details: name, tax ID, and address.</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_billing/getCostSpelling.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Converts numeric total to Thai Baht text (เช่น "หนึ่งหมื่นห้าพันบาทถ้วน").</td>
+                </tr>
+                <tr>
+                    <td><code>ajax_ServiceBilling/serviceBillingSetCode2.php</code></td>
+                    <td><span class="badge badge-shared">Shared</span></td>
+                    <td>Inline double-click edit: updates secondary hospital billing code (<code>code2</code>) on <code>service_billing</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>C. PDF Invoice Templates (<code>pdf_invoice/</code>)</h3>
+        <table>
+            <thead>
+                <tr><th>Span ID</th><th>Section Title</th><th>Template File</th><th>Target Element</th><th>PDF Output Format</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>#bill_page1</code></td>
+                    <td>1. หนังสือนำและใบแจ้งหนี้ (1)</td>
+                    <td><code>pdf_invoice/billingletter1.php</code></td>
+                    <td><code>#bill_by_service_tbl1</code></td>
+                    <td>Portrait A4 (<code>page1</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>#bill_page2</code></td>
+                    <td>1. ใบแจ้งหนี้ "ต้นฉบับ"</td>
+                    <td><code>pdf_invoice/billingletterinvoice.php</code></td>
+                    <td><code>.bill_by_service_tbl2</code></td>
+                    <td>Portrait A4 (<code>page2</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>#bill_page3</code></td>
+                    <td>1. ใบแจ้งหนี้ "สำเนา"</td>
+                    <td><code>pdf_invoice/billingletterinvoice.php</code></td>
+                    <td><code>.bill_by_service_tbl2</code></td>
+                    <td>Portrait A4 (<code>page3</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>#bill_page4</code></td>
+                    <td>2. List รายการตรวจเรียงตาม SN</td>
+                    <td><code>pdf_invoice/billinngListAll_g2.php</code></td>
+                    <td><code>#bill_list_all_g2</code></td>
+                    <td>Landscape A4 (<code>page4</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>#bill_page5</code></td>
+                    <td>3. สรุปจำนวนรายการตรวจ (by code)</td>
+                    <td><code>pdf_invoice/billinngListAll_g3.php</code></td>
+                    <td><code>#bill_list_all_g3</code></td>
+                    <td>Portrait A4 (<code>page5</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>#bill_page6</code></td>
+                    <td>4. แจกแจงทุกรายการบริการ (Group 4)</td>
+                    <td><code>pdf_invoice/billinngListAll_g4.php</code></td>
+                    <td><code>#bill_list_all_g4</code></td>
+                    <td>Web-only collapsible section</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>3. Key Differences in Data Processing: V2 vs V1 &amp; V3</h2>
+
+        <h3>1. Nested Subarray Rendering in Group 2 (SN List)</h3>
+        <p>In V1, <code>billinngListAll_g2</code> concatenated descriptions into a single string with slashes (<code>/</code>). In <strong>V2</strong> (via <code>ajax_billing/getBillingGroupBySN_2.php</code>), each case contains an array of distinct stain records in <code>subarray</code>:</p>
+        <pre><code>// V2 getBillingGroupBySN_2.php merges NM (normal) and SP (special) stains:
+$aa = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm($conn, ...);
+$bb = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp($conn, ...);
+$billings[$key]['subarray'] = array_merge($aa, $bb);</code></pre>
+        <p>In <code>billing_pdf_2.php</code>, the JavaScript rendering function (<code>drawbill_list_all_page_g2</code>) sets <code>rowspan="'+subarray+'"</code> on patient identification columns, outputting a multi-row nested table per surgical number.</p>
+
+        <h3>2. Explicit Unit Price in Group 3 (Summary by Code)</h3>
+        <p>In V1, the unit price column in <code>drawbill_list_all_page_g3</code> was commented out. In <strong>V2</strong>, the <code>ราคาต่อหน่วย (บาท)</code> column is active and included in the table header, data row, and footer span (expanded <code>colspan</code> from 4 to 5).</p>
+
+        <h3>3. Inline Code2 Editing</h3>
+        <p>V2 provides an interactive modal (<code>#editNumberModal</code>) triggered by double-clicking on any code2 value in the DataTable, submitting updates directly via <code>ajax_ServiceBilling/serviceBillingSetCode2.php</code>.</p>
+    </div>
+
+    <div class="card">
+        <h2>4. Maintenance &amp; Development Guidelines</h2>
+        <div class="alert alert-warning">
+            <strong>Important Rule:</strong> Because Billing PDF V2 shares template files in <code>pdf_invoice/</code> and endpoints in <code>ajax_billing/</code> with V1, any modifications to base files like <code>billingletter1.php</code> or <code>billing_pdf_show.php</code> will affect both V1 and V2!
+        </div>
+        <ul>
+            <li><strong>When modifying V2:</strong> Be mindful of shared assets. If changes might break legacy V1, consider whether the work should be done in V3 instead.</li>
+            <li><strong>When adding features:</strong> Modern enhancements are primarily developed in V3 (<code>billing_pdf_3.php</code>) because V3 is fully isolated. V2 remains active in the sidebar under <code>#manage_bill_dropdown</code> as a stable production alternative.</li>
+        </ul>
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; text-align: center;">
+            <a href="index.html" style="color: #0284c7; text-decoration: none; font-weight: 600;">&larr; กลับไปยังหน้าหลัก Index (NB Patho AI Knowledge Base)</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

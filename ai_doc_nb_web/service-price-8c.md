@@ -52,12 +52,16 @@ CREATE TABLE `service_price_list` (
   `hospital_id` int(11) DEFAULT NULL COMMENT 'link to hospital id (0 = Standard Price)',
   `unit_count` varchar(30) DEFAULT NULL COMMENT 'หน่วยนับ (e.g. ชิ้น, ตัวอย่าง, สไลด์)',
   `price` int(11) DEFAULT NULL COMMENT 'ราคา (Baht)',
+  `price_id` int(11) NOT NULL DEFAULT 0 COMMENT 'excel id (service_price_excel_file.id)',
+  `effective_date` date NOT NULL DEFAULT '2020-01-01' COMMENT 'วันที่มีผลบังคับใช้ (effective date)',
   `comment` text DEFAULT NULL COMMENT 'หมายเหตุ / ข้อคิดเห็น',
   `create_date` datetime DEFAULT NULL,
   `add_user_id` int(11) DEFAULT NULL COMMENT 'คนที่สร้างข้อมูลนี้',
   `edit_user_id` int(11) DEFAULT NULL COMMENT 'คนที่แก้ไขข้อมูลนี้',
   `service_des` varchar(256) DEFAULT NULL COMMENT 'ชื่อชนิดบริการ',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_hosp_spec_eff` (`hospital_id`,`speciment_num`,`effective_date`),
+  KEY `idx_price_id` (`price_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 ```
 
@@ -83,12 +87,13 @@ When importing data via `#nb_price_add_txt_area_8c`, users copy tabular data dir
 | `5` | **comment** | `comment` | `text` | Notes, conditions, or price tier comments (e.g. `ราคามาตรฐาน`). |
 | `6` | **service_id** | `jobtype` | `int` | Service category ID linking to `service_type.id` (1–8). |
 | `7` | **service_description**| `service_des` | `varchar` | Category name (e.g. `ตรวจชิ้นเนื้อศัลยพยาธิวิทยา`, `ตรวจพิเศษ`). |
+| `8` | **วันที่มีผล(effective date)** | `effective_date` | `date` | Optional effective start date (`YYYY-MM-DD`). Defaults to header date picker or `2020-01-01`. |
 
 ### Raw TSV Example
 ```text
-1	33000	Biopsy or small specimen	ชิ้น	400	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา
-2	33001	Appendix	ชิ้น	500	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา
-3	34000	Special Stain (AFB)	สไลด์	200	ราคามาตรฐาน	2	ตรวจพิเศษ
+1	33000	Biopsy or small specimen	ชิ้น	400	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา	2024-01-01
+2	33001	Appendix	ชิ้น	500	ราคามาตรฐาน	1	ตรวจชิ้นเนื้อศัลยพยาธิวิทยา	2024-01-01
+3	34000	Special Stain (AFB)	สไลด์	200	ราคามาตรฐาน	2	ตรวจพิเศษ	2024-01-01
 ```
 
 ---
@@ -111,25 +116,41 @@ When importing data via `#nb_price_add_txt_area_8c`, users copy tabular data dir
      - Updates title spans with selected hospital and service type names.
      - Invokes `drawPriceTable()`.
 
-### B. Table Display (`#nb_price_tbl_8c`)
-Renders 8 visible columns synchronized with the Excel export/import headers, plus 3 hidden DOM columns (`style="display:none;"`) for debugging:
-- **Hidden DOM Columns:** `row_id` (`id`), `hospital` (`hospital_id`), `create date` (`create_date`)
-- **8 Visible Columns (matching Excel headers):**
+### B. Table Display (`#nb_price_tbl_8c` — DataTables with SearchPanes Filter like `patient.php`)
+Renders records using **jQuery DataTables** configured with **SearchPanes** and a column visibility toolbar, identical to `patient.php`:
+- **SearchPanes (`dom: 'BP<"toolbar">lfritp'`, `initCollapsed: true`):**
+  - Categorical filters for:
+    - `ต่อหน่วย(unit)`
+    - `ราคา(price)`
+    - `วันที่มีผล(effective date)`
+    - `price id(excel id)`
+    - `ชนิดของรายการ(type Description)`
+    - `add by`
+    - `edit by`
+    - `วันที่บันทึกระบบ(stampdatecreate)`
+  - Hidden from SearchPanes: `row_id`, `hospital`, `number`, `code`, `detail`, `comment`, `type id`, and `create date`.
+- **Default Hidden Columns (managed by `columnDefs`):**
+  - System columns: `row_id` (`0`), `hospital` (`1`), `create date` (`12`)
+  - Optional detail columns hidden by default: `ต่อหน่วย` (`5`), `คอมเม้นท์` (`9`), `add by` (`13`), `edit by` (`14`)
+- **Default Visible Data Columns:**
   1. `ลำดับ(number)` (`number`)
   2. `โค้ด(code)` (`speciment_num`)
   3. `รายการ(detail)` (`specimen`)
-  4. `ต่อหน่วย(unit)` (`unit_count`)
-  5. `ราคา(price)` (`price`)
-  6. `คอมเม้นท์(comment)` (`comment`)
+  4. `ราคา(price)` (`price`)
+  5. `วันที่มีผล(effective date)` (`effective_date`)
+  6. `price id(excel id)` (`price_id`)
   7. `ไอดีชนิด(type)` (`jobtype`)
   8. `ชนิดของรายการ(type Description)` (`service_des`)
-- **Trailing Audit Columns:** `add by` (`add_user_id`), `edit by` (`edit_user_id`)
+  9. `วันที่บันทึกระบบ(stampdatecreate)` (`stampdatecreate`)
+- **Column Visibility Toolbar (`div.toolbar`):**
+  - Provides quick toggle links (`ซ่อนคอลัมน์ : ลำดับ - โค้ด - รายการ - ...`) with strike-through styling to show/hide columns on demand (default hidden columns begin with strike-through styling).
 
 ### C. Excel Download & Upload System (SheetJS + `ServicePriceExcelFile`)
 1. **Download Excel (`#nb_price_excel_btn_8c`):**
    - Exports the currently displayed records in `#nb_price_tbl_8c` using SheetJS (`xlsx.full.min.js`) as an 8-column `.xlsx` file (`Price_8C_<hospital>_<type>_<YYYY-MM-DD>.xlsx`).
 2. **Upload Excel (`#nb_price_upload_btn_8c` & `#nb_price_excel_file_input_8c`):**
-   - Checkbox `#nb_price_replace_chk_8c` (`ทับข้อมูลเดิมเมื่ออัปโหลด`) is **checked and disabled by default** so uploads replace existing rows of the selected hospital/type cleanly.
+   - **Effective Date Selector (`#nb_price_start_date_8c`):** Placed directly adjacent to the "Upload Excel" button. Defaults to blank (`""`), and is strictly mandatory. Uploading or batch-adding without choosing an effective date is blocked with an alert both on client-side and server-side. The chosen Effective Date is authoritatively applied to all imported rows (taking precedence over any old/stale dates in the Excel file).
+   - Checkbox `#nb_price_replace_chk_8c` (`ทับเฉพาะรอบวันที่มีผลเดียวกัน`) is **unchecked by default** to preserve historical price records (append mode). When checked, it selectively replaces only records matching the exact `effective_date` being imported for that hospital to avoid duplicate rows, leaving all other historical dates intact.
    - Reads the `.xlsx`/`.xls` file on the client via SheetJS, validates every row, and posts both the parsed rows (`data`) and raw file (`excel_file`) via `FormData` to `ajax_nb_price_8c/upload_excel_8c.php`.
 3. **Strict Row Validation Rules (Client-Side & Server-Side):**
    - `ลำดับ(number)`: Must be numeric only (`^\d+$`), non-empty.
@@ -139,10 +160,13 @@ Renders 8 visible columns synchronized with the Excel export/import headers, plu
    - `ไอดีชนิด(type)`: Must be numeric (`^\d+$`) and **must exist in `service_type.id`** (`window.validServiceTypeIds` on client; `SELECT id FROM service_type` on server).
 4. **Live `service_type` Reference Table:**
    - Displayed directly on `nb_price_8c.php` (columns `id` and `service_type`) alongside validation rules so users can verify valid `ไอดีชนิด(type)` values before uploading.
-5. **Uploaded File History (`classes/ServicePriceExcelFile.php`):**
+5. **Uploaded File History (`classes/ServicePriceExcelFile.php`) & Excel ID / Price ID:**
+   - Every uploaded Excel file is registered in `service_price_excel_file` to obtain an auto-increment ID referred to as **`excel id`** or **`price id`**.
+   - **Filename convention:** The file is saved with the suffix `_excelid_<id>` appended to both the user-friendly name (`saved_filename`) and physical path (`file_path`), e.g., `ราคามาตรฐาน_2026-11-21_14-08-58_excelid_7.xlsx`.
    - Stores uploaded `.xlsx` files in `nb_price_8c_uploads/` (tracked in Git via `.gitkeep`).
-   - Logs metadata in table `service_price_excel_file` (with automatic JSON fallback to `nb_price_8c_uploads/history_index.json` if the DB user lacks `CREATE TABLE` privilege on production).
-   - History table `#nb_price_excel_history_tbl_8c` lists the latest 20 uploaded files per hospital with download links via `ajax_nb_price_8c/download_excel_8c.php`.
+   - Logs metadata in table `service_price_excel_file` (with automatic JSON fallback to `nb_price_8c_uploads/history_index.json` if the DB user lacks `CREATE TABLE` privilege on production), including `effective_date` (วันที่มีผลบังคับใช้).
+   - All rows imported into `service_price_list` are stamped with `price_id = <excel_id>`.
+   - History table `#nb_price_excel_history_tbl_8c` displays 8 columns: ลำดับ (Excel ID), โรงพยาบาล, ชื่อไฟล์, จำนวนรายการ, วันที่มีผล (effective date), ผู้อัปโหลด, วันที่อัปโหลด, ดาวน์โหลด (พร้อมลิงก์ดาวน์โหลดผ่าน `ajax_nb_price_8c/download_excel_8c.php`).
 6. **Legacy Paste Section:**
    - Wrapped in `<div id="legacy_paste_section_8c" style="display:none;">` (hidden in UI, preserved in code).
 
@@ -187,13 +211,41 @@ Renders 8 visible columns synchronized with the Excel export/import headers, plu
   - Generates a single consolidated SQL insert:
     ```sql
     INSERT INTO `service_price_list`
-    (`id`, `number`, `speciment_num`, `jobtype`, `specimen`, `hospital_id`, `unit_count`, `price`, `comment`, `create_date`, `add_user_id`, `edit_user_id`, `service_des`)
+    (`id`, `number`, `speciment_num`, `jobtype`, `specimen`, `hospital_id`, `unit_count`, `price`, `price_id`, `effective_date`, `comment`, `create_date`, `add_user_id`, `edit_user_id`, `service_des`)
     VALUES
-    (NULL, :number, :speciment_num, :jobtype, :specimen, :hospital_id, :unit_count, :price, :comment, :thai_time, :add_user_id, 0, :service_des), ...;
+    (NULL, :number, :speciment_num, :jobtype, :specimen, :hospital_id, :unit_count, :price, :price_id, :effective_date, :comment, :thai_time, :add_user_id, 0, :service_des), ...;
     ```
   - Executes via `ServicePriceList::createBySQL($conn, $sql)`.
   - Re-queries `getSpecimenByHospitalID()` and returns the newly refreshed dataset.
   - Clears textarea and displays `alert("Record added")`.
+
+---
+
+### 2. Move to Trash / Restore / Permanent Delete (`movetotrash`)
+ระบบรองรับการจัดการสถานะไฟล์ Excel และราคาที่อัปโหลด 3 ระดับผ่านคอลัมน์ `movetotrash`:
+- **`movetotrash = 0` (ปกติ / Active):**
+  - แสดงสถานะ "ใช้งานปกติ" (Badge เขียว)
+  - ข้อมูลราคาใน `service_price_list` ถูกนำไปใช้งานตามปกติ
+  - ผู้ใช้งานสามารถกดปุ่ม **`Move to Trash`** เพื่อย้ายลงถังขยะ
+- **`movetotrash = 1` (อยู่ในถังขยะ / Trash):**
+  - แสดงสถานะ "อยู่ในถังขยะ" (Badge เหลือง)
+  - ข้อมูลราคาใน `service_price_list` มี `movetotrash = 1` ทำให้ระบบดึงราคาในหน้าคนไข้ (Slide 1 & Slide 2) **ไม่นำเรคคอร์ดนี้มาคิดราคา**
+  - **Admin** จะเห็น 2 ปุ่ม:
+    1. **`Restore`**: กู้คืนกลับมาเป็นสถานะ `movetotrash = 0` ทั้งไฟล์และรายการราคา
+    2. **`Delete` (Permanent Delete)**: สั่งลบถาวร
+- **`movetotrash = 2` (ลบถาวร / Permanent Deleted):**
+  - แสดงสถานะ "Permanent Deleted" (Badge แดง พร้อมขีดฆ่าชื่อไฟล์)
+  - รายการราคาใน `service_price_list` ที่มี `price_id` ตรงกันถูกลบถาวร (`DELETE FROM service_price_list WHERE price_id = :id;`)
+  - **ไฟล์ Excel ตัวจริงยังคงถูกเก็บรักษาไว้บน Server (โฟลเดอร์ `nb_price_8c_uploads/`)** เป็นไฟล์ประวัติ Backup สามารถกดดาวน์โหลดได้ตลอดเวลา
+
+---
+
+### 3. แถวพิเศษสำหรับข้อมูลระบบเดิม (Legacy Data: `price_id = 0`)
+ในตารางประวัติไฟล์ Excel หากโรงพยาบาลที่เลือก (หรือตัวเลือกทั้งหมด) มีรายการราคาเดิมที่เคยนำเข้ามาก่อนระบบ Excel ID (`price_id = 0` หรือ `NULL`):
+- ระบบจะแทรกแถวพิเศษ **"legacy data (No excel file)"** ไว้ที่แถวล่างสุดของตารางโดยอัตโนมัติ
+- แสดงจำนวนรายการเดิม (`row_count`) และช่วงวันที่มีผล (`effective_date`)
+- **ปุ่ม Delete (Admin):** แสดงปุ่มสีแดงเพื่ออนุญาตให้ Admin ลบข้อมูลราคาเดิม (`price_id = 0`) ของโรงพยาบาลนั้นออกจาก `service_price_list` ได้อย่างปลอดภัย (เมื่อเลือก "แสดงทุกโรงพยาบาล" จะไม่แสดงปุ่ม Delete เพื่อความปลอดภัยของข้อมูลทั้งหมด)
+- **เงื่อนไขการแสดงผล:** หากโรงพยาบาลนั้นไม่มีรายการ `price_id = 0` อยู่เลย แถวนี้จะไม่ถูกแสดงบนหน้าจอ
 
 ---
 
@@ -208,13 +260,57 @@ Renders 8 visible columns synchronized with the Excel export/import headers, plu
 
 ---
 
-## 8. Downstream Integration in Pathology Workflows
+## 8. Downstream Integration in Pathology Workflows & Effective Date Resolution
 
 Data stored in `service_price_list` directly fuels patient specimen entry and billing generation:
 
-1. **Slide 1 / Specimen Selection (`ajax_slide1_specimen/getSpecimenList1.php`):**
-   Calls `ServicePriceList::getSpecimenByHospitalIDJoptypeSpecimen($conn, $hospital_id)` to populate the gross examination specimen dropdown where `jobtype IN (1, 4, 5, 8)`.
-2. **Slide 2 / Special Slide Selection (`ajax_slide2__special/getSpecimenList2.php`):**
-   Calls `ServicePriceList::getSpecimenByHospitalIDJoptypeSpecialStainging($conn, $hospital_id, $service_id)` to populate special stains dropdown where `jobtype IN (2, 3, 6, 7)`.
+1. **Slide 1 / Specimen Selection (`ajax_slide1_specimen/getSpecimenList1.php` & `specimenlist1.js`):**
+   Calls `ServicePriceList::getSpecimenByHospitalIDJoptypeSpecimen($conn, $hospital_id, $effective_date)` to populate the gross examination specimen dropdown where `jobtype IN (1, 4, 5, 8)`. 
+   - **Hospital isolation:** Queries exclusively for the specified `hospital_id` (does not automatically fallback to standard price `hospital_id = 0` if the hospital lacks updated rates).
+   - **Pricing Grouping & Max Price ID (Pure SQL):** Groups by specimen item (`speciment_num`) and selects the record with the maximum `price_id` (excel id) processed 100% inside SQL via MariaDB Window Functions:
+     ```sql
+     SELECT *
+     FROM (
+         SELECT *,
+                ROW_NUMBER() OVER (
+                    PARTITION BY speciment_num
+                    ORDER BY price_id DESC, effective_date DESC, id DESC
+                ) AS rn
+         FROM service_price_list
+         WHERE hospital_id = :hospital_id
+           AND (jobtype = 1 OR jobtype = 4 OR jobtype = 5 OR jobtype = 8)
+           AND effective_date <= :effective_date
+     ) AS t
+     WHERE t.rn = 1
+     ORDER BY t.id;
+     ```
+   - **Dropdown display format:** `<specimen>[<speciment_num>][price_<cost>][priceid_<id>][<effective_date>]` using square brackets `[]` (e.g. `Thyroidectomy...(lobectomy or subtotal or total)[38030][price_1200][priceid_7][2026-11-21]`).
+   - On adding a specimen, `price_id` is passed to `createBillingSpecimen1.php` and recorded in `service_billing.price_id`.
+
+2. **Slide 2 / Special Slide Selection (`ajax_slide2__special/getSpecimenList2.php` & `specialslide2.js`):**
+   Calls `ServicePriceList::getSpecimenByHospitalIDJoptypeSpecialStainging($conn, $hospital_id, $service_id, $effective_date)` to populate special stains dropdown where `jobtype IN (2, 3, 6, 7)`. 
+   - **Hospital isolation:** Queries exclusively for the specified `hospital_id`.
+   - **Pricing Grouping & Max Price ID (Pure SQL):** Groups by `jobtype` + `speciment_num` and selects the record with the maximum `price_id` processed 100% inside SQL via MariaDB Window Functions:
+     ```sql
+     SELECT *
+     FROM (
+         SELECT *,
+                ROW_NUMBER() OVER (
+                    PARTITION BY jobtype, speciment_num
+                    ORDER BY price_id DESC, effective_date DESC, id DESC
+                ) AS rn
+         FROM service_price_list
+         WHERE hospital_id = :hospital_id
+           -- if service_id == 0:
+           AND (jobtype = 2 OR jobtype = 3 OR jobtype = 6 OR jobtype = 7)
+           -- or if service_id != 0: AND (jobtype = :service_id)
+           AND effective_date <= :effective_date
+     ) AS t
+     WHERE t.rn = 1
+     ORDER BY t.id;
+     ```
+   - **Dropdown display format:** `<specimen>[<speciment_num>][price_<cost>][priceid_<id>][<effective_date>]` using square brackets `[]`.
+   - On adding a special stain, `price_id` is passed to `createBillingSpecimen2.php` and recorded in `service_billing.price_id`.
+
 3. **Billing Invoice (`service_billing`):**
-   Billing line items copy `code_description`, `description`, and `cost` directly from the records maintained in `service_price_list`.
+   Billing line items store `code_description`, `description`, `cost`, and **`price_id`** (excel id) directly from the selected record in `service_price_list`.

@@ -11,11 +11,11 @@ $cur_thai_time = Util::get_curreint_thai_date_time();
 
 $sql =  "".
         "INSERT INTO `service_price_list` ".
-        "(`id`, `number`, `speciment_num`, `jobtype`, `specimen`, `hospital_id`, `unit_count`, `price`, `comment`, `create_date`, `add_user_id`, `edit_user_id`, `service_des`) ".
+        "(`id`, `number`, `speciment_num`, `jobtype`, `specimen`, `hospital_id`, `unit_count`, `price`, `effective_date`, `comment`, `create_date`, `add_user_id`, `edit_user_id`, `service_des`) ".
         " VALUES ";
 
-//        " (NULL, '0', '0', '1', 'แแแแ', '0', 'แแแ', '0', 'ราคามาตรฐาน', '2023-03-19 11:57:17.000000', '0', '0'),".
-//        " (NULL, '0', '0', '1', 'กกกก', '0', 'แกแก', '0', 'ราคามาตรฐาน', '2023-03-19 11:57:17.000000', '2', '3')";
+//        " (NULL, '0', '0', '1', 'แแแแ', '0', 'แแแ', '0', '2020-01-01', 'ราคามาตรฐาน', '2023-03-19 11:57:17.000000', '0', '0'),".
+//        " (NULL, '0', '0', '1', 'กกกก', '0', 'แกแก', '0', '2020-01-01', 'ราคามาตรฐาน', '2023-03-19 11:57:17.000000', '2', '3')";
 $hospital_id = 0;
 $type_id = 0;
 foreach ($data as $key => $d) {
@@ -23,6 +23,7 @@ foreach ($data as $key => $d) {
 //    var_dump($e);
     $hospital_id = $e->hospital_id;
     $type_id = $e->jobtype;
+    $startDateVal = (isset($e->start_date) && preg_match('/^\d{4}-\d{2}-\d{2}$/', trim($e->start_date))) ? trim($e->start_date) : date('Y-01-01');
     $sql = $sql .
             "\n(NULL, '" .
             $e->number . "', '" .
@@ -32,6 +33,7 @@ foreach ($data as $key => $d) {
             $e->hospital_id . "', '" .
             $e->unit_count . "', '" .
             str_replace(',', '', $e->price) . "', '" .
+            $startDateVal . "', '" .
             addslashes($e->comment) . "', '" .
             $cur_thai_time . "', '" .
             $e->add_user_id . "', '" .

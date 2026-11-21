@@ -72,73 +72,69 @@ if ($hide) {
 
 <div class="container-fluid pt-4 px-4">
     <div class="row bg-info rounded align-items-center justify-content-left p-3 mx-1">
-        <h1>Price list of <span class="nb_price_hospital_txt"></span></h1>
-        <div class="col-auto mb-2">
-            <button name="nb_price_del_btn_8c" id="nb_price_del_btn_8c" type="button" class="btn btn-primary">&nbsp;&nbsp;delete&nbsp;&nbsp;</button>
+        <div class="col-auto">
+            <h1 class="mb-0">Price list of <span class="nb_price_hospital_txt"></span></h1>
         </div>
         <div class="col-auto ms-auto mb-2 d-flex align-items-center gap-2 flex-wrap">
-            <div class="form-check mb-0 me-1 bg-white px-2 py-1 rounded border">
-                <input class="form-check-input ms-0 me-1" type="checkbox" value="1" id="nb_price_replace_chk_8c" checked disabled readonly>
-                <label class="form-check-label small fw-bold text-dark" for="nb_price_replace_chk_8c" title="หากติ๊กถูก จะลบรายการราคาเดิมของโรงพยาบาล/ชนิดที่เลือกก่อนนำเข้าข้อมูลจากไฟล์ Excel">
-                    ทับข้อมูลเดิมเมื่ออัปโหลด
-                </label>
+            <div class="d-flex align-items-center gap-2 p-1 px-2 rounded border border-dark bg-white shadow-sm">
+                <div class="d-flex align-items-center gap-1">
+                    <label for="nb_price_start_date_8c" class="form-label mb-0 small fw-bold text-dark text-nowrap">มีผลตั้งแต่วันที่ (Effective Date): <span class="text-danger">*</span></label>
+                    <input type="date" name="nb_price_start_date_8c" id="nb_price_start_date_8c" class="form-control form-control-sm" value="" required title="กรุณาเลือกวันที่มีผลบังคับใช้ของราคา (Effective Date) ก่อนอัปโหลดไฟล์">
+                </div>
+                <input type="file" id="nb_price_upload_input_8c" accept=".xlsx,.xls" style="display:none;">
+                <button name="nb_price_upload_btn_8c" id="nb_price_upload_btn_8c" type="button" class="btn btn-warning btn-sm text-dark fw-bold text-nowrap">
+                    <i class="fa-solid fa-file-arrow-up me-1"></i>Upload Excel
+                </button>
             </div>
-            <input type="file" id="nb_price_upload_input_8c" accept=".xlsx,.xls" style="display:none;">
-            <button name="nb_price_upload_btn_8c" id="nb_price_upload_btn_8c" type="button" class="btn btn-warning text-dark fw-bold">
-                <i class="fa-solid fa-file-arrow-up me-1"></i>Upload Excel
-            </button>
             <button name="nb_price_excel_btn_8c" id="nb_price_excel_btn_8c" type="button" class="btn btn-success">
                 <i class="fa-solid fa-file-excel me-1"></i>Download Excel
             </button>
         </div>
 
 
-        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary">
+        <div class="bg-nb bg-blue-a rounded align-items-center justify-content-center p-3 mx-1 border border-secondary table-responsive">
 
-            <style>
-                table,
-                th,
-                td {
-                    /*padding: 10px;*/
-                    border: 1px solid black;
-                    border-collapse: collapse;
-                }
-            </style>
-            <table class="" id="nb_price_tbl_8c">
+            <table class="table table-hover table-striped table-bordered text-nowrap align-middle w-100" id="nb_price_tbl_8c">
                 <thead>
                     <tr>
-                        <th style="display:none;"> row_id </th>
-                        <th style="display:none;"> hospital </th>
+                        <th> row_id </th>
+                        <th> hospital </th>
                         <th> ลำดับ<br>(number) </th>
                         <th> โค้ด<br>(code) </th>
                         <th> รายการ<br>(detail) </th>
                         <th> ต่อหน่วย<br>(unit) </th>
                         <th> ราคา<br>(price) </th>
+                        <th> วันที่มีผล<br>(effective date) </th>
+                        <th> price id<br>(excel id) </th>
                         <th> คอมเม้นท์<br>(comment) </th>
                         <th> ไอดีชนิด<br>(type) </th>
                         <th> ชนิดของรายการ<br>(type Description) </th>
-                        <th style="display:none;"> create date </th>
+                        <th> create date </th>
                         <th> add<br>(by) </th>
                         <th> edit<br>(by) </th>
+                        <th> วันที่บันทึกระบบ<br>(stampdatecreate) </th>
                     </tr>
                 </thead>
                 <tbody id="">
                     <?php if ($hide) : ?>
                         <?php foreach ($nbprices as $p) : ?>
                             <tr>
-                                <td style="display:none;"> <?= $p['id'] ?> </td>
-                                <td style="display:none;"> <?= $p['hospital_id'] ?> </td>
+                                <td> <?= $p['id'] ?> </td>
+                                <td> <?= $p['hospital_id'] ?> </td>
                                 <td> <?= $p['number'] ?> </td>
                                 <td> <?= $p['speciment_num'] ?> </td>
                                 <td> <?= $p['specimen'] ?> </td>
                                 <td> <?= $p['unit_count'] ?> </td>
                                 <td> <?= $p['price'] ?> </td>
+                                <td> <?= $p['effective_date'] ?? $p['start_date'] ?? '-' ?> </td>
+                                <td> <?= $p['price_id'] ?? 0 ?> </td>
                                 <td> <?= $p['comment'] ?> </td>
                                 <td> <?= $p['jobtype'] ?> </td>
                                 <td> <?= $p['service_des'] ?> </td>
-                                <td style="display:none;"> <?= $p['create_date'] ?> </td>
+                                <td> <?= $p['create_date'] ?> </td>
                                 <td> <?= $p['add_user_id'] ?> </td>
                                 <td> <?= $p['edit_user_id'] ?> </td>
+                                <td> <?= $p['stampdatecreate'] ?? '-' ?> </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -212,8 +208,8 @@ if ($hide) {
             <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
                 <label for="nb_price_history_filter_8c" class="fw-bold mb-0">แสดงประวัติ:</label>
                 <select id="nb_price_history_filter_8c" class="form-select form-select-sm" style="width:auto;">
-                    <option value="-1" selected>ทุกโรงพยาบาล (ทั้งหมด)</option>
-                    <option value="selected">เฉพาะโรงพยาบาลที่เลือกด้านบน</option>
+                    <option value="selected" selected>เฉพาะโรงพยาบาลที่เลือกด้านบน</option>
+                    <option value="-1">ทุกโรงพยาบาล (ทั้งหมด)</option>
                 </select>
             </div>
         </div>
@@ -221,18 +217,20 @@ if ($hide) {
             <table class="w-100" id="nb_price_excel_history_tbl_8c">
                 <thead>
                     <tr>
-                        <th> ลำดับ </th>
+                        <th> ลำดับ (Excel ID) </th>
                         <th> โรงพยาบาล </th>
                         <th> ชื่อไฟล์ (ตั้งตาม รพ. และวันที่อัปโหลด) </th>
                         <th> จำนวนรายการ </th>
+                        <th> วันที่มีผล<br>(effective date) </th>
                         <th> ผู้อัปโหลด </th>
                         <th> วันที่อัปโหลด </th>
+                        <th> สถานะ / จัดการ </th>
                         <th> ดาวน์โหลด </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="7" class="text-center">กำลังโหลดข้อมูล...</td>
+                        <td colspan="8" class="text-center">กำลังโหลดข้อมูล...</td>
                     </tr>
                 </tbody>
             </table>
@@ -250,8 +248,11 @@ if ($hide) {
 
 <?php require 'includes/footer.php'; ?>
 
+<script>
+    var isCurUserAdmin = <?= $isCurUserAdmin ? 'true' : 'false' ?>;
+</script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="<?= Url::getSubFolder1() ?>/ajax_nb_price_8c/nb_price_8c.js?v10x"></script>
+<script src="<?= Url::getSubFolder1() ?>/ajax_nb_price_8c/nb_price_8c.js?v26_fix_restore_event"></script>
 <script>
     $("#manage_table_dropdown").addClass("show");
     $("#manage_table").addClass("active");

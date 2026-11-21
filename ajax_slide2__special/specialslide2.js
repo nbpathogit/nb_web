@@ -34,7 +34,10 @@ function refreshDetailOfPrice(value) {
                 $('#specimen_num2').val(datajson[i].speciment_num);
                 $('#specimen_for_specimen2').val(datajson[i].specimen);
                 $('#price_for_specimen2').val(datajson[i].price);
-                $('#comment_for_specimen2').val('');
+                window.cur_slide2_price_id = (datajson[i].price_id !== undefined && datajson[i].price_id !== null) ? datajson[i].price_id : 0;
+                var rawComment = (datajson[i].comment || '').trim();
+                var finalComment = (rawComment ? rawComment + ' ' : '') + '[priceid_' + window.cur_slide2_price_id + ']';
+                $('#comment_for_specimen2').val(finalComment);
                 $('#comment_note').val(datajson[i].comment);
                 $('#job_type').val(datajson[i].jobtype);
                 
@@ -60,7 +63,7 @@ function refreshDetailOfPrice(value) {
 
 //Update 
 function clearDetailOfPrice() {
-    
+    window.cur_slide2_price_id = 0;
     $('#specimen_num2').val('');
     $('#specimen_num2').prop('readonly', true);
     $('#specimen_for_specimen2').val('');
@@ -174,9 +177,24 @@ function updateSelectionSpeceman2Type(isalert) {
 }
 
 
+function getCurEffectiveDate2() {
+    var effDate = '';
+    if ($('.cur_date_1000').length && $('.cur_date_1000').attr('tabindex')) {
+        effDate = $('.cur_date_1000').attr('tabindex');
+    } else if ($('#date_1000_id').length && $('#date_1000_id').val()) {
+        effDate = $('#date_1000_id').val();
+    } else if ($('input[name="date_1000"]').length && $('input[name="date_1000"]').val()) {
+        effDate = $('input[name="date_1000"]').val();
+    } else if ($('#date_1000').length && $('#date_1000').val()) {
+        effDate = $('#date_1000').val();
+    }
+    return effDate ? String(effDate).trim().substring(0, 10) : '';
+}
+
 //update drop down list of specimen2 of price
 function updateSelectionSpeceman2(isalert,service_id) {
     let hospital_id = $('#phospital_select_for_price2 option').filter(':selected').val();
+    let effective_date = getCurEffectiveDate2();
 
     //alert(hospital_id);
     $.ajax({
@@ -186,7 +204,8 @@ function updateSelectionSpeceman2(isalert,service_id) {
         url: 'ajax_slide2__special/getSpecimenList2.php',
         data: {
             'hospital_id': hospital_id,
-            'service_id': service_id
+            'service_id': service_id,
+            'effective_date': effective_date
         },
         success: function (data) {
             if(data[0] != "["){
@@ -225,7 +244,13 @@ function updateSelectionSpeceman2(isalert,service_id) {
                 for (var i in datajson)
                 {
   
-                    $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '(' + datajson[i].speciment_num + ')</option>');
+                    var effDate = (datajson[i].effective_date || datajson[i].start_date || '').trim();
+                    var priceCost = (datajson[i].price !== undefined && datajson[i].price !== null) ? datajson[i].price : 0;
+                    var priceId = (datajson[i].price_id !== undefined && datajson[i].price_id !== null) ? datajson[i].price_id : 0;
+                    var priceCostLabel = '[price_' + priceCost + ']';
+                    var priceIdLabel = '[priceid_' + priceId + ']';
+                    var effDateLabel = effDate ? '[' + effDate + ']' : '';
+                    $('#pspecimen_for_select2').append('<option value="' + datajson[i].id + '" price="' + datajson[i].price + '" price_id="' + priceId + '" specimen_num="' + datajson[i].speciment_num + '" comment="' + datajson[i].comment + '" specimen="' + datajson[i].specimen + '">' + datajson[i].specimen + '[' + datajson[i].speciment_num + ']' + priceCostLabel + priceIdLabel + effDateLabel + '</option>');
                     
                 }
                 $('#pspecimen_for_select2').prop('disabled', false);
@@ -339,7 +364,8 @@ $("#add_spcimen_list2").on("click", function () {
 
     var e = document.getElementById("pspecimen_for_select2");
     var specimen_id = e.value;
-    var specimen_text_selected = e.options[e.selectedIndex].text;
+    var specimen_text_selected = e.options[e.selectedIndex] ? e.options[e.selectedIndex].text : '';
+    var price_id = (window.cur_slide2_price_id !== undefined && window.cur_slide2_price_id !== null) ? window.cur_slide2_price_id : 0;
 
     var specimen_text = document.getElementById("specimen_for_specimen2").value;
     var specimen_num = document.getElementById("specimen_num2").value;
@@ -396,6 +422,7 @@ $("#add_spcimen_list2").on("click", function () {
             'blox_name':block_sp2,
             'cur_pnum': cur_pnum,
             'specimen_id': specimen_id,
+            'price_id': price_id,
             'specimen_num': specimen_num,//specimen code
             'specimen_text': specimen_text,
             'price_for_specimen': price_for_specimen,

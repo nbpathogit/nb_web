@@ -46,6 +46,7 @@ class ServiceBilling {
     public $send_doctor; //varchar(32)	
     public $pathologist; //varchar(32)	
     public $cost;        //int(11)		
+    public $price_id = 0; //int(11) excel id
     public $comment;     //text	    
     public $create_date;     
 
@@ -3075,8 +3076,8 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
     public function create($conn) {
         $cur_thai_time = Util::get_curreint_thai_date_time();
         //$specimen_id
-        $sql = "INSERT INTO `service_billing` (`id`, `req_date` ,`req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `comment`,`create_date`) \n"
-        . "VALUES                     (NULL, NULL , :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :comment , '{$cur_thai_time}' )";
+        $sql = "INSERT INTO `service_billing` (`id`, `req_date` ,`req_id`, `specimen_id` , `patient_id`, `number`, `name`, `lastname`, `slide_type`, `code_description`, `description`,   `nm_slide_count` ,  `sp_slide_block` ,  `sp_slide_count` ,  `import_date`, `report_date`, " ./*`hospital`,*/" `hospital_id`, `hn`, `send_doctor`, `pathologist`, `cost`, `price_id`, `comment`,`create_date`) \n"
+        . "VALUES                     (NULL, NULL , :req_id , :specimen_id  , :patient_id,  :number , :name , :lastname,  :slide_type , :code_description , :description ,   :nm_slide_count  ,   :sp_slide_block ,  :sp_slide_count  ,  :import_date , :report_date, "./*:hospital,*/"  :hospital_id,  :hn,  :send_doctor , :pathologist , :cost, :price_id, :comment , '{$cur_thai_time}' )";
 
 
         if($GLOBALS['isSqlWriteFileForDBG']){
@@ -3107,6 +3108,7 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
         $stmt->bindValue(':send_doctor',$this->send_doctor ,PDO::PARAM_STR);      //varchar(32)	
         $stmt->bindValue(':pathologist',$this->pathologist ,PDO::PARAM_STR);      //varchar(32)	
         $stmt->bindValue(':cost'       ,$this->cost        ,PDO::PARAM_STR);      //int(11)		
+        $stmt->bindValue(':price_id'   ,(int)$this->price_id,PDO::PARAM_INT);      //int(11) excel id
         $stmt->bindValue(':comment'    ,$this->comment     ,PDO::PARAM_STR);      //text	
 
         //var_dump($stmt);
