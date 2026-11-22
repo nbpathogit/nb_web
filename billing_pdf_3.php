@@ -53,8 +53,8 @@ $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01",
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
         <label for="phospital_id_bill" class="">โรงพยาบาล</label>
-        <select name="phospital_id_bill" id="phospital_id_bill" class="form-select">
-            <!--<option value="กรุณาเลือก">กรุณาเลือกโรงพยาบาล</option>-->
+        <select name="phospital_id_bill" id="phospital_id_bill" placeholder="พิมพ์ค้นหาหรือเลือกโรงพยาบาล">
+            <option value=""></option>
             <?php foreach ($hospitals as $hospital) : ?>
                 <?php //Target Format : <option value="1">โรงพยาบาลรวมแพทย์</option> 
                 ?>
@@ -480,8 +480,8 @@ function setCode2(billing_id) {
 $("#btn_get_bill_by_range").on("click", function (e) {
     e.preventDefault();
 
-    var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
-    var hospital_name = $("#phospital_id_bill option").filter(":selected").text();
+    var hospital_id = $("#phospital_id_bill").val();
+    var hospital_name = $("#phospital_id_bill option:selected").text();
     var startdate = $("#startdate_billing").val();
     var enddate = $("#enddate_billing").val();
 //    alert(startdate.substr(0, 4) + " " + startdate.substr(5, 2) + " " + startdate.substr(8, 2));
@@ -1755,6 +1755,14 @@ function drawbillingTable(datajson) {
 $(document).ready(function () {
 
     $('#nb_navbar_top').removeClass("sticky-top");
+
+    var $selectHospital = $('#phospital_id_bill').selectize({
+        sortField: 'text',
+        placeholder: 'พิมพ์ค้นหาหรือเลือกโรงพยาบาล'
+    });
+    if ($selectHospital.length > 0 && $selectHospital[0].selectize) {
+        $selectHospital[0].selectize.clear();
+    }
 
 
     $('#modalIncreaseQty').on("click", function (e) {
