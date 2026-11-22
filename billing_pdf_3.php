@@ -14,9 +14,9 @@ $hospitals = Hospital::getAll($conn);
     <?php require 'blockopen.php'; ?>
     You are not login.
     <?php require 'blockclose.php'; ?>
-<?php elseif (($isCurUserClinicianCust || $isCurUserHospitalCust) && !$isUnderCurHospital) : ?>
+<?php elseif ($isCurUserCust && empty($_SESSION['user']->uhospital_id)) : ?>
     <?php require 'blockopen.php'; ?>
-    You have no authorize to view this section.
+    You have no authorize to view this section (No hospital assigned).
     <?php require 'blockclose.php'; ?>
 <?php endif; ?>
 
@@ -41,7 +41,7 @@ $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01",
 ?>
 <?php require 'includes/header.php'; ?>
 
-<h1 align="center">สร้างใบแจ้งหนี้ V3</h1>
+<h1 align="center"><?= $isCurUserCust ? "รายการบริการ" : "สร้างใบแจ้งหนี้ V3 และ รายการบริการ" ?></h1>
 
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
@@ -49,6 +49,7 @@ $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01",
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
 
+<div id="section_filter_date_hospital">
 <?php require 'includes/opencontainer.php'; ?>
 <div class="row <?= $isBorder ? "border" : "" ?>">
     <div class="col-xl-4 col-md-6 <?= $isBorder ? "border" : "" ?>">
@@ -97,9 +98,11 @@ $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01",
     </div>
 </div>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 
 
+<div id="section_billing_params_inputs"<?= $isCurUserCust ? ' style="display:none;"' : '' ?>>
 <?php require 'includes/opencontainer.php'; ?>
 invoice_sub_number : <input name="bill_invoice_sub_number" id="bill_invoice_sub_number" size="100" placeholder="ใส่เล่มที่ใบแจ้งหนี้"><br>
 invoice_number : <input name="bill_hospital_invoice_number" id="bill_hospital_invoice_number" size="100" placeholder="ใส่เลขที่ใบแจ้งหนี้"><br>
@@ -158,6 +161,7 @@ Name of manager : <input name="bill_manager" id="bill_manager" size="100"><br>
 <button name="btn_export_bill_pdf" id="btn_export_bill_pdf" type="submit" class="btn btn-primary">&nbsp;&nbsp;4) Generate official pdf&nbsp;&nbsp;</button>
 
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 
 <!---------------------------------------------------------------------------------------->
@@ -165,6 +169,7 @@ Name of manager : <input name="bill_manager" id="bill_manager" size="100"><br>
 <!------------------- 1. หนังสือนำและใบแจ้งหนี้ (1)"------------------------------------------>
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
+<div id="section_preview_page1"<?= $isCurUserCust ? ' style="display:none;"' : '' ?>>
 <?php require 'includes/opencontainer.php'; ?>
 <?php
 $str1 = file_get_contents('pdf_invoice/billingletter1_3.php');
@@ -177,6 +182,7 @@ echo $str1;
 echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 
 
@@ -185,6 +191,7 @@ echo '</span>';
 <!-------------------1. หนังสือนำและใบแจ้งหนี้ "ต้นฉบับ"------------------------------------------>
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
+<div id="section_preview_page2"<?= $isCurUserCust ? ' style="display:none;"' : '' ?>>
 <?php require 'includes/opencontainer.php'; ?>
 <?php
 $str1 = file_get_contents('pdf_invoice/billingletterinvoice_3.php');
@@ -198,13 +205,14 @@ echo $str1;
 echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
 <!-------------------1. หนังสือนำและใบแจ้งหนี้ "สำเนา"------------------------------------------->
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
-
+<div id="section_preview_page3"<?= $isCurUserCust ? ' style="display:none;"' : '' ?>>
 <?php require 'includes/opencontainer.php'; ?>
 <?php
 $str1 = file_get_contents('pdf_invoice/billingletterinvoice_3.php');
@@ -218,13 +226,24 @@ echo $str1;
 echo '</span>';
 ?>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
 <!--2. List รายการตรวจเรียงตาม surgical number (SN, IN, CN, FN, DN, PN, LN) แต่ละ รพ ในช่วงนั้น-->
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
+<div id="section_preview_page4">
 <?php require 'includes/opencontainer.php'; ?>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#group2_section_collapse" aria-expanded="false" aria-controls="group2_section_collapse">
+        2) ซ่อน/แสดง
+    </button>
+    <button type="button" id="btn_export_excel_page4" class="btn btn-success btn-sm">
+        <i class="fa-solid fa-file-excel me-1"></i> ดาวน์โหลดตารางเป็น Excel (.xlsx)
+    </button>
+</div>
+<div id="group2_section_collapse" class="collapse">
 <?php
 $str1 = file_get_contents('pdf_invoice/billinngListAll_g2_3.php');
 
@@ -234,10 +253,22 @@ echo '<span id="bill_page4">';
 echo $str1;
 echo '</span>';
 ?>
+</div>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 <!--//3. สรุปจำนวนแต่ละรายการสิ่งส่งตรวจและย้อมพิเศษในช่วงนั้น (นับตามรหัสกรมบัญชีกลาง)-->
+<div id="section_preview_page5">
 <?php require 'includes/opencontainer.php'; ?>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#group3_section_collapse" aria-expanded="false" aria-controls="group3_section_collapse">
+        3) ซ่อน/แสดง
+    </button>
+    <button type="button" id="btn_export_excel_page5" class="btn btn-success btn-sm">
+        <i class="fa-solid fa-file-excel me-1"></i> ดาวน์โหลดตารางเป็น Excel (.xlsx)
+    </button>
+</div>
+<div id="group3_section_collapse" class="collapse">
 <?php
 $str1 = file_get_contents('pdf_invoice/billinngListAll_g3_3.php');
 
@@ -246,13 +277,21 @@ echo '<span id="bill_page5">';
 echo $str1;
 echo '</span>';
 ?>
+</div>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 <!--//4. สรุปจำนวนแต่ละรายการสิ่งส่งตรวจและย้อมพิเศษในช่วงนั้น (นับตามรหัสกรมบัญชีกลาง)-->
+<div id="section_preview_page6">
 <?php require 'includes/opencontainer.php'; ?>
-<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#group4_section_collapse" aria-expanded="false" aria-controls="group4_section_collapse">
-4) ซ่อน/แสดง
-</button>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#group4_section_collapse" aria-expanded="false" aria-controls="group4_section_collapse">
+        4) ซ่อน/แสดง
+    </button>
+    <button type="button" id="btn_export_excel_page6" class="btn btn-success btn-sm">
+        <i class="fa-solid fa-file-excel me-1"></i> ดาวน์โหลดตารางเป็น Excel (.xlsx)
+    </button>
+</div>
 <div id="group4_section_collapse" class="collapse">
 <?php
 $str1 = file_get_contents('pdf_invoice/billinngListAll_g4_3.php');
@@ -264,10 +303,16 @@ echo '</span>';
 ?>
 </div>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 
 
 
+<div id="section_reference_datatable">
 <?php require 'includes/opencontainer.php'; ?>
+<button class="btn btn-primary mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#reference_datatable_collapse" aria-expanded="false" aria-controls="reference_datatable_collapse">
+    5) ซ่อน/แสดง ตารางรายการอ้างอิง
+</button>
+<div id="reference_datatable_collapse" class="collapse">
 
 
 <style>
@@ -342,20 +387,26 @@ echo '</span>';
   </div>
 </div>
 
-
+</div>
 <?php require 'includes/closecontainer.php'; ?>
+</div>
 <span id="tempform"></span>
 
 <?php require 'includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <!--<script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
     var skey = "<?= $_SESSION['skey']; ?>";
     // set active tab
-    $("#admin_dropdown").addClass("show");
-    $("#admin_tab").addClass("active");
+    <?php if ($isCurUserCust): ?>
+    $("#billing_service_cust_tab").addClass("active");
+    <?php else: ?>
+    $("#manage_bill_dropdown").addClass("show");
+    $("#manage_bill").addClass("active");
     $("#billing_pdf_tab_3").addClass("active");
+    <?php endif; ?>
     
     $(function() {
         $("#startdate_billing").datepicker({
@@ -1756,12 +1807,21 @@ $(document).ready(function () {
 
     $('#nb_navbar_top').removeClass("sticky-top");
 
+    var isCurUserCust = <?= $isCurUserCust ? 'true' : 'false' ?>;
+    var userCustHospId = <?= (!empty($_SESSION['user']->uhospital_id)) ? intval($_SESSION['user']->uhospital_id) : 0 ?>;
+
     var $selectHospital = $('#phospital_id_bill').selectize({
         sortField: 'text',
         placeholder: 'พิมพ์ค้นหาหรือเลือกโรงพยาบาล'
     });
     if ($selectHospital.length > 0 && $selectHospital[0].selectize) {
-        $selectHospital[0].selectize.clear();
+        var selectizeInstance = $selectHospital[0].selectize;
+        if (isCurUserCust && userCustHospId > 0) {
+            selectizeInstance.setValue(userCustHospId);
+            selectizeInstance.disable();
+        } else {
+            selectizeInstance.clear();
+        }
     }
 
 
@@ -1777,6 +1837,60 @@ $(document).ready(function () {
         newVal -= 1;
         $('#modal_number_input').val(newVal);
 
+    });
+
+    // Download table G2 (Page 4) as Excel
+    $('#btn_export_excel_page4').on('click', function () {
+        var tableElement = document.querySelector('#bill_list_all_g2 table');
+        if (!tableElement) {
+            alert('ไม่พบข้อมูลตาราง กรุณากดปุ่ม 1) preview bill by date range ก่อนดาวน์โหลด');
+            return;
+        }
+
+        var hospital_name = $("#phospital_id_bill option:selected").text().trim() || "Hospital";
+        var startdate = $("#startdate_billing").val().trim();
+        var enddate = $("#enddate_billing").val().trim();
+        var filename = "รายการนับตาม_SN_" + hospital_name + "_" + startdate + "_to_" + enddate + ".xlsx";
+
+        // Convert HTML table to XLSX workbook
+        var wb = XLSX.utils.table_to_book(tableElement, { sheet: "รายการนับตาม_SN" });
+        XLSX.writeFile(wb, filename);
+    });
+
+    // Download table G3 (Page 5: 3. สรุปจำนวนตามรหัสกรมบัญชีกลาง) as Excel
+    $('#btn_export_excel_page5').on('click', function () {
+        var tableElement = document.querySelector('#bill_list_all_g3 table');
+        if (!tableElement) {
+            alert('ไม่พบข้อมูลตาราง กรุณากดปุ่ม 1) preview bill by date range ก่อนดาวน์โหลด');
+            return;
+        }
+
+        var hospital_name = $("#phospital_id_bill option:selected").text().trim() || "Hospital";
+        var startdate = $("#startdate_billing").val().trim();
+        var enddate = $("#enddate_billing").val().trim();
+        var filename = "สรุปตามรหัสตรวจ_" + hospital_name + "_" + startdate + "_to_" + enddate + ".xlsx";
+
+        // Convert HTML table to XLSX workbook
+        var wb = XLSX.utils.table_to_book(tableElement, { sheet: "สรุปตามรหัสตรวจ" });
+        XLSX.writeFile(wb, filename);
+    });
+
+    // Download table G4 (Page 6: 4. แจกแจงทุกรายการบริการ) as Excel
+    $('#btn_export_excel_page6').on('click', function () {
+        var tableElement = document.querySelector('#bill_list_all_g4 table');
+        if (!tableElement) {
+            alert('ไม่พบข้อมูลตาราง กรุณากดปุ่ม 1) preview bill by date range ก่อนดาวน์โหลด');
+            return;
+        }
+
+        var hospital_name = $("#phospital_id_bill option:selected").text().trim() || "Hospital";
+        var startdate = $("#startdate_billing").val().trim();
+        var enddate = $("#enddate_billing").val().trim();
+        var filename = "แจกแจงทุกรายการบริการ_" + hospital_name + "_" + startdate + "_to_" + enddate + ".xlsx";
+
+        // Convert HTML table to XLSX workbook
+        var wb = XLSX.utils.table_to_book(tableElement, { sheet: "แจกแจงทุกรายการบริการ" });
+        XLSX.writeFile(wb, filename);
     });
 
 

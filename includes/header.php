@@ -127,6 +127,9 @@ if ($cur_user_hosp_id > 0) {
                     <a id="addpatienttab" class="nav-item nav-link" href="patient_add.php"><i class="fa-solid fa-bed"></i>เพิ่มข้อมูลผู้รักษา</a>
                     <?php endif; ?>
                     <a id="patienttab" class="nav-item nav-link" href="patient.php"><i class="fa-solid fa-bed"></i>ข้อมูลผู้รักษา</a>
+                    <?php if (isset($isCurUserCust) && $isCurUserCust): ?>
+                    <a id="billing_service_cust_tab" class="nav-item nav-link" href="billing_pdf_3.php"><i class="fa-solid fa-file-invoice-dollar"></i>รายการบริการ</a>
+                    <?php endif; ?>
                     <div class="nav-item dropdown">
                     <a href="" id="dashbroad_tab" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-gauge-high"></i>แดชบอร์ด</a>
                     <div id="dashbroad_dropdown" class="dropdown-menu bg-transparent border-0 dashbroad_dropdown">
@@ -142,7 +145,7 @@ if ($cur_user_hosp_id > 0) {
                                 <a id="curdate_sim_admin_tab" href="curdate_sim_admin.php" class="dropdown-item">จำลองวันที่ปัจจุบัน</a>
                                 <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="dropdown-item">ดึงสรุปข้อมูลการออกผลPN</a>
                                 <a id="chart_data_tab" href="chart_data.php" class="dropdown-item">chart data</a>
-                                <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="dropdown-item">ออกใบแจ้งหนี้ V3(PDF)</a>
+                               
                                 <a id="systemchecking_tab" href="systemchecking.php" class="dropdown-item">ตรวจสอบคำสั่งระบบ</a>
                                 <a id="dbtosqlfile_tab" href="dbtosqlfile.php" class="dropdown-item">แบคอัพฐานข้อมูล (SQL)</a>
                                 
@@ -217,6 +220,7 @@ if ($cur_user_hosp_id > 0) {
                             <div class="dropdown-menu bg-transparent border-0 manage_bill_dropdown" id="manage_bill_dropdown">
                                 <!--<a id="billing_pdf_tab" href="billing_pdf.php" class="dropdown-item">ออกใบแจ้งหนี้(PDF)</a>-->
                                 <a id="billing_pdf_tab_2" href="billing_pdf_2.php" class="dropdown-item">ออกใบแจ้งหนี้ V2(PDF)</a>
+                                <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="dropdown-item">ออกใบแจ้งหนี้ V3(PDF)</a>
                                 <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="dropdown-item">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>
                                 <a id="billing_pdf_cyto_tab" href="billing_by_cytologist_pdf.php" class="dropdown-item">กรองข้อมูลตามนักเซลล์(PDF)</a>
                                 <a id="billing_tab" href="billing.php" class="dropdown-item">ดูรายการใบแจ้งหนี้ในแต่ละผู้รักษา(ดึงตามวันรับเข้า)</a>
