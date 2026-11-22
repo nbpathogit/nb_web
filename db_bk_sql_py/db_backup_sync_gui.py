@@ -89,8 +89,10 @@ def get_imported_set():
 
 def add_imported_file(fname):
     try:
-        with open(IMPORTED_LIST_FILE, "a", encoding="utf-8") as f:
-            f.write(f"{fname}\n")
+        current = get_imported_set()
+        if fname not in current:
+            with open(IMPORTED_LIST_FILE, "a", encoding="utf-8") as f:
+                f.write(f"{fname}\n")
     except Exception as e:
         print("Error saving imported file:", e)
 
@@ -99,8 +101,8 @@ class BackupSyncApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("NB Patho - Database Backup Syncer & Importer")
-        self.geometry("980x750")
-        self.minsize(850, 650)
+        self.geometry("1020x780")
+        self.minsize(920, 680)
 
         self.config_data = load_config()
 
@@ -274,20 +276,45 @@ class BackupSyncApp(tk.Tk):
         self.var_mysql_bin = tk.StringVar()
         ttk.Entry(db_grid, textvariable=self.var_mysql_bin, width=24).grid(row=1, column=5, sticky=tk.W, padx=4, pady=2)
 
-        # Save config button row
-        act_row = ttk.Frame(top_frame)
-        act_row.pack(side=tk.TOP, fill=tk.X, pady=(2, 6))
+        # Action Control Panel
+        ops_group = ttk.LabelFrame(top_frame, text=" ⚡ การจัดการไฟล์และการนำเข้าข้อมูล (File & DB Actions) ", padding=8)
+        ops_group.pack(side=tk.TOP, fill=tk.X, pady=(2, 6))
 
-        self.lbl_status = ttk.Label(act_row, text="สถานะ: พร้อมทำงาน", foreground="#0d6efd", font=("Segoe UI", 9, "bold"))
+        # Status & Utility Row
+        row_stat = ttk.Frame(ops_group)
+        row_stat.pack(fill=tk.X, pady=(0, 6))
+
+        self.lbl_status = ttk.Label(row_stat, text="สถานะ: พร้อมทำงาน", foreground="#0d6efd", font=("Segoe UI", 9, "bold"))
         self.lbl_status.pack(side=tk.LEFT)
 
-        btn_save_cfg = ttk.Button(act_row, text="💾 บันทึกการตั้งค่า (Save Config)", command=self.action_save_config)
+        btn_save_cfg = ttk.Button(row_stat, text="💾 บันทึกการตั้งค่า (Save Config)", command=self.action_save_config)
         btn_save_cfg.pack(side=tk.RIGHT, padx=4)
 
-        btn_clear_log = ttk.Button(act_row, text="ล้างข้อความคอนโซล", command=self.action_clear_console)
+        btn_clear_log = ttk.Button(row_stat, text="🧹 ล้างข้อความคอนโซล", command=self.action_clear_console)
         btn_clear_log.pack(side=tk.RIGHT, padx=4)
 
-        btn_import_only = ttk.Button(act_row, text="⚡ อัปเดต SQL ที่ค้างอยู่เข้าฐานข้อมูล", command=self.action_import_pending_now)
+        # Buttons Row: File & DB Operations
+        row_btns = ttk.Frame(ops_group)
+        row_btns.pack(fill=tk.X, pady=2)
+
+        # 1. delete local all
+        btn_del_local = ttk.Button(row_btns, text="🗑️ delete local all", command=self.action_delete_local_all)
+        btn_del_local.pack(side=tk.LEFT, padx=(0, 4))
+
+        # 2. download remain
+        btn_dl_remain = ttk.Button(row_btns, text="⬇️ download remain", command=self.action_download_remain)
+        btn_dl_remain.pack(side=tk.LEFT, padx=4)
+
+        # 3. download all
+        btn_dl_all = ttk.Button(row_btns, text="⏬ download all", command=self.action_download_all)
+        btn_dl_all.pack(side=tk.LEFT, padx=4)
+
+        # 4. import (ทั้งหมด ทันที)
+        btn_imp_all = ttk.Button(row_btns, text="🔥 import (ทั้งหมด ทันที)", command=self.action_force_import_all_now)
+        btn_imp_all.pack(side=tk.RIGHT, padx=(4, 0))
+
+        # 5. import pending
+        btn_import_only = ttk.Button(row_btns, text="⚡ อัปเดต SQL ที่ค้างอยู่เข้าฐานข้อมูล", command=self.action_import_pending_now)
         btn_import_only.pack(side=tk.RIGHT, padx=4)
 
         # Bottom Frame: Console Log Window
@@ -426,7 +453,7 @@ class BackupSyncApp(tk.Tk):
             self.after(0, lambda: self.lbl_last_trigger_status.config(text=f"FAIL ({ts_now})", fg="#f87171"))
             return False
 
-    def download_ftp_files(self):
+    def download_ftp_files(self, force_overwrite_all=False):
         c = self.config_data
         host = c.get("ftp_host", "45.91.134.194")
         port = int(c.get("ftp_port", 21))
@@ -438,7 +465,8 @@ class BackupSyncApp(tk.Tk):
         if not os.path.isdir(local_dir):
             os.makedirs(local_dir, exist_ok=True)
 
-        self.log_console(f"กำลังเชื่อมต่อ FTP: {host}:{port} ({user})...", "INFO")
+        mode_str = " (โหมดทับไฟล์เดิมทั้งหมด)" if force_overwrite_all else " (เฉพาะไฟล์ที่ยังไม่มี)"
+        self.log_console(f"กำลังเชื่อมต่อ FTP: {host}:{port} ({user}){mode_str}...", "INFO")
         self.set_status_text("กำลังเชื่อมต่อ FTP...", "#0284c7")
 
         downloaded_count = 0
@@ -480,12 +508,14 @@ class BackupSyncApp(tk.Tk):
                 # If file already exists locally and size is non-zero, skip
                 # BUT always download and overwrite 'a_initial_table.sql' to get the latest table schema
                 is_initial_table = (fname.lower() == "a_initial_table.sql")
-                if not is_initial_table and os.path.isfile(local_path) and os.path.getsize(local_path) > 0:
+                if not force_overwrite_all and not is_initial_table and os.path.isfile(local_path) and os.path.getsize(local_path) > 0:
                     skipped_count += 1
                     continue
 
                 if is_initial_table:
                     self.log_console(f"กำลังดาวน์โหลดและอัปเดตสคีมา: {fname} (Overwrite)...", "INFO")
+                elif force_overwrite_all:
+                    self.log_console(f"กำลังดาวน์โหลด (ทับไฟล์เดิม): {fname} ...", "INFO")
                 else:
                     self.log_console(f"กำลังดาวน์โหลด: {fname} ...", "INFO")
                 self.set_status_text(f"กำลังโหลด {fname}...", "#0284c7")
@@ -509,7 +539,7 @@ class BackupSyncApp(tk.Tk):
 
             ftp.quit()
 
-            summary = f"สรุปการดาวน์โหลด FTP: ไฟล์ใหม่ {downloaded_count} ไฟล์, ข้ามที่มีแล้ว {skipped_count} ไฟล์, ผิดพลาด {error_count} ไฟล์"
+            summary = f"สรุปการดาวน์โหลด FTP: ไฟล์ใหม่/ทับใหม่ {downloaded_count} ไฟล์, ข้ามที่มีแล้ว {skipped_count} ไฟล์, ผิดพลาด {error_count} ไฟล์"
             self.log_console(summary, "SUCCESS" if error_count == 0 else "WARNING")
             append_log(DOWNLOAD_LOG_FILE, summary)
 
@@ -529,7 +559,7 @@ class BackupSyncApp(tk.Tk):
             self.after(0, lambda: self.lbl_last_download_status.config(text=f"FAIL ({ts_now})", fg="#f87171"))
             return []
 
-    def import_sql_files_to_mysql(self):
+    def import_sql_files_to_mysql(self, force_all=False):
         c = self.config_data
         db_host = c.get("db_host", "127.0.0.1")
         db_port = str(c.get("db_port", 3306))
@@ -588,17 +618,22 @@ class BackupSyncApp(tk.Tk):
 
         # Exclude a_initial_table.sql from pending import files list (as it was already executed above)
         imported_set = get_imported_set()
-        pending_files = [f for f in all_sql_files if f not in imported_set and f.lower() != "a_initial_table.sql"]
+        if force_all:
+            pending_files = [f for f in all_sql_files if f.lower() != "a_initial_table.sql"]
+        else:
+            pending_files = [f for f in all_sql_files if f not in imported_set and f.lower() != "a_initial_table.sql"]
 
         total_pending = len(pending_files)
         if total_pending == 0:
-            self.log_console("ไม่มีไฟล์ SQL รายชั่วโมงค้างการอัปเดตเข้าฐานข้อมูล (อัปเดตครบทั้งหมดแล้ว)", "MUTED")
+            msg_none = "ไม่พบไฟล์ SQL ในโฟลเดอร์ Local สำหรับนำเข้า" if force_all else "ไม่มีไฟล์ SQL รายชั่วโมงค้างการอัปเดตเข้าฐานข้อมูล (อัปเดตครบทั้งหมดแล้ว)"
+            self.log_console(msg_none, "MUTED")
             ts_now = datetime.now().strftime("%H:%M:%S")
             self.after(0, lambda: self.lbl_last_import_status.config(text=f"GOOD (0 pending, {ts_now})", fg="#4ade80"))
             return 0
 
-        self.log_console(f"พบไฟล์ SQL ที่ต้องอัปเดตเข้า MySQL ทั้งหมด {total_pending} ไฟล์ (เรียงจากเก่าไปใหม่)", "INFO")
-        self.set_status_text("กำลังอัปเดต SQL เข้าฐานข้อมูล...", "#7c3aed")
+        mode_lbl = " [Force Import ทั้งหมด]" if force_all else ""
+        self.log_console(f"พบไฟล์ SQL ที่ต้องอัปเดตเข้า MySQL ทั้งหมด {total_pending} ไฟล์{mode_lbl} (เรียงจากเก่าไปใหม่)", "INFO")
+        self.set_status_text(f"กำลังอัปเดต SQL{mode_lbl} เข้าฐานข้อมูล...", "#7c3aed")
 
         success_count = 0
         fail_count = 0
@@ -687,6 +722,109 @@ class BackupSyncApp(tk.Tk):
 
         threading.Thread(target=_worker, daemon=True).start()
 
+    def action_download_remain(self):
+        if self.is_busy:
+            messagebox.showwarning("กำลังทำงาน", "มีกระบวนการอื่นกำลังทำงานอยู่ กรุณารอสักครู่")
+            return
+
+        def _worker():
+            self.is_busy = True
+            try:
+                self.log_console("--- เริ่มดาวน์โหลดไฟล์ที่เหลือ (Download Remain) ---", "INFO")
+                self.download_ftp_files(force_overwrite_all=False)
+            finally:
+                self.is_busy = False
+                self.set_status_text("พร้อมทำงาน", "#0d6efd")
+
+        threading.Thread(target=_worker, daemon=True).start()
+
+    def action_download_all(self):
+        if self.is_busy:
+            messagebox.showwarning("กำลังทำงาน", "มีกระบวนการอื่นกำลังทำงานอยู่ กรุณารอสักครู่")
+            return
+
+        ans = messagebox.askyesno(
+            "ยืนยันการดาวน์โหลดทั้งหมด",
+            "คุณต้องการดาวน์โหลดไฟล์ .sql ทั้งหมดจากเซิร์ฟเวอร์ FTP\nและบันทึกทับไฟล์ที่มีอยู่ใน Local ทั้งหมดใช่หรือไม่?",
+            icon="question"
+        )
+        if not ans:
+            return
+
+        def _worker():
+            self.is_busy = True
+            try:
+                self.log_console("--- เริ่มดาวน์โหลดไฟล์ทั้งหมดทับ Local (Download All) ---", "INFO")
+                self.download_ftp_files(force_overwrite_all=True)
+            finally:
+                self.is_busy = False
+                self.set_status_text("พร้อมทำงาน", "#0d6efd")
+
+        threading.Thread(target=_worker, daemon=True).start()
+
+    def action_delete_local_all(self):
+        if self.is_busy:
+            messagebox.showwarning("กำลังทำงาน", "มีกระบวนการอื่นกำลังทำงานอยู่ กรุณารอสักครู่")
+            return
+
+        c = self.config_data
+        local_dir = os.path.join(BASE_DIR, c.get("local_download_dir", "downloaded_sql"))
+
+        ans = messagebox.askyesno(
+            "ยืนยันการลบไฟล์ Local ทั้งหมด",
+            f"คุณต้องการลบไฟล์ .sql ทั้งหมดในโฟลเดอร์:\n{local_dir}\n\nและรีเซ็ตประวัติการ Import ใช่หรือไม่?\n(ไฟล์บนเซิร์ฟเวอร์ FTP จะไม่ถูกลบ)",
+            icon="warning"
+        )
+        if not ans:
+            return
+
+        deleted_count = 0
+        try:
+            if os.path.isdir(local_dir):
+                for fname in os.listdir(local_dir):
+                    fpath = os.path.join(local_dir, fname)
+                    if os.path.isfile(fpath) and (fname.lower().endswith(".sql") or fname.lower().endswith(".tmp")):
+                        try:
+                            os.remove(fpath)
+                            deleted_count += 1
+                        except Exception as e:
+                            self.log_console(f"ไม่สามารถลบไฟล์ {fname}: {e}", "WARNING")
+
+            # Clear imported_files.txt
+            if os.path.isfile(IMPORTED_LIST_FILE):
+                with open(IMPORTED_LIST_FILE, "w", encoding="utf-8") as f:
+                    pass
+
+            self.log_console(f"ลบไฟล์ Local ทั้งหมดเรียบร้อยแล้ว (จำนวน {deleted_count} ไฟล์) และรีเซ็ตประวัติ Import แล้ว", "SUCCESS")
+            messagebox.showinfo("ลบสำเร็จ", f"ลบไฟล์ใน Local สำเร็จทั้งหมด {deleted_count} ไฟล์\nและรีเซ็ตประวัติการ Import เรียบร้อยแล้ว")
+        except Exception as e:
+            self.log_console(f"เกิดข้อผิดพลาดในการลบไฟล์ Local: {e}", "ERROR")
+            messagebox.showerror("เกิดข้อผิดพลาด", f"ไม่สามารถลบไฟล์ได้: {e}")
+
+    def action_force_import_all_now(self):
+        if self.is_busy:
+            messagebox.showwarning("กำลังทำงาน", "มีกระบวนการอื่นกำลังทำงานอยู่ กรุณารอสักครู่")
+            return
+
+        ans = messagebox.askyesno(
+            "ยืนยัน Import ทั้งหมดทันที",
+            "คุณต้องการ Force Import ไฟล์ SQL ทั้งหมดใน Local เข้าสู่ฐานข้อมูลทันทีใช่หรือไม่?\n\n(ระบบจะรัน a_initial_table.sql ก่อน และตามด้วยทุกไฟล์ตามลำดับเวลา)",
+            icon="warning"
+        )
+        if not ans:
+            return
+
+        def _worker():
+            self.is_busy = True
+            try:
+                self.log_console("--- เริ่มต้น Force Import ไฟล์ SQL ทั้งหมดเข้าฐานข้อมูล ---", "INFO")
+                self.import_sql_files_to_mysql(force_all=True)
+            finally:
+                self.is_busy = False
+                self.set_status_text("พร้อมทำงาน", "#0d6efd")
+
+        threading.Thread(target=_worker, daemon=True).start()
+
     def action_import_pending_now(self):
         if self.is_busy:
             messagebox.showwarning("กำลังทำงาน", "มีกระบวนการอื่นกำลังทำงานอยู่ กรุณารอสักครู่")
@@ -695,7 +833,7 @@ class BackupSyncApp(tk.Tk):
         def _worker():
             self.is_busy = True
             try:
-                self.import_sql_files_to_mysql()
+                self.import_sql_files_to_mysql(force_all=False)
             finally:
                 self.is_busy = False
                 self.set_status_text("พร้อมทำงาน", "#0d6efd")
