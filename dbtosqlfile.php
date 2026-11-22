@@ -109,6 +109,25 @@ function dbBkGetExistingFilesForHour($backupDir, $dateStr, $hourStr)
 }
 
 /**
+ * Helper: Check if historical backup file(s) already exist for a given cutoff date (YYYY-MM-DD)
+ */
+function dbBkGetExistingHistoricalFiles($backupDir, $cutoffDate)
+{
+    $pattern = $backupDir . DIRECTORY_SEPARATOR . '0000-00-00_to_' . $cutoffDate . '_*.sql';
+    $matches = glob($pattern);
+    $valid = [];
+    if (is_array($matches)) {
+        foreach ($matches as $m) {
+            if (is_file($m) && filesize($m) > 0) {
+                $valid[] = basename($m);
+            }
+        }
+    }
+    sort($valid);
+    return $valid;
+}
+
+/**
  * Helper: Scan existing .sql files in db_bk_sql/ and return structured list
  */
 function dbBkListAllFiles($backupDir)
@@ -135,8 +154,20 @@ function dbBkListAllFiles($backupDir)
         $hourRangeLabel = '-';
         $extraPart = '-';
 
-        // Parse YYYY-MM-DD_HH0000_to_HH5959_??.sql -> e.g. 2026-11-08_110000_to_115959_01.sql
-        if (preg_match('/^(\d{4}-\d{2}-\d{2})_(\d{2})0000_to_\d{2}5959_(.+)\.sql$/i', $fname, $m)) {
+        // 1. Check a_initial_table.sql (schema)
+        if ($fname === 'a_initial_table.sql') {
+            $datePart = 'INITIAL';
+            $hourPart = 'SCHEMA';
+            $extraPart = 'Schema';
+            $hourRangeLabel = 'โครงสร้างตารางเริ่มต้น (CREATE TABLE IF NOT EXISTS)';
+        // 2. Check historical batch (0000-00-00_to_YYYY-MM-DD_XX.sql)
+        } elseif (preg_match('/^0000-00-00_to_(\d{4}-\d{2}-\d{2})_(.+)\.sql$/i', $fname, $m)) {
+            $datePart = 'ก่อน ' . $m[1];
+            $hourPart = 'HISTORIC';
+            $extraPart = $m[2];
+            $hourRangeLabel = 'ข้อมูลในอดีตทั้งหมด จนถึงก่อน ' . $m[1] . ' 00:00:00';
+        // 3. Parse YYYY-MM-DD_HH0000_to_HH5959_??.sql -> e.g. 2026-11-08_110000_to_115959_01.sql
+        } elseif (preg_match('/^(\d{4}-\d{2}-\d{2})_(\d{2})0000_to_\d{2}5959_(.+)\.sql$/i', $fname, $m)) {
             $datePart = $m[1];
             $hourPart = $m[2];
             $extraPart = $m[3];
@@ -148,11 +179,18 @@ function dbBkListAllFiles($backupDir)
             $hourRangeLabel = $datePart . ' ' . $hourPart . ':00:00 - ' . $hourPart . ':59:59';
         }
 
+        $hourKey = ($datePart !== '-' && $hourPart !== '-') ? ($datePart . '_' . $hourPart) : $fname;
+        if ($hourPart === 'SCHEMA') {
+            $hourKey = '0000-00-00_00_schema';
+        } elseif ($hourPart === 'HISTORIC') {
+            $hourKey = '0000-00-00_01_historic';
+        }
+
         $list[] = [
             'filename' => $fname,
             'date' => $datePart,
             'hour' => $hourPart,
-            'hour_key' => ($datePart !== '-' && $hourPart !== '-') ? ($datePart . '_' . $hourPart) : $fname,
+            'hour_key' => $hourKey,
             'hour_range' => $hourRangeLabel,
             'extra' => $extraPart,
             'size_bytes' => (int)$size,
@@ -459,17 +497,218 @@ function dbBkBackupSingleHour($conn, $backupDir, $dateStr, $hourStr, $tablesMeta
 }
 
 /**
- * Helper: Discover all active hours in the lookback range across all tables
+ * Helper: Backup all historical data prior to cutoff date/time into ~10MB split files
+ * Filenames: 0000-00-00_to_{cutoffDate}_01.sql, 02.sql, ...
+ */
+function dbBkBackupHistorical($conn, $backupDir, $cutoffDate, $cutoffTime, $tablesMeta = null, $maxFileBytes = DB_BK_MAX_FILE_BYTES)
+{
+    $existing = dbBkGetExistingHistoricalFiles($backupDir, $cutoffDate);
+    if (!empty($existing)) {
+        return [
+            'status' => 'skipped_existing',
+            'cutoff_date' => $cutoffDate,
+            'files' => $existing,
+            'insert_rows' => 0,
+        ];
+    }
+
+    if ($tablesMeta === null) {
+        $tablesMeta = dbBkGetTablesMetadata($conn);
+    }
+
+    $partNum = 1;
+    $fp = null;
+    $currentFilePath = '';
+    $currentFileName = '';
+    $currentBytes = 0;
+    $createdFiles = [];
+    $totalInsertRows = 0;
+
+    $openNewPartFile = function () use (
+        $backupDir,
+        $cutoffDate,
+        $cutoffTime,
+        &$partNum,
+        &$fp,
+        &$currentFilePath,
+        &$currentFileName,
+        &$currentBytes,
+        &$createdFiles
+    ) {
+        if (is_resource($fp)) {
+            $footer = "\nSET FOREIGN_KEY_CHECKS = 1;\n-- End of file {$currentFileName}\n";
+            fwrite($fp, $footer);
+            fclose($fp);
+            $fp = null;
+        }
+
+        $partTag = str_pad((string)$partNum, 2, '0', STR_PAD_LEFT);
+        $currentFileName = "0000-00-00_to_{$cutoffDate}_{$partTag}.sql";
+        $currentFilePath = $backupDir . DIRECTORY_SEPARATOR . $currentFileName;
+
+        $fp = fopen($currentFilePath, 'wb');
+        if (!$fp) {
+            throw new RuntimeException("ไม่สามารถสร้างไฟล์แบคอัพข้อมูลประวัติศาสตร์ได้: {$currentFileName}");
+        }
+
+        $genTime = date('Y-m-d H:i:s');
+        $header = "-- ============================================================================\n"
+                . "-- NB Patho Historical Database Backup SQL (Prior to {$cutoffDate})\n"
+                . "-- File Name    : {$currentFileName}\n"
+                . "-- Cutoff Window: Up to {$cutoffTime}\n"
+                . "-- Generated At : {$genTime}\n"
+                . "-- Part Number  : {$partNum}\n"
+                . "-- ============================================================================\n"
+                . "SET NAMES utf8mb4;\n"
+                . "SET FOREIGN_KEY_CHECKS = 0;\n"
+                . "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n\n";
+
+        $written = fwrite($fp, $header);
+        $currentBytes = (int)$written;
+        $createdFiles[] = $currentFileName;
+        $partNum++;
+    };
+
+    $writeStatement = function ($sqlLine) use (
+        $maxFileBytes,
+        &$fp,
+        &$currentBytes,
+        $openNewPartFile
+    ) {
+        $lineBytes = strlen($sqlLine);
+        if (!is_resource($fp) || ($currentBytes > 1024 && ($currentBytes + $lineBytes + 128) > $maxFileBytes)) {
+            $openNewPartFile();
+        }
+        $written = fwrite($fp, $sqlLine);
+        $currentBytes += (int)$written;
+    };
+
+    foreach ($tablesMeta as $table => $meta) {
+        $cols = $meta['columns'];
+        $pkCols = $meta['pk'];
+        $hasIntId = $meta['has_int_id'];
+        $quotedColsList = implode(', ', array_map(function ($c) {
+            return "`{$c}`";
+        }, $cols));
+
+        $chunkSize = 3000;
+        $lastId = -1;
+        $offset = 0;
+        $wroteTableHeader = false;
+
+        while (true) {
+            if ($hasIntId) {
+                $sql = "SELECT * FROM `{$table}`
+                        WHERE (`stampdatecreate` < :cutoffTime OR `stampdatecreate` = '0000-00-00 00:00:00' OR `stampdatecreate` IS NULL)
+                          AND `id` > :lastId
+                        ORDER BY `id` ASC
+                        LIMIT {$chunkSize}";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':cutoffTime', $cutoffTime, PDO::PARAM_STR);
+                $stmt->bindValue(':lastId', $lastId, PDO::PARAM_INT);
+            } else {
+                $sql = "SELECT * FROM `{$table}`
+                        WHERE (`stampdatecreate` < :cutoffTime OR `stampdatecreate` = '0000-00-00 00:00:00' OR `stampdatecreate` IS NULL)
+                        LIMIT {$chunkSize} OFFSET {$offset}";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':cutoffTime', $cutoffTime, PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($rows)) {
+                break;
+            }
+
+            if (!$wroteTableHeader) {
+                $writeStatement("\n-- [HISTORICAL INSERT] Table `{$table}` (prior to {$cutoffTime})\n");
+                $wroteTableHeader = true;
+            }
+
+            foreach ($rows as $row) {
+                if ($hasIntId && isset($row['id'])) {
+                    $lastId = (int)$row['id'];
+                }
+                $vals = [];
+                $updatePairs = [];
+                foreach ($cols as $c) {
+                    $qVal = dbBkQuoteValue($conn, array_key_exists($c, $row) ? $row[$c] : null);
+                    $vals[] = $qVal;
+                    if (!in_array($c, $pkCols, true)) {
+                        $updatePairs[] = "`{$c}`=VALUES(`{$c}`)";
+                    }
+                }
+
+                $valStr = implode(', ', $vals);
+                if (!empty($updatePairs)) {
+                    $updStr = implode(', ', $updatePairs);
+                    $stmtSql = "INSERT INTO `{$table}` ({$quotedColsList}) VALUES ({$valStr}) ON DUPLICATE KEY UPDATE {$updStr};\n";
+                } else {
+                    $stmtSql = "INSERT IGNORE INTO `{$table}` ({$quotedColsList}) VALUES ({$valStr});\n";
+                }
+
+                $writeStatement($stmtSql);
+                $totalInsertRows++;
+            }
+
+            $offset += count($rows);
+            if (count($rows) < $chunkSize) {
+                break;
+            }
+        }
+    }
+
+    if (is_resource($fp)) {
+        $footer = "\nSET FOREIGN_KEY_CHECKS = 1;\n-- End of file {$currentFileName} (HISTORICAL rows: {$totalInsertRows})\n";
+        fwrite($fp, $footer);
+        fclose($fp);
+        $fp = null;
+    }
+
+    if (empty($createdFiles)) {
+        return [
+            'status' => 'empty',
+            'cutoff_date' => $cutoffDate,
+            'files' => [],
+            'insert_rows' => 0,
+        ];
+    }
+
+    return [
+        'status' => 'created',
+        'cutoff_date' => $cutoffDate,
+        'files' => $createdFiles,
+        'insert_rows' => $totalInsertRows,
+    ];
+}
+
+/**
+ * Helper: Discover all active hours in the lookback range across all tables,
+ * plus historical batch prior to cutoff date.
  */
 function dbBkDiscoverActiveHours($conn, $backupDir, $daysLookback)
 {
     $daysLookback = max(1, min(365, (int)$daysLookback));
-    $cutoffTime = date('Y-m-d 00:00:00', strtotime("-{$daysLookback} days"));
+    $cutoffDate = date('Y-m-d', strtotime("-{$daysLookback} days"));
+    $cutoffTime = $cutoffDate . ' 00:00:00';
     $nowTime = date('Y-m-d H:59:59');
 
     $tablesMeta = dbBkGetTablesMetadata($conn);
-    $hoursMap = [];
 
+    // 1. Check historical rows count prior to cutoffTime
+    $totalHistoricalRows = 0;
+    foreach ($tablesMeta as $table => $meta) {
+        if ($meta['has_create']) {
+            $sqlHist = "SELECT COUNT(*) FROM `{$table}`
+                        WHERE (`stampdatecreate` < :cutoff OR `stampdatecreate` = '0000-00-00 00:00:00' OR `stampdatecreate` IS NULL)";
+            $stmtHist = $conn->prepare($sqlHist);
+            $stmtHist->execute([':cutoff' => $cutoffTime]);
+            $totalHistoricalRows += (int)$stmtHist->fetchColumn();
+        }
+    }
+
+    // 2. Discover active hours in the recent daysLookback window (>= cutoffTime)
+    $hoursMap = [];
     foreach ($tablesMeta as $table => $meta) {
         if ($meta['has_create']) {
             $sql = "SELECT DATE_FORMAT(`stampdatecreate`, '%Y-%m-%d_%H') AS h, COUNT(*) AS cnt
@@ -509,6 +748,25 @@ function dbBkDiscoverActiveHours($conn, $backupDir, $daysLookback)
     ksort($hoursMap);
 
     $plan = [];
+
+    // Add historical batch as the FIRST item in the plan if historical rows exist
+    if ($totalHistoricalRows > 0) {
+        $existingHist = dbBkGetExistingHistoricalFiles($backupDir, $cutoffDate);
+        $plan[] = [
+            'is_historical' => true,
+            'hour_key' => '0000-00-00_to_' . $cutoffDate,
+            'date' => '0000-00-00',
+            'hour' => 'HISTORIC',
+            'cutoff_date' => $cutoffDate,
+            'cutoff_time' => $cutoffTime,
+            'create_rows' => $totalHistoricalRows,
+            'edit_rows' => 0,
+            'already_backed_up' => !empty($existingHist),
+            'existing_files' => $existingHist,
+            'label' => "ก้อนข้อมูลในอดีตทั้งหมดก่อนหน้า {$daysLookback} วัน (ก่อน {$cutoffDate} 00:00:00)",
+        ];
+    }
+
     foreach ($hoursMap as $hKey => $tableCounts) {
         list($dStr, $hStr) = explode('_', $hKey);
         $existingFiles = dbBkGetExistingFilesForHour($backupDir, $dStr, $hStr);
@@ -516,6 +774,7 @@ function dbBkDiscoverActiveHours($conn, $backupDir, $daysLookback)
         $editSum   = isset($tableCounts['edit']) ? array_sum($tableCounts['edit']) : 0;
 
         $plan[] = [
+            'is_historical' => false,
             'hour_key' => $hKey,
             'date' => $dStr,
             'hour' => $hStr,
@@ -529,8 +788,10 @@ function dbBkDiscoverActiveHours($conn, $backupDir, $daysLookback)
 
     return [
         'days' => $daysLookback,
+        'cutoff_date' => $cutoffDate,
         'cutoff_time' => $cutoffTime,
         'now_time' => $nowTime,
+        'total_historical_rows' => $totalHistoricalRows,
         'total_active_hours' => count($plan),
         'plan' => $plan,
     ];
@@ -852,6 +1113,25 @@ if (isset($_REQUEST['ajax_action'])) {
             exit;
         }
 
+        if ($ajaxAction === 'backup_historical') {
+            $cutoffDate = isset($_POST['cutoff_date']) ? trim((string)$_POST['cutoff_date']) : '';
+            $cutoffTime = isset($_POST['cutoff_time']) ? trim((string)$_POST['cutoff_time']) : '';
+
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $cutoffDate)) {
+                throw new InvalidArgumentException("รูปแบบ Cutoff Date ไม่ถูกต้อง");
+            }
+            if ($cutoffTime === '') {
+                $cutoffTime = $cutoffDate . ' 00:00:00';
+            }
+
+            $result = dbBkBackupHistorical($conn, $backupDir, $cutoffDate, $cutoffTime);
+            echo json_encode([
+                'ok' => true,
+                'result' => $result,
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
         if ($ajaxAction === 'backup_hour') {
             $dateStr = isset($_POST['date']) ? trim((string)$_POST['date']) : '';
             $hourStr = isset($_POST['hour']) ? trim((string)$_POST['hour']) : '';
@@ -1152,7 +1432,15 @@ try {
                                 </a>
                             </td>
                             <td><?= htmlspecialchars($file['date']) ?></td>
-                            <td><span class="badge bg-secondary"><?= htmlspecialchars($file['hour']) ?>:00</span></td>
+                            <td>
+                                <?php if ($file['hour'] === 'HISTORIC'): ?>
+                                    <span class="badge bg-warning text-dark"><i class="fa-solid fa-clock-rotate-left me-1"></i>Historic</span>
+                                <?php elseif ($file['hour'] === 'SCHEMA'): ?>
+                                    <span class="badge bg-info text-dark"><i class="fa-solid fa-sitemap me-1"></i>Schema</span>
+                                <?php else: ?>
+                                    <span class="badge bg-secondary"><?= htmlspecialchars($file['hour']) ?>:00</span>
+                                <?php endif; ?>
+                            </td>
                             <td><?= htmlspecialchars($file['hour_range']) ?></td>
                             <td><code><?= htmlspecialchars($file['extra']) ?></code></td>
                             <td><?= htmlspecialchars($file['size_formatted']) ?></td>
@@ -1295,6 +1583,160 @@ try {
     </div>
 </div>
 
+<!-- System Workflow & Architecture Documentation Section -->
+<div class="container-fluid pt-4 px-4 pb-4">
+    <div class="row bg-nb bg-blue-a rounded align-items-center justify-content-center p-4 mx-1">
+        <div class="w-100 mb-3">
+            <h4 class="text-primary mb-1">
+                <i class="fa-solid fa-circle-info text-info me-2"></i>รายละเอียดการทำงานของระบบแบคอัพและซิงค์ฐานข้อมูล (Backup &amp; Sync System Architecture)
+            </h4>
+            <span class="text-muted small">อธิบายหลักการแบ่งช่วงเวลาข้อมูล, โครงสร้างไฟล์แบคอัพ, ลอจิก Upsert ของคำสั่ง SQL, และขั้นตอนการนำเข้าข้อมูลอย่างปลอดภัย</span>
+        </div>
+
+        <div class="row g-3 w-100">
+            <!-- Card 1: Time Partitioning Concept -->
+            <div class="col-12 col-lg-6">
+                <div class="card h-100 border-0 shadow-sm" style="background:#ffffff; border-radius:10px;">
+                    <div class="card-header bg-primary text-white fw-bold py-2">
+                        <i class="fa-solid fa-clock-rotate-left me-2"></i>1. หลักการแบ่งช่วงเวลาข้อมูล (Time Partitioning)
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">ระบบกำหนดจุดแบ่งเวลาตามจำนวนวันย้อนหลัง (ค่าเริ่มต้น: <strong>10 วัน</strong>) โดยแบ่งข้อมูลออกเป็น 2 ส่วนหลัก:</p>
+                        
+                        <div class="border rounded p-3 mb-3 bg-light">
+                            <h6 class="fw-bold text-warning mb-1"><i class="fa-solid fa-box-archive me-1"></i>ก้อนที่ 1: ข้อมูลในอดีตทั้งหมดก่อนหน้า 10 วัน (Historical Batch)</h6>
+                            <ul class="small mb-2 ps-3 text-secondary">
+                                <li>ดึงข้อมูลทุกแถวที่มี <code>stampdatecreate &lt; จุดตัดเวลา 10 วันที่แล้ว</code> (รวมค่า <code>0000-00-00 00:00:00</code> หรือ NULL)</li>
+                                <li><strong>มองเป็นหนึ่งก้อนข้อมูลเดียว:</strong> รวบข้อมูลในอดีตทั้งหมด ไม่ต้องแตกเป็นรายชั่วโมงหลักร้อยไฟล์</li>
+                                <li><strong>ซอยย่อยไฟล์ละ ~10 MB อัตโนมัติ:</strong> ตั้งชื่อไฟล์ <code>0000-00-00_to_YYYY-MM-DD_01.sql</code>, <code>_02.sql</code> ...</li>
+                            </ul>
+                            
+                            <h6 class="fw-bold text-success mb-1 mt-3"><i class="fa-solid fa-hourglass-half me-1"></i>ก้อนที่ 2: ข้อมูลช่วง 10 วันล่าสุด (Recent Hourly Slots)</h6>
+                            <ul class="small mb-0 ps-3 text-secondary">
+                                <li>ตรวจจับทั้งการสร้างใหม่ (<code>stampdatecreate</code>) และการแก้ไข (<code>stampdateedit</code>)</li>
+                                <li><strong>แยกเป็นไฟล์รายชั่วโมง (Hourly):</strong> ตั้งชื่อไฟล์ <code>YYYY-MM-DD_HH0000_to_HH5959_01.sql</code></li>
+                                <li>แต่ละชั่วโมงหากข้อมูลเกิน ~10 MB จะซอยย่อยเป็น Part ย่อยให้อัตโนมัติ</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-info py-2 px-3 small mb-0">
+                            <i class="fa-solid fa-lightbulb me-1"></i><strong>จุดเด่น:</strong> ข้อมูลเก่าในอดีตที่นิ่งแล้วจะถูกแพ็กเป็นก้อนเดียว ส่วนข้อมูลล่าสุดที่มีการเปลี่ยนแปลงต่อเนื่องจะอัปเดตแบบรายชั่วโมงอย่างรวดเร็ว
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: SQL Upsert Logic -->
+            <div class="col-12 col-lg-6">
+                <div class="card h-100 border-0 shadow-sm" style="background:#ffffff; border-radius:10px;">
+                    <div class="card-header bg-dark text-white fw-bold py-2">
+                        <i class="fa-solid fa-code me-2"></i>2. ลอจิกคำสั่ง SQL (ON DUPLICATE KEY UPDATE)
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">ทุกไฟล์แบคอัพจะสร้างคำสั่งในรูปแบบ <strong>Upsert (Insert + Update อัตโนมัติ)</strong>:</p>
+                        
+                        <div class="p-2 mb-2 bg-dark rounded text-light font-monospace small" style="overflow-x:auto;">
+                            <span class="text-warning">INSERT INTO</span> `table_name` (`id`, `col1`, `col2`, ...)<br>
+                            <span class="text-warning">VALUES</span> (101, 'data1', 'data2', ...)<br>
+                            <span class="text-info">ON DUPLICATE KEY UPDATE</span> `col1`=<span class="text-success">VALUES</span>(`col1`), `col2`=<span class="text-success">VALUES</span>(`col2`), ...;
+                        </div>
+
+                        <ul class="small ps-3 text-secondary mb-3">
+                            <li><strong>กรณี ID ยังไม่มีในฐานข้อมูล:</strong> MySQL จะทำการ <code>INSERT</code> แถวใหม่ตามปกติ</li>
+                            <li><strong>กรณี ID มีอยู่แล้ว (Primary Key / Unique ซ้ำ):</strong> MySQL จะไม่เกิด Error แต่จะสลับไปรันคำสั่ง <code>UPDATE</code> เพื่อเขียนทับด้วยข้อมูลล่าสุดทันที</li>
+                        </ul>
+
+                        <div class="alert alert-success py-2 px-3 small mb-0">
+                            <i class="fa-solid fa-shield-halved me-1"></i><strong>ความปลอดภัย:</strong> สามารถกดนำเข้าไฟล์ SQL ซ้ำหลายๆ ครั้ง หรือกดปุ่ม <code>Force Import ทั้งหมด</code> ได้อย่างปลอดภัย ข้อมูลไม่พัง และไม่เกิด Duplicate Entry Error
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Import Order Flow -->
+            <div class="col-12 col-lg-6">
+                <div class="card h-100 border-0 shadow-sm" style="background:#ffffff; border-radius:10px;">
+                    <div class="card-header bg-secondary text-white fw-bold py-2">
+                        <i class="fa-solid fa-arrow-down-1-9 me-2"></i>3. ลำดับการนำเข้าฐานข้อมูล (Import Execution Order)
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">เมื่อนำเข้าข้อมูลที่เครื่องปลายทาง (เช่น ผ่าน <code>db_backup_sync_gui.py</code>) ระบบจะรันตามลำดับเวลาดังนี้:</p>
+                        
+                        <div class="border rounded p-3 mb-0 bg-light small">
+                            <div class="d-flex align-items-start mb-2">
+                                <span class="badge bg-info text-dark me-2 mt-1">ขั้นที่ 1</span>
+                                <div>
+                                    <strong class="text-dark">รัน <code>a_initial_table.sql</code> ก่อนเสมอ</strong>
+                                    <div class="text-muted">สร้างหรืออัปเดตโครงสร้างตาราง (<code>CREATE TABLE IF NOT EXISTS</code>) ครบทุกตาราง</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-2">
+                                <span class="badge bg-warning text-dark me-2 mt-1">ขั้นที่ 2</span>
+                                <div>
+                                    <strong class="text-dark">รันไฟล์ประวัติศาสตร์ <code>0000-00-00_to_YYYY-MM-DD_*.sql</code></strong>
+                                    <div class="text-muted">นำเข้าข้อมูลในอดีตทั้งหมดก่อนหน้า 10 วัน เรียงตาม Part 01, 02 ...</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-0">
+                                <span class="badge bg-success me-2 mt-1">ขั้นที่ 3</span>
+                                <div>
+                                    <strong class="text-dark">รันไฟล์รายชั่วโมง <code>YYYY-MM-DD_HH0000_to_...sql</code></strong>
+                                    <div class="text-muted">นำเข้าข้อมูลรายชั่วโมงของช่วง 10 วันล่าสุดตามลำดับเวลาเก่าไปหาใหม่</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: GUI Sync & Scheduled Automation -->
+            <div class="col-12 col-lg-6">
+                <div class="card h-100 border-0 shadow-sm" style="background:#ffffff; border-radius:10px;">
+                    <div class="card-header bg-info text-dark fw-bold py-2">
+                        <i class="fa-solid fa-laptop-code me-2"></i>4. การทำงานร่วมกับโปรแกรม GUI (db_backup_sync_gui.py)
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">โปรแกรมฝั่งเครื่องแบคอัพปลายทางรองรับทั้งการทำงานอัตโนมัติและการกดสั่งด้วยตนเอง:</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered small mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ฟังก์ชัน / ปุ่ม</th>
+                                        <th>คำอธิบาย</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold text-nowrap"><i class="fa-solid fa-trash me-1 text-danger"></i>delete local all</td>
+                                        <td>ลบไฟล์ SQL ทั้งหมดในโฟลเดอร์เครื่อง และรีเซ็ตประวัติการ Import (มี Popup ยืนยัน)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-nowrap"><i class="fa-solid fa-download me-1 text-primary"></i>download remain</td>
+                                        <td>ดาวน์โหลดเฉพาะไฟล์ที่ยังไม่มีในเครื่อง (และอัปเดต <code>a_initial_table.sql</code> เสมอ)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-nowrap"><i class="fa-solid fa-angles-down me-1 text-primary"></i>download all</td>
+                                        <td>ดาวน์โหลดไฟล์ SQL ทั้งหมดจากเซิร์ฟเวอร์มาเขียนทับไฟล์ในเครื่องทั้งหมด</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-nowrap"><i class="fa-solid fa-bolt me-1 text-danger"></i>import (ทั้งหมด ทันที)</td>
+                                        <td>Force Import ไฟล์ SQL ทั้งหมดในเครื่องเข้าสู่ MySQL ใหม่ทั้งหมดทันที</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-nowrap"><i class="fa-solid fa-clock me-1 text-success"></i>Hourly Scheduler</td>
+                                        <td>ส่ง Webhook Trigger ไปยัง <code>dbtosqlfile_auto.php</code> และดาวน์โหลด/อัปเดตอัตโนมัติทุกชั่วโมง</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php require 'includes/footer.php'; ?>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -1370,6 +1812,11 @@ try {
                     var dlUrl = 'dbtosqlfile.php?action=download&file=' + encodeURIComponent(f.filename);
                     var nameLink = '<a href="' + dlUrl + '" class="text-decoration-none fw-bold"><i class="fa-solid fa-file-code text-primary me-1"></i>' + $('<div>').text(f.filename).html() + '</a>';
                     var hourBadge = '<span class="badge bg-secondary">' + $('<div>').text(f.hour).html() + ':00</span>';
+                    if (f.hour === 'HISTORIC') {
+                        hourBadge = '<span class="badge bg-warning text-dark"><i class="fa-solid fa-clock-rotate-left me-1"></i>Historic</span>';
+                    } else if (f.hour === 'SCHEMA') {
+                        hourBadge = '<span class="badge bg-info text-dark"><i class="fa-solid fa-sitemap me-1"></i>Schema</span>';
+                    }
                     var partCode = '<code>' + $('<div>').text(f.extra).html() + '</code>';
                     var mtimeHtml = '<span class="text-success fw-bold">' + $('<div>').text(f.mtime_formatted).html() + '</span>';
                     var actionBtns = '<div class="d-flex gap-1 justify-content-center">'
@@ -1476,7 +1923,8 @@ try {
 
                     var plan = res.discovery.plan || [];
                     var totalHours = plan.length;
-                    appendBkLog('พบชั่วโมงที่มีข้อมูลทั้งหมด ' + totalHours + ' ชั่วโมง (ช่วง ' + res.discovery.cutoff_time + ' ถึง ' + res.discovery.now_time + ')', 'text-info');
+                    var totalHistRows = res.discovery.total_historical_rows || 0;
+                    appendBkLog('พบรายการที่ต้องตรวจสอบ ' + totalHours + ' รายการ (ก้อนประวัติศาสตร์ ' + totalHistRows.toLocaleString() + ' แถว, ช่วงย้อนหลัง ' + res.discovery.cutoff_time + ' ถึง ' + res.discovery.now_time + ')', 'text-info');
 
                     if (totalHours === 0) {
                         $('#bk_progress_bar').css('width', '100%').text('100%');
@@ -1496,7 +1944,7 @@ try {
                         if (idx >= totalHours) {
                             $('#bk_progress_bar').removeClass('progress-bar-animated').css('width', '100%').text('100% (เสร็จสมบูรณ์)');
                             $('#bk_progress_title').text('แบคอัพเสร็จสมบูรณ์! สร้างไฟล์ใหม่ ' + createdFilesCount + ' ไฟล์, ข้ามชั่วโมงที่มีแล้ว ' + skippedHoursCount + ' ชั่วโมง');
-                            appendBkLog('=== แบคอัพเสร็จสมบูรณ์: สร้างไฟล์ใหม่ ' + createdFilesCount + ' ไฟล์ (' + createdHoursCount + ' ชั่วโมง), ข้าม ' + skippedHoursCount + ' ชั่วโมง ===', 'text-warning fw-bold');
+                            appendBkLog('=== แบคอัพเสร็จสมบูรณ์: สร้างไฟล์ใหม่ ' + createdFilesCount + ' ไฟล์ (' + createdHoursCount + ' ชุด), ข้าม ' + skippedHoursCount + ' ชุด ===', 'text-warning fw-bold');
                             refreshFilesTable();
                             finishBackupRun();
                             return;
@@ -1504,19 +1952,71 @@ try {
 
                         var item = plan[idx];
                         var pct = Math.round(((idx + 1) / totalHours) * 100);
-                        $('#bk_progress_counter').text((idx + 1) + ' / ' + totalHours + ' ชั่วโมง');
+                        $('#bk_progress_counter').text((idx + 1) + ' / ' + totalHours + ' รายการ');
                         $('#bk_progress_bar').css('width', pct + '%').text(pct + '%');
 
                         // Fast-skip on client if already backed up from a previous run
                         if (item.already_backed_up) {
                             skippedHoursCount++;
                             $('#bk_run_skipped_hours').text(skippedHoursCount.toLocaleString());
-                            appendBkLog('[ข้าม] ชั่วโมง ' + item.date + ' ' + item.hour + ':00 มีไฟล์แบคอัพแล้ว (' + item.existing_files.join(', ') + ')', 'text-secondary');
+                            var skipMsg = item.is_historical 
+                                ? ('[ข้าม] ก้อนข้อมูลประวัติศาสตร์ก่อน ' + item.cutoff_date + ' มีไฟล์แบคอัพแล้ว (' + item.existing_files.join(', ') + ')')
+                                : ('[ข้าม] ชั่วโมง ' + item.date + ' ' + item.hour + ':00 มีไฟล์แบคอัพแล้ว (' + item.existing_files.join(', ') + ')');
+                            appendBkLog(skipMsg, 'text-secondary');
                             idx++;
                             setTimeout(processNextHour, 5);
                             return;
                         }
 
+                        // Handle Historical Batch (Prior to cutoff date)
+                        if (item.is_historical) {
+                            $('#bk_progress_title').text('กำลังสร้างไฟล์แบคอัพก้อนข้อมูลในอดีตทั้งหมดก่อนหน้า ' + days + ' วัน (ก่อน ' + item.cutoff_date + ') ซอยย่อยไฟล์ละ ~10MB (ประมาณ ' + item.create_rows.toLocaleString() + ' แถว)...');
+                            appendBkLog('กำลังประมวลผลก้อนข้อมูลในอดีตทั้งหมดก่อนหน้า ' + item.cutoff_date + ' (ซอยไฟล์ละ ~10MB)...', 'text-info fw-bold');
+
+                            $.ajax({
+                                url: 'dbtosqlfile.php',
+                                method: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    ajax_action: 'backup_historical',
+                                    cutoff_date: item.cutoff_date,
+                                    cutoff_time: item.cutoff_time
+                                },
+                                success: function (hRes) {
+                                    if (hRes && hRes.ok && hRes.result) {
+                                        var r = hRes.result;
+                                        if (r.status === 'skipped_existing') {
+                                            skippedHoursCount++;
+                                            $('#bk_run_skipped_hours').text(skippedHoursCount.toLocaleString());
+                                            appendBkLog('[ข้าม] ก้อนประวัติศาสตร์มีไฟล์แล้ว (' + (r.files || []).join(', ') + ')', 'text-secondary');
+                                        } else {
+                                            createdHoursCount++;
+                                            createdFilesCount += (r.files ? r.files.length : 0);
+                                            totalInsertRows += (r.insert_rows || 0);
+
+                                            $('#bk_run_created_files').text(createdFilesCount.toLocaleString());
+                                            $('#bk_run_created_hours').text(createdHoursCount.toLocaleString());
+                                            $('#bk_run_insert_rows').text(totalInsertRows.toLocaleString());
+
+                                            appendBkLog('[สร้างสำเร็จ] ก้อนข้อมูลในอดีตก่อน ' + item.cutoff_date + ' -> ' + (r.files || []).join(', ') + ' (INSERT: ' + (r.insert_rows || 0).toLocaleString() + ' แถว)', 'text-success fw-bold');
+                                        }
+                                    } else {
+                                        appendBkLog('[ผิดพลาด] ก้อนข้อมูลในอดีตก่อน ' + item.cutoff_date, 'text-danger');
+                                    }
+                                    idx++;
+                                    processNextHour();
+                                },
+                                error: function (xhr) {
+                                    var errMsg = (xhr.responseJSON && xhr.responseJSON.error) ? xhr.responseJSON.error : (xhr.statusText || 'Error');
+                                    appendBkLog('[ผิดพลาด] ก้อนข้อมูลในอดีตก่อน ' + item.cutoff_date + ' : ' + errMsg, 'text-danger');
+                                    idx++;
+                                    processNextHour();
+                                }
+                            });
+                            return;
+                        }
+
+                        // Regular Hourly Item
                         $('#bk_progress_title').text('กำลังสร้างไฟล์แบคอัพชั่วโมง ' + item.date + ' ' + item.hour + ':00 (INSERT ~' + item.create_rows.toLocaleString() + ', UPDATE ~' + item.edit_rows.toLocaleString() + ' แถว)...');
 
                         $.ajax({

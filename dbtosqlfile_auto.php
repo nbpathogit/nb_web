@@ -126,6 +126,211 @@ function dbBkAutoGetExistingFilesForHour($backupDir, $dateStr, $hourStr)
 }
 
 /**
+ * Helper: Check if historical backup file(s) already exist for a given cutoff date (YYYY-MM-DD)
+ */
+function dbBkAutoGetExistingHistoricalFiles($backupDir, $cutoffDate)
+{
+    $pattern = $backupDir . DIRECTORY_SEPARATOR . '0000-00-00_to_' . $cutoffDate . '_*.sql';
+    $matches = glob($pattern);
+    $valid = [];
+    if (is_array($matches)) {
+        foreach ($matches as $m) {
+            if (is_file($m) && filesize($m) > 0) {
+                $valid[] = basename($m);
+            }
+        }
+    }
+    sort($valid);
+    return $valid;
+}
+
+/**
+ * Helper: Backup all historical data prior to cutoff date/time into ~10MB split files
+ * Filenames: 0000-00-00_to_{cutoffDate}_01.sql, 02.sql, ...
+ */
+function dbBkAutoBackupHistorical($conn, $backupDir, $cutoffDate, $cutoffTime, $tablesMeta = null, $maxFileBytes = DB_BK_MAX_FILE_BYTES)
+{
+    $existing = dbBkAutoGetExistingHistoricalFiles($backupDir, $cutoffDate);
+    if (!empty($existing)) {
+        return [
+            'status' => 'skipped_existing',
+            'cutoff_date' => $cutoffDate,
+            'files' => $existing,
+            'insert_rows' => 0,
+        ];
+    }
+
+    if ($tablesMeta === null) {
+        $tablesMeta = dbBkAutoGetTablesMetadata($conn);
+    }
+
+    $partNum = 1;
+    $fp = null;
+    $currentFilePath = '';
+    $currentFileName = '';
+    $currentBytes = 0;
+    $createdFiles = [];
+    $totalInsertRows = 0;
+
+    $openNewPartFile = function () use (
+        $backupDir,
+        $cutoffDate,
+        $cutoffTime,
+        &$partNum,
+        &$fp,
+        &$currentFilePath,
+        &$currentFileName,
+        &$currentBytes,
+        &$createdFiles
+    ) {
+        if (is_resource($fp)) {
+            $footer = "\nSET FOREIGN_KEY_CHECKS = 1;\n-- End of file {$currentFileName}\n";
+            fwrite($fp, $footer);
+            fclose($fp);
+            $fp = null;
+        }
+
+        $partTag = str_pad((string)$partNum, 2, '0', STR_PAD_LEFT);
+        $currentFileName = "0000-00-00_to_{$cutoffDate}_{$partTag}.sql";
+        $currentFilePath = $backupDir . DIRECTORY_SEPARATOR . $currentFileName;
+
+        $fp = fopen($currentFilePath, 'wb');
+        if (!$fp) {
+            throw new RuntimeException("ไม่สามารถสร้างไฟล์แบคอัพข้อมูลประวัติศาสตร์ได้: {$currentFileName}");
+        }
+
+        $genTime = date('Y-m-d H:i:s');
+        $header = "-- ============================================================================\n"
+                . "-- NB Patho Historical Database Backup SQL (Prior to {$cutoffDate})\n"
+                . "-- File Name    : {$currentFileName}\n"
+                . "-- Cutoff Window: Up to {$cutoffTime}\n"
+                . "-- Generated At : {$genTime}\n"
+                . "-- Part Number  : {$partNum}\n"
+                . "-- ============================================================================\n"
+                . "SET NAMES utf8mb4;\n"
+                . "SET FOREIGN_KEY_CHECKS = 0;\n"
+                . "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n\n";
+
+        $written = fwrite($fp, $header);
+        $currentBytes = (int)$written;
+        $createdFiles[] = $currentFileName;
+        $partNum++;
+    };
+
+    $writeStatement = function ($sqlLine) use (
+        $maxFileBytes,
+        &$fp,
+        &$currentBytes,
+        $openNewPartFile
+    ) {
+        $lineBytes = strlen($sqlLine);
+        if (!is_resource($fp) || ($currentBytes > 1024 && ($currentBytes + $lineBytes + 128) > $maxFileBytes)) {
+            $openNewPartFile();
+        }
+        $written = fwrite($fp, $sqlLine);
+        $currentBytes += (int)$written;
+    };
+
+    foreach ($tablesMeta as $table => $meta) {
+        $cols = $meta['columns'];
+        $pkCols = $meta['pk'];
+        $hasIntId = $meta['has_int_id'];
+        $quotedColsList = implode(', ', array_map(function ($c) {
+            return "`{$c}`";
+        }, $cols));
+
+        $chunkSize = 3000;
+        $lastId = -1;
+        $offset = 0;
+        $wroteTableHeader = false;
+
+        while (true) {
+            if ($hasIntId) {
+                $sql = "SELECT * FROM `{$table}`
+                        WHERE (`stampdatecreate` < :cutoffTime OR `stampdatecreate` = '0000-00-00 00:00:00' OR `stampdatecreate` IS NULL)
+                          AND `id` > :lastId
+                        ORDER BY `id` ASC
+                        LIMIT {$chunkSize}";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':cutoffTime', $cutoffTime, PDO::PARAM_STR);
+                $stmt->bindValue(':lastId', $lastId, PDO::PARAM_INT);
+            } else {
+                $sql = "SELECT * FROM `{$table}`
+                        WHERE (`stampdatecreate` < :cutoffTime OR `stampdatecreate` = '0000-00-00 00:00:00' OR `stampdatecreate` IS NULL)
+                        LIMIT {$chunkSize} OFFSET {$offset}";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':cutoffTime', $cutoffTime, PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($rows)) {
+                break;
+            }
+
+            if (!$wroteTableHeader) {
+                $writeStatement("\n-- [HISTORICAL INSERT] Table `{$table}` (prior to {$cutoffTime})\n");
+                $wroteTableHeader = true;
+            }
+
+            foreach ($rows as $row) {
+                if ($hasIntId && isset($row['id'])) {
+                    $lastId = (int)$row['id'];
+                }
+                $vals = [];
+                $updatePairs = [];
+                foreach ($cols as $c) {
+                    $qVal = dbBkAutoQuoteValue($conn, array_key_exists($c, $row) ? $row[$c] : null);
+                    $vals[] = $qVal;
+                    if (!in_array($c, $pkCols, true)) {
+                        $updatePairs[] = "`{$c}`=VALUES(`{$c}`)";
+                    }
+                }
+
+                $valStr = implode(', ', $vals);
+                if (!empty($updatePairs)) {
+                    $updStr = implode(', ', $updatePairs);
+                    $stmtSql = "INSERT INTO `{$table}` ({$quotedColsList}) VALUES ({$valStr}) ON DUPLICATE KEY UPDATE {$updStr};\n";
+                } else {
+                    $stmtSql = "INSERT IGNORE INTO `{$table}` ({$quotedColsList}) VALUES ({$valStr});\n";
+                }
+
+                $writeStatement($stmtSql);
+                $totalInsertRows++;
+            }
+
+            $offset += count($rows);
+            if (count($rows) < $chunkSize) {
+                break;
+            }
+        }
+    }
+
+    if (is_resource($fp)) {
+        $footer = "\nSET FOREIGN_KEY_CHECKS = 1;\n-- End of file {$currentFileName} (HISTORICAL rows: {$totalInsertRows})\n";
+        fwrite($fp, $footer);
+        fclose($fp);
+        $fp = null;
+    }
+
+    if (empty($createdFiles)) {
+        return [
+            'status' => 'empty',
+            'cutoff_date' => $cutoffDate,
+            'files' => [],
+            'insert_rows' => 0,
+        ];
+    }
+
+    return [
+        'status' => 'created',
+        'cutoff_date' => $cutoffDate,
+        'files' => $createdFiles,
+        'insert_rows' => $totalInsertRows,
+    ];
+}
+
+/**
  * Helper: Generate SQL statements for a single 1-hour slot (YYYY-MM-DD HH:00:00 to YYYY-MM-DD HH:59:59)
  * Splits into multiple files (YYYY-MM-DD_HH0000_to_HH5959_01.sql, 02.sql, ...) if size approaches 10 MB.
  */
@@ -419,7 +624,8 @@ if (isset($_REQUEST['days']) && is_numeric($_REQUEST['days'])) {
 $daysLookback = max(1, min(365, $daysLookback));
 
 $startTimeExec = microtime(true);
-$cutoffTime = date('Y-m-d 00:00:00', strtotime("-{$daysLookback} days"));
+$cutoffDate = date('Y-m-d', strtotime("-{$daysLookback} days"));
+$cutoffTime = $cutoffDate . ' 00:00:00';
 $nowTime    = date('Y-m-d H:59:59');
 
 // Always generate/update a_initial_table.sql every time a backup run is triggered
@@ -505,6 +711,20 @@ try {
     $totalInsertRows   = 0;
     $totalUpdateRows   = 0;
 
+    // 1. Process historical batch prior to cutoff date (all data before 10 days as one chunk, split into ~10MB files)
+    $histRes = dbBkAutoBackupHistorical($conn, $backupDir, $cutoffDate, $cutoffTime, $tablesMeta);
+    if ($histRes['status'] === 'skipped_existing') {
+        $skippedHoursCount++;
+        $skippedHoursList[] = '0000-00-00_to_' . $cutoffDate;
+    } elseif ($histRes['status'] === 'created') {
+        $createdHoursCount++;
+        foreach ($histRes['files'] as $fName) {
+            $createdFilesList[] = $fName;
+        }
+        $totalInsertRows += (int)$histRes['insert_rows'];
+    }
+
+    // 2. Process hourly slots in the recent window
     foreach ($hoursMap as $hKey => $tableCounts) {
         list($dStr, $hStr) = explode('_', $hKey);
         $res = dbBkAutoBackupSingleHour($conn, $backupDir, $dStr, $hStr, $tablesMeta, $tableCounts);
