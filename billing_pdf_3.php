@@ -77,7 +77,22 @@ $billings = ServiceBilling::getBillbyHospitalbyDateRange($conn, 0, "2023-02-01",
 
     <div class=" <?= $isBorder ? "border" : "" ?>">
         <br>
-        <button name="btn_get_bill_by_range" id="btn_get_bill_by_range" type="submit" class="btn btn-primary">&nbsp;&nbsp;1) preview bill by date range&nbsp;&nbsp;</button>
+        <button name="btn_get_bill_by_range" id="btn_get_bill_by_range" type="button" class="btn btn-primary">
+            <span id="btn_get_bill_by_range_spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            <span id="btn_get_bill_by_range_text">&nbsp;&nbsp;1) preview bill by date range&nbsp;&nbsp;</span>
+        </button>
+
+        <div id="billing_progress_box" class="mt-3 d-none" style="max-width: 650px;">
+            <div class="d-flex justify-content-between mb-1">
+                <span id="billing_progress_text" class="fw-bold text-success" style="font-size: 0.95rem;">กำลังเริ่มต้นประมวลผล...</span>
+                <span id="billing_progress_percent" class="fw-bold text-secondary" style="font-size: 0.95rem;">0%</span>
+            </div>
+            <div class="progress" style="height: 20px;">
+                <div id="billing_progress_bar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            <div id="billing_progress_time" class="mt-2 text-muted" style="font-size: 0.88rem;"></div>
+            <div id="billing_step_summary" class="mt-2 p-2 border rounded bg-light d-none" style="font-size: 0.85rem;"></div>
+        </div>
 
     </div>
 </div>
@@ -463,13 +478,71 @@ function setCode2(billing_id) {
 //Get paramiter from database to DOM
 // Btn   1) preview bill by date range  
 $("#btn_get_bill_by_range").on("click", function (e) {
+    e.preventDefault();
+
     var hospital_id = $("#phospital_id_bill option").filter(":selected").attr('value');
     var hospital_name = $("#phospital_id_bill option").filter(":selected").text();
     var startdate = $("#startdate_billing").val();
     var enddate = $("#enddate_billing").val();
 //    alert(startdate.substr(0, 4) + " " + startdate.substr(5, 2) + " " + startdate.substr(8, 2));
 
+    // Progress Helper Functions with UI frame release
+    let t_start = new Date().getTime();
+    let step_times = [];
+    let last_step_time = t_start;
+
+    function formatTime(ms) {
+        let total_sec = (ms / 1000).toFixed(1);
+        let min = Math.floor(ms / 60000);
+        let sec = ((ms % 60000) / 1000).toFixed(1);
+        if (min > 0) {
+            return min + " นาที " + sec + " วินาที (" + total_sec + " วิ)";
+        } else {
+            return (ms / 60000).toFixed(2) + " นาที (" + total_sec + " วินาที)";
+        }
+    }
+
+    function recordStep(stepName) {
+        let now = new Date().getTime();
+        let diff = now - last_step_time;
+        step_times.push({ name: stepName, duration_ms: diff });
+        last_step_time = now;
+    }
+
+    function updateProgressUI(percent, text) {
+        let now = new Date().getTime();
+        let elapsed_text = formatTime(now - t_start);
+        $('#billing_progress_box').removeClass('d-none');
+        $('#billing_step_summary').addClass('d-none').html('');
+        $('#billing_progress_bar').addClass('bg-success')
+                                  .css('width', percent + '%')
+                                  .attr('aria-valuenow', percent)
+                                  .text(percent + '%');
+        $('#billing_progress_percent').text(percent + '%');
+        $('#billing_progress_text').text(text);
+        $('#billing_progress_time').html('⏱ <b>เวลาที่ใช้ไป:</b> <span class="fw-bold text-dark">' + elapsed_text + '</span>');
+        return new Promise(function (resolve) {
+            setTimeout(resolve, 30);
+        });
+    }
+
+    function resetProgressUI() {
+        $('#btn_get_bill_by_range').prop('disabled', false);
+        $('#btn_get_bill_by_range_spinner').addClass('d-none');
+        $('#btn_get_bill_by_range_text').html('&nbsp;&nbsp;1) preview bill by date range&nbsp;&nbsp;');
+    }
+
+    // Set initial loading state on button
+    $('#btn_get_bill_by_range').prop('disabled', true);
+    $('#btn_get_bill_by_range_spinner').removeClass('d-none');
+    $('#btn_get_bill_by_range_text').text(' กำลังประมวลผล...');
+
+    // Run async execution sequence
+    setTimeout(async function () {
     let error_ajax = "";
+
+    // Step 1: โหลดตารางหลัก DataTables
+    await updateProgressUI(10, "1/8: กำลังโหลดรายการบิลหลัก (DataTable)...");
 
 
 
@@ -603,16 +676,10 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             },
         ],
     });
+    recordStep("1. โหลดรายการบิลหลัก (DataTable)");
 
-
-
-
-
-
-
-
-    
-
+    // Step 2: ดึงราคารวมสุทธิ
+    await updateProgressUI(22, "2/8: กำลังคำนวณราคารวมสุทธิ (Sum Price)...");
     error_ajax = "";
     let net_price = null;
     $.ajax({
@@ -643,11 +710,15 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
 
+    recordStep("2. คำนวณราคารวมสุทธิ (Sum Price)");
 
+    // Step 3: ดึงราคาจัดกลุ่มตามประเภทบริการ
+    await updateProgressUI(35, "3/8: กำลังจัดกลุ่มตามประเภทบริการ (Group by Service)...");
     error_ajax = "";
     let net_byservice_price = null;
     $.ajax({
@@ -678,6 +749,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
@@ -707,6 +779,10 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     //==========Get Data for G2 page======
     //==== get all record GroupBySN=======
     //====================================
+    recordStep("3. จัดกลุ่มตามประเภทบริการ (Group by Service)");
+
+    // Step 4: ดึงข้อมูล Group 2 (จัดกลุ่มตามเลข SN)
+    await updateProgressUI(48, "4/8: กำลังดึงข้อมูลจัดกลุ่มตามเลข SN (Group 2)...");
     error_ajax = "";
     $.ajax({
         'async': false,
@@ -737,6 +813,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
@@ -773,6 +850,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
@@ -784,6 +862,10 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     //Get record groupby code by ajax------------------------------------------
     //Then draw table at id drawbill_list_all_page_g3--------------------------
     //-------------------------------------------------------------------------
+    recordStep("4. จัดกลุ่มตามเลข SN (Group 2)");
+
+    // Step 5: ดึงข้อมูล Group 3 (จัดกลุ่มตามรหัสตรวจ)
+    await updateProgressUI(62, "5/8: กำลังดึงข้อมูลจัดกลุ่มตามรหัสตรวจ (Group 3)...");
     error_ajax = "";
     $.ajax({
         'async': false,
@@ -814,6 +896,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
@@ -851,12 +934,17 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
     
     
     // get record One by one
+    recordStep("5. จัดกลุ่มตามรหัสตรวจ (Group 3)");
+
+    // Step 6: ดึงข้อมูล Group 4 (รายการทีละเคส One by one)
+    await updateProgressUI(75, "6/8: กำลังดึงข้อมูลรายการทีละเคส (Group 4)...");
     error_ajax = "";
     $.ajax({
         'async': false,
@@ -887,28 +975,16 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
 //    C:\anuchit2\nb_web\ajax_billing\getHospital.php
+    recordStep("6. รายการทีละเคส (Group 4)");
+
+    // Step 7: ดึงข้อมูลโรงพยาบาลและคำนวณตัวสะกดราคา
+    await updateProgressUI(85, "7/8: กำลังดึงข้อมูลโรงพยาบาลและคำนวณตัวสะกดราคา...");
     error_ajax = "";
     let hospital = null;
     $.ajax({
@@ -936,6 +1012,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
@@ -978,6 +1055,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
         }
     });
     if(! (error_ajax.length === 0) ){
+        resetProgressUI();
         alert("::"+error_ajax);
         return -1;
     }
@@ -988,8 +1066,33 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
     $('#bill_manager').val("นาย อนุสรณ์ ชุมทอง");
 
+    recordStep("7. ดึงข้อมูลโรงพยาบาลและตัวสะกดราคา");
+
+    // Step 8: กดปุ่ม 2 (Preview on web page) เพื่อเรนเดอร์เอกสารหน้า 1-4 ลง DOM
+    await updateProgressUI(95, "8/8: กำลังสร้างเอกสารพรีวิวบนหน้าเว็บ (ปุ่ม 2: Preview on web)...");
+    renderBillingPreviewWeb(false);
+    recordStep("8. แสดงผลพรีวิวบนหน้าเว็บ (ปุ่ม 2: Preview on web)");
+
     console.log("end");
-    alert("done");
+    let total_ms = new Date().getTime() - t_start;
+    let total_time_formatted = formatTime(total_ms);
+    await updateProgressUI(100, "ประมวลผลเสร็จสมบูรณ์เรียบร้อย!");
+    $('#billing_progress_time').html('⏱ <b>ประมวลผลเสร็จสิ้นใน:</b> <span class="badge bg-success" style="font-size: 0.95rem;">' + total_time_formatted + '</span>');
+
+    // Build step summary table
+    let summaryHtml = '<div class="fw-bold mb-2 text-secondary"><i class="fa-solid fa-list-check me-1"></i> สรุปแจกแจงเวลาแต่ละขั้นตอน:</div>';
+    summaryHtml += '<table class="table table-sm table-bordered mb-0 bg-white shadow-sm">';
+    summaryHtml += '<thead class="table-light"><tr><th>ขั้นตอนการประมวลผล</th><th class="text-end" style="width:160px;">เวลาที่ใช้</th><th class="text-end" style="width:90px;">สัดส่วน</th></tr></thead><tbody>';
+    for (let s of step_times) {
+        let pct = total_ms > 0 ? ((s.duration_ms / total_ms) * 100).toFixed(1) : '0';
+        summaryHtml += '<tr><td>' + s.name + '</td><td class="text-end fw-bold text-primary">' + formatTime(s.duration_ms) + '</td><td class="text-end text-muted">' + pct + '%</td></tr>';
+    }
+    summaryHtml += '</tbody><tfoot><tr class="table-light fw-bold"><td>รวมทั้งหมด</td><td class="text-end text-success">' + total_time_formatted + '</td><td class="text-end">100%</td></tr></tfoot></table>';
+    $('#billing_step_summary').removeClass('d-none').html(summaryHtml);
+
+    resetProgressUI();
+    alert("done (ใช้เวลา " + total_time_formatted + ")");
+    }, 50);
 
 });
 
@@ -1005,11 +1108,8 @@ $("#btn_get_bill_by_range").on("click", function (e) {
 
 
 
-//btn   2) Preview on web page.  
-$("#btn_bill_preview_web").on("click", function (e) {
-
-
-
+// Reusable function to render preview on web page (Button 2 logic)
+function renderBillingPreviewWeb(showAlert = true) {
     //Read data from table to array
     var pricebyservice = [];
     var headers = [];
@@ -1154,10 +1254,15 @@ $("#btn_bill_preview_web").on("click", function (e) {
 
 
 
-    alert('done');
+    if (showAlert) {
+        alert('done');
+    }
+}
 
-
-
+//btn   2) Preview on web page.  
+$("#btn_bill_preview_web").on("click", function (e) {
+    e.preventDefault();
+    renderBillingPreviewWeb(true);
 });
 
 
