@@ -11,7 +11,7 @@ $conn = require '../includes/db.php';
 
 
 //p_sn	p_hn	p_admit_date	patient_name	clinicien_name	b_description_concat_nm	b_description_concat_sp	b_description_concat_all	b_cost_sum_nm	b_cost_sum_sp	b_cost_sum_all 
-$billings = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2($conn,$_POST['hospital_id'],$_POST['startdate'],$_POST['enddate']);
+$billings = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_v3($conn,$_POST['hospital_id'],$_POST['startdate'],$_POST['enddate']);
 /*
 Output Example
 p_sn    1  p_hn      p_admit_date  patient_name    clinicien_name    b_description_concat_nm    b_description_concat_sp    b_description_concat_all    b_cost_sum_nm    b_cost_sum_sp    b_cost_sum_all
@@ -24,8 +24,8 @@ CN2600008    286232    1/6/2026    นายเค แอล        Fluid cytolo
  *          */
 
 foreach ($billings as $key => $billing) {
-    $aa=ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm($conn,$_POST['hospital_id'],$_POST['startdate'],$_POST['enddate'],$billings[$key]['p_sn']);
-    $bb=ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp($conn,$_POST['hospital_id'],$_POST['startdate'],$_POST['enddate'],$billings[$key]['p_sn']);
+    $aa=ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm_v3($conn,$_POST['hospital_id'],$_POST['startdate'],$_POST['enddate'],$billings[$key]['p_sn']);
+    $bb=ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp_v3($conn,$_POST['hospital_id'],$_POST['startdate'],$_POST['enddate'],$billings[$key]['p_sn']);
 //    $billing[]= $b;
     $aabb = array_merge($aa, $bb);
     $billings[$key]['subarray']= $aabb;

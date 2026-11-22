@@ -212,6 +212,20 @@ class Util {
         }
     }
     
+
+            
+    public static function get_curreint_thai_date_time_v2() {
+
+        if(isset($_SESSION['cur_date'])){
+            //Return simulate time
+            return $_SESSION['cur_date'] . ' 12:00:00';
+        }else{
+            date_default_timezone_set('Asia/Bangkok');
+            return date('Y-m-d_H-i-s');
+        }
+    }
+    
+    
     public static function get_curreint_thai_date() {
 
         if(isset($_SESSION['cur_date'])){
