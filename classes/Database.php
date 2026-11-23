@@ -76,7 +76,6 @@ class Database {
 
         if ($_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com"  || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com"
                 || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com:34560" || $_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com:34560"
-                || $_SERVER['HTTP_HOST'] == "http://nbpathology.thddns.net:34560" || $_SERVER['HTTP_HOST'] == "nbpathology.thddns.net:34560"
                 ) {
 
             if (Url::getSubfolder() != "") {
@@ -86,6 +85,23 @@ class Database {
                 $this->db_pass = "@6i3#xdyJusmDfBJ";
             } else {
                 $this->db_host = "localhost";
+                $this->db_name = "nbpa_data";
+                $this->db_user = "nbpa_nbpatho";
+                $this->db_pass = "@6i3#xdyJusmDfBJ";
+            }
+        }
+        
+        if ($_SERVER['HTTP_HOST'] == "http://nbpathology.thddns.net"  || $_SERVER['HTTP_HOST'] == "nbpathology.thddns.net"
+                || $_SERVER['HTTP_HOST'] == "http://nbpathology.thddns.net:34560" || $_SERVER['HTTP_HOST'] == "nbpathology.thddns.net:34560"
+                ) {
+
+            if (Url::getSubfolder() != "") {
+                $this->db_host = "localhost:3306";
+                $this->db_name = "nbpa_data" . "_" . Url::getSubfolder();
+                $this->db_user = "nbpa_nbpatho";
+                $this->db_pass = "@6i3#xdyJusmDfBJ";
+            } else {
+                $this->db_host = "localhost:3306";
                 $this->db_name = "nbpa_data";
                 $this->db_user = "nbpa_nbpatho";
                 $this->db_pass = "@6i3#xdyJusmDfBJ";
