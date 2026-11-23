@@ -46,6 +46,28 @@ if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
     exit;
 }
 
+// Normalize uploaded PDF to standard PDF 1.4 using Ghostscript (fixes FPDI / mPDF compression parser errors)
+$uploadedFullPath = realpath($targetFile);
+if ($uploadedFullPath && is_file($uploadedFullPath)) {
+    $gsCmd = (PHP_OS === 'WINNT') ? 'gswin64c' : 'gs';
+    $tempNormFile = dirname($uploadedFullPath) . DIRECTORY_SEPARATOR . 'norm_' . basename($uploadedFullPath);
+    $gsExecCmd = $gsCmd . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile='
+        . escapeshellarg($tempNormFile) . ' ' . escapeshellarg($uploadedFullPath) . ' 2>&1';
+
+    $gsOutput = [];
+    $gsReturn = -1;
+    @exec($gsExecCmd, $gsOutput, $gsReturn);
+
+    if ($gsReturn === 0 && is_file($tempNormFile) && filesize($tempNormFile) > 0) {
+        @unlink($uploadedFullPath);
+        @rename($tempNormFile, $uploadedFullPath);
+    } else {
+        if (is_file($tempNormFile)) {
+            @unlink($tempNormFile);
+        }
+    }
+}
+
 echo 'The file ' . $fileName . ' has been uploaded successfully.';
 
 // $os = PHP_OS;

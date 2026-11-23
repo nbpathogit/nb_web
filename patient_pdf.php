@@ -768,19 +768,57 @@ foreach ($pdfAttachments as $pdfAttachment) {
         continue;
     }
 
-    try {
-        $attachmentPageCount = $mpdf->setSourceFile($resolvedFilePath);
+    $tempConvertedFile = null;
+    $fileToImport = $resolvedFilePath;
+    $attachmentPageCount = 0;
 
-        for ($attachmentPage = 1; $attachmentPage <= $attachmentPageCount; $attachmentPage++) {
-            $mpdf->AddPage();
-            $templateId = $mpdf->importPage($attachmentPage);
-            $mpdf->useTemplate($templateId, 0, 0, null, null, true);
-        }
+    try {
+        $attachmentPageCount = $mpdf->setSourceFile($fileToImport);
     } catch (\Throwable $e) {
-        error_log(
-            'Failed while appending patient PDF attachment id=' . $attachmentId
-            . ': ' . $e->getMessage()
-        );
+        // If FPDI parser failed (e.g. PDF 1.5+ compression / object streams), fallback to Ghostscript normalization (PDF 1.4)
+        $gsCmd = (PHP_OS === 'WINNT') ? 'gswin64c' : 'gs';
+        $tempConvertedFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'gs_' . md5($resolvedFilePath . microtime()) . '.pdf';
+        $gsExecCmd = $gsCmd . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile='
+            . escapeshellarg($tempConvertedFile) . ' ' . escapeshellarg($resolvedFilePath) . ' 2>&1';
+
+        $gsOutput = [];
+        $gsReturn = -1;
+        @exec($gsExecCmd, $gsOutput, $gsReturn);
+
+        if ($gsReturn === 0 && is_file($tempConvertedFile) && filesize($tempConvertedFile) > 0) {
+            try {
+                $fileToImport = $tempConvertedFile;
+                $attachmentPageCount = $mpdf->setSourceFile($fileToImport);
+            } catch (\Throwable $e2) {
+                error_log(
+                    'Failed reading converted patient PDF attachment id=' . $attachmentId
+                    . ': ' . $e2->getMessage()
+                );
+                $attachmentPageCount = 0;
+            }
+        } else {
+            error_log(
+                'Failed while appending patient PDF attachment id=' . $attachmentId
+                . ' (Ghostscript conversion error: ' . implode("
+", $gsOutput) . '): ' . $e->getMessage()
+            );
+        }
+    }
+
+    if ($attachmentPageCount > 0) {
+        try {
+            for ($attachmentPage = 1; $attachmentPage <= $attachmentPageCount; $attachmentPage++) {
+                $mpdf->AddPage();
+                $templateId = $mpdf->importPage($attachmentPage);
+                $mpdf->useTemplate($templateId, 0, 0, null, null, true);
+            }
+        } catch (\Throwable $e3) {
+            error_log('Failed importing page for attachment id=' . $attachmentId . ': ' . $e3->getMessage());
+        }
+    }
+
+    if ($tempConvertedFile !== null && is_file($tempConvertedFile)) {
+        @unlink($tempConvertedFile);
     }
 }
 //=============================================================================
