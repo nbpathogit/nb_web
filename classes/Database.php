@@ -74,8 +74,8 @@ class Database {
             }
         }
 
-        if ($_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com"  || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com" "
-            . " || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com:34560" || $_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com:34560"
+        if ($_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com"  || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com"
+                || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com:34560" || $_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com:34560"
                 || $_SERVER['HTTP_HOST'] == "http://nbpathology.thddns.net:34560" || $_SERVER['HTTP_HOST'] == "nbpathology.thddns.net:34560"
                 ) {
 
