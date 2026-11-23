@@ -17,6 +17,9 @@ if (Auth::isLoggedIn()) {
     Url::redirect("/patient.php");
 }
 
+//Util::writeFile("httphost.txt", $_SERVER['HTTP_HOST']);
+//echo "httphost::". $_SERVER['HTTP_HOST'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 //    var_dump($_POST);

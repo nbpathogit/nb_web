@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Database
  *
@@ -21,6 +22,10 @@ class Database {
         $this->db_name = "xxxx";
         $this->db_user = "xxxx";
         $this->db_pass = "xxxx";
+        
+        
+
+
 
         if ($_SERVER['HTTP_HOST'] == "localhost") {
 
@@ -55,6 +60,21 @@ class Database {
         }
 
         if ($_SERVER['HTTP_HOST'] == "nbpathology.com"  || $_SERVER['HTTP_HOST'] == "www.nbpathology.com") {
+
+            if (Url::getSubfolder() != "") {
+                $this->db_host = "localhost";
+                $this->db_name = "nbpa_data" . "_" . Url::getSubfolder();
+                $this->db_user = "nbpa_nbpatho";
+                $this->db_pass = "@6i3#xdyJusmDfBJ";
+            } else {
+                $this->db_host = "localhost";
+                $this->db_name = "nbpa_data";
+                $this->db_user = "nbpa_nbpatho";
+                $this->db_pass = "@6i3#xdyJusmDfBJ";
+            }
+        }
+        
+        if ($_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com"  || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com"  || $_SERVER['HTTP_HOST'] == "http://nurobot.3bbddns.com:34560" || $_SERVER['HTTP_HOST'] == "nurobot.3bbddns.com:34560") {
 
             if (Url::getSubfolder() != "") {
                 $this->db_host = "localhost";
