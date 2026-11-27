@@ -96,9 +96,22 @@
                 <tr><td><code>$_SESSION['skey']</code></td><td><code>string</code> (10 chars)</td><td>Random security token verified by AJAX endpoints</td></tr>
                 <tr><td><code>$_SESSION['setSrvTimeLimitIntSecs']</code></td><td><code>1200</code> (int)</td><td>20-minute idle timeout limit</td></tr>
                 <tr><td><code>$_SESSION['targetSrvTimeOutIntSecs']</code></td><td><code>int</code></td><td>Expiration timestamp (<code>curTime + 1200</code>)</td></tr>
+                <tr><td><code>$_SESSION['targetSrvTimeRemainIntSecs']</code></td><td><code>int</code></td><td>Remaining seconds before timeout</td></tr>
                 <tr><td><code>$_SESSION['log_username']</code> / <code>$_SESSION['log_name']</code></td><td><code>string</code></td><td>Used by <code>Log::add()</code> on login and logout</td></tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="card">
+        <h2>5. Session Countdown &amp; Auto-Logout System (<code>sessioncountdown</code>)</h2>
+        <p>NB Patho implements a real-time countdown timer in the left sidebar under the logged-in user profile (<code>#sessioncountdown</code>) with server-side synchronization and automatic logout when expired:</p>
+        <ul>
+            <li><strong>Server setting:</strong> <code>Auth::$sesstion_timelimit_int_sec = 1200;</code> (20 minutes).</li>
+            <li><strong>Auto-refresh:</strong> Every authenticated page request resets the timer to 20 minutes if active; if expired, it logs out to <code>login.php</code>.</li>
+            <li><strong>Client countdown &amp; periodic sync:</strong> <code>js/script.js</code> runs <code>decrement()</code> every 1 second and syncs with <code>ajax_timeout/getSrvTimeRemain.php</code> at 15m, 10m, 5m, 1m, and 2s to prevent browser clock drift.</li>
+            <li><strong>Auto-Logout:</strong> Redirects to <code>logout.php</code> when countdown reaches &le; -1.</li>
+        </ul>
+        <p style="margin-top: 1rem;"><a href="session-countdown.html" style="display: inline-block; background: #0284c7; color: #fff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600;">👉 Open Deep-Dive Session Countdown Architecture &amp; Simulator &rarr;</a></p>
     </div>
 
     <div class="card">

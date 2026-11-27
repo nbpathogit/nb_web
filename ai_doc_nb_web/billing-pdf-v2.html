@@ -156,10 +156,10 @@
                     <td><span class="badge badge-shared">Shared</span></td>
                     <td>Groups total cost by service type to populate cover letter breakdown.</td>
                 </tr>
-                <tr>
-                    <td><code>ajax_billing/getBillingGroupBySN_2.php</code></td>
+                <tr id="row_getBillingGroupBySN_2">
+                    <td><a href="#section_getBillingGroupBySN_2_detail" style="font-weight: 600; color: #0284c7; text-decoration: none;"><code>ajax_billing/getBillingGroupBySN_2.php</code> &rarr;</a></td>
                     <td><span class="badge badge-exclusive">V2-Specific</span></td>
-                    <td><strong>Key Innovation in V2:</strong> Groups by Surgical Number (SN) and queries separate sub-arrays for normal (NM) and special (SP) stains via <code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2()</code>, merging them into <code>subarray</code> for nested table rows.</td>
+                    <td><strong>Key Innovation in V2:</strong> Groups by Surgical Number (SN) and queries separate sub-arrays for normal (NM) and special (SP) stains via <code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2()</code>, merging them into <code>subarray</code> for nested table rows. (<a href="#section_getBillingGroupBySN_2_detail" style="color: #0284c7; font-weight: 600;">ดูรายละเอียดฟังก์ชันและโค้ดที่เรียก &darr;</a>)</td>
                 </tr>
                 <tr>
                     <td><code>ajax_billing/getBillingGroupBySNCount.php</code></td>
@@ -252,15 +252,75 @@
     </div>
 
     <div class="card">
-        <h2>3. Key Differences in Data Processing: V2 vs V1 &amp; V3</h2>
+        <h2>3. Detailed Workflow: "1) preview bill by date range" (Button 1)</h2>
+        <p>When the user clicks <code>#btn_get_bill_by_range</code> in <code>billing_pdf_2.php</code> (lines 464–995), the system executes a strict sequential workflow consisting of reading filters, reloading the reference DataTable, and running 7 synchronous AJAX calls:</p>
 
-        <h3>1. Nested Subarray Rendering in Group 2 (SN List)</h3>
-        <p>In V1, <code>billinngListAll_g2</code> concatenated descriptions into a single string with slashes (<code>/</code>). In <strong>V2</strong> (via <code>ajax_billing/getBillingGroupBySN_2.php</code>), each case contains an array of distinct stain records in <code>subarray</code>:</p>
-        <pre><code>// V2 getBillingGroupBySN_2.php merges NM (normal) and SP (special) stains:
-$aa = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm($conn, ...);
-$bb = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp($conn, ...);
-$billings[$key]['subarray'] = array_merge($aa, $bb);</code></pre>
-        <p>In <code>billing_pdf_2.php</code>, the JavaScript rendering function (<code>drawbill_list_all_page_g2</code>) sets <code>rowspan="'+subarray+'"</code> on patient identification columns, outputting a multi-row nested table per surgical number.</p>
+        <ol>
+            <li><strong>Input Extraction:</strong> Reads <code>hospital_id</code>, <code>hospital_name</code> from <code>#phospital_id_bill</code>, and dates from <code>#startdate_billing</code> and <code>#enddate_billing</code>.</li>
+            <li><strong>Reload Reference DataTable (<code>#billing_table</code>):</strong> Queries <code>ajax_billing/getBillbyHospitalbyDateRange.php</code> with DataTables, configuring export buttons (Excel, CSV, PDF) and double-click modal editing on <code>code2</code> (target 14).</li>
+            <li><strong>Sequential Synchronous AJAX Execution (<code>async: false</code>):</strong>
+                <ul>
+                    <li><code>getBillbyHospitalbyDateRangeSumPrice.php</code> &rarr; Computes net amount (<code>bcost</code>) and total item count (<code>bcount</code>).</li>
+                    <li><code>getCostGroupbyServiceTyoebyHospitalbyDateRange.php</code> &rarr; Summarizes total cost by service type into <code>#bill_hospital_by_service_price</code>.</li>
+                    <li><a href="#section_getBillingGroupBySN_2_detail" style="color: #0284c7; font-weight: 600;"><code>getBillingGroupBySN_2.php</code> &rarr;</a> Groups items by SN and merges <code>subarray_nm</code> with <code>subarray_sp</code> into <code>subarray</code>, then executes <strong><code>drawbill_list_all_page_g2(datajson)</code></strong> (line 1249) to construct the Page 4 (Group 2) nested table inside <code>#bill_list_all_g2</code>.</li>
+                    <li><code>getBillingGroupBySNCount.php</code> &rarr; Queries count of unique SNs and updates <code>#bill_count_bysn_list</code>.</li>
+                    <li><code>getBillingGroupByCode.php</code> &rarr; Aggregates records by official Comptroller General code and executes <code>drawbill_list_all_page_g3(datajson)</code> with active unit price column into <code>#bill_list_all_g3</code>.</li>
+                    <li><code>getBillingGroupByCodeCount.php</code> &rarr; Counts unique billing codes and populates <code>#bill_count_bycode_list</code>.</li>
+                    <li><code>getBillingHospitalOneByOne.php</code> &rarr; Fetches itemized case breakdown and executes <code>drawbill_list_all_page_g4(datajson)</code> into <code>#bill_list_all_g4</code>.</li>
+                    <li><code>getHospital.php</code> &rarr; Retrieves hospital tax ID and address for <code>#bill_hospital_taxid</code> and <code>#bill_hospital_address</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Date &amp; Parameter Population:</strong> Converts dates to Thai Buddhist Era (พ.ศ.), populates hospital parameters, sets net price, converts amount to Thai Baht text spelling (<code>#bill_hospital_net_price_spell</code>), and fills manager name (<code>#bill_manager</code>).</li>
+            <li><strong>Completion Alert:</strong> Displays <code>alert("Done Preview step 1.");</code>, allowing the user to click <code>2) Preview on web page</code>.</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>4. Key Differences in Data Processing: V2 vs V1 &amp; V3</h2>
+
+        <h3 id="section_getBillingGroupBySN_2_detail">1. Deep Dive: <code>ajax_billing/getBillingGroupBySN_2.php</code> (Called File &amp; Functions) <a href="#row_getBillingGroupBySN_2" style="font-size: 0.8rem; font-weight: normal; color: #64748b; margin-left: 0.5rem; text-decoration: none;">[&uarr; กลับไปตาราง Endpoints]</a></h3>
+        <p>In V1, <code>billinngListAll_g2</code> concatenated descriptions into a single string with slashes (<code>/</code>). In <strong>V2</strong>, <code>ajax_billing/getBillingGroupBySN_2.php</code> builds a hierarchical data structure where each parent SN case contains an array of itemized stain records in <code>subarray</code>:</p>
+        
+        <h4>Functions Called in <code>classes/ServiceBilling.php</code>:</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Execution Step</th>
+                    <th>Called Function</th>
+                    <th>File</th>
+                    <th>Purpose &amp; Return Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Parent Cases</strong></td>
+                    <td><code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2($conn, $hosp_id, $start, $end)</code></td>
+                    <td><code>classes/ServiceBilling.php</code> (L935)</td>
+                    <td>Queries parent case headers grouped by Surgical Number (<code>p.pnum</code>). Returns <code>p_sn</code>, <code>p_hn</code>, <code>p_admit_date</code>, <code>patient_name</code>, <code>clinicien_name</code>, aggregated descriptions, and total costs.</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Normal Stains (NM)</strong></td>
+                    <td><code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm($conn, $hosp_id, $start, $end, $sn)</code></td>
+                    <td><code>classes/ServiceBilling.php</code> (L1561)</td>
+                    <td>Executed inside <code>foreach ($billings as $key => $billing)</code> per SN. Queries normal stains where <code>st.service_typea_id = 1</code>. Returns <code>b_description</code>, <code>b_cost_sum_nm</code>, <code>b_cost_sum_sp = 0</code>, <code>b_cost_sum_all</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Special Stains (SP)</strong></td>
+                    <td><code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp($conn, $hosp_id, $start, $end, $sn)</code></td>
+                    <td><code>classes/ServiceBilling.php</code> (L1652)</td>
+                    <td>Executed inside the same loop per SN. Queries special stains where <code>st.service_typea_id = 2</code>. Returns <code>b_description</code>, <code>b_cost_sum_nm = 0</code>, <code>b_cost_sum_sp</code>, <code>b_cost_sum_all</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>4. Merge Subarrays</strong></td>
+                    <td><code>array_merge($aa, $bb)</code></td>
+                    <td>PHP native</td>
+                    <td>Merges NM and SP item arrays into <code>$billings[$key]['subarray']</code>, which is then JSON-encoded and returned to the client.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Client-Side Rendering:</h4>
+        <p>In <code>billing_pdf_2.php</code>, the JavaScript rendering function <strong><code>drawbill_list_all_page_g2(datajson)</code></strong> (L1249) receives this JSON, reads <code>datajson[i].subarray.length</code>, and sets <code>rowspan="'+subarray+'"</code> on patient identification columns (No., SN, Date, Patient, HN, Clinician), outputting a multi-row nested table per surgical number.</p>
 
         <h3>2. Explicit Unit Price in Group 3 (Summary by Code)</h3>
         <p>In V1, the unit price column in <code>drawbill_list_all_page_g3</code> was commented out. In <strong>V2</strong>, the <code>ราคาต่อหน่วย (บาท)</code> column is active and included in the table header, data row, and footer span (expanded <code>colspan</code> from 4 to 5).</p>
@@ -270,7 +330,7 @@ $billings[$key]['subarray'] = array_merge($aa, $bb);</code></pre>
     </div>
 
     <div class="card">
-        <h2>4. Maintenance &amp; Development Guidelines</h2>
+        <h2>5. Maintenance &amp; Development Guidelines</h2>
         <div class="alert alert-warning">
             <strong>Important Rule:</strong> Because Billing PDF V2 shares template files in <code>pdf_invoice/</code> and endpoints in <code>ajax_billing/</code> with V1, any modifications to base files like <code>billingletter1.php</code> or <code>billing_pdf_show.php</code> will affect both V1 and V2!
         </div>

@@ -143,6 +143,7 @@ $(document).ready(function () {
     console.log("----");
 
     setTimeout(decrement, 1000);
+    initSessionReloginModal();
     
     if (   typeof carry_msg !== 'undefined') {
         alert(carry_msg);
@@ -161,6 +162,8 @@ var runningWebDownTimeIntSecs;
 
 var curWebTimeIntSecs;
 var targetWebTimeOutIntSecs;
+var sessionReloginModalInstance = null;
+var sessionReloginSyncTimer = null;
 
 function decrement() {
 
@@ -181,19 +184,17 @@ function decrement() {
             ) {
         
         servtimeRemainIntSecs = parseInt(getSrvTimeRemain());// get time remain from server
-        //
-        //
-        //assigned server to local.
-        //runningWebDownTimeIntSecs = servtimeRemainIntSecs;
-        const date = new Date();
-        var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
+        if (!isNaN(servtimeRemainIntSecs)) {
+            const date = new Date();
+            var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
 
-        targetWebTimeOutIntSecs = Math.floor(parseInt(curWebTimeIntSecs) + parseInt(servtimeRemainIntSecs));
-        console.log("-----------------------");
-        console.log("curWebTimeIntSecs "+curWebTimeIntSecs);
-        console.log("targetWebTimeOutIntSecs "+targetWebTimeOutIntSecs);
-        console.log("servtimeRemainIntSecs "+servtimeRemainIntSecs);
-        console.log("-----------------------");
+            targetWebTimeOutIntSecs = Math.floor(parseInt(curWebTimeIntSecs) + parseInt(servtimeRemainIntSecs));
+            console.log("-----------------------");
+            console.log("curWebTimeIntSecs "+curWebTimeIntSecs);
+            console.log("targetWebTimeOutIntSecs "+targetWebTimeOutIntSecs);
+            console.log("servtimeRemainIntSecs "+servtimeRemainIntSecs);
+            console.log("-----------------------");
+        }
 
     }
 
@@ -201,6 +202,16 @@ function decrement() {
     var curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
 
     runningWebDownTimeIntSecs = Math.floor(parseInt(targetWebTimeOutIntSecs) - parseInt(curWebTimeIntSecs));
+
+    // กรณีแท็บถูกพัก (Background tab / Sleep) จนเวลาข้ามช่วง <= 2 วินาที ให้ซิงค์กับ Server อีกครั้งก่อนตัดสินว่าหมดเวลา
+    if (runningWebDownTimeIntSecs <= -1) {
+        var checkRemain = parseInt(getSrvTimeRemain());
+        if (!isNaN(checkRemain) && checkRemain > 0) {
+            servtimeRemainIntSecs = checkRemain;
+            targetWebTimeOutIntSecs = Math.floor(parseInt(curWebTimeIntSecs) + parseInt(servtimeRemainIntSecs));
+            runningWebDownTimeIntSecs = Math.floor(parseInt(targetWebTimeOutIntSecs) - parseInt(curWebTimeIntSecs));
+        }
+    }
 
     console.log("----");
     console.log("servtimeRemainIntSecs:" + servtimeRemainIntSecs);
@@ -214,15 +225,144 @@ function decrement() {
     console.log("----");
     console.log("----");
 
-    //Show time in web page
-    showTimeRuning(runningWebDownTimeIntSecs);
-
     if (runningWebDownTimeIntSecs > -1) {
+        //Show time in web page
+        showTimeRuning(runningWebDownTimeIntSecs);
         setTimeout(decrement, 1000);
     } else {
-        //Auto Logout if time remain is minus
-        $(window).attr('location', 'logout.php');
+        // แสดงเวลาเป็น 0:00:00 และเปิด Popup ให้ใส่รหัสผ่านเพื่อทำงานต่อโดยหน้าเว็บไม่หาย
+        showTimeRuning(0);
+        showSessionReloginModal();
     }
+}
+
+function resumeSessionCountdown(newRemainSecs) {
+    if (sessionReloginSyncTimer) {
+        clearInterval(sessionReloginSyncTimer);
+        sessionReloginSyncTimer = null;
+    }
+    var limitSecs = parseInt(newRemainSecs);
+    if (isNaN(limitSecs) || limitSecs <= 0) {
+        limitSecs = setTimeOutLimitIntSecs > 0 ? setTimeOutLimitIntSecs : 1200;
+    }
+    const nowDate = new Date();
+    curWebTimeIntSecs = Math.floor(nowDate.getTime() / 1000);
+    targetWebTimeOutIntSecs = Math.floor(curWebTimeIntSecs + limitSecs);
+    runningWebDownTimeIntSecs = Math.floor(targetWebTimeOutIntSecs - curWebTimeIntSecs);
+    showTimeRuning(runningWebDownTimeIntSecs);
+    setTimeout(decrement, 1000);
+}
+
+function showSessionReloginModal() {
+    var modalEl = document.getElementById('sessionReloginModal');
+    if (!modalEl) {
+        $(window).attr('location', 'logout.php');
+        return;
+    }
+
+    $('#relogin_error_box').addClass('d-none').text('');
+    $('#relogin_password').val('');
+
+    if (!sessionReloginModalInstance && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        sessionReloginModalInstance = new bootstrap.Modal(modalEl, {
+            backdrop: 'static',
+            keyboard: false
+        });
+        modalEl.addEventListener('shown.bs.modal', function () {
+            $('#relogin_password').trigger('focus');
+        });
+    }
+
+    if (sessionReloginModalInstance) {
+        sessionReloginModalInstance.show();
+    } else {
+        $(modalEl).modal({ backdrop: 'static', keyboard: false });
+        $(modalEl).modal('show');
+    }
+
+    // ตรวจสอบทุก 5 วินาที เผื่อผู้ใช้ล็อกอินต่อเวลาจากอีกแท็บหนึ่ง
+    if (sessionReloginSyncTimer) {
+        clearInterval(sessionReloginSyncTimer);
+    }
+    sessionReloginSyncTimer = setInterval(function () {
+        $.ajax({
+            type: 'POST',
+            global: false,
+            dataType: 'html',
+            url: 'ajax_timeout/getSrvTimeRemain.php',
+            data: { patient_id: 1 },
+            success: function (data) {
+                var remain = parseInt(data);
+                if (!isNaN(remain) && remain > 2) {
+                    if (sessionReloginModalInstance) {
+                        sessionReloginModalInstance.hide();
+                    } else {
+                        $(modalEl).modal('hide');
+                    }
+                    resumeSessionCountdown(remain);
+                }
+            }
+        });
+    }, 5000);
+}
+
+function initSessionReloginModal() {
+    $('#sessionReloginForm').on('submit', function (e) {
+        e.preventDefault();
+
+        var $btn = $('#btn_relogin_submit');
+        var $errBox = $('#relogin_error_box');
+        var passwordVal = $('#relogin_password').val();
+
+        if (!passwordVal) {
+            $errBox.removeClass('d-none').text('กรุณากรอกรหัสผ่าน');
+            $('#relogin_password').trigger('focus');
+            return;
+        }
+
+        $errBox.addClass('d-none').text('');
+        var origBtnHtml = $btn.html();
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>กำลังตรวจสอบ...');
+
+        var currentSkey = (typeof skey !== 'undefined' && skey) ? skey : $('#relogin_skey').val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'ajax_timeout/relogin.php',
+            dataType: 'json',
+            data: {
+                username: $('#relogin_username').val(),
+                password: passwordVal,
+                subfolder: $('#relogin_subfolder').val(),
+                skey: currentSkey,
+                adminusername: $('#relogin_adminusername').val(),
+                ugroup_id: $('#relogin_ugroup_id').val()
+            },
+            success: function (res) {
+                $btn.prop('disabled', false).html(origBtnHtml);
+                if (res && res.status === 'success') {
+                    if (res.skey && typeof skey !== 'undefined') {
+                        skey = res.skey;
+                    }
+                    var modalEl = document.getElementById('sessionReloginModal');
+                    if (sessionReloginModalInstance) {
+                        sessionReloginModalInstance.hide();
+                    } else if (modalEl) {
+                        $(modalEl).modal('hide');
+                    }
+                    resumeSessionCountdown(res.timeRemain);
+                } else {
+                    var msg = (res && res.message) ? res.message : 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง';
+                    $errBox.removeClass('d-none').text(msg);
+                    $('#relogin_password').val('').trigger('focus');
+                }
+            },
+            error: function () {
+                $btn.prop('disabled', false).html(origBtnHtml);
+                $errBox.removeClass('d-none').text('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง');
+            }
+        });
+    });
 }
 
 

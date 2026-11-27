@@ -300,6 +300,7 @@
     <div class="sidebar-section">Dedicated Topic Pages</div>
     <a href="job-roles.html">📄 Job Roles &amp; Workflows</a>
     <a href="user-groups-and-auth.html">📄 User Groups &amp; Auth / Login</a>
+    <a href="session-countdown.html">⏱️ Session Countdown &amp; Auto-Logout</a>
     <a href="php-mysql-compatibility.html">📄 PHP &amp; MySQL Compatibility</a>
     <a href="workflow-reference-map.html">📄 SN, Service Type &amp; Invoice Map</a>
     <a href="patient-workflows.html">📄 Patient Workflows &amp; Analytics Dashboards</a>
@@ -488,6 +489,8 @@
             <li><strong>Session Creation:</strong> Calls <code>Auth::login($conn, $username, $subfolder)</code>, which stores <code>User</code>, <code>Ugroup</code>, <code>skey</code>, and a 20-minute timeout (<code>1200</code>s) in <code>$_SESSION</code>, and logs the login via <code>Log::add()</code>.</li>
             <li><strong>Redirects:</strong> If password is <code>"changeme"</code> &rarr; <code>/user_change_password.php</code>; else if <code>page_name</code> is set &rarr; <code>/{page_name}?id={page_id}</code>; otherwise &rarr; <code>/patient.php</code>.</li>
         </ol>
+
+        <p style="margin-top: 1rem;">👉 <strong>Session Countdown &amp; Auto-Logout:</strong> Complete architecture for the 20-minute <code>#sessioncountdown</code> timer, periodic AJAX synchronization with <code>ajax_timeout/getSrvTimeRemain.php</code>, and auto-logout (<a href="session-countdown.html" style="color:var(--primary); font-weight:600;">Open Session Countdown Architecture &amp; Simulator &rarr;</a>)</p>
     </section>
 
     <!-- SECTION 3: PHP & MYSQL COMPATIBILITY -->

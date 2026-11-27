@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Countdown &amp; Auto-Logout — NB Patho AI Docs</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f1f5f9;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #d97706;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            margin-bottom: 1.5rem;
+        }
+
+        .top-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0284c7 0%, #0f172a 100%);
+            color: #fff;
+            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.85rem;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.6rem;
+            font-size: 1.35rem;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.35rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0.75rem 0 1rem 0;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0 1.25rem 0;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        tr:hover td {
+            background: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-primary { background: #e0f2fe; color: #0369a1; }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1.25rem 0;
+        }
+
+        .flow-step {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem 1.15rem;
+        }
+
+        .flow-step .step-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .flow-step h4 {
+            margin: 0.25rem 0 0.5rem 0;
+            font-size: 1rem;
+            color: #0f172a;
+        }
+
+        .flow-step p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        /* Demo Box */
+        .demo-box {
+            background: #0f172a;
+            color: #fff;
+            border-radius: 10px;
+            padding: 1.5rem 2rem;
+            margin-top: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .demo-timer {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ef4444;
+            font-family: 'Consolas', monospace;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-btn {
+            background: #0284c7;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.15s;
+        }
+
+        .demo-btn:hover {
+            background: #0369a1;
+        }
+
+        .demo-btn.btn-outline {
+            background: transparent;
+            border: 1px solid #475569;
+            color: #cbd5e1;
+        }
+
+        .demo-btn.btn-outline:hover {
+            background: #1e293b;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <a href="index.html">&larr; Back to NB Patho AI Knowledge Base Index</a> | 
+        <a href="user-groups-and-auth.html">User Groups &amp; Auth &rarr;</a>
+    </div>
+
+    <header>
+        <h1>ระบบการนับเวลาถอยหลัง (Session Countdown &amp; Auto-Logout)</h1>
+        <p>สถาปัตยกรรมและกลไกการทำงานของ Time Remain ใน NB Patho (<code>nb_web / dev3</code>)</p>
+    </header>
+
+    <!-- High-level flow -->
+    <div class="card">
+        <h2>ภาพรวมโครงสร้างระบบ (Architecture Overview)</h2>
+        <p>ระบบนับเวลาถอยหลังของ NB Patho ออกแบบมาเพื่อรักษาความปลอดภัยของข้อมูลผู้ป่วย โดยจำกัดเวลา Session ไว้ที่ <strong>20 นาที (1,200 วินาที)</strong> และแสดงผลนาฬิกานับถอยหลังสีแดงแบบเรียลไทม์บนแถบ Sidebar ด้านซ้ายใต้ข้อมูลผู้ใช้ พร้อมทั้งมีระบบ <strong>Auto-Logout</strong> อัตโนมัติเมื่อเวลาหมด</p>
+
+        <div class="flow-grid">
+            <div class="flow-step">
+                <span class="step-num">Step 1 • Server</span>
+                <h4>Auth.php</h4>
+                <p>กำหนด <code>$sesstion_timelimit_int_sec = 1200</code> และสร้าง Target Timeout ลงใน <code>$_SESSION</code></p>
+            </div>
+            <div class="flow-step">
+                <span class="step-num">Step 2 • DOM</span>
+                <h4>header.php</h4>
+                <p>ฝังตัวเลข 1200 ลงใน <code>&lt;li class="sesstion_timelimit_int_sec"&gt;</code> และเตรียม <code>#sessioncountdown</code></p>
+            </div>
+            <div class="flow-step">
+                <span class="step-num">Step 3 • Client JS</span>
+                <h4>script.js</h4>
+                <p>เริ่มลูป <code>decrement()</code> ทุก 1 วินาที และแปลงเวลาเป็น <code>H:MM:SS</code> แสดงบนหน้าจอ</p>
+            </div>
+            <div class="flow-step">
+                <span class="step-num">Step 4 • Auto Sync</span>
+                <h4>getSrvTimeRemain.php</h4>
+                <p>เรียก AJAX ซิงค์เวลากับเซิร์ฟเวอร์เป็นระยะ (15, 10, 5, 1 นาที และ 2 วิ) เพื่อป้องกันนาฬิกาเบราว์เซอร์เพี้ยน</p>
+            </div>
+            <div class="flow-step" style="border-top-color: #f59e0b;">
+                <span class="step-num" style="color: #f59e0b;">Step 5 • Modal Popup</span>
+                <h4>Re-Login Popup</h4>
+                <p>เมื่อหมดเวลา (<code>&lt;= -1</code>) เปิด Modal <code>#sessionReloginModal</code> ให้ใส่รหัสผ่านล็อกอินต่อได้ทันทีโดยหน้าไม่รีเฟรช</p>
+            </div>
+            <div class="flow-step" style="border-top-color: #dc2626;">
+                <span class="step-num" style="color: #dc2626;">Step 6 • Fallback</span>
+                <h4>logout.php</h4>
+                <p>หากไม่มี Modal ใน DOM หรือผู้ใช้เลือกกดปุ่ม "ออกจากระบบ" จะส่งไปยัง <code>logout.php</code></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. Server Side -->
+    <div class="card">
+        <h2>1. กลไกฝั่งเซิร์ฟเวอร์ (Server-Side: <code>classes/Auth.php</code>)</h2>
+        <p>ควบคุมการคำนวณและตรวจสอบสิทธิ์ในไฟล์ <code>classes/Auth.php</code>:</p>
+
+        <h3>A. ค่าคงที่เวลา Timeout (Line 12)</h3>
+        <pre><code>// classes/Auth.php
+public static $sesstion_timelimit_int_sec = 1200; // 1200 seconds = 20 minutes</code></pre>
+
+        <h3>B. เมื่อผู้ใช้ล็อกอิน (<code>Auth::login</code>, Lines 86–91)</h3>
+        <pre><code>date_default_timezone_set('Asia/Bangkok');
+$_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec; // 1200
+$curTime = Time();
+$_SESSION['curSrvTimeIntSecs'] = $curTime;
+$_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs']; // เวลาปัจจุบัน + 20 นาที
+$_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs'];</code></pre>
+
+        <h3>C. การต่ออายุเวลาเมื่อเปิดหน้าใหม่ (<code>Auth::requireLogin</code>, Lines 47–57)</h3>
+        <p>ในทุกหน้าเว็บที่มีการตรวจสิทธิ์ หากผู้ใช้ยังคงใช้งานหน้าเว็บอยู่ ระบบจะ<strong>รีเฟรชต่ออายุ Session ให้อีก 20 นาทีอัตโนมัติ</strong>:</p>
+        <pre><code>$curTime = Time();
+$_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec;
+
+if ($curTime &gt;= $_SESSION['targetSrvTimeOutIntSecs']) {
+    Auth::logout();
+    Url::redirect('/login.php');
+} else {
+    $_SESSION['curSrvTimeIntSecs'] = $curTime;
+    // ขยายเวลาหมดอายุออกไปอีก 20 นาที
+    $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs'];
+}</code></pre>
+
+        <h3>D. ฟังก์ชันคำนวณเวลาที่เหลือจริง (<code>Auth::getSrvTimeRemain</code>, Lines 148–154)</h3>
+        <pre><code>public static function getSrvTimeRemain() {
+    date_default_timezone_set('Asia/Bangkok');
+    $curTime = Time();
+    $_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs'] - $curTime;
+    return $_SESSION['targetSrvTimeRemainIntSecs'];
+}</code></pre>
+    </div>
+
+    <!-- 2. DOM Injection -->
+    <div class="card">
+        <h2>2. การแสดงผลและการส่งต่อข้อมูลสู่ DOM (<code>includes/header.php</code> &amp; <code>header_c.php</code>)</h2>
+        <p>ในไฟล์ Header จะมีองค์ประกอบ HTML 2 จุดสำคัญ:</p>
+
+        <h3>A. จุดแสดงผลเวลานับถอยหลังและปุ่มล็อกเอ้าต์ (Visible Element in Sidebar, Lines 120–127)</h3>
+        <p>อยู่ใต้แถบแสดงชื่อและกลุ่มของผู้ใช้งานในแถบ Sidebar ด้านซ้าย พร้อมปุ่มกด <strong>ออกจากระบบ (Log Out)</strong> ใต้ตัวเลขเวลา:</p>
+        <pre><code>&lt;div class="d-flex flex-column ms-4 mb-4"&gt;
+    &lt;div class="position-relative"&gt;
+        &lt;b&gt;&lt;span style="font-size: 1em;"&gt;Time Remain &lt;span id="sessioncountdown" style="color:red;"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/b&gt;
+    &lt;/div&gt;
+    &lt;div class="mt-1"&gt;
+        &lt;a href="logout.php" class="text-danger small fw-bold text-decoration-none" title="ออกจากระบบ"&gt;&lt;i class="fa-solid fa-right-from-bracket me-1"&gt;&lt;/i&gt;&lt;b&gt;ออกจากระบบ (Log Out)&lt;/b&gt;&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3>B. จุดส่งค่าตัวแปรจาก PHP สู่ JavaScript (Hidden Element, Line 382)</h3>
+        <p>นำค่า <code>Auth::$sesstion_timelimit_int_sec</code> (1200) มาฝังไว้ใน attribute <code>tabindex</code> แบบซ่อน:</p>
+        <pre><code>&lt;?php $hidden_data2dom = true; ?&gt;
+&lt;li class="sesstion_timelimit_int_sec" tabindex="&lt;?= Auth::$sesstion_timelimit_int_sec ?&gt;" style="&lt;?= $hidden_data2dom ? "display: none;" : "" ?&gt;"&gt;
+    Auth::$sesstion_timelimit_int_sec :: &lt;?= Auth::$sesstion_timelimit_int_sec ?&gt;
+&lt;/li&gt;</code></pre>
+    </div>
+
+    <!-- 3. Client JS Engine -->
+    <div class="card">
+        <h2>3. กลไกการนับเวลาถอยหลังในเบราว์เซอร์ (Client-Side JS: <code>js/script.js</code>)</h2>
+        <p>JavaScript จัดการนับถอยหลังและประสานงานกับเซิร์ฟเวอร์ใน <code>js/script.js</code>:</p>
+
+        <h3>A. การเริ่มต้นระบบ (Initialization on DOM Ready, Lines 125–152)</h3>
+        <pre><code>// อ่านค่าเวลาตั้งต้น 1200 จาก DOM
+var sesstion_timelimit_int_sec = $(".sesstion_timelimit_int_sec").attr('tabindex');
+setTimeOutLimitIntSecs = parseInt(sesstion_timelimit_int_sec);
+runningWebDownTimeIntSecs = 0;
+
+const date = new Date();
+curWebTimeIntSecs = Math.floor(date.getTime() / 1000);
+targetWebTimeOutIntSecs = Math.floor(curWebTimeIntSecs + setTimeOutLimitIntSecs);
+runningWebDownTimeIntSecs = Math.floor(targetWebTimeOutIntSecs - curWebTimeIntSecs);
+
+showTimeRuning(runningWebDownTimeIntSecs);
+
+// เริ่มต้นนับถอยหลังทุก 1 วินาที
+setTimeout(decrement, 1000);</code></pre>
+
+        <h3>B. ลูปนับถอยหลังและการซิงค์เวลาเซิร์ฟเวอร์ (<code>decrement()</code>, Lines 165–226)</h3>
+        <p>ทุกๆ 1 วินาที ฟังก์ชัน <code>decrement()</code> จะทำงาน:</p>
+        <ul>
+            <li><strong>ป้องกันนาฬิกาเบราว์เซอร์เดินเพี้ยน (Server Sync):</strong> มีการส่ง AJAX ไปเช็กเวลาจริงกับ Server เมื่อเวลาแสดงผลตรงกับเงื่อนไข:
+                <br>• เหลือ <strong>15 นาที</strong> (<code>0:15:00</code>)
+                <br>• เหลือ <strong>10 นาที</strong> (<code>0:10:00</code>)
+                <br>• เหลือ <strong>5 นาที</strong> (<code>0:05:00</code>)
+                <br>• เหลือ <strong>1 นาที</strong> (<code>0:01:00</code>)
+                <br>• ช่วง <strong>2 วินาทีสุดท้าย</strong> (<code>0:00:02</code> หรือน้อยกว่า)
+            </li>
+            <li>นำค่า <code>servtimeRemainIntSecs</code> จาก Server มาคำนวณ <code>targetWebTimeOutIntSecs</code> ใหม่ให้แม่นยำ</li>
+            <li>อัปเดตเวลาลงหน้าจอผ่าน <code>showTimeRuning(runningWebDownTimeIntSecs)</code></li>
+            <li><strong>Background Tab Pre-check:</strong> หากแท็บถูก Sleep/Background จนเวลาข้าม จะส่ง AJAX ตรวจสอบกับ Server อีกครั้งก่อนสรุปว่าหมดเวลาจริง</li>
+            <li><strong>Session Timeout Modal Trigger:</strong> หากเวลาหมดลงจริง (<code>runningWebDownTimeIntSecs &lt;= -1</code>) ระบบจะไม่เด้งออกจากหน้าจอทันที แต่จะคงตัวเลข <code>0:00:00</code> และเปิด Popup <code>showSessionReloginModal()</code>:
+                <pre><code>if (runningWebDownTimeIntSecs &gt; -1) {
+    // Show time in web page
+    showTimeRuning(runningWebDownTimeIntSecs);
+    setTimeout(decrement, 1000);
+} else {
+    // แสดงเวลาเป็น 0:00:00 และเปิด Popup ให้ใส่รหัสผ่านเพื่อทำงานต่อโดยหน้าเว็บไม่หาย
+    showTimeRuning(0);
+    showSessionReloginModal();
+}</code></pre>
+            </li>
+        </ul>
+
+        <h3>C. ฟังก์ชันแปลงวินาทีเป็นรูปแบบเวลา (<code>convertTimeSec2HHMMSS</code>, Lines 265–281)</h3>
+        <pre><code>function convertTimeSec2HHMMSS(runningWebDownTimeIntSecs) {
+    var displayedSecs = runningWebDownTimeIntSecs % 60;
+    var displayedMin = Math.floor(runningWebDownTimeIntSecs / 60) % 60;
+    var displayedHrs = Math.floor(runningWebDownTimeIntSecs / 60 / 60);
+
+    displayedSecsInt = parseInt(displayedSecs);
+    displayedMinInt = parseInt(displayedMin);
+    displayedHrsInt = parseInt(displayedHrs);
+
+    if (displayedMin &lt;= 9) displayedMin = "0" + displayedMin;
+    if (displayedSecs &lt;= 9) displayedSecs = "0" + displayedSecs;
+
+    return displayedHrs + ":" + displayedMin + ":" + displayedSecs;
+}</code></pre>
+
+        <h3>D. ฝั่ง Server Endpoint ซิงค์เวลา (<code>ajax_timeout/getSrvTimeRemain.php</code>)</h3>
+        <pre><code>&lt;?php   
+require '../includes/init.php';
+$conn = require '../includes/db.php';
+
+$srvTimeRemain = Auth::getSrvTimeRemain();
+echo $srvTimeRemain;
+?&gt;</code></pre>
+    </div>
+
+    <!-- 4. Popup Re-login Mechanism Deep-dive -->
+    <div class="card" id="relogin-modal-mechanism">
+        <h2>4. กลไกการทำงานของ Popup Re-Login (ป้องกันข้อมูลหายเมื่อหมดเวลา)</h2>
+        <p>เพื่อแก้ปัญหาสำคัญที่ผู้ใช้กำลังบันทึกข้อมูลผลตรวจ หรือกรอกแบบฟอร์มยาวๆ แล้ว Session หมดเวลา ทำให้ข้อมูลที่พิมพ์ค้างไว้สูญหาย ระบบจึงมีโมดัล <strong>Session Timeout Re-login Popup</strong> รองรับทั้ง Desktop และ Mobile</p>
+
+        <h3>A. โครงสร้าง Modal HTML (<code>includes/footer.php</code> &amp; <code>footer_c.php</code>)</h3>
+        <p>โมดัล <code>#sessionReloginModal</code> ถูกเรนเดอร์ไว้ใน Footer ของทุกหน้า (เฉพาะเมื่อมีล็อกอินอยู่ <code>isset($_SESSION['user'])</code>):</p>
+        <ul>
+            <li><strong>ล็อก Backdrop:</strong> กำหนด <code>data-bs-backdrop="static"</code> และ <code>data-bs-keyboard="false"</code> ป้องกันผู้ใช้คลิกพื้นหลังหลุดหรือกดยกเลิกแบบไม่ตั้งใจ</li>
+            <li><strong>ระดับความสำคัญสูงสุด:</strong> ตั้ง <code>z-index: 99999</code> ให้อยู่เหนือ Dropdown, Alert, และ Navigation Bar ทั้งหมด</li>
+            <li><strong>รักษาบริบทและสิทธิ์ของผู้ใช้:</strong> มี hidden fields เก็บข้อมูลสำคัญ ได้แก่:
+                <br>• <code>subfolder</code>: โฟลเดอร์ระบบย่อย
+                <br>• <code>skey</code>: คีย์ยืนยันความปลอดภัยสำหรับ AJAX/DataTables
+                <br>• <code>adminusername</code> &amp; <code>ugroup_id</code>: กรณีเป็น Admin กำลังจำลองเป็นผู้ใช้อื่น (Simulate User)
+            </li>
+            <li><strong>แสดงชื่อผู้ใช้งานแบบ Readonly:</strong> ผู้ใช้เพียงกรอก <strong>รหัสผ่าน (Password)</strong> ช่องเดียวแล้วกด Enter หรือปุ่ม "เข้าสู่ระบบเพื่อทำงานต่อ"</li>
+        </ul>
+
+        <h3>B. ฟังก์ชันควบคุมใน JavaScript (<code>js/script.js</code>)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">ฟังก์ชัน</th>
+                    <th>หน้าที่และการทำงาน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>initSessionReloginModal()</code></td>
+                    <td>ดักจับ Event <code>submit</code> ของ <code>#sessionReloginForm</code> และส่ง AJAX POST ไปยัง <code>ajax_timeout/relogin.php</code> โดยไม่รีเฟรชหน้าเว็บ</td>
+                </tr>
+                <tr>
+                    <td><code>showSessionReloginModal()</code></td>
+                    <td>
+                        เปิดโมดัลขึ้นมา และสร้างตัวจับเวลา <code>sessionReloginSyncTimer</code> เพื่อยิง AJAX ตรวจ <code>ajax_timeout/getSrvTimeRemain.php</code> ทุกๆ 5 วินาที
+                        <br><span class="badge badge-success">Cross-Tab Sync</span> หากผู้ใช้เปิดหลายแท็บและล็อกอินต่อเวลาในแท็บอื่นแล้ว แท็บนี้จะปิดโมดัลลงอัตโนมัติทันที
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>resumeSessionCountdown(remainSecs)</code></td>
+                    <td>
+                        เคลียร์ <code>sessionReloginSyncTimer</code>, คำนวณเวลา <code>targetWebTimeOutIntSecs</code> ใหม่จากวินาทีที่ Server ส่งกลับมา และเริ่มลูป <code>decrement()</code> นับถอยหลังต่อทันที
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>C. การตรวจสอบสิทธิ์ฝั่งเซิร์ฟเวอร์ (<code>ajax_timeout/relogin.php</code>)</h3>
+        <p>Endpoint เบื้องหลังทำงานแบบ Secure JSON API:</p>
+        <pre><code>// 1. ตรวจสอบสถานะบัญชี
+if (!User::isUserNameActive($conn, $username)) { ... }
+
+// 2. ตรวจสอบรหัสผ่าน (รองรับทั้งรหัสของเจ้าตัว หรือรหัสผ่าน Admin กรณี Simulate Login)
+$isAuthenticated = User::authenticate($conn, $username, $password);
+if (!$isAuthenticated && $adminusername !== '') {
+    if (User::isUserNameActive($conn, $adminusername) && User::authenticate($conn, $adminusername, $password)) {
+        $isAuthenticated = true;
+    }
+}
+
+// 3. กู้คืนและตั้งค่า Session ใหม่เต็มจำนวน 1200 วินาที
+Auth::login($conn, $username, $subfolder);
+
+// 4. คงค่า skey เดิมไว้ เพื่อให้ฟอร์มและ AJAX เดิมในหน้าไม่ต้อง Reload
+if ($skey !== '') {
+    $_SESSION['skey'] = $skey;
+}
+
+// 5. ส่งผลลัพธ์กลับ JSON
+echo json_encode([
+    'status' => 'success',
+    'timeRemain' => Auth::$sesstion_timelimit_int_sec, // 1200
+    'skey' => $_SESSION['skey']
+]);</code></pre>
+    </div>
+
+    <!-- Interactive Simulation -->
+    <div class="card">
+        <h2>5. จำลองการทำงานของตัวนับถอยหลัง (Interactive Simulator)</h2>
+        <p>ทดลองปรับเวลาเพื่อดูพฤติกรรมการแสดงผลและการจัดรูปแบบของฟังก์ชัน <code>convertTimeSec2HHMMSS</code>:</p>
+
+        <div class="demo-box">
+            <div>
+                <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.25rem;">SIMULATED TIME REMAIN:</div>
+                <div class="demo-timer" id="demo_countdown">0:20:00</div>
+                <div id="demo_status" style="font-size: 0.85rem; color: #38bdf8; margin-top: 0.35rem;">Status: Running</div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="demo-btn" onclick="setDemoTime(1200)">20 Min</button>
+                <button class="demo-btn" onclick="setDemoTime(300)">5 Min</button>
+                <button class="demo-btn" onclick="setDemoTime(60)">1 Min</button>
+                <button class="demo-btn" onclick="setDemoTime(5)">5 Sec</button>
+                <button class="demo-btn btn-outline" id="demo_toggle_btn" onclick="toggleDemoTimer()">Pause</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let demoSecs = 1200;
+    let demoTimerId = null;
+    let isDemoRunning = true;
+
+    function formatTime(secs) {
+        if (secs < 0) return "0:00:00 (EXPIRED)";
+        let s = secs % 60;
+        let m = Math.floor(secs / 60) % 60;
+        let h = Math.floor(secs / 3600);
+        if (m <= 9) m = "0" + m;
+        if (s <= 9) s = "0" + s;
+        return h + ":" + m + ":" + s;
+    }
+
+    function updateDemoDisplay() {
+        const el = document.getElementById("demo_countdown");
+        const statusEl = document.getElementById("demo_status");
+        el.innerText = formatTime(demoSecs);
+
+        if (demoSecs <= 0) {
+            statusEl.innerHTML = "<strong>Status: EXPIRED! (0:00:00)</strong> &rarr; Triggering <code>showSessionReloginModal()</code> popup (หน้าไม่หาย ผู้ใช้ใส่ Password ล็อกอินต่อได้ทันที)";
+            statusEl.style.color = "#ef4444";
+        } else if (demoSecs === 900 || demoSecs === 600 || demoSecs === 300 || demoSecs === 60 || demoSecs <= 2) {
+            statusEl.innerText = `Status: AJAX sync triggered with getSrvTimeRemain.php at ${formatTime(demoSecs)}!`;
+            statusEl.style.color = "#f59e0b";
+        } else {
+            statusEl.innerText = "Status: Running countdown...";
+            statusEl.style.color = "#38bdf8";
+        }
+    }
+
+    function tick() {
+        if (demoSecs > 0) {
+            demoSecs--;
+            updateDemoDisplay();
+            demoTimerId = setTimeout(tick, 1000);
+        } else {
+            updateDemoDisplay();
+        }
+    }
+
+    function setDemoTime(seconds) {
+        demoSecs = seconds;
+        updateDemoDisplay();
+        if (!isDemoRunning) {
+            toggleDemoTimer();
+        }
+    }
+
+    function toggleDemoTimer() {
+        const btn = document.getElementById("demo_toggle_btn");
+        if (isDemoRunning) {
+            clearTimeout(demoTimerId);
+            isDemoRunning = false;
+            btn.innerText = "Resume";
+            document.getElementById("demo_status").innerText = "Status: Paused";
+        } else {
+            isDemoRunning = true;
+            btn.innerText = "Pause";
+            tick();
+        }
+    }
+
+    // Start simulation
+    tick();
+</script>
+</body>
+</html>

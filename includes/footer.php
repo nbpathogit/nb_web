@@ -23,6 +23,81 @@
 <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
+<?php if (isset($_SESSION['username'])): ?>
+<?php
+    $relogin_fullname = '';
+    if (isset($_SESSION['user'])) {
+        $relogin_fullname = trim((isset($_SESSION['user']->name) ? $_SESSION['user']->name : '') . ' ' . (isset($_SESSION['user']->lastname) ? $_SESSION['user']->lastname : ''));
+    }
+    $relogin_ugroup_name = isset($_SESSION['usergroup']->ugroup) ? $_SESSION['usergroup']->ugroup : '';
+    $relogin_ugroup_id = isset($_SESSION['usergroup']->id) ? $_SESSION['usergroup']->id : '';
+    $relogin_subfolder = isset($_SESSION['subfolder']) ? $_SESSION['subfolder'] : '';
+    $relogin_skey = isset($_SESSION['skey']) ? $_SESSION['skey'] : '';
+    $relogin_adminusername = isset($_SESSION['adminusername']) ? $_SESSION['adminusername'] : '';
+?>
+<!-- Session Timeout Re-login Modal -->
+<div class="modal fade" id="sessionReloginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="sessionReloginModalLabel" aria-hidden="true" style="z-index: 99999;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title text-white" id="sessionReloginModalLabel">
+                    <i class="fa-solid fa-clock-rotate-left me-2"></i>หมดเวลาเชื่อมต่อ (Session Timeout)
+                </h5>
+            </div>
+            <form id="sessionReloginForm" autocomplete="off">
+                <div class="modal-body p-4 bg-nb bg-blue-a">
+                    <div class="alert alert-warning d-flex align-items-center mb-3 py-2" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation me-2 fs-5"></i>
+                        <div class="small">
+                            กรุณากรอกรหัสผ่านของบัญชีผู้ใช้เดิมเพื่อเข้าสู่ระบบและทำงานต่อ (ข้อมูลในหน้านี้ยังคงอยู่ครบถ้วน)
+                        </div>
+                    </div>
+
+                    <div id="relogin_error_box" class="alert alert-danger py-2 small d-none" role="alert"></div>
+
+                    <input type="hidden" id="relogin_subfolder" name="subfolder" value="<?= htmlspecialchars($relogin_subfolder) ?>">
+                    <input type="hidden" id="relogin_skey" name="skey" value="<?= htmlspecialchars($relogin_skey) ?>">
+                    <input type="hidden" id="relogin_adminusername" name="adminusername" value="<?= htmlspecialchars($relogin_adminusername) ?>">
+                    <input type="hidden" id="relogin_ugroup_id" name="ugroup_id" value="<?= htmlspecialchars($relogin_ugroup_id) ?>">
+
+                    <div class="mb-3">
+                        <label for="relogin_username" class="form-label fw-bold mb-1">บัญชีผู้ใช้ (Username)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-user text-primary"></i></span>
+                            <input type="text" class="form-control bg-light fw-bold" id="relogin_username" name="username" value="<?= htmlspecialchars($_SESSION['username']) ?>" readonly>
+                        </div>
+                        <?php if ($relogin_fullname !== '' || $relogin_ugroup_name !== ''): ?>
+                        <div class="form-text text-muted mt-1">
+                            <?= htmlspecialchars($relogin_fullname) ?>
+                            <?php if ($relogin_ugroup_name !== ''): ?>
+                                <span class="badge bg-secondary ms-1"><?= htmlspecialchars($relogin_ugroup_name) ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="relogin_password" class="form-label fw-bold mb-1">รหัสผ่าน (Password)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa-solid fa-key text-primary"></i></span>
+                            <input type="password" class="form-control" id="relogin_password" name="password" placeholder="กรอกรหัสผ่านเพื่อทำงานต่อ" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between bg-light">
+                    <a href="logout.php" class="btn btn-outline-danger">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i>ออกจากระบบ
+                    </a>
+                    <button type="submit" id="btn_relogin_submit" class="btn btn-primary px-4">
+                        <i class="fa-solid fa-unlock-keyhole me-1"></i>เข้าสู่ระบบเพื่อทำงานต่อ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -60,7 +135,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js">
 </script>
 <script src="<?= Url::getSubFolder1() ?>/js/jquery.datetimepicker.full.min.js"></script>
-<script src="<?= Url::getSubFolder1() ?>/js/script.js?v17"></script>
+<script src="<?= Url::getSubFolder1() ?>/js/script.js?v18"></script>
 <script src="<?= Url::getSubFolder1() ?>/js/scriptutil.js?v1a"></script>
 
 <script src="<?= Url::getSubFolder1() ?>/ajax_user/user.js?v0xxxxxxxxxxxxxxxxxxxx"></script>

@@ -48,9 +48,11 @@ class Auth {
         $_SESSION['setSrvTimeLimitIntSecs'] = Auth::$sesstion_timelimit_int_sec;
 
         if ($curTime >= $_SESSION['targetSrvTimeOutIntSecs']) {
+            // 1. ถ้าเวลาปัจจุบันเลยเวลา Timeout แล้ว
             Auth::logout();
             Url::redirect('/login.php');
         } else {
+            // 2. ถ้ายังไม่หมดอายุ (ผู้ใช้ยังมีการ active)
             $_SESSION['curSrvTimeIntSecs'] = $curTime;
             $curSrvTimeIntSecs = $_SESSION['curSrvTimeIntSecs'];
             $_SESSION['targetSrvTimeOutIntSecs'] = $curTime + $_SESSION['setSrvTimeLimitIntSecs'];
@@ -147,6 +149,9 @@ class Auth {
 
     public static function getSrvTimeRemain() {
         date_default_timezone_set('Asia/Bangkok');
+        if (!static::isLoggedIn() || !isset($_SESSION['targetSrvTimeOutIntSecs'])) {
+            return -1;
+        }
         $curTime = Time();
         $_SESSION['targetSrvTimeRemainIntSecs'] = $_SESSION['targetSrvTimeOutIntSecs'] - $curTime;
         return $_SESSION['targetSrvTimeRemainIntSecs'];
@@ -159,10 +164,13 @@ class Auth {
      * @return void
      */
     public static function logout() {
-        $conn = require 'includes/db.php';
+        $conn = require __DIR__ . '/../includes/db.php';
 
-        $thai_date = Util::get_curreint_thai_date_time();
-        Log::add($conn, $_SESSION['log_username'], $_SESSION['log_name'], "logout", "logout", $thai_date);
+        if (!empty($_SESSION['log_username'])) {
+            $thai_date = Util::get_curreint_thai_date_time();
+            $log_name = isset($_SESSION['log_name']) ? $_SESSION['log_name'] : $_SESSION['log_username'];
+            Log::add($conn, $_SESSION['log_username'], $log_name, "logout", "logout", $thai_date);
+        }
 
         $_SESSION = [];
         // If it's desired to kill the session, also delete the session cookie.

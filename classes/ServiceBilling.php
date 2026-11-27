@@ -1585,7 +1585,7 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
         
         //Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm.txt', $sql);   
         if($GLOBALS['isSqlWriteFileForDBG']){
-            Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm.txt', $sql);   
+            Util::writeFile(Util::get_curreint_thai_date_time_v2().'_getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm.txt', $sql);   
         }
         $results = $conn->query($sql);
 
@@ -1676,7 +1676,7 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
         
         //Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp.txt', $sql);   
         if($GLOBALS['isSqlWriteFileForDBG']){
-            Util::writeFile('getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp.txt', $sql);   
+            Util::writeFile(Util::get_curreint_thai_date_time_v2().'_getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp.txt', $sql);   
         }
         $results = $conn->query($sql);
 

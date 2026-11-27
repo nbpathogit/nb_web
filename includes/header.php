@@ -117,9 +117,12 @@ if ($cur_user_hosp_id > 0) {
                         </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center ms-4 mb-4">
+                <div class="d-flex flex-column ms-4 mb-4">
                     <div class="position-relative">
                         <b><span style=" font-size: 1em;">Time Remain <span id="sessioncountdown" style=" color:red;"></span></span></b>
+                    </div>
+                    <div class="mt-1">
+                        <a href="logout.php" class="text-danger small fw-bold text-decoration-none" title="ออกจากระบบ"><i class="fa-solid fa-right-from-bracket me-1"></i><b>ออกจากระบบ (Log Out)</b></a>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
