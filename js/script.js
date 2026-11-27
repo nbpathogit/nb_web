@@ -280,6 +280,11 @@ function showSessionReloginModal() {
         $(modalEl).modal('show');
     }
 
+    // ปรับ backdrop ของ Bootstrap ให้เป็นสีดำทึบ 100% ไม่ให้มองเห็นเนื้อหาหน้าเว็บเบื้องหลัง
+    setTimeout(function () {
+        $('.modal-backdrop').addClass('session-relogin-backdrop');
+    }, 10);
+
     // ตรวจสอบทุก 5 วินาที เผื่อผู้ใช้ล็อกอินต่อเวลาจากอีกแท็บหนึ่ง
     if (sessionReloginSyncTimer) {
         clearInterval(sessionReloginSyncTimer);

@@ -36,6 +36,17 @@
     $relogin_adminusername = isset($_SESSION['adminusername']) ? $_SESSION['adminusername'] : '';
 ?>
 <!-- Session Timeout Re-login Modal -->
+<style>
+    /* ปิดพื้นหลังให้เป็นสีดำสนิท 100% ไม่ให้เห็นรายละเอียดหน้าเว็บเดิมเมื่อหมดเวลาเชื่อมต่อ */
+    #sessionReloginModal {
+        background-color: rgba(0, 0, 0, 0.98) !important;
+    }
+    .modal-backdrop.session-relogin-backdrop {
+        background-color: #000000 !important;
+        opacity: 1 !important;
+        z-index: 99998 !important;
+    }
+</style>
 <div class="modal fade" id="sessionReloginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="sessionReloginModalLabel" aria-hidden="true" style="z-index: 99999;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">

@@ -435,6 +435,7 @@ echo $srvTimeRemain;
         <h3>A. โครงสร้าง Modal HTML (<code>includes/footer.php</code> &amp; <code>footer_c.php</code>)</h3>
         <p>โมดัล <code>#sessionReloginModal</code> ถูกเรนเดอร์ไว้ใน Footer ของทุกหน้า (เฉพาะเมื่อมีล็อกอินอยู่ <code>isset($_SESSION['user'])</code>):</p>
         <ul>
+            <li><strong>จอดำสนิทเพื่อความเป็นส่วนตัวและความปลอดภัย (Full Black Privacy Screen):</strong> ปิดพื้นหลังทึบด้วย <code>rgba(0, 0, 0, 0.98)</code> และปรับ <code>.modal-backdrop.session-relogin-backdrop</code> เป็นสีดำ 100% ทำให้ไม่เห็นข้อมูลคนไข้หรือฟอร์มเบื้องหลังในขณะที่ปล่อยหน้าจอทิ้งไว้จนหมดเวลา</li>
             <li><strong>ล็อก Backdrop:</strong> กำหนด <code>data-bs-backdrop="static"</code> และ <code>data-bs-keyboard="false"</code> ป้องกันผู้ใช้คลิกพื้นหลังหลุดหรือกดยกเลิกแบบไม่ตั้งใจ</li>
             <li><strong>ระดับความสำคัญสูงสุด:</strong> ตั้ง <code>z-index: 99999</code> ให้อยู่เหนือ Dropdown, Alert, และ Navigation Bar ทั้งหมด</li>
             <li><strong>รักษาบริบทและสิทธิ์ของผู้ใช้:</strong> มี hidden fields เก็บข้อมูลสำคัญ ได้แก่:
@@ -503,9 +504,60 @@ echo json_encode([
 ]);</code></pre>
     </div>
 
+    <!-- 5. How to Test Real Session Timeout -->
+    <div class="card" id="how-to-test-timeout">
+        <h2>5. วิธีการทดสอบให้ถึงเวลา Session Timeout ในระบบจริง (Testing Guide)</h2>
+        <p>เนื่องจากเวลา Session ปกติถูกตั้งไว้ที่ <strong>20 นาที (1,200 วินาที)</strong> การรอจนครบเวลาจริงอาจทำให้เสียเวลา จึงมี <strong>2 วิธี</strong> ที่แนะนำในการทดสอบให้เกิดการหมดเวลาและป็อปอัปทำงานจริง:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin: 1.25rem 0;">
+            <!-- Method 1 -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: 4px solid #0284c7; border-radius: 8px; padding: 1.25rem;">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #0284c7; text-transform: uppercase;">วิธีที่ 1 • แนะนำมากที่สุด (ไม่ต้องแก้โค้ด)</div>
+                <h3 style="margin-top: 0.25rem; margin-bottom: 0.75rem;">สั่งผ่าน Browser Developer Tools (F12 Console)</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">สามารถสั่งเปลี่ยนตัวแปรเวลานับถอยหลังในเบราว์เซอร์ให้เหลือเพียงไม่กี่วินาทีได้ทันทีบนหน้าเว็บจริง:</p>
+                <ol style="font-size: 0.88rem; padding-left: 1.25rem; margin-bottom: 0.75rem; line-height: 1.6;">
+                    <li>เปิดหน้าเว็บ NB Patho หน้าใดก็ได้ที่ล็อกอินอยู่ (เช่น <code>patient.php</code>)</li>
+                    <li>กดปุ่ม <code>F12</code> (หรือคลิกขวา &rarr; <em>Inspect / ตรวจสอบ</em>) แล้วเลือกแท็บ <strong>Console</strong></li>
+                    <li>วางคำสั่งด้านล่างนี้แล้วกด <kbd>Enter</kbd>:</li>
+                </ol>
+                <pre style="margin-bottom: 0.5rem;"><code class="language-javascript">// ปรับเวลาใน Browser ให้เหลือ 5 วินาที
+targetWebTimeOutIntSecs = Math.floor(new Date().getTime() / 1000) + 5;
+runningWebDownTimeIntSecs = 5;
+showTimeRuning(5);</code></pre>
+                <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">
+                    💡 <em>หรือหากต้องการให้ป็อปอัปเด้งทันที:</em> พิมพ์คำสั่ง <code>showSessionReloginModal();</code> ใน Console แล้วกด Enter
+                </p>
+            </div>
+
+            <!-- Method 2 -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: 4px solid #f59e0b; border-radius: 8px; padding: 1.25rem;">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #f59e0b; text-transform: uppercase;">วิธีที่ 2 • ทดสอบ Server Timeout แบบเต็มรูปแบบ</div>
+                <h3 style="margin-top: 0.25rem; margin-bottom: 0.75rem;">ปรับค่าเวลาใน <code>classes/Auth.php</code> ชั่วคราว</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">หากต้องการทดสอบทั้งฝั่ง Server และ Client ประสานงานกันอย่างสมบูรณ์:</p>
+                <ol style="font-size: 0.88rem; padding-left: 1.25rem; margin-bottom: 0.75rem; line-height: 1.6;">
+                    <li>เปิดไฟล์ <code>classes/Auth.php</code> (บรรทัดที่ 12)</li>
+                    <li>เปลี่ยนค่า <code>$sesstion_timelimit_int_sec</code> จาก <code>1200</code> เป็น <code>15</code> หรือ <code>30</code> วินาที:
+                        <pre style="margin: 0.4rem 0;"><code class="language-php">// ทดสอบชั่วคราว 30 วินาที
+public static $sesstion_timelimit_int_sec = 30; // 30 seconds</code></pre>
+                    </li>
+                    <li><strong>ออกจากระบบ (Log Out) แล้วล็อกอินเข้ามาใหม่</strong> (เพื่อให้ค่าเวลา 30 วิ ถูกบันทึกลง <code>$_SESSION</code>)</li>
+                    <li>ปล่อยหน้าจอทิ้งไว้ 30 วินาที เมื่อนับถอยหลังถึง 0 หน้าจอจะกลายเป็นสีดำสนิทและมีป็อปอัปให้ใส่รหัสผ่าน</li>
+                    <li><strong style="color: #dc2626;">ข้อควรระวัง:</strong> หลังทดสอบเสร็จแล้ว อย่าลืมเปลี่ยนค่ากลับเป็น <code>1200</code> เหมือนเดิม!</li>
+                </ol>
+            </div>
+        </div>
+
+        <h3>สิ่งที่ควรสังเกตและตรวจสอบขณะทดสอบ:</h3>
+        <ul style="line-height: 1.7;">
+            <li><span class="badge badge-success">จอภาพสีดำสนิท</span> เมื่อเวลาหมดลง หน้าจอเบื้องหลังทั้งหมดต้องถูกปิดทับด้วยพื้นหลังสีดำทึบ 100% ไม่สามารถแอบดูข้อมูลผู้ป่วยหรือแบบฟอร์มด้านหลังได้</li>
+            <li><span class="badge badge-primary">ข้อมูลฟอร์มไม่หาย</span> ลองพิมพ์ข้อความในช่องค้นหาหรือฟอร์มทิ้งไว้ เมื่อกรอกรหัสผ่านในป็อปอัปแล้วเข้าสู่ระบบใหม่ ข้อมูลที่พิมพ์ไว้จะต้องยังอยู่ครบถ้วนโดยไม่ต้องกรอกใหม่</li>
+            <li><span class="badge badge-warning">Cross-Tab Sync</span> หากเปิด 2 แท็บพร้อมกัน แล้วแท็บหนึ่งหมดเวลา เมื่อไปกดใช้งานหรือล็อกอินในอีกแท็บหนึ่ง ป็อปอัปในแท็บนี้จะปิดลงเองภายใน 5 วินาที</li>
+        </ul>
+    </div>
+
     <!-- Interactive Simulation -->
     <div class="card">
-        <h2>5. จำลองการทำงานของตัวนับถอยหลัง (Interactive Simulator)</h2>
+        <h2>6. จำลองการทำงานของตัวนับถอยหลัง (Interactive Simulator)</h2>
         <p>ทดลองปรับเวลาเพื่อดูพฤติกรรมการแสดงผลและการจัดรูปแบบของฟังก์ชัน <code>convertTimeSec2HHMMSS</code>:</p>
 
         <div class="demo-box">
