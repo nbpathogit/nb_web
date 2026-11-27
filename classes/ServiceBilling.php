@@ -1576,7 +1576,7 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
                 JOIN patient as p on  b.patient_id = p.id   and p.movetotrash = 0                                                          
                 JOIN service_type as st ON st.id = b.slide_type                                                                            
                 JOIN hospital as h ON  p.phospital_id = h.id                                                                               
-                and  p.phospital_id = $hospital_id                                                                                   
+                #and  p.phospital_id = $hospital_id                                                                                   
                 JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         
                 WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                            
                     and st.service_typea_id = 1                                                                                            
@@ -1667,7 +1667,7 @@ CN2600008    286232    1/6/2026    นายเค แอล     Fluid cytology 
                 JOIN patient as p on  b.patient_id = p.id   and p.movetotrash = 0                                                          
                 JOIN service_type as st ON st.id = b.slide_type                                                                            
                 JOIN hospital as h ON  p.phospital_id = h.id                                                                               
-                and  p.phospital_id = $hospital_id                                                                                   
+                #and  p.phospital_id = $hospital_id                                                                                   
                 JOIN user as user_clinicien ON user_clinicien.id = p.pclinician_id                                                         
                 WHERE   date(p.date_1000) >= '{$startdate}' and date(p.date_1000) <= '{$enddate}'                                            
                     and st.service_typea_id = 2                                                                                            

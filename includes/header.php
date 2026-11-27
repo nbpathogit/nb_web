@@ -221,7 +221,7 @@ if ($cur_user_hosp_id > 0) {
                         <div class="nav-item dropdown">
                             <a href="" id="manage_bill" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-card-clip"></i>ออกใบแจ้งหนี้</a>
                             <div class="dropdown-menu bg-transparent border-0 manage_bill_dropdown" id="manage_bill_dropdown">
-                                <!--<a id="billing_pdf_tab" href="billing_pdf.php" class="dropdown-item">ออกใบแจ้งหนี้(PDF)</a>-->
+                                <a id="billing_pdf_tab" href="billing_pdf.php" class="dropdown-item">ออกใบแจ้งหนี้ V1 (PDF)</a>
                                 <a id="billing_pdf_tab_2" href="billing_pdf_2.php" class="dropdown-item">ออกใบแจ้งหนี้ V2(PDF)</a>
                                 <a id="billing_pdf_tab_3" href="billing_pdf_3.php" class="dropdown-item">ออกใบแจ้งหนี้ V3(PDF)</a>
                                 <a id="billing_pdf_patho_tab" href="billing_by_patho_pdf.php" class="dropdown-item">กรองข้อมูลตามพยาธิแพทย์(PDF)</a>

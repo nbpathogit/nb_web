@@ -39,14 +39,14 @@ The browser executes 7 synchronous AJAX calls in strict succession:
    - Retrieves total cost aggregated by service type (`service_type_bill`, `bcost_count`, `bcost_sum`).
    - Builds an HTML summary table and appends it to `#bill_hospital_by_service_price`.
 
-3. **`ajax_billing/getBillingGroupBySN_2.php`** (V2 Key Innovation)
-   - Calls **`classes/ServiceBilling.php`** methods:
-     1. `ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2()` (L935) -> Gets parent case list grouped by SN.
-     2. In `foreach` per SN:
-        - `ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm()` (L1561) -> Queries normal stains (`service_typea_id = 1`).
-        - `ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp()` (L1652) -> Queries special stains (`service_typea_id = 2`).
-     3. Merges both with `array_merge($aa, $bb)` into `$billings[$key]['subarray']` and returns JSON.
-   - Client-side calls **`drawbill_list_all_page_g2(datajson)`** (L1249) to construct the Page 4 (Group 2) nested table with dynamic `rowspan` and injects it into `#bill_list_all_g2`.
+3. **`ajax_billing/getBillingGroupBySN_2.php`** (V2 Key Innovation: ตารางนับตาม SN)
+   - ดึงข้อมูลแบบ Hierarchical Parent-Children ผ่าน **`classes/ServiceBilling.php`**:
+     1. `ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2()` (L935) -> ดึงเคสหลักจัดกลุ่มตาม SN (`p_sn`)
+     2. วนลูป `foreach ($billings as $key => $billing)` ดึงรายการย่อย x2:
+        - `ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm()` (L1561) -> ดึงรายการย้อมปกติ (`service_typea_id = 1`)
+        - `ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp()` (L1652) -> ดึงรายการย้อมพิเศษ (`service_typea_id = 2`)
+     3. รวมอาร์เรย์ลูกเข้าด้วยกัน `$billings[$key]['subarray'] = array_merge($aa, $bb)` แล้วส่งกลับแบบ JSON
+   - ฝั่ง Client เรียกฟังก์ชัน **`drawbill_list_all_page_g2(datajson)`** (L1249) เพื่อวาดตาราง Landscape A4 ใน `#bill_list_all_g2` โดยผสานเซลล์ด้วย `rowspan="'+subarray.length+'"`
 
 4. **`ajax_billing/getBillingGroupBySNCount.php`**
    - Queries the total count of distinct SN cases in the date range.

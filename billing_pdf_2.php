@@ -705,6 +705,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
     //====================================
     //==========Get Data for G2 page======
     //==== get all record GroupBySN=======
+    //=======ตาราง นับตาม sergical number(SN)===
     //====================================
     error_ajax = "";
     $.ajax({
@@ -727,6 +728,7 @@ $("#btn_get_bill_by_range").on("click", function (e) {
             if (datajson.length == 0) {
                 error_ajax = "No record found";
             }
+            //local draw html may take long time processcing
             drawbill_list_all_page_g2(datajson);
 
 //            drawbillingTable(datajson);// last page for reference

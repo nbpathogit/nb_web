@@ -278,49 +278,68 @@
     <div class="card">
         <h2>4. Key Differences in Data Processing: V2 vs V1 &amp; V3</h2>
 
-        <h3 id="section_getBillingGroupBySN_2_detail">1. Deep Dive: <code>ajax_billing/getBillingGroupBySN_2.php</code> (Called File &amp; Functions) <a href="#row_getBillingGroupBySN_2" style="font-size: 0.8rem; font-weight: normal; color: #64748b; margin-left: 0.5rem; text-decoration: none;">[&uarr; กลับไปตาราง Endpoints]</a></h3>
-        <p>In V1, <code>billinngListAll_g2</code> concatenated descriptions into a single string with slashes (<code>/</code>). In <strong>V2</strong>, <code>ajax_billing/getBillingGroupBySN_2.php</code> builds a hierarchical data structure where each parent SN case contains an array of itemized stain records in <code>subarray</code>:</p>
+        <h3 id="section_getBillingGroupBySN_2_detail">1. Deep Dive: กลไกการสร้างตารางนับตาม SN (Surgical Number) ใน <code>billing_pdf_2.php</code> <a href="#row_getBillingGroupBySN_2" style="font-size: 0.8rem; font-weight: normal; color: #64748b; margin-left: 0.5rem; text-decoration: none;">[&uarr; กลับไปตาราง Endpoints]</a></h3>
+        <p>ในระบบ V1 เดิม ไฟล์ <code>billinngListAll_g2</code> ใช้วิธีนำข้อความรายการตรวจมาต่อกันด้วยเครื่องหมาย Slash (<code>/</code>) ภายในแถวเดียว แต่ใน <strong>V2</strong> (และ V3) ได้ปรับโครงสร้างข้อมูลใหม่ทั้งหมดเป็นแบบ <strong>Hierarchical Tree (ลำดับชั้น แม่-ลูก)</strong> โดยส่งผ่าน AJAX <code>getBillingGroupBySN_2.php</code> เพื่อนำมาวาดตารางแยกรายการย้อมตรวจหลายแถวย่อยด้วย <code>drawbill_list_all_page_g2(datajson)</code>:</p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; border-radius: 6px; padding: 1rem 1.25rem; margin: 1rem 0;">
+            <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: #0284c7;">ภาพรวมขั้นตอนการทำงาน (Workflow Summary):</h4>
+            <ol style="margin-bottom: 0; padding-left: 1.25rem; line-height: 1.7;">
+                <li><strong>Client AJAX Call:</strong> ส่งคำขอด้วย <code>url: 'ajax_billing/getBillingGroupBySN_2.php'</code> พร้อมพารามิเตอร์ <code>hospital_id</code>, <code>startdate</code>, <code>enddate</code></li>
+                <li><strong>Query เคสหลัก (Parent):</strong> เรียก <code>$billings = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2(...)</code> เพื่อดึงเคสจัดกลุ่มตามเลข SN (<code>p_sn</code>)</li>
+                <li><strong>Loop ดึงรายการย่อย x2 (Children Subarrays):</strong> วนลูปแต่ละเคสด้วย <code>foreach</code> เพื่อเรียก 2 ฟังก์ชันย่อย:
+                    <br>&bull; <code>$aa = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm(...)</code> &rarr; รายการย้อมปกติ (Normal Stains)
+                    <br>&bull; <code>$bb = ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp(...)</code> &rarr; รายการย้อมพิเศษ (Special Stains)
+                </li>
+                <li><strong>Merge &amp; Append:</strong> รวม <code>$aa</code> และ <code>$bb</code> เข้าด้วยกันผ่าน <code>array_merge()</code> แล้วแนบเป็น <code>$billings[$key]['subarray']</code></li>
+                <li><strong>Client Rendering:</strong> เมื่อได้รับ JSON กลับมา ฝั่ง Client จะส่งข้อมูลเข้าฟังก์ชัน <strong><code>drawbill_list_all_page_g2(datajson)</code></strong> เพื่อสร้างตาราง HTML ผสานเซลล์ด้วย <code>rowspan</code> ตามจำนวนรายการใน <code>subarray.length</code></li>
+            </ol>
+        </div>
         
-        <h4>Functions Called in <code>classes/ServiceBilling.php</code>:</h4>
+        <h4>ตารางสรุปฟังก์ชันและไฟล์ที่ถูกเรียกใช้งาน (Backend Controller &amp; Models):</h4>
         <table>
             <thead>
                 <tr>
-                    <th>Execution Step</th>
-                    <th>Called Function</th>
-                    <th>File</th>
-                    <th>Purpose &amp; Return Data</th>
+                    <th style="width: 18%;">ลำดับการทำงาน</th>
+                    <th style="width: 42%;">ฟังก์ชันที่เรียก (Called Function)</th>
+                    <th style="width: 20%;">ไฟล์ต้นทาง</th>
+                    <th>หน้าที่และผลลัพธ์ที่ได้</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><strong>1. Parent Cases</strong></td>
                     <td><code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2($conn, $hosp_id, $start, $end)</code></td>
-                    <td><code>classes/ServiceBilling.php</code> (L935)</td>
-                    <td>Queries parent case headers grouped by Surgical Number (<code>p.pnum</code>). Returns <code>p_sn</code>, <code>p_hn</code>, <code>p_admit_date</code>, <code>patient_name</code>, <code>clinicien_name</code>, aggregated descriptions, and total costs.</td>
+                    <td><code>classes/ServiceBilling.php</code> (Line 935)</td>
+                    <td>ดึงรายการเคสหลักระดับผู้ป่วย จัดกลุ่มตาม Surgical Number (<code>p.pnum</code>) คืนค่าข้อมูลทั่วไป เช่น <code>p_sn</code>, <code>p_hn</code>, <code>p_admit_date</code>, <code>patient_name</code>, <code>clinicien_name</code> และยอดรวมค่าบริการ</td>
                 </tr>
                 <tr>
                     <td><strong>2. Normal Stains (NM)</strong></td>
                     <td><code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_nm($conn, $hosp_id, $start, $end, $sn)</code></td>
-                    <td><code>classes/ServiceBilling.php</code> (L1561)</td>
-                    <td>Executed inside <code>foreach ($billings as $key => $billing)</code> per SN. Queries normal stains where <code>st.service_typea_id = 1</code>. Returns <code>b_description</code>, <code>b_cost_sum_nm</code>, <code>b_cost_sum_sp = 0</code>, <code>b_cost_sum_all</code>.</td>
+                    <td><code>classes/ServiceBilling.php</code> (Line 1561)</td>
+                    <td>วนลูปเรียกต่อเคส โดยส่ง <code>$billings[$key]['p_sn']</code> เข้าไปดึงรายการย้อมปกติ (<code>st.service_typea_id = 1</code>) คืนค่า <code>b_description</code>, <code>b_cost_sum_nm</code>, <code>b_cost_sum_all</code></td>
                 </tr>
                 <tr>
                     <td><strong>3. Special Stains (SP)</strong></td>
                     <td><code>ServiceBilling::getBillbyHospitalbyDateRangeGroupBySN_2_subarray_sp($conn, $hosp_id, $start, $end, $sn)</code></td>
-                    <td><code>classes/ServiceBilling.php</code> (L1652)</td>
-                    <td>Executed inside the same loop per SN. Queries special stains where <code>st.service_typea_id = 2</code>. Returns <code>b_description</code>, <code>b_cost_sum_nm = 0</code>, <code>b_cost_sum_sp</code>, <code>b_cost_sum_all</code>.</td>
+                    <td><code>classes/ServiceBilling.php</code> (Line 1652)</td>
+                    <td>วนลูปเรียกในเคสเดียวกัน ดึงรายการย้อมพิเศษ/ตรวจพิเศษ (<code>st.service_typea_id = 2</code>) คืนค่า <code>b_description</code>, <code>b_cost_sum_sp</code>, <code>b_cost_sum_all</code></td>
                 </tr>
                 <tr>
                     <td><strong>4. Merge Subarrays</strong></td>
-                    <td><code>array_merge($aa, $bb)</code></td>
-                    <td>PHP native</td>
-                    <td>Merges NM and SP item arrays into <code>$billings[$key]['subarray']</code>, which is then JSON-encoded and returned to the client.</td>
+                    <td><code>$billings[$key]['subarray'] = array_merge($aa, $bb);</code></td>
+                    <td><code>ajax_billing/getBillingGroupBySN_2.php</code></td>
+                    <td>รวมอาร์เรย์รายการย้อมปกติ <code>$aa</code> และรายการย้อมพิเศษ <code>$bb</code> เข้าเป็นก้อนเดียวกัน แล้วแนบกลับเข้าเคสหลัก จากนั้น <code>echo json_encode($billings);</code></td>
                 </tr>
             </tbody>
         </table>
 
-        <h4>Client-Side Rendering:</h4>
-        <p>In <code>billing_pdf_2.php</code>, the JavaScript rendering function <strong><code>drawbill_list_all_page_g2(datajson)</code></strong> (L1249) receives this JSON, reads <code>datajson[i].subarray.length</code>, and sets <code>rowspan="'+subarray+'"</code> on patient identification columns (No., SN, Date, Patient, HN, Clinician), outputting a multi-row nested table per surgical number.</p>
+        <h4>การแสดงผลฝั่ง Client (Client-Side Rendering):</h4>
+        <p>ในไฟล์ <code>billing_pdf_2.php</code> เมื่อ AJAX สำเร็จ จะเรียกฟังก์ชัน <strong><code>drawbill_list_all_page_g2(datajson)</code></strong> (Line 1249):</p>
+        <ul>
+            <li>อ่านความยาวของรายการย่อยผ่าน <code>datajson[i].subarray.length</code></li>
+            <li>กำหนดค่า <code>rowspan="'+subarray+'"</code> ให้กับคอลัมน์ข้อมูลผู้ป่วย (ลำดับ, เลข SN, วันที่รับ, ชื่อผู้ป่วย, HN, แพทย์ผู้ส่ง) ในแถวแรกของเคสนั้น</li>
+            <li>วนลูปแทรกรายการตรวจย่อยจาก <code>subarray</code> ในคอลัมน์รายการตรวจและจำนวนเงิน ทำให้ได้ตารางสรุปค่าบริการแนวนอน (Landscape A4) ที่สวยงามและแสดงรายการย่อยครบถ้วน</li>
+        </ul>
 
         <h3>2. Explicit Unit Price in Group 3 (Summary by Code)</h3>
         <p>In V1, the unit price column in <code>drawbill_list_all_page_g3</code> was commented out. In <strong>V2</strong>, the <code>ราคาต่อหน่วย (บาท)</code> column is active and included in the table header, data row, and footer span (expanded <code>colspan</code> from 4 to 5).</p>
