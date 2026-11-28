@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Backup &amp; Hourly Sync Architecture — NB Patho AI Docs</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f1f5f9;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #d97706;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #fff;
+            padding: 2.25rem 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2);
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.85rem;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.92;
+            font-size: 1rem;
+        }
+
+        .badge-bar {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.6rem;
+            font-size: 1.35rem;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.35rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0.75rem 0 1rem 0;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0 1.25rem 0;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        tr:hover td {
+            background-color: #f1f5f9;
+        }
+
+        .callout {
+            border-left: 4px solid var(--primary);
+            background: #f0f9ff;
+            padding: 0.9rem 1.15rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 0.92rem;
+        }
+
+        .callout.warn {
+            border-left-color: var(--warning);
+            background: #fffbeb;
+        }
+
+        .callout.success {
+            border-left-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .diagram-box {
+            background: #0f172a;
+            color: #38bdf8;
+            font-family: 'Consolas', 'Monaco', monospace;
+            padding: 1.25rem 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.45;
+            font-size: 0.86rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-nav">
+        <a href="index.html">← กลับหน้ารวม AI Skill Documentation</a>
+        <a href="manage-database.html">ไปยัง จัดการฐานข้อมูล (manage_database.php) →</a>
+    </div>
+
+    <header>
+        <h1>Database Backup &amp; Hourly Sync Architecture — NB Patho (<code>nb_web</code>)</h1>
+        <p>สถาปัตยกรรมการสำรองฐานข้อมูลรายชั่วโมง (Incremental Hourly Backup) จากเซิร์ฟเวอร์หลัก (nbpathology.com) สู่เครื่องสำรองข้อมูลผ่าน Webhook, FTP และ Desktop GUI Importer</p>
+        <div class="badge-bar">
+            <span class="badge">dbtosqlfile.php</span>
+            <span class="badge">dbtosqlfile_auto.php</span>
+            <span class="badge">db_backup_sync_gui.py</span>
+            <span class="badge">Dual-Tier Time Partition</span>
+            <span class="badge">ON DUPLICATE KEY UPDATE</span>
+        </div>
+    </header>
+
+    <!-- 1. คอมโพเนนต์หลัก -->
+    <div class="card">
+        <h2>1. คอมโพเนนต์หลักและแผนผังไฟล์ (Core Components)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 28%;">คอมโพเนนต์</th>
+                    <th style="width: 32%;">ไฟล์ / ที่อยู่</th>
+                    <th>หน้าที่การทำงาน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Manual Web Backup UI</strong></td>
+                    <td><code>dev3/dbtosqlfile.php</code></td>
+                    <td>หน้าเบราว์เซอร์สำหรับกดสำรองข้อมูลด้วยตนเอง เลือกย้อนหลัง 1–365 วัน ดูโครงสร้างฟิลด์ ดาวน์โหลด ZIP และลบไฟล์</td>
+                </tr>
+                <tr>
+                    <td><strong>Automated Background Webhook</strong></td>
+                    <td><code>dev3/dbtosqlfile_auto.php</code></td>
+                    <td>Endpoint สำหรับ Cron Job / Webhook รันอัตโนมัติรายชั่วโมงเพื่อสร้างไฟล์ <code>.sql</code> เก็บใน <code>db_bk_sql/</code> โดยไม่ต้องล็อกอิน UI</td>
+                </tr>
+                <tr>
+                    <td><strong>GUI Sync &amp; Importer Tool</strong></td>
+                    <td><code>dev3/db_bk_sql_py/db_backup_sync_gui.py</code></td>
+                    <td>แอปพลิเคชัน Desktop Python Tkinter ที่รันบนเครื่องสำรอง: จัดการตั้งเวลารายชั่วโมง ส่ง Webhook ดาวน์โหลดผ่าน FTP และ Import เข้า MySQL</td>
+                </tr>
+                <tr>
+                    <td><strong>Backup Storage Directory</strong></td>
+                    <td><code>dev3/db_bk_sql/</code></td>
+                    <td>โฟลเดอร์จัดเก็บไฟล์ <code>.sql</code> สำรองที่ถูกแบ่งย่อยขนาดประมาณ 10 MB</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. Dual-Tier Partitioning -->
+    <div class="card">
+        <h2>2. สถาปัตยกรรมการแบ่งข้อมูล 2 ระดับ (Dual-Tier Time Partitioning)</h2>
+        <p>
+            เมื่อระบบเริ่มสร้างไฟล์สำรองข้อมูล (ค่ามาตรฐานย้อนหลัง: <strong>10 วัน</strong>) ข้อมูลจะถูกแบ่งออกเป็น 2 ระดับอย่างชัดเจนเพื่อป้องกันไฟล์แตกกระจาย:
+        </p>
+
+        <div class="diagram-box">                          [ Cutoff Date: 10 วันย้อนหลัง (เช่น 2026-11-18 00:00:00) ]
+                                                    │
+ ◀── Tier 1: ข้อมูลประวัติศาสตร์เก่า (ก่อน 10 วัน) ─────┼───── Tier 2: ข้อมูลปัจจุบันรายชั่วโมง ──▶
+     • รวมเป็นชุดประวัติศาสตร์ชุดเดียว                  │      • ละเอียดเป็นไฟล์รายชั่วโมง
+     • ข้อมูลที่ stampdatecreate &lt; cutoffTime           │      • จับทั้ง stampdatecreate &amp; edit
+     • แบ่งไฟล์ละไม่เกิน ~10 MB                          │      • แบ่งไฟล์ละไม่เกิน ~10 MB
+     • ชื่อ: 0000-00-00_to_YYYY-MM-DD_01.sql, ...       │      • ชื่อ: YYYY-MM-DD_HH0000_to_HH5959_01.sql</div>
+
+        <h3>Tier 1: Historical Data Batch (ข้อมูลเก่าก่อน 10 วัน)</h3>
+        <ul>
+            <li><strong>เป้าหมาย:</strong> ข้อมูลทั้งหมดที่ <code>stampdatecreate &lt; :cutoffTime</code> (รวมถึง <code>0000-00-00 00:00:00</code> หรือ <code>NULL</code>)</li>
+            <li><strong>การรวมกลุ่ม:</strong> รวมเป็น <strong>ก้อนประวัติศาสตร์ก้อนเดียว</strong> แทนที่จะสร้างไฟล์รายชั่วโมงหลายหมื่นไฟล์ในอดีต</li>
+            <li><strong>ข้อได้เปรียบของการเรียงชื่อ (A-Z):</strong> เนื่องจากชื่อไฟล์ขึ้นต้นด้วย <code>0000-00-00_to_...</code> การเรียงลำดับไฟล์ตามตัวอักษรจะทำให้ข้อมูลเก่าถูก Import เข้าฐานข้อมูลก่อนไฟล์รายชั่วโมงของปัจจุบันเสมอ</li>
+        </ul>
+
+        <h3>Tier 2: Recent Incremental Hourly Data (ข้อมูล 10 วันล่าสุด)</h3>
+        <ul>
+            <li><strong>เป้าหมาย:</strong> ข้อมูลที่สร้างใหม่ (<code>stampdatecreate</code>) หรือมีการแก้ไข (<code>stampdateedit</code>) ภายใน 10 วันล่าสุด</li>
+            <li><strong>การรวมกลุ่ม:</strong> แยกไฟล์เป็นรายชั่วโมง (เช่น <code>2026-11-28_110000_to_115959_01.sql</code>)</li>
+        </ul>
+    </div>
+
+    <!-- 3. Upsert Logic -->
+    <div class="card">
+        <h2>3. ไวยากรณ์ SQL Upsert (<code>ON DUPLICATE KEY UPDATE</code>)</h2>
+        <p>
+            ไฟล์ SQL สำรองทุกไฟล์ใช้ไวยากรณ์ Upsert ของ MySQL เพื่อความปลอดภัย 100%:
+        </p>
+        <pre><code>INSERT INTO `table_name` (`id`, `col1`, `col2`, ...)
+VALUES (101, 'val1', 'val2', ...)
+ON DUPLICATE KEY UPDATE `col1`=VALUES(`col1`), `col2`=VALUES(`col2`), ...;</code></pre>
+
+        <div class="callout success">
+            <strong>Idempotent Safety:</strong>
+            1. ถ้าเป็นเรคคอร์ดใหม่: ทำงานเป็น <code>INSERT</code> ปกติ<br>
+            2. ถ้ามี Primary Key อยู่แล้ว: ทำงานเป็น <code>UPDATE</code> ข้อมูลล่าสุดทับลงไป<br>
+            3. สามารถนำเข้าซ้ำกี่ครั้งก็ได้โดยไม่มีวันเกิด Error <code>#1062 - Duplicate entry</code>
+        </div>
+    </div>
+
+    <!-- 4. ลำดับการ Import -->
+    <div class="card">
+        <h2>4. ลำดับการนำเข้าข้อมูล (Import Execution Order)</h2>
+        <p>
+            โปรแกรม <code>db_backup_sync_gui.py</code> บนเครื่องปลายทางจะนำเข้าข้อมูลตามลำดับต่อไปนี้อย่างเคร่งครัด:
+        </p>
+        <ol>
+            <li><strong>ขั้นตอนที่ 1:</strong> รันไฟล์ <code>a_initial_table.sql</code> เพื่อสร้างโครงสร้างตาราง (<code>CREATE TABLE IF NOT EXISTS</code>) ทั้ง 36 ตารางให้พร้อมก่อน</li>
+            <li><strong>ขั้นตอนที่ 2:</strong> รันไฟล์ประวัติศาสตร์ <code>0000-00-00_to_YYYY-MM-DD_*.sql</code> ตามลำดับพาร์ท (01, 02, ...)</li>
+            <li><strong>ขั้นตอนที่ 3:</strong> รันไฟล์รายชั่วโมง <code>YYYY-MM-DD_HH0000_to_...sql</code> จากชั่วโมงเก่าสุดไปหาใหม่สุด</li>
+        </ol>
+    </div>
+
+    <!-- 5. Desktop Sync Tool -->
+    <div class="card">
+        <h2>5. เครื่องมือ Desktop Sync Tool (<code>db_backup_sync_gui.py</code>)</h2>
+        <p>
+            โปรแกรมควบคุมการซิงค์แบบกราฟิก (Desktop GUI) บนระบบปฏิบัติการ Windows:
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">ปุ่มฟังก์ชัน</th>
+                    <th>การทำงาน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>⏰ นาฬิกาอัตโนมัติ</code></td>
+                    <td>ส่ง Webhook ไปยังเซิร์ฟเวอร์ที่นาทีที่ 10 และดาวน์โหลด FTP + Import เข้าฐานข้อมูลที่นาทีที่ 20 ของทุกชั่วโมง</td>
+                </tr>
+                <tr>
+                    <td><code>⬇️ download remain</code></td>
+                    <td>ดาวน์โหลดเฉพาะไฟล์ <code>.sql</code> ใหม่ที่ยังไม่มีในเครื่อง และอัปเดตไฟล์ <code>a_initial_table.sql</code> เสมอ</td>
+                </tr>
+                <tr>
+                    <td><code>⚡ อัปเดต SQL ที่ค้างอยู่เข้าฐานข้อมูล</code></td>
+                    <td>นำเข้าเฉพาะไฟล์ <code>.sql</code> ที่ยังไม่ได้บันทึกชื่อใน <code>imported_files.txt</code></td>
+                </tr>
+                <tr>
+                    <td><code>🔥 import (ทั้งหมด ทันที)</code></td>
+                    <td>สั่ง Force-Import ไฟล์ <code>.sql</code> ในเครื่องทั้งหมดจากอดีตถึงปัจจุบันเข้าฐานข้อมูลทันที (มี Popup ยืนยัน)</td>
+                </tr>
+                <tr>
+                    <td><code>🗑️ delete local all</code></td>
+                    <td>ลบไฟล์ <code>.sql</code> และ <code>.tmp</code> ทั้งหมดในโฟลเดอร์เครื่อง และรีเซ็ต <code>imported_files.txt</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

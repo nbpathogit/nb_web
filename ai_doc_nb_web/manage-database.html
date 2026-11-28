@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Management &amp; SQL Query Console — NB Patho AI Docs</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f1f5f9;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #d97706;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0284c7 0%, #0f172a 100%);
+            color: #fff;
+            padding: 2.25rem 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.85rem;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.92;
+            font-size: 1rem;
+        }
+
+        .badge-bar {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.6rem;
+            font-size: 1.35rem;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.35rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0.75rem 0 1rem 0;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0 1.25rem 0;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        tr:hover td {
+            background-color: #f1f5f9;
+        }
+
+        .callout {
+            border-left: 4px solid var(--primary);
+            background: #f0f9ff;
+            padding: 0.9rem 1.15rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 0.92rem;
+        }
+
+        .callout.warn {
+            border-left-color: var(--warning);
+            background: #fffbeb;
+        }
+
+        .callout.danger {
+            border-left-color: var(--danger);
+            background: #fef2f2;
+        }
+
+        .callout.success {
+            border-left-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-nav">
+        <a href="index.html">← กลับหน้ารวม AI Skill Documentation</a>
+        <span style="color: var(--muted); font-size: 0.85rem;">NB Patho System Reference</span>
+    </div>
+
+    <header>
+        <h1>จัดการฐานข้อมูล &amp; SQL Query Console (<code>manage_database.php</code>)</h1>
+        <p>คู่มือสถาปัตยกรรมและการใช้งานระบบจัดการฐานข้อมูล คอนโซลรันคำสั่ง SELECT กำหนดเอง ตัวกรอง SearchPanes และระบบส่งออก Excel/CSV แบบ Direct Streaming</p>
+        <div class="badge-bar">
+            <span class="badge">dev3 / manage_database.php</span>
+            <span class="badge">MySQL 8.4 Compatible</span>
+            <span class="badge">PHP 7.3 &amp; 8.2+</span>
+            <span class="badge">Group 1000 (Admin Only)</span>
+            <span class="badge">DataTables + SearchPanes</span>
+        </div>
+    </header>
+
+    <!-- 1. ภาพรวมระบบ -->
+    <div class="card">
+        <h2>1. ภาพรวมของระบบจัดการฐานข้อมูล (Overview)</h2>
+        <p>
+            หน้า <code>manage_database.php</code> พัฒนาขึ้นเพื่อให้ผู้ดูแลระบบ (Admin: Group <code>1000</code>) สามารถตรวจสอบ สำรวจข้อมูล ดูโครงสร้างฟิลด์ ส่งออกข้อมูล และรันคำสั่ง SQL วิเคราะห์ข้อมูลได้อย่างสะดวกรวดเร็ว โดยเข้าถึงได้ผ่านเมนู <strong>Admin (ผู้ดูแลระบบ) &gt; จัดการฐานข้อมูล</strong>
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">คุณสมบัติ (Feature)</th>
+                    <th>คำอธิบาย</th>
+                    <th style="width: 25%;">เทคโนโลยีที่ใช้</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>All Tables Overview</strong></td>
+                    <td>ดูรายชื่อตารางทั้งหมด 36 ตาราง พร้อมนับจำนวนแถวที่แท้จริง (Exact Row Count), ขนาดข้อมูล (Data Length), ขนาด Index และ Comment</td>
+                    <td><code>information_schema.TABLES</code> + <code>SELECT COUNT(*)</code></td>
+                </tr>
+                <tr>
+                    <td><strong>SQL Query Console</strong></td>
+                    <td>กล่องรันคำสั่ง SQL SELECT ปรับแต่งได้เองอิสระ อยู่ด้านบนสุดของทุกหน้า พร้อมจับเวลาประมวลผล (Execution Time ms)</td>
+                    <td>PDO Prepared Query + Microtime Benchmark</td>
+                </tr>
+                <tr>
+                    <td><strong>SearchPanes Filter</strong></td>
+                    <td>ตัวกรองข้อมูลแบบ Multi-faceted (Panes) จัดวางแถวละ 5 คอลัมน์ (Columns-5) สวยงามตามธีม NB Patho</td>
+                    <td>DataTables SearchPanes 2.x + Select</td>
+                </tr>
+                <tr>
+                    <td><strong>Direct Streaming Export</strong></td>
+                    <td>ดาวน์โหลดข้อมูลลงไฟล์ Excel (.xls) หรือ CSV (.csv) ได้โดยตรงแบบ Row-by-Row โดยไม่ต้องพล็อตตารางลงหน้าเว็บ</td>
+                    <td>PHP Stream Output + Excel XML Table</td>
+                </tr>
+                <tr>
+                    <td><strong>Columns Schema Viewer</strong></td>
+                    <td>ปุ่มพับ/ขยายดูโครงสร้าง Data Type, Nullable, Primary/Index Key, Default Value และ Column Comment</td>
+                    <td><code>information_schema.COLUMNS</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. SQL Query Console -->
+    <div class="card">
+        <h2>2. SQL Query Console (กล่องรันคำสั่ง SQL ด้านบน)</h2>
+        <p>
+            กล่อง SQL Console ด้านบนช่วยให้แอดมินสามารถเขียนคำสั่งดึงข้อมูลได้ทันทีโดยไม่ต้องเข้า phpMyAdmin:
+        </p>
+
+        <h3>2.1 ระบบความปลอดภัย (Safety Constraint)</h3>
+        <div class="callout warn">
+            <strong>Security Guard:</strong> ระบบอนุญาตให้รันเฉพาะคำสั่งที่ขึ้นต้นด้วย <code>SELECT</code>, <code>SHOW</code>, <code>DESCRIBE</code>, หรือ <code>EXPLAIN</code> เท่านั้น เพื่อป้องกันอุบัติเหตุจากการแก้ไขหรือลบข้อมูลในระบบจริง (ไม่อนุญาต <code>UPDATE</code>, <code>DELETE</code>, <code>DROP</code>, <code>ALTER</code>)
+        </div>
+
+        <h3>2.2 ปุ่มการทำงาน 3 รูปแบบ</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ปุ่ม</th>
+                    <th>การทำงาน</th>
+                    <th>เหมาะสำหรับ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Run SQL (แสดงบนเว็บ)</code></td>
+                    <td>ประมวลผลและนำผลลัพธ์มาพล็อตเป็นตารางบนหน้าเว็บ พร้อมเปิดใช้งาน SearchPanes และปุ่มค้นหา</td>
+                    <td>การค้นหาข้อมูลไม่เกิน 1,000 แถว หรือต้องการดูและกรองข้อมูลทันที</td>
+                </tr>
+                <tr>
+                    <td><code>ดาวน์โหลดเป็น Excel โดยตรง</code></td>
+                    <td>สตรีมข้อมูลแถวต่อแถวส่งเป็นไฟล์ Excel (<code>.xls</code>) ทันที <strong>โดยไม่พล็อตลงหน้าเว็บ</strong></td>
+                    <td>ข้อมูลจำนวนมาก (หลายหมื่นแถว) ที่ต้องการนำไปเปิดในโปรแกรม Excel โดยที่เบราว์เซอร์ไม่ค้าง</td>
+                </tr>
+                <tr>
+                    <td><code>CSV</code></td>
+                    <td>สตรีมข้อมูลผลลัพธ์เป็นไฟล์ <code>.csv</code> พร้อม UTF-8 BOM สำหรับเปิดใน Excel หรือโปรแกรมวิเคราะห์ข้อมูล</td>
+                    <td>ข้อมูลขนาดใหญ่มากๆ หรือต้องการนำเข้าโปรแกรม BI/Python/R</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2.3 ระบบป้องกันดาวน์โหลดไฟล์ว่าง (0-Row Protection)</h3>
+        <p>
+            เมื่อผู้ใช้กดปุ่ม <em>"ดาวน์โหลดเป็น Excel โดยตรง"</em> แต่คำสั่ง SQL นั้นมีผลลัพธ์ <strong>0 แถว</strong> (เช่น เงื่อนไข <code>WHERE</code> ไม่ตรงกับข้อมูลจริง):
+        </p>
+        <ul>
+            <li>ระบบจะ <strong>ไม่ดาวน์โหลดไฟล์เปล่า</strong> ขนาด 800 ไบต์ที่มีแต่หัวตาราง</li>
+            <li>ระบบจะแสดงแบนเนอร์แจ้งเตือนสีแดงให้ทราบทันทีว่าคำสั่งทำงานสำเร็จแต่ไม่พบข้อมูล พร้อมแสดง SQL ที่ส่งไป เพื่อให้ผู้ใช้ปรับปรุงเงื่อนไข <code>WHERE</code></li>
+        </ul>
+
+        <h3>2.4 ระบบบันทึกและเรียกใช้คำสั่ง SQL ภายหลัง (Saved SQL Queries via Database)</h3>
+        <p>
+            เพื่ออำนวยความสะดวกในการใช้งานคำสั่ง SQL ที่ใช้บ่อยหรือคำสั่งที่มีการ <code>JOIN</code> ซับซ้อน ระบบจัดเก็บคำสั่ง SQL ลงในตารางฐานข้อมูลโดยตรง (<code>saved_sql_query</code>):
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>ฟังก์ชัน</th>
+                    <th>วิธีการใช้งาน</th>
+                    <th>ผลลัพธ์</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>บันทึก SQL ใหม่</strong></td>
+                    <td>พิมพ์คำสั่ง SQL ในกล่องข้อความ &rarr; กดปุ่ม <code>บันทึก SQL นี้</code> &rarr; ตั้งชื่อคำอธิบาย &rarr; กดบันทึก</td>
+                    <td>คำสั่งจะถูก <code>INSERT</code> ลงตาราง <code>saved_sql_query</code> และเพิ่มเข้าใน Dropdown ทันทีผ่านระบบ AJAX</td>
+                </tr>
+                <tr>
+                    <td><strong>เรียกใช้ SQL ที่บันทึกไว้</strong></td>
+                    <td>คลิกเลือกชื่อคำสั่งจาก Dropdown <em>"SQL ที่บันทึกไว้:"</em></td>
+                    <td>ระบบจะดึงคำสั่ง SQL มาใส่ใน Textarea ให้อัตโนมัติ พร้อมแสดง Badge <code>โหลดแล้ว</code> และปุ่มลบ</td>
+                </tr>
+                <tr>
+                    <td><strong>อัพเดท (เซฟทับคำสั่งเดิม)</strong></td>
+                    <td>เมื่อแก้ไขคำสั่งใน Textarea จะมี Badge สีเหลืองเตือน <code>มีการแก้ไข</code> &rarr; กดปุ่มสีส้ม <code>อัพเดท (เซฟทับ)</code> &rarr; ป๊อปอัปจะเลือกโหมดบันทึกทับให้อัตโนมัติ &rarr; กดยืนยัน (<strong>คงอยู่ตลอดแม้หลังกด Run SQL</strong>)</td>
+                    <td>คำสั่ง SQL และชื่อในรายการเดิมจะถูก <code>UPDATE</code> ทันที พร้อมบันทึกเวลา <code>stampdateedit</code> บนฐานข้อมูล</td>
+                </tr>
+                <tr>
+                    <td><strong>เซฟเป็นอันใหม่ (Save As New)</strong></td>
+                    <td>เมื่อต้องการนำคำสั่งเดิมมาต่อยอดเป็นอีกคำสั่ง &rarr; กดปุ่ม <code>เซฟเป็นอันใหม่</code> &rarr; ตั้งชื่อรายการใหม่ &rarr; กดบันทึก</td>
+                    <td>คำสั่งใหม่จะถูกเพิ่มเป็นเรคคอร์ดใหม่ขึ้นต้น Dropdown โดยไม่ทับคำสั่งเดิม พร้อมบันทึกเวลา <code>stampdatecreate</code></td>
+                </tr>
+                <tr>
+                    <td><strong>ลบคำสั่ง SQL</strong></td>
+                    <td>เลือกคำสั่งจาก Dropdown &rarr; กดปุ่มลบ (รูปถังขยะสีแดง) &rarr; กดยืนยัน</td>
+                    <td>คำสั่งจะถูก <code>DELETE</code> ออกจากตาราง <code>saved_sql_query</code> และนำออกจาก Dropdown ทันที</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout">
+            <strong>โครงสร้างตารางฐานข้อมูล <code>saved_sql_query</code>:</strong>
+            <ul style="margin-top:0.4rem; margin-bottom:0.2rem; font-family: monospace; font-size: 0.88rem;">
+                <li><code>id</code> (INT AUTO_INCREMENT PRIMARY KEY) - รหัสคำสั่ง</li>
+                <li><code>title</code> (VARCHAR(255)) - ชื่อหรือคำอธิบายคำสั่ง SQL</li>
+                <li><code>sql_query</code> (MEDIUMTEXT) - โค้ดคำสั่ง SQL</li>
+                <li><code>created_by</code> (INT NULL) - รหัสผู้ใช้ที่สร้างคำสั่ง</li>
+                <li><code>stampdatecreate</code> (DATETIME) - วันเวลาที่บันทึกคำสั่ง (DEFAULT CURRENT_TIMESTAMP)</li>
+                <li><code>stampdateedit</code> (DATETIME NULL) - วันเวลาที่แก้ไขล่าสุด (ON UPDATE CURRENT_TIMESTAMP)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 3. โครงสร้างข้อมูล service_billing -->
+    <div class="card">
+        <h2>3. ข้อควรระวัง: โครงสร้างข้อมูลตาราง <code>service_billing</code></h2>
+        <div class="callout">
+            <strong>ทำไมฟิลด์ name และ lastname ใน <code>service_billing</code> ถึงเป็นค่าว่าง?</strong><br>
+            ในตาราง <code>service_billing</code> ข้อมูลผู้ป่วยจริง (ชื่อ, นามสกุล, โรงพยาบาล) ถูกแยกเก็บไว้ที่ตารางหลัก <code>patient</code> โดยใน <code>service_billing</code> จะเก็บเพียงรหัสอ้างอิง <code>patient_id</code> เท่านั้น ดังนั้นทั้ง 78,514 แถวในฟิลด์ <code>name</code> และ <code>lastname</code> ของตารางนี้จึงเป็นค่าว่างตามการออกแบบฐานข้อมูลเดิม
+        </div>
+
+        <h3>ตัวอย่างคำสั่ง SQL ที่ถูกต้องในการดึงข้อมูลบิลพร้อมชื่อผู้ป่วย:</h3>
+        <pre><code>SELECT 
+    b.id, 
+    b.number AS sn_number, 
+    p.pname AS patient_name, 
+    p.plastname AS patient_lastname, 
+    p.phospital_num AS hn,
+    b.code_description, 
+    b.description, 
+    b.cost, 
+    b.import_date
+FROM service_billing b
+LEFT JOIN patient p ON b.patient_id = p.id
+ORDER BY b.id DESC
+LIMIT 100;</code></pre>
+    </div>
+
+    <!-- 4. สถาปัตยกรรม Direct Streaming Export -->
+    <div class="card">
+        <h2>4. สถาปัตยกรรม Direct Streaming Export (ทำไมถึงเร็ว?)</h2>
+        <p>
+            การส่งออกข้อมูลปกติในเว็บแอปพลิเคชันทั่วไปมักประสบปัญหา <em>"Memory Limit Exceeded"</em> หรือ <em>"Browser Freeze"</em> เมื่อต้องส่งออกข้อมูล 80,000+ แถว เพราะระบบมักจะโหลดข้อมูลทั้งหมดเข้า RAM ก่อน (<code>fetchAll</code>) แล้วจึงสร้างหน้าเว็บ
+        </p>
+        <p>
+            ใน <code>manage_database.php</code> เราใช้สถาปัตยกรรม <strong>Row-by-Row Direct Streaming</strong>:
+        </p>
+        <ol>
+            <li><strong>Output Buffer Cleaning:</strong> ล้าง Buffer ทั้งหมดด้วย <code>while (ob_get_level()) { ob_end_clean(); }</code> ก่อนส่ง Headers เพื่อให้การส่งข้อมูลเริ่มต้นทันทีโดยไม่มีการรอ</li>
+            <li><strong>Unbuffered Cursor Fetch:</strong> วนลูปด้วย <code>while ($row = $sqlStmt->fetch(PDO::FETCH_ASSOC))</code> ทีละแถว แล้วพ่นออกทาง Socket ทันที</li>
+            <li><strong>Microsoft Excel XML Header:</strong> ใส่ XML Envelope <code>&lt;x:ExcelWorkbook&gt;</code> พร้อม <code>&lt;x:DisplayGridlines/&gt;</code> และ CSS <code>mso-number-format:\@;</code> ป้องกันไม่ให้ Excel แปลงตัวเลข HN / ID ยาวๆ เป็นเลขยกกำลัง (Scientific Notation)</li>
+        </ol>
+    </div>
+
+    <!-- 5. สรุปไฟล์ที่เกี่ยวข้อง -->
+    <div class="card">
+        <h2>5. สรุปไฟล์และคอมโพเนนต์ที่เกี่ยวข้อง</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ไฟล์</th>
+                    <th>บทบาทหน้าที่</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>C:\anuchit2\nb_web\dev3\manage_database.php</code></td>
+                    <td>ไฟล์หลักที่รวม Logic การสืบค้น SQL Console, SearchPanes, และตัวสตรีมมิ่ง Excel/CSV</td>
+                </tr>
+                <tr>
+                    <td><code>C:\anuchit2\nb_web\dev3\includes\header.php</code></td>
+                    <td>ลิงก์เมนู "จัดการฐานข้อมูล" ภายใต้ Dropdown Admin (เฉพาะ Group 1000)</td>
+                </tr>
+                <tr>
+                    <td><code>C:\anuchit2\nb_web\dev3\dbtosqlfile.php</code></td>
+                    <td>ระบบสำรองฐานข้อมูลเป็นไฟล์ .sql รายชั่วโมงและย้อนหลัง</td>
+                </tr>
+                <tr>
+                    <td><code>C:\anuchit2\nb_web\dev3\ai_doc_nb_web\database-backup-sync.html</code></td>
+                    <td>เอกสารคู่มือสถาปัตยกรรมระบบ Hourly Backup Sync &amp; Desktop GUI Importer</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
