@@ -149,6 +149,7 @@ if ($cur_user_hosp_id > 0) {
                                 <a id="datatable_patient_pn_rev1" href="datatable_patient_pn_rev1.php" class="dropdown-item">ดึงสรุปข้อมูลการออกผลPN</a>
                                 <a id="chart_data_tab" href="chart_data.php" class="dropdown-item">chart data</a>
                                
+                                <a id="manage_database_tab" href="manage_database.php" class="dropdown-item"><i class="fa-solid fa-database me-2"></i>จัดการฐานข้อมูล (Database)</a>
                                 <a id="systemchecking_tab" href="systemchecking.php" class="dropdown-item">ตรวจสอบคำสั่งระบบ</a>
                                 <a id="dbtosqlfile_tab" href="dbtosqlfile.php" class="dropdown-item">แบคอัพฐานข้อมูล (SQL)</a>
                                 
