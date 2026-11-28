@@ -1449,17 +1449,25 @@ $curStatusAuthEdit = ($isCurStatus_1000 || $isCurStatus_2000 || $isCurStatus_300
                         $(".snqaprop").prop('disabled', true);
                         $(".cnqaprop").prop('disabled', true);
 
-                        // prevent from unsave
+                        // prevent from unsave only when user actually edits editable input fields
+                        var isFormDirty = false;
                         function onNosave(e) {
+                            if (!isFormDirty) return;
                             e.preventDefault();
                             e.returnValue = '';
                         }
 
-                        $("input").change(function () {
-                            window.addEventListener("beforeunload", onNosave);
+                        // ดักจับเฉพาะ input ที่ไม่ได้ disabled/readonly และเกิดจากการพิมพ์/แก้ไขจริงของผู้ใช้
+                        $("input:not([readonly]):not([disabled]):not([type=hidden])").on('input change', function (e) {
+                            if (e.originalEvent) { // ตรวจสอบว่าเป็น action ที่เกิดจากผู้ใช้จริง ไม่ใช่โค้ดสคริปต์หรือ autofill
+                                isFormDirty = true;
+                                window.addEventListener("beforeunload", onNosave);
+                            }
                         });
 
-                        $(":submit").click(function () {
+                        // เมื่อกดปุ่ม submit บันทึกข้อมูล หรือคลิกลิงก์นำทาง (Navigation / Logout / Back to list) ให้ปลดการเตือนออก
+                        $(":submit, a, button[type=submit]").click(function () {
+                            isFormDirty = false;
                             window.removeEventListener("beforeunload", onNosave);
                         });
                         
