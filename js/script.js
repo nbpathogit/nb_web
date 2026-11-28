@@ -261,7 +261,7 @@ function showSessionReloginModal() {
     }
 
     $('#relogin_error_box').addClass('d-none').text('');
-    $('#relogin_password').val('');
+    $('#relogin_password').val('').attr('readonly', 'readonly');
 
     if (!sessionReloginModalInstance && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
         sessionReloginModalInstance = new bootstrap.Modal(modalEl, {
@@ -269,7 +269,9 @@ function showSessionReloginModal() {
             keyboard: false
         });
         modalEl.addEventListener('shown.bs.modal', function () {
-            $('#relogin_password').trigger('focus');
+            setTimeout(function() {
+                $('#relogin_password').val('').removeAttr('readonly').trigger('focus');
+            }, 50);
         });
     }
 
@@ -355,6 +357,7 @@ function initSessionReloginModal() {
                     } else if (modalEl) {
                         $(modalEl).modal('hide');
                     }
+                    $('#relogin_password').val('').attr('readonly', 'readonly');
                     resumeSessionCountdown(res.timeRemain);
                 } else {
                     var msg = (res && res.message) ? res.message : 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง';

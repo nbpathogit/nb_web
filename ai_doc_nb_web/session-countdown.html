@@ -444,6 +444,11 @@ echo $srvTimeRemain;
                 <br>• <code>adminusername</code> &amp; <code>ugroup_id</code>: กรณีเป็น Admin กำลังจำลองเป็นผู้ใช้อื่น (Simulate User)
             </li>
             <li><strong>แสดงชื่อผู้ใช้งานแบบ Readonly:</strong> ผู้ใช้เพียงกรอก <strong>รหัสผ่าน (Password)</strong> ช่องเดียวแล้วกด Enter หรือปุ่ม "เข้าสู่ระบบเพื่อทำงานต่อ"</li>
+            <li><strong>ป้องกันเบราว์เซอร์จำรหัสผ่าน (Anti-Autofill & Password Manager Protection):</strong> 
+                <br>&bull; กำหนด <code>autocomplete="new-password"</code>, <code>data-lpignore="true"</code> (สำหรับ LastPass/Bitwarden) และ <code>data-form-type="other"</code>
+                <br>&bull; ใส่ Hidden Dummy Inputs หลอกระบบดักฟอร์มของเบราว์เซอร์
+                <br>&bull; ตั้งค่าฟิลด์เป็น <code>readonly</code> ชั่วคราว และเคลียร์ค่าเป็นว่าง (<code>.val('')</code>) ทันทีที่เปิดป็อปอัป ทำให้เบราว์เซอร์ไม่สามารถจดจำหรือหยอดรหัสผ่านลงช่องอัตโนมัติได้
+            </li>
         </ul>
 
         <h3>B. ฟังก์ชันควบคุมใน JavaScript (<code>js/script.js</code>)</h3>

@@ -55,7 +55,11 @@
                     <i class="fa-solid fa-clock-rotate-left me-2"></i>หมดเวลาเชื่อมต่อ (Session Timeout)
                 </h5>
             </div>
-            <form id="sessionReloginForm" autocomplete="off">
+            <form id="sessionReloginForm" autocomplete="off" onsubmit="return false;">
+                <!-- Dummy hidden input to deceive browser autofill heuristics -->
+                <input type="text" name="fakeusernameremembered" style="display:none;" tabindex="-1" autocomplete="off">
+                <input type="password" name="fakepasswordremembered" style="display:none;" tabindex="-1" autocomplete="off">
+
                 <div class="modal-body p-4 bg-nb bg-blue-a">
                     <div class="alert alert-warning d-flex align-items-center mb-3 py-2" role="alert">
                         <i class="fa-solid fa-triangle-exclamation me-2 fs-5"></i>
@@ -91,7 +95,7 @@
                         <label for="relogin_password" class="form-label fw-bold mb-1">รหัสผ่าน (Password)</label>
                         <div class="input-group">
                             <span class="input-group-text bg-white"><i class="fa-solid fa-key text-primary"></i></span>
-                            <input type="password" class="form-control" id="relogin_password" name="password" placeholder="กรอกรหัสผ่านเพื่อทำงานต่อ" required>
+                            <input type="password" class="form-control" id="relogin_password" name="nb_auth_session_pwd" placeholder="กรอกรหัสผ่านเพื่อทำงานต่อ" required autocomplete="new-password" data-lpignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly');">
                         </div>
                     </div>
                 </div>
